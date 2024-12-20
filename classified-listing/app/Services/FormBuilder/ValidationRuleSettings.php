@@ -32,10 +32,6 @@ class ValidationRuleSettings {
 				'value' => 'zip|gz|gzip|rar|7z',
 			],
 			[
-				'label' => __( 'Executable Files (exe)', 'classified-listing' ),
-				'value' => 'exe',
-			],
-			[
 				'label' => __( 'CSV (csv)', 'classified-listing' ),
 				'value' => 'csv',
 			],
@@ -124,7 +120,7 @@ class ValidationRuleSettings {
 			],
 			'max_file_size'       => [
 				'template'  => 'maxFileSize',
-				'label'     => __( 'Max File Size', 'classified-listing' ),
+				'label'     => __( 'Max File Size (MB)', 'classified-listing' ),
 				'help_text' => __( 'Max file size (MB) user can upload.', 'classified-listing' ),
 			],
 			'max_file_count'      => [

@@ -20,6 +20,7 @@ use Rtcl\Emails\OrderCompletedEmailToCustomer;
 use Rtcl\Emails\OrderCreatedEmailToAdmin;
 use Rtcl\Emails\OrderCreatedEmailToCustomer;
 use Rtcl\Emails\ReportAbuseEmailToAdmin;
+use Rtcl\Emails\UserImportEmailToUser;
 use Rtcl\Emails\UserNewRegistrationEmailToAdmin;
 use Rtcl\Emails\UserNewRegistrationEmailToUser;
 use Rtcl\Emails\UserResetPasswordEmailToUser;
@@ -84,6 +85,7 @@ class RtclEmails {
 		$this->emails['Order_Completed_Email_To_Admin']          = new OrderCompletedEmailToAdmin();
 		$this->emails['User_New_Registration_Email_To_Admin']    = new UserNewRegistrationEmailToAdmin();
 		$this->emails['User_New_Registration_Email_To_User']     = new UserNewRegistrationEmailToUser();
+		$this->emails['User_Import_Email_To_User']               = new UserImportEmailToUser();
 		$this->emails['User_Reset_Password_Email_To_User']       = new UserResetPasswordEmailToUser();
 		$this->emails['Contact_Email_To_Admin']                  = new ContactEmailToAdmin();
 

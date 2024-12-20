@@ -27,10 +27,9 @@ class FormHandler {
 	 */
 	public static function cancel_payment() {
 		if (
-			isset( $_GET['cancel_payment'] ) &&
-			isset( $_GET['order_key'] ) &&
-			isset( $_GET['payment_id'] ) &&
-			( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'rtcl-cancel_payment' ) )
+			isset( $_GET['cancel_payment'] ) && isset( $_GET['order_key'] ) && isset( $_GET['payment_id'] )
+			&& ( isset( $_GET['_wpnonce'] )
+			     && wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'rtcl-cancel_payment' ) )
 		) {
 			Functions::nocache_headers();
 			if ( empty( rtcl()->session ) ) {
@@ -53,12 +52,14 @@ class FormHandler {
 					rtcl()->session->set( 'order_awaiting_payment', false );
 					$order->update_status( 'cancelled', esc_html__( 'Order cancelled by customer.', 'classified-listing' ) );
 
-					Functions::add_notice( apply_filters( 'rtcl_payment_cancelled_notice', esc_html__( 'Your order was cancelled.', 'classified-listing' ) ), apply_filters( 'rtcl_payment_cancelled_notice_type', 'notice' ) );
+					Functions::add_notice( apply_filters( 'rtcl_payment_cancelled_notice', esc_html__( 'Your order was cancelled.', 'classified-listing' ) ),
+						apply_filters( 'rtcl_payment_cancelled_notice_type', 'notice' ) );
 
 					do_action( 'rtcl_cancelled_order', $order );
 
 				} elseif ( ! $order_can_cancel ) {
-					Functions::add_notice( esc_html__( 'Your order can no longer be cancelled. Please contact us if you need assistance.', 'classified-listing' ), 'error' );
+					Functions::add_notice( esc_html__( 'Your order can no longer be cancelled. Please contact us if you need assistance.',
+						'classified-listing' ), 'error' );
 				} else {
 					Functions::add_notice( esc_html__( 'Invalid order.', 'classified-listing' ), 'error' );
 				}
@@ -140,7 +141,8 @@ class FormHandler {
 						'_payment_method_title' => $gateway->method_title,
 					]
 				];
-				$order_id         = wp_insert_post( apply_filters( 'rtcl_checkout_process_new_order_args', $new_payment_args, $pricing, $gateway, $checkout_data ) );
+				$order_id         = wp_insert_post( apply_filters( 'rtcl_checkout_process_new_order_args', $new_payment_args, $pricing, $gateway,
+					$checkout_data ) );
 				if ( $order_id ) {
 					$payment_process_data = [];
 					$order                = rtcl()->factory->get_order( $order_id );
@@ -162,7 +164,9 @@ class FormHandler {
 	 * Remove key and login from query string, set cookie, and redirect to account page to show the form.
 	 */
 	public static function redirect_reset_password_link() {
-		if ( Functions::is_account_page() && ! empty( $_GET['key'] ) && ! empty( $_GET['login'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( Functions::is_account_page() && ! empty( $_GET['key'] )
+		     && ! empty( $_GET['login'] )
+		) {  // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			// If available, get $user_id from query string parameter for fallback purposes.
 			$user    = get_user_by( 'login', sanitize_user( wp_unslash( $_GET['login'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$user_id = $user ? $user->ID : 0;
@@ -170,7 +174,8 @@ class FormHandler {
 			// If the reset token is not for the current user, ignore the reset request (don't redirect).
 			$logged_in_user_id = get_current_user_id();
 			if ( $logged_in_user_id && $logged_in_user_id !== $user_id ) {
-				Functions::add_notice( __( 'This password reset key is for a different user account. Please log out and try again.', 'classified-listing' ), 'error' );
+				Functions::add_notice( __( 'This password reset key is for a different user account. Please log out and try again.', 'classified-listing' ),
+					'error' );
 
 				return;
 			}
@@ -195,7 +200,8 @@ class FormHandler {
 		if ( isset( $_POST['rtcl-login'], $_POST['username'], $_POST['password'] ) && wp_verify_nonce( $nonce_value, 'rtcl-login' ) ) {
 			try {
 				if ( ! Functions::is_human( 'login' ) ) {
-					throw new \Exception( '<strong>' . __( 'Error:', 'classified-listing' ) . '</strong> ' . __( 'Invalid Captcha: Please try again.', 'classified-listing' ) );
+					throw new \Exception( '<strong>' . __( 'Error:', 'classified-listing' ) . '</strong> ' . __( 'Invalid Captcha: Please try again.',
+							'classified-listing' ) );
 				}
 
 				$creds            = [
@@ -211,7 +217,8 @@ class FormHandler {
 				}
 
 				if ( empty( $creds['user_login'] ) ) {
-					throw new \Exception( '<strong>' . __( 'Error:', 'classified-listing' ) . '</strong> ' . __( 'Username is required.', 'classified-listing' ) );
+					throw new \Exception( '<strong>' . __( 'Error:', 'classified-listing' ) . '</strong> ' . __( 'Username is required.',
+							'classified-listing' ) );
 				}
 
 				// On multisite, ensure user exists on current site, if not add them before allowing login.
@@ -228,7 +235,8 @@ class FormHandler {
 
 				if ( is_wp_error( $user ) ) {
 					$message = $user->get_error_message();
-					$message = str_replace( '<strong>' . esc_html( $creds['user_login'] ) . '</strong>', '<strong>' . esc_html( $creds['user_login'] ) . '</strong>', $message );
+					$message = str_replace( '<strong>' . esc_html( $creds['user_login'] ) . '</strong>',
+						'<strong>' . esc_html( $creds['user_login'] ) . '</strong>', $message );
 					throw new \Exception( $message );
 				} else {
 
@@ -288,7 +296,8 @@ class FormHandler {
 
 				if ( empty( $confirm_password ) || $password != $confirm_password ) {
 					// Passwords don't match
-					$validation_error->add( 'rtcl_my_account_password_not_matched', esc_html__( "The two passwords you entered don't match.", 'classified-listing' ) );
+					$validation_error->add( 'rtcl_my_account_password_not_matched',
+						esc_html__( "The two passwords you entered don't match.", 'classified-listing' ) );
 				}
 
 				if ( $validation_error->get_error_code() ) {
@@ -319,7 +328,9 @@ class FormHandler {
 					Functions::set_customer_auth_cookie( $new_user_id );
 					Functions::add_notice( esc_html__( "You have successfully registered.", 'classified-listing' ) );
 				} else {
-					Functions::add_notice( esc_html__( 'You have successfully registered on our website, Please check your email and click on the link, we sent a verification mail to verify your email address.', 'classified-listing' ) );
+					Functions::add_notice( esc_html__( apply_filters( 'rtcl_registration_verification_active_message',
+						'You have successfully registered on our website, Please check your email and click on the link, we sent a verification mail to verify your email address.',
+						'classified-listing' ) ) );
 				}
 
 				wp_redirect( wp_validate_redirect( apply_filters( 'rtcl_registration_redirect', $redirect ), Link::get_page_permalink( 'myaccount' ) ) );
@@ -336,7 +347,9 @@ class FormHandler {
 	 * Handle lost password form.
 	 */
 	public static function process_lost_password() {
-		if ( isset( $_POST['rtcl-lost-password'] ) && isset( $_POST['user_login'] ) && isset($_REQUEST['rtcl-lost-password-nonce']) && wp_verify_nonce( Functions::get_var( $_REQUEST['rtcl-lost-password-nonce'] ), 'rtcl-lost-password' ) ) {
+		if ( isset( $_POST['rtcl-lost-password'] ) && isset( $_POST['user_login'] ) && isset( $_REQUEST['rtcl-lost-password-nonce'] )
+		     && wp_verify_nonce( Functions::get_var( $_REQUEST['rtcl-lost-password-nonce'] ), 'rtcl-lost-password' )
+		) {
 			$success = MyAccount::retrieve_password();
 
 			// If successful, redirect to my account with query arg set.
@@ -351,7 +364,7 @@ class FormHandler {
 	 * Handle reset password form.
 	 */
 	public static function process_reset_password() {
-		
+
 		if ( ! wp_verify_nonce( $_POST['_wpnonce'] ?? '', 'reset_password' ) ) {
 			return;
 		}

@@ -91,11 +91,11 @@ class TranslationSanitization {
 					$value = $validation;
 				}
 			}
-		} elseif ( $fieldKey === 'tnc_html' ) {
+		} elseif ( 'tnc_html' === $fieldKey ) {
 			$value = stripslashes( wp_kses( $_trValue, ElementCustomization::allowedHtml( $fieldKey ) ) );
 		} elseif ( in_array( $fieldKey, [ 'tnc_html', 'html_codes' ] ) ) {
 			$value = stripslashes( wp_kses_post( $_trValue ) );
-		} elseif ( $fieldKey === 'help_message' ) {
+		} elseif ( 'help_message' === $fieldKey ) {
 			$value = sanitize_textarea_field( $_trValue );
 		} else {
 			$value = sanitize_text_field( $_trValue );

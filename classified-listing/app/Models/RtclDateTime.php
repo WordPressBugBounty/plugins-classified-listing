@@ -37,11 +37,12 @@ class RtclDateTime extends DateTime {
     /**
      * Get UTC offset if set, or default to the DateTime object's offset.
      */
+	#[\ReturnTypeWillChange]
     public function getOffset() {
         if ( $this->utc_offset ) {
             return $this->utc_offset;
         } else {
-            return parent::getOffset();
+            return DateTime::getOffset();
         }
     }
 
@@ -51,9 +52,10 @@ class RtclDateTime extends DateTime {
      * @param DateTimeZone $timezone DateTimeZone instance.
      * @return DateTime
      */
+	#[\ReturnTypeWillChange]
     public function setTimezone( $timezone ) {
         $this->utc_offset = 0;
-        return parent::setTimezone( $timezone );
+        return DateTime::setTimezone( $timezone );
     }
 
     /**
@@ -62,8 +64,9 @@ class RtclDateTime extends DateTime {
      * @since  1.0.0
      * @return int
      */
+	#[\ReturnTypeWillChange]
     public function getTimestamp() {
-        return method_exists( 'DateTime', 'getTimestamp' ) ? parent::getTimestamp() : $this->format( 'U' );
+        return method_exists( 'DateTime', 'getTimestamp' ) ? DateTime::getTimestamp() : $this->format( 'U' );
     }
 
     /**

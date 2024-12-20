@@ -321,10 +321,10 @@ class AllLocation
 	public function render_callback_listings($attributes)
 	{
 		$settings = $attributes;
-		$view = isset($settings['col_style']['style']) ? $settings['col_style']['style'] : 'grid';
+		$view = !empty($settings['col_style']['style']) && in_array($settings['col_style']['style'], ['grid', 'list']) ? $settings['col_style']['style'] : 'grid';
 		$style = '1';
 		if ('grid' == $view) {
-			$style = isset($settings['col_style']['style_grid']) ? $settings['col_style']['style_grid'] : '1';
+			$style = !empty($settings['col_style']['style_grid']) && in_array($settings['col_style']['style_grid'], ['1', '2']) ? $settings['col_style']['style_grid'] : '1';
 		}
 
 		$data = array(

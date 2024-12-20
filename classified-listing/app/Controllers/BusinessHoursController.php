@@ -6,6 +6,7 @@ use Rtcl\Helpers\Functions;
 use Rtcl\Helpers\Utility;
 use Rtcl\Models\Listing;
 use Rtcl\Resources\Options;
+use Rtcl\Services\FormBuilder\FBHelper;
 
 class BusinessHoursController {
 
@@ -19,7 +20,7 @@ class BusinessHoursController {
 	private static $ajaxurl;
 
 	public static function init() {
-		if ( !Functions::isEnableFb() && Functions::is_enable_business_hours() ) {
+		if ( !FBHelper::isEnabled() && Functions::is_enable_business_hours() ) {
 			self::$version = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : RTCL_VERSION;
 			self::$ajaxurl = admin_url( 'admin-ajax.php' );
 			if ( $current_lang = apply_filters( 'rtcl_ajaxurl_current_lang', null, self::$ajaxurl ) ) {
@@ -44,7 +45,7 @@ class BusinessHoursController {
 			add_action( 'rtcl_listing_form_after_save_or_update', [ __CLASS__, 'update_business_hours_at_save_or_update' ], 10, 5 );
 		}
 
-		if ( Functions::isEnableFb() && rtcl()->is_request( 'frontend' ) ) {
+		if ( FBHelper::isEnabled() && rtcl()->is_request( 'frontend' ) ) {
 			add_action( "rtcl_single_listing_business_hours", [ __CLASS__, 'display_business_hours' ] );
 		}
 	}
@@ -507,11 +508,15 @@ class BusinessHoursController {
 		if ( !$listing ) {
 			return;
 		}
-		$form = $listing->getForm();
-		if ( $form && !$form->getFieldByElement( 'business_hours' ) ) {
-			return;
+		$form = null;
+		if ( FBHelper::isEnabled() ) {
+			$form = $listing->getForm();
+			if ( $form && ! $form->getFieldByElement( 'business_hours' ) ) {
+				return;
+			}
 		}
-		if ( $form ) {
+
+		if ( FBHelper::isEnabled() && $form ) {
 			$allBhs = self::get_business_hours( $listing->get_id() );
 			if ( empty( $allBhs['bhs'] ) ) {
 				return;

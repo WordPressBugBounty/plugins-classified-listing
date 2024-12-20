@@ -21,7 +21,7 @@ do_action( 'rtcl_before_account_navigation' );
 	<ul>
 		<?php foreach ( Functions::get_account_menu_items() as $endpoint => $label ) : ?>
 			<li class="<?php echo esc_attr(Functions::get_account_menu_item_classes( $endpoint )); ?>">
-				<a href="<?php echo esc_url( Link::get_account_endpoint_url( $endpoint ) ); ?>"><?php echo esc_html( $label ); ?></a>
+				<a data-href="<?php echo esc_url( Link::get_account_endpoint_url( $endpoint ) ); ?>" href="<?php echo esc_url( Link::get_account_endpoint_url( $endpoint ) ); ?>"><?php echo esc_html( $label ); ?></a>
 			</li>
 		<?php endforeach; ?>
 	</ul>

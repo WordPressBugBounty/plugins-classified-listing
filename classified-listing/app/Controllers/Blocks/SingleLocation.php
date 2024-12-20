@@ -314,7 +314,7 @@ class SingleLocation
 	public function render_callback_listings($attributes)
 	{
 		$settings = $attributes;
-		$style = isset($settings['col_style']['style']) ? $settings['col_style']['style'] : '1';
+		$style = !empty( $settings['col_style']['style'] ) && in_array( $settings['col_style']['style'], [ '1', '2' ] ) ? $settings['col_style']['style'] : '1';
 
 		$data = array(
 			'template' => 'block/single-location/style-' . $style,

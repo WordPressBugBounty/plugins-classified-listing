@@ -27,7 +27,16 @@ class ElementCustomization {
 				'advance' => [ 'container_class', 'help_message', 'admin_use_only' ]
 			],
 			'category'            => [
-				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'icon', 'validation' ],
+				'general' => [
+					'label',
+					'label_placement',
+					'icon',
+					'placeholder',
+					'top_level_category_ids',
+					'multiple',
+					'max_selection',
+					'validation'
+				],
 				'advance' => [
 					'container_class',
 					'help_message',
@@ -51,11 +60,15 @@ class ElementCustomization {
 				'general' => [ 'label', 'label_placement', 'icon', 'validation', 'admin_use_only' ]
 			],
 			'address'             => [
-				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation', 'admin_use_only' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
+				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
+			],
+			'geo_location'        => [
+				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
 				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'zipcode'             => [
-				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation', 'admin_use_only' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
 				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'email'               => [
@@ -63,18 +76,18 @@ class ElementCustomization {
 				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'website'             => [
-				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation', 'admin_use_only' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
 				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'social_info'         => [
 				'general' => [ 'label', 'label_placement', 'icon', 'validation', 'admin_use_only' ]
 			],
 			'phone'               => [
-				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation', 'admin_use_only' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
 				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'whatsapp'            => [
-				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation', 'admin_use_only' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
 				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'tag'                 => [
@@ -116,7 +129,7 @@ class ElementCustomization {
 				]
 			],
 			'video_urls'          => [
-				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation', 'admin_use_only' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
 				'advance' => [
 					'container_class',
 					'help_message',
@@ -343,7 +356,16 @@ class ElementCustomization {
 				]
 			],
 			'color_picker'        => [
-				'general' => [ 'label', 'label_placement', 'icon', 'name', 'validation', 'single_view', 'archive_view', 'order' ],
+				'general' => [
+					'label',
+					'label_placement',
+					'icon',
+					'name',
+					'validation',
+					'single_view',
+					'archive_view',
+					'order'
+				],
 				'advance' => [
 					'default_value',
 					'id',
@@ -377,6 +399,7 @@ class ElementCustomization {
 					'label',
 					'label_placement',
 					'icon',
+					'name',
 					'single_view',
 					'archive_view',
 					'multi_column',
@@ -385,7 +408,6 @@ class ElementCustomization {
 				'advance' => [
 					'id',
 					'container_class',
-					'name',
 					'help_message',
 					'order',
 					'logics',
@@ -430,6 +452,7 @@ class ElementCustomization {
 			],
 			'editor_type'                  => [
 				'template'  => 'radio',
+				'default'   => 'textarea',
 				'label'     => __( 'Editor Type', 'classified-listing' ),
 				'help_text' => __( 'Editor Type', 'classified-listing' ),
 				'options'   => [
@@ -548,6 +571,12 @@ class ElementCustomization {
 				'template'  => 'inputNumber',
 				'label'     => __( 'Display order', 'classified-listing' ),
 				'help_text' => __( 'Custom field display order,  Default 0', 'classified-listing' ),
+			],
+			'top_level_category_ids'       => [
+				'key'       => 'top_level_ids',
+				'template'  => 'topLevelCategory',
+				'label'     => __( 'Allowed Top level categories', 'classified-listing' ),
+				'help_text' => __( 'Allowed top level categories', 'classified-listing' ),
 			],
 			'button_style'                 => [
 				'template'  => 'selectBtnStyle',
@@ -857,6 +886,11 @@ class ElementCustomization {
 			'enable'                       => [
 				'template' => 'switch',
 				'label'    => __( 'Enable', 'classified-listing' ),
+			],
+			'multiple'                     => [
+				'template'  => 'inputYesNoCheckBox',
+				'label'     => __( 'Multi Selection', 'classified-listing' ),
+				'help_text' => __( 'User can able to select multiple item.', 'classified-listing' ),
 			],
 			'enable_auto_slider'           => [
 				'template'  => 'switch',

@@ -3,9 +3,9 @@ Contributors: techlabpro1
 Donate link:
 Tags: business directory, classifieds, directory plugin, listings, classifieds ads
 Requires at least: 5.0
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 3.1.8
+Stable tag: 4.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -279,6 +279,9 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 = Can I change email notification text? =
 * Yes all email notification text can changeable from admin end.
 
+= How can I report security bugs? =
+* You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/classified-listing)
+
 == Installation ==
 
 = Using The WordPress Dashboard =
@@ -320,6 +323,82 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 4.0.0 ( Dec 20, 2024 ) =
+* Fixed: Business hour display issue
+* Fixed: Query filter issue 
+* Fixed: mb_strtoupper function not found 
+* Added: Form Builder - Category field (Multi selection)
+* Added: Fontawesome 6 library
+* Updated: Organized Menu
+* Updated: notice
+* Updated: Hook for verification email message
+* Improved: Admin area loading time 
+
+= 3.1.18 ( Dec 05, 2024 ) =
+* Fixed: From Builder - Geo location auto population from location's search filed at MAP
+* Fixed: From Builder - Business hour wrong display
+* Fixed: Notice update
+
+= 3.1.17 ( Nov 26, 2024 ) =
+* Fixed: vulnerable issues from patchstack.com
+ 
+= 3.1.16 ( Nov 15, 2024 ) =
+* Fixed: Form builder Pricing option save issue at admin end 
+* Fixed: Ajax Search builder tag not working 
+* Fixed: reCaptcha v2 issue in registration form
+* Fixed: Child location hidden issue in filter
+* Added: Temp listing cleaning cron scheduler  
+
+= 3.1.15 ( Nov 08, 2024 ) =
+* Added: Phone, WhatsApp click & reveal count
+* Added: User ad count in admin user table
+* Updated: Ajax form builder repeater textarea field added new Editor mode for allowing html
+
+= 3.1.14 ( Nov 05, 2024 ) =
+* Fixed: Form builder label issue at builder end 
+* Fixed: Location import issue 
+* Fixed: Form builder default value set issue 
+* Updated: Ajax builder sortable custom fields
+
+= 3.1.13 ( Oct 31, 2024 ) =
+* Fixed: Form builder Video url issue 
+* Fixed: Form Video url field validation issue  
+* Fixed: Country state issue for Tax
+* Fixed: Elementor widgets & Gutenberg block RTL issue
+* Fixed: Active location/category filter hidden issue
+
+= 3.1.12 ( Oct 28, 2024 ) =
+* Fixed: Category location import issue
+* Fixed: Warning issue
+* Fixed: image delete issue subscriber user
+* Update: Custom field support for developer
+
+= 3.1.11 ( Oct 21, 2024 ) =
+* Fixed: Load listing metadata to the listing objects before sending to hook
+* Fixed: Form builder: submit and update button typo
+* Fixed: Form builder: Update translation issue
+
+= 3.1.10 ( Oct 15, 2024 ) =
+* Fixed: Form builder Submit button translation issue
+* Fixed: Form builder Apostrophe comma issue 
+* Fixed: User import issue during listing import
+* Added: Form builder add File field at repeater field 
+
+
+= 3.1.9 ( Sep 30, 2024 ) =
+* Fixed: Form builder File field icon issue
+* Fixed: Form builder date field display issue
+* Fixed: Form builder textarea data save and display issue
+* Fixed: Form builder Content save issue from admin end
+* Fixed: Form builder data save issue from admin end
+* Fixed: Form builder data migration from selection issue
+* Fixed: WPML Endpoint translation 
+* Fixed: Rest api key regenerate issue
+* Update: add new function FBHelper::isEnabled to check from builder is enabled
+* Added: Form builder Category field new option Allowed categories
+* Added: Form builder Geo Location field
+* Added: Form builder Import Export
 
 = 3.1.8 ( Sep 12, 2024 ) =
 * Fixed: Block pagination issue
@@ -812,69 +891,3 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 * Fixed: Classified Listing Filter widget radius search issue
 * Fixed: Classified Listing Search radius text translation issue
 * Fixed: Listing category and location archive ad showing issue
-
-= 2.0.13 (December 31, 2021) =
-* Fix: rtcl_listing shortcode search issue
-* Fix: Open Street map fitBounds issue
-
-= 2.0.12 (December 24, 2021) =
-* Fix: Pricing max limit check with min limit
-* Fix: Misc Settings Error
- 
-= 2.0.11 (December 23, 2021) =
-* Remove unused comment related code
-
-= 2.0.10 (December 15, 2021) =
-* Fix checkout page issue 
-
-= 2.0.9.2 (December 13, 2021) =
-* Fix map zoom variable
-* Remove php undefined variable
-
-= 2.0.9.1 (December 11, 2021) =
-* Fix from submission Recaptcha issue
- 
-= 2.0.9 (December 09, 2021) =
-* Add Google GoogleMap
-* Add OpenStreetMap
-* Google recaptcha v3 
-* Fix some functional issue 
-
-= 2.0.8 (November 24, 2021) =
-* Add Promotions filter at admin end ad listing
-
-= 2.0.7 (November 15, 2021) =
-* Ajax Multilingual bug fix
-* Change RTCL log folder path to upload directory
-
-= 2.0.6.6 (October 27, 2021) =
-* Inline search multilingual bug fix
-* order history search issue fixed
-
-= 2.0.6.5 (October 08, 2021) =
-* Category duplicate issue fix while loading via ajax
-
-= 2.0.6.4 (September 28, 2021) =
-* Keyword search issue fix for apostrophe and others special character
-* Update payment coding structure to Order
-* Update Oder hook 
-* Fix Order Note issue
- 
-= 2.0.6.3 (September 13, 2021) =
-* Ad new endpoint for payment confirm (rtcl-api)
-* Update Email order printing format 
-* Widget support for WordPress 5.8 
-
-= 2.0.6.2 =
-* Add post type at rest API
-* Fix call to undefined function is_user_logged_in function call
-* Fix widget checkbox data save issue
-
-= 2.0.6.1 =
-* Add No listing hook for shortcode listing
-* Add offline instruction to API
-
-= 2.0.6 =
-* Fix WPML Page id issue
-* Fix Filter widget taxonomy js issue
-* Compatible for WordPress 5.8 version

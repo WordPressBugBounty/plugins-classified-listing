@@ -21,20 +21,20 @@ class FilterAjax {
 
 		$params     = ! empty( $_POST['params'] ) && is_array( $_POST['params'] ) ? $_POST['params'] : [];
 		$filterData = ! empty( $_POST['filterData'] ) && is_array( $_POST['filterData'] ) ? $_POST['filterData'] : [];
-		
+
 		if ( ! empty( $_POST['is_listings'] ) ) {
 			global $is_listings;
 			$is_listings = true;
 		}
 		if ( ! empty( $_POST['is_listing'] ) ) {
 			global $is_listing;
-			$is_listing = absint($_POST['is_listing']);
+			$is_listing = absint( $_POST['is_listing'] );
 		}
 		if ( ! empty( $_POST['listing_term'] ) ) {
 			global $listing_term;
 			$listing_term = $_POST['listing_term'];
 		}
-		$q = !empty( $params['q'] ) ? sanitize_text_field( wp_unslash( $params['q'] ) ) : '';
+		$q = ! empty( $params['q'] ) ? sanitize_text_field( wp_unslash( $params['q'] ) ) : '';
 		if ( ! empty( $params['orderby'] ) ) {
 			$_GET['orderby'] = $params['orderby'];
 		}
@@ -54,16 +54,16 @@ class FilterAjax {
 			'meta_query'     => [],
 			'tax_query'      => []
 		];
-		
+
 		if ( ! empty( $orderByArgs ) && is_array( $orderByArgs ) ) {
 			$args = wp_parse_args( $args, $orderByArgs );
 		}
 
-		$active_filters           = [];
+		$active_filters = [];
 
 		if ( ! empty( $q ) ) {
-			$_GET['q'] = $q;
-			$args['s'] = $q;
+			$_GET['q']        = $q;
+			$args['s']        = $q;
 			$active_filters[] = [
 				'id'       => 'q',
 				'itemId'   => 'search',
@@ -71,8 +71,8 @@ class FilterAjax {
 				'selected' => [ $q => $q ]
 			];
 		}
-		
-		
+
+
 		$params['filter_ad_type'] = ! empty( $params['filter_ad_type'] ) ? ( is_string( $params['filter_ad_type'] ) ? explode( ',', $params['filter_ad_type'] ) : $params['filter_ad_type'] ) : [];
 		if ( ! empty( $params['filter_ad_type'] ) ) {
 			$types    = Functions::get_listing_types();
@@ -86,7 +86,7 @@ class FilterAjax {
 					} else {
 						return false;
 					}
-            } );
+				} );
 
 			if ( ! empty( $adTypes ) ) {
 				$active_filters[]     = [
@@ -116,8 +116,8 @@ class FilterAjax {
 					$termIds  = [];
 					$selected = [];
 					foreach ( $terms as $term ) {
-						$termIds[] = $term->term_id;
-						$selected[$term->term_id] = $term->name;
+						$termIds[]                  = $term->term_id;
+						$selected[ $term->term_id ] = $term->name;
 					}
 					$active_filters[]    = [
 						'id'       => 'filter_category',
@@ -148,8 +148,8 @@ class FilterAjax {
 					$termIds  = [];
 					$selected = [];
 					foreach ( $terms as $term ) {
-						$termIds[] = $term->term_id;
-						$selected[$term->term_id] = $term->name;
+						$termIds[]                  = $term->term_id;
+						$selected[ $term->term_id ] = $term->name;
 					}
 					$active_filters[]    = [
 						'id'       => 'filter_location',
@@ -180,8 +180,8 @@ class FilterAjax {
 					$termIds  = [];
 					$selected = [];
 					foreach ( $terms as $term ) {
-						$termIds[] = $term->term_id;
-						$selected[$term->term_id] = $term->name;
+						$termIds[]                  = $term->term_id;
+						$selected[ $term->term_id ] = $term->name;
 					}
 					$active_filters[]    = [
 						'id'       => 'filter_tag',
@@ -190,7 +190,7 @@ class FilterAjax {
 						'selected' => $selected
 					];
 					$args['tax_query'][] = [
-						'taxonomy' => rtcl()->location,
+						'taxonomy' => rtcl()->tag,
 						'terms'    => $termIds,
 						'field'    => 'term_id',
 					];

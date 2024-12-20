@@ -65,26 +65,27 @@ class Listing extends Data {
 	 *
 	 * @var array
 	 */
-	protected $data = [
-		'name'               => '',
-		'slug'               => '',
-		'date_created'       => null,
-		'date_modified'      => null,
-		'status'             => false,
-		'featured'           => false,
-		'description'        => '',
-		'price'              => '',
-		'parent_id'          => 0,
-		'reviews_allowed'    => true,
-		'attributes'         => [],
-		'default_attributes' => [],
-		'menu_order'         => 0,
-		'category_ids'       => [],
-		'tag_ids'            => [],
-		'rating_counts'      => [],
-		'average_rating'     => 0,
-		'review_count'       => 0,
-	];
+	protected $data
+		= [
+			'name'               => '',
+			'slug'               => '',
+			'date_created'       => null,
+			'date_modified'      => null,
+			'status'             => false,
+			'featured'           => false,
+			'description'        => '',
+			'price'              => '',
+			'parent_id'          => 0,
+			'reviews_allowed'    => true,
+			'attributes'         => [],
+			'default_attributes' => [],
+			'menu_order'         => 0,
+			'category_ids'       => [],
+			'tag_ids'            => [],
+			'rating_counts'      => [],
+			'average_rating'     => 0,
+			'review_count'       => 0,
+		];
 
 	/**
 	 * Get the product if ID is passed, otherwise the product is new and empty.
@@ -147,8 +148,10 @@ class Listing extends Data {
 		}
 
 		$raw_terms = $this->$target;
-
-		if ( $raw_terms_length = count( $raw_terms ) ) {
+		if ( $target_term === 'category' && 1 < count( $raw_terms )) {
+			return;
+		}
+		if ( !empty( $raw_terms ) ) {
 			$term_ancestors = [];
 			$last_term      = 0;
 			foreach ( $raw_terms as $index => $raw_term ) {
@@ -333,16 +336,16 @@ class Listing extends Data {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Form|null
-	 * @deprecated science 3.1.3, please use getForm() 
-	 * 
+	 * @deprecated science 3.1.3, please use getForm()
+	 *
 	 */
 	public function get_form() {
 		_deprecated_function( __METHOD__, '3.1.3', 'getForm' );
-		
+
 		return $this->getForm();
-		
+
 		if ( $this->form_id && $form = Form::query()->find( $this->form_id ) ) {
 			return apply_filters( 'rtcl_fb_form', $form );
 		}
@@ -615,11 +618,13 @@ class Listing extends Data {
 	}
 
 	function can_edit() {
-		if ( get_current_user_id() == $this->user_id && in_array( $this->status, [
+		if ( get_current_user_id() == $this->user_id
+		     && in_array( $this->status, [
 				'publish',
 				'draft',
 				'rtcl-reviewed'
-			] ) ) {
+			] )
+		) {
 			return true;
 		}
 
@@ -684,7 +689,8 @@ class Listing extends Data {
 		$this->setModerationSettings();
 		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
 
-		$can_show_user_link = ! empty( $this->moderation_settings[ $display_option ] ) && in_array( 'user_link', $this->moderation_settings[ $display_option ] );
+		$can_show_user_link = ! empty( $this->moderation_settings[ $display_option ] )
+		                      && in_array( 'user_link', $this->moderation_settings[ $display_option ] );
 
 		return apply_filters( 'rtcl_listing_can_show_user_link', $can_show_user_link, $this );
 	}
@@ -723,7 +729,10 @@ class Listing extends Data {
 		$this->setModerationSettings();
 		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
 
-		$can_show_price = ! ( ( ( ! empty( $this->moderation_settings[ $display_option ] ) && ! in_array( 'price', $this->moderation_settings[ $display_option ] ) ) || Functions::is_price_disabled() || $this->get_pricing_type() === 'disabled' ) );
+		$can_show_price = ! ( ( ( ! empty( $this->moderation_settings[ $display_option ] )
+		                          && ! in_array( 'price', $this->moderation_settings[ $display_option ] ) )
+		                        || Functions::is_price_disabled()
+		                        || $this->get_pricing_type() === 'disabled' ) );
 
 		return apply_filters( 'rtcl_listing_can_show_price', $can_show_price, $this );
 	}
@@ -742,6 +751,18 @@ class Listing extends Data {
 
 	function get_view_counts() {
 		return absint( get_post_meta( $this->id, '_views', true ) );
+	}
+
+	function get_phone_whatsapp_reveal_counts() {
+		return absint( get_post_meta( $this->id, '_rtcl_reveal_phone_whatsapp', true ) );
+	}
+
+	function get_phone_click_counts() {
+		return absint( get_post_meta( $this->id, '_rtcl_phone_click', true ) );
+	}
+
+	function get_whatsapp_click_counts() {
+		return absint( get_post_meta( $this->id, '_rtcl_whatsapp_click', true ) );
 	}
 
 	function get_label_class() {
@@ -849,7 +870,8 @@ class Listing extends Data {
 				"alt"   => esc_attr( get_the_title( $thumb_id ) )
 			] );
 		} else {
-			$fallBackSizes = apply_filters( 'rtcl_default_placeholder_thumbnail_size', Functions::get_option_item( 'rtcl_misc_settings', 'image_size_thumbnail' ) );
+			$fallBackSizes = apply_filters( 'rtcl_default_placeholder_thumbnail_size',
+				Functions::get_option_item( 'rtcl_misc_settings', 'image_size_thumbnail' ) );
 			$image         = sprintf(
 				'<img src="%s" class="rtcl-thumbnail rtcl-fallback-thumbnail" alt="%s" width="%d" height="%d">',
 				esc_url( Functions::get_default_placeholder_url() ),
@@ -915,7 +937,8 @@ class Listing extends Data {
 	 */
 	function get_the_time( $gmt = false ) {
 		/* translators: Human read able time. */
-		return sprintf( __( '%s ago', 'classified-listing' ), human_time_diff( get_post_time( 'U', $gmt, $this->listing, false ), current_time( 'timestamp', $gmt ) ) );
+		return sprintf( __( '%s ago', 'classified-listing' ),
+			human_time_diff( get_post_time( 'U', $gmt, $this->listing, false ), current_time( 'timestamp', $gmt ) ) );
 	}
 
 	/**
@@ -1070,6 +1093,13 @@ class Listing extends Data {
 	}
 
 	/**
+	 * @return WP_Term|bool|mixed
+	 */
+	function get_last_child_location() {
+		return ! empty( $this->locations ) && is_array( $this->locations ) ? end( $this->locations ) : $this->locations;
+	}
+
+	/**
 	 * @param bool $echo
 	 * @param bool $link
 	 *
@@ -1091,7 +1121,7 @@ class Listing extends Data {
 					$loc[] = $category->name;
 				}
 			}
-			$html = implode( ', ', $loc );
+			$html = implode( '<span class="rtcl-delimiter">,</span>', $loc );
 		}
 
 		if ( ! $echo ) {
@@ -1380,7 +1410,8 @@ class Listing extends Data {
 		$price             = apply_filters( 'rtcl_price_html_before_meta', $price, $this );
 		$price_meta_html   = '';
 		$price_meta_html   = apply_filters( 'rtcl_price_meta_html', $price_meta_html, $price, $this );
-		$price_meta_html   = $price_meta_html ? apply_filters( 'rtcl_price_meta_wrap_html', sprintf( '<span class="rtcl-price-meta">%s</span>', $price_meta_html ), $price_meta_html, $price, $this ) : null;
+		$price_meta_html   = $price_meta_html ? apply_filters( 'rtcl_price_meta_wrap_html',
+			sprintf( '<span class="rtcl-price-meta">%s</span>', $price_meta_html ), $price_meta_html, $price, $this ) : null;
 		$price_html_format = apply_filters( 'rtcl_get_price_html_format', '<div class="rtcl-price price-type-%1$s">%2$s%3$s</div>' );
 		$price_html        = sprintf( $price_html_format, $this->get_price_type(), $price, $price_meta_html );
 
@@ -1415,7 +1446,8 @@ class Listing extends Data {
 				] ) ),
 				// @phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
 			];
-			$html         = str_replace( array_keys( $replacements ), array_values( $replacements ), ' <small class="woocommerce-price-suffix">' . wp_kses_post( $suffix ) . '</small>' );
+			$html         = str_replace( array_keys( $replacements ), array_values( $replacements ),
+				' <small class="woocommerce-price-suffix">' . wp_kses_post( $suffix ) . '</small>' );
 		}
 
 		return apply_filters( 'rtcl_get_price_suffix', $html, $this, $price );
@@ -1444,11 +1476,19 @@ class Listing extends Data {
 				$video_urls = get_post_meta( $this->get_id(), '_rtcl_video_urls', true );
 				$video_urls = ! empty( $video_urls ) && is_array( $video_urls ) ? $video_urls : [];
 			}
-			Functions::get_template( "listing/gallery", [ 'images'  => $this->get_images(),
-			                                              'videos'  => $video_urls,
-			                                              'listing' => $this
+			Functions::get_template( "listing/gallery", [
+				'images'  => $this->get_images(),
+				'videos'  => $video_urls,
+				'listing' => $this
 			] );
 		}
+	}
+
+	public function get_video_urls() {
+		$video_urls = get_post_meta( $this->get_id(), '_rtcl_video_urls', true );
+		$video_urls = ! empty( $video_urls ) && is_array( $video_urls ) ? $video_urls : [];
+
+		return $video_urls;
 	}
 
 	function the_custom_fields() {
@@ -1479,18 +1519,19 @@ class Listing extends Data {
 
 	/**
 	 * Return Listing form which selected
+	 *
 	 * @return Model| Form | null
 	 */
 	function getForm() {
-		
+
 		$form = $this->form_id ? Form::query()->find( $this->form_id ) : null;
-		
+
 		$_form = apply_filters( 'rtcl_fb_form', $form );
-		
+
 		if ( is_a( $_form, Form::class ) ) {
 			return $_form;
 		}
-		
+
 		return null;
 	}
 
@@ -1506,8 +1547,8 @@ class Listing extends Data {
 
 	function the_actions() {
 		$the_actions = [
-			'can_add_favourites' => (bool)Functions::get_option_item( 'rtcl_moderation_settings', 'has_favourites', '', 'checkbox' ),
-			'can_report_abuse'   => (bool)Functions::get_option_item( 'rtcl_moderation_settings', 'has_report_abuse', '', 'checkbox' ),
+			'can_add_favourites' => (bool) Functions::get_option_item( 'rtcl_moderation_settings', 'has_favourites', '', 'checkbox' ),
+			'can_report_abuse'   => (bool) Functions::get_option_item( 'rtcl_moderation_settings', 'has_report_abuse', '', 'checkbox' ),
 			'social'             => $this->the_social_share( false ),
 			'listing_id'         => $this->id
 		];
@@ -1613,7 +1654,8 @@ class Listing extends Data {
 		$this->setGeneralSettings();
 
 		$category              = ! empty( $this->categories ) ? end( $this->categories )->term_id : 0;
-		$related_post_per_page = apply_filters( 'rtcl_listing_related_posts_per_page', Functions::get_option_item( 'rtcl_general_settings', 'related_posts_per_page', 4, 'number' ) );
+		$related_post_per_page = apply_filters( 'rtcl_listing_related_posts_per_page',
+			Functions::get_option_item( 'rtcl_general_settings', 'related_posts_per_page', 4, 'number' ) );
 		if ( ! $related_post_per_page ) {
 			return;
 		}
@@ -1627,12 +1669,13 @@ class Listing extends Data {
 			$this->setGeneralSettings();
 
 			$query_args['tax_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-				[
-					'taxonomy'         => rtcl()->category,
-					'field'            => 'term_id',
-					'terms'            => $category,
-					'include_children' => isset( $this->general_settings['include_results_from'] ) && in_array( 'child_categories', $this->general_settings['include_results_from'] )
-				]
+			                             [
+				                             'taxonomy'         => rtcl()->category,
+				                             'field'            => 'term_id',
+				                             'terms'            => $category,
+				                             'include_children' => isset( $this->general_settings['include_results_from'] )
+				                                                   && in_array( 'child_categories', $this->general_settings['include_results_from'] )
+			                             ]
 			];
 		}
 		$rtcl_related_query = new \WP_Query( apply_filters( 'rtcl_related_listing_query_arg', $query_args ) );
@@ -1668,7 +1711,8 @@ class Listing extends Data {
 		$locations     = [];
 		$location_type = Functions::location_type();
 		if ( 'local' === $location_type ) {
-			$is_location = apply_filters( 'rtcl_display_location_details_page', Functions::get_option_item( 'rtcl_moderation_settings', 'display_options_detail', 'location', 'multi_checkbox' ) ); // Hook Added by rashid
+			$is_location = apply_filters( 'rtcl_display_location_details_page',
+				Functions::get_option_item( 'rtcl_moderation_settings', 'display_options_detail', 'location', 'multi_checkbox' ) ); // Hook Added by rashid
 			if ( count( $this->locations ) && $is_location ) {
 				foreach ( $this->locations as $location ) {
 					$locations[] = $location->name;
@@ -1676,14 +1720,16 @@ class Listing extends Data {
 				$locations = array_reverse( $locations );
 			}
 
-			$address    = get_post_meta( $this->id, 'address', true );
+			$address    = esc_textarea( get_post_meta( $this->id, 'address', true ) );
 			$zipcode    = get_post_meta( $this->id, 'zipcode', true );
-			$is_address = apply_filters( 'rtcl_display_address_details_page', Functions::get_option_item( 'rtcl_moderation_settings', 'display_options_detail', 'address', 'multi_checkbox' ) ); // Hook Added by rashid
+			$is_address = apply_filters( 'rtcl_display_address_details_page',
+				Functions::get_option_item( 'rtcl_moderation_settings', 'display_options_detail', 'address', 'multi_checkbox' ) ); // Hook Added by rashid
 
 			if ( $address && $is_address ) {
 				array_unshift( $locations, $address );
 			}
-			$is_zipcode = apply_filters( 'rtcl_display_zipcode_details_page', Functions::get_option_item( 'rtcl_moderation_settings', 'display_options_detail', 'zipcode', 'multi_checkbox' ) ); // Hook Added by rashid
+			$is_zipcode = apply_filters( 'rtcl_display_zipcode_details_page',
+				Functions::get_option_item( 'rtcl_moderation_settings', 'display_options_detail', 'zipcode', 'multi_checkbox' ) ); // Hook Added by rashid
 
 			if ( $zipcode && $is_zipcode ) {
 				$locations[] = $zipcode;

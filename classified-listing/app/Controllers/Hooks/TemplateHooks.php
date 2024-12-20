@@ -10,12 +10,12 @@ use Rtcl\Helpers\Text;
 use Rtcl\Models\Listing;
 use Rtcl\Models\Payment;
 use Rtcl\Resources\Options;
+use Rtcl\Services\FormBuilder\FBHelper;
 use Rtcl\Shortcodes\Checkout;
 use Rtcl\Shortcodes\MyAccount;
 use Rtcl\Traits\Hooks\TemplateHookTrait;
 use Rtcl\Widgets\AjaxFilter;
 use Rtcl\Widgets\Filter;
-use WP_Term;
 
 class TemplateHooks {
 	use TemplateHookTrait;
@@ -660,7 +660,7 @@ class TemplateHooks {
 				<div class='list-group-item reveal-phone<?php echo esc_attr( $mobileClass ); ?>'
 					 data-options="<?php
 					 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					 echo htmlspecialchars( wp_json_encode( $phone_options ) ); ?>">
+					 echo htmlspecialchars( wp_json_encode( $phone_options ) ); ?>" data-id="<?php echo $listing->get_id(); ?>">
 					<div class='media'>
 						<span class='rtcl-icon rtcl-icon-phone mr-2'></span>
 						<div class='media-body'>
@@ -1423,7 +1423,7 @@ class TemplateHooks {
 	public static function add_single_listing_inner_sidebar_custom_field() {
 		/** @var Listing $listing */
 		global $listing;
-		if ( Functions::isEnableFb() ) {
+		if ( FBHelper::isEnabled() ) {
 			$listing->custom_fields();
 		} else {
 			$listing->the_custom_fields();

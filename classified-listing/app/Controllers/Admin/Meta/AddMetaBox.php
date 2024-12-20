@@ -2,12 +2,12 @@
 
 namespace Rtcl\Controllers\Admin\Meta;
 
-use Rtcl\Helpers\Functions;
 use Rtcl\Resources\FieldGroup;
 use Rtcl\Resources\Gallery;
 use Rtcl\Resources\ListingDetails;
 use Rtcl\Resources\OrderOptions;
 use Rtcl\Resources\PricingOptions;
+use Rtcl\Services\FormBuilder\FBHelper;
 
 class AddMetaBox {
 
@@ -44,7 +44,7 @@ class AddMetaBox {
 
 	function listing_details_meta_box() {
 
-		if ( Functions::isEnableFb() ) {
+		if ( FBHelper::isEnabled() ) {
 			add_meta_box(
 				'rtcl_listing_details',
 				__( 'Listing Details', 'classified-listing' ),

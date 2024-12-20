@@ -60,8 +60,14 @@ class FieldSanitization {
 			$field['validation'] = $validationRules;
 		}
 
+		if ( isset( $field['editor'] ) ) {
+			unset( $field['editor'] );
+		}
+
 		foreach ( $field as $fieldKey => $value ) {
-			if ( $fieldKey === 'fields' ) {
+			if ( in_array( $fieldKey, [ 'label', 'id','class', 'container_class', 'default_value','placeholder', 'order', 'help_message', 'btn_text' ] ) ) {
+				$field[ $fieldKey ] = sanitize_text_field( wp_unslash( $value ) );
+			} elseif ( $fieldKey === 'fields' ) {
 				if ( ! empty( $value ) && is_array( $value ) ) {
 					$fields = [];
 					foreach ( $value as $i => $_field ) {
@@ -73,6 +79,10 @@ class FieldSanitization {
 				$field[ $fieldKey ] = stripslashes( wp_kses( $value, ElementCustomization::allowedHtml( $fieldKey ) ) );
 			} elseif ( $fieldKey === 'html_codes' ) {
 				$field[ $fieldKey ] = stripslashes( wp_kses_post( $value ) );
+			} elseif ( $fieldKey === 'top_level_ids' ) {
+				if ( ! empty( $value ) && is_array( $value ) ) {
+					$field[ $fieldKey ] = array_map( 'absint', $value );
+				}
 			} elseif ( $fieldKey === 'logics' ) {
 				if ( isset( $value['status'] ) && in_array( $value['status'], [ 'true', 'false' ], true ) ) {
 					if ( $value['status'] === 'true' ) {

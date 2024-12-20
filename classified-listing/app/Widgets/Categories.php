@@ -27,15 +27,15 @@ class Categories extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		$query_args = [
-			'parent'         => !empty( $instance['parent'] ) ? (int)$instance['parent'] : 0,
-			'term_id'        => !empty( $instance['parent'] ) ? (int)$instance['parent'] : 0,
-			'hide_empty'     => !empty( $instance['hide_empty'] ) ? 1 : 0,
-			'show_image'     => !empty( $instance['show_image'] ) ? 1 : 0,
-			'show_icon'      => !empty( $instance['show_icon'] ) ? 1 : 0,
-			'show_count'     => !empty( $instance['show_count'] ) ? 1 : 0,
-			'orderby'        => !empty( $instance['orderby'] ) ? $instance['orderby'] : "_rtcl_order",
-			'order'          => !empty( $instance['order'] ) ? $instance['order'] : "asc",
-			'imm_child_only' => !empty( $instance['imm_child_only'] ) ? 1 : 0,
+			'parent'         => ! empty( $instance['parent'] ) ? (int) $instance['parent'] : 0,
+			'term_id'        => ! empty( $instance['parent'] ) ? (int) $instance['parent'] : 0,
+			'hide_empty'     => ! empty( $instance['hide_empty'] ) ? 1 : 0,
+			'show_image'     => ! empty( $instance['show_image'] ) ? 1 : 0,
+			'show_icon'      => ! empty( $instance['show_icon'] ) ? 1 : 0,
+			'show_count'     => ! empty( $instance['show_count'] ) ? 1 : 0,
+			'orderby'        => ! empty( $instance['orderby'] ) ? $instance['orderby'] : "_rtcl_order",
+			'order'          => ! empty( $instance['order'] ) ? $instance['order'] : "asc",
+			'imm_child_only' => ! empty( $instance['imm_child_only'] ) ? 1 : 0,
 			'active_term_id' => 0,
 			'ancestors'      => [],
 			'pad_counts'     => true
@@ -46,18 +46,18 @@ class Categories extends WP_Widget {
 		if ( '' != $term_slug && $term = get_term_by( 'slug', $term_slug, rtcl()->category ) ) {
 			$query_args['active_term_id'] = $term->term_id;
 
-			$query_args['ancestors'] = get_ancestors( $query_args['active_term_id'], rtcl()->category );
+			$query_args['ancestors']   = get_ancestors( $query_args['active_term_id'], rtcl()->category );
 			$query_args['ancestors'][] = $query_args['active_term_id'];
-			$query_args['ancestors'] = array_unique( $query_args['ancestors'] );
+			$query_args['ancestors']   = array_unique( $query_args['ancestors'] );
 		}
 
-		$data = [];
+		$data               = [];
 		$data['categories'] = $this->list_categories( $query_args );
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $args['before_widget'];
 
-		if ( !empty( $instance['title'] ) ) {
+		if ( ! empty( $instance['title'] ) ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 		}
@@ -73,15 +73,15 @@ class Categories extends WP_Widget {
 
 		$instance = $old_instance;
 
-		$instance['title'] = !empty( $new_instance['title'] ) ? wp_strip_all_tags( $new_instance['title'] ) : '';
-		$instance['parent'] = !empty( $new_instance['parent'] ) ? (int)$new_instance['parent'] : 0;
-		$instance['imm_child_only'] = !empty( $new_instance['imm_child_only'] ) ? 1 : 0;
-		$instance['orderby'] = !empty( $new_instance['orderby'] ) ? esc_attr( $new_instance['orderby'] ) : "name";
-		$instance['order'] = !empty( $new_instance['order'] ) ? esc_attr( $new_instance['order'] ) : "asc";
-		$instance['hide_empty'] = !empty( $new_instance['hide_empty'] ) ? 1 : 0;
-		$instance['show_count'] = !empty( $new_instance['show_count'] ) ? 1 : 0;
-		$instance['show_image'] = !empty( $new_instance['show_image'] ) ? 1 : 0;
-		$instance['show_icon'] = !empty( $new_instance['show_icon'] ) ? 1 : 0;
+		$instance['title']          = ! empty( $new_instance['title'] ) ? wp_strip_all_tags( $new_instance['title'] ) : '';
+		$instance['parent']         = ! empty( $new_instance['parent'] ) ? (int) $new_instance['parent'] : 0;
+		$instance['imm_child_only'] = ! empty( $new_instance['imm_child_only'] ) ? 1 : 0;
+		$instance['orderby']        = ! empty( $new_instance['orderby'] ) ? esc_attr( $new_instance['orderby'] ) : "name";
+		$instance['order']          = ! empty( $new_instance['order'] ) ? esc_attr( $new_instance['order'] ) : "asc";
+		$instance['hide_empty']     = ! empty( $new_instance['hide_empty'] ) ? 1 : 0;
+		$instance['show_count']     = ! empty( $new_instance['show_count'] ) ? 1 : 0;
+		$instance['show_image']     = ! empty( $new_instance['show_image'] ) ? 1 : 0;
+		$instance['show_icon']      = ! empty( $new_instance['show_icon'] ) ? 1 : 0;
 
 		return $instance;
 
@@ -104,7 +104,7 @@ class Categories extends WP_Widget {
 
 		// Parse incoming $instance into an array and merge it with $defaults
 		$instance = wp_parse_args(
-			(array)$instance,
+			(array) $instance,
 			apply_filters( 'rtcl_widget_category_default_values', $defaults, $instance, $this )
 		);
 
@@ -117,8 +117,10 @@ class Categories extends WP_Widget {
 
 		if ( $settings['imm_child_only'] ) {
 
-			if ( $settings['term_id'] > $settings['parent'] && !in_array( $settings['term_id'],
-					$settings['ancestors'] ) ) {
+			if ( $settings['term_id'] > $settings['parent']
+			     && ! in_array( $settings['term_id'],
+					$settings['ancestors'] )
+			) {
 				return '';
 			}
 
@@ -130,7 +132,7 @@ class Categories extends WP_Widget {
 			'order'        => $settings['order'],
 			'hide_empty'   => $settings['hide_empty'],
 			'parent'       => $settings['term_id'],
-			'hierarchical' => !empty( $settings['hide_empty'] )
+			'hierarchical' => ! empty( $settings['hide_empty'] )
 		];
 		if ( $settings['orderby'] === '_rtcl_order' ) {
 			$args['meta_key'] = '_rtcl_order'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
@@ -148,29 +150,33 @@ class Categories extends WP_Widget {
 				$settings['term_id'] = $term->term_id;
 
 				$count = 0;
-				if ( !empty( $settings['hide_empty'] ) || !empty( $settings['show_count'] ) ) {
+				if ( ! empty( $settings['hide_empty'] ) || ! empty( $settings['show_count'] ) ) {
 					$count = Functions::get_listings_count_by_taxonomy( $term->term_id, rtcl()->category,
 						$settings['pad_counts'] );
 
-					if ( !empty( $settings['hide_empty'] ) && 0 == $count ) {
+					if ( ! empty( $settings['hide_empty'] ) && 0 == $count ) {
 						continue;
 					}
 				}
 				$cat_img = $cat_icon = null;
-				if ( !empty( $settings['show_image'] ) ) {
+				if ( ! empty( $settings['show_image'] ) ) {
 					$image_id = get_term_meta( $term->term_id, '_rtcl_image', true );
 					if ( $image_id ) {
-						$image_attributes = wp_get_attachment_image_src( (int)$image_id, 'medium' );
-						$image = $image_attributes[0];
+						$image_attributes = wp_get_attachment_image_src( (int) $image_id, 'medium' );
+						$image            = $image_attributes[0];
 						if ( '' !== $image ) {
 							$cat_img = sprintf( '<img src="%s" class="rtcl-cat-img" alt="Cat image" />', esc_url( $image ) );
 						}
 					}
 				}
-				if ( !empty( $settings['show_icon'] ) ) {
+				if ( ! empty( $settings['show_icon'] ) ) {
 					$icon_id = get_term_meta( $term->term_id, '_rtcl_icon', true );
 					if ( $icon_id ) {
-						$cat_icon = sprintf( '<span class="rtcl-cat-icon rtcl-icon rtcl-icon-%s"></span>', esc_attr( $icon_id ) );
+						if ( str_contains( $icon_id, 'fa-' ) ) {
+							$cat_icon = sprintf( '<span class="rtcl-cat-icon %s"></span>', esc_attr( $icon_id ) );
+						} else {
+							$cat_icon = sprintf( '<span class="rtcl-cat-icon rtcl-icon rtcl-icon-%s"></span>', esc_attr( $icon_id ) );
+						}
 					}
 				}
 				$html .= sprintf( "<li%s><a href='%s'>%s%s%s</a>%s</li>",
@@ -179,7 +185,7 @@ class Categories extends WP_Widget {
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					$cat_img ?: $cat_icon,
 					esc_html( $term->name ),
-					!empty( $settings['show_count'] ) ? '<span>(' . absint( $count ) . ')</span>' : null,
+					! empty( $settings['show_count'] ) ? '<span>(' . absint( $count ) . ')</span>' : null,
 					$this->list_categories( $settings )
 				);
 			}

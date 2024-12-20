@@ -26,7 +26,6 @@ class SettingsFieldSanitization {
 				if ( ! empty( $sanitizeField ) ) {
 					$values[ $fieldKey ] = $sanitizeField;
 				}
-
 			}
 			$this->values = $values;
 		} else {
@@ -47,20 +46,20 @@ class SettingsFieldSanitization {
 			if ( is_array( $fieldValue ) ) {
 				$value = array_filter( array_map( 'sanitize_text_field', $fieldValue ) );
 			}
-		} else if ( $field['type'] === 'textarea' ) {
+		} elseif ( $field['type'] === 'textarea' ) {
 			$value = stripslashes( wp_kses_post( $fieldValue ) );
-		} else if ( $field['type'] === 'select' ) {
+		} elseif ( $field['type'] === 'select' ) {
 			if ( ! empty( $field['option'] ) && is_array( $field['option'] ) && array_key_exists( $fieldValue, $field['option'] ) ) {
 				$value = $fieldValue;
 			}
+		} elseif ( $field['type'] === 'switch' ) {
+			if ( in_array( $fieldValue, [ 'true', 'false' ], true ) ) {
+				$value = $fieldValue === 'true';
+			}
 		} else {
-			$value = sanitize_text_field( $fieldValue );
-//			if ( in_array( $fieldValue, [ 'true', 'false' ], true ) ) {
-//				$value = $fieldValue === 'true';
-//			}
+			$value = sanitize_text_field( wp_unslash( $fieldValue ) );
 		}
 
 		return $value;
 	}
-
 }

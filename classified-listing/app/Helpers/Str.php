@@ -48,7 +48,7 @@ class Str {
 	 * @return string
 	 */
 	public static function upper( $value ) {
-		return mb_strtoupper( $value, 'UTF-8' );
+		return function_exists('mb_strtoupper') ? mb_strtoupper( $value, 'UTF-8' ) : strtoupper( $value );
 	}
 
 	/**

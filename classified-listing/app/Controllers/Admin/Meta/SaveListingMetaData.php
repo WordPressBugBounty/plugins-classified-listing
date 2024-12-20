@@ -5,6 +5,7 @@ namespace Rtcl\Controllers\Admin\Meta;
 use Rtcl\Helpers\Functions;
 use Rtcl\Models\RtclCFGField;
 use Rtcl\Resources\Options;
+use Rtcl\Services\FormBuilder\FBHelper;
 
 class SaveListingMetaData {
 	public function __construct() {
@@ -57,12 +58,12 @@ class SaveListingMetaData {
 		}
 		$syncData = [];
 		if ( ! isset( $_POST['never_expires'] ) && $edit_expired_date ) {
-			$aa          = wp_unslash( $_POST['expiry_date-aa'] );
-			$mm          = wp_unslash( $_POST['expiry_date-mm'] );
-			$jj          = wp_unslash( $_POST['expiry_date-jj'] );
-			$hh          = wp_unslash( $_POST['expiry_date-hh'] );
-			$mn          = wp_unslash( $_POST['expiry_date-mn'] );
-			$ss          = wp_unslash( $_POST['expiry_date-ss'] );
+			$aa          = Functions::sanitize( $_POST['expiry_date-aa'] );
+			$mm          = Functions::sanitize( $_POST['expiry_date-mm'] );
+			$jj          = Functions::sanitize( $_POST['expiry_date-jj'] );
+			$hh          = Functions::sanitize( $_POST['expiry_date-hh'] );
+			$mn          = Functions::sanitize( $_POST['expiry_date-mn'] );
+			$ss          = Functions::sanitize( $_POST['expiry_date-ss'] );
 			$jj          = ( $jj > 31 ) ? 31 : $jj;
 			$hh          = ( $hh > 23 ) ? $hh - 24 : $hh;
 			$mn          = ( $mn > 59 ) ? $mn - 60 : $mn;
@@ -102,7 +103,7 @@ class SaveListingMetaData {
 			update_post_meta( $post_id, '_views', absint( $_POST['_views'] ) );
 		}
 
-		if ( ! Functions::isEnableFb() ) {
+		if ( ! FBHelper::isEnabled() ) {
 			// Category
 			if ( isset( $_POST['rtcl_category'] ) ) {
 				$cats = absint( $_POST['rtcl_category'] );
@@ -111,7 +112,7 @@ class SaveListingMetaData {
 
 			// Ad type
 			if ( isset( $_POST['ad_type'] ) ) {
-				$ad_type = sanitize_text_field( wp_unslash( $_POST['ad_type'] ) );
+				$ad_type = Functions::sanitize( $_POST['ad_type'] );
 				update_post_meta( $post_id, 'ad_type', $ad_type );
 			}
 
@@ -127,7 +128,7 @@ class SaveListingMetaData {
 
 			// Price type
 			if ( isset( $_POST['price_type'] ) ) {
-				$price_type = sanitize_text_field( wp_unslash( $_POST['price_type'] ) );
+				$price_type = Functions::sanitize( $_POST['price_type'] );
 				update_post_meta( $post_id, 'price_type', $price_type );
 			}
 
@@ -145,7 +146,7 @@ class SaveListingMetaData {
 
 			// Price unit
 			if ( isset( $_POST['_rtcl_price_unit'] ) ) {
-				$price_unit = sanitize_text_field( wp_unslash( $_POST['_rtcl_price_unit'] ) );
+				$price_unit = Functions::sanitize( $_POST['_rtcl_price_unit'] );
 				update_post_meta( $post_id, '_rtcl_price_unit', $price_unit );
 			}
 
@@ -161,7 +162,7 @@ class SaveListingMetaData {
 			}
 
 			if ( isset( $_POST['zipcode'] ) ) {
-				$zipcode = sanitize_text_field( wp_unslash( $_POST['zipcode'] ) );
+				$zipcode = Functions::sanitize( $_POST['zipcode'] );
 				update_post_meta( $post_id, 'zipcode', $zipcode );
 			}
 			if ( isset( $_POST['location'] ) || isset( $_POST['sub_location'] ) || isset( $_POST['sub_sub_location'] ) ) {
@@ -181,26 +182,26 @@ class SaveListingMetaData {
 
 			// Save location meta data
 			if ( isset( $_POST['address'] ) ) {
-				$address = esc_textarea( $_POST['address'] );
+				$address = Functions::sanitize( $_POST['address'], 'textarea' );
 				update_post_meta( $post_id, 'address', $address );
 			}
 
 			if ( isset( $_POST['phone'] ) ) {
-				$phone = sanitize_text_field( wp_unslash( $_POST['phone'] ) );
+				$phone = Functions::sanitize( $_POST['phone'] );
 				update_post_meta( $post_id, 'phone', $phone );
 			}
 
 			if ( isset( $_POST['_rtcl_whatsapp_number'] ) ) {
-				$whatsapp_number = sanitize_text_field( wp_unslash( $_POST['_rtcl_whatsapp_number'] ) );
+				$whatsapp_number = Functions::sanitize( $_POST['_rtcl_whatsapp_number'] );
 				update_post_meta( $post_id, '_rtcl_whatsapp_number', $whatsapp_number );
 			}
 
 			if ( isset( $_POST['email'] ) ) {
-				$email = sanitize_email( wp_unslash( $_POST['email'] ) );
+				$email = sanitize_email( Functions::sanitize( $_POST['email'] ) );
 				update_post_meta( $post_id, 'email', $email );
 			}
 			if ( isset( $_POST['_rtcl_telegram'] ) ) {
-				$telegram = sanitize_text_field( wp_unslash( $_POST['_rtcl_telegram'] ) );
+				$telegram = Functions::sanitize($_POST['_rtcl_telegram'] );
 				update_post_meta( $post_id, '_rtcl_telegram', $telegram );
 			}
 
@@ -209,16 +210,16 @@ class SaveListingMetaData {
 				update_post_meta( $post_id, 'website', $website );
 			}
 
-			$latitude = isset( $_POST['latitude'] ) ? sanitize_text_field( wp_unslash( $_POST['latitude'] ) ) : '';
+			$latitude = isset( $_POST['latitude'] ) ? Functions::sanitize( $_POST['latitude'] ) : '';
 			update_post_meta( $post_id, 'latitude', $latitude );
 
-			$longitude = isset( $_POST['longitude'] ) ? sanitize_text_field( wp_unslash( $_POST['longitude'] ) ) : '';
+			$longitude = isset( $_POST['longitude'] ) ? Functions::sanitize( $_POST['longitude'] ) : '';
 			update_post_meta( $post_id, 'longitude', $longitude );
 
 			$hide_map = isset( $_POST['hide_map'] ) ? 1 : 0;
 			update_post_meta( $post_id, 'hide_map', $hide_map );
 			if ( 'geo' === Functions::location_type() ) {
-				$geo_address = isset( $_POST['rtcl_geo_address'] ) ? Functions::sanitize( wp_unslash( $_POST['rtcl_geo_address'] ) ) : '';
+				$geo_address = isset( $_POST['rtcl_geo_address'] ) ? Functions::sanitize( $_POST['rtcl_geo_address'] ) : '';
 				update_post_meta( $post_id, '_rtcl_geo_address', $geo_address );
 			}
 		}

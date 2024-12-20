@@ -37,8 +37,6 @@ class AvailableFields {
 				'name'            => 'title',
 				'default_value'   => '',
 				'placeholder'     => __( 'Listing Title', 'classified-listing' ),
-				'maxlength'       => 255,
-				'minlength'       => 2,
 				'container_class' => '',
 				'label'           => __( 'Title', 'classified-listing' ),
 				'label_placement' => '',
@@ -70,7 +68,6 @@ class AvailableFields {
 				'editor_type'     => 'textarea',
 				'name'            => 'description',
 				'placeholder'     => '',
-				'maxlength'       => '',
 				'rows'            => 5,
 				'cols'            => '',
 				'container_class' => '',
@@ -104,7 +101,6 @@ class AvailableFields {
 				'preset'          => 1,
 				'name'            => 'excerpt',
 				'placeholder'     => '',
-				'maxlength'       => '',
 				'container_class' => '',
 				'label'           => __( 'Excerpt', 'classified-listing' ),
 				'label_placement' => '',
@@ -146,7 +142,7 @@ class AvailableFields {
 				'pricing_type_label' => __( 'Pricing Type', 'classified-listing' ),
 				'price_type_label'   => __( 'Price Type', 'classified-listing' ),
 				'price_unit_label'   => __( 'Price Unit', 'classified-listing' ),
-				'price_label'        => __( 'Price [$]', 'classified-listing' ),
+				'price_label'        => __( 'Price', 'classified-listing' ),
 				'help_message'       => '',
 				'validation'         => [
 					'required' => [
@@ -251,6 +247,29 @@ class AvailableFields {
 					'template'   => 'location',
 				],
 			],
+			'geo_location'        => [
+				'element'         => 'geo_location',
+				'preset'          => 1,
+				'name'            => 'geo_location',
+				'placeholder'     => '',
+				'container_class' => '',
+				'label'           => __( 'Location', 'classified-listing' ),
+				'label_placement' => '',
+				'help_message'    => '',
+				'admin_use_only'  => false,
+				'validation'      => [
+					'required' => [
+						'value'   => false,
+						'message' => __( 'This field is required', 'classified-listing' ),
+					],
+				],
+				'logics'          => '',
+				'editor'          => [
+					'title'      => __( 'Geo Location', 'classified-listing' ),
+					'icon_class' => 'rtcl-icon-location',
+					'template'   => 'geo_location',
+				],
+			],
 			'map'                 => [
 				'element'         => 'map',
 				'preset'          => 1,
@@ -275,7 +294,6 @@ class AvailableFields {
 				'preset'          => 1,
 				'type'            => 'text',
 				'name'            => 'address',
-				'maxlength'       => '',
 				'container_class' => '',
 				'label'           => __( 'Address', 'classified-listing' ),
 				'label_placement' => '',
@@ -325,7 +343,6 @@ class AvailableFields {
 				'type'            => 'tel',
 				'name'            => 'phone',
 				'placeholder'     => '',
-				'maxlength'       => '',
 				'container_class' => '',
 				'label'           => __( 'Phone', 'classified-listing' ),
 				'label_placement' => '',
@@ -351,7 +368,6 @@ class AvailableFields {
 				'type'            => 'tel',
 				'name'            => '_rtcl_whatsapp_number',
 				'placeholder'     => '',
-				'maxlength'       => '',
 				'container_class' => '',
 				'label'           => __( 'Whatsapp number', 'classified-listing' ),
 				'label_placement' => '',
@@ -377,7 +393,6 @@ class AvailableFields {
 				'name'            => 'email',
 				'default_value'   => '',
 				'placeholder'     => '',
-				'maxlength'       => '',
 				'container_class' => '',
 				'label'           => __( 'Email', 'classified-listing' ),
 				'label_placement' => '',
@@ -405,7 +420,6 @@ class AvailableFields {
 				'preset'          => 1,
 				'name'            => 'website',
 				'placeholder'     => '',
-				'maxlength'       => '',
 				'container_class' => '',
 				'label'           => __( 'Website', 'classified-listing' ),
 				'label_placement' => '',
@@ -486,7 +500,6 @@ class AvailableFields {
 				'element'         => 'video_urls',
 				'preset'          => 1,
 				'name'            => '_rtcl_video_urls',
-				'maxlength'       => '',
 				'container_class' => '',
 				'label'           => __( 'Video Url', 'classified-listing' ),
 				'label_placement' => '',
@@ -579,7 +592,6 @@ class AvailableFields {
 				'name'            => 'custom_text',
 				'default_value'   => '',
 				'id'              => '',
-				'maxlength'       => '',
 				'container_class' => '',
 				'label'           => __( 'Text Input', 'classified-listing' ),
 				'label_placement' => '',
@@ -611,7 +623,6 @@ class AvailableFields {
 				'placeholder'     => '',
 				'rows'            => 5,
 				'cols'            => 2,
-				'maxlength'       => '',
 				'container_class' => '',
 				'label'           => __( 'Textarea', 'classified-listing' ),
 				'label_placement' => '',
@@ -659,15 +670,15 @@ class AvailableFields {
 					],
 					'min'      => [
 						'value'   => '',
-						'message' => __( 'Minimum value is ', 'classified-listing' ),
+						'message' => __( 'Minimum value is {value}', 'classified-listing' ),
 					],
 					'max'      => [
 						'value'   => '',
-						'message' => __( 'Maximum value is ', 'classified-listing' ),
+						'message' => __( 'Maximum value is  {value}', 'classified-listing' ),
 					],
 					'digits'   => [
 						'value'   => '',
-						'message' => __( 'The number of digits has to be ', 'classified-listing' ),
+						'message' => __( 'The number of digits has to be {value}', 'classified-listing' ),
 					],
 				],
 				'logics'            => '',
@@ -913,12 +924,12 @@ class AvailableFields {
 			],
 			'file'                => [
 				'element'         => 'file',
-				'name'            => 'custom_file',
+				'name'            => 'file',
 				'container_class' => '',
 				'id'              => '',
 				'label'           => __( 'File Upload', 'classified-listing' ),
 				'label_placement' => '',
-				'btn_text'        => 'Choose File',
+				'btn_text'        => __( 'Choose File', 'classified-listing' ),
 				'help_message'    => '',
 				'file_location'   => 'default',
 				'single_view'     => true,
@@ -938,7 +949,7 @@ class AvailableFields {
 						'message' => __( 'You can upload maximum {value} file', 'classified-listing' ),
 					],
 					'allowed_file_types' => [
-						'value'   => [ 'jpg|jpeg|png|webp|gif|bmp' ],
+						'value'   => [ 'jpg|jpeg|webp|png|gif|bmp' ],
 						'message' => __( 'Invalid file type', 'classified-listing' ),
 					],
 				],
@@ -979,14 +990,26 @@ class AvailableFields {
 
 		if ( Functions::location_type() !== 'local' ) {
 			unset( $fields['location'] );
+			unset( $fields['zipcode'] );
+			unset( $fields['address'] );
+		} else {
+			unset( $fields['geo_location'] );
 		}
 
 		return apply_filters( 'rtcl_fb_fields', $fields );
 	}
 
+	/**
+	 * @return string[]
+	 */
+	public static function getFieldElements() {
+		return array_keys( self::get() );
+	}
+
 	public static function settings() {
+
 		$fields = [
-			'icon' => [
+			'icon'            => [
 				'name'    => 'icon',
 				'type'    => 'icon',
 				'label'   => __( 'Icon Type', 'classified-listing' ),
@@ -1000,6 +1023,16 @@ class AvailableFields {
 						'label' => __( 'Icon', 'classified-listing' ),
 					]
 				]
+			],
+			'submit_btn_text' => [
+				'type'    => 'text',
+				'label'   => __( 'Submit button text', 'classified-listing' ),
+				'default' => __( 'Submit', 'classified-listing' ),
+			],
+			'update_btn_text' => [
+				'type'    => 'text',
+				'label'   => __( 'Update button text', 'classified-listing' ),
+				'default' => __( 'Update', 'classified-listing' ),
 			],
 			// 'form_type' => [
 			// 'type'    => 'radio',

@@ -126,6 +126,8 @@ class Link {
 			}
 			$url = trailingslashit( $permalink );
 			if ( $endpoint ) {
+				// Translate Wp endpoints for url 
+				$endpoint = __($endpoint, 'WP Endpoints');
 				$url .= trailingslashit( $endpoint );
 			}
 

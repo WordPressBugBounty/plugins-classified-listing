@@ -348,8 +348,8 @@ class ListingSearch
 	{
 		$settings = $attributes;
 
-		$search_style       = isset($settings['search_style']) ? $settings['search_style'] : 'dependency';
-		$search_oriantation = !empty($settings['search_oriantation']) ? $settings['search_oriantation'] : 'inline';
+		$search_style       = !empty($settings['search_style']) && in_array($settings['search_style'], ['dependency', 'popup', 'suggestion', 'standard']) ? $settings['search_style'] : 'dependency';
+		$search_oriantation = !empty($settings['search_oriantation']) && 'vertical' === $settings['search_oriantation'] ? 'vertical'  : 'inline';
 
 		$template_style = 'block/listing-search/search';
 

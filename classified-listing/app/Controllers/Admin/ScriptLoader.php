@@ -11,6 +11,7 @@ use Rtcl\Services\FormBuilder\AvailableFields;
 use Rtcl\Services\FormBuilder\EditorShortCode;
 use Rtcl\Services\FormBuilder\ElementCustomization;
 use Rtcl\Services\FormBuilder\FBHelper;
+use Rtcl\Services\FormBuilder\LocalizedString;
 use Rtcl\Services\FormBuilder\ValidationRuleSettings;
 
 /**
@@ -45,14 +46,14 @@ class ScriptLoader {
 		add_action( 'wp_enqueue_scripts', [ $this, 'register_script' ], 1 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'frontend_script' ], 999 );
 		add_action( 'admin_init', [ $this, 'register_admin_script' ], 1 );
-		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_post_type_listing' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_payment' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_pricing' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_setting_page' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_report_page' ], 99 );
-		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_listing_types_page' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_ie_page' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_export_import_page' ], 99 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_extension_page' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_post_type_listing' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_listing_types_page' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_page_custom_fields' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_taxonomy' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_script_at_widget_settings' ] );
@@ -149,6 +150,10 @@ class ScriptLoader {
 			]
 		);
 		wp_register_style( 'rtcl-form-builder', rtcl()->get_assets_uri( 'form-builder/public.css' ), '', $this->version );
+		wp_register_style(
+			'fontawesome',
+			apply_filters( 'rtcl_fontawesome_css_source', rtcl()->get_assets_uri( 'vendor/fontawesome/css/all.min.css' ) ), '', '6.7.1'
+		);
 
 		if ( Functions::has_map() ) {
 			$map_type = Functions::get_map_type();
@@ -170,7 +175,7 @@ class ScriptLoader {
 				wp_register_script( 'rtcl-map', rtcl()->get_assets_uri( 'js/osm-map.js' ), [ 'jquery' ], $this->version, true );
 			}
 
-			wp_localize_script( 'rtcl-map', 'rtcl_map', $this->get_map_localized_options() );
+			wp_localize_script( 'rtcl-map', 'rtcl_map', Functions::get_map_localized_options() );
 		}
 		wp_localize_script(
 			'rtcl-gallery',
@@ -281,6 +286,7 @@ class ScriptLoader {
 
 	function localization_both_end() {
 		global $pagenow, $post_type, $post;
+
 		if ( Functions::is_listing_form_page()
 		     || ( is_admin()
 		          && in_array(
@@ -293,7 +299,7 @@ class ScriptLoader {
 		          && rtcl()->post_type === $post_type )
 		) {
 			if ( is_admin() ) {
-				$raw_listing_id = $post->ID;
+				$raw_listing_id = $post->ID ?? 0;
 			} else {
 				$raw_listing_id = 'edit' == get_query_var( 'rtcl_action' ) ? absint( get_query_var( 'rtcl_listing_id', 0 ) ) : 0;
 			}
@@ -345,10 +351,7 @@ class ScriptLoader {
 					'ajaxurl'    => $this->ajaxurl,
 					'nonceId'    => rtcl()->nonceId,
 					'nonce'      => wp_create_nonce( rtcl()->nonceText ),
-					'message'    => [
-						'ad_type'    => esc_html__( 'Please select ad type first', 'classified-listing' ),
-						'parent_cat' => esc_html__( 'Please select parent category first', 'classified-listing' ),
-					],
+					'i18n'       => LocalizedString::public(),
 				]
 			);
 			wp_enqueue_editor();
@@ -433,6 +436,7 @@ class ScriptLoader {
 			wp_enqueue_style( 'rtcl-bootstrap' );
 		}
 		wp_enqueue_style( 'rtcl-public' );
+		wp_enqueue_style( 'fontawesome' );
 
 		$validator_script = false;
 		global $wp;
@@ -459,7 +463,7 @@ class ScriptLoader {
 			wp_enqueue_script( 'select2' );
 			wp_enqueue_script( 'rt-field-dependency' );
 			wp_enqueue_editor();
-			if ( Functions::isEnableFb() ) {
+			if ( FBHelper::isEnabled() ) {
 				wp_enqueue_script( 'rtcl-form-builder' );
 				wp_enqueue_style( 'rtcl-form-builder' );
 			} else {
@@ -887,7 +891,7 @@ class ScriptLoader {
 	}
 
 	function load_admin_script_setting_page() {
-		if ( ! empty( $_GET['post_type'] ) && $_GET['post_type'] == rtcl()->post_type && ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-settings' ) {
+		if ( ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-settings' ) {
 			wp_enqueue_media();
 			wp_enqueue_style( 'rtcl-admin' );
 			wp_enqueue_script( 'rt-field-dependency' );
@@ -906,17 +910,25 @@ class ScriptLoader {
 		}
 	}
 
-	function load_admin_script_report_page() {
-		if ( ! empty( $_GET['post_type'] ) && $_GET['post_type'] == rtcl()->post_type && ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-reports' ) {
+	public function load_admin_script_report_page() {
+		if ( ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-admin' ) {
 			wp_enqueue_style( 'rtcl-admin' );
+			wp_enqueue_script( 'rtcl-admin' );
 			wp_enqueue_script( 'rtcl-chart' );
 			wp_enqueue_script( 'daterangepicker' );
-			wp_enqueue_script( 'rtcl-admin' );
 			wp_enqueue_script( 'rtcl-chart-config' );
 		}
 	}
 
-	function load_admin_script_listing_types_page() {
+	public function load_admin_script_export_import_page() {
+		if ( ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-import-export' ) {
+			wp_enqueue_style( 'rtcl-admin' );
+			wp_enqueue_script( 'rtcl-admin' );
+			wp_enqueue_script( 'rtcl-admin-ie' );
+		}
+	}
+
+	public function load_admin_script_listing_types_page() {
 		if ( ! empty( $_GET['post_type'] ) && $_GET['post_type'] == rtcl()->post_type && ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-listing-type' ) {
 			wp_enqueue_style( 'rtcl-bootstrap' );
 			wp_enqueue_style( 'rtcl-admin' );
@@ -936,51 +948,24 @@ class ScriptLoader {
 		}
 	}
 
-	function load_admin_script_ie_page() {
-		if ( ! empty( $_GET['post_type'] ) && $_GET['post_type'] == rtcl()->post_type && ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-import-export' ) {
-			wp_enqueue_style( 'rtcl-bootstrap' );
-			wp_enqueue_style( 'rtcl-admin' );
-			wp_enqueue_script(
-				'rtcl-xlsx',
-				rtcl()->get_assets_uri( 'vendor/xlsx.full.min.js' ),
-				[ 'jquery' ],
-				$this->version,
-				true
-			);
-			wp_enqueue_script(
-				'rtcl-xml2json',
-				rtcl()->get_assets_uri( 'vendor/xml2json.min.js' ),
-				[ 'jquery' ],
-				$this->version,
-				true
-			);
-			wp_enqueue_script( 'rtcl-admin-ie' );
-			wp_localize_script(
-				'rtcl-admin-ie',
-				'rtcl',
-				[
-					'ajaxurl'       => $this->ajaxurl,
-					rtcl()->nonceId => wp_create_nonce( rtcl()->nonceText ),
-				]
-			);
-		}
-	}
-
 	function load_admin_script_extension_page() {
-		if ( ! empty( $_GET['post_type'] ) && $_GET['post_type'] == rtcl()->post_type && ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-extension' ) {
+		if ( ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-extension' ) {
 			wp_enqueue_style( 'rtcl-admin' );
 		}
 	}
 
 	function load_admin_script_post_type_listing() {
 		global $pagenow, $post_type;
+
 		// validate page
 		if ( ! in_array( $pagenow, [ 'post.php', 'post-new.php', 'edit.php' ] ) ) {
 			return;
 		}
+
 		if ( rtcl()->post_type != $post_type ) {
 			return;
 		}
+
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery-ui-core' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
@@ -994,47 +979,54 @@ class ScriptLoader {
 		wp_enqueue_script( 'rtcl-gallery' );
 		wp_enqueue_script( 'plupload-all' );
 		wp_enqueue_script( 'suggest' );
+
 		wp_enqueue_style( 'jquery-ui' );
 		wp_enqueue_style( 'wp-jquery-ui-dialog' );
 		wp_enqueue_style( 'rtcl-bootstrap' );
 		wp_enqueue_style( 'rtcl-admin' );
+
 		if ( Functions::has_map() ) {
 			wp_enqueue_script( 'rtcl-map' );
 		}
-		if ( in_array( $pagenow, [ 'post.php', 'post-new.php' ] ) && Functions::isEnableFb() ) {
+
+		if ( FBHelper::isEnabled() ) {
 			$this->localization_both_end();
 			wp_enqueue_script( 'rtcl-form-builder' );
 			wp_enqueue_style( 'rtcl-form-builder' );
 		}
 	}
 
-	function load_admin_script_payment() {
+	public function load_admin_script_payment() {
 		global $pagenow, $post_type;
+
 		// validate page
 		if ( ! in_array( $pagenow, [ 'post.php', 'post-new.php', 'edit.php' ] ) ) {
 			return;
 		}
+
 		if ( rtcl()->post_type_payment != $post_type ) {
 			return;
 		}
-		wp_enqueue_script( 'jquery' );
+
 		wp_enqueue_style( 'rtcl-admin' );
+
 		wp_enqueue_script( 'rtcl-validator' );
 		wp_enqueue_script( 'select2' );
 		wp_enqueue_script( 'rtcl-admin' );
 	}
 
-	function load_admin_script_pricing() {
+	public function load_admin_script_pricing() {
 		global $pagenow, $post_type;
+
 		// validate page
 		if ( ! in_array( $pagenow, [ 'post.php', 'post-new.php', 'edit.php' ] ) ) {
 			return;
 		}
+
 		if ( rtcl()->post_type_pricing != $post_type ) {
 			return;
 		}
 
-		wp_enqueue_style( 'rtcl-bootstrap' );
 		wp_enqueue_style( 'rtcl-admin' );
 
 		wp_enqueue_script( 'select2' );
@@ -1042,19 +1034,23 @@ class ScriptLoader {
 		wp_enqueue_script( 'rtcl-admin' );
 	}
 
-	function load_admin_script_taxonomy() {
+	public function load_admin_script_taxonomy() {
 		global $pagenow, $post_type;
+
 		// validate page
 		if ( ! in_array( $pagenow, [ 'term.php', 'edit-tags.php' ] ) ) {
 			return;
 		}
+
 		if ( rtcl()->post_type != $post_type ) {
 			return;
 		}
+
 		wp_enqueue_media();
 		wp_enqueue_style( 'rtcl-admin' );
 		wp_enqueue_script( 'select2' );
 		wp_enqueue_script( 'rtcl-admin-taxonomy' );
+		wp_enqueue_style( 'fontawesome' );
 	}
 
 	/**
@@ -1062,10 +1058,11 @@ class ScriptLoader {
 	 *
 	 * @param string $hook
 	 */
-	function load_script_at_widget_settings( $hook ) {
+	public function load_script_at_widget_settings( $hook ) {
 		if ( 'widgets.php' !== $hook ) {
 			return;
 		}
+
 		wp_enqueue_style( 'rtcl-admin' );
 		wp_enqueue_script( 'rtcl-admin-widget' );
 	}
@@ -1073,10 +1070,12 @@ class ScriptLoader {
 	/**
 	 * @param String $hook
 	 */
-	function load_script_at_form_builder( $hook ) {
-		if ( 'rtcl_listing_page_rtcl-fb' !== $hook ) {
+	public function load_script_at_form_builder( $hook ) {
+
+		if ( 'classified-listing_page_rtcl-fb' !== $hook ) {
 			return;
 		}
+
 		$formBuilderLocalize = [
 			'ajaxurl'       => $this->ajaxurl,
 			'pluginUrl'     => RTCL_URL,
@@ -1094,10 +1093,13 @@ class ScriptLoader {
 			'options'       => $this->get_fb_settings_options( true ),
 			'validation'    => ValidationRuleSettings::get(),
 			'fields'        => AvailableFields::get(),
+			'i18n'          => LocalizedString::admin(),
 		];
+
 		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
 			wp_dequeue_style( 'wpml-ate-jobs-sync-ui' );
 		}
+
 		wp_enqueue_editor();
 		wp_localize_script( 'rtcl-fb-admin', 'rtclFB', apply_filters( 'rtcl_localize_fb_admin_params', $formBuilderLocalize ) );
 		wp_enqueue_style( 'rtcl-fb-admin' );
@@ -1107,15 +1109,33 @@ class ScriptLoader {
 	/**
 	 * @param String $hook
 	 */
-	function load_script_at_filter_builder( $hook ) {
+	public function load_script_at_filter_builder( $hook ) {
 
-		if ( 'rtcl_listing_page_ajax-filter' !== $hook ) {
+		if ( 'classified-listing_page_rtcl-ajax-filter' !== $hook ) {
 			return;
 		}
+
+		$rawForms = Form::query()
+		                ->where( 'status', 'publish' )
+		                ->order_by( 'created_at', 'DESC' )
+		                ->get();
+		$forms    = [];
+		if ( ! empty( $rawForms ) ) {
+			foreach ( $rawForms as $raw_form ) {
+				$_form = apply_filters( 'rtcl_fb_form', $raw_form );
+				if ( is_a( $_form, Form::class ) ) {
+					$forms[] = $_form->toArray();
+				}
+			}
+		}
+
+		$forms = apply_filters( 'rtcl_fb_forms', $forms );
+
 		$rtclObj = [
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'filters' => Functions::get_option( 'rtcl_filter_settings' ),
 			'items'   => Options::filterFormItems(),
+			'forms'   => $forms,
 			'nonce'   => wp_create_nonce( rtcl()->nonceText )
 		];
 		wp_enqueue_script( 'rtcl-ajax-filter-admin' );
@@ -1172,47 +1192,10 @@ class ScriptLoader {
 
 	/**
 	 * @return mixed|void
+	 * @deprecated 3.1.9 Use Functions::get_map_localized_options()
 	 */
 	public function get_map_localized_options() {
-		$misc_settings = Functions::get_option( 'rtcl_misc_settings' );
-		$center_point  = Functions::get_option_item( 'rtcl_misc_settings', 'map_center' );
-		$center_point  = ! empty( $center_point ) && is_array( $center_point )
-			? wp_parse_args(
-				$center_point,
-				[
-					'address' => '',
-					'lat'     => 0,
-					'lng'     => 0,
-				]
-			)
-			: [
-				'address' => '',
-				'lat'     => 0,
-				'lng'     => 0,
-			];
-
-		return apply_filters(
-			'rtcl_map_localized_options',
-			[
-				'plugin_url'      => RTCL_URL,
-				'location'        => Functions::location_type(),
-				'center'          => apply_filters( 'rtcl_map_default_center_latLng', $center_point ),
-				'zoom'            => [
-					'default' => ! empty( $misc_settings['map_zoom_level'] ) ? absint( $misc_settings['map_zoom_level'] ) : 16,
-					'search'  => 17,
-				],
-				'cluster_options' => [
-					'center'       => [
-						'lat' => 0,
-						'lng' => 0,
-					],
-					'max_zoom'     => 18,
-					'zoom'         => 3,
-					'scroll_wheel' => false,
-					'fit_bound'    => true,
-				],
-			]
-		);
+		return Functions::get_map_localized_options();
 	}
 
 	/**
@@ -1235,11 +1218,7 @@ class ScriptLoader {
 				'version'  => Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_version', 2 ),
 				'site_key' => Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_site_key' ),
 			],
-			'map'             => [
-				                     'enable'  => Functions::is_enable_map(),
-				                     'type'    => Functions::get_map_type(),
-				                     'api_key' => Functions::get_option_item( 'rtcl_misc_settings', 'map_api_key' ),
-			                     ] + $this->get_map_localized_options(),
+			'map'             => Functions::get_map_localized_options(),
 		];
 
 		if ( $admin ) {

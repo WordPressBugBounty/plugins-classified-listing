@@ -911,14 +911,14 @@ class ListingAds
 
 		$settings  = $attributes;
 		$the_loops = ListingsAjaxController::rtcl_gb_listings_query($settings);
-		$view = isset($settings['col_style']['style']) ? $settings['col_style']['style'] : 'list';
+		$view = !empty($settings['col_style']['style']) && in_array($settings['col_style']['style'], ['grid', 'list']) ? $settings['col_style']['style'] : 'list';
 
 		$style = '1';
 		if ('list' === $view) {
-			$style = isset($settings['col_style']['style_list']) ? $settings['col_style']['style_list'] : '1';
+			$style = !empty($settings['col_style']['style_list']) && in_array($settings['col_style']['style_list'], ['1', '2', '3', '4', '5']) ? $settings['col_style']['style_list'] : '1';
 		}
 		if ('grid' === $view) {
-			$style = isset($settings['col_style']['style_grid']) ? $settings['col_style']['style_grid'] : '1';
+			$style = !empty($settings['col_style']['style_grid']) && in_array($settings['col_style']['style_grid'], ['1', '2', '3', '4', '5']) ? $settings['col_style']['style_grid'] : '1';
 		}
 		$data = array(
 			'template'              => 'block/listing-ads/' . $view . '/style-' . $style,

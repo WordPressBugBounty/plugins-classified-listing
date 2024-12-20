@@ -10,6 +10,7 @@ class Ajax {
 		new AjaxCFG();
 		new PublicUser();
 		new Import();
+		new Export();
 		new AjaxListingType();
 		InlineSearchAjax::init();
 		FilterAjax::init();

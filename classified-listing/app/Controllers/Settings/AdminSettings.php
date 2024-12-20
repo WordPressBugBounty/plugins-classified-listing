@@ -6,6 +6,7 @@ use Rtcl\Helpers\Functions;
 use Rtcl\Helpers\Link;
 use Rtcl\Models\RtclEmail;
 use Rtcl\Models\SettingsAPI;
+use Rtcl\Services\FormBuilder\FBHelper;
 use Rtcl\Services\MaxMindDatabaseService;
 
 class AdminSettings extends SettingsAPI {
@@ -30,13 +31,14 @@ class AdminSettings extends SettingsAPI {
 		$this->classMap = apply_filters( 'rtcl_settings_classMap', $this->classMap );
 		add_action( 'admin_init', [ $this, 'setTabs' ] );
 		add_action( 'admin_init', [ $this, 'save' ] );
-		add_action( 'admin_menu', [ $this, 'add_listing_types_menu' ], 1 );
-		add_action( 'admin_menu', [ $this, 'add_form_builder_menu' ], 40 );
-		add_action( 'admin_menu', [ $this, 'add_filter_menu' ], 41 );
+		add_action( 'admin_menu', [ $this, 'add_main_menu' ] );
+		add_action( 'admin_menu', [ $this, 'add_payment_menu' ], 15 );
+		add_action( 'admin_menu', [ $this, 'add_form_builder_menu' ] );
+		add_action( 'admin_menu', [ $this, 'add_filter_menu' ] );
 		add_action( 'admin_menu', [ $this, 'add_settings_menu' ], 50 );
 		add_action( 'admin_menu', [ $this, 'add_import_menu' ], 60 );
-		add_action( 'admin_menu', [ $this, 'add_reports_menu' ], 70 );
 		add_action( 'admin_menu', [ $this, 'add_addons_themes__menu' ], 99 );
+		add_action( 'admin_menu', [ $this, 'add_listing_types_menu' ], 1 );
 		add_action( 'admin_init', [ $this, 'preview_emails' ] );
 		add_action( 'admin_init', [ $this, 'generate_rest_api_key' ] );
 		add_action( 'rtcl_admin_settings_groups', [ $this, 'setup_settings' ] );
@@ -47,6 +49,10 @@ class AdminSettings extends SettingsAPI {
 		if ( apply_filters( 'rtcl_settings_link_on_admin_bar', true ) ) {
 			add_action( 'wp_before_admin_bar_render', [ $this, 'add_admin_bar' ], 999 );
 		}
+		add_filter( 'parent_file', [ $this, 'fix_post_type_menu_new_edit_highlight' ] );
+		// Custom column in user table
+		add_action( 'manage_users_columns', [ $this, 'register_user_ad_count_column' ], 9 );
+		add_action( 'manage_users_custom_column', [ $this, 'register_user_ad_count_column_view' ], 10, 3 );
 
 		add_action( 'in_admin_header',
 			function () {
@@ -63,6 +69,49 @@ class AdminSettings extends SettingsAPI {
 					remove_all_actions( 'all_admin_notices' );
 				}
 			}, 1000 );
+	}
+
+	public function fix_post_type_menu_new_edit_highlight( $parent_file ) {
+		global $submenu_file, $current_screen;
+
+		if ( $current_screen->post_type == rtcl()->post_type_pricing ) {
+			$submenu_file = 'edit.php?post_type=' . rtcl()->post_type_pricing;
+			$parent_file  = 'rtcl-admin';
+		}
+
+		if ( $current_screen->post_type == rtcl()->post_type_payment ) {
+			$submenu_file = 'edit.php?post_type=' . rtcl()->post_type_payment;
+			$parent_file  = 'rtcl-admin';
+		}
+
+		return $parent_file;
+	}
+
+	function register_user_ad_count_column( $columns ) {
+		$columns['rtcl_user_ad_count'] = apply_filters( 'rtcl_user_ac_count_column_title', esc_html__( 'Listings', 'classified-listing' ) );
+
+		return $columns;
+	}
+
+	function register_user_ad_count_column_view( $value, $column_name, $user_id ) {
+
+		if ( $column_name == 'rtcl_user_ad_count' ) {
+			$value = count_user_posts( $user_id, rtcl()->post_type );
+			if ( $value ) {
+				$value = sprintf(
+					'<a href="%s" class="edit"><span aria-hidden="true">%s</span><span class="screen-reader-text">%s</span></a>',
+					"edit.php?post_type=rtcl_listing",
+					$value,
+					sprintf(
+					/* translators: Hidden accessibility text. %s: Number of posts. */
+						_n( '%s listing by this author', '%s posts by this author', $value ),
+						number_format_i18n( $value )
+					)
+				);
+			}
+		}
+
+		return $value;
 	}
 
 	/**
@@ -145,20 +194,21 @@ class AdminSettings extends SettingsAPI {
 		];
 
 		$wp_admin_bar->add_menu( $listing_types_args );
+		if ( ! FBHelper::isEnabled() ) {
+			$cfg_args = [
+				'id'     => rtcl()->post_type . "-custom-fields",
+				'title'  => esc_html__( 'Custom Fields', 'classified-listing' ),
+				'href'   => add_query_arg( [
+					'post_type' => rtcl()->post_type_cfg
+				], admin_url( 'edit.php' ) ),
+				'parent' => rtcl()->post_type,
+				'meta'   => [
+					'class' => sprintf( '%s-admin-toolbar-custom-fields', rtcl()->post_type )
+				]
+			];
 
-		$cfg_args = [
-			'id'     => rtcl()->post_type . "-custom-fields",
-			'title'  => esc_html__( 'Custom Fields', 'classified-listing' ),
-			'href'   => add_query_arg( [
-				'post_type' => rtcl()->post_type_cfg
-			], admin_url( 'edit.php' ) ),
-			'parent' => rtcl()->post_type,
-			'meta'   => [
-				'class' => sprintf( '%s-admin-toolbar-custom-fields', rtcl()->post_type )
-			]
-		];
-
-		$wp_admin_bar->add_menu( $cfg_args );
+			$wp_admin_bar->add_menu( $cfg_args );
+		}
 
 		$pricing_args = [
 			'id'     => rtcl()->post_type . "-pricing",
@@ -192,9 +242,8 @@ class AdminSettings extends SettingsAPI {
 			'id'     => rtcl()->post_type . "-settings",
 			'title'  => esc_html__( 'Settings', 'classified-listing' ),
 			'href'   => add_query_arg( [
-				'post_type' => rtcl()->post_type,
-				'page'      => 'rtcl-settings'
-			], admin_url( 'edit.php' ) ),
+				'page' => 'rtcl-settings'
+			], admin_url( 'admin.php' ) ),
 			'parent' => rtcl()->post_type,
 			'meta'   => [
 				'class' => sprintf( '%s-admin-toolbar-settings', rtcl()->post_type )
@@ -221,6 +270,65 @@ class AdminSettings extends SettingsAPI {
 		do_action( 'rtcl_admin_bar_menu', $wp_admin_bar, rtcl()->post_type );
 	}
 
+	public function add_main_menu() {
+		add_menu_page(
+			__( 'Classified Listing', 'classified-listing' ),
+			__( 'Classified Listing', 'classified-listing' ),
+			'manage_rtcl_reports',
+			'rtcl-admin',
+			[ $this, 'display_reports' ],
+			RTCL_URL . '/assets/images/icon-20x20.png',
+			5
+		);
+		add_submenu_page(
+			'rtcl-admin',
+			__( 'Home', 'classified-listing' ),
+			__( 'Home', 'classified-listing' ),
+			'manage_rtcl_reports',
+			'rtcl-admin',
+			[ $this, 'display_reports' ],
+			1
+		);
+	}
+
+	public function add_payment_menu() {
+		add_submenu_page(
+			'rtcl-admin',
+			__( 'Payment History', 'classified-listing' ),
+			__( 'Payment History', 'classified-listing' ),
+			'manage_options',
+			'edit.php?post_type=' . rtcl()->post_type_payment,
+		);
+		add_submenu_page(
+			'rtcl-admin',
+			__( 'Pricing', 'classified-listing' ),
+			__( 'Pricing', 'classified-listing' ),
+			'manage_options',
+			'edit.php?post_type=' . rtcl()->post_type_pricing,
+		);
+	}
+
+	public function add_import_menu() {
+		add_submenu_page(
+			'rtcl-admin',
+			__( 'Export / Import', 'classified-listing' ),
+			__( 'Export / Import', 'classified-listing' ),
+			'manage_rtcl_reports',
+			'rtcl-import-export',
+			[ $this, 'display_import_export' ]
+		);
+	}
+
+	public function add_addons_themes__menu() {
+		add_submenu_page(
+			'rtcl-admin',
+			__( 'Get Extensions', 'classified-listing' ),
+			__( '<span>Themes & Addons</span>', 'classified-listing' ),
+			'manage_options',
+			'rtcl-extension',
+			[ $this, 'display_extension_view' ]
+		);
+	}
 
 	public function add_listing_types_menu() {
 		add_submenu_page(
@@ -233,43 +341,10 @@ class AdminSettings extends SettingsAPI {
 		);
 	}
 
-	public function add_import_menu() {
-		add_submenu_page(
-			'edit.php?post_type=' . rtcl()->post_type,
-			__( 'Import', 'classified-listing' ),
-			__( 'Import', 'classified-listing' ),
-			'manage_rtcl_reports',
-			'rtcl-import-export',
-			[ $this, 'display_import_export' ]
-		);
-	}
-
-	public function add_reports_menu() {
-		add_submenu_page(
-			'edit.php?post_type=' . rtcl()->post_type,
-			__( 'Reports', 'classified-listing' ),
-			__( 'Reports', 'classified-listing' ),
-			'manage_rtcl_reports',
-			'rtcl-reports',
-			[ $this, 'display_reports' ]
-		);
-	}
-
-	public function add_addons_themes__menu() {
-		add_submenu_page(
-			'edit.php?post_type=' . rtcl()->post_type,
-			__( 'Get Extensions', 'classified-listing' ),
-			__( '<span>Themes & Addons</span>', 'classified-listing' ),
-			'manage_options',
-			'rtcl-extension',
-			[ $this, 'display_extension_view' ]
-		);
-	}
-
 	public function add_form_builder_menu() {
 
 		add_submenu_page(
-			'edit.php?post_type=' . rtcl()->post_type,
+			'rtcl-admin',
 			__( 'Form Builder', 'classified-listing' ),
 			__( 'Form Builder', 'classified-listing' ),
 			'manage_rtcl_options',
@@ -281,11 +356,11 @@ class AdminSettings extends SettingsAPI {
 
 	public function add_filter_menu() {
 		add_submenu_page(
-			'edit.php?post_type=' . rtcl()->post_type,
+			'rtcl-admin',
 			__( 'Ajax Filter Builder', 'classified-listing' ),
 			__( 'Ajax Filter Builder', 'classified-listing' ),
 			'manage_rtcl_options',
-			'ajax-filter',
+			'rtcl-ajax-filter',
 			[ $this, 'display_ajax_filter' ]
 		);
 
@@ -294,7 +369,7 @@ class AdminSettings extends SettingsAPI {
 	public function add_settings_menu() {
 
 		add_submenu_page(
-			'edit.php?post_type=' . rtcl()->post_type,
+			'rtcl-admin',
 			__( 'Settings', 'classified-listing' ),
 			__( 'Settings', 'classified-listing' ),
 			'manage_rtcl_options',
@@ -310,7 +385,7 @@ class AdminSettings extends SettingsAPI {
 
 	function display_form_builder() {
 		?>
-		<div class="wrap" id="rtcl-fba-wrap"></div><?php
+		<div id="rtcl-fba-wrap"></div><?php
 	}
 
 	function display_ajax_filter() {
@@ -458,10 +533,8 @@ class AdminSettings extends SettingsAPI {
 
 	public function save() {
 		if ( 'POST' !== $_SERVER['REQUEST_METHOD']
-			 || ! isset( $_REQUEST['post_type'] )
 			 || ! isset( $_REQUEST['page'] )
-			 || ( isset( $_REQUEST['post_type'] ) && rtcl()->post_type !== $_REQUEST['post_type'] )
-			 || ( isset( $_REQUEST['rtcl_settings'] ) && 'rtcl_settings' !== $_REQUEST['rtcl_settings'] )
+			 || ( isset( $_REQUEST['page'] ) && 'rtcl-settings' !== $_REQUEST['page'] )
 		) {
 			return;
 		}
@@ -567,16 +640,17 @@ class AdminSettings extends SettingsAPI {
 
 	public static function generate_rest_api_key() {
 		if ( isset( $_GET['rtcl_generate_rest_api_key'] ) ) {
-			if ( ! ( isset( $_REQUEST['_wpnonce'] )
-					 && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'rtcl_generate_rest_api_key' ) )
+			if ( ! isset( $_REQUEST['_wpnonce'] )
+				 || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'rtcl_generate_rest_api_key' )
 			) {
 				Functions::add_notice( __( "You are not allow to make this request.", "classified-listing" ), 'error' );
 			} else {
-				$apikey = get_option( 'rtcl_rest_api_key', null );
-				if ( $apikey && wp_is_uuid( $apikey ) ) {
-					Functions::add_notice( __( "Your Rest API key already generated", "classified-listing" ), 'error' );
+				$oldApikey = get_option( 'rtcl_rest_api_key', null );
+				update_option( 'rtcl_rest_api_key', wp_generate_uuid4() );
+				if ( $oldApikey ) {
+					Functions::add_notice( __( "Your Rest API key is regenerated.", "classified-listing" ) );
 				} else {
-					update_option( 'rtcl_rest_api_key', wp_generate_uuid4() );
+					Functions::add_notice( __( "Your Rest API key is generated.", "classified-listing" ) );
 				}
 			}
 			wp_safe_redirect( admin_url( 'edit.php?post_type=' . rtcl()->post_type . '&page=rtcl-settings&tab=tools' ) );
@@ -601,20 +675,20 @@ class AdminSettings extends SettingsAPI {
 	public static function save_tax_options() {
 		global $wpdb;
 
-		$countries    = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_country'] ?? array() );
-		$states       = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_state'] ?? array() );
-		$postcodes    = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_postcode'] ?? array() );
-		$cities       = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_city'] ?? array() );
-		$rates        = array_map( 'floatval', $_POST['rtcl_tax_rate'] ?? array() );
-		$tax_name     = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_name'] ?? array() );
-		$tax_priority = array_map( 'intval', $_POST['rtcl_tax_rate_priority'] ?? array() );
+		$countries    = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_country'] ?? [] );
+		$states       = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_state'] ?? [] );
+		$postcodes    = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_postcode'] ?? [] );
+		$cities       = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_city'] ?? [] );
+		$rates        = array_map( 'floatval', $_POST['rtcl_tax_rate'] ?? [] );
+		$tax_name     = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_name'] ?? [] );
+		$tax_priority = array_map( 'intval', $_POST['rtcl_tax_rate_priority'] ?? [] );
 
-		$rows_to_insert = array();
+		$rows_to_insert = [];
 		$param_types    = '%s, %s, %s, %s, %f, %s, %d';
 
 		if ( ! empty( $countries ) ) {
 			for ( $i = 0; $i < count( $countries ); $i ++ ) {
-				$rows_to_insert[] = array(
+				$rows_to_insert[] = [
 					$countries[ $i ],
 					$states[ $i ] ?? '',
 					$cities[ $i ] ?? '',
@@ -622,7 +696,7 @@ class AdminSettings extends SettingsAPI {
 					$rates[ $i ],
 					$tax_name[ $i ],
 					$tax_priority[ $i ] ?? '1'
-				);
+				];
 			}
 		}
 
@@ -635,7 +709,7 @@ class AdminSettings extends SettingsAPI {
 		$placeholders = array_fill( 0, count( $rows_to_insert ), "($param_types)" );
 		$query        .= implode( ', ', $placeholders );
 
-		$values = array();
+		$values = [];
 		foreach ( $rows_to_insert as $row ) {
 			$values = array_merge( $values, $row );
 		}

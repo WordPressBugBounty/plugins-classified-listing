@@ -2135,7 +2135,31 @@ class Options {
 			'youtube-play',
 			'youtube-squared',
 			'zoom-in',
-			'zoom-out'
+			'zoom-out',
+			'fas fa-walking',
+			'fa-solid fa-truck-fast',
+			'fa-solid fa-pen-nib',
+			'fa-solid fa-bolt',
+			'fa-solid fa-bottle-water',
+			'fa-solid fa-ferry',
+			'fa-solid fa-ship',
+			'fa-solid fa-snowflake',
+			'fa-solid fa-fish',
+			'fa-solid fa-cow',
+			'fa-solid fa-dove',
+			'fa-solid fa-crow',
+			'fa-brands fa-the-red-yeti',
+			'fa-solid fa-feather-pointed',
+			'fa-solid fa-dog',
+			'fa-solid fa-cat',
+			'fa-solid fa-bone',
+			'fa-solid fa-frog',
+			'fa-solid fa-car',
+			'fa-solid fa-caravan',
+			'fa-solid fa-water',
+			'fa-solid fa-crown',
+			'fa-solid fa-tractor',
+			'fa-solid fa-syringe',
 		];
 
 		return apply_filters( 'rtcl_get_icon_list', $icons );
@@ -2931,6 +2955,7 @@ class Options {
 			'remind_renewal'        => esc_html__( 'Listing expired and reached renewal reminder email threshold', 'classified-listing' ),
 			'order_created'         => esc_html__( 'Order created', 'classified-listing' ),
 			'order_completed'       => esc_html__( 'Order completed', 'classified-listing' ),
+			'user_import'           => esc_html__( 'User imported', 'classified-listing' ),
 			'disable_contact_email' => esc_html__( 'Disable contact email to listing owner', 'classified-listing' )
 		];
 

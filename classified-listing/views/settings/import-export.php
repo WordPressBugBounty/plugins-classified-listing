@@ -1,28 +1,22 @@
-<div class="wrap rtcl-import-export rtcl">
-	<h1><?php esc_html_e( 'Import', 'classified-listing' ); ?></h1>
-	<div class="rtcl-ie-wrap" id="rtcl-import-wrap">
-		<form class="form" id="rtcl-import-form">
-			<div class="form-group row">
-				<label for="rtcl-import-file"
-					   class="rtcl-label col-sm-2 col-form-label"><?php esc_html_e( 'Select Import File', 'classified-listing' ); ?></label>
-				<div class="col-sm-10">
-					<div class="col-sm-10 custom-file" style="width: 250px;">
-						<input type="file" class="custom-file-input rtcl-import-file" name="import-file"
-							   id="rtcl-import-file" required>
-						<label class="custom-file-label"
-							   for="rtcl-import-file"><?php esc_html_e( 'Choose file...', 'classified-listing' ); ?></label>
-					</div>
-				</div>
-			</div>
+<div class="wrap rtcl-import-export-wrapper">
 
-			<button class="btn btn-primary" type="submit"
-					id="rtcl-import-btn"><?php esc_html_e( 'Import', 'classified-listing' ); ?></button>
-			<p class="description my-4"><?php esc_html_e( 'Sample data', 'classified-listing' ); ?>
-				<a href="https://gist.github.com/radiustheme/7a15605eac0a6a952d90e5853f5e9c39" target="_blank">
-					<?php esc_html_e( 'click here', 'classified-listing' ); ?>
-				</a>
-			</p>
-		</form>
-		<div id="import-response" class=""></div>
-	</div>
-</div>
+	<h2><?php esc_html_e( "Export Import Settings", 'classified-listing' ); ?></h2>
+	<?php
+	$active_tab = isset( $_GET['tab'] ) && $_GET['tab'] ? esc_attr( $_GET['tab'] ) : 'export';
+	?>
+
+	<h2 class="nav-tab-wrapper">
+		<a href="?page=rtcl-import-export&tab=export"
+		   class="nav-tab <?php echo $active_tab == 'export' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( "Export", 'classified-listing' ); ?></a>
+		<a href="?page=rtcl-import-export&tab=import"
+		   class="nav-tab <?php echo $active_tab == 'import' ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( "Import", 'classified-listing' ); ?></a>
+	</h2>
+
+	<?php
+	if ( $active_tab == 'import' ) {
+		require_once RTCL_PATH . 'views/settings/import.php';
+	} elseif ( $active_tab == 'export' ) {
+		require_once RTCL_PATH . 'views/settings/export.php';
+	}
+	?>
+</div><!-- /.wrap -->

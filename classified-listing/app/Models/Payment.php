@@ -349,10 +349,15 @@ class Payment {
 	}
 
 	public function get_customer_email() {
-		$user_id   = $this->get_customer_id();
-		$user_info = get_userdata( $user_id );
+		$user_id = $this->get_customer_id();
 
-		return $user_info->user_email;
+		if ( $user_id ) {
+			$user_info = get_userdata( $user_id );
+
+			return $user_info->user_email;
+		}
+		
+		return null;
 	}
 
 

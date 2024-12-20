@@ -14,6 +14,7 @@ class Cron {
 		add_action( 'rtcl_hourly_scheduled_events', [ $this, 'hourly_scheduled_events' ] );
 		add_action( 'rtcl_daily_scheduled_events', [ $this, 'daily_scheduled_events' ] );
 		add_action( 'rtcl_cleanup_sessions', [ $this, 'cleanup_session_data' ] );
+		add_action( 'rtcl_cleanup_temp_listings', [ $this, 'cleanup_temp_listings' ] );
 		add_action( 'rtcl_form_cf_data_migration', [ $this, 'form_cf_data_migration' ] );
 	}
 
@@ -49,17 +50,17 @@ class Cron {
 		if ( ! empty( $query->posts ) ) {
 			global $wpdb;
 			foreach ( $query->posts as $postId ) {
-//				if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
-//					$type = apply_filters( 'wpml_element_type', get_post_type( $postId ) );
-//					$trid = apply_filters( 'wpml_element_trid', false, $postId, $type );
-//					$translations = apply_filters( 'wpml_get_element_translations', [], $trid, $type );
-//					$translatedIds = [];
-//					foreach ( $translations as $lang => $translation ) {
-//						if ( $translation->element_id !== $postId ) {
-//							$translatedIds[] = $translation->element_id;
-//						}
-//					}
-//				}
+				// if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
+				// $type = apply_filters( 'wpml_element_type', get_post_type( $postId ) );
+				// $trid = apply_filters( 'wpml_element_trid', false, $postId, $type );
+				// $translations = apply_filters( 'wpml_get_element_translations', [], $trid, $type );
+				// $translatedIds = [];
+				// foreach ( $translations as $lang => $translation ) {
+				// if ( $translation->element_id !== $postId ) {
+				// $translatedIds[] = $translation->element_id;
+				// }
+				// }
+				// }
 
 				update_post_meta( $postId, '_rtcl_form_id', $formId );
 				$rawBsh         = get_post_meta( $postId, '_rtcl_bhs', true );
@@ -94,7 +95,10 @@ class Cron {
 												$start = Utility::formatTime( $time['start'], 'H:i', $timeFormat );
 												$end   = Utility::formatTime( $time['end'], 'H:i', $timeFormat );
 												if ( $start && $end ) {
-													$newTimes[] = [ 'start' => $start, 'end' => $end ];
+													$newTimes[] = [
+														'start' => $start,
+														'end'   => $end
+													];
 												}
 											}
 										}
@@ -124,14 +128,17 @@ class Cron {
 					$fieldId = (int) $_field['id'];
 					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					$metaData = $wpdb->get_results( "SELECT * FROM {$wpdb->postmeta} WHERE post_id = $postId AND meta_key LIKE '_field_$fieldId%'" );
+					delete_post_meta( $postId, $fieldName );
 					if ( empty( $metaData ) ) {
 						continue;
 					}
 
 					foreach ( $metaData as $meta ) {
-						update_post_meta( $meta->post_id, $fieldName, $meta->meta_value );
+						add_post_meta( $meta->post_id, $fieldName, $meta->meta_value );
 					}
 				}
+				
+				do_action('rtcl_fb_cf_data_migration', $postId, $formId, $form);
 			}
 		}
 
@@ -139,7 +146,6 @@ class Cron {
 			// add next scheduler event
 			wp_schedule_single_event( time(), 'rtcl_form_cf_data_migration' );
 		}
-
 	}
 
 	/**
@@ -153,6 +159,33 @@ class Cron {
 
 		if ( is_callable( [ $session, 'cleanup_sessions' ] ) ) {
 			$session->cleanup_sessions();
+		}
+	}
+
+	/**
+	 * Cleans up temp listings - cron callback.
+	 *
+	 * @since 3.1.15
+	 */
+	function cleanup_temp_listings() {
+		$time_ago   = current_time( 'timestamp' ) - ( 2 * HOUR_IN_SECONDS );
+		$args       = [
+			'post_type'      => rtcl()->post_type,
+			'posts_per_page' => - 1,
+			'post_status'    => 'rtcl-temp',
+			'fields'         => 'ids',
+			'date_query'     => [
+				[
+					'before'    => date( 'Y-m-d H:i:s', $time_ago ),
+					'inclusive' => true,
+				]
+			]
+		];
+		$rtcl_query = new WP_Query( apply_filters( 'rtcl_cron_cleanup_temp_listings_args', $args ) );
+		if ( ! empty( $rtcl_query->posts ) ) {
+			foreach ( $rtcl_query->posts as $post_id ) {
+				wp_delete_post( $post_id, true );
+			}
 		}
 	}
 
@@ -176,7 +209,7 @@ class Cron {
 
 		if ( $email_threshold > 0 ) {
 
-			$email_threshold_date = gmdate( 'Y-m-d H:i:s', strtotime( "+" . $email_threshold . " days" ) );
+			$email_threshold_date = gmdate( 'Y-m-d H:i:s', strtotime( '+' . $email_threshold . ' days' ) );
 
 			// Define the query
 			$args = [
@@ -216,10 +249,9 @@ class Cron {
 							update_post_meta( $post_id, 'renewal_reminder_sent', 1 );
 						}
 					}
-					do_action( "rtcl_cron_sent_renewal_email_to_published_listing", $post_id );
+					do_action( 'rtcl_cron_sent_renewal_email_to_published_listing', $post_id );
 				}
 			}
-
 		}
 	}
 
@@ -283,7 +315,7 @@ class Cron {
 				];
 
 				if ( $delete_threshold > 0 ) {
-					$deletion_date_time = gmdate( 'Y-m-d H:i:s', strtotime( "+" . $delete_threshold . " days" ) );
+					$deletion_date_time = gmdate( 'Y-m-d H:i:s', strtotime( '+' . $delete_threshold . ' days' ) );
 					update_post_meta( $post_id, 'deletion_date', $deletion_date_time ); // TODO : Need to check from where it to make action
 					$syncData['update']['deletion_date'] = $deletion_date_time;
 				}
@@ -300,7 +332,6 @@ class Cron {
 				do_action( 'rtcl_cron_move_listing_publish_to_expired', $post_id );
 			}
 		}
-
 	}
 
 	function delete_expired_listings() {
@@ -348,7 +379,7 @@ class Cron {
 			if ( ! empty( $rtcl_query->posts ) ) {
 
 				foreach ( $rtcl_query->posts as $post_id ) {
-					do_action( "rtcl_cron_delete_expired_listing", $post_id );
+					do_action( 'rtcl_cron_delete_expired_listing', $post_id );
 					Functions::delete_post( $post_id );
 					Functions::syncMLListingMeta( $post_id, [ 'post_delete' => 1 ] );
 				}
@@ -396,7 +427,7 @@ class Cron {
 
 					$expiration_date      = get_post_meta( $post_id, 'expiry_date', true );
 					$expiration_date_time = strtotime( $expiration_date );
-					$reminder_date_time   = strtotime( "+" . $reminder_threshold . " days", strtotime( $expiration_date_time ) );
+					$reminder_date_time   = strtotime( '+' . $reminder_threshold . ' days', strtotime( $expiration_date_time ) );
 
 					if ( current_time( 'timestamp' ) > $reminder_date_time ) {
 
@@ -410,7 +441,6 @@ class Cron {
 					}
 				}
 			}
-
 		}
 	}
 
@@ -439,7 +469,6 @@ class Cron {
 			]
 		];
 
-
 		$rtcl_query = new WP_Query( apply_filters( 'rtcl_cron_remove_expired_featured_query_args', $args ) );
 
 		if ( ! empty( $rtcl_query->posts ) ) {
@@ -447,7 +476,7 @@ class Cron {
 			foreach ( $rtcl_query->posts as $post_id ) {
 				delete_post_meta( $post_id, 'featured' );
 				delete_post_meta( $post_id, 'feature_expiry_date' );
-				do_action( "rtcl_cron_remove_expired_featured_listing", $post_id );
+				do_action( 'rtcl_cron_remove_expired_featured_listing', $post_id );
 				$syncData = [
 					'delete' => [
 						'featured',
@@ -458,5 +487,4 @@ class Cron {
 			}
 		}
 	}
-
 }

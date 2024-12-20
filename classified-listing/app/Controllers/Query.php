@@ -29,7 +29,7 @@ class Query {
 	 */
 	public function __construct() {
 		add_action( 'init', [ $this, 'add_endpoints' ] );
-		if ( ! is_admin() ) {
+		if ( !is_admin() ) {
 			add_action( 'wp_loaded', [ $this, 'get_errors' ], 20 );
 			add_filter( 'query_vars', [ $this, 'add_query_vars' ], 0 );
 			add_action( 'parse_request', [ $this, 'parse_request' ], 0 );
@@ -39,7 +39,7 @@ class Query {
 
 		}
 
-		if ( ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' ) ) {
+		if ( ( !is_admin() || defined( 'DOING_AJAX' ) ) && !defined( 'DOING_CRON' ) ) {
 			add_action( 'pre_get_posts', [ __CLASS__, 'remove_taxonomy_at_image_query' ], 99 );
 		}
 	}
@@ -50,7 +50,7 @@ class Query {
 	 * @return void
 	 */
 	public static function remove_taxonomy_at_image_query( $query ) {
-		if ( ! empty( $query->query['rtcl_query'] ) && $query->query['rtcl_query'] === 'attachment' ) {
+		if ( !empty( $query->query['rtcl_query'] ) && $query->query['rtcl_query'] === 'attachment' ) {
 			$query->set( 'tax_query', null );
 		}
 	}
@@ -86,9 +86,9 @@ class Query {
 	 */
 	public function get_endpoints_mask() {
 		if ( 'page' === get_option( 'show_on_front' ) ) {
-			$page_on_front     = get_option( 'page_on_front' );
+			$page_on_front = get_option( 'page_on_front' );
 			$myaccount_page_id = Functions::get_option_item( 'rtcl_advanced_settings', 'myaccount' );
-			$checkout_page_id  = Functions::get_option_item( 'rtcl_advanced_settings', 'checkout' );
+			$checkout_page_id = Functions::get_option_item( 'rtcl_advanced_settings', 'checkout' );
 
 			if ( in_array( $page_on_front, [ $myaccount_page_id, $checkout_page_id ], true ) ) {
 				return EP_ROOT | EP_PAGES;
@@ -105,7 +105,7 @@ class Query {
 		$this->init_query_vars();
 		$mask = $this->get_endpoints_mask();
 		foreach ( $this->get_query_vars() as $key => $var ) {
-			if ( ! empty( $var ) ) {
+			if ( !empty( $var ) ) {
 				add_rewrite_endpoint( $var, $mask );
 			}
 		}
@@ -117,7 +117,7 @@ class Query {
 		$url = home_url();
 
 		$page_settings = Functions::get_page_ids();
-		$id            = Functions::get_page_id( 'listing_form' );
+		$id = Functions::get_page_id( 'listing_form' );
 		if ( $id ) {
 			$link = str_replace( $url, '', get_permalink( $id ) );
 			$link = trim( $link, '/' );
@@ -341,9 +341,9 @@ class Query {
 	 * Get any errors from querystring.
 	 */
 	public function get_errors() {
-		$error = ! empty( $_GET['rtcl_error'] ) ? sanitize_text_field( wp_unslash( $_GET['rtcl_error'] ) ) : ''; // WPCS: input var ok, CSRF ok.
+		$error = !empty( $_GET['rtcl_error'] ) ? sanitize_text_field( wp_unslash( $_GET['rtcl_error'] ) ) : ''; // WPCS: input var ok, CSRF ok.
 
-		if ( $error && ! Functions::has_notice( $error, 'error' ) ) {
+		if ( $error && !Functions::has_notice( $error, 'error' ) ) {
 			Functions::add_notice( $error, 'error' );
 		}
 	}
@@ -386,20 +386,20 @@ class Query {
 	 */
 	public function pre_get_posts( $q ) {
 		// We only want to affect the main query and not in admin
-		if ( ! $q->is_main_query() || is_admin() ) {
+		if ( !$q->is_main_query() || is_admin() ) {
 			return;
 		}
 		remove_action( 'pre_get_posts', [ $this, 'pre_get_posts' ], 10 );
 
 		$listings_page_id = Functions::get_page_id( 'listings' );
-		$front_page_id    = absint( get_option( 'page_on_front' ) );
+		$front_page_id = absint( get_option( 'page_on_front' ) );
 		// Fixes for queries on static homepages.
 		if ( $this->is_showing_page_on_front( $q ) ) {
 
 			// Fix for endpoints on the homepage.
-			if ( ! $this->page_on_front_is( $q->get( 'page_id' ) ) ) {
+			if ( !$this->page_on_front_is( $q->get( 'page_id' ) ) ) {
 				$_query = wp_parse_args( $q->query );
-				if ( ! empty( $_query ) && array_intersect(
+				if ( !empty( $_query ) && array_intersect(
 						array_keys( $_query ),
 						array_merge(
 							array_keys( $this->get_query_vars() ),
@@ -409,8 +409,8 @@ class Query {
 							]
 						)
 					) ) {
-					$q->is_page     = true;
-					$q->is_home     = false;
+					$q->is_page = true;
+					$q->is_home = false;
 					$q->is_singular = true;
 					$q->set( 'page_id', $front_page_id );
 					add_filter( 'redirect_canonical', '__return_false' );
@@ -420,7 +420,7 @@ class Query {
 			// When orderby is set, WordPress shows posts on the front-page. Get around that here.
 			if ( $this->page_on_front_is( $listings_page_id ) ) {
 				$_query = wp_parse_args( $q->query );
-				if ( empty( $_query ) || ! array_diff(
+				if ( empty( $_query ) || !array_diff(
 						array_keys( $_query ),
 						[
 							'preview',
@@ -441,10 +441,10 @@ class Query {
 						$q->is_singular = true;
 					}
 				}
-			} elseif ( ! empty( $_GET['orderby'] ) ) {
+			} elseif ( !empty( $_GET['orderby'] ) ) {
 				$q->set( 'page_id', $front_page_id );
-				$q->is_page     = true;
-				$q->is_home     = false;
+				$q->is_page = true;
+				$q->is_home = false;
 				$q->is_singular = true;
 			}
 		}
@@ -472,17 +472,17 @@ class Query {
 
 			$listings_page = get_post( $listings_page_id );
 
-			$wp_post_types[ rtcl()->post_type ]->ID         = $listings_page->ID;
-			$wp_post_types[ rtcl()->post_type ]->post_title = $listings_page->post_title;
-			$wp_post_types[ rtcl()->post_type ]->post_name  = $listings_page->post_name;
-			$wp_post_types[ rtcl()->post_type ]->post_type  = $listings_page->post_type;
-			$wp_post_types[ rtcl()->post_type ]->ancestors  = get_ancestors( $listings_page->ID, $listings_page->post_type );
+			$wp_post_types[rtcl()->post_type]->ID = $listings_page->ID;
+			$wp_post_types[rtcl()->post_type]->post_title = $listings_page->post_title;
+			$wp_post_types[rtcl()->post_type]->post_name = $listings_page->post_name;
+			$wp_post_types[rtcl()->post_type]->post_type = $listings_page->post_type;
+			$wp_post_types[rtcl()->post_type]->ancestors = get_ancestors( $listings_page->ID, $listings_page->post_type );
 
 			// Fix conditional Functions like is_front_page.
-			$q->is_singular          = false;
+			$q->is_singular = false;
 			$q->is_post_type_archive = true;
-			$q->is_archive           = true;
-			$q->is_page              = true;
+			$q->is_archive = true;
+			$q->is_page = true;
 			$q->set( 'post_type', rtcl()->post_type );
 
 			// Remove post type archive name from front page title tag.
@@ -493,7 +493,7 @@ class Query {
 				add_filter( 'wpseo_metadesc', [ $this, 'wpseo_metadesc' ] );
 				add_filter( 'wpseo_metakey', [ $this, 'wpseo_metakey' ] );
 			}
-		} elseif ( ! $q->is_post_type_archive( rtcl()->post_type ) && ! $q->is_tax( get_object_taxonomies( rtcl()->post_type ) ) ) {
+		} elseif ( !$q->is_post_type_archive( rtcl()->post_type ) && !$q->is_tax( get_object_taxonomies( rtcl()->post_type ) ) ) {
 			// Only apply to listing categories, the listing post archive, the Listings page, listing location taxonomies.
 			return;
 		}
@@ -510,7 +510,7 @@ class Query {
 	 * @return bool
 	 */
 	private function is_showing_page_on_front( $q ) {
-		return ( $q->is_home() && ! $q->is_posts_page ) && 'page' === get_option( 'show_on_front' );
+		return ( $q->is_home() && !$q->is_posts_page ) && 'page' === get_option( 'show_on_front' );
 	}
 
 	/**
@@ -568,31 +568,31 @@ class Query {
 	 * Returns an array of arguments for ordering products based on the selected values.
 	 *
 	 * @param string $orderby Order by param.
-	 * @param string $order   Order param.
+	 * @param string $order Order param.
 	 *
 	 * @return array
 	 */
 	public function get_catalog_ordering_args( $orderby = '', $order = '' ) {
 		// Get ordering from query string unless defined.
-		$order = ! empty( $order ) ? $order : Functions::get_option_item( 'rtcl_general_settings', 'order', 'desc' );
-		if ( ! $orderby ) {
-			$orderby_value = isset( $_GET['orderby'] ) ? Functions::clean( (string) wp_unslash( $_GET['orderby'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$order = !empty( $order ) ? $order : Functions::get_option_item( 'rtcl_general_settings', 'order', 'desc' );
+		if ( !$orderby ) {
+			$orderby_value = isset( $_GET['orderby'] ) ? Functions::clean( (string)wp_unslash( $_GET['orderby'] ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
-			if ( ! $orderby_value ) {
-				$order_by      = Functions::get_option_item( 'rtcl_general_settings', 'orderby', 'date' );
-				$order         = Functions::get_option_item( 'rtcl_general_settings', 'order', 'desc' );
+			if ( !$orderby_value ) {
+				$order_by = Functions::get_option_item( 'rtcl_general_settings', 'orderby', 'date' );
+				$order = Functions::get_option_item( 'rtcl_general_settings', 'order', 'desc' );
 				$orderby_value = apply_filters( 'rtcl_default_catalog_orderby', $order_by . '-' . $order, $order_by, $order );
 			}
 			// Get order + orderby args from string.
 			$orderby_value = is_array( $orderby_value ) ? $orderby_value : explode( '-', $orderby_value );
-			$orderby       = esc_attr( $orderby_value[0] );
-			$order         = ! empty( $orderby_value[1] ) ? $orderby_value[1] : $order;
+			$orderby = esc_attr( $orderby_value[0] );
+			$order = !empty( $orderby_value[1] ) ? $orderby_value[1] : $order;
 		}
 
 		// Convert to correct format.
-		$orderby = strtolower( is_array( $orderby ) ? (string) current( $orderby ) : (string) $orderby );
-		$order   = strtoupper( is_array( $order ) ? (string) current( $order ) : (string) $order );
-		$args    = [
+		$orderby = strtolower( is_array( $orderby ) ? (string)current( $orderby ) : (string)$orderby );
+		$order = strtoupper( is_array( $order ) ? (string)current( $order ) : (string)$order );
+		$args = [
 			'orderby'  => $orderby,
 			'order'    => ( 'DESC' === $order ) ? 'DESC' : 'ASC',
 			'meta_key' => '', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key	
@@ -607,21 +607,21 @@ class Query {
 				break;
 			case 'title':
 				$args['orderby'] = 'title';
-				$args['order']   = ( 'DESC' === $order ) ? 'DESC' : 'ASC';
+				$args['order'] = ( 'DESC' === $order ) ? 'DESC' : 'ASC';
 				break;
 			case 'date':
 				$args['orderby'] = 'date';
-				$args['order']   = ( 'DESC' === $order ) ? 'DESC' : 'ASC';
+				$args['order'] = ( 'DESC' === $order ) ? 'DESC' : 'ASC';
 				break;
 			case 'price':
 				$args['meta_key'] = 'price'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key	
-				$args['orderby']  = 'meta_value_num';
-				$args['order']    = ( 'DESC' === $order ) ? 'DESC' : 'ASC';
+				$args['orderby'] = 'meta_value_num';
+				$args['order'] = ( 'DESC' === $order ) ? 'DESC' : 'ASC';
 				break;
 			case 'views':
 				$args['meta_key'] = '_views'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key	
-				$args['orderby']  = 'meta_value_num';
-				$args['order']    = ( 'DESC' === $order ) ? 'DESC' : 'ASC';
+				$args['orderby'] = 'meta_value_num';
+				$args['order'] = ( 'DESC' === $order ) ? 'DESC' : 'ASC';
 				break;
 			case 'rand':
 				$args['orderby'] = 'rand';
@@ -639,7 +639,7 @@ class Query {
 	 * @param WP_Query $q Query instance.
 	 */
 	public function listing_query( $q ) {
-		if ( ! is_feed() ) {
+		if ( !is_feed() ) {
 			$ordering = $this->get_catalog_ordering_args();
 			$q->set( 'orderby', $ordering['orderby'] );
 			$q->set( 'order', $ordering['order'] );
@@ -650,20 +650,20 @@ class Query {
 		}
 
 		if ( isset( $_GET['q'] ) && ( rtcl()->post_type === $q->get( 'post_type' ) || $q->is_tax( get_object_taxonomies( rtcl()->post_type ) ) ) ) {
-			$q->set( 's', (string) Functions::clean( wp_unslash( $_GET['q'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$q->set( 's', (string)Functions::clean( wp_unslash( $_GET['q'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		}
 
 		// Meta query for listing
 		$q->set( 'meta_query', $this->get_meta_query( $q->get( 'meta_query' ), true ) );
 		$q->set( 'tax_query', $this->get_tax_query( $q->get( 'tax_query' ), true ) );
 		$q->set( 'rtcl_query', 'rtcl_listing_query' );
-		$q->set( 'post__in', array_unique( (array) apply_filters( 'rtcl_loop_listing_post_in', [] ) ) );
+		$q->set( 'post__in', array_unique( (array)apply_filters( 'rtcl_loop_listing_post_in', [] ) ) );
 
 		// Listings per page.
 		$q->set( 'posts_per_page', $q->get( 'posts_per_page' ) ? $q->get( 'posts_per_page' ) : apply_filters( 'rtcl_loop_listing_per_page', Functions::get_option_item( 'rtcl_general_settings', 'listings_per_page' ) ) );
 		// have combine query page
-		$paged = ! empty( $_GET['page'] ) ? absint( $_GET['page'] ) : absint( get_query_var( '__page' ) );
-		if ( ! empty( $paged ) ) {
+		$paged = !empty( $_GET['page'] ) ? absint( $_GET['page'] ) : absint( get_query_var( '__page' ) );
+		if ( !empty( $paged ) ) {
 			$q->set( 'paged', $paged );
 		}
 		// Store reference to this query.
@@ -676,12 +676,12 @@ class Query {
 	 * Appends meta queries to an array.
 	 *
 	 * @param array $meta_query Meta query.
-	 * @param bool  $main_query If is main query.
+	 * @param bool $main_query If is main query.
 	 *
 	 * @return array
 	 */
 	public function get_meta_query( $meta_query = [], $main_query = false ) {
-		if ( ! is_array( $meta_query ) ) {
+		if ( !is_array( $meta_query ) ) {
 			$meta_query = [
 				'relation' => 'AND',
 			];
@@ -690,37 +690,37 @@ class Query {
 		foreach ( $_GET as $parmaKey => $paramValue ) {
 			if ( strpos( $parmaKey, 'cf_' ) === 0 ) {
 				$fieldKey = str_replace( 'cf_', '', $parmaKey );
-				$value    = strpos( $paramValue, ',' ) !== false ? explode( ',', $paramValue ) : $paramValue;
-				if ( Functions::isEnableFb() ) {
-					$_GET['filters'][ $fieldKey ] = $value;
+				$value = strpos( $paramValue, ',' ) !== false ? explode( ',', $paramValue ) : $paramValue;
+				if ( FBHelper::isEnabled() ) {
+					$_GET['filters'][$fieldKey] = $value;
 				} else {
-					$_GET['filters'][ '_field_' . $fieldKey ] = $value;
+					$_GET['filters']['_field_' . $fieldKey] = $value;
 				}
 			}
 		}
 
-		if ( ! empty( $_GET['filter_ad_type'] ) && is_string( $_GET['filter_ad_type'] ) ) {
+		if ( !empty( $_GET['filter_ad_type'] ) && is_string( $_GET['filter_ad_type'] ) ) {
 			$adTypes = array_filter( array_map( 'sanitize_text_field', explode( ',', $_GET['filter_ad_type'] ) ) );
-			if ( ! empty( $adTypes ) ) {
+			if ( !empty( $adTypes ) ) {
 				$_GET['filters']['ad_type'] = $adTypes;
 			}
 		}
 
-		if ( ! empty( $_GET['filter_price'] ) && is_string( $_GET['filter_price'] ) ) {
+		if ( !empty( $_GET['filter_price'] ) && is_string( $_GET['filter_price'] ) ) {
 			$prices = array_filter( array_map( 'intval', explode( ',', $_GET['filter_price'] ) ) );
-			if ( ! empty( $prices ) ) {
+			if ( !empty( $prices ) ) {
 				$_GET['filters']['price'] = $prices;
 			}
 		}
 
-		$filters = isset( $_GET['filters'] ) ? (array) $_GET['filters'] : [];
+		$filters = isset( $_GET['filters'] ) ? (array)$_GET['filters'] : [];
 
 		$filters = apply_filters( 'rtcl_filter_widget_default_filter_item', $filters );
 
-		if ( ! empty( $filters ) ) {
+		if ( !empty( $filters ) ) {
 
 			// Price filter
-			if ( ! empty( $filters['price'] ) ) {
+			if ( !empty( $filters['price'] ) ) {
 
 				$price = array_filter( $filters['price'] );
 
@@ -752,7 +752,7 @@ class Query {
 
 					} else {
 
-						if ( ! empty( $price['max'] ) ) {
+						if ( !empty( $price['max'] ) ) {
 							$meta_query[] = [
 								'relation' => 'OR',
 								[
@@ -772,7 +772,7 @@ class Query {
 									'relation' => 'AND',
 									[
 										'key'     => '_rtcl_max_price',
-										'value'   => (int) $price['max'],
+										'value'   => (int)$price['max'],
 										'type'    => 'NUMERIC',
 										'compare' => '<=',
 									],
@@ -785,7 +785,7 @@ class Query {
 						} else if ( isset( $price['min'] ) ) {
 							$meta_query[] = [
 								'key'     => 'price',
-								'value'   => (int) $price['min'],
+								'value'   => (int)$price['min'],
 								'type'    => 'NUMERIC',
 								'compare' => '>=',
 							];
@@ -796,8 +796,8 @@ class Query {
 			}
 
 			// Ad type filter
-			if ( ! empty( $filters['ad_type'] ) && ! Functions::is_ad_type_disabled() ) {
-				$adTypes      = is_array( $filters['ad_type'] ) ? array_filter( array_map( 'sanitize_text_field', $filters['ad_type'] ) ) : [ trim( sanitize_text_field( wp_unslash( $filters['ad_type'] ) ) ) ];
+			if ( !empty( $filters['ad_type'] ) && !Functions::is_ad_type_disabled() ) {
+				$adTypes = is_array( $filters['ad_type'] ) ? array_filter( array_map( 'sanitize_text_field', $filters['ad_type'] ) ) : [ trim( sanitize_text_field( wp_unslash( $filters['ad_type'] ) ) ) ];
 				$meta_query[] = [
 					'key'     => 'ad_type',
 					'value'   => $adTypes,
@@ -808,23 +808,23 @@ class Query {
 			// Custom field
 			$cf = array_filter( $filters );
 
-			if ( ! empty( $cf ) ) {
+			if ( !empty( $cf ) ) {
 				$cf_meta_query = [];
-				if ( Functions::isEnableFb() ) {
+				if ( FBHelper::isEnabled() ) {
 					$directory = empty( $_GET['directory'] ) ? '' : ( $_GET['directory'] === 'all' ? 'all' : ( is_numeric( $_GET['directory'] ) ? absint( $_GET['directory'] ) : '' ) );
-					$cFields   = FBHelper::getDirectoryCustomFields( $directory );
-					if ( ! empty( $cFields ) ) {
+					$cFields = FBHelper::getDirectoryCustomFields( $directory );
+					if ( !empty( $cFields ) ) {
 						foreach ( $filters as $fieldName => $values ) {
 							$field = $rawField = null;
 							foreach ( $cFields as $_cField ) {
-								if ( ! empty( $_cField['name'] ) && $_cField['name'] === $fieldName ) {
+								if ( !empty( $_cField['name'] ) && $_cField['name'] === $fieldName ) {
 									$rawField = $_cField;
-									$field    = new FBField( $_cField );
+									$field = new FBField( $_cField );
 									break;
 								}
 							}
 
-							if ( ! empty( $field ) && $field->isFilterable() ) {
+							if ( !empty( $field ) && $field->isFilterable() ) {
 								if ( is_array( $values ) ) {
 									if ( $field->getElement() === 'number' ) {
 										$values = array_filter( $values );
@@ -840,14 +840,14 @@ class Query {
 												if ( empty( $values['min'] ) ) {
 													$cf_meta_query[] = [
 														'key'     => $fieldName,
-														'value'   => (int) $values['max'],
+														'value'   => (int)$values['max'],
 														'type'    => 'NUMERIC',
 														'compare' => '<=',
 													];
 												} else {
 													$cf_meta_query[] = [
 														'key'     => $fieldName,
-														'value'   => (int) $values['min'],
+														'value'   => (int)$values['min'],
 														'type'    => 'NUMERIC',
 														'compare' => '>=',
 													];
@@ -879,13 +879,13 @@ class Query {
 									}
 								} else {
 									if ( $field->getElement() === 'date' ) {
-										$search_type    = $field->getDateFilterDateType();
+										$search_type = $field->getDateFilterDateType();
 										$dateFormatType = $field->getDateFormatType();
-										$tempField      = $rawField;
+										$tempField = $rawField;
 										if ( $search_type == 'range' ) {
 											$tempField['date_type'] = 'range';
-											$values                 = ! is_array( $values ) ? explode( ' - ', $values ) : $values;
-											$values                 = [
+											$values = !is_array( $values ) ? explode( ' - ', $values ) : $values;
+											$values = [
 												'start' => $values[0] ?? ( $values['start'] ?? '' ),
 												'end'   => $values[1] ?? ( $values['end'] ?? '' ),
 											];
@@ -893,17 +893,17 @@ class Query {
 											$tempField['date_type'] = 'single';
 										}
 										$dateValues = FBHelper::sanitizeFieldValue( $values, $tempField );
-										if ( ! empty( $dateValues ) ) {
+										if ( !empty( $dateValues ) ) {
 											if ( $field->getDateType() == 'range' ) {
 												$start_meta_key = $fieldName . '_' . 'start';
-												$end_meta_key   = $fieldName . '_' . 'end';
+												$end_meta_key = $fieldName . '_' . 'end';
 
 												if ( $search_type == 'single' ) {
 													$start_date = $dateValues;
-													$end_date   = $start_date ? gmdate( 'Y-m-d', strtotime( $start_date ) ) . ' 23:59:59' : '';
+													$end_date = $start_date ? gmdate( 'Y-m-d', strtotime( $start_date ) ) . ' 23:59:59' : '';
 												} else {
 													$start_date = $dateValues['start'];
-													$end_date   = $dateValues['end'];
+													$end_date = $dateValues['end'];
 												}
 												if ( $start_date && $end_date ) {
 													$cf_meta_query[] = apply_filters(
@@ -929,8 +929,8 @@ class Query {
 												}
 											} else {
 												if ( $search_type == 'range' ) {
-													$start_date      = $dateValues['start'];
-													$end_date        = $dateValues['end'];
+													$start_date = $dateValues['start'];
+													$end_date = $dateValues['end'];
 													$cf_meta_query[] = [
 														'key'     => $fieldName,
 														'value'   => [ $start_date, $end_date ],
@@ -948,19 +948,21 @@ class Query {
 											}
 										}
 									} else {
-										$operator        = ( in_array(
-											$field->getElement(),
-											[
-												'text',
-												'textarea',
-												'url',
-											]
-										) ) ? 'LIKE' : '=';
-										$cf_meta_query[] = [
-											'key'     => $fieldName,
-											'value'   => sanitize_text_field( $values ),
-											'compare' => $operator,
-										];
+										if ( !empty( $values ) ) {
+											$operator = ( in_array(
+												$field->getElement(),
+												[
+													'text',
+													'textarea',
+													'url',
+												]
+											) ) ? 'LIKE' : '=';
+											$cf_meta_query[] = [
+												'key'     => $fieldName,
+												'value'   => sanitize_text_field( $values ),
+												'compare' => $operator,
+											];
+										}
 									}
 								}
 							}
@@ -969,7 +971,7 @@ class Query {
 				} else {
 					foreach ( $cf as $key => $values ) {
 						$field_id = absint( str_replace( '_field_', '', $key ) );
-						$field    = rtcl()->factory->get_custom_field( $field_id );
+						$field = rtcl()->factory->get_custom_field( $field_id );
 						if ( $field ) {
 							if ( is_array( $values ) ) {
 								if ( $field->getType() === 'number' ) {
@@ -986,14 +988,14 @@ class Query {
 											if ( empty( $values['min'] ) ) {
 												$cf_meta_query[] = [
 													'key'     => $key,
-													'value'   => (int) $values['max'],
+													'value'   => (int)$values['max'],
 													'type'    => 'NUMERIC',
 													'compare' => '<=',
 												];
 											} else {
 												$cf_meta_query[] = [
 													'key'     => $key,
-													'value'   => (int) $values['min'],
+													'value'   => (int)$values['min'],
 													'type'    => 'NUMERIC',
 													'compare' => '>=',
 												];
@@ -1027,9 +1029,9 @@ class Query {
 								}
 							} else {
 								if ( $field->getType() === 'date' ) {
-									$date_type   = $field->getDateType();
+									$date_type = $field->getDateType();
 									$search_type = $field->getDateSearchableType();
-									$type        = $date_type == 'date_time' || $date_type == 'date_time_range' ? 'DATETIME' : 'DATE';
+									$type = $date_type == 'date_time' || $date_type == 'date_time_range' ? 'DATETIME' : 'DATE';
 									if ( $date_type == 'date' || $date_type == 'date_time' ) {
 										$meta_key = $field->getMetaKey();
 
@@ -1041,9 +1043,9 @@ class Query {
 												'type'    => $type,
 											];
 										} else {
-											$dates           = $field->sanitize_date_field( $values, [ 'range' => true ] );
-											$start_date      = $dates['start'];
-											$end_date        = $dates['end'];
+											$dates = $field->sanitize_date_field( $values, [ 'range' => true ] );
+											$start_date = $dates['start'];
+											$end_date = $dates['end'];
 											$cf_meta_query[] = [
 												'key'     => $meta_key,
 												'value'   => [ $start_date, $end_date ],
@@ -1053,15 +1055,15 @@ class Query {
 										}
 									} elseif ( $date_type == 'date_range' || $date_type == 'date_range_time' ) {
 										$start_meta_key = $field->getDateRangeMetaKey( 'start' );
-										$end_meta_key   = $field->getDateRangeMetaKey( 'end' );
+										$end_meta_key = $field->getDateRangeMetaKey( 'end' );
 
 										if ( $search_type == 'single' ) {
 											$start_date = $end_date = $field->sanitize_date_field( $values, [ 'range' => false ] );
-											$end_date   = $start_date ? gmdate( 'Y-m-d', strtotime( $start_date ) ) . ' 23:59:59' : '';
+											$end_date = $start_date ? gmdate( 'Y-m-d', strtotime( $start_date ) ) . ' 23:59:59' : '';
 										} else {
-											$dates      = $field->sanitize_date_field( $values, [ 'range' => true ] );
+											$dates = $field->sanitize_date_field( $values, [ 'range' => true ] );
 											$start_date = $dates['start'];
-											$end_date   = $dates['end'];
+											$end_date = $dates['end'];
 										}
 										if ( $start_date ) {
 											$cf_meta_query[] = [
@@ -1081,7 +1083,7 @@ class Query {
 										}
 									}
 								} else {
-									$operator        = ( in_array(
+									$operator = ( in_array(
 										$field->getType(),
 										[
 											'text',
@@ -1101,7 +1103,7 @@ class Query {
 				}
 				// Hook Added By rashid. Translatepress Need this hook.
 				$cf_meta_query = apply_filters( 'rtcl_listing_custom_fields_meta_query', $cf_meta_query );
-				$meta_query    = array_merge( $meta_query, $cf_meta_query );
+				$meta_query = array_merge( $meta_query, $cf_meta_query );
 			}
 		}
 
@@ -1112,29 +1114,29 @@ class Query {
 	/**
 	 * Appends tax queries to an array.
 	 *
-	 * @param array $tax_query  Tax query.
-	 * @param bool  $main_query If is main query.
+	 * @param array $tax_query Tax query.
+	 * @param bool $main_query If is main query.
 	 *
 	 * @return array
 	 */
 	public function get_tax_query( $tax_query = [], $main_query = false ) {
-		if ( ! is_array( $tax_query ) ) {
+		if ( !is_array( $tax_query ) ) {
 			$tax_query = [
 				'relation' => 'AND',
 			];
 		}
 
 		if ( Functions::is_listings() ) {
-			$filterCategories = ! empty( $_GET['filter_category'] ) && is_string( $_GET['filter_category'] ) ? array_filter( array_map( 'absint', explode( ',', $_GET['filter_category'] ) ) ) : [];
-			if ( ! empty( $filterCategories ) ) {
+			$filterCategories = !empty( $_GET['filter_category'] ) && is_string( $_GET['filter_category'] ) ? array_filter( array_map( 'absint', explode( ',', $_GET['filter_category'] ) ) ) : [];
+			if ( !empty( $filterCategories ) ) {
 				$tax_query[] = [
 					'taxonomy' => rtcl()->category,
 					'terms'    => $filterCategories,
 					'field'    => 'term_id',
 				];
 			}
-			$filterLocations = ! empty( $_GET['filter_location'] ) && is_string( $_GET['filter_location'] ) ? array_filter( array_map( 'absint', explode( ',', $_GET['filter_location'] ) ) ) : [];
-			if ( ! empty( $filterLocations ) ) {
+			$filterLocations = !empty( $_GET['filter_location'] ) && is_string( $_GET['filter_location'] ) ? array_filter( array_map( 'absint', explode( ',', $_GET['filter_location'] ) ) ) : [];
+			if ( !empty( $filterLocations ) ) {
 				$tax_query[] = [
 					'taxonomy' => rtcl()->location,
 					'terms'    => $filterLocations,
@@ -1142,8 +1144,8 @@ class Query {
 				];
 			}
 
-			$filterTags = ! empty( $_GET['filter_tag'] ) && is_string( $_GET['filter_tag'] ) ? array_filter( array_map( 'absint', explode( ',', $_GET['filter_tag'] ) ) ) : [];
-			if ( ! empty( $filterTags ) ) {
+			$filterTags = !empty( $_GET['filter_tag'] ) && is_string( $_GET['filter_tag'] ) ? array_filter( array_map( 'absint', explode( ',', $_GET['filter_tag'] ) ) ) : [];
+			if ( !empty( $filterTags ) ) {
 				$tax_query[] = [
 					'taxonomy' => rtcl()->tag,
 					'terms'    => $filterTags,
@@ -1152,14 +1154,14 @@ class Query {
 			}
 		}
 
-		if ( ! Functions::is_listings() && ( ! empty( $_GET['rtcl_location'] ) || ! empty( $_GET['rtcl_category'] ) || ! empty( $_GET['location'] ) || ! empty( $_GET['category'] ) ) ) {
-			$location = ! empty( $_GET['location'] ) ? Functions::clean( $_GET['location'] ) : ( ! empty( $_GET['rtcl_location'] ) ? Functions::clean( $_GET['rtcl_location'] ) : '' );
+		if ( !Functions::is_listings() && ( !empty( $_GET['rtcl_location'] ) || !empty( $_GET['rtcl_category'] ) || !empty( $_GET['location'] ) || !empty( $_GET['category'] ) ) ) {
+			$location = !empty( $_GET['location'] ) ? Functions::clean( $_GET['location'] ) : ( !empty( $_GET['rtcl_location'] ) ? Functions::clean( $_GET['rtcl_location'] ) : '' );
 			if ( $location ) {
 				$locations = array_map( 'sanitize_title', explode( ',', $location ) );
-				$field     = 'slug';
+				$field = 'slug';
 
 				if ( is_numeric( $locations[0] ) ) {
-					$field     = 'term_id';
+					$field = 'term_id';
 					$locations = array_map( 'absint', $locations );
 					// Check numeric slugs.
 					foreach ( $locations as $cat ) {
@@ -1176,13 +1178,13 @@ class Query {
 				];
 			}
 
-			$category = ! empty( $_GET['category'] ) ? Functions::clean( $_GET['category'] ) : ( ! empty( $_GET['rtcl_category'] ) ? Functions::clean( $_GET['rtcl_category'] ) : '' );
+			$category = !empty( $_GET['category'] ) ? Functions::clean( $_GET['category'] ) : ( !empty( $_GET['rtcl_category'] ) ? Functions::clean( $_GET['rtcl_category'] ) : '' );
 			if ( $category ) {
 				$categories = array_map( 'sanitize_title', explode( ',', $category ) );
-				$field      = 'slug';
+				$field = 'slug';
 
 				if ( is_numeric( $categories[0] ) ) {
-					$field      = 'term_id';
+					$field = 'term_id';
 					$categories = array_map( 'absint', $categories );
 					// Check numeric slugs.
 					foreach ( $categories as $cat ) {
@@ -1202,7 +1204,7 @@ class Query {
 
 		if ( Functions::is_listings() ) {
 			$category = get_query_var( '__cat' );
-			if ( ! empty( $category ) ) {
+			if ( !empty( $category ) ) {
 				$tax_query[] = [
 					'taxonomy' => rtcl()->category,
 					'terms'    => $category,
@@ -1211,7 +1213,7 @@ class Query {
 			}
 
 			$location = get_query_var( '__loc' );
-			if ( ! empty( $location ) ) {
+			if ( !empty( $location ) ) {
 				$tax_query[] = [
 					'taxonomy' => rtcl()->location,
 					'terms'    => $location,
@@ -1220,7 +1222,7 @@ class Query {
 			}
 
 			$tag = get_query_var( '__tag' );
-			if ( ! empty( $tag ) ) {
+			if ( !empty( $tag ) ) {
 				$tax_query[] = [
 					'taxonomy' => rtcl()->tag,
 					'terms'    => $tag,
@@ -1240,11 +1242,11 @@ class Query {
 	 * @return array
 	 */
 	public function get_author__not_in( $q ) {
-		$author__not_in  = $q->get( 'author__not_in' );
+		$author__not_in = $q->get( 'author__not_in' );
 		$current_user_id = get_current_user_id();
-		if ( ! empty( $current_user_id ) ) {
+		if ( !empty( $current_user_id ) ) {
 			$blockedUserIds = Functions::getBlockedUserIds( $current_user_id );
-			if ( ! empty( $blockedUserIds ) ) {
+			if ( !empty( $blockedUserIds ) ) {
 				$author__not_in = array_merge( $author__not_in, $blockedUserIds );
 			}
 		}
@@ -1261,11 +1263,11 @@ class Query {
 	 * @return array
 	 */
 	public function get_post__not_in( $q ) {
-		$post__not_in    = $q->get( 'post__not_in' );
+		$post__not_in = $q->get( 'post__not_in' );
 		$current_user_id = get_current_user_id();
-		if ( ! empty( $current_user_id ) ) {
+		if ( !empty( $current_user_id ) ) {
 			$blockedPostIds = Functions::getBlockedListingIds( $current_user_id );
-			if ( ! empty( $blockedPostIds ) ) {
+			if ( !empty( $blockedPostIds ) ) {
 				$post__not_in = array_merge( $post__not_in, $blockedPostIds );
 			}
 		}
@@ -1291,7 +1293,7 @@ class Query {
 		global $wp;
 
 		foreach ( $this->get_query_vars() as $key => $value ) {
-			if ( isset( $wp->query_vars[ $key ] ) ) {
+			if ( isset( $wp->query_vars[$key] ) ) {
 				return $key;
 			}
 		}
@@ -1357,10 +1359,10 @@ class Query {
 
 		// Map query vars to their keys, or get them if endpoints are not supported.
 		foreach ( $this->get_query_vars() as $key => $var ) {
-			if ( isset( $_GET[ $var ] ) ) { // WPCS: input var ok, CSRF ok.
-				$wp->query_vars[ $key ] = sanitize_text_field( wp_unslash( $_GET[ $var ] ) ); // WPCS: input var ok, CSRF ok.
-			} elseif ( isset( $wp->query_vars[ $var ] ) ) {
-				$wp->query_vars[ $key ] = $wp->query_vars[ $var ];
+			if ( isset( $_GET[$var] ) ) { // WPCS: input var ok, CSRF ok.
+				$wp->query_vars[$key] = sanitize_text_field( wp_unslash( $_GET[$var] ) ); // WPCS: input var ok, CSRF ok.
+			} elseif ( isset( $wp->query_vars[$var] ) ) {
+				$wp->query_vars[$key] = $wp->query_vars[$var];
 			}
 		}
 	}

@@ -41,7 +41,7 @@ class AdminAjaxController {
 
 	public static function revenue_order_search() {
 		if ( ! wp_verify_nonce( $_POST['rtcl_nonce'], 'rtcl-nonce' ) ) {
-			///wp_send_json_error( esc_html__( 'Session Expired!!', 'classified-listing' ) );
+			wp_send_json_error( esc_html__( 'Session Expired!!', 'classified-listing' ) );
 		}
 
 		$start_date = isset( $_POST['start_date'] ) ? sanitize_text_field( $_POST['start_date'] ) : '';
@@ -334,7 +334,10 @@ class AdminAjaxController {
 				if ( $data['icon_type'] == 'icon' ) {
 					$icon = get_term_meta( $term->term_id, '_rtcl_icon', true );
 					if ( $icon ) {
-						$icon_html = sprintf( '<span class="rtcl-icon rtcl-icon-%s"></span>', $icon );
+						if ( ! str_contains( $icon, 'fa-' ) ) {
+							$icon = 'rtcl-icon-' . $icon;
+						}
+						$icon_html = sprintf( '<span class="rtcl-icon %s"></span>', $icon );
 					}
 				} elseif ( $data['icon_type'] == 'image' ) {
 					//image size

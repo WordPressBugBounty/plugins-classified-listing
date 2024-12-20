@@ -192,7 +192,7 @@ class ListingsAjaxController {
 			$author_image = $pp_id ? wp_get_attachment_image( $pp_id, [ 40, 40 ] ) : get_avatar( $_id, 40 );
 
 			//image size
-			$image_size = isset( $settings['image_size'] ) ? $settings['image_size'] : 'rtcl-thumbnail';
+			$image_size = $settings['image_size'] ?? 'rtcl-thumbnail';
 			if ( 'custom' == $image_size ) {
 				if ( isset( $settings['custom_image_width'] ) && isset( $settings['custom_image_height'] ) ) {
 					$image_size = [

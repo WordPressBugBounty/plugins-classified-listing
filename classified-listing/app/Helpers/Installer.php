@@ -444,6 +444,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 		wp_clear_scheduled_hook( 'rtcl_hourly_scheduled_events' );
 		wp_clear_scheduled_hook( 'rtcl_daily_scheduled_events' );
 		wp_clear_scheduled_hook( 'rtcl_cleanup_sessions' );
+		wp_clear_scheduled_hook( 'rtcl_cleanup_temp_listings' );
 	}
 
 	/**
@@ -454,6 +455,11 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 		if ( ! wp_next_scheduled( 'rtcl_cleanup_sessions' ) ) {
 			wp_schedule_event( time() + ( 6 * HOUR_IN_SECONDS ), 'twicedaily', 'rtcl_cleanup_sessions' );
 		}
+		
+		if ( ! wp_next_scheduled( 'rtcl_cleanup_temp_listings' ) ) {
+			wp_schedule_event( time() + ( 6 * HOUR_IN_SECONDS ), 'twicedaily', 'rtcl_cleanup_temp_listings' );
+		}
+		
 		if ( ! wp_next_scheduled( 'rtcl_hourly_scheduled_events' ) ) {
 			wp_schedule_event( time(), 'hourly', 'rtcl_hourly_scheduled_events' );
 		}

@@ -28,11 +28,8 @@ if ( !empty( $options['show_open_status'] ) ) {
 }
 
 ?>
-
 	<table class="rtclbh">
-
 		<?php if ( $options['header'] ) : ?>
-
 			<thead>
 			<tr>
 				<th>&nbsp;</th>

@@ -553,7 +553,7 @@ class ListingCatBox
 	public function render_callback_listing_cat_box($attributes)
 	{
 		$settings = $attributes;
-		$style = isset($settings['col_style']['style']) ? $settings['col_style']['style'] : '1';
+		$style = !empty($settings['col_style']['style']) && in_array($settings['col_style']['style'], ['1', '2']) ? $settings['col_style']['style'] : '1';
 
 		$data = array(
 			'template' => 'block/category-box/style-' . $style,

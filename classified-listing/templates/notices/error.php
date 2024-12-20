@@ -18,7 +18,7 @@ if (empty($messages)) {
 }
 
 ?>
-<div class="rtcl-error alert alert-danger" role="alert">
+<div class="rtcl-message rtcl-error alert alert-danger" role="alert">
     <?php foreach ($messages as $message) : ?>
         <p><?php echo wp_kses_post($message); ?></p>
     <?php endforeach; ?>

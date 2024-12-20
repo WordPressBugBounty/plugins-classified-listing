@@ -17,6 +17,7 @@ class FormBuilderAjax {
 
 	public function init(): void {
 		add_action( 'wp_ajax_rtcl_fb_get_category', [ $this, 'get_category' ] );
+		add_action( 'wp_ajax_rtcl_fb_filtered_get_categories', [ $this, 'get_filtered_categories' ] );
 		add_action( 'wp_ajax_rtcl_fb_get_location', [ $this, 'get_location' ] );
 
 		add_action( 'wp_ajax_rtcl_fb_gallery_image_upload', [ $this, 'gallery_image_upload' ] );
@@ -29,8 +30,6 @@ class FormBuilderAjax {
 		add_action( 'wp_ajax_rtcl_fb_file_delete', [ $this, 'file_delete' ] );
 
 		add_action( 'wp_ajax_rtcl_fb_get_tags', [ $this, 'get_tags' ] );
-		//add_action( 'wp_ajax_rtcl_fb_remove_tags', [ $this, 'remove_tags' ] );
-		//add_action( 'wp_ajax_rtcl_fb_set_tags', [ $this, 'set_tags' ] );
 		add_action( 'wp_ajax_rtcl_fb_add_new_tag', [ $this, 'add_new_tag' ] );
 
 		add_action( 'wp_ajax_rtcl_update_listing', [ $this, 'update_listing' ] );
@@ -98,6 +97,7 @@ class FormBuilderAjax {
 		} else {
 			$formData = [];
 		}
+
 		$sections = $form->sections;
 		$fields   = $form->fields;
 		if ( empty( $sections ) || empty( $fields ) ) {
@@ -229,6 +229,12 @@ class FormBuilderAjax {
 						'field' => $field,
 						'value' => Functions::sanitize( $rawValue, 'textarea' )
 					];
+				} elseif ( 'geo_location' === $element ) {
+					$metaData[] = [
+						'name'  => '_rtcl_geo_address',
+						'field' => $field,
+						'value' => Functions::sanitize( $rawValue )
+					];
 				} elseif ( 'phone' === $element ) {
 					$metaData[] = [
 						'name'  => 'phone',
@@ -338,10 +344,17 @@ class FormBuilderAjax {
 						'field' => $field,
 						'value' => $videoUrls
 					];
+				}else{
+					$sanitizedValue = FBHelper::sanitizeFieldValue( $rawValue, $field, $listing );
+					$metaData[] = [
+						'name'  => $name,
+						'field' => $field,
+						'value' => $sanitizedValue
+					];
 				}
 			} else {
 				if ( 'file' !== $element ) {
-					$sanitizedValue    = FBHelper::sanitizeFieldValue( $rawValue, $field );
+					$sanitizedValue    = FBHelper::sanitizeFieldValue( $rawValue, $field, $listing );
 					$metaData[ $name ] = [
 						'name'  => $name,
 						'field' => $field,
@@ -389,8 +402,7 @@ class FormBuilderAjax {
 
 		wp_set_object_terms( $listing_id, ! empty( $taxonomy['tag'] ) ? $taxonomy['tag'] : null, rtcl()->tag );
 
-		add_filter( 'rtcl_fb_metadata_fields_before_save', $metaData, $postingType );
-
+		$metaData = apply_filters( 'rtcl_fb_metadata_fields_before_save', $metaData, $postingType );
 		/* meta data */
 		if ( ! empty( $metaData ) ) {
 			foreach ( $metaData as $metaItem ) {
@@ -451,6 +463,10 @@ class FormBuilderAjax {
 			Functions::add_notice( apply_filters( 'rtcl_listing_success_message', esc_html__( "Successfully updated !!!", "classified-listing" ), $listing_id, $postingType, $_REQUEST ) );
 		}
 
+		//Issue: Listing new metadata missing at the hook
+		//Fixed: Load listing metadata to the listing objects before sending to hook
+		$listing    = $listing ? rtcl()->factory->get_listing( $listing->get_id() ) : null;
+		
 		do_action( 'rtcl_listing_form_after_save_or_update', $listing, $postingType, end( $taxonomy['category'] ), $new_listing_status, [
 			'data'  => $_REQUEST,
 			'files' => $_FILES
@@ -491,7 +507,7 @@ class FormBuilderAjax {
 		$listing_id = absint( Functions::request( "listingId" ) );
 		$listing    = rtcl()->factory->get_listing( $listing_id );
 
-		if ( ! $listing || ! current_user_can( 'edit_rtcl_listing', $listing_id ) ) {
+		if ( $listing && ! Functions::current_user_can( 'edit_' . rtcl()->post_type, $listing_id ) ) {
 			wp_send_json_error( apply_filters( 'rtcl_fb_not_found_error_message', __( 'You do not have sufficient permissions to access this page.', 'classified-listing' ), $_REQUEST, 'permission_error' ) );
 
 			return;
@@ -794,11 +810,10 @@ class FormBuilderAjax {
 			return;
 		}
 
-
 		$updatedId = wp_update_post( [
-			"ID"           => $attachment->ID,
-			"post_excerpt" => ! empty( $_POST['data']['caption'] ) ? trim( sanitize_text_field( $_POST['data']['caption'] ) ) : '',
-			"post_content" => ! empty( $_POST['data']['content'] ) ? trim( sanitize_text_field( $_POST['data']['content'] ) ) : '',
+			'ID'           => $attachment->ID,
+			'post_excerpt' => ! empty( $_POST['data']['caption'] ) ? trim( sanitize_text_field( $_POST['data']['caption'] ) ) : '',
+			'post_content' => ! empty( $_POST['data']['content'] ) ? trim( sanitize_text_field( $_POST['data']['content'] ) ) : '',
 		] );
 
 		if ( is_wp_error( $updatedId ) ) {
@@ -824,38 +839,88 @@ class FormBuilderAjax {
 			return;
 		}
 
-		$form_id    = ! empty( $_POST['form_id'] ) ? absint( $_POST['form_id'] ) : 0;
-		$field_uuid = Functions::request( 'field_uuid' );
-
+		$form_id = ! empty( $_POST['form_id'] ) ? absint( $_POST['form_id'] ) : 0;
 		if ( empty( $form_id ) ) {
 			wp_send_json_error( esc_html__( 'From id is empty to upload.', 'classified-listing' ) );
 
 			return;
 		}
-		if ( empty( $field_uuid ) ) {
-			wp_send_json_error( esc_html__( 'Field id is empty to upload.', 'classified-listing' ) );
+
+		$repeater_uuid = Functions::request( 'repeater_uuid' );
+		$field_uuid    = Functions::request( 'field_uuid' );
+		$repeaterIndex = Functions::request( 'repeater_index' );
+		$repeater      = null;
+		$field         = null;
+		if ( $repeater_uuid ) {
+			if ( empty( $repeater_uuid ) || empty( $field_uuid ) ) {
+				wp_send_json_error( esc_html__( 'Field id is empty to upload.', 'classified-listing' ) );
+
+				return;
+			}
+			$repeater = FBHelper::getFormFieldByUuid( $repeater_uuid, '', $form_id );
+
+			if ( empty( $repeater ) || empty( $repeater['element'] ) || 'repeater' !== $repeater['element'] || empty( $repeater['name'] ) ) {
+				wp_send_json_error( esc_html__( 'No field found to upload.', 'classified-listing' ) );
+
+				return;
+			}
+
+			if ( ! empty( $repeater['fields'] ) ) {
+				foreach ( $repeater['fields'] as $_field ) {
+					if ( ! empty( $_field['uuid'] ) && $_field['uuid'] === $field_uuid ) {
+						$field = $_field;
+						break;
+					}
+				}
+			}
+			if ( $field ) {
+				$repeaterIndex = null !== $repeaterIndex ? absint( $repeaterIndex ) : null;
+				if ( null === $repeaterIndex ) {
+					wp_send_json_error( esc_html__( 'Repeater field index is not defined.', 'classified-listing' ) );
+
+					return;
+				}
+			}
+		} else {
+
+			if ( empty( $field_uuid ) ) {
+				wp_send_json_error( esc_html__( 'Field id is empty to upload.', 'classified-listing' ) );
+
+				return;
+			}
+
+			$field = FBHelper::getFormFieldByUuid( $field_uuid, '', $form_id );
+		}
+
+		if ( empty( $field ) || empty( $field['element'] ) || 'file' !== $field['element'] ) {
+			wp_send_json_error( esc_html__( 'No field found to upload.', 'classified-listing' ) );
 
 			return;
 		}
 
-		$field = FBHelper::getFormFieldByUuid( $field_uuid, '', $form_id );
-		if ( empty( $field ) ) {
-			wp_send_json_error( esc_html__( "No field found to upload.", "classified-listing" ) );
-
-			return;
-		}
 		$fileMetaKey = ! empty( $field['name'] ) ? $field['name'] : null;
 
 		if ( empty( $fileMetaKey ) ) {
-			wp_send_json_error( esc_html__( "Field name is empty.", "classified-listing" ) );
+			wp_send_json_error( esc_html__( 'Field name is empty.', 'classified-listing' ) );
 
 			return;
 		}
 
 		// The ID of the post this attachment is for.
-		$listing_id = isset( $_POST["listingId"] ) ? absint( $_POST["listingId"] ) : 0;
+		$listing_id = isset( $_POST['listingId'] ) ? absint( $_POST['listingId'] ) : 0;
 		if ( $listing_id ) {
-			$attachment_ids = get_post_meta( $listing_id, $fileMetaKey, true );
+			if ( $repeater ) {
+				$repeaterValue = get_post_meta( $listing_id, $repeater['name'], true );
+				$repeaterValue = ! is_array( $repeaterValue ) || empty( $repeaterValue ) ? [] : $repeaterValue;
+				if ( ! empty( $repeaterValue[ $repeaterIndex ][ $fileMetaKey ] ) && is_array( $repeaterValue[ $repeaterIndex ][ $fileMetaKey ] ) ) {
+					$attachment_ids = array_map( 'absint', $repeaterValue[ $repeaterIndex ][ $fileMetaKey ] );
+				} else {
+					$attachment_ids = [];
+				}
+			} else {
+				$attachment_ids = get_post_meta( $listing_id, $fileMetaKey, true );
+			}
+
 			$attachment_ids = ! empty( $attachment_ids ) && is_array( $attachment_ids ) ? $attachment_ids : [];
 			if ( ! empty( $attachment_ids ) ) {
 				$check_attachment_ids = get_children( [
@@ -863,6 +928,7 @@ class FormBuilderAjax {
 					'post_parent'    => $listing_id,
 					'post_type'      => 'attachment',
 					'post__in'       => $attachment_ids,
+					'orderby'        => 'post__in',
 					'posts_per_page' => - 1,
 					'post_status'    => 'inherit',
 					'meta_query'     => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
@@ -874,7 +940,14 @@ class FormBuilderAjax {
 					]
 				] );
 				if ( $attachment_ids !== $check_attachment_ids ) {
-					update_post_meta( $listing_id, $fileMetaKey, $check_attachment_ids );
+					if ( $repeater ) {
+						if ( ! empty( $repeaterValue ) && is_array( $repeaterValue ) ) {
+							$repeaterValue[ $repeaterIndex ][ $fileMetaKey ] = $check_attachment_ids;
+							update_post_meta( $listing_id, $repeater['name'], $repeaterValue );
+						}
+					} else {
+						update_post_meta( $listing_id, $fileMetaKey, $check_attachment_ids );
+					}
 					$attachment_ids = $check_attachment_ids;
 				}
 			}
@@ -885,7 +958,7 @@ class FormBuilderAjax {
 		if ( ! empty( $field['validation']['max_file_count']['value'] ) ) {
 			$maxFileCount = absint( $field['validation']['max_file_count']['value'] );
 			if ( $maxFileCount && count( $attachment_ids ) >= $maxFileCount ) {
-				$message = ! empty( $field['validation']['max_file_count']['message'] ) ? str_replace( '{value}', $maxFileCount, $field['validation']['max_file_count']['message'] ) : esc_html__( "Your file upload limit is over.", "classified-listing" );
+				$message = ! empty( $field['validation']['max_file_count']['message'] ) ? str_replace( '{value}', $maxFileCount, $field['validation']['max_file_count']['message'] ) : esc_html__( 'Your file upload limit is over.', 'classified-listing' );
 				wp_send_json_error( $message );
 
 				return;
@@ -896,7 +969,7 @@ class FormBuilderAjax {
 			Filters::beforeUpload();
 		}
 
-		// you can use WP's wp_handle_upload() function:
+		// you can use WP\'s wp_handle_upload() function:
 		$status = wp_handle_upload( $_FILES['file'], [ 'test_form' => false ] );
 
 		// Get the path to the upload directory.
@@ -954,7 +1027,12 @@ class FormBuilderAjax {
 		}
 
 		$attachment_ids[] = $attach_id;
-		update_post_meta( $listing_id, $fileMetaKey, $attachment_ids );
+		if ( $repeater ) {
+			$repeaterValue[ $repeaterIndex ][ $fileMetaKey ] = $attachment_ids;
+			update_post_meta( $listing_id, $repeater['name'], $repeaterValue );
+		} else {
+			update_post_meta( $listing_id, $fileMetaKey, $attachment_ids );
+		}
 
 		Filters::afterUpload();
 
@@ -968,25 +1046,64 @@ class FormBuilderAjax {
 			return;
 		}
 
-		if ( empty( $_POST['form_id'] ) ) {
-			wp_send_json_error( esc_html__( 'From id is empty to upload.', 'classified-listing' ) );
+		$form_id = ! empty( $_POST['form_id'] ) ? absint( $_POST['form_id'] ) : 0;
+		if ( empty( $form_id ) ) {
+			wp_send_json_error( esc_html__( 'From id is empty to delete.', 'classified-listing' ) );
 
 			return;
 		}
-		if ( empty( $_POST['field_uuid'] ) ) {
-			wp_send_json_error( esc_html__( 'Field id is empty to upload.', 'classified-listing' ) );
+		$repeater_uuid = Functions::request( 'repeater_uuid' );
+		$field_uuid    = Functions::request( 'field_uuid' );
+		$repeaterIndex = Functions::request( 'repeater_index' );
+		$repeater      = null;
+		$field         = null;
+
+		if ( $repeater_uuid ) {
+			if ( empty( $repeater_uuid ) || empty( $field_uuid ) ) {
+				wp_send_json_error( esc_html__( 'Field id is empty to delete.', 'classified-listing' ) );
+
+				return;
+			}
+			$repeater = FBHelper::getFormFieldByUuid( $repeater_uuid, '', $form_id );
+
+			if ( empty( $repeater ) || empty( $repeater['element'] ) || 'repeater' !== $repeater['element'] || empty( $repeater['name'] ) ) {
+				wp_send_json_error( esc_html__( 'No field found to delete.', 'classified-listing' ) );
+
+				return;
+			}
+
+			if ( ! empty( $repeater['fields'] ) ) {
+				foreach ( $repeater['fields'] as $_field ) {
+					if ( ! empty( $_field['uuid'] ) && $_field['uuid'] === $field_uuid ) {
+						$field = $_field;
+						break;
+					}
+				}
+			}
+			if ( $field ) {
+				$repeaterIndex = null !== $repeaterIndex ? absint( $repeaterIndex ) : null;
+				if ( null === $repeaterIndex ) {
+					wp_send_json_error( esc_html__( 'Repeater field index is not defined.', 'classified-listing' ) );
+
+					return;
+				}
+			}
+		} else {
+			if ( empty( $field_uuid ) ) {
+				wp_send_json_error( esc_html__( 'Field id is empty to delete.', 'classified-listing' ) );
+
+				return;
+			}
+
+			$field = FBHelper::getFormFieldByUuid( $field_uuid, '', $form_id );
+		}
+
+		if ( empty( $field ) || empty( $field['element'] ) || 'file' !== $field['element'] ) {
+			wp_send_json_error( esc_html__( 'No field found to delete.', 'classified-listing' ) );
 
 			return;
 		}
-		$form_id    = absint( $_POST['form_id'] );
-		$field_uuid = Functions::request( 'field_uuid' );
 
-		$field = FBHelper::getFormFieldByUuid( $field_uuid, '', $form_id );
-		if ( empty( $field ) ) {
-			wp_send_json_error( esc_html__( 'No field found to upload.', 'classified-listing' ) );
-
-			return;
-		}
 		$fileMetaKey = ! empty( $field['name'] ) ? $field['name'] : null;
 
 		if ( empty( $fileMetaKey ) ) {
@@ -1010,7 +1127,17 @@ class FormBuilderAjax {
 			return;
 		}
 
-		$attachment_ids = get_post_meta( $listing_id, $fileMetaKey, true );
+		if ( $repeater ) {
+			$repeaterValue = get_post_meta( $listing_id, $repeater['name'], true );
+			$repeaterValue = ! is_array( $repeaterValue ) || empty( $repeaterValue ) ? [] : $repeaterValue;
+			if ( ! empty( $repeaterValue[ $repeaterIndex ][ $fileMetaKey ] ) && is_array( $repeaterValue[ $repeaterIndex ][ $fileMetaKey ] ) ) {
+				$attachment_ids = array_map( 'absint', $repeaterValue[ $repeaterIndex ][ $fileMetaKey ] );
+			} else {
+				$attachment_ids = [];
+			}
+		} else {
+			$attachment_ids = get_post_meta( $listing_id, $fileMetaKey, true );
+		}
 		$attachment_ids = ! empty( $attachment_ids ) && is_array( $attachment_ids ) ? $attachment_ids : [];
 		if ( ! empty( $attachment_ids ) ) {
 			$check_attachment_ids = get_children( [
@@ -1018,6 +1145,7 @@ class FormBuilderAjax {
 				'post_parent'    => $listing_id,
 				'post_type'      => 'attachment',
 				'post__in'       => $attachment_ids,
+				'orderby'        => 'post__in',
 				'posts_per_page' => - 1,
 				'post_status'    => 'inherit',
 				'meta_query'     => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
@@ -1029,37 +1157,58 @@ class FormBuilderAjax {
 				]
 			] );
 			if ( $attachment_ids !== $check_attachment_ids ) {
-				update_post_meta( $listing_id, $fileMetaKey, $check_attachment_ids );
+				if ( $repeater ) {
+					if ( ! empty( $repeaterValue ) && is_array( $repeaterValue ) ) {
+						$repeaterValue[ $repeaterIndex ][ $fileMetaKey ] = $check_attachment_ids;
+						update_post_meta( $listing_id, $repeater['name'], $repeaterValue );
+					}
+				} else {
+					update_post_meta( $listing_id, $fileMetaKey, $check_attachment_ids );
+				}
 				$attachment_ids = $check_attachment_ids;
 			}
 		}
 
 		if ( empty( $attachment_ids ) || ! in_array( $attach->ID, $attachment_ids ) ) {
-			wp_send_json_error( __( "File file found to delete.", "classified-listing" ) );
+			wp_send_json_error( __( 'No file found to delete.', 'classified-listing' ) );
 
 			return;
 		}
 
 		if ( ! wp_delete_attachment( $attach_id ) ) {
-			wp_send_json_error( __( "File could not be deleted.", "classified-listing" ) );
+			wp_send_json_error( __( 'File could not be deleted.', 'classified-listing' ) );
 
 			return;
 		}
 
-		wp_send_json_success();
+		$attachment_ids = array_filter( $attachment_ids,
+			function ( $item_id ) use ( $attach ) {
+				return $item_id !== $attach->ID;
+			}
+		);
 
+		if ( $repeater ) {
+			if ( ! empty( $repeaterValue ) && is_array( $repeaterValue ) ) {
+				$repeaterValue[ $repeaterIndex ][ $fileMetaKey ] = $attachment_ids;
+				update_post_meta( $listing_id, $repeater['name'], $repeaterValue );
+			}
+		} else {
+			update_post_meta( $listing_id, $fileMetaKey, $attachment_ids );
+		}
+
+		wp_send_json_success();
 	}
 
 	public function get_category(): void {
 
 		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
-			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
+			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
 
 			return;
 		}
 
 		$parent_id   = ! empty( $_POST['parentId'] ) ? absint( $_POST['parentId'] ) : 0;
-		$listingType = ! empty( $_POST['listingType'] ) ? sanitize_text_field( $_POST['listingType'] ) : '';
+		$listingType = Functions::request( 'listingType' );
 
 		$categories = Functions::get_one_level_categories( $parent_id, $listingType );
 		$data       = [
@@ -1076,6 +1225,54 @@ class FormBuilderAjax {
 
 		wp_send_json_success( [
 			'data' => $categories
+		] );
+	}
+
+	public function get_filtered_categories(): void {
+
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
+
+			return;
+		}
+
+		$ids        = ! empty( $_POST['ids'] ) && is_array( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : [];
+		$parentId   = isset( $_POST['parentId'] ) ? ( $_POST['parentId'] == 0 ? 0 : absint( $_POST['parentId'] ) ) : '';
+		$excludeIds = ! empty( $_POST['excludeIds'] ) && is_array( $_POST['excludeIds'] ) ? array_map( 'absint', $_POST['excludeIds'] ) : [];
+		$q          = ! empty( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';
+		$orderby    = strtolower( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_orderby', 'name' ) );
+		$order      = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_order', 'DESC' ) );
+		$number   = isset( $_POST['number'] ) ? absint( $_POST['number'] ) : false;
+		$args       = [
+			'hide_empty'   => false,
+			'orderby'      => $orderby,
+			'order'        => ( 'DESC' === $order ) ? 'DESC' : 'ASC',
+			'taxonomy'     => rtcl()->category,
+			'pad_counts'   => 1,
+			'hierarchical' => 1,
+			'parent'       => $parentId,
+			'search'       => $q,
+			'include'      => $ids,
+			'exclude'      => $excludeIds,
+			'number'       => $number
+			// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+		];
+		$listingType = Functions::request( 'listingType' );
+		if($listingType){
+			$args['meta_query']   = [
+				[
+					'key'   => '_rtcl_types',
+					'value' => $listingType
+				]
+			];
+		}
+		$data       = [];
+		$categories       = get_terms( $args );
+		if ( ! is_wp_error( $categories ) ) {
+			$data = $categories;
+		}
+		wp_send_json_success( [
+			'data' => $data
 		] );
 
 	}
@@ -1149,80 +1346,6 @@ class FormBuilderAjax {
 		] );
 
 	}
-
-//	public function set_tags(): void {
-//
-//		if ( !wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
-//			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
-//
-//			return;
-//		}
-//
-//		$ids = !empty( $_POST['ids'] ) && is_array( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : [];
-//		if ( empty( $ids ) ) {
-//			wp_send_json_error( __( 'No tag found to set', 'classified-listing' ) );
-//
-//			return;
-//		}
-//
-//		$listing_id = isset( $_POST["listingId"] ) ? absint( $_POST["listingId"] ) : 0;
-//
-//		if ( ( !$listing_id || !$listing = rtcl()->factory->get_listing( $listing_id ) || !Functions::current_user_can( 'edit_' . rtcl()->post_type, $listing_id ) ) || ( !is_user_logged_in() && !Functions::is_enable_post_for_unregister() ) ) {
-//			wp_send_json_error( __( 'You do not have sufficient permissions to set.', 'classified-listing' ) );
-//
-//			return;
-//		}
-//
-//		$existingTagsIds = wp_get_post_terms( $listing_id, rtcl()->tag, [ 'fields' => 'ids' ] );
-//		
-//		$newTagsIds = array_unique(array_merge($existingTagsIds, $ids));
-//		$update = wp_set_object_terms( $listing_id, $newTagsIds, rtcl()->tag );
-//		if ( is_wp_error( $update ) ) {
-//			wp_send_json_error(__( 'Error while adding tag.', 'classified-listing' ));
-//
-//			return;
-//		} 
-//		wp_send_json_success( [
-//			'data' => wp_get_object_terms( $listing_id, rtcl()->tag )
-//		] );
-//
-//	}
-//
-//	public function remove_tags(): void {
-//
-//		if ( !wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
-//			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
-//
-//			return;
-//		}
-//
-//		$ids = !empty( $_POST['ids'] ) && is_array( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : [];
-//		if ( empty( $ids ) ) {
-//			wp_send_json_error( __( 'No tag found to remove', 'classified-listing' ) );
-//
-//			return;
-//		}
-//
-//		$listing_id = isset( $_POST["listingId"] ) ? absint( $_POST["listingId"] ) : 0;
-//
-//		if ( ( !$listing_id || !$listing = rtcl()->factory->get_listing( $listing_id ) || !Functions::current_user_can( 'edit_' . rtcl()->post_type, $listing_id ) ) || ( !is_user_logged_in() && !Functions::is_enable_post_for_unregister() ) ) {
-//			wp_send_json_error( __( 'You do not have sufficient permissions to remove.', 'classified-listing' ) );
-//
-//			return;
-//		}
-//
-//
-//		$remove = wp_remove_object_terms( $listing_id, $ids, rtcl()->tag );
-//		if ( is_wp_error( $remove ) ) {
-//			wp_send_json_error( __( 'Error while removing tag.', 'classified-listing' ) );
-//
-//			return;
-//		}
-//		wp_send_json_success( [
-//			'data' => __( 'Successfully removed', 'classified-listing' )
-//		] );
-//
-//	}
 
 	public function get_location(): void {
 

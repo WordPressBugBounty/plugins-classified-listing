@@ -37,20 +37,22 @@ class PaymentStatus {
 			// when enable pay per ad pending post to publish
 			if ( Functions::get_option_item( 'rtcl_moderation_settings', 'pending_listing_status_after_promotion', false, 'checkbox' ) ) {
 				$applied_status[] = 'pending';
-				$hasAnyPromotion = true;
+				$hasAnyPromotion  = true;
 			}
 
-			if ( $order && ( empty( $order->pricing->getType() ) || "regular" === $order->pricing->getType() ) ) {
+			if ( $order && $order->pricing && ( empty( $order->pricing->getType() ) || "regular" === $order->pricing->getType() ) ) {
 				$listing = rtcl()->factory->get_listing( $order->get_listing_id() );
-				if ( !absint( get_post_meta( $post->ID, '_applied', true ) ) && $listing && in_array( $listing->get_status(), $applied_status, true ) && $visible = absint( $order->pricing->getVisible() ) ) {
-					$promotions = [];
+				if ( ! absint( get_post_meta( $post->ID, '_applied', true ) ) && $listing && in_array( $listing->get_status(), $applied_status, true )
+				     && $visible = absint( $order->pricing->getVisible() )
+				) {
+					$promotions                  = [];
 					$do_update_status_to_publish = false;
-					$rtcl_promotions = Options::get_listing_promotions();
-					$syncData = [];
+					$rtcl_promotions             = Options::get_listing_promotions();
+					$syncData                    = [];
 					foreach ( $rtcl_promotions as $rtcl_promo_id => $rtcl_promotion ) {
 						if ( $order->pricing->hasPromotion( $rtcl_promo_id ) ) {
-							$hasAnyPromotion = true;
-							$promotions[$rtcl_promo_id] = $visible;
+							$hasAnyPromotion              = true;
+							$promotions[ $rtcl_promo_id ] = $visible;
 						}
 					}
 					if ( $hasAnyPromotion ) {
@@ -74,7 +76,9 @@ class PaymentStatus {
 					$promotions_status = Functions::update_listing_promotions( $order->get_listing_id(), $promotions );
 
 					// Check if post expired or pending, then turn it to published
-					if ( in_array( $listing->get_status(), $applied_status, true ) && "publish" !== $listing->get_status() && $do_update_status_to_publish && !empty( $promotions_status ) ) {
+					if ( in_array( $listing->get_status(), $applied_status, true ) && "publish" !== $listing->get_status() && $do_update_status_to_publish
+					     && ! empty( $promotions_status )
+					) {
 						wp_update_post( [
 							'ID'          => $listing->get_id(),
 							'post_status' => 'publish'

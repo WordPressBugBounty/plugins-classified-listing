@@ -34,7 +34,7 @@ if ( count( $fields ) ) :
 		}
 		$icon = $field->getIconData();
 		?>
-		<div class="rtcl-cfp-item rtcl-cfp-<?php echo esc_attr( $field->getElement() ); ?>">
+		<div class="rtcl-cfp-item rtcl-cfp-<?php echo esc_attr( $field->getElement() ); ?>" data-name="<?php echo esc_attr( $field->getName() ); ?>" data-uuid="<?php echo esc_attr( $field->getUuid() ); ?>">
 			<?php
 			if ( $field->getElement() === 'url' ) {
 				$nofollow = ! empty( $field->getNofollow() ) ? ' rel="nofollow"' : '';
@@ -74,9 +74,9 @@ if ( count( $fields ) ) :
 										<?php
 										foreach ( $repeaterFields as $repeaterField ) {
 											$rField = new FBField( $repeaterField );
-											$rValue = $rValues[ $rField->getName() ] ?? '';
+											$rValue = 'file' === $rField->getElement() ? ( ! empty( $rValues[ $rField->getName() ] ) && is_array( $rValues[ $rField->getName() ] ) ? FBHelper::getFieldAttachmentFiles( $listing_id, $rField->getField(), $rValues[ $rField->getName() ], true ) : [] ) : ( $rValues[ $rField->getName() ] ?? '' );
 											?>
-											<div class="rtcl-cfp-repeater-field">
+											<div class="rtcl-cfp-repeater-field" data-name="<?php echo esc_attr( $field->getName() ); ?>" data-uuid="<?php echo esc_attr( $field->getUuid() ); ?>">
 												<?php
 												$rIcon = $rField->getIconData();
 												if ( ( ! empty( $rIcon['type'] ) && 'class' === $rIcon['type'] && ! empty( $rIcon['class'] ) ) || ! empty( $rField->getLabel() ) ) {
@@ -85,12 +85,15 @@ if ( count( $fields ) ) :
 														<?php
 														if ( ! empty( $rIcon['type'] ) && 'class' === $rIcon['type'] && ! empty( $rIcon['class'] ) ) {
 															?>
-															<div class="rtcl-field-icon"><i class="<?php echo esc_attr( $rIcon['class'] ); ?>"></i></div>
+															<div class="rtcl-field-icon"><i
+																	class="<?php echo esc_attr( $rIcon['class'] ); ?>"></i>
+															</div>
 															<?php
 														}
 														if ( ! empty( $rField->getLabel() ) ) {
 															?>
-															<div class='cfp-label'><?php echo esc_html( $rField->getLabel() ); ?></div>
+															<div
+																class='cfp-label'><?php echo esc_html( $rField->getLabel() ); ?></div>
 															<?php
 														}
 														?>

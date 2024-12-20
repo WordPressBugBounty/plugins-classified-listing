@@ -2,12 +2,11 @@
 
 namespace Rtcl\Controllers\Admin;
 
-use Rtcl\Helpers\Link;
-
 class NoticeController {
 	public function __construct() {
 		$current      = time();
-		$black_friday = mktime( 0, 0, 0, 11, 19, 2023 ) <= $current && $current <= mktime( 0, 0, 0, 1, 5, 2024 );
+		$currentYear  = gmdate( 'Y' );
+		$black_friday = mktime( 0, 0, 0, 11, 19, $currentYear ) <= $current && $current <= mktime( 0, 0, 0, 1, 5, $currentYear + 1 );
 
 		if ( $black_friday ) {
 			add_action( 'admin_init', [ $this, 'black_friday_notice' ] );
@@ -196,7 +195,7 @@ class NoticeController {
 
 	// remove the notice for the user if review already done or if the user does not want to
 	public function update_rating_status() {
-		if ( ! isset( $_REQUEST['_wpnonce'] ) || !wp_verify_nonce( $_REQUEST['_wpnonce'], 'rtcl_notice_nonce' ) ) {
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'rtcl_notice_nonce' ) ) {
 			return;
 		}
 
@@ -247,8 +246,9 @@ class NoticeController {
 	}
 
 	public function black_friday_notice() {
-		delete_option('rtcl_dismiss_admin_notice');
-		if ( get_option( 'rtcl_dismiss_admin_notice_2023' ) != '1' && ! isset( $GLOBALS['rtcl_dismiss_admin_notice_notice'] ) ) {
+		delete_option( 'rtcl_dismiss_admin_notice' );
+		$currentYear = date( 'Y' );
+		if ( get_option( 'rtcl_dismiss_admin_notice_' . $currentYear ) != '1' && ! isset( $GLOBALS['rtcl_dismiss_admin_notice_notice'] ) ) {
 			$GLOBALS['rtcl_dismiss_admin_notice_notice'] = 'rtcl_dismiss_admin_notice';
 			$this->bfNoticeActions();
 		}
@@ -267,26 +267,30 @@ class NoticeController {
 		add_action(
 			'admin_notices',
 			function () {
+				$currentYear   = date( 'Y' );
 				$plugin_name   = 'Classified Listing';
 				$download_link = 'https://www.radiustheme.com/downloads/classified-listing-pro-plugins-bundle/'; ?>
-                <div class="notice notice-info is-dismissible" data-rtcl-bf-dismiss-able="rtcl_dismiss_admin_notice"
-                     style="display:grid;grid-template-columns: 100px auto;padding-top: 25px; padding-bottom: 22px;">
-                    <img alt="<?php echo esc_attr( $plugin_name ); ?>"
-                         src="<?php echo esc_url(rtcl()->get_assets_uri( 'images/classified-listing-promo.gif' )) ?>"
-                         width="74px"
-                         height="74px" style="grid-row: 1 / 4; align-self: center;justify-self: center"/>
-                    <h3 style="margin:0;"><?php echo sprintf( '%s Black Friday Sale 2023!!', esc_html($plugin_name) ); ?></h3>
+				<div class="notice notice-info is-dismissible" data-rtcl-bf-dismiss-able="rtcl_dismiss_admin_notice"
+					 style="display:grid;grid-template-columns: 100px auto;column-gap:10px;padding-top: 15px; padding-bottom: 12px;">
+					<img alt="<?php echo esc_attr( $plugin_name ); ?>"
+						 src="<?php echo esc_url( rtcl()->get_assets_uri( 'images/classified-listing-promo.gif' ) ) ?>"
+						 width="90px"
+						 height="90px" style="grid-row: 1 / 4; align-self: center;justify-self: center"/>
+					<h3 style="margin:0;display: flex;align-items: center"><?php echo sprintf( '%s - End of Year 2024 <img style="width: 45px;position: relative;margin-left: 6px" src="%s" />',
+							esc_html( $plugin_name ), rtcl()->get_assets_uri( 'images/deal.gif' ) ); ?></h3>
 
-                    <p style="margin:5px 0;">
-						<strong>Exciting News:</strong> Black Friday sale is now live! Get the plugin bundle or individual addon and enjoy discounts up to 50%. Limited time offer!!
-                    </p>
+					<p style="margin:3px 0 5px; font-size: 14px">
+						Year-end sale is live now! Get the <strong>plugin bundle</strong> or
+						<strong>individual addon</strong> and enjoy discounts <span style="color: #fe0100; font-weight: 600">up to 50%</span>. Limited time
+						offer!!
+					</p>
 
-                    <p style="margin:0;">
-                        <a class="button button-primary" href="<?php echo esc_url( $download_link ); ?>"
-                           target="_blank">Buy Now</a>
-                        <a class="button button-dismiss" href="#">Dismiss</a>
-                    </p>
-                </div>
+					<p style="margin:0;">
+						<a class="button button-primary" href="<?php echo esc_url( $download_link ); ?>"
+						   target="_blank">Buy Now</a>
+						<a class="button button-dismiss" href="#">Dismiss</a>
+					</p>
+				</div>
 				<?php
 			}
 		);
@@ -295,24 +299,23 @@ class NoticeController {
 			'admin_footer',
 			function () {
 				?>
-                <script type="text/javascript">
-                    (function ($) {
-                        $(function () {
-                            setTimeout(function () {
-                                $('div[data-rtcl-bf-dismiss-able] .notice-dismiss, div[data-rtcl-bf-dismiss-able] .button-dismiss')
-                                    .on('click', function (e) {
-                                        e.preventDefault();
-										console.log('testing');
-                                        $.post(ajaxurl, {
-                                            'action': 'rtcl_bf_dismiss_admin_notice',
-                                            'nonce': <?php echo wp_json_encode( wp_create_nonce( 'rtcl-bf-dismissible-notice' ) ); ?>
-                                        });
-                                        $(e.target).closest('.is-dismissible').remove();
-                                    });
-                            }, 1000);
-                        });
-                    })(jQuery);
-                </script>
+				<script type="text/javascript">
+					(function ($) {
+						$(function () {
+							setTimeout(function () {
+								$('div[data-rtcl-bf-dismiss-able] .notice-dismiss, div[data-rtcl-bf-dismiss-able] .button-dismiss')
+									.on('click', function (e) {
+										e.preventDefault();
+										$.post(ajaxurl, {
+											'action': 'rtcl_bf_dismiss_admin_notice',
+											'nonce': <?php echo wp_json_encode( wp_create_nonce( 'rtcl-bf-dismissible-notice' ) ); ?>
+										});
+										$(e.target).closest('.is-dismissible').remove();
+									});
+							}, 1000);
+						});
+					})(jQuery);
+				</script>
 				<?php
 			}
 		);
@@ -320,12 +323,13 @@ class NoticeController {
 		add_action(
 			'wp_ajax_rtcl_bf_dismiss_admin_notice',
 			function () {
+				$currentYear = date( 'Y' );
 				check_ajax_referer( 'rtcl-bf-dismissible-notice', 'nonce' );
-				
-				update_option( 'rtcl_dismiss_admin_notice_2023', '1' );
+
+				update_option( 'rtcl_dismiss_admin_notice_' . $currentYear, '1' );
 				wp_die();
 			}
 		);
 	}
-	
+
 }

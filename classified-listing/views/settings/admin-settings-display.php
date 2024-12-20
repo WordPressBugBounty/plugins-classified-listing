@@ -24,7 +24,7 @@ use Rtcl\Helpers\Functions;
 					$class .= ' nav-tab-active';
 				}
 				echo '<li>';
-				echo '<a href="?post_type=' . esc_attr( rtcl()->post_type ) . '&page=rtcl-settings&tab=' . esc_attr( $slug ) . '" class="' . esc_attr( $class )
+				echo '<a href="?page=rtcl-settings&tab=' . esc_attr( $slug ) . '" class="' . esc_attr( $class )
 					 . '">' . esc_html( $title ) . '</a>';
 				echo '</li>';
 			}
@@ -37,7 +37,7 @@ use Rtcl\Helpers\Functions;
 			echo '<ul class="sub-settings">';
 			$array_keys = array_keys( $this->subtabs );
 			foreach ( $this->subtabs as $id => $label ) {
-				echo '<li><a href="' . esc_url( admin_url( 'edit.php?post_type=' . rtcl()->post_type . '&page=rtcl-settings&tab=' . $this->active_tab
+				echo '<li><a href="' . esc_url( admin_url( 'admin.php?page=rtcl-settings&tab=' . $this->active_tab
 														   . '&section=' . sanitize_title( $id ) ) ) . '" class="nav-sub-' . esc_attr( strtolower( $label ) )
 					 . ( $this->current_section == $id ? ' current' : '' ) . '">'
 					 . esc_html( $label )

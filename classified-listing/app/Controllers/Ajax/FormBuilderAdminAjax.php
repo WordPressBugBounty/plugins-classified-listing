@@ -45,7 +45,7 @@ class FormBuilderAdminAjax {
 	}
 
 	public function import_forms() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ), 422 );
 		}
 
@@ -121,7 +121,7 @@ class FormBuilderAdminAjax {
 
 
 	public function export_forms() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ), 422 );
 		}
 
@@ -167,7 +167,7 @@ class FormBuilderAdminAjax {
 	 * @return void
 	 */
 	public function get_terms_by_keyword(): void {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
 		}
 
@@ -216,7 +216,7 @@ class FormBuilderAdminAjax {
 	 * @return void
 	 */
 	public function form_list(): void {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
 		}
 
@@ -235,7 +235,7 @@ class FormBuilderAdminAjax {
 	 * @return void
 	 */
 	public function update_migration_data(): void {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
 		}
 
@@ -274,7 +274,7 @@ class FormBuilderAdminAjax {
 	 * @return void
 	 */
 	public function get_all_migration_data(): void {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
 		}
 
@@ -307,7 +307,7 @@ class FormBuilderAdminAjax {
 	 * @return void
 	 */
 	public function get_fb_options(): void {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
 		}
 		$options = get_option( 'rtcl_fb_options', [] );
@@ -319,7 +319,7 @@ class FormBuilderAdminAjax {
 	 * @return void
 	 */
 	public function update_fb_options(): void {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
 		}
 
@@ -338,7 +338,7 @@ class FormBuilderAdminAjax {
 	 * @return void
 	 */
 	public function cf_fields(): void {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
 		}
 
@@ -369,7 +369,7 @@ class FormBuilderAdminAjax {
 
 
 	public function form_get() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
 		}
 
@@ -387,7 +387,7 @@ class FormBuilderAdminAjax {
 	}
 
 	public function form_create() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
 
 			return;
@@ -415,7 +415,7 @@ class FormBuilderAdminAjax {
 
 		$form = Form::query()->insert( $formData );
 		if ( ! $form ) {
-			wp_send_json_error( esc_html__( "Error while creating new form!", "classified-listing" ) );
+			wp_send_json_error( esc_html__( 'Error while creating new form!', 'classified-listing' ) );
 		}
 		$title       = sprintf( '%s (#%s)', $form->title, $form->id );
 		$form->title = $title;
@@ -428,8 +428,8 @@ class FormBuilderAdminAjax {
 	}
 
 	public function form_delete() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
-			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
 		}
 
 		$formId = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
@@ -437,36 +437,46 @@ class FormBuilderAdminAjax {
 		$form = Form::query()->find( $formId );
 
 		if ( empty( $form ) ) {
-			wp_send_json_error( esc_html__( "No form found to edit", "classified-listing" ) );
+			wp_send_json_error( esc_html__( 'No form found to edit', 'classified-listing' ) );
 		}
 
 		if ( $form->default == 1 ) {
-			wp_send_json_error( esc_html__( "Default form can't be deleted.", "classified-listing" ) );
+			wp_send_json_error( esc_html__( 'Default form can\'t be deleted.', 'classified-listing' ) );
 		}
 
 		if ( ! $form->delete() ) {
-			wp_send_json_error( esc_html__( "Error while deleting form", "classified-listing" ) );
+			wp_send_json_error( esc_html__( 'Error while deleting form', 'classified-listing' ) );
 		}
-		wp_send_json_success( [ 'message' => __( 'Deleted successfully', 'classified-listing' ), 'id' => $formId ] );
+		wp_send_json_success( [
+			'message' => __( 'Deleted successfully', 'classified-listing' ),
+			'id'      => $formId
+		] );
 	}
 
 	public function form_update() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
-			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
 		}
 		$formId = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
 
 		$form = Form::query()->find( $formId );
 
 		if ( empty( $form ) ) {
-			wp_send_json_error( esc_html__( "No form found to update.", "classified-listing" ) );
+			wp_send_json_error( esc_html__( 'No form found to update.', 'classified-listing' ) );
 
 			return;
 		}
 
-		$sections = $_POST['sections'] ?? [];
-		$fields   = $_POST['fields'] ?? (object) [];
-		$settings = empty( $_POST['settings'] ) ? (object) [] : $_POST['settings'];
+		$sections = ! empty( $_POST['sections'] ) ? json_decode( wp_unslash( $_POST['sections'] ), true ) : [];
+		$fields   = ! empty( $_POST['fields'] ) ? json_decode( wp_unslash( $_POST['fields'] ), true ) : (object) [];
+		$settings = empty( $_POST['settings'] ) ? (object) [] : json_decode( wp_unslash( $_POST['settings'] ) );
+
+		if ( json_last_error() !== JSON_ERROR_NONE ) {
+			wp_send_json_error( sprintf( '%s %s', __( 'Invalid JSON data: ', 'classified-listing' ), json_last_error_msg() ) );
+
+			return;
+		}
+
 		$fields   = ( new FieldSanitization( $fields ) )->get();
 		$sections = ( new SectionSanitization( $sections, $fields ) )->get();
 		$settings = ( new SettingsFieldSanitization( $settings ) )->get();
@@ -482,15 +492,15 @@ class FormBuilderAdminAjax {
 	}
 
 	public function update_translation() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
-			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
 		}
 		$formId = isset( $_POST['formId'] ) ? absint( $_POST['formId'] ) : 0;
 
 		$form = Form::query()->find( $formId );
 
 		if ( empty( $form ) ) {
-			wp_send_json_error( esc_html__( "No form found to update.", "classified-listing" ) );
+			wp_send_json_error( esc_html__( 'No form found to update.', 'classified-listing' ) );
 
 			return;
 		}
@@ -506,7 +516,7 @@ class FormBuilderAdminAjax {
 	}
 
 	public function delete_translation() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
 		}
 		$formId = isset( $_POST['formId'] ) ? absint( $_POST['formId'] ) : 0;
@@ -519,7 +529,7 @@ class FormBuilderAdminAjax {
 			return;
 		}
 
-		$fieldUid = $_POST['fieldUuid'] ?? '';
+		$fieldUid = Functions::request( 'fieldUuid', '' );
 
 		if ( empty( $fieldUid ) ) {
 			wp_send_json_error( esc_html__( 'Field id is missing to remove translations.', 'classified-listing' ) );
@@ -545,7 +555,7 @@ class FormBuilderAdminAjax {
 	}
 
 	public function form_update_slug() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
 		}
 		$formId   = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
@@ -578,7 +588,7 @@ class FormBuilderAdminAjax {
 	}
 
 	public function form_update_partial() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
 		}
 		$formId = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
@@ -609,7 +619,7 @@ class FormBuilderAdminAjax {
 	}
 
 	public function form_mark_as_default() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || !current_user_can('manage_rtcl_options')) {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
 		}
 		$formId = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;

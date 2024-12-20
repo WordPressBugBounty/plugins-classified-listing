@@ -229,7 +229,7 @@ class RtclEmail {
 			$mailer->AltBody = wordwrap( // phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
 				preg_replace( $this->plain_search, $this->plain_replace, wp_strip_all_tags( $this->get_content_plain() ) )
 			);
-			$this->sending = false;
+			$this->sending   = false;
 		}
 
 		return $mailer;
@@ -260,9 +260,10 @@ class RtclEmail {
 	 */
 	public function get_recipient() {
 		$to = apply_filters( 'rtcl_email_recipient_' . $this->id, $this->recipient, $this->object );
-		if ( !is_array( $to ) ) {
+		if ( ! is_array( $to ) ) {
 			$to = array_map( 'trim', explode( ',', $to ) );
 		}
+
 		return array_filter( $to, 'is_email' );
 	}
 
@@ -272,11 +273,11 @@ class RtclEmail {
 	 * @return mixed|string|null
 	 */
 	public function get_placeholders_item( $id ) {
-		if ( !$id ) {
+		if ( ! $id ) {
 			return '';
 		}
 
-		return isset( $this->placeholders[$id] ) ? $this->placeholders[$id] : null;
+		return isset( $this->placeholders[ $id ] ) ? $this->placeholders[ $id ] : null;
 	}
 
 	/**
@@ -285,7 +286,7 @@ class RtclEmail {
 	 * @return string
 	 */
 	public function get_heading() {
-		if ( !$this->id && $this->heading ) {
+		if ( ! $this->id && $this->heading ) {
 			return apply_filters( 'rtcl_email_heading', $this->format_string( $this->heading ), $this );
 		}
 
@@ -354,7 +355,7 @@ class RtclEmail {
 //			}
 			if ( $sitepress && method_exists( $sitepress, 'switch_lang' ) ) {
 				$rtcl_wpml_rest_to_language = apply_filters( 'wpml_current_language', null );
-				if ( $rtcl_wpml_rest_to_language !== get_locale()) {
+				if ( $rtcl_wpml_rest_to_language !== get_locale() ) {
 					$sitepress->switch_lang( $rtcl_wpml_rest_to_language, true );
 				}
 			}
@@ -369,7 +370,7 @@ class RtclEmail {
 	public function restore_locale() {
 		$restore_email_locale = apply_filters( 'rtcl_allow_restoring_email_locale', true, $this );
 
-		if ( $restore_email_locale && $this->is_user_email()) {
+		if ( $restore_email_locale && $this->is_user_email() ) {
 			global $sitepress, $rtcl_wpml_rest_to_language;
 			if ( $sitepress && method_exists( $sitepress, 'switch_lang' ) ) {
 				if ( $rtcl_wpml_rest_to_language ) {
@@ -423,7 +424,7 @@ class RtclEmail {
 	 */
 	public function get_subject() {
 
-		if ( !$this->id && $this->subject ) {
+		if ( ! $this->id && $this->subject ) {
 			return apply_filters( 'rtcl_email_subject', $this->format_string( $this->subject ), $this->object );
 		}
 
@@ -440,7 +441,7 @@ class RtclEmail {
 	 * @return Object $this
 	 */
 	public function set_attachments( $paths = [] ) {
-		if ( is_array( $paths ) && !empty( $paths ) ) {
+		if ( is_array( $paths ) && ! empty( $paths ) ) {
 			$this->attachments = $paths;
 		}
 
@@ -454,9 +455,9 @@ class RtclEmail {
 	 */
 	public function initSettings() {
 		$this->email_content_type = $this->get_option( 'email_content_type', 'html' );
-		$date_format = get_option( 'date_format' );
-		$time_format = get_option( 'time_format' );
-		$current_time = current_time( 'timestamp' );
+		$date_format              = get_option( 'date_format' );
+		$time_format              = get_option( 'time_format' );
+		$current_time             = current_time( 'timestamp' );
 		if ( empty( $this->placeholders ) ) {
 			$this->placeholders = [
 				'{site_name}'     => Functions::get_blogname(),
@@ -482,19 +483,19 @@ class RtclEmail {
 	 * @return bool|int|null
 	 */
 	public function get_option( $id, $default = null, $type = null ) {
-		if ( !$this->settings ) {
+		if ( ! $this->settings ) {
 			$this->settings = Functions::get_option( 'rtcl_email_settings' );
 		}
 
 		if ( $type == 'checkbox' ) {
-			return ( isset( $this->settings[$id] ) && $this->settings[$id] == 'yes' ) ? true : false;
+			return ( isset( $this->settings[ $id ] ) && $this->settings[ $id ] == 'yes' ) ? true : false;
 		} elseif ( $type == 'multi_checkbox' ) {
-			return ( isset( $this->settings[$id] ) && is_array( $this->settings[$id] ) && in_array( $default, $this->settings[$id] ) ) ? true : false;
+			return ( isset( $this->settings[ $id ] ) && is_array( $this->settings[ $id ] ) && in_array( $default, $this->settings[ $id ] ) ) ? true : false;
 		} elseif ( $type == 'number' ) {
-			return isset( $this->settings[$id] ) ? absint( $this->settings[$id] ) : absint( $default );
+			return isset( $this->settings[ $id ] ) ? absint( $this->settings[ $id ] ) : absint( $default );
 		}
 
-		return isset( $this->settings[$id] ) && !empty( $this->settings[$id] ) ? $this->settings[$id] : $default;
+		return isset( $this->settings[ $id ] ) && ! empty( $this->settings[ $id ] ) ? $this->settings[ $id ] : $default;
 	}
 
 
@@ -572,7 +573,7 @@ class RtclEmail {
 	}
 
 	public function get_header_image_url() {
-		$image_id = $this->get_option( 'email_header_image' );
+		$image_id  = $this->get_option( 'email_header_image' );
 		$image_url = null;
 		if ( $image_id ) {
 			$image_url = wp_get_attachment_image_url( $image_id, 'full' );
@@ -670,8 +671,8 @@ class RtclEmail {
 	 */
 	public function style_inline( $content ) {
 		if ( in_array( $this->get_content_type(), [ 'text/html', 'multipart/alternative' ], true ) ) {
-			$style_html = Functions::get_template_html( 'emails/email-styles', [ 'email' => $this ] );
-			$css = apply_filters( 'rtcl_email_styles', $style_html, $this );
+			$style_html       = Functions::get_template_html( 'emails/email-styles', [ 'email' => $this ] );
+			$css              = apply_filters( 'rtcl_email_styles', $style_html, $this );
 			$emogrifier_class = 'Pelago\\Emogrifier';
 
 			if ( $this->supports_emogrifier() && class_exists( $emogrifier_class ) ) {
@@ -680,7 +681,7 @@ class RtclEmail {
 
 					do_action( 'rtcl_emogrifier', $emogrifier, $this );
 
-					$content = $emogrifier->emogrify();
+					$content    = $emogrifier->emogrify();
 					$html_prune = \Pelago\Emogrifier\HtmlProcessor\HtmlPruner::fromHtml( $content );
 					$html_prune->removeElementsWithDisplayNone();
 					$content = $html_prune->render();
@@ -735,10 +736,10 @@ class RtclEmail {
 
 		$placeholders = apply_filters( 'rtcl_email_placeholders', $this->placeholders, $this );
 
-		$find = array_keys( $placeholders );
+		$find    = array_keys( $placeholders );
 		$replace = array_values( $placeholders );
 
-		return apply_filters( 'rtcl_email_format_string', str_replace( $find, $replace, $string ), $this );
+		return apply_filters( 'rtcl_email_format_string', empty( $string ) ? $string : str_replace( $find, $replace, $string ), $this );
 	}
 
 
@@ -751,13 +752,13 @@ class RtclEmail {
 	public function send() {
 		$this->beforeSend();
 
-		$to = $this->get_recipient();
-		$subject = $this->get_subject();
-		$message = $this->get_content();
-		$headers = $this->get_headers();
-		$attachments = $this->get_attachments();
-		$message = apply_filters( 'rtcl_mail_content', $this->style_inline( $message ) );
-		$mail_callback = apply_filters( 'rtcl_mail_callback', 'wp_mail', $this );
+		$to                   = $this->get_recipient();
+		$subject              = $this->get_subject();
+		$message              = $this->get_content();
+		$headers              = $this->get_headers();
+		$attachments          = $this->get_attachments();
+		$message              = apply_filters( 'rtcl_mail_content', $this->style_inline( $message ) );
+		$mail_callback        = apply_filters( 'rtcl_mail_callback', 'wp_mail', $this );
 		$mail_callback_params = apply_filters( 'rtcl_mail_callback_params', [
 			$to,
 			$subject,
@@ -765,7 +766,7 @@ class RtclEmail {
 			$headers,
 			$attachments
 		], $this );
-		$return = call_user_func_array( $mail_callback, $mail_callback_params );
+		$return               = call_user_func_array( $mail_callback, $mail_callback_params );
 
 		$this->afterSend();
 

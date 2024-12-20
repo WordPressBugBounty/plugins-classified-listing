@@ -261,7 +261,6 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
             center_lng: data.lng,
             distance: _distance
           });
-          console.log(data);
           _this.addParam('center_lat', data.lat);
           _this.addParam('center_lat', data.lng);
           _this.addParam('distance', _distance);
@@ -1668,7 +1667,6 @@ __webpack_require__.r(__webpack_exports__);
               },
               error: function error(jqXhr, json, errorThrown) {
                 pp_wrap.rtclUnblock();
-                console.log("error");
               }
             });
           } else {
@@ -1702,7 +1700,6 @@ __webpack_require__.r(__webpack_exports__);
           },
           error: function error(jqXhr, json, errorThrown) {
             pp_wrap.rtclUnblock();
-            console.log("error");
           }
         });
       }
@@ -2343,7 +2340,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     });
 
-    /* REVEAL PHONE */
+    // Reveal phone
     $(document).on("click", ".reveal-phone", function (e) {
       var $this = $(this),
         isMobile = $this.hasClass("rtcl-mobile");
@@ -2355,7 +2352,7 @@ __webpack_require__.r(__webpack_exports__);
         var wPhone = "";
         if (options.safe_phone && options.phone_hidden) {
           var purePhone = options.safe_phone.replace(rtcl.phone_number_placeholder, options.phone_hidden);
-          aPhone = $('<a href="#" />').attr("href", "tel:" + purePhone).text(purePhone);
+          aPhone = $('<a class="revealed-phone-number" href="#" />').attr("href", "tel:" + purePhone).html('<i class="rtcl-icon rtcl-icon-phone"></i>').append(purePhone);
           $this.attr("data-tel", "tel:" + purePhone);
         }
         if (options.safe_whatsapp_number && options.whatsapp_hidden) {
@@ -2364,6 +2361,22 @@ __webpack_require__.r(__webpack_exports__);
         }
         $numbers.html(aPhone).append(wPhone);
         $this.addClass("revealed");
+        $.ajax({
+          url: rtcl.ajaxurl,
+          type: "POST",
+          dataType: "json",
+          data: {
+            listing_id: $this.attr('data-id'),
+            action: 'rtcl_phone_whatsapp_revealed',
+            __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+          },
+          success: function success(res) {
+            console.log(res);
+          },
+          error: function error(e) {
+            console.log(e);
+          }
+        });
       } else {
         if (isMobile) {
           var tel = $this.attr("data-tel");
@@ -2372,6 +2385,54 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       }
+    });
+    // Phone click count
+    $(document).on("click", ".reveal-phone.revealed a.revealed-phone-number", function (e) {
+      e.preventDefault();
+      var $this = $(this),
+        $wrapper = $this.closest('.reveal-phone.revealed');
+      $.ajax({
+        url: rtcl.ajaxurl,
+        type: "POST",
+        dataType: "json",
+        data: {
+          listing_id: $wrapper.attr('data-id'),
+          action: 'rtcl_phone_click',
+          __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+        },
+        success: function success(res) {
+          if (res.success) {
+            window.location = $this.attr('href');
+          }
+        },
+        error: function error(e) {
+          console.log(e);
+        }
+      });
+    });
+    // WhatsApp click count
+    $(document).on("click", ".reveal-phone.revealed a.revealed-whatsapp-number", function (e) {
+      e.preventDefault();
+      var $this = $(this),
+        $wrapper = $this.closest('.reveal-phone.revealed');
+      $.ajax({
+        url: rtcl.ajaxurl,
+        type: "POST",
+        dataType: "json",
+        data: {
+          listing_id: $wrapper.attr('data-id'),
+          action: 'rtcl_whatsapp_click',
+          __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+        },
+        success: function success(res) {
+          if (res.success) {
+            window.location = $this.attr('href');
+          }
+        },
+        error: function error(e) {
+          console.log(e);
+        }
+      });
     });
     var option = getUrlParameter("option") || "",
       gateway = getUrlParameter("gateway") || "";
@@ -2404,10 +2465,12 @@ __webpack_require__.r(__webpack_exports__);
       $(this).validate({
         submitHandler: function submitHandler(form) {
           var $form = $(form);
+          console.log($form.data("reCaptchaId"));
           // recaptcha v2
           if (rtcl.recaptcha && typeof grecaptcha !== "undefined" && rtcl.recaptcha.on && $.inArray("login", rtcl.recaptcha.on) !== -1) {
             if (rtcl.recaptcha.v === 2 && $form.data("reCaptchaId") !== undefined) {
               var response = grecaptcha.getResponse($form.data("reCaptchaId"));
+              console.log(response);
               var $captcha_msg = $form.find("#rtcl-login-g-recaptcha-message");
               $captcha_msg.html("");
               if (0 === response.length) {
@@ -2498,7 +2561,7 @@ __webpack_require__.r(__webpack_exports__);
       $(this).validate({
         submitHandler: function submitHandler(form) {
           var $form = $(form);
-          if (rtcl.recaptcha && typeof grecaptcha !== "undefined" && rtcl.recaptcha.on && $.inArray("listing", rtcl.recaptcha.on) !== -1) {
+          if (rtcl.recaptcha && typeof grecaptcha !== "undefined" && rtcl.recaptcha.on && $.inArray("registration", rtcl.recaptcha.on) !== -1) {
             if (rtcl.recaptcha.v === 2 && $form.data("reCaptchaId") !== undefined) {
               var response = grecaptcha.getResponse($form.data("reCaptchaId"));
               var $captcha_msg = $("#rtcl-registration-g-recaptcha-message");

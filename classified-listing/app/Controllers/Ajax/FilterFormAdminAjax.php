@@ -114,6 +114,17 @@ class FilterFormAdminAjax {
 						$itemData[ $_field['id'] ] = 1;
 					} elseif ( $_field['type'] === 'select' && in_array( $data[ $_field['id'] ], array_keys( $_field['options'] ) ) ) {
 						$itemData[ $_field['id'] ] = $data[ $_field['id'] ];
+					} elseif ( $_field['type'] === 'cf_fields_order' ) {
+						$ids = [];
+						if ( is_array( $data[ $_field['id'] ] ) ) {
+							$ids = array_filter( array_map( function ( $_id ) {
+								return sanitize_text_field( wp_unslash( $_id ) );
+							}, $data[ $_field['id'] ] ) );
+							if ( empty( $ids ) ) {
+
+							}
+						}
+						$itemData[ $_field['id'] ] = empty( $ids ) ? '' : $ids;
 					} else {
 						$itemData[ $_field['id'] ] = sanitize_text_field( wp_unslash( $data[ $_field['id'] ] ) );
 					}

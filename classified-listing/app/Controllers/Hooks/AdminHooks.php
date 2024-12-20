@@ -72,7 +72,13 @@ class AdminHooks {
 	 */
 	public static function remove_all_notices() {
 		$screen = get_current_screen();
-		if ( isset( $screen->base ) && 'rtcl_listing_page_rtcl-settings' == $screen->base ) {
+
+		if ( isset( $screen->base ) && ( 'classified-listing_page_rtcl-settings' == $screen->base ) || 'classified-listing_page_rtcl-fb' == $screen->base
+		     || 'toplevel_page_rtcl-admin' == $screen->base
+		     || 'classified-listing_page_rtcl-ajax-filter' == $screen->base
+		     || 'classified-listing_page_rtcl-import-export' == $screen->base
+		     || 'classified-listing_page_rtcl-extension' == $screen->base
+		) {
 			remove_all_actions( 'admin_notices' );
 			remove_all_actions( 'all_admin_notices' );
 		}

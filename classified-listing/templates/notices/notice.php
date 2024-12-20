@@ -18,5 +18,5 @@ if ( ! $messages ) {
 ?>
 
 <?php foreach ( $messages as $message ) : ?>
-	<div class="rtcl-info alert alert-info"><?php echo wp_kses_post( $message ); ?></div>
+	<div class="rtcl-message rtcl-info alert alert-info"><?php echo wp_kses_post( $message ); ?></div>
 <?php endforeach; ?>

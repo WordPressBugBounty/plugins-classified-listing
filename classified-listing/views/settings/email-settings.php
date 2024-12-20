@@ -3,7 +3,7 @@
 use Rtcl\Helpers\Functions;
 use Rtcl\Resources\Options;
 
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
@@ -33,6 +33,7 @@ $options = [
 			'listing_expired',
 			'remind_renewal',
 			'order_created',
+			'user_import',
 			'order_completed'
 		],
 		'options' => Options::get_user_email_notification_options()
@@ -67,23 +68,24 @@ $options = [
 		'title'       => esc_html__( 'Email template', 'classified-listing' ),
 		'type'        => 'title',
 		'description' => sprintf( '<strong>%s</strong>', esc_html__( "You can use the following placeholders", "classified-listing" ) ) . '<br>' .
-			'{site_name} - ' . esc_html__( 'Your site name', 'classified-listing' ) . '<br>' .
-			'{site_link} - ' . esc_html__( 'Your site name with link', 'classified-listing' ) . '<br>' .
-			'{site_url} - ' . esc_html__( 'Your site url with link', 'classified-listing' ) . '<br>' .
-			'{admin_email} - ' . esc_html__( 'Administration Email Address', 'classified-listing' ) . '<br>' .
-			'{renewal_link} - ' . esc_html__( 'Link to renewal page', 'classified-listing' ) . '<br>' .
-			'{today} - ' . esc_html__( 'Current date', 'classified-listing' ) . '<br>' .
-			'{now} - ' . esc_html__( 'Current time', 'classified-listing' ) . '<br><br>' .
-			wp_kses(
-			/* translators:  link */
-				sprintf( __( 'This section lets you customize the Classified Listing emails. <a href="%s" target="_blank">Click here to preview your email template.</a>', "classified-listing" ), wp_nonce_url( admin_url( '?preview_rtcl_mail=true' ), 'preview-mail' ) ),
-				[
-					'a' => [
-						'href'   => true,
-						'target' => true
-					]
-				]
-			)
+		                 '{site_name} - ' . esc_html__( 'Your site name', 'classified-listing' ) . '<br>' .
+		                 '{site_link} - ' . esc_html__( 'Your site name with link', 'classified-listing' ) . '<br>' .
+		                 '{site_url} - ' . esc_html__( 'Your site url with link', 'classified-listing' ) . '<br>' .
+		                 '{admin_email} - ' . esc_html__( 'Administration Email Address', 'classified-listing' ) . '<br>' .
+		                 '{renewal_link} - ' . esc_html__( 'Link to renewal page', 'classified-listing' ) . '<br>' .
+		                 '{today} - ' . esc_html__( 'Current date', 'classified-listing' ) . '<br>' .
+		                 '{now} - ' . esc_html__( 'Current time', 'classified-listing' ) . '<br><br>' .
+		                 wp_kses(
+		                 /* translators:  link */
+			                 sprintf( __( 'This section lets you customize the Classified Listing emails. <a href="%s" target="_blank">Click here to preview your email template.</a>',
+				                 "classified-listing" ), wp_nonce_url( admin_url( '?preview_rtcl_mail=true' ), 'preview-mail' ) ),
+			                 [
+				                 'a' => [
+					                 'href'   => true,
+					                 'target' => true
+				                 ]
+			                 ]
+		                 )
 	],
 	'email_content_type'          => [
 		'title'       => esc_html__( 'Email Content Type', 'classified-listing' ),
@@ -99,7 +101,8 @@ $options = [
 	],
 	'email_footer_text'           => [
 		'title'       => esc_html__( 'Footer text', 'classified-listing' ),
-		'description' => esc_html__( 'The text to appear in the footer of WooCommerce emails.', 'classified-listing' ) . ' ' . sprintf(/* translators: Site title */ esc_html__( 'Available placeholders: %s', 'classified-listing' ), '{site_title}' ),
+		'description' => esc_html__( 'The text to appear in the footer of WooCommerce emails.', 'classified-listing' ) . ' '
+		                 . sprintf(/* translators: Site title */ esc_html__( 'Available placeholders: %s', 'classified-listing' ), '{site_title}' ),
 		'css'         => 'max-width:400px; height: 75px;',
 		'placeholder' => esc_html__( 'N/A', 'classified-listing' ),
 		'type'        => 'textarea',
@@ -107,28 +110,32 @@ $options = [
 	],
 	'email_base_color'            => [
 		'title'       => esc_html__( 'Base color', 'classified-listing' ),
-		'description' => sprintf( /* translators: color code */ esc_html__( 'The base color for WooCommerce email templates. Default %s.', 'classified-listing' ), '<code>#0071bd</code>' ),
+		'description' => sprintf( /* translators: color code */ esc_html__( 'The base color for WooCommerce email templates. Default %s.',
+			'classified-listing' ), '<code>#0071bd</code>' ),
 		'type'        => 'color',
 		'css'         => 'width:6em;',
 		'default'     => '#0071bd',
 	],
 	'email_background_color'      => [
 		'title'       => esc_html__( 'Background color', 'classified-listing' ),
-		'description' => sprintf( /* translators: color code */ esc_html__( 'The background color for WooCommerce email templates. Default %s.', 'classified-listing' ), '<code>#f7f7f7</code>' ),
+		'description' => sprintf( /* translators: color code */ esc_html__( 'The background color for WooCommerce email templates. Default %s.',
+			'classified-listing' ), '<code>#f7f7f7</code>' ),
 		'type'        => 'color',
 		'css'         => 'width:6em;',
 		'default'     => '#f7f7f7',
 	],
 	'email_body_background_color' => [
 		'title'       => esc_html__( 'Body background color', 'classified-listing' ),
-		'description' => sprintf( /* translators: color code */ esc_html__( 'The main body background color. Default %s.', 'classified-listing' ), '<code>#ffffff</code>' ),
+		'description' => sprintf( /* translators: color code */ esc_html__( 'The main body background color. Default %s.', 'classified-listing' ),
+			'<code>#ffffff</code>' ),
 		'type'        => 'color',
 		'css'         => 'width:6em;',
 		'default'     => '#ffffff',
 	],
 	'email_text_color'            => [
 		'title'       => esc_html__( 'Body text color', 'classified-listing' ),
-		'description' => sprintf( /* translators: color code */ esc_html__( 'The main body text color. Default %s.', 'classified-listing' ), '<code>#3c3c3c</code>' ),
+		'description' => sprintf( /* translators: color code */ esc_html__( 'The main body text color. Default %s.', 'classified-listing' ),
+			'<code>#3c3c3c</code>' ),
 		'type'        => 'color',
 		'css'         => 'width:6em;',
 		'default'     => '#3c3c3c',
@@ -136,10 +143,14 @@ $options = [
 	'listing_submitted_section'   => [
 		'title'       => esc_html__( 'Listing submitted email ( confirmation )', 'classified-listing' ),
 		'type'        => 'title',
-		'description' => file_exists( Functions::get_theme_template_path( 'emails/listing-submitted-email-to-owner.php' ) ) ?
-			sprintf( /* translators: template url */ esc_html__( "Template is override at %s", 'classified-listing' ), '<code>' . Functions::get_theme_template_file( 'emails/listing-submitted-email-to-owner.php' ) . '</code>' )
+		'description' => file_exists( Functions::get_theme_template_path( 'emails/listing-submitted-email-to-owner.php' ) )
+			?
+			sprintf( /* translators: template url */ esc_html__( "Template is override at %s", 'classified-listing' ),
+				'<code>' . Functions::get_theme_template_file( 'emails/listing-submitted-email-to-owner.php' ) . '</code>' )
 			:
-			sprintf( /* translators: template url */ esc_html__( 'To override and edit this email template copy %1$s to your theme folder: %2$s.', 'classified-listing' ), '<code>' . esc_html( Functions::get_plugin_template_file( 'emails/listing-submitted-email-to-owner.php' ) ) . '</code>', '<code>' . esc_html( Functions::get_theme_template_file( 'emails/listing-submitted-email-to-owner.php' ) ) . '</code>'
+			sprintf( /* translators: template url */ esc_html__( 'To override and edit this email template copy %1$s to your theme folder: %2$s.',
+				'classified-listing' ), '<code>' . esc_html( Functions::get_plugin_template_file( 'emails/listing-submitted-email-to-owner.php' ) ) . '</code>',
+				'<code>' . esc_html( Functions::get_theme_template_file( 'emails/listing-submitted-email-to-owner.php' ) ) . '</code>'
 			)
 	],
 	'listing_submitted_subject'   => [
@@ -208,7 +219,8 @@ $options = [
 		'title'       => esc_html__( 'Listing renewal reminder email threshold (in days)', 'classified-listing' ),
 		'type'        => 'number',
 		'default'     => 3,
-		'description' => esc_html__( 'Configure how many days after the expiration of a listing an email reminder should be sent to the owner.', 'classified-listing' )
+		'description' => esc_html__( 'Configure how many days after the expiration of a listing an email reminder should be sent to the owner.',
+			'classified-listing' )
 	],
 	'renewal_reminder_subject'    => [
 		'title'   => esc_html__( 'Subject', 'classified-listing' ),

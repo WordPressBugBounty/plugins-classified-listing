@@ -73,9 +73,7 @@ abstract class SettingsAPI {
 	 */
 	public function save() {
 		if ( 'POST' !== $_SERVER['REQUEST_METHOD']
-			 || ! isset( $_REQUEST['post_type'] )
 			 || ! isset( $_REQUEST['page'] )
-			 || ( isset( $_REQUEST['post_type'] ) && rtcl()->post_type !== $_REQUEST['post_type'] )
 			 || ( isset( $_REQUEST['rtcl_settings'] ) && 'rtcl_settings' !== $_REQUEST['rtcl_settings'] )
 		) {
 			return;
@@ -85,10 +83,11 @@ abstract class SettingsAPI {
 		}
 
 		// Find the active tab
-		$this->option = $this->active_tab = isset( $_GET['tab'] ) && array_key_exists(
-			$_GET['tab'],
-			$this->tabs
-		) ? $_GET['tab'] : 'general';
+		$this->option = $this->active_tab = isset( $_GET['tab'] )
+											&& array_key_exists(
+												$_GET['tab'],
+												$this->tabs
+											) ? $_GET['tab'] : 'general';
 		if ( ! empty( $this->subtabs ) ) {
 			$this->current_section = ! empty( $_GET['section'] ) && array_key_exists( $_GET['section'], $this->subtabs ) ? trim( $_GET['section'] ) : '';
 			$this->option          = $this->current_section ? $this->option . '_' . $this->current_section : $this->active_tab;

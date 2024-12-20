@@ -2,8 +2,7 @@
 
 namespace Rtcl\Controllers\Admin\Meta;
 
-
-use Rtcl\Helpers\Functions;
+use Rtcl\Services\FormBuilder\FBHelper;
 
 class RemoveMetaBox {
 	public function __construct() {
@@ -14,7 +13,8 @@ class RemoveMetaBox {
 		remove_meta_box( rtcl()->category . 'div', rtcl()->post_type, 'side' );
 		remove_meta_box( rtcl()->location . 'div', rtcl()->post_type, 'side' );
 		remove_meta_box( 'submitdiv', rtcl()->post_type_payment, 'side' );
-		if ( Functions::isEnableFb() ) {
+		remove_meta_box( 'postcustom', rtcl()->post_type, 'normal' );
+		if ( FBHelper::isEnabled() ) {
 			remove_meta_box( 'tagsdiv-' . rtcl()->tag, rtcl()->post_type, 'side' );
 		}
 	}

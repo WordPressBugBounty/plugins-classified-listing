@@ -90,7 +90,7 @@ class FBField {
 	 * @return mixed|array
 	 */
 	public function getData( $key, $default = null ) {
-		return isset( $this->_field[ $key ] ) ? $this->_field[ $key ] : $default;
+		return $this->_field[ $key ] ?? $default;
 	}
 
 	/**
@@ -98,6 +98,12 @@ class FBField {
 	 */
 	public function getName() {
 		return $this->_name;
+	}
+	/**
+	 * @return mixed
+	 */
+	public function getUuid() {
+		return $this->_uuid;
 	}
 
 	/**
@@ -143,26 +149,27 @@ class FBField {
 
 
 	/**
-	 * @param $listing_id
+	 * @param integer $listing_id
 	 *
 	 * @return array|mixed
 	 */
 	public function getValue( $listing_id ) {
 		$element = $this->getElement();
 		$metaKey = $this->getMetaKey();
-		if ( ! Functions::meta_exist( $listing_id, $this->getMetaKey() ) && $element != 'date' ) {
+		if ( ! Functions::meta_exist( $listing_id, $this->getMetaKey() ) && 'date' != $element ) {
 			$value = $this->getDefaultValue();
 		} else {
-			if ( $element == 'checkbox' ) {
+			if ( 'checkbox' == $element ) {
 				$value = get_post_meta( $listing_id, $this->getMetaKey() );
-			} elseif ( $element == 'date' ) {
-				$dateType   = ! empty( $this->field['date_type'] ) ? $this->field['date_type'] : 'single';
-				$dateFormat = ! empty( $this->field['date_format'] ) ? $this->field['date_format'] : 'Y-d-m H:i';
-
+			} elseif ( 'url' == $this->getElement() ) {
+				$value = get_post_meta( $listing_id, $this->getMetaKey(), true );
+			} elseif ( 'date' == $element ) {
+				$dateType   = $this->getData( 'date_type', 'single' );
+				$dateFormat = $this->getData( 'date_format', 'Y-d-m H:i' );
 				if ( 'range' === $dateType ) {
 					$value = [
-						'start' => get_post_meta( $listing_id, $metaKey . '_' . 'start', true ),
-						'end'   => get_post_meta( $listing_id, $metaKey . '_' . 'end', true )
+						'start' => get_post_meta( $listing_id, $metaKey . '_start', true ),
+						'end'   => get_post_meta( $listing_id, $metaKey . '_end', true )
 					];
 
 					$value['start'] = ! empty( $value['start'] ) ? gmdate( $dateFormat, strtotime( $value['start'] ) ) : null;
@@ -171,10 +178,10 @@ class FBField {
 					$value = get_post_meta( $listing_id, $metaKey, true );
 					$value = ! empty( $value ) ? gmdate( $dateFormat, strtotime( $value ) ) : '';
 				}
-			} elseif ( $element == 'file' ) {
+			} elseif ( 'file' == $element ) {
 				$value = FBHelper::getFieldAttachmentFiles( $listing_id, $this->_field );
 			} else {
-				if ( empty( $this->field['multiple'] ) ) {
+				if ( empty( $this->getData( 'multiple' ) ) ) {
 					$value = get_post_meta( $listing_id, $metaKey, true );
 				} else {
 					$value = get_post_meta( $listing_id, $metaKey );
@@ -182,7 +189,7 @@ class FBField {
 			}
 		}
 
-		return $value;
+		return apply_filters( 'rtcl_fb_get_field_value', $value, $this );
 	}
 
 	/**
@@ -195,7 +202,7 @@ class FBField {
 		$value = $this->getValue( $listing_id );
 		if ( 'url' == $this->getElement() && filter_var( $value, FILTER_VALIDATE_URL ) ) {
 			$value = esc_url( $value );
-		} else if ( 'date' == $this->getElement() ) {
+		} elseif ( 'date' == $this->getElement() ) {
 			if ( 'range' === $this->getDateType() ) {
 				$start = ! empty( $value['start'] ) ? $value['start'] : null;
 				$end   = ! empty( $value['end'] ) ? $value['end'] : null;
@@ -207,11 +214,11 @@ class FBField {
 	}
 
 	public function getDateType(): string {
-		return ! empty( $this->field['date_type'] ) && $this->field['date_type'] === 'range' ? 'range' : 'single';
+		return $this->getData( 'date_type', 'single' );
 	}
 
 	public function getDateFormat() {
-		return ! empty( $this->field['date_format'] ) ? $this->field['date_format'] : 'Y-d-m H:i';
+		return $this->getData( 'date_format', 'Y-d-m H:i' );
 	}
 
 	public function getDateFormatType(): string {
@@ -227,7 +234,7 @@ class FBField {
 	}
 
 	public function getDateFilterDateType(): string {
-		return ! empty( $this->field['filter_date_type'] ) && $this->field['filter_date_type'] === 'range' ? 'range' : 'single';
+		return $this->getData( 'filter_date_type', 'single' );
 	}
 
 	/**
