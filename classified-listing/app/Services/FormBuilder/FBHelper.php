@@ -1191,6 +1191,7 @@ class FBHelper {
 			$allForms = Form::query()->where( 'status', 'publish' )->order_by( 'created_at', 'DESC' )->get();
 			if ( ! empty( $allForms ) ) {
 				foreach ( $allForms as $_form ) {
+					$_form = apply_filters( 'rtcl_fb_form', $_form );
 					if ( ! empty( $_form->sections ) ) {
 						$data['sections'] = array_merge( $data['sections'], $_form->sections );
 					}
@@ -1211,6 +1212,7 @@ class FBHelper {
 			}
 		} elseif ( $directory ) {
 			$form = Form::query()->where( 'status', 'publish' )->find( $directory );
+			$form = apply_filters( 'rtcl_fb_form', $form );
 			if ( $form ) {
 				$_fields = $form->fields;
 				if ( ! empty( $form->sections ) ) {
@@ -1517,7 +1519,7 @@ class FBHelper {
 
 						}
 					}
-					$html = ! empty( $items ) ? implode( ', ', $items ) : '';
+					$html = ! empty( $items ) ? implode( '<span class="delimiter">,</span>', $items ) : '';
 				}
 			} else {
 				foreach ( $options as $option ) {

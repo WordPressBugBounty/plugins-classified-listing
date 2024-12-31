@@ -4477,6 +4477,13 @@ html [data-rt-depends], .rtcl .row[data-rt-depends], [data-rt-depends] {
   margin-bottom: 1.5rem;
 }
 
+.rtcl-checkout-form-wrap .rtcl-checkout-overview-table .tax-rate .price-amount {
+  display: block;
+}
+.rtcl-checkout-form-wrap .rtcl-checkout-overview-table .tax-rate .price-amount .checkout-tax-label {
+  margin-left: 6px;
+}
+
 #rtcl-checkout-store-gateway {
   display: none;
   margin-bottom: 1.5rem;

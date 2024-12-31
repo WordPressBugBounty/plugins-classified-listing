@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, classifieds a
 Requires at least: 5.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -323,6 +323,13 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 4.0.1 ( Dec 31, 2024 ) =
+* Fixed: From builder WPML translation issue with checkbox, select field
+* Fixed: Ajax filter number field not work with min and max value
+* Updated: Form builder repeater filed display options add comma separator with a span wrapper
+* Added: Multiple Tax option for single location
+* Added: Social Profiles & Tag support with Listing Export/Import
 
 = 4.0.0 ( Dec 20, 2024 ) =
 * Fixed: Business hour display issue
@@ -799,95 +806,3 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 
 = 2.2.10 ( July 06, 2022 ) =
 * Fixed: Business Hour time issue
-
-= 2.2.9 ( Jun 29, 2022 ) =
-* Added: 'No Listing Found' text change option in Elementor
-* Added: Website field hints
-* Added: Compatibility to disable default WP registration
-* Added: Seller Verification addon compatibility
-
-= 2.2.8 ( Jun 15, 2022 ) =
-* Added: Listing link with name as WhatsApp default message
-
-= 2.2.7 ( Jun 10, 2022 ) =
-* Fixed: WhatsApp preview thumbnail issue
-* Fixed: Session table cleanup using cron
-* Added: Telegram in listing social share
-* Added: Sidebar for listing archive and details page
-* Added: BuddyBoss integration compatibility
-
-= 2.2.6 ( May 30, 2022 ) =
-* Fixed: HTML span tag issue in location
-* Fixed: Button text change issue in checkout page
-* Added: Search by listing ID and payment ID
-
-= 2.2.5.1 ( May 20, 2022 ) =
-* Added: Mobile Number Verification addon compatibility [Pro]
-* Added: TranslatePress Multilingual addon compatibility [Pro]
-
-= 2.2.5 ( May 18, 2022 ) =
-* Updated: Layout Style
-* Added: Container class in settings
-* Added: Default listing title to WhatsApp message
-* Added: TranslatePress Multilingual addon compatibility [Pro]
-
-= 2.2.4 ( May 10, 2022 ) =
-* Updated: Plugin Information
-
-= 2.2.3 ( April 20, 2022 ) =
-* Added: Elementor listing widget custom CustomizerField control Added
-* Added: Update some functionality
-* Supported: Astra sidebar settings for listing page
-* Added: Mobile Number Verification addon compatibility
-
-= 2.2.3 (March 22, 2022) =
-* Language issue
-
-= 2.2.2 (March 22, 2022) =
-* Add Multi currency support
-* Fixed: Padding and Margin block controller default value empty set
-* Fixed: Block category show top position
-* Fixed: Captcha(v2) issue when linking from expired listing from email
-* Fixed: Custom CustomizerField Checkbox Filter issue
-* Fixed: Listing form phone field required issue
-* Fixed: Manual bump up issue by admin
-* Added: User listing page
-* Added: Social Profile for user
-
-= 2.2.1.1 (March 02, 2022) =
-* Fixed: Icon issue
-* Fixed: Abuse report mail issue
-
-= 2.2.1 (March 01, 2022) =
-* Fixed: Vimeo video invalid issue
-* Fixed: Unregister User post ad mailing issue Send user password to user at email (Generated password)
-* Fixed: Quick Edit multiple category selection issue
-* Added: Listing Search Form Gutenberg block
-
-= 2.2.0 (February 16, 2022) =
-* Added: Gutenberg Block for Listings
-* Added: Gutenberg Block for Listing Categories
-* Added: Gutenberg Block for Listing Location
-* Fixed: Gallery image height issue
-* Fixed: Slider issue on Elementor Editor
-* Fixed: Listing table column issue
-
-= 2.1.1 (February 2, 2022) =
-* Fixed: At Settings Misc page: ID undefined Error in fresh install
-* Fixed: At My account page image_allowed_type giving null in fresh install
-* Fixed: PHP Notice: Undefined index: new_listing_threshold in
-* Fixed: Double slug at Classified Listing Categories Widget
-* Update: Add dynamic validation and field at seller contact form
-* Update: Add dynamic validation at Report abuse form
-
-= 2.1.0 (January 20, 2022) =
-* Fixed: Listing auto publish when update
-* Fixed: Remove password from email to new registration
-* Added: New Elementor widget
-* Added: Ad type option is added to moderation settings at display settings
-* Added: Terms & conditions at registration form 
-
-= 2.0.14 (January 04, 2022) =
-* Fixed: Classified Listing Filter widget radius search issue
-* Fixed: Classified Listing Search radius text translation issue
-* Fixed: Listing category and location archive ad showing issue

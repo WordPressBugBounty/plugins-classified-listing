@@ -216,6 +216,7 @@ class Export {
 			$listing_post[] = is_object( $category ) ? $category->slug : '';
 			$location       = $listing->get_last_child_location();
 			$listing_post[] = is_object( $location ) ? $location->slug : '';
+			$listing_post[] = $listing->get_tags();
 			$images         = $listing->get_images();
 			$image_list     = [];
 			foreach ( $images as $image ) {
@@ -240,6 +241,20 @@ class Export {
 			$listing_post[] = $listing->get_price_type();
 			$listing_post[] = $listing->get_price();
 			$listing_post[] = $listing->get_max_price();
+
+			$all_profiles    = get_post_meta( $listing->get_id(), '_rtcl_social_profiles', true );
+			$social_profiles = '';
+
+			if ( is_array( $all_profiles ) ) {
+				$separator = '';
+				foreach ( $all_profiles as $social_key => $social_url ) {
+					$profile         = $separator . $social_key . '|' . trim( $social_url );
+					$social_profiles .= trim( $profile );
+					$separator       = ',';
+				}
+			}
+
+			$listing_post[] = $social_profiles;
 			$listing_post[] = get_post_meta( $listing->get_id(), 'website', true );
 			$listing_post[] = get_post_meta( $listing->get_id(), 'email', true );
 			$listing_post[] = get_post_meta( $listing->get_id(), 'phone', true );

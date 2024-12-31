@@ -148,10 +148,10 @@ class Listing extends Data {
 		}
 
 		$raw_terms = $this->$target;
-		if ( $target_term === 'category' && 1 < count( $raw_terms )) {
+		if ( $target_term === 'category' && 1 < count( $raw_terms ) ) {
 			return;
 		}
-		if ( !empty( $raw_terms ) ) {
+		if ( ! empty( $raw_terms ) ) {
 			$term_ancestors = [];
 			$last_term      = 0;
 			foreach ( $raw_terms as $index => $raw_term ) {
@@ -1141,6 +1141,29 @@ class Listing extends Data {
 		}
 
 		return [];
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_tags() {
+		$data = '';
+
+		if ( ! Functions::is_tag_disabled() ) {
+			$terms = get_the_terms( $this->id, rtcl()->tag );
+
+			if ( $terms && ! is_wp_error( $terms ) ) {
+				$term_links = [];
+
+				foreach ( $terms as $term ) {
+					$term_links[] = trim( $term->name );
+				}
+
+				$data = join( ',', $term_links );
+			}
+		}
+
+		return $data;
 	}
 
 	/**

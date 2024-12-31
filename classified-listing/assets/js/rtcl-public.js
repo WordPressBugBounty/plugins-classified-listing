@@ -439,7 +439,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
       }
     } else if (event.type === 'keyup') {
       if (event.currentTarget.tagName === "INPUT") {
-        if (event.currentTarget.type === 'number' && $wrap.hasClass('min-max')) {
+        if (event.currentTarget.type === 'number' && $wrap.find('.rtcl-filter-number-field-wrap').hasClass('min-max')) {
           var _$self = _this.$(event.currentTarget);
           var _$wrap = _$self.closest('.rtcl-filter-number-field-wrap');
           var maxValue = _$wrap.find('input.max').val() || null;
@@ -3005,7 +3005,8 @@ __webpack_require__.r(__webpack_exports__);
       $form = $wrapper.find("#rtcl-checkout-form"),
       $overview = $form.find('#rtcl-payment-overview'),
       type = $form.find("input[name='type']").val(),
-      pricing_id = $form.find("input[name='pricing_id']:checked").val();
+      pricing_id = $form.find("input[name='pricing_id']:checked").val(),
+      $content = '';
     $.ajax({
       type: "POST",
       url: rtcl.ajaxurl,
@@ -3025,9 +3026,23 @@ __webpack_require__.r(__webpack_exports__);
       success: function success(response) {
         $wrapper.rtclUnblock();
         if (!response.error) {
+          var taxData = response.hasOwnProperty('available_tax') ? response.available_tax : [];
           $overview.find(".cart-subtotal .checkout-price").text(response.pricing_price);
-          $overview.find(".tax-rate .checkout-price").text(response.tax_amount);
           $overview.find(".order-total .checkout-price").text(response.total_amount);
+          if (Array.isArray(taxData)) {
+            $overview.find('tr.tax-rate td').html('');
+            $.each(taxData, function (index, singleTax) {
+              $content += '<span class="price-amount">';
+              $content += '<span class="checkout-price-currency-symbol">' + rtcl.payment_currency_symbol + '</span>';
+              $content += '<span class="checkout-price">' + singleTax.amount + '</span>';
+              $content += '<span class="checkout-tax-label">(' + singleTax.label + ')</span>';
+              $content += '</span>';
+              if (!response.enable_multiple_tax) {
+                return false;
+              }
+            });
+            $overview.find('tr.tax-rate td').append($content);
+          }
         }
       },
       error: function error(jqXHR, exception) {

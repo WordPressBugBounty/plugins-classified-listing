@@ -4,6 +4,7 @@ namespace Rtcl\Controllers\Ajax;
 
 use Rtcl\Controllers\Hooks\Filters;
 use Rtcl\Helpers\Functions;
+use Rtcl\Resources\Options;
 
 class Import {
 
@@ -65,8 +66,10 @@ class Import {
 			$meta_data = [];
 			$cat_id    = null;
 			$loc_id    = null;
+			$tag_id    = null;
 			$loc_ids   = [];
 			$cat_ids   = [];
+			$tag_ids   = [];
 			$author    = [];
 
 			foreach ( $row as $field => $data ) {
@@ -188,10 +191,65 @@ class Import {
 							}
 						}
 						break;
+					case 'rtcl_tax_tags':
+						if ( ! empty( $data ) ) {
+							$name  = trim( $data );
+							$terms = explode( ',', $name );
+
+							if ( ! empty( $terms ) ) {
+								foreach ( $terms as $index => $name ) {
+									$check_term = term_exists( $name, rtcl()->tag );
+
+									if ( ! $check_term ) {
+										$tag_id = wp_insert_term(
+											$name,
+											rtcl()->tag,
+											[
+												'slug' => sanitize_title( $name ),
+											]
+										);
+										if ( ! is_wp_error( $tag_id ) ) {
+											$tag_ids[] = absint( $tag_id['term_id'] );
+										}
+									} else {
+										$tag_id    = $check_term;
+										$tag_ids[] = absint( $tag_id['term_id'] );
+									}
+								}
+							}
+						}
+
+						break;
 					case '_rtcl_video_urls':
 						if ( ! empty( $data ) ) {
 							$urls              = explode( ',', $data );
 							$meta_data[ $key ] = $urls;
+						}
+						break;
+					case '_rtcl_social_profiles':
+						if ( ! empty( $data ) ) {
+							$socials      = [];
+							$all_profiles = explode( ',', $data );
+
+							$social_profile_list = array_keys( Options::get_social_profiles_list() );
+
+							if ( is_array( $all_profiles ) ) {
+								foreach ( $all_profiles as $profile ) {
+									$social_profile = explode( '|', trim( $profile ) );
+
+									$social_key = isset( $social_profile[0] ) ? trim( $social_profile[0] ) : '';
+									$social_url = isset( $social_profile[1] ) ? trim( $social_profile[1] ) : '';
+									$social_url = $social_url && filter_var( $social_url, FILTER_VALIDATE_URL ) ? $social_url : '';
+
+									if ( $social_key && $social_url && in_array( $social_key, $social_profile_list ) ) {
+										$socials[ $social_key ] = $social_url;
+									}
+								}
+							}
+
+							if ( ! empty( $socials ) ) {
+								$meta_data[ $key ] = $socials;
+							}
 						}
 						break;
 					default:
@@ -254,9 +312,15 @@ class Import {
 					if ( ! is_wp_error( $cat_id ) && ! empty( $cat_ids ) ) {
 						wp_set_object_terms( $post_id, $cat_ids, rtcl()->category );
 					}
+
 					if ( ! is_wp_error( $loc_id ) && ! empty( $loc_ids ) ) {
 						wp_set_object_terms( $post_id, $loc_ids, rtcl()->location );
 					}
+
+					if ( ! is_wp_error( $tag_id ) && ! empty( $tag_ids ) ) {
+						wp_set_object_terms( $post_id, $tag_ids, rtcl()->tag );
+					}
+
 					if ( ! empty( $attachment_ids ) && is_array( $attachment_ids ) ) {
 						$attachment_ids = array_map( 'intval', $attachment_ids );
 						$attachment_ids = array_filter( $attachment_ids );
@@ -292,7 +356,7 @@ class Import {
 				]
 			);
 		}
-		
+
 		if ( ! wp_verify_nonce( $_POST[ rtcl()->nonceId ] ?? '', rtcl()->nonceText ) ) {
 			wp_send_json(
 				[
@@ -319,7 +383,7 @@ class Import {
 				]
 			);
 		}
-		
+
 		if ( ! wp_verify_nonce( $_POST[ rtcl()->nonceId ] ?? '', rtcl()->nonceText ) ) {
 			wp_send_json(
 				[
@@ -346,7 +410,7 @@ class Import {
 				]
 			);
 		}
-		
+
 		if ( ! wp_verify_nonce( $_POST[ rtcl()->nonceId ] ?? '', rtcl()->nonceText ) ) {
 			wp_send_json(
 				[
@@ -371,7 +435,7 @@ class Import {
 				]
 			);
 		}
-		
+
 		if ( ! wp_verify_nonce( $_POST[ rtcl()->nonceId ] ?? '', rtcl()->nonceText ) ) {
 			wp_send_json(
 				[
@@ -503,7 +567,7 @@ class Import {
 				]
 			);
 		}
-		
+
 		if ( ! wp_verify_nonce( $_POST[ rtcl()->nonceId ] ?? '', rtcl()->nonceText ) ) {
 			wp_send_json(
 				[

@@ -633,6 +633,7 @@ class ScriptLoader {
 			'is_listings'                              => Functions::is_listings(),
 			'listing_term'                             => Functions::is_listing_tax() ? get_queried_object() : '',
 			'is_enable_tax'                            => Functions::is_enable_tax(),
+			'payment_currency_symbol'                  => Functions::get_order_currency_symbol(),
 		];
 
 		if ( ! empty( $misc_settings['recaptcha_site_key'] ) && ! empty( $misc_settings['recaptcha_forms'] ) ) {

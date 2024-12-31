@@ -230,11 +230,11 @@ class Form extends Model {
 			}
 
 			$formSettingFields = AvailableFields::settings();
-			if(!empty($formSettingFields) && is_array($formSettingFields)){
+			if ( ! empty( $formSettingFields ) && is_array( $formSettingFields ) ) {
 				$settings = $this->settings;
-				foreach ($formSettingFields as $key => $formSettingField){
-					if ( ! empty( $formSettingField[$key] ) && ! empty( $translations['settings'][ $formSettingField[$key] ] ) ) {
-						$settings[$formSettingField[$key]] = $translations['settings'][ $formSettingField[$key] ] ;
+				foreach ( $formSettingFields as $key => $formSettingField ) {
+					if ( ! empty( $formSettingField[ $key ] ) && ! empty( $translations['settings'][ $formSettingField[ $key ] ] ) ) {
+						$settings[ $formSettingField[ $key ] ] = $translations['settings'][ $formSettingField[ $key ] ];
 					}
 				}
 				$this->settings = $settings;
@@ -302,7 +302,8 @@ class Form extends Model {
 								if ( empty( $repeaterField[ $innerFieldKey ] ) || empty( $innerTr ) ) {
 									continue;
 								}
-								$value = $this->getSanitizedTr( $innerFieldKey, $innerTr );
+								$originalValue = $repeaterField[ $innerFieldKey ];
+								$value         = $this->getSanitizedTr( $originalValue, $innerTr, $innerFieldKey, $repeaterField );
 								if ( $value !== '' ) {
 									$field['fields'][ $repeaterFieldIndex ][ $innerFieldKey ] = $value;
 								}
@@ -311,8 +312,9 @@ class Form extends Model {
 						}
 					}
 				} else {
-					$value = $this->getSanitizedTr( $fieldKey, $_translation );
-					if ( $value !== '' ) {
+					$originalValue = ! empty( $field[ $fieldKey ] ) ? $field[ $fieldKey ] : '';
+					$value         = $this->getSanitizedTr( $originalValue, $_translation, $fieldKey, $field );
+					if ( ! empty( $value ) ) {
 						$field[ $fieldKey ] = $value;
 					}
 				}
@@ -322,45 +324,43 @@ class Form extends Model {
 
 		return $field;
 	}
-
-
-	private function getSanitizedTr( $fieldKey, $_trValue ) {
-		$value = '';
+	
+	/**
+	 * @param $originalValue
+	 * @param $_trValue
+	 * @param $fieldKey
+	 * @param $field
+	 *
+	 * @return array|mixed|string
+	 */
+	private function getSanitizedTr( $originalValue, $_trValue, $fieldKey, $field ) {
 		if ( $fieldKey === 'options' || $fieldKey === 'advanced_options' ) {
-			if ( is_array( $_trValue ) ) {
-				$options = [];
+			if ( is_array( $_trValue ) && is_array( $originalValue ) ) {
 				foreach ( $_trValue as $index => $option ) {
 					if ( ! empty( $option['label'] ) ) {
-						$options[ $index ]['label'] = sanitize_text_field( $option['label'] );
+						$originalValue[ $index ]['label'] = sanitize_text_field( $option['label'] );
 					}
-				}
-				if ( ! empty( $options ) ) {
-					$value = $options;
 				}
 			}
 		} else if ( $fieldKey === 'validation' ) {
 			if ( is_array( $_trValue ) ) {
-				$rules = [];
 				foreach ( $_trValue as $ruleKey => $_validation ) {
 					if ( ! empty( $_validation['message'] ) ) {
-						$rules[ $ruleKey ]['message'] = sanitize_text_field( $_validation['message'] );
+						$originalValue[ $ruleKey ]['message'] = sanitize_text_field( $_validation['message'] );
 					}
-				}
-				if ( ! empty( $rules ) ) {
-					$value = $rules;
 				}
 			}
 		} elseif ( $fieldKey === 'tnc_html' ) {
-			$value = stripslashes( wp_kses( $_trValue, ElementCustomization::allowedHtml( $fieldKey ) ) );
+			$originalValue = stripslashes( wp_kses( $_trValue, ElementCustomization::allowedHtml( $fieldKey ) ) );
 		} elseif ( in_array( $fieldKey, [ 'tnc_html', 'html_codes' ] ) ) {
-			$value = stripslashes( wp_kses_post( $_trValue ) );
+			$originalValue = stripslashes( wp_kses_post( $_trValue ) );
 		} elseif ( $fieldKey === 'help_message' ) {
-			$value = sanitize_textarea_field( $_trValue );
+			$originalValue = sanitize_textarea_field( $_trValue );
 		} else {
-			$value = sanitize_text_field( $_trValue );
+			$originalValue = sanitize_text_field( $_trValue );
 		}
 
-		return $value;
+		return $originalValue;
 	}
 
 }

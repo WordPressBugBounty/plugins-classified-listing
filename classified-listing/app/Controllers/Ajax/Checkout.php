@@ -58,7 +58,15 @@ class Checkout {
 				$total_price   = $pricing_price;
 				$tax_amount    = 0.00;
 				if ( Functions::is_enable_tax() ) {
-					$tax_amount  = self::get_tax_amount( $country, $state, $pricing_price );
+					$multiple_tax = self::get_tax_amount( $country, $state, $pricing_price );
+					if ( Functions::is_enable_multiple_tax() ) {
+						foreach ( $multiple_tax as $single_tax ) {
+							$tax_amount = $tax_amount + $single_tax['amount'];
+						}
+					} else {
+						$single_tax = current( $multiple_tax );
+						$tax_amount = $single_tax['amount'];
+					}
 					$total_price = $pricing_price + $tax_amount;
 				}
 				$metaInputs = [
@@ -159,9 +167,10 @@ class Checkout {
 	}
 
 	public static function calculate_checkout_tax() {
-		$error   = true;
-		$message = '';
-		$price   = $tax_amount = 0.00;
+		$error        = true;
+		$message      = '';
+		$price        = $tax_amount = 0.00;
+		$multiple_tax = [];
 
 		if ( wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
 			$country    = isset( $_POST['country_code'] ) ? sanitize_text_field( $_POST['country_code'] ) : '';
@@ -176,21 +185,32 @@ class Checkout {
 
 			$error = false;
 
-			$tax_amount = self::get_tax_amount( $country, $state, $price );
+			$multiple_tax = self::get_tax_amount( $country, $state, $price );
 
 		} else {
 			$message = __( 'Session expired.', 'classified-listing' );
+		}
+
+		if ( Functions::is_enable_multiple_tax() ) {
+			foreach ( $multiple_tax as $single_tax ) {
+				$tax_amount = $tax_amount + $single_tax['amount'];
+			}
+		} else {
+			$single_tax = current( $multiple_tax );
+			$tax_amount = $single_tax['amount'];
 		}
 
 		$total_amount = $price + $tax_amount;
 
 		wp_send_json(
 			[
-				'error'         => $error,
-				'msg'           => $message,
-				'pricing_price' => Functions::get_payment_formatted_price( $price ),
-				'tax_amount'    => Functions::get_payment_formatted_price( $tax_amount ),
-				'total_amount'  => Functions::get_payment_formatted_price( $total_amount ),
+				'error'               => $error,
+				'msg'                 => $message,
+				'enable_multiple_tax' => Functions::is_enable_multiple_tax(),
+				'available_tax'       => $multiple_tax,
+				'pricing_price'       => Functions::get_payment_formatted_price( $price ),
+				'tax_amount'          => Functions::get_payment_formatted_price( $tax_amount ),
+				'total_amount'        => Functions::get_payment_formatted_price( $total_amount ),
 			]
 		);
 	}
@@ -227,14 +247,27 @@ class Checkout {
 			}
 		}
 
+		$multiple_tax[] = [
+			'label'  => __( 'Tax', 'classified-listing' ),
+			'amount' => $tax_amount
+		];
+
 		if ( ! empty( $results ) ) {
-			$data       = current( $results );
-			$tax_rate   = $data->tax_rate;
-			$tax_amount = ( $tax_rate * $pricing_price ) / 100;
+			$multiple_tax = [];
+
+			foreach ( $results as $row ) {
+				$tax_rate   = $row->tax_rate;
+				$tax_amount = ( $tax_rate * $pricing_price ) / 100;
+
+				$multiple_tax[] = [
+					'label'  => $row->tax_rate_name,
+					'amount' => Functions::get_payment_formatted_price( $tax_amount )
+				];
+			}
+
 		}
 
-		return $tax_amount;
-
+		return $multiple_tax;
 	}
 
 }

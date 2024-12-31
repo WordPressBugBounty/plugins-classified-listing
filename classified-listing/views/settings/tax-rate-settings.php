@@ -28,49 +28,52 @@ $tax_options = \Rtcl\Helpers\Functions::get_tax_options();
 				<tr data-id="<?php echo esc_attr( $option->tax_rate_id ); ?>">
 					<td class="country" width="20%">
 						<input type="text" value="<?php echo esc_attr( $option->country ); ?>" placeholder="*" name="rtcl_tax_rate_country[]"
-							   class="input-text regular-input" autocomplete="off">
+							   class="input-text regular-input" autocomplete="off"/>
 					</td>
 					<td class="state" width="18%">
 						<input type="text" value="<?php echo esc_attr( $option->country_state ); ?>" placeholder="*" name="rtcl_tax_rate_state[]"
-							   class="input-text regular-input" autocomplete="off">
+							   class="input-text regular-input" autocomplete="off"/>
 					</td>
 					<td class="city" width="17%">
 						<input type="text" value="<?php echo esc_attr( $option->country_city ); ?>" placeholder="*" name="rtcl_tax_rate_city[]"
-							   class="input-text regular-input">
+							   class="input-text regular-input"/>
 					</td>
 					<td class="rate" width="15%">
 						<input type="text" value="<?php echo esc_attr( $option->tax_rate ); ?>" placeholder="0" name="rtcl_tax_rate[]"
-							   class="input-text regular-input">
+							   class="input-text regular-input"/>
 					</td>
 					<td class="name" width="15%">
-						<input type="text" value="Tax" name="rtcl_tax_rate_name[]" value="<?php echo esc_attr( $option->tax_rate_name ); ?>"
-							   class="input-text regular-input">
+						<input type="text" name="rtcl_tax_rate_name[]"
+							   value="<?php echo esc_attr( ! empty( $option->tax_rate_name ) ? $option->tax_rate_name : __( 'Tax', 'classified-listing' ) ); ?>"
+							   class="input-text regular-input"/>
 					</td>
 					<td class="priority" width="15%">
-						<input type="number" step="1" min="1" value="<?php echo absint( $option->tax_rate_priority ); ?>" name="rtcl_tax_rate_priority[]"
-							   class="input-text regular-input">
+						<input type="number" step="1" min="1"
+							   value="<?php echo esc_attr( ! empty( $option->tax_rate_priority ) ? $option->tax_rate_priority : 1 ); ?>"
+							   name="rtcl_tax_rate_priority[]"
+							   class="input-text regular-input"/>
 					</td>
 				</tr>
 			<?php } ?>
 		<?php } else { ?>
 			<tr>
 				<td class="country" width="20%">
-					<input type="text" value="" placeholder="*" name="rtcl_tax_rate_country[]" class="input-text regular-input" autocomplete="off">
+					<input type="text" value="" placeholder="*" name="rtcl_tax_rate_country[]" class="input-text regular-input" autocomplete="off"/>
 				</td>
 				<td class="state" width="18%">
-					<input type="text" value="" placeholder="*" name="rtcl_tax_rate_state[]" class="input-text regular-input" autocomplete="off">
+					<input type="text" value="" placeholder="*" name="rtcl_tax_rate_state[]" class="input-text regular-input" autocomplete="off"/>
 				</td>
 				<td class="city" width="17%">
-					<input type="text" value="" placeholder="*" name="rtcl_tax_rate_city[]" class="input-text regular-input">
+					<input type="text" value="" placeholder="*" name="rtcl_tax_rate_city[]" class="input-text regular-input"/>
 				</td>
 				<td class="rate" width="15%">
-					<input type="text" value="" placeholder="0" name="rtcl_tax_rate[]" class="input-text regular-input">
+					<input type="text" value="" placeholder="0" name="rtcl_tax_rate[]" class="input-text regular-input"/>
 				</td>
 				<td class="name" width="15%">
-					<input type="text" value="Tax" name="rtcl_tax_rate_name[]" class="input-text regular-input">
+					<input type="text" value="Tax" name="rtcl_tax_rate_name[]" class="input-text regular-input"/>
 				</td>
 				<td class="priority" width="15%">
-					<input type="number" step="1" min="1" value="1" name="rtcl_tax_rate_priority[]" class="input-text regular-input">
+					<input type="number" step="1" min="1" value="1" name="rtcl_tax_rate_priority[]" class="input-text regular-input"/>
 				</td>
 			</tr>
 		<?php } ?>
