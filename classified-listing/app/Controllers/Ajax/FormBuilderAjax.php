@@ -17,6 +17,7 @@ class FormBuilderAjax {
 
 	public function init(): void {
 		add_action( 'wp_ajax_rtcl_fb_get_category', [ $this, 'get_category' ] );
+		add_action( 'wp_ajax_rtcl_get_terms', [ $this, 'get_terms_callback' ] );
 		add_action( 'wp_ajax_rtcl_fb_filtered_get_categories', [ $this, 'get_filtered_categories' ] );
 		add_action( 'wp_ajax_rtcl_fb_get_location', [ $this, 'get_location' ] );
 
@@ -344,9 +345,9 @@ class FormBuilderAjax {
 						'field' => $field,
 						'value' => $videoUrls
 					];
-				}else{
+				} else {
 					$sanitizedValue = FBHelper::sanitizeFieldValue( $rawValue, $field, $listing );
-					$metaData[] = [
+					$metaData[]     = [
 						'name'  => $name,
 						'field' => $field,
 						'value' => $sanitizedValue
@@ -465,8 +466,8 @@ class FormBuilderAjax {
 
 		//Issue: Listing new metadata missing at the hook
 		//Fixed: Load listing metadata to the listing objects before sending to hook
-		$listing    = $listing ? rtcl()->factory->get_listing( $listing->get_id() ) : null;
-		
+		$listing = $listing ? rtcl()->factory->get_listing( $listing->get_id() ) : null;
+
 		do_action( 'rtcl_listing_form_after_save_or_update', $listing, $postingType, end( $taxonomy['category'] ), $new_listing_status, [
 			'data'  => $_REQUEST,
 			'files' => $_FILES
@@ -1119,7 +1120,14 @@ class FormBuilderAjax {
 
 			return;
 		}
-		$listing_id = absint( Functions::request( 'listingId' ) );
+		$listing_id = absint( Functions::request( "listingId" ) );
+		$listing    = rtcl()->factory->get_listing( $listing_id );
+		
+		if ( $listing && ! Functions::current_user_can( 'edit_' . rtcl()->post_type, $listing_id ) ) {
+			wp_send_json_error( apply_filters( 'rtcl_fb_not_found_error_message', __( 'You do not have sufficient permissions to access this page.', 'classified-listing' ), $_REQUEST, 'permission_error' ) );
+
+			return;
+		}
 
 		if ( $attach->post_parent != $listing_id ) {
 			wp_send_json_error( __( 'Incorrect attachment ID.', 'classified-listing' ) );
@@ -1236,14 +1244,14 @@ class FormBuilderAjax {
 			return;
 		}
 
-		$ids        = ! empty( $_POST['ids'] ) && is_array( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : [];
-		$parentId   = isset( $_POST['parentId'] ) ? ( $_POST['parentId'] == 0 ? 0 : absint( $_POST['parentId'] ) ) : '';
-		$excludeIds = ! empty( $_POST['excludeIds'] ) && is_array( $_POST['excludeIds'] ) ? array_map( 'absint', $_POST['excludeIds'] ) : [];
-		$q          = ! empty( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';
-		$orderby    = strtolower( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_orderby', 'name' ) );
-		$order      = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_order', 'DESC' ) );
-		$number   = isset( $_POST['number'] ) ? absint( $_POST['number'] ) : false;
-		$args       = [
+		$ids         = ! empty( $_POST['ids'] ) && is_array( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : [];
+		$parentId    = isset( $_POST['parentId'] ) ? ( $_POST['parentId'] == 0 ? 0 : absint( $_POST['parentId'] ) ) : '';
+		$excludeIds  = ! empty( $_POST['excludeIds'] ) && is_array( $_POST['excludeIds'] ) ? array_map( 'absint', $_POST['excludeIds'] ) : [];
+		$q           = ! empty( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';
+		$orderby     = strtolower( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_orderby', 'name' ) );
+		$order       = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_order', 'DESC' ) );
+		$number      = isset( $_POST['number'] ) ? absint( $_POST['number'] ) : false;
+		$args        = [
 			'hide_empty'   => false,
 			'orderby'      => $orderby,
 			'order'        => ( 'DESC' === $order ) ? 'DESC' : 'ASC',
@@ -1258,8 +1266,8 @@ class FormBuilderAjax {
 			// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 		];
 		$listingType = Functions::request( 'listingType' );
-		if($listingType){
-			$args['meta_query']   = [
+		if ( $listingType ) {
+			$args['meta_query'] = [
 				[
 					'key'   => '_rtcl_types',
 					'value' => $listingType
@@ -1267,7 +1275,7 @@ class FormBuilderAjax {
 			];
 		}
 		$data       = [];
-		$categories       = get_terms( $args );
+		$categories = get_terms( $args );
 		if ( ! is_wp_error( $categories ) ) {
 			$data = $categories;
 		}
@@ -1275,6 +1283,60 @@ class FormBuilderAjax {
 			'data' => $data
 		] );
 
+	}
+
+
+	public function get_terms_callback() {
+
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
+
+			return;
+		}
+		$ids         = ! empty( $_POST['ids'] ) && is_array( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : [];
+		$parentId    = isset( $_POST['parentId'] ) ? ( $_POST['parentId'] == 0 ? 0 : absint( $_POST['parentId'] ) ) : '';
+		$excludeIds  = ! empty( $_POST['excludeIds'] ) && is_array( $_POST['excludeIds'] ) ? array_map( 'absint', $_POST['excludeIds'] ) : [];
+		$q           = ! empty( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';
+		$orderby     = strtolower( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_orderby', 'name' ) );
+		$order       = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_order', 'DESC' ) );
+		$taxonomy    = isset( $_POST['taxonomy'] ) && in_array( $_POST['taxonomy'], [
+			rtcl()->tag,
+			rtcl()->category,
+			rtcl()->location
+		] ) ? $_POST['taxonomy'] : rtcl()->category;
+		$number      = isset( $_POST['number'] ) ? absint( $_POST['number'] ) : 0;
+		$args        = [
+			'hide_empty'   => false,
+			'orderby'      => $orderby,
+			'order'        => ( 'DESC' === $order ) ? 'DESC' : 'ASC',
+			'taxonomy'     => $taxonomy,
+			'pad_counts'   => 1,
+			'hierarchical' => 1,
+			'parent'       => $parentId,
+			'search'       => $q,
+			'include'      => $ids,
+			'exclude'      => $excludeIds,
+			'number'       => $number
+			// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
+		];
+		$listingType = Functions::request( 'listingType' );
+		if ( rtcl()->category === $taxonomy && $listingType ) {
+			$args['meta_query'] = [
+				[
+					'key'   => '_rtcl_types',
+					'value' => $listingType
+				]
+			];
+		}
+
+		$data       = [];
+		$categories = get_terms( $args );
+		if ( ! is_wp_error( $categories ) ) {
+			$data = $categories;
+		}
+		wp_send_json_success( [
+			'data' => $data
+		] );
 	}
 
 	public function get_tags(): void {

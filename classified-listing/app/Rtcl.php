@@ -284,8 +284,10 @@ if ( ! class_exists( Rtcl::class ) ) {
 			do_action( 'rtcl_set_local', null );
 			$locale = determine_locale();
 			$locale = apply_filters( 'plugin_locale', $locale, 'classified-listing' );
-			unload_textdomain( 'classified-listing' );
-			load_textdomain( 'classified-listing', WP_LANG_DIR . '/classified-listing/classified-listing-' . $locale . '.mo' );
+			if(file_exists(WP_LANG_DIR . '/classified-listing/classified-listing-' . $locale . '.mo')) {
+				unload_textdomain( 'classified-listing' );
+				load_textdomain( 'classified-listing', WP_LANG_DIR . '/classified-listing/classified-listing-' . $locale . '.mo' );
+			}
 			load_plugin_textdomain( 'classified-listing', false, plugin_basename( dirname( RTCL_PLUGIN_FILE ) ) . '/i18n/languages' );
 		}
 

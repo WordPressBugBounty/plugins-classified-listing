@@ -45,6 +45,7 @@
       }
       var $slider = this.$slider;
       var $sliderThumbs = this.$sliderThumbs;
+      var $sliderThumbsGap = this.$sliderThumbs.data('slider-options') || {};
       if (this.options.rtl) {
         $slider.attr("dir", "rtl");
         $sliderThumbs.attr("dir", "rtl");
@@ -57,7 +58,7 @@
       } else {
         swiperThumbsSlider = new Swiper(this.sliderThumbs, {
           watchSlidesVisibility: true,
-          spaceBetween: 5,
+          spaceBetween: ($sliderThumbsGap === null || $sliderThumbsGap === void 0 ? void 0 : $sliderThumbsGap.spaceBetween) || 5,
           navigation: {
             nextEl: $sliderThumbs.find(".swiper-button-next").get(0),
             prevEl: $sliderThumbs.find(".swiper-button-prev").get(0)

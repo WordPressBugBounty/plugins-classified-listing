@@ -14,7 +14,7 @@ if ( in_array( 'facebook', $misc_settings['social_services'] ) ) : ?>
 <?php endif; ?>
 
 <?php if ( in_array( 'twitter', $misc_settings['social_services'] ) )  : ?>
-	<a class="twitter" href="https://twitter.com/intent/tweet?text=<?php echo esc_attr($title); ?>&amp;url=<?php echo esc_url($url); ?>" target="_blank" rel="nofollow"><span class="rtcl-icon rtcl-icon-twitter"></span></a>
+	<a class="twitter" href="https://twitter.com/intent/tweet?text=<?php echo esc_attr($title); ?>&amp;url=<?php echo esc_url($url); ?>" target="_blank" rel="nofollow"><span class="rtcl-icon fa-brands fa-x-twitter"></span></a>
 <?php endif; ?>
 
 <?php if ( in_array( 'linkedin', $misc_settings['social_services'] ) )  : ?>

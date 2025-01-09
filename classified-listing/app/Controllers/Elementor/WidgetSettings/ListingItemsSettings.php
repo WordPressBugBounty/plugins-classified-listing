@@ -564,13 +564,20 @@ class ListingItemsSettings extends ElementorWidgetBase {
 				'condition' => [ 'rtcl_listing_pagination' => [ 'yes' ] ],
 			],
 			[
+				'mode'     => 'group',
+				'type'     => Group_Control_Typography::get_type(),
+				'id'       => 'rtcl_pagination_typo',
+				'label'    => __( 'Pagination Typography', 'classified-listing' ),
+				'selector' => '{{WRAPPER}} .rtcl-pagination a.page-numbers, {{WRAPPER}} .rtcl-pagination span.page-numbers',
+			],
+			[
 				'label'      => __( 'Pagination spacing', 'classified-listing' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'mode'       => 'responsive',
 				'id'         => 'rtcl_pagination_spacing',
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
-					'{{WRAPPER}} .rtcl-listings-sc-wrapper .pagination ' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .rtcl-listings-sc-wrapper .rtcl-pagination ' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
 			],
 			[
@@ -578,7 +585,7 @@ class ListingItemsSettings extends ElementorWidgetBase {
 				'id'        => 'rtcl_pagination_bg_color',
 				'label'     => __( 'Background Color', 'classified-listing' ),
 				'selectors' => [
-					'{{WRAPPER}} .page-item .page-link' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .rtcl-pagination a.page-numbers' => 'background-color: {{VALUE}};',
 				],
 			],
 			[
@@ -586,7 +593,7 @@ class ListingItemsSettings extends ElementorWidgetBase {
 				'id'        => 'rtcl_pagination_active_bg_color',
 				'label'     => __( 'Active Background Color', 'classified-listing' ),
 				'selectors' => [
-					'{{WRAPPER}} .page-item.active .page-link, {{WRAPPER}} .page-item .page-link:hover' => 'background-color: {{VALUE}};border-color: {{VALUE}};',
+					'{{WRAPPER}} .rtcl-pagination span.page-numbers.current, {{WRAPPER}} .rtcl-pagination a.page-numbers:hover' => 'background-color: {{VALUE}};border-color: {{VALUE}};',
 				],
 			],
 
@@ -595,7 +602,7 @@ class ListingItemsSettings extends ElementorWidgetBase {
 				'id'        => 'rtcl_pagination_text_color',
 				'label'     => __( 'Text Color', 'classified-listing' ),
 				'selectors' => [
-					'{{WRAPPER}} .page-item .page-link' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .rtcl-pagination a.page-numbers' => 'color: {{VALUE}};',
 				],
 			],
 			[
@@ -603,14 +610,14 @@ class ListingItemsSettings extends ElementorWidgetBase {
 				'id'        => 'rtcl_pagination_active_text_color',
 				'label'     => __( 'Active Text Color', 'classified-listing' ),
 				'selectors' => [
-					'{{WRAPPER}} .page-item.active .page-link, {{WRAPPER}} .page-item .page-link:hover' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .rtcl-pagination .page-numbers.current, {{WRAPPER}} .rtcl-pagination a.page-numbers:hover' => 'color: {{VALUE}};',
 				],
 			],
 			[
 				'type'     => Group_Control_Border::get_type(),
 				'mode'     => 'group',
 				'id'       => 'rtcl_pagination_border',
-				'selector' => '{{WRAPPER}} .page-link',
+				'selector' => '{{WRAPPER}} .rtcl-pagination a.page-numbers',
 			],
 			[
 				'mode' => 'section_end',

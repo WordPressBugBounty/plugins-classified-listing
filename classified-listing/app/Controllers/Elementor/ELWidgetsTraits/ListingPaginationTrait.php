@@ -10,10 +10,7 @@
 
 namespace Rtcl\Controllers\Elementor\ELWidgetsTraits;
 
-use Elementor\{
-	Controls_Manager,
-	Group_Control_Border
-};
+use Elementor\{Controls_Manager, Group_Control_Border, Group_Control_Typography};
 
 trait ListingPaginationTrait {
 
@@ -31,6 +28,13 @@ trait ListingPaginationTrait {
 				'label'     => __( 'Pagination', 'classified-listing' ),
 				'condition' => array( 'rtcl_listing_pagination' => array( 'yes' ) ),
 			),
+			[
+				'mode'     => 'group',
+				'type'     => Group_Control_Typography::get_type(),
+				'id'       => 'rtcl_pagination_typo',
+				'label'    => __( 'Pagination Typography', 'classified-listing' ),
+				'selector' => '{{WRAPPER}} .rtcl-pagination a.page-numbers, {{WRAPPER}} .rtcl-pagination span.page-numbers',
+			],
 			array(
 				'label'      => __( 'Pagination spacing', 'classified-listing' ),
 				'type'       => Controls_Manager::DIMENSIONS,
@@ -38,7 +42,7 @@ trait ListingPaginationTrait {
 				'mode'       => 'responsive',
 				'size_units' => array( 'px', 'em', '%' ),
 				'selectors'  => array(
-					'{{WRAPPER}} .rtcl-listings-sc-wrapper .pagination ' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+					'{{WRAPPER}} .rtcl-listings-sc-wrapper .rtcl-pagination ' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				),
 			),
 			array(
@@ -46,7 +50,7 @@ trait ListingPaginationTrait {
 				'id'        => 'rtcl_pagination_bg_color',
 				'label'     => __( 'Background Color', 'classified-listing' ),
 				'selectors' => array(
-					'{{WRAPPER}} .page-item .page-link' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .rtcl-pagination a.page-numbers' => 'background-color: {{VALUE}};',
 				),
 			),
 			array(
@@ -54,7 +58,7 @@ trait ListingPaginationTrait {
 				'id'        => 'rtcl_pagination_active_bg_color',
 				'label'     => __( 'Active Background Color', 'classified-listing' ),
 				'selectors' => array(
-					'{{WRAPPER}} .page-item.active .page-link, {{WRAPPER}} .page-item .page-link:hover' => 'background-color: {{VALUE}};',
+					'{{WRAPPER}} .rtcl-pagination span.page-numbers.current, {{WRAPPER}} .rtcl-pagination a.page-numbers:hover' => 'background-color: {{VALUE}};',
 				),
 			),
 
@@ -63,7 +67,7 @@ trait ListingPaginationTrait {
 				'id'        => 'rtcl_pagination_text_color',
 				'label'     => __( 'Text Color', 'classified-listing' ),
 				'selectors' => array(
-					'{{WRAPPER}} .page-item .page-link' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .rtcl-pagination a.page-numbers' => 'color: {{VALUE}};',
 				),
 			),
 			array(
@@ -71,14 +75,14 @@ trait ListingPaginationTrait {
 				'id'        => 'rtcl_pagination_active_text_color',
 				'label'     => __( 'Active Text Color', 'classified-listing' ),
 				'selectors' => array(
-					'{{WRAPPER}} .page-item.active .page-link, {{WRAPPER}} .page-item .page-link:hover' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .rtcl-pagination span.page-numbers.current, {{WRAPPER}} .rtcl-pagination a.page-numbers:hover' => 'color: {{VALUE}};',
 				),
 			),
 			array(
 				'type'     => Group_Control_Border::get_type(),
 				'mode'     => 'group',
 				'id'       => 'rtcl_pagination_border',
-				'selector' => '{{WRAPPER}} .page-link, {{WRAPPER}} .page-item.active .page-link, {{WRAPPER}} .page-item:hover .page-link, {{WRAPPER}} .page-item.active:hover .page-link',
+				'selector' => '{{WRAPPER}} .rtcl-pagination a.page-numbers, {{WRAPPER}} .rtcl-pagination span.page-numbers.current, {{WRAPPER}} .rtcl-pagination a.page-numbers:hover, {{WRAPPER}} {{WRAPPER}} .rtcl-pagination span.page-numbers.current:hover',
 			),
 			array(
 				'mode' => 'section_end',

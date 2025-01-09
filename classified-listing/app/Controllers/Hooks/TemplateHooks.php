@@ -609,6 +609,7 @@ class TemplateHooks {
 	 * @param Listing $listing
 	 */
 	public static function seller_email( $listing ) {
+		
 		if ( is_a( $listing, Listing::class ) && Functions::get_option_item( 'rtcl_moderation_settings', 'has_contact_form', false, 'checkbox' )
 			 && $email = get_post_meta( $listing->get_id(), 'email', true )
 		) {

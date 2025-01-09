@@ -33,7 +33,7 @@ class PublicUser {
 			]
 		);
 
-		if ( ! is_user_logged_in() && Functions::is_enable_post_for_unregister() ) {
+		if ( !is_user_logged_in() && Functions::is_enable_post_for_unregister() ) {
 			add_action( 'wp_ajax_nopriv_rtcl_post_new_listing', [ $this, 'rtcl_post_new_listing' ] );
 
 			add_action(
@@ -91,17 +91,17 @@ class PublicUser {
 	}
 
 	public static function whatsapp_click_count() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( esc_html__( 'Authentication error!!', 'classified-listing' ) );
 		}
 
 		$listing_id = absint( $_POST['listing_id'] );
-		if ( ! $listing_id ) {
+		if ( !$listing_id ) {
 			wp_send_json_error( esc_html__( 'Listing Id is missing', 'classified-listing' ) );
 		}
 		$listing = rtcl()->factory->get_listing( $listing_id );
 
-		if ( ! $listing ) {
+		if ( !$listing ) {
 			wp_send_json_error( esc_html__( 'Listing is not found.', 'classified-listing' ) );
 		}
 		$click = absint( get_post_meta( $listing_id, '_rtcl_whatsapp_click', true ) );
@@ -111,17 +111,17 @@ class PublicUser {
 	}
 
 	public static function phone_click_count() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( esc_html__( 'Authentication error!!', 'classified-listing' ) );
 		}
 
 		$listing_id = absint( $_POST['listing_id'] );
-		if ( ! $listing_id ) {
+		if ( !$listing_id ) {
 			wp_send_json_error( esc_html__( 'Listing Id is missing', 'classified-listing' ) );
 		}
 		$listing = rtcl()->factory->get_listing( $listing_id );
 
-		if ( ! $listing ) {
+		if ( !$listing ) {
 			wp_send_json_error( esc_html__( 'Listing is not found.', 'classified-listing' ) );
 		}
 		$click = absint( get_post_meta( $listing_id, '_rtcl_phone_click', true ) );
@@ -131,17 +131,17 @@ class PublicUser {
 	}
 
 	public static function phone_whatsapp_reveal_count() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( esc_html__( 'Authentication error!!', 'classified-listing' ) );
 		}
 
 		$listing_id = absint( $_POST['listing_id'] );
-		if ( ! $listing_id ) {
+		if ( !$listing_id ) {
 			wp_send_json_error( esc_html__( 'Listing Id is missing', 'classified-listing' ) );
 		}
 		$listing = rtcl()->factory->get_listing( $listing_id );
 
-		if ( ! $listing ) {
+		if ( !$listing ) {
 			wp_send_json_error( esc_html__( 'Listing is not found.', 'classified-listing' ) );
 		}
 		$reveal = absint( get_post_meta( $listing_id, '_rtcl_reveal_phone_whatsapp', true ) );
@@ -151,23 +151,23 @@ class PublicUser {
 	}
 
 	public static function show_payment_details() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( esc_html__( 'Authentication error!!', 'classified-listing' ) );
 		}
 
-		if ( ! get_current_user_id() ) {
+		if ( !get_current_user_id() ) {
 			wp_send_json_error( esc_html__( 'You are not authorized to display it.', 'classified-listing' ) );
 		}
 
 		$order_id = absint( Functions::clean( $_POST['order_id'] ) );
 
-		if ( ! $order_id ) {
+		if ( !$order_id ) {
 			wp_send_json_error( esc_html__( 'Order ID is missing.', 'classified-listing' ) );
 		}
 
 		$order = rtcl()->factory->get_order( $order_id );
 
-		if ( ! $order ) {
+		if ( !$order ) {
 			wp_send_json_error( esc_html__( 'Order not found.', 'classified-listing' ) );
 		}
 
@@ -183,19 +183,19 @@ class PublicUser {
 	}
 
 	public static function rtcl_tag_search() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
-			wp_die( - 1 );
+		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
+			wp_die( -1 );
 		}
 
-		$taxonomy        = rtcl()->tag;
+		$taxonomy = rtcl()->tag;
 		$taxonomy_object = get_taxonomy( $taxonomy );
 
-		if ( ! $taxonomy_object ) {
+		if ( !$taxonomy_object ) {
 			wp_die( 0 );
 		}
 
-		if ( ! current_user_can( $taxonomy_object->cap->assign_terms ) ) {
-			wp_die( - 1 );
+		if ( !current_user_can( $taxonomy_object->cap->assign_terms ) ) {
+			wp_die( -1 );
 		}
 
 		$search = wp_unslash( $_GET['q'] );
@@ -207,7 +207,7 @@ class PublicUser {
 
 		if ( str_contains( $search, ',' ) ) {
 			$search = explode( ',', $search );
-			$search = $search[ count( $search ) - 1 ];
+			$search = $search[count( $search ) - 1];
 		}
 
 		$search = trim( $search );
@@ -215,13 +215,13 @@ class PublicUser {
 		/**
 		 * Filters the minimum number of characters required to fire a tag search via Ajax.
 		 *
-		 * @param int         $characters      The minimum number of characters required. Default 2.
+		 * @param int $characters The minimum number of characters required. Default 2.
 		 * @param WP_Taxonomy $taxonomy_object The taxonomy object.
-		 * @param string      $search          The search term.
+		 * @param string $search The search term.
 		 *
 		 * @since 4.0.0
 		 */
-		$term_search_min_chars = (int) apply_filters( 'rtcl_term_search_min_chars', 2, $taxonomy_object, $search );
+		$term_search_min_chars = (int)apply_filters( 'rtcl_term_search_min_chars', 2, $taxonomy_object, $search );
 
 		/*
 		 * Require $term_search_min_chars chars for matching (default: 2)
@@ -237,16 +237,16 @@ class PublicUser {
 				'name__like' => $search,
 				'fields'     => 'names',
 				'hide_empty' => false,
-				'number'     => isset( $_GET['number'] ) ? (int) $_GET['number'] : 0,
+				'number'     => isset( $_GET['number'] ) ? (int)$_GET['number'] : 0,
 			]
 		);
 
 		/**
 		 * Filters the Ajax term search results.
 		 *
-		 * @param string[]    $results         Array of term names.
+		 * @param string[] $results Array of term names.
 		 * @param WP_Taxonomy $taxonomy_object The taxonomy object.
-		 * @param string      $search          The search term.
+		 * @param string $search The search term.
 		 *
 		 * @since 6.1.0
 		 */
@@ -255,9 +255,9 @@ class PublicUser {
 		$success = false;
 
 		$html = '';
-		if ( ! empty( $results ) ) {
+		if ( !empty( $results ) ) {
 			$success = true;
-			$html    .= '<ul>';
+			$html .= '<ul>';
 			foreach ( $results as $name ) {
 				$html .= "<li>$name</li>";
 			}
@@ -273,21 +273,21 @@ class PublicUser {
 	}
 
 	public static function renew_listing() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( esc_html__( 'Authentication error!!', 'classified-listing' ) );
 		}
 
 		$listingId = absint( Functions::clean( $_POST['listingId'] ) );
-		if ( ! $listingId ) {
+		if ( !$listingId ) {
 			wp_send_json_error( esc_html__( 'Listing Id is missing', 'classified-listing' ) );
 		}
 		$listing = rtcl()->factory->get_listing( $listingId );
 
-		if ( ! $listing ) {
+		if ( !$listing ) {
 			wp_send_json_error( esc_html__( 'Listing is not found.', 'classified-listing' ) );
 		}
 
-		if ( ! apply_filters( 'rtcl_enable_renew_button', Functions::is_enable_renew(), $listing ) ) {
+		if ( !apply_filters( 'rtcl_enable_renew_button', Functions::is_enable_renew(), $listing ) ) {
 			wp_send_json_error( esc_html__( 'Unauthorized access.', 'classified-listing' ) );
 		}
 
@@ -300,7 +300,7 @@ class PublicUser {
 		}
 
 		$wp_error = new WP_Error();
-		$vStore   = new VStore();
+		$vStore = new VStore();
 
 		do_action( 'rtcl_before_renew_listing', $listing, $vStore, $wp_error, $_REQUEST );
 
@@ -308,7 +308,7 @@ class PublicUser {
 			wp_send_json_error( $wp_error->get_error_message() );
 		}
 
-		$post_arg         = [
+		$post_arg = [
 			'ID'          => $listing->get_id(),
 			'post_status' => 'publish',
 		];
@@ -351,8 +351,8 @@ class PublicUser {
 
 	public static function profile_picture_delete() {
 		$message = null;
-		if ( wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText )
-		     && $user_id = get_current_user_id()
+		if ( wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText )
+			&& $user_id = get_current_user_id()
 		) {
 			$pp_id = absint( get_user_meta( $user_id, '_rtcl_pp_id', true ) );
 			if ( $pp_id && wp_delete_attachment( $pp_id ) ) {
@@ -369,13 +369,13 @@ class PublicUser {
 
 	public static function profile_picture_upload() {
 		$msg = null;
-		if ( wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) && isset( $_FILES['pp'] )
-		     && $user_id = get_current_user_id()
+		if ( wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) && isset( $_FILES['pp'] )
+			&& $user_id = get_current_user_id()
 		) {
 			Filters::beforeUpload();
 			$status = wp_handle_upload( $_FILES['pp'], [ 'test_form' => false ] );
 			Filters::afterUpload();
-			if ( $status && ! isset( $status['error'] ) ) {
+			if ( $status && !isset( $status['error'] ) ) {
 				// $filename should be the path to a file in the upload directory.
 				$filename = $status['file'];
 				// Check the type of tile. We'll use this as the 'post_mime_type'.
@@ -395,13 +395,13 @@ class PublicUser {
 
 				// Insert the attachment.
 				$attach_id = wp_insert_attachment( $attachment, $filename );
-				if ( ! is_wp_error( $attach_id ) ) {
+				if ( !is_wp_error( $attach_id ) ) {
 					if ( $existing_pp = get_user_meta( $user_id, '_rtcl_pp_id', true ) ) {
 						wp_delete_attachment( $existing_pp, true );
 					}
 					update_user_meta( $user_id, '_rtcl_pp_id', $attach_id );
 					wp_update_attachment_metadata( $attach_id, wp_generate_attachment_metadata( $attach_id, $filename ) );
-					$src  = wp_get_attachment_image_src( $attach_id );
+					$src = wp_get_attachment_image_src( $attach_id );
 					$data = [
 						'pp_id'   => $attach_id,
 						'src'     => $src[0],
@@ -421,25 +421,25 @@ class PublicUser {
 
 	public static function rtcl_registration_request_handler() {
 
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( esc_html__( 'Session Expired!!', 'classified-listing' ) );
 		}
 
-		if ( ! Functions::is_registration_enabled() ) {
+		if ( !Functions::is_registration_enabled() ) {
 			wp_send_json_error( esc_html__( 'User registration is disabled', 'classified-listing' ) );
 		}
 
 		$username = isset( $_POST['username'] ) ? trim( $_POST['username'] ) : '';
 		$password = isset( $_POST['password'] ) ? trim( $_POST['password'] ) : '';
-		$email    = isset( $_POST['email'] ) ? trim( $_POST['email'] ) : '';
-		$args     = [];
-		if ( ! empty( $_POST['first_name'] ) ) {
+		$email = isset( $_POST['email'] ) ? trim( $_POST['email'] ) : '';
+		$args = [];
+		if ( !empty( $_POST['first_name'] ) ) {
 			$args['first_name'] = sanitize_text_field( $_POST['first_name'] );
 		}
-		if ( ! empty( $_POST['last_name'] ) ) {
+		if ( !empty( $_POST['last_name'] ) ) {
 			$args['last_name'] = sanitize_text_field( $_POST['last_name'] );
 		}
-		if ( ! empty( $_POST['phone'] ) ) {
+		if ( !empty( $_POST['phone'] ) ) {
 			$args['phone'] = sanitize_text_field( $_POST['phone'] );
 		}
 
@@ -457,7 +457,7 @@ class PublicUser {
 				throw new Exception( $new_user_id->get_error_message() );
 			}
 
-			if ( ! empty( $_POST['redirect_to'] ) ) {
+			if ( !empty( $_POST['redirect_to'] ) ) {
 				$redirect = wp_sanitize_redirect( $_POST['redirect_to'] );
 			} elseif ( Functions::get_raw_referer() ) {
 				$redirect = Functions::get_raw_referer();
@@ -465,16 +465,13 @@ class PublicUser {
 				$redirect = Link::get_page_permalink( 'myaccount' );
 			}
 
-			if ( ! apply_filters( 'rtcl_registration_need_auth_new_user', false, $new_user_id ) ) {
+			if ( !apply_filters( 'rtcl_registration_need_auth_new_user', false, $new_user_id ) ) {
 				Functions::set_customer_auth_cookie( $new_user_id );
 				$message = esc_html__( 'You have successfully registered.', 'classified-listing' );
 			} else {
 				$redirect = '';
-				$message
-				          = esc_html__(
-					'You have successfully registered on our website, Please check your email and click on the link, we sent a verification mail to verify your email address.',
-					'classified-listing'
-				);
+				$message = esc_html__( 'You have successfully registered on our website, Please check your email and click on the link, we sent a verification mail to verify your email address.',
+					'classified-listing' );
 			}
 
 			wp_send_json_success(
@@ -496,36 +493,36 @@ class PublicUser {
 	public static function rtcl_login_request_handler() {
 		$validation_error = new WP_Error();
 
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			$validation_error->add( 'rtcl_session_error', esc_html__( 'Session Expired!!', 'classified-listing' ) );
 		}
-		$creds            = [
+		$creds = [
 			'user_login'    => Cipher::decrypt( $_POST['username'], $_POST['__rtcl_wpnonce'] ),
 			'user_password' => Cipher::decrypt( $_POST['password'], $_POST['__rtcl_wpnonce'] ),
 			'remember'      => isset( $_POST['rememberme'] ),
 		];
 		$validation_error = apply_filters( 'rtcl_process_login_errors', $validation_error, $_POST['username'], $_POST['password'], $_POST );
 
-		if ( is_wp_error( $validation_error ) && ! empty( $validation_error->errors ) ) {
+		if ( is_wp_error( $validation_error ) && !empty( $validation_error->errors ) ) {
 			$error = apply_filters( 'wp_login_errors', $validation_error, '' );
 			wp_send_json_error( apply_filters( 'rtcl_login_request_error', $error->get_error_message(), $error ) );
 		}
 		if ( is_multisite() ) {
 			$user_data = get_user_by( is_email( $creds['user_login'] ) ? 'email' : 'login', $creds['user_login'] );
 
-			if ( $user_data && ! is_user_member_of_blog( $user_data->ID, get_current_blog_id() ) ) {
+			if ( $user_data && !is_user_member_of_blog( $user_data->ID, get_current_blog_id() ) ) {
 				add_user_to_blog( get_current_blog_id(), $user_data->ID, 'customer' );
 			}
 		}
 
 		$user = wp_signon( apply_filters( 'rtcl_login_credentials', $creds, $_POST ), is_ssl() );
 
-		if ( is_wp_error( $user ) && ! empty( $user->errors ) ) {
+		if ( is_wp_error( $user ) && !empty( $user->errors ) ) {
 			$error = apply_filters( 'wp_login_errors', $user, '' );
 			wp_send_json_error( apply_filters( 'rtcl_login_request_error', $error->get_error_message(), $error ) );
 		}
 
-		if ( ! empty( $_POST['redirect_to'] ) ) {
+		if ( !empty( $_POST['redirect_to'] ) ) {
 			$redirect = $_POST['redirect_to'];
 		} elseif ( Functions::get_raw_referer() ) {
 			$redirect = Functions::get_raw_referer();
@@ -549,22 +546,22 @@ class PublicUser {
 	public function rtcl_update_user_account() {
 		$errors = new WP_Error();
 
-		if ( ! apply_filters( 'rtcl_listing_form_remove_nonce', false )
-		     && ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText )
+		if ( !apply_filters( 'rtcl_listing_form_remove_nonce', false )
+			&& !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText )
 		) {
 			$errors->add( 'rtcl_session_error', esc_html__( 'Session Expired!!', 'classified-listing' ) );
 		}
 
-		$error      = true;
-		$msg        = [];
-		$user_id    = get_current_user_id();
+		$error = true;
+		$msg = [];
+		$user_id = get_current_user_id();
 		$first_name = sanitize_text_field( $_POST['first_name'] );
-		$last_name  = sanitize_text_field( $_POST['last_name'] );
+		$last_name = sanitize_text_field( $_POST['last_name'] );
 
 		// Validate email
 		$email = sanitize_email( $_POST['email'] );
 
-		if ( ! is_email( $email ) ) {
+		if ( !is_email( $email ) ) {
 			$errors->add( 'rtcl_invalid_email', esc_html__( 'Invalid email address.', 'classified-listing' ) );
 		}
 
@@ -612,32 +609,32 @@ class PublicUser {
 			return;
 		}
 
-		if ( ! empty( $password ) ) {
+		if ( !empty( $password ) ) {
 			$user_data['user_pass'] = $password;
 		}
 
-		$user_id   = wp_update_user( $user_data );
+		$user_id = wp_update_user( $user_data );
 		$user_meta = [];
 
-		$user_meta['_rtcl_phone']           = ! empty( $_POST['phone'] ) ? esc_attr( $_POST['phone'] ) : null;
-		$user_meta['_rtcl_whatsapp_number'] = ! empty( $_POST['whatsapp_number'] ) ? esc_attr( $_POST['whatsapp_number'] ) : null;
-		$user_meta['_rtcl_website']         = ! empty( $_POST['website'] ) ? esc_url_raw( $_POST['website'] ) : null;
-		$user_meta['_rtcl_zipcode']         = ! empty( $_POST['zipcode'] ) ? esc_attr( $_POST['zipcode'] ) : null;
-		$user_meta['_rtcl_address']         = ! empty( $_POST['address'] ) ? esc_textarea( $_POST['address'] ) : null;
+		$user_meta['_rtcl_phone'] = !empty( $_POST['phone'] ) ? esc_attr( $_POST['phone'] ) : null;
+		$user_meta['_rtcl_whatsapp_number'] = !empty( $_POST['whatsapp_number'] ) ? esc_attr( $_POST['whatsapp_number'] ) : null;
+		$user_meta['_rtcl_website'] = !empty( $_POST['website'] ) ? esc_url_raw( $_POST['website'] ) : null;
+		$user_meta['_rtcl_zipcode'] = !empty( $_POST['zipcode'] ) ? esc_attr( $_POST['zipcode'] ) : null;
+		$user_meta['_rtcl_address'] = !empty( $_POST['address'] ) ? esc_textarea( $_POST['address'] ) : null;
 
 		if ( Functions::has_map() && 'geo' === Functions::location_type() ) {
-			$user_meta['_rtcl_geo_address'] = ! empty( $_POST['rtcl_geo_address'] ) ? esc_textarea( $_POST['rtcl_geo_address'] ) : null;
-			$user_meta['_rtcl_latitude']    = ! empty( $_POST['latitude'] ) ? esc_attr( $_POST['latitude'] ) : null;
-			$user_meta['_rtcl_longitude']   = ! empty( $_POST['longitude'] ) ? esc_attr( $_POST['longitude'] ) : null;
+			$user_meta['_rtcl_geo_address'] = !empty( $_POST['rtcl_geo_address'] ) ? esc_textarea( $_POST['rtcl_geo_address'] ) : null;
+			$user_meta['_rtcl_latitude'] = !empty( $_POST['latitude'] ) ? esc_attr( $_POST['latitude'] ) : null;
+			$user_meta['_rtcl_longitude'] = !empty( $_POST['longitude'] ) ? esc_attr( $_POST['longitude'] ) : null;
 		} else {
 			$location = [];
-			if ( ! empty( $_POST['location'] ) && $state = absint( $_POST['location'] ) ) {
+			if ( !empty( $_POST['location'] ) && $state = absint( $_POST['location'] ) ) {
 				$location[] = $state;
 			}
-			if ( ! empty( $_POST['sub_location'] ) && $city = absint( $_POST['sub_location'] ) ) {
+			if ( !empty( $_POST['sub_location'] ) && $city = absint( $_POST['sub_location'] ) ) {
 				$location[] = $city;
 			}
-			if ( ! empty( $_POST['sub_sub_location'] ) && $town = absint( $_POST['sub_sub_location'] ) ) {
+			if ( !empty( $_POST['sub_sub_location'] ) && $town = absint( $_POST['sub_sub_location'] ) ) {
 				$location[] = $town;
 			}
 			$user_meta['_rtcl_location'] = $location;
@@ -645,14 +642,14 @@ class PublicUser {
 
 		if ( isset( $_POST['social_media'] ) ) {
 			delete_user_meta( $user_id, '_rtcl_social' );
-			if ( is_array( $_POST['social_media'] ) && ! empty( $_POST['social_media'] ) ) {
+			if ( is_array( $_POST['social_media'] ) && !empty( $_POST['social_media'] ) ) {
 				$_social = [];
 				foreach ( $_POST['social_media'] as $_sm_key => $_sm_url ) {
-					if ( ! empty( $_sm_url ) ) {
-						$_social[ sanitize_text_field( $_sm_key ) ] = esc_url_raw( $_sm_url );
+					if ( !empty( $_sm_url ) ) {
+						$_social[sanitize_text_field( $_sm_key )] = esc_url_raw( $_sm_url );
 					}
 				}
-				if ( ! empty( $_social ) ) {
+				if ( !empty( $_social ) ) {
 					$user_meta['_rtcl_social'] = $_social;
 				}
 			}
@@ -660,7 +657,7 @@ class PublicUser {
 
 		$user_meta = apply_filters( 'rtcl_update_user_account_data', $user_meta, $user_id, $_POST );
 
-		if ( ! empty( $user_meta ) ) {
+		if ( !empty( $user_meta ) ) {
 			foreach ( $user_meta as $metaKey => $metaValue ) {
 				update_user_meta( $user_id, $metaKey, $metaValue );
 			}
@@ -671,7 +668,7 @@ class PublicUser {
 	}
 
 	public function dropdown_terms() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( esc_html__( 'Session Expired!!', 'classified-listing' ) );
 		}
 		$output = '';
@@ -679,7 +676,7 @@ class PublicUser {
 			$args = [
 				'taxonomy'  => sanitize_text_field( $_POST['taxonomy'] ),
 				'base_term' => 0,
-				'parent'    => (int) $_POST['parent'],
+				'parent'    => (int)$_POST['parent'],
 			];
 
 			if ( isset( $_POST['class'] ) && '' != trim( $_POST['class'] ) ) {
@@ -699,19 +696,19 @@ class PublicUser {
 
 		$error = new WP_Error();
 
-		if ( ! apply_filters( 'rtcl_listing_form_remove_nonce', false )
-		     && ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText )
+		if ( !apply_filters( 'rtcl_listing_form_remove_nonce', false )
+			&& !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText )
 		) {
 			$error->add( 'rtcl_session_error', esc_html__( 'Session Expired!!', 'classified-listing' ) );
 		}
-		if ( ! Functions::is_human( 'contact' ) ) {
+		if ( !Functions::is_human( 'contact' ) ) {
 			$error->add( 'rtcl_recaptcha_error', esc_html__( 'Invalid Captcha: Please try again.', 'classified-listing' ) );
 		}
 
-		$post_id = (int) $_POST['post_id'];
-		$name    = isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : '';
-		$email   = isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
-		$phone   = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
+		$post_id = (int)$_POST['post_id'];
+		$name = isset( $_POST['name'] ) ? sanitize_text_field( $_POST['name'] ) : '';
+		$email = isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
+		$phone = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
 
 		$message = isset( $_POST['message'] ) ? stripslashes(
 			wp_kses(
@@ -745,7 +742,7 @@ class PublicUser {
 
 		do_action( 'rtcl_listing_seller_contact_form_validation', $error, $data );
 
-		if ( is_wp_error( $error ) && ! empty( $error->errors ) ) {
+		if ( is_wp_error( $error ) && !empty( $error->errors ) ) {
 			wp_send_json_error(
 				[
 					'error' => apply_filters( 'rtcl_seller_contact_form_error', $error->get_error_message(), $error ),
@@ -754,7 +751,7 @@ class PublicUser {
 		}
 
 		// All good to go
-		if ( ! Functions::get_option_item( 'rtcl_email_settings', 'notify_users', 'disable_contact_email', 'multi_checkbox' ) ) {
+		if ( !Functions::get_option_item( 'rtcl_email_settings', 'notify_users', 'disable_contact_email', 'multi_checkbox' ) ) {
 			rtcl()->mailer()->emails['Listing_Contact_Email_To_Owner']->trigger( $post_id, $data );
 		}
 		if ( Functions::get_option_item( 'rtcl_email_settings', 'notify_admin', 'listing_contact', 'multi_checkbox' ) ) {
@@ -769,7 +766,7 @@ class PublicUser {
 	public function rtcl_delete_listing() {
 		$success = false;
 		$message = $msg_class = $redirect_url = $post_id = null;
-		if ( wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+		if ( wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			$post_id = absint( Functions::request( 'post_id' ) );
 			if ( $post_id && Functions::current_user_can( 'delete_' . rtcl()->post_type, $post_id ) ) {
 				$children = get_children(
@@ -778,13 +775,13 @@ class PublicUser {
 						[
 							'post_parent'    => $post_id,
 							'post_type'      => 'attachment',
-							'posts_per_page' => - 1,
+							'posts_per_page' => -1,
 							'post_status'    => 'inherit',
 						],
 						$post_id
 					)
 				);
-				if ( ! empty( $children ) ) {
+				if ( !empty( $children ) ) {
 					foreach ( $children as $child ) {
 						wp_delete_attachment( $child->ID, true );
 					}
@@ -792,8 +789,8 @@ class PublicUser {
 
 				do_action( 'rtcl_before_delete_listing', $post_id );
 				Functions::delete_post( $post_id );
-				$success      = true;
-				$message      .= esc_html__( 'Successfully deleted.', 'classified-listing' );
+				$success = true;
+				$message .= esc_html__( 'Successfully deleted.', 'classified-listing' );
 				$redirect_url = Link::get_account_endpoint_url( 'listings' );
 			} else {
 				$message .= esc_html__( 'Permission Error.', 'classified-listing' );
@@ -819,17 +816,17 @@ class PublicUser {
 
 		$error = new WP_Error();
 
-		if ( ! apply_filters( 'rtcl_listing_form_remove_nonce', false )
-		     && ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText )
+		if ( !apply_filters( 'rtcl_listing_form_remove_nonce', false )
+			&& !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText )
 		) {
 			$error->add( 'rtcl_session_error', esc_html__( 'Session Expired!!', 'classified-listing' ) );
 		}
-		if ( ! Functions::is_human( 'report_abuse' ) ) {
+		if ( !Functions::is_human( 'report_abuse' ) ) {
 			$error->add( 'rtcl_recaptcha_error', esc_html__( 'Invalid Captcha: Please try again.', 'classified-listing' ) );
 		}
-		$post_id = (int) $_POST['post_id'];
+		$post_id = (int)$_POST['post_id'];
 		$message = esc_textarea( $_POST['message'] );
-		$data    = wp_parse_args(
+		$data = wp_parse_args(
 			[
 				'post_id' => $post_id,
 				'message' => $message,
@@ -838,7 +835,7 @@ class PublicUser {
 		);
 		do_action( 'rtcl_listing_report_abuse_form_validation', $error, $data );
 
-		if ( is_wp_error( $error ) && ! empty( $error->errors ) ) {
+		if ( is_wp_error( $error ) && !empty( $error->errors ) ) {
 			wp_send_json_error(
 				[
 					'error' => apply_filters( 'rtcl_listing_report_abuse_form_error', $error->get_error_message(), $error ),
@@ -847,7 +844,7 @@ class PublicUser {
 		}
 
 		$is_send = rtcl()->mailer()->emails['Report_Abuse_Email_To_Admin']->trigger( $post_id, $data );
-		if ( ! $is_send ) {
+		if ( !$is_send ) {
 			wp_send_json_error(
 				[
 					'error' => esc_html__( 'Sorry! Please try again.', 'classified-listing' ),
@@ -867,23 +864,23 @@ class PublicUser {
 	public function rtcl_add_remove_favorites() {
 		$success = false;
 		$message = null;
-		$action  = null;
+		$action = null;
 		$post_id = 0;
 		if ( apply_filters( 'rtcl_listing_form_remove_nonce', false )
-		     || wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText )
+			|| wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText )
 		) {
-			$post_id = ! empty( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
+			$post_id = !empty( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
 			if ( $post_id ) {
-				$favourites = (array) get_user_meta( get_current_user_id(), 'rtcl_favourites', true );
+				$favourites = (array)get_user_meta( get_current_user_id(), 'rtcl_favourites', true );
 
 				if ( in_array( $post_id, $favourites ) ) {
 					if ( ( $key = array_search( $post_id, $favourites ) ) !== false ) {
-						unset( $favourites[ $key ] );
+						unset( $favourites[$key] );
 						$action = 'removed';
 					}
 				} else {
 					$favourites[] = $post_id;
-					$action       = 'added';
+					$action = 'added';
 				}
 
 				$favourites = array_filter( $favourites );
@@ -912,11 +909,11 @@ class PublicUser {
 		Functions::clear_notices();// Clear previous notice
 		$success = false;
 		$post_id = 0;
-		$type    = 'new';
+		$type = 'new';
 		if ( apply_filters( 'rtcl_listing_form_remove_nonce', false )
-		     || wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText )
+			|| wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText )
 		) {
-			if ( ! Functions::is_human( 'listing' ) ) {
+			if ( !Functions::is_human( 'listing' ) ) {
 				Functions::add_notice(
 					apply_filters(
 						'rtcl_listing_form_recaptcha_error_text',
@@ -928,7 +925,7 @@ class PublicUser {
 			}
 
 			$agree = isset( $_POST['rtcl_agree'] ) ? 1 : null;
-			if ( Functions::is_enable_terms_conditions() && ! $agree ) {
+			if ( Functions::is_enable_terms_conditions() && !$agree ) {
 				Functions::add_notice(
 					apply_filters(
 						'rtcl_listing_form_terms_conditions_text_responses',
@@ -938,11 +935,11 @@ class PublicUser {
 					'error'
 				);
 			} else {
-				$raw_cat_id   = isset( $_POST['_category_id'] ) ? absint( $_POST['_category_id'] ) : 0;
+				$raw_cat_id = isset( $_POST['_category_id'] ) ? absint( $_POST['_category_id'] ) : 0;
 				$listing_type = isset( $_POST['_ad_type'] ) && in_array( $_POST['_ad_type'], array_keys( Functions::get_listing_types() ) )
 					? esc_attr( $_POST['_ad_type'] ) : '';
-				$post_id      = absint( Functions::request( '_post_id' ) );
-				if ( ! $raw_cat_id && ! $post_id ) {
+				$post_id = absint( Functions::request( '_post_id' ) );
+				if ( !$raw_cat_id && !$post_id ) {
 					Functions::add_notice(
 						apply_filters(
 							'rtcl_listing_form_category_not_select_responses',
@@ -958,29 +955,29 @@ class PublicUser {
 					// Check if user has not any post remaining
 					do_action( 'rtcl_before_add_edit_listing_before_category_condition', $post_id );
 					$category_id = 0;
-					if ( Functions::is_gallery_image_required() && ( ! $post_id || ! count( Functions::get_listing_images( $post_id ) ) ) ) {
+					if ( Functions::is_gallery_image_required() && ( !$post_id || !count( Functions::get_listing_images( $post_id ) ) ) ) {
 						Functions::add_notice(
 							esc_html__( 'Image is required. Please select an image.', 'classified-listing' ),
 							'error',
 							'rtcl_listing_gallery_image_required'
 						);
 					}
-					if ( ! Functions::notice_count( 'error' ) ) {
-						if ( ( ! $post_id || ( ( $post = get_post( $post_id ) ) && $post->post_type == rtcl()->post_type ) && $post->post_status = 'rtcl-temp' )
-						     && $raw_cat_id
+					if ( !Functions::notice_count( 'error' ) ) {
+						if ( ( !$post_id || ( ( $post = get_post( $post_id ) ) && $post->post_type == rtcl()->post_type ) && $post->post_status = 'rtcl-temp' )
+							&& $raw_cat_id
 						) {
 							$category = get_term_by( 'id', $raw_cat_id, rtcl()->category );
 							if ( is_a( $category, WP_Term::class ) ) {
 								$category_id = $category->term_id;
-								$parent_id   = Functions::get_term_top_most_parent_id( $category_id, rtcl()->category );
+								$parent_id = Functions::get_term_top_most_parent_id( $category_id, rtcl()->category );
 								if ( Functions::term_has_children( $category_id ) ) {
 									Functions::add_notice( esc_html__( 'Please select ad type and category', 'classified-listing' ), 'error' );
 								}
-								if ( ! Functions::is_ad_type_disabled() && ! $listing_type ) {
+								if ( !Functions::is_ad_type_disabled() && !$listing_type ) {
 									Functions::add_notice( esc_html__( 'Please select an ad type', 'classified-listing' ), 'error' );
 								}
 								$cats_on_type = wp_list_pluck( Functions::get_one_level_categories( 0, $listing_type ), 'term_id' );
-								if ( ! in_array( $parent_id, $cats_on_type ) ) {
+								if ( !in_array( $parent_id, $cats_on_type ) ) {
 									Functions::add_notice( esc_html__( 'Please select correct type and category', 'classified-listing' ), 'error' );
 								}
 								do_action( 'rtcl_before_add_edit_listing_into_category_condition', $post_id, $category_id );
@@ -988,11 +985,11 @@ class PublicUser {
 								Functions::add_notice( esc_html__( 'Category is not valid', 'classified-listing' ), 'error' );
 							}
 						}
-						if ( ! $post_id && ! $category_id ) {
+						if ( !$post_id && !$category_id ) {
 							Functions::add_notice( __( 'Category not selected', 'classified-listing' ), 'error' );
 						}
 					}
-					if ( ! Functions::notice_count( 'error' ) ) {
+					if ( !Functions::notice_count( 'error' ) ) {
 						$cats = [ $category_id ];
 
 						$meta = [];
@@ -1016,7 +1013,7 @@ class PublicUser {
 							$meta['_rtcl_price_unit'] = Functions::sanitize( $_POST['_rtcl_price_unit'] );
 						}
 
-						if ( ! Functions::is_video_urls_disabled() && isset( $_POST['_rtcl_video_urls'] ) ) {
+						if ( !Functions::is_video_urls_disabled() && isset( $_POST['_rtcl_video_urls'] ) ) {
 							$meta['_rtcl_video_urls'] = Functions::sanitize( $_POST['_rtcl_video_urls'], 'video_urls' );
 						}
 
@@ -1055,16 +1052,16 @@ class PublicUser {
 							$meta['longitude'] = Functions::sanitize( $_POST['longitude'] );
 						}
 
-						$meta['hide_map']    = isset( $_POST['hide_map'] ) ? 1 : null;
-						$title               = isset( $_POST['title'] ) ? Functions::sanitize( $_POST['title'], 'title' ) : '';
-						$post_arg            = [
+						$meta['hide_map'] = isset( $_POST['hide_map'] ) ? 1 : null;
+						$title = isset( $_POST['title'] ) ? Functions::sanitize( $_POST['title'], 'title' ) : '';
+						$post_arg = [
 							'post_title'   => $title,
 							'post_content' => isset( $_POST['description'] ) ? Functions::sanitize( $_POST['description'], 'content' ) : '',
 						];
-						$post                = get_post( $post_id );
-						$user_id             = get_current_user_id();
+						$post = get_post( $post_id );
+						$user_id = get_current_user_id();
 						$post_for_unregister = Functions::is_enable_post_for_unregister();
-						if ( ! is_user_logged_in() && $post_for_unregister ) {
+						if ( !is_user_logged_in() && $post_for_unregister ) {
 							$new_user_id = Functions::do_registration_from_listing_form( [ 'email' => $meta['email'] ] );
 							if ( $new_user_id && is_numeric( $new_user_id ) ) {
 								$user_id = $new_user_id;
@@ -1087,17 +1084,17 @@ class PublicUser {
 							if ( $post_id && is_object( $post ) && $post->post_type == rtcl()->post_type ) {
 
 								if ( ( $post->post_author > 0
-								       && in_array(
-									       $post->post_author,
-									       [ apply_filters( 'rtcl_listing_post_user_id', get_current_user_id() ), get_current_user_id() ]
-								       ) )
-								     || ( $post->post_author == 0 && $post_for_unregister )
+										&& in_array(
+											$post->post_author,
+											[ apply_filters( 'rtcl_listing_post_user_id', get_current_user_id() ), get_current_user_id() ]
+										) )
+									|| ( $post->post_author == 0 && $post_for_unregister )
 								) {
 									if ( $post->post_status === 'rtcl-temp' ) {
-										$post_arg['post_name']   = $title;
+										$post_arg['post_name'] = $title;
 										$post_arg['post_status'] = $new_listing_status;
 									} else {
-										$type              = 'update';
+										$type = 'update';
 										$status_after_edit = Functions::get_option_item( 'rtcl_moderation_settings', 'edited_listing_status' );
 										if ( 'publish' === $post->post_status && $status_after_edit && $post->post_status !== $status_after_edit ) {
 											$post_arg['post_status'] = $status_after_edit;
@@ -1108,18 +1105,18 @@ class PublicUser {
 										$post_arg['post_author'] = $user_id;
 									}
 									$post_arg['ID'] = $post_id;
-									$success        = wp_update_post( apply_filters( 'rtcl_listing_save_update_args', $post_arg, $type ) );
+									$success = wp_update_post( apply_filters( 'rtcl_listing_save_update_args', $post_arg, $type ) );
 								}
 							} else {
 								$post_arg['post_status'] = $new_listing_status;
 								$post_arg['post_author'] = $user_id;
-								$post_arg['post_type']   = rtcl()->post_type;
-								$post_id                 = $success = wp_insert_post( apply_filters( 'rtcl_listing_save_update_args', $post_arg, $type ) );
+								$post_arg['post_type'] = rtcl()->post_type;
+								$post_id = $success = wp_insert_post( apply_filters( 'rtcl_listing_save_update_args', $post_arg, $type ) );
 							}
 
 							if ( $post_id && isset( $_POST['rtcl_listing_tag'] ) ) {
-								$tags          = Functions::sanitize( $_POST['rtcl_listing_tag'] );
-								$tags_as_array = ! empty( $tags ) ? explode( ',', $tags ) : [];
+								$tags = Functions::sanitize( $_POST['rtcl_listing_tag'] );
+								$tags_as_array = !empty( $tags ) ? explode( ',', $tags ) : [];
 								wp_set_object_terms( $post_id, $tags_as_array, rtcl()->tag );
 							}
 
@@ -1144,7 +1141,7 @@ class PublicUser {
 							// Custom Meta field
 							if ( isset( $_POST['rtcl_fields'] ) && $post_id ) {
 								foreach ( $_POST['rtcl_fields'] as $key => $value ) {
-									$field_id = (int) str_replace( '_field_', '', $key );
+									$field_id = (int)str_replace( '_field_', '', $key );
 									if ( $field = rtcl()->factory->get_custom_field( $field_id ) ) {
 										$field->saveSanitizedValue( $post_id, $value );
 									}
@@ -1152,7 +1149,7 @@ class PublicUser {
 							}
 
 							/* meta data */
-							if ( ! empty( $meta ) && $post_id ) {
+							if ( !empty( $meta ) && $post_id ) {
 								foreach ( $meta as $key => $value ) {
 									update_post_meta( $post_id, $key, $value );
 								}
@@ -1165,7 +1162,7 @@ class PublicUser {
 									update_post_meta( $post_id, 'featured', 0 );
 									update_post_meta( $post_id, '_views', 0 );
 									$current_user_id = get_current_user_id();
-									$ads             = absint( get_user_meta( $current_user_id, '_rtcl_ads', true ) );
+									$ads = absint( get_user_meta( $current_user_id, '_rtcl_ads', true ) );
 									update_user_meta( $current_user_id, '_rtcl_ads', $ads + 1 );
 									if ( 'publish' === $new_listing_status ) {
 										Functions::add_default_expiry_date( $post_id );
@@ -1247,7 +1244,7 @@ class PublicUser {
 	}
 
 	public function rtcl_get_one_level_category_select_list() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json(
 				apply_filters(
 					'rtcl_ajax_category_selection_before_post',
@@ -1263,14 +1260,14 @@ class PublicUser {
 
 		Functions::clear_notices();
 		do_action( 'rtcl_set_local' );
-		$success    = false;
-		$message    = [];
-		$cat_id     = isset( $_POST['term_id'] ) ? absint( $_POST['term_id'] ) : 0;
+		$success = false;
+		$message = [];
+		$cat_id = isset( $_POST['term_id'] ) ? absint( $_POST['term_id'] ) : 0;
 		$child_cats = null;
 		if ( $cat_id ) {
-			$success   = true;
+			$success = true;
 			$childCats = Functions::get_one_level_categories( $cat_id );
-			if ( ! empty( $childCats ) ) {
+			if ( !empty( $childCats ) ) {
 				$child_cats .= sprintf( "<option value=''>%s</option>", esc_html( Text::get_select_category_text() ) );
 				foreach ( $childCats as $child_cat ) {
 					$child_cats .= "<option value='{$child_cat->term_id}'>{$child_cat->name}</option>";
@@ -1293,7 +1290,7 @@ class PublicUser {
 	}
 
 	public function rtcl_get_one_level_category_select_list_by_type() {
-		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json(
 				[
 					'message' => esc_html__( 'Session error !!', 'classified-listing' ),
@@ -1304,17 +1301,17 @@ class PublicUser {
 		}
 
 		Functions::clear_notices();
-		$success    = false;
-		$message    = [];
-		$type       = ( isset( $_POST['type'] ) && in_array( $_POST['type'], array_keys( Functions::get_listing_types() ) ) ) ? $_POST['type'] : null;
+		$success = false;
+		$message = [];
+		$type = ( isset( $_POST['type'] ) && in_array( $_POST['type'], array_keys( Functions::get_listing_types() ) ) ) ? $_POST['type'] : null;
 		$child_cats = null;
 
 		do_action( 'rtcl_listing_form_before_category_retrieve', $type );
 
 		if ( $type ) {
 			$childCats = Functions::get_one_level_categories( 0, $type );
-			if ( ! empty( $childCats ) ) {
-				$success    = true;
+			if ( !empty( $childCats ) ) {
+				$success = true;
 				$child_cats .= sprintf( "<option value=''>%s</option>", esc_html( Text::get_select_category_text() ) );
 				foreach ( $childCats as $child_cat ) {
 					$child_cats .= "<option value='{$child_cat->term_id}'>{$child_cat->name}</option>";
@@ -1338,33 +1335,33 @@ class PublicUser {
 	}
 
 	static function rtcl_user_ad_load_more() {
-		$complete       = false;
-		$html           = '';
-		$current_page   = isset( $_POST['current_page'] ) ? absint( $_POST['current_page'] ) : 0;
-		$max_num_pages  = isset( $_POST['max_num_pages'] ) ? absint( $_POST['max_num_pages'] ) : 0;
-		$user_id        = isset( $_POST['user_id'] ) ? absint( $_POST['user_id'] ) : 0;
-		$posts_per_page = isset( $_POST['posts_per_page'] ) ? absint( $_POST['posts_per_page'] ) : - 1;
+		$complete = false;
+		$html = '';
+		$current_page = isset( $_POST['current_page'] ) ? absint( $_POST['current_page'] ) : 0;
+		$max_num_pages = isset( $_POST['max_num_pages'] ) ? absint( $_POST['max_num_pages'] ) : 0;
+		$user_id = isset( $_POST['user_id'] ) ? absint( $_POST['user_id'] ) : 0;
+		$posts_per_page = isset( $_POST['posts_per_page'] ) ? absint( $_POST['posts_per_page'] ) : -1;
 
 		if ( $current_page && $max_num_pages && $user_id && $max_num_pages > $current_page ) {
-			$current_page ++;
-			$complete       = true;
-			$args           = [
+			$current_page++;
+			$complete = true;
+			$args = [
 				'post_type'      => rtcl()->post_type,
 				'post_status'    => 'publish',
-				'posts_per_page' => $posts_per_page ? $posts_per_page : - 1,
+				'posts_per_page' => $posts_per_page ? $posts_per_page : -1,
 				'author'         => $user_id,
 				'paged'          => $current_page,
 				'meta_query'     => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				                      [
-					                      'key'     => '_rtcl_manager_id',
-					                      'compare' => 'NOT EXISTS',
-				                      ],
+									  [
+										  'key'     => '_rtcl_manager_id',
+										  'compare' => 'NOT EXISTS',
+									  ],
 				],
 			];
 			$user_ads_query = new \WP_Query( $args );
 
-			if ( ! empty( $user_ads_query->posts ) ) {
-				$global_listing        = null;
+			if ( !empty( $user_ads_query->posts ) ) {
+				$global_listing = null;
 				$GLOBALS['rtclIsAjax'] = true;
 				if ( isset( $GLOBALS['listing'] ) ) {
 					$global_listing = $GLOBALS['listing'];

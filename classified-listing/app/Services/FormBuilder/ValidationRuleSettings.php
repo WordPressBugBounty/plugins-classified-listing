@@ -191,10 +191,6 @@ class ValidationRuleSettings {
 						'types' => [ 'zip', 'gz', 'gzip', 'rar', '7z' ],
 					],
 					[
-						'title' => __( 'Executable Files', 'classified-listing' ),
-						'types' => [ 'exe' ],
-					],
-					[
 						'title' => __( 'CSV', 'classified-listing' ),
 						'types' => [ 'csv' ],
 					],

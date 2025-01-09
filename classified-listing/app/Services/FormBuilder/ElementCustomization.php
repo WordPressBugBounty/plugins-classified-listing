@@ -35,6 +35,7 @@ class ElementCustomization {
 					'top_level_category_ids',
 					'multiple',
 					'max_selection',
+					'category_limit',
 					'validation'
 				],
 				'advance' => [
@@ -57,7 +58,14 @@ class ElementCustomization {
 				'general' => [ 'label', 'label_placement', 'validation', 'allow_hide_map', 'visible_lat_lng' ]
 			],
 			'social_profiles'     => [
-				'general' => [ 'label', 'label_placement', 'icon', 'validation', 'admin_use_only' ]
+				'general' => [
+					'label',
+					'label_placement',
+					'icon',
+					'user_social_default',
+					'validation',
+					'admin_use_only'
+				]
 			],
 			'address'             => [
 				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
@@ -665,6 +673,18 @@ class ElementCustomization {
 				'template' => 'inputNumber',
 				'label'    => __( 'Max Image Limit', 'classified-listing' )
 			],
+			'category_limit'               => [
+				'key'        => 'result_limit',
+				'default'    => 10,
+				'template'   => 'inputNumber',
+				'label'      => __( 'Search result Limit', 'classified-listing' ),
+				'help_text'  => __( 'Blank or 0 for all matched result', 'classified-listing' ),
+				'dependency' => [
+					'depends_on' => 'multiple',
+					'value'      => true,
+					'operator'   => '==',
+				]
+			],
 			'max_upload_size'              => [
 				'template'  => 'inputNumber',
 				'label'     => __( 'Max Upload Size Per Image in MB', 'classified-listing' ),
@@ -740,6 +760,13 @@ class ElementCustomization {
 			'required'                     => [
 				'template' => 'inputYesNoCheckBox',
 				'label'    => __( 'Required', 'classified-listing' ),
+			],
+			'user_social_default'          => [
+				'template'  => 'inputYesNoCheckBox',
+				'key'       => 'default_value',
+				'value'     => '{user.meta._rtcl_social}',
+				'label'     => __( 'Default value from current user', 'classified-listing' ),
+				'help_text' => __( 'This will pre-populate the value from user', 'classified-listing' ),
 			],
 			'admin_use_only'               => [
 				'template'  => 'inputYesNoCheckBox',

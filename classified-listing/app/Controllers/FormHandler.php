@@ -328,8 +328,7 @@ class FormHandler {
 					Functions::set_customer_auth_cookie( $new_user_id );
 					Functions::add_notice( esc_html__( "You have successfully registered.", 'classified-listing' ) );
 				} else {
-					Functions::add_notice( esc_html__( apply_filters( 'rtcl_registration_verification_active_message',
-						'You have successfully registered on our website, Please check your email and click on the link, we sent a verification mail to verify your email address.',
+					Functions::add_notice( apply_filters( 'rtcl_registration_verification_active_message', esc_html__( 'You have successfully registered on our website, Please check your email and click on the link, we sent a verification mail to verify your email address.',
 						'classified-listing' ) ) );
 				}
 

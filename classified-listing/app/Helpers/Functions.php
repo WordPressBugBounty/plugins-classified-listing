@@ -1580,7 +1580,7 @@ class Functions {
 		$user_can        = false;
 		$listing         = $post_id ? rtcl()->factory->get_listing( $post_id ) : null;
 		// If editing, deleting, or reading a listing, get the post and post type object.
-		if ( $listing && $current_user_id === $listing->get_author_id()
+		if ( $listing && ($current_user_id === $listing->get_author_id() || current_user_can( 'administrator' ))
 			 && in_array( $capability,
 				[
 					'edit_rtcl_listing',
