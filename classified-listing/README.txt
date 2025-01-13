@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, classifieds a
 Requires at least: 5.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 4.0.2
+Stable tag: 4.0.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -324,7 +324,11 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 
 == Changelog ==
 
-= 4.0.2 ( Jan 02, 2025 ) =
+= 4.0.3 ( Jan 13, 2025 ) =
+* Fixed: Form builder Description filed and textarea field editor content with extra space for html mode
+* Added: Add currency dynamic symbol with pricing field at form builder 
+
+= 4.0.2 ( Jan 09, 2025 ) =
 * Fixed: Translation issue for Loco Translate plugin
 * Fixed: Image delete permission issue
 * Fixed: Rest API KEY generation issue
@@ -759,62 +763,3 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 = 2.3.0 ( Nov 25, 2022 ) =
 * Added: Checkout billing information
 * Added: Store and Pro hook for synchronization
-
-= 2.2.25 ( Nov 18, 2022 ) =
-* Fixed: Post status issue after promotion
-
-= 2.2.24 ( Nov 14, 2022 ) =
-* Fixed: Robots no index issue
-* Fixed: is_page function return
-
-= 2.2.23 ( Nov 08, 2022 ) =
-* Fixed: Related listing price show issue
-* Fixed: Gutenberg dimension control break issue
-
-= 2.2.22 ( Oct 31, 2022 ) =
-* Fixed: PHP error
-
-= 2.2.21 ( Oct 24, 2022 ) =
-* Fixed: Price hide issue on change price type
-
-= 2.2.20 ( Oct 05, 2022 ) =
-* Fixed: Sidebar responsive issue
-* Fixed: WhatsApp icon color issue
-* Fixed: Conditional custom field issue
-
-= 2.2.19 ( Sep 21, 2022 ) =
-* Fixed: Responsive issue with Divi theme
-* Added: Webp format support for gallery image
-
-= 2.2.18 ( Sep 13, 2022 ) =
-* Added: Updated Static multi currency compatibility
-
-= 2.2.17 ( Sep 12, 2022 ) =
-* Added: Add Multi Currency static support functionality
-* Fixed: WPML translation issue at payment history page
-
-= 2.2.16 ( Aug 24, 2022 ) =
-* Fixed: PHP fatal error
-
-= 2.2.15 ( Aug 17, 2022 ) =
-* Added: Settings to separate registration page
-* Fixed: Cache clear error issue
-
-= 2.2.14 ( Aug 12, 2022 ) =
-* Fixed: Session error log
-* Fixed: Single listing sidebar spacing issue
-* Updated: Security & sanitization
-* Updated: Coupon addon compatibility
-
-= 2.2.13 ( July 25, 2022 ) =
-* Added: Coupon addon compatibility
-* Improved: Query optimize and Performance update
-
-= 2.2.12 ( July 18, 2022 ) =
-* Fixed: Theme support conflict issue with elementor
-
-= 2.2.11 ( July 15, 2022 ) =
-* Fixed: Child category hide issue in Listing Category Box elementor addon
-
-= 2.2.10 ( July 06, 2022 ) =
-* Fixed: Business Hour time issue

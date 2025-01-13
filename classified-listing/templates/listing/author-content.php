@@ -69,7 +69,14 @@ $pp_id = absint(get_user_meta($user_id, '_rtcl_pp_id', true));
 					foreach ($social_list as $item => $value) {
 						?>
 						<a target="_blank" href="<?php echo esc_url($value) ?>">
-							<i class="rtcl-icon rtcl-icon-<?php echo esc_attr($item) ?>"></i>
+							<?php
+							if ( 'twitter' === $item ) {
+								$iconClass = 'fa-brands fa-x-twitter';
+							} else {
+								$iconClass = 'rtcl-icon-' . $item;
+							}
+							?>
+							<i class="rtcl-icon <?php echo esc_attr( $iconClass ); ?>"></i>
 						</a>
 						<?php
 					}

@@ -1206,13 +1206,18 @@ class ScriptLoader {
 	 */
 	private function get_fb_settings_options( bool $admin = false ): array {
 		// 'timezones'       => Options::get_timezone_list()
-		$options = [
+		$currency = Functions::get_currency();
+		$options  = [
 			'week_days'       => FBHelper::getWeekDays(),
 			'listing_types'   => Functions::get_listing_types(),
 			'pricing'         => [
 				'pricing_types' => Options::get_listing_pricing_types(),
 				'price_types'   => Options::get_price_types(),
 				'price_units'   => Options::get_price_unit_list(),
+				'currency'      => [
+					'id'     => $currency,
+					'symbol' => Functions::get_currency_symbol( $currency )
+				]
 			],
 			'social_profiles' => Options::get_social_profiles_list(),
 			'recaptcha'       => [

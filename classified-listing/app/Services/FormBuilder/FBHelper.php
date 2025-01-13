@@ -1504,7 +1504,7 @@ class FBHelper {
 	 * @return mixed
 	 */
 	public static function getFormattedFieldHtml( $value, FBField $field ) {
-		$html = $value;
+		$html =  is_array( $value ) ? '' : $value;
 		if ( $field->getElement() === 'color_picker' ) {
 			$html = sprintf( '<span class="cfp-color" style="background-color: %s;"></span>', esc_attr( $value ) );
 		} elseif ( in_array( $field->getElement(), [ 'select', 'radio', 'checkbox' ] ) ) {
@@ -1571,7 +1571,6 @@ class FBHelper {
 				}
 			}
 		}
-
 		return apply_filters( 'rtcl_fb_custom_field_value_html', $html, $value, $field );
 	}
 
