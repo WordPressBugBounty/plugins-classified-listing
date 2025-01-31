@@ -19,9 +19,21 @@ class ListingsAjaxController {
 	}
 
 	public static function rtcl_gb_listing_args( $settings ) {
-		$meta_queries                 = [];
-		$settings['cats']             = ! empty( $settings['cats'] ) ? wp_list_pluck( $settings['cats'], 'value' ) : [];
-		$settings['locations']        = ! empty( $settings['locations'] ) ? wp_list_pluck( $settings['locations'], 'value' ) : [];
+		$meta_queries  = [];
+		$location_list = $category_list = [];
+
+		if ( ! empty( $settings['locations'] ) ) {
+			foreach ( $settings['locations'] as $tax_id ) {
+				$location_list[] = absint( $tax_id );
+			}
+		}
+
+		if ( ! empty( $settings['cats'] ) ) {
+			foreach ( $settings['cats'] as $tax_id ) {
+				$category_list[] = absint( $tax_id );
+			}
+		}
+
 		$settings['promotion_in']     = ! empty( $settings['promotion_in'] ) ? wp_list_pluck( $settings['promotion_in'], 'value' ) : [];
 		$settings['promotion_not_in'] = ! empty( $settings['promotion_not_in'] ) ? wp_list_pluck( $settings['promotion_not_in'], 'value' ) : [];
 		$listing_type                 = ! empty( $settings['listing_type'] ) ? sanitize_text_field( $settings['listing_type'] ) : 'all';
@@ -35,7 +47,7 @@ class ListingsAjaxController {
 			'posts_per_page' => intval( $settings['perPage'] ),
 			//'offset' => $offset,
 			'tax_query'      => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-				'relation' => 'AND',
+			                      'relation' => 'AND',
 			],
 		];
 
@@ -63,18 +75,18 @@ class ListingsAjaxController {
 		}
 
 		// Taxonomy
-		if ( ! empty( $settings['cats'] ) ) {
+		if ( ! empty( $category_list ) ) {
 			$args['tax_query'][] = [
 				'taxonomy' => 'rtcl_category',
 				'field'    => 'term_id',
-				'terms'    => $settings['cats'],
+				'terms'    => $category_list,
 			];
 		}
-		if ( ! empty( $settings['locations'] ) ) {
+		if ( ! empty( $location_list ) ) {
 			$args['tax_query'][] = [
 				'taxonomy' => 'rtcl_location',
 				'field'    => 'term_id',
-				'terms'    => $settings['locations'],
+				'terms'    => $location_list,
 			];
 		}
 
@@ -158,7 +170,8 @@ class ListingsAjaxController {
 
 			if ( rtcl()->has_pro() ) {
 				if ( $listing && Fns::is_enable_mark_as_sold() && Fns::is_mark_as_sold( $listing->get_id() ) ) {
-					$sold_item = '<span class="rtcl-sold-out">' . apply_filters( 'rtcl_sold_out_banner_text', esc_html__( "Sold Out", 'classified-listing' ) ) . '</span>';
+					$sold_item = '<span class="rtcl-sold-out">' . apply_filters( 'rtcl_sold_out_banner_text', esc_html__( "Sold Out", 'classified-listing' ) )
+					             . '</span>';
 				}
 			}
 

@@ -581,9 +581,9 @@ class FBHelper {
 		} elseif ( 'doNotContains' === $condition['operator'] ) {
 			return is_array( $currentValue ) && !in_array( $condition['value'], $currentValue );
 		} elseif ( 'startsWith' === $condition['operator'] ) {
-			return $currentValue && strpos( $currentValue, $condition['value'] ) === 0;
+			return $currentValue && str_starts_with( $currentValue, $condition['value'] );
 		} elseif ( 'endsWith' === $condition['operator'] ) {
-			return $currentValue && substr( $currentValue, -strlen( $condition['value'] ) ) === $condition['value'];
+			return $currentValue && str_ends_with( $currentValue, $condition['value'] );
 		} elseif ( 'empty' === $condition['operator'] ) {
 			return !isset( $currentValue );
 		} elseif ( 'notEmpty' === $condition['operator'] ) {
@@ -601,8 +601,11 @@ class FBHelper {
 	 * @return array|null
 	 */
 	public static function isValidateField( $value, array $field, $listing ) {
+		// Escape validation is it its from API call and recapture
+		if ( wp_is_rest_endpoint() && !empty( $field['element'] ) && "recaptcha" === $field['element'] ) {
+			return null;
+		}
 		$rules = !empty( $field['validation'] ) ? $field['validation'] : [];
-
 		if ( !empty( $rules ) ) {
 			$errors = [];
 
@@ -876,7 +879,7 @@ class FBHelper {
 									true ) && self::isValidateCondition( $rawFormData, $logics, $fields ) ) ) {
 
 							if ( $field['element'] === 'repeater' ) {
-								$_errors = self::isValidateRepeaterField( $rawFormData[$name], $field, $listing );
+								$_errors = self::isValidateRepeaterField( $rawFormData[$name] ?? '', $field, $listing );
 							} else {
 								$_errors = isset( $rawFormData[$name] ) ? self::isValidateField( $rawFormData[$name], $field, $listing ) : null;
 							}
@@ -1504,7 +1507,7 @@ class FBHelper {
 	 * @return mixed
 	 */
 	public static function getFormattedFieldHtml( $value, FBField $field ) {
-		$html =  is_array( $value ) ? '' : $value;
+		$html = is_array( $value ) ? '' : $value;
 		if ( $field->getElement() === 'color_picker' ) {
 			$html = sprintf( '<span class="cfp-color" style="background-color: %s;"></span>', esc_attr( $value ) );
 		} elseif ( in_array( $field->getElement(), [ 'select', 'radio', 'checkbox' ] ) ) {

@@ -474,13 +474,13 @@ class RtclLicense {
 		if ( ! $this->api_data['license'] || ! $status ) {
 			echo '<tr class="plugin-update-tr" id="' . esc_attr( $this->slug ) . '-update" data-slug="' . esc_attr( $this->slug ) . '" data-plugin="' . esc_attr( $this->slug . '/' . $file ) . '">';
 			echo '<td colspan="3" class="plugin-update colspanchange">';
-			echo '<div class="update-message notice inline notice-warning notice-alt"><p><strong>' . esc_html__( 'Please enter valid license key for automatic updates.', 'classified-listing' ) . '</strong> <a href="' . esc_url( admin_url( 'edit.php?post_type=rtcl_listing&page=rtcl-settings&tab=tools' ) ) . '">' . esc_html__( 'Click here', 'classified-listing' ) . '</a></p>';
+			echo '<div class="update-message notice inline notice-warning notice-alt"><p><strong>' . esc_html__( 'Please enter valid license key for automatic updates.', 'classified-listing' ) . '</strong> <a href="' . esc_url( admin_url( 'admin.php?page=rtcl-settings&tab=tools' ) ) . '">' . esc_html__( 'Click here', 'classified-listing' ) . '</a></p>';
 			echo '</div></td></tr>';
 		} else {
 			if ( empty( $version_info->new_version ) && empty( $version_info->stable_version ) && empty( $version_info->sections ) && empty( $version_info->license_check ) && isset( $version_info->msg ) ) {
 				echo '<tr class="plugin-update-tr" id="' . esc_attr( $this->slug ) . '-update" data-slug="' . esc_attr( $this->slug ) . '" data-plugin="' . esc_attr( $this->slug . '/' . $file ) . '">';
 				echo '<td colspan="3" class="plugin-update colspanchange">';
-				echo '<div class="update-message notice inline notice-warning notice-alt"><p>' . esc_html( $version_info->msg ) . '. <strong>' . esc_html__( 'Please enter valid license key for automatic updates.', 'classified-listing' ) . '</strong><a href="' . esc_url( admin_url( 'edit.php?post_type=rtcl_listing&page=rtcl-settings&tab=tools' ) ) . '">' . esc_html__( 'Click here', 'classified-listing' ) . '</a></p>';
+				echo '<div class="update-message notice inline notice-warning notice-alt"><p>' . esc_html( $version_info->msg ) . '. <strong>' . esc_html__( 'Please enter valid license key for automatic updates.', 'classified-listing' ) . '</strong><a href="' . esc_url( admin_url( 'admin.php?page=rtcl-settings&tab=tools' ) ) . '">' . esc_html__( 'Click here', 'classified-listing' ) . '</a></p>';
 				echo '</div></td></tr>';
 			}
 		}

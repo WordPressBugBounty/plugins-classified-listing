@@ -78,7 +78,7 @@ class GatewayPaypalRequest
 	 * @return string
 	 */
 	protected function limit_length($string, $limit = 127) {
-		if (strlen($string) > $limit) {
+		if ($string && strlen($string) > $limit) {
 			$string = substr($string, 0, $limit - 3) . '...';
 		}
 

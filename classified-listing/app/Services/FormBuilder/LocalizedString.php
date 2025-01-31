@@ -6,31 +6,32 @@ class LocalizedString {
 
 	public static function public() {
 		$strings = [
-			'enable'          => __( 'Enable', 'classified-listing' ),
-			'type'            => __( 'Type', 'classified-listing' ),
-			'open'            => __( 'Open', 'classified-listing' ),
-			'save'            => __( 'Save', 'classified-listing' ),
-			'submit'          => __( 'Submit', 'classified-listing' ),
-			'update'          => __( 'Update', 'classified-listing' ),
-			'change'          => __( 'Change', 'classified-listing' ),
-			'error_saving'    => __( 'Error while saving data', 'classified-listing' ),
-			'character_limit' => __( 'Character limit', 'classified-listing' ),
-			'confirm'         => __( 'Are you sure to remove?', 'classified-listing' ),
-			'select_item'     => __( 'Please select an item', 'classified-listing' ),
-			'type_to_search'  => __( 'Type to search', 'classified-listing' ),
-			'add_new'         => __( 'Add New', 'classified-listing' ),
-			'required'        => __( 'Field is required', 'classified-listing' ),
-			'upload'          => __( 'Upload', 'classified-listing' ),
-			'edit'            => __( 'Edit', 'classified-listing' ),
-			'delete'          => __( 'Delete', 'classified-listing' ),
-			'past_error'      => __( 'Pasting this exceeds the maximum allowed number of ___ characters for the input.', 'classified-listing' ),
-			'reCaptcha'       => [
+			'unload_message'     => __( 'Changes that you made may not be saved.', 'classified-listing' ),
+			'enable'             => __( 'Enable', 'classified-listing' ),
+			'type'               => __( 'Type', 'classified-listing' ),
+			'open'               => __( 'Open', 'classified-listing' ),
+			'save'               => __( 'Save', 'classified-listing' ),
+			'submit'             => __( 'Submit', 'classified-listing' ),
+			'update'             => __( 'Update', 'classified-listing' ),
+			'change'             => __( 'Change', 'classified-listing' ),
+			'error_saving'       => __( 'Error while saving data', 'classified-listing' ),
+			'character_limit'    => __( 'Character limit', 'classified-listing' ),
+			'confirm'            => __( 'Are you sure to remove?', 'classified-listing' ),
+			'select_item'        => __( 'Please select an item', 'classified-listing' ),
+			'type_to_search'     => __( 'Type to search', 'classified-listing' ),
+			'add_new'            => __( 'Add New', 'classified-listing' ),
+			'required'           => __( 'Field is required', 'classified-listing' ),
+			'upload'             => __( 'Upload', 'classified-listing' ),
+			'edit'               => __( 'Edit', 'classified-listing' ),
+			'delete'             => __( 'Delete', 'classified-listing' ),
+			'past_error'         => __( 'Pasting this exceeds the maximum allowed number of ___ characters for the input.', 'classified-listing' ),
+			'reCaptcha'          => [
 				'error' => __( 'reCaptcha site key is missing.', 'classified-listing' )
 			],
-			'location'        => [
+			'location'           => [
 				'select' => __( 'Please select a location first', 'classified-listing' )
 			],
-			'file'            => [
+			'file'               => [
 				'description'        => __( 'Description', 'classified-listing' ),
 				'caption'            => __( 'Caption', 'classified-listing' ),
 				'featured'           => __( 'Featured', 'classified-listing' ),
@@ -49,23 +50,23 @@ class LocalizedString {
 				'updating_error'     => __( 'Error while updating file.', 'classified-listing' ),
 				'getting_error'      => __( 'Error while getting data', 'classified-listing' ),
 			],
-			'map'             => [
+			'map'                => [
 				'enter_address'      => __( 'Enter address, please', 'classified-listing' ),
 				'marker_with_pop_up' => __( 'A marker with a popup.', 'classified-listing' ),
 				'latitude'           => __( 'Latitude', 'classified-listing' ),
 				'longitude'          => __( 'Longitude', 'classified-listing' ),
 				'dont_show_map'      => __( 'Don\'t show the Map', 'classified-listing' ),
 			],
-			'repeater'        => [
+			'repeater'           => [
 				'max_error' => __( 'Maximum repeater field applied', 'classified-listing' ),
 			],
-			'pricing'         => [
+			'pricing'            => [
 				'select_currency' => __( 'Select a currency', 'classified-listing' ),
 				'currency'        => __( 'Currency', 'classified-listing' ),
 				'no_unit'         => __( 'No unit', 'classified-listing' ),
 				'max'             => __( 'Max', 'classified-listing' ),
 			],
-			'bsh'             => [
+			'bsh'                => [
 				'open_24'             => __( 'Open 24 hours', 'classified-listing' ),
 				'open_24_7'           => __( 'Open 24 hours 7 days', 'classified-listing' ),
 				'open_selected_hours' => __( 'Open for Selected Hours', 'classified-listing' ),
@@ -75,7 +76,7 @@ class LocalizedString {
 				'timezone'            => __( 'Timezone', 'classified-listing' ),
 				'select_timezone'     => __( 'Select a timezone', 'classified-listing' ),
 			],
-			'color_picker'    => [
+			'color_picker'       => [
 				'select_color' => __( 'Select Color', 'classified-listing' )
 			]
 		];
@@ -84,7 +85,22 @@ class LocalizedString {
 	}
 
 	public static function admin() {
-		$adminStrings = [];
+		$adminStrings = [
+			'form_list'           => __( 'Form List', 'classified-listing' ),
+			'select_all_fields'   => __( 'Please select all field', 'classified-listing' ),
+			'update_form'         => __( 'Update From', 'classified-listing' ),
+			'save_form'           => __( 'Save Form', 'classified-listing' ),
+			'form_name'           => __( "From name", 'classified-listing' ),
+			'rename_form'         => __( "Rename from", 'classified-listing' ),
+			'input_fields'        => __( "Input Fields", 'classified-listing' ),
+			'settings'            => __( 'Settings', 'classified-listing' ),
+			'fields'              => __( 'Fields', 'classified-listing' ),
+			'input_customization' => __( 'Input Customization', 'classified-listing' ),
+			'status'              => [
+				'publish' => __( 'Publish', 'classified-listing' ),
+				'draft'   => __( 'Draft', 'classified-listing' ),
+			]
+		];
 		$adminStrings = apply_filters( 'rtcl_fb_localized_admin_strings', $adminStrings );
 
 		$strings          = self::public();

@@ -1139,9 +1139,14 @@ class Functions {
 				$ulCls .= ' is-collapsed';
 			}
 
-			$category_base = trim( self::get_option_item( 'rtcl_advanced_settings', 'category_base' ), '/' );
-			$location_base = trim( self::get_option_item( 'rtcl_advanced_settings', 'location_base' ), '/' );
-
+			$category_base = self::get_option_item( 'rtcl_advanced_settings', 'category_base' );
+			$location_base = self::get_option_item( 'rtcl_advanced_settings', 'location_base' );
+			if ( ! empty( $category_base ) ) {
+				$category_base = trim( $category_base, '/' );
+			}
+			if ( ! empty( $location_base ) ) {
+				$location_base = trim( $location_base, '/' );
+			}
 			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText	
 			$category_base = _x( $category_base, 'slug', 'classified-listing' );
 			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText	
@@ -1580,7 +1585,7 @@ class Functions {
 		$user_can        = false;
 		$listing         = $post_id ? rtcl()->factory->get_listing( $post_id ) : null;
 		// If editing, deleting, or reading a listing, get the post and post type object.
-		if ( $listing && ($current_user_id === $listing->get_author_id() || current_user_can( 'administrator' ))
+		if ( $listing && ( $current_user_id === $listing->get_author_id() || current_user_can( 'administrator' ) )
 			 && in_array( $capability,
 				[
 					'edit_rtcl_listing',
@@ -4429,6 +4434,10 @@ class Functions {
 		return Functions::get_option_item( 'rtcl_general_directory_settings', 'enable_social_profiles', false, 'checkbox' );
 	}
 
+	/**
+	 * @return int
+	 * @deprecated Fns:get_compare_limit()
+	 */
 	public static function get_compare_limit() {
 		return absint( apply_filters( 'rtcl_compare_limit', Functions::get_option_item( 'rtcl_general_settings', 'compare_limit', 4, 'number' ) ) );
 	}

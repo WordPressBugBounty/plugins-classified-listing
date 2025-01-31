@@ -1073,7 +1073,7 @@ class ScriptLoader {
 	 */
 	public function load_script_at_form_builder( $hook ) {
 
-		if ( 'classified-listing_page_rtcl-fb' !== $hook ) {
+		if (! preg_match("#_page_rtcl-fb$#",$hook) || !empty($_GET['page']) && $_GET['page'] !== 'rtcl-fb' ) {
 			return;
 		}
 
@@ -1111,11 +1111,11 @@ class ScriptLoader {
 	 * @param String $hook
 	 */
 	public function load_script_at_filter_builder( $hook ) {
-
-		if ( 'classified-listing_page_rtcl-ajax-filter' !== $hook ) {
+		
+		if (! preg_match("#_page_rtcl-ajax-filter$#",$hook) || !empty($_GET['page']) && $_GET['page'] !== 'rtcl-ajax-filter' ) {
 			return;
 		}
-
+		
 		$rawForms = Form::query()
 		                ->where( 'status', 'publish' )
 		                ->order_by( 'created_at', 'DESC' )

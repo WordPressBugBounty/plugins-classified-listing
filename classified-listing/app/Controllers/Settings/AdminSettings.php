@@ -653,7 +653,7 @@ class AdminSettings extends SettingsAPI {
 					Functions::add_notice( __( "Your Rest API key is generated.", "classified-listing" ) );
 				}
 			}
-			wp_safe_redirect( admin_url( 'edit.php?post_type=' . rtcl()->post_type . '&page=rtcl-settings&tab=tools' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=rtcl-settings&tab=tools' ) );
 			exit();
 		}
 	}

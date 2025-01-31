@@ -503,6 +503,9 @@ class Listing extends Data {
 	 * @return bool
 	 */
 	function is_new() {
+		if(empty($this->post_date)){
+			return false;
+		}
 		$each_hours            = 60 * 60 * 24; // seconds in a day
 		$s_date1               = strtotime( current_time( 'mysql' ) ); // seconds for date 1
 		$s_date2               = strtotime( $this->post_date ); // seconds for date 2

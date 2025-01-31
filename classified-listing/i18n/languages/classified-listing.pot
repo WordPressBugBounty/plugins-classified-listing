@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Classified Listing – Classified ads & Business Directory Plugin plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – Classified ads & Business Directory Plugin 4.0.3\n"
+"Project-Id-Version: Classified Listing – Classified ads & Business Directory Plugin 4.0.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-01-13T05:58:41+00:00\n"
+"POT-Creation-Date: 2025-01-31T10:29:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: classified-listing\n"
@@ -178,13 +178,13 @@ msgstr ""
 
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:72
 #: app/Controllers/Admin/RegisterPostType.php:34
-#: app/Helpers/Functions.php:1159
+#: app/Helpers/Functions.php:1164
 msgid "All Categories"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:135
 #: app/Controllers/Elementor/Widgets/ListingSearch.php:223
-#: src/form-builder/backend/components/pages/FormBuilder.jsx:380
+#: app/Services/FormBuilder/LocalizedString.php:97
 msgid "Fields"
 msgstr ""
 
@@ -274,7 +274,7 @@ msgstr ""
 #: app/Resources/Gallery.php:201
 #: app/Resources/Gallery.php:283
 #: app/Resources/Options.php:574
-#: app/Services/FormBuilder/LocalizedString.php:36
+#: app/Services/FormBuilder/LocalizedString.php:37
 #: views/settings/moderation-settings.php:40
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:35
 msgid "Featured"
@@ -356,7 +356,7 @@ msgstr ""
 
 #: app/Controllers/Admin/Meta/ListingSubmitBoxMice.php:111
 #: app/Resources/Gallery.php:455
-#: app/Services/FormBuilder/LocalizedString.php:12
+#: app/Services/FormBuilder/LocalizedString.php:13
 #: src/form-builder/backend/components/FormTranslationModal.jsx:367
 #: src/form-builder/backend/components/TranslationModal.jsx:622
 msgid "Save"
@@ -369,7 +369,7 @@ msgstr ""
 #: app/Services/FormBuilder/AvailableFields.php:1035
 #: app/Services/FormBuilder/FormPreDefined.php:34
 #: app/Services/FormBuilder/FormPreDefined.php:274
-#: app/Services/FormBuilder/LocalizedString.php:14
+#: app/Services/FormBuilder/LocalizedString.php:15
 #: templates/listing-form/form-builder.php:26
 #: views/settings/listing-type.php:57
 msgid "Update"
@@ -381,7 +381,7 @@ msgstr ""
 
 #: app/Controllers/Admin/Meta/OrderMetaColumn.php:75
 #: app/Resources/Options.php:776
-#: app/Services/FormBuilder/LocalizedString.php:10
+#: app/Services/FormBuilder/LocalizedString.php:11
 #: app/Widgets/Filter.php:334
 #: templates/block/listing-search/search.php:205
 #: templates/elementor/search/fields/types-field.php:29
@@ -611,7 +611,7 @@ msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:79
 #: app/Controllers/Elementor/Widgets/AllLocations.php:32
-#: app/Helpers/Functions.php:1160
+#: app/Helpers/Functions.php:1165
 msgid "All Locations"
 msgstr ""
 
@@ -675,7 +675,7 @@ msgid "Tags"
 msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:123
-#: app/Helpers/Functions.php:1162
+#: app/Helpers/Functions.php:1167
 msgid "All Tags"
 msgstr ""
 
@@ -786,7 +786,7 @@ msgstr ""
 #: app/Controllers/Admin/RegisterPostType.php:243
 #: app/Controllers/Admin/RegisterPostType.php:312
 #: app/Controllers/Admin/RegisterPostType.php:349
-#: app/Services/FormBuilder/LocalizedString.php:21
+#: app/Services/FormBuilder/LocalizedString.php:22
 msgid "Add New"
 msgstr ""
 
@@ -879,7 +879,7 @@ msgid "No payments found in Trash"
 msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:323
-#: app/Helpers/Functions.php:3046
+#: app/Helpers/Functions.php:3051
 #: views/settings/advanced-settings.php:104
 msgid "Payments"
 msgstr ""
@@ -1147,7 +1147,7 @@ msgstr ""
 #: app/Controllers/Blocks/AdminAjaxController.php:266
 #: app/Controllers/Blocks/AdminAjaxController.php:425
 #: app/Controllers/Blocks/AdminAjaxController.php:439
-#: app/Controllers/Blocks/ListingsAjaxController.php:242
+#: app/Controllers/Blocks/ListingsAjaxController.php:255
 msgid "Session Expired!!"
 msgstr ""
 
@@ -1312,8 +1312,8 @@ msgid "Mismatch"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:264
-#: app/Helpers/Functions.php:4936
-#: app/Helpers/Functions.php:4938
+#: app/Helpers/Functions.php:4945
+#: app/Helpers/Functions.php:4947
 msgid "Select an option&hellip;"
 msgstr ""
 
@@ -1368,12 +1368,12 @@ msgid "Searching&hellip;"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:281
-#: app/Helpers/Functions.php:4835
+#: app/Helpers/Functions.php:4844
 msgid "required"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:282
-#: app/Helpers/Functions.php:4837
+#: app/Helpers/Functions.php:4846
 msgid "optional"
 msgstr ""
 
@@ -1515,7 +1515,7 @@ msgstr ""
 #. translators: Date formate
 #. translators: 1: month, 2: day, 3: year, 4: hour, 5: minute
 #: app/Controllers/Admin/ScriptLoader.php:859
-#: app/Helpers/Functions.php:4765
+#: app/Helpers/Functions.php:4774
 msgid "%1$s %2$s, %3$s @ %4$s:%5$s"
 msgstr ""
 
@@ -2192,7 +2192,7 @@ msgid "Error!!"
 msgstr ""
 
 #: app/Controllers/Ajax/ListingAdminAjax.php:61
-#: src/form-builder/backend/components/pages/FormBuilder.jsx:308
+#: app/Services/FormBuilder/LocalizedString.php:90
 msgid "Please select all field"
 msgstr ""
 
@@ -2458,12 +2458,12 @@ msgstr ""
 msgid "Please Select a Location and Background"
 msgstr ""
 
-#: app/Controllers/Blocks/ListingsAjaxController.php:161
+#: app/Controllers/Blocks/ListingsAjaxController.php:173
 #: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:101
 msgid "Sold Out"
 msgstr ""
 
-#: app/Controllers/Blocks/ListingsAjaxController.php:176
+#: app/Controllers/Blocks/ListingsAjaxController.php:189
 #: app/Controllers/Elementor/Widgets/HeaderButton.php:222
 #: templates/elementor/header-button/header-button.php:39
 #: templates/elementor/listing-ads/grid/style-1.php:102
@@ -2472,7 +2472,7 @@ msgstr ""
 msgid "Compare"
 msgstr ""
 
-#: app/Controllers/Blocks/ListingsAjaxController.php:186
+#: app/Controllers/Blocks/ListingsAjaxController.php:199
 #: templates/elementor/listing-ads/grid/style-1.php:76
 #: templates/elementor/listing-ads/list/style-1.php:77
 #: templates/elementor/listing-ads/list/style-1.php:80
@@ -2501,7 +2501,7 @@ msgid "Clear"
 msgstr ""
 
 #: app/Controllers/BusinessHoursController.php:544
-#: app/Services/FormBuilder/LocalizedString.php:11
+#: app/Services/FormBuilder/LocalizedString.php:12
 #: templates/listing-form/business-hours.php:44
 #: templates/listing-form/business-hours.php:138
 #: templates/listing-form/business-hours.php:214
@@ -3444,7 +3444,7 @@ msgstr ""
 #: app/Services/FormBuilder/AvailableFields.php:74
 #: app/Services/FormBuilder/AvailableFields.php:94
 #: app/Services/FormBuilder/ElementCustomization.php:851
-#: app/Services/FormBuilder/LocalizedString.php:34
+#: app/Services/FormBuilder/LocalizedString.php:35
 #: templates/checkout/promotions.php:22
 #: templates/listing-form/information.php:144
 #: src/blocks/listing-ads/inspector.js:1883
@@ -3787,7 +3787,7 @@ msgid "Cart Icon"
 msgstr ""
 
 #: app/Controllers/Elementor/Widgets/HeaderButton.php:253
-#: app/Helpers/Functions.php:3045
+#: app/Helpers/Functions.php:3050
 #: templates/elementor/header-button/header-button.php:61
 #: views/settings/advanced-settings.php:94
 msgid "Favourites"
@@ -4597,8 +4597,8 @@ msgstr ""
 #: app/Controllers/FormHandler.php:216
 #: app/Controllers/FormHandler.php:220
 #: app/Controllers/FormHandler.php:339
-#: app/Helpers/Functions.php:3587
-#: app/Helpers/Functions.php:3720
+#: app/Helpers/Functions.php:3592
+#: app/Helpers/Functions.php:3725
 msgid "Error:"
 msgstr ""
 
@@ -4620,7 +4620,7 @@ msgid "Need to fill all the required field."
 msgstr ""
 
 #: app/Controllers/Hooks/ActionHooks.php:91
-#: app/Services/FormBuilder/LocalizedString.php:57
+#: app/Services/FormBuilder/LocalizedString.php:58
 #: src/form-builder/backend/components/editor/elements/GoogleMapElement.jsx:103
 msgid "Don't show the Map"
 msgstr ""
@@ -4725,12 +4725,12 @@ msgid "Select"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:335
-#: app/Helpers/Functions.php:1485
+#: app/Helpers/Functions.php:1490
 msgid "More"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:336
-#: app/Helpers/Functions.php:1486
+#: app/Helpers/Functions.php:1491
 msgid "Less"
 msgstr ""
 
@@ -4835,8 +4835,8 @@ msgid "Renew"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:851
-#: app/Helpers/Functions.php:4758
-#: app/Services/FormBuilder/LocalizedString.php:24
+#: app/Helpers/Functions.php:4767
+#: app/Services/FormBuilder/LocalizedString.php:25
 #: views/settings/listing-type.php:38
 #: src/form-builder/backend/components/pages/FormList.jsx:386
 #: src/form-builder/backend/components/pages/FormList.jsx:389
@@ -4847,7 +4847,7 @@ msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:865
 #: app/Controllers/Hooks/TemplateHooks.php:871
-#: app/Services/FormBuilder/LocalizedString.php:25
+#: app/Services/FormBuilder/LocalizedString.php:26
 #: templates/myaccount/favourite-listings.php:118
 #: views/settings/listing-type.php:39
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:50
@@ -4905,7 +4905,7 @@ msgstr ""
 #: app/Services/FormBuilder/AvailableFields.php:1030
 #: app/Services/FormBuilder/FormPreDefined.php:33
 #: app/Services/FormBuilder/FormPreDefined.php:273
-#: app/Services/FormBuilder/LocalizedString.php:13
+#: app/Services/FormBuilder/LocalizedString.php:14
 #: templates/listing-form/form-builder.php:28
 #: templates/listing/actions.php:77
 #: templates/listing/email-to-seller-form.php:36
@@ -4950,54 +4950,53 @@ msgstr ""
 msgid "Page %d"
 msgstr ""
 
-#: app/Controllers/Query.php:1317
+#: app/Controllers/Query.php:1357
 msgid "Promote your ad"
 msgstr ""
 
-#: app/Controllers/Query.php:1320
+#: app/Controllers/Query.php:1360
 msgid "Order received"
 msgstr ""
 
-#: app/Controllers/Query.php:1323
+#: app/Controllers/Query.php:1363
 msgid "Order failed"
 msgstr ""
 
-#: app/Controllers/Query.php:1326
+#: app/Controllers/Query.php:1366
 msgid "Payments Orders"
 msgstr ""
 
-#: app/Controllers/Query.php:1329
-#: app/Helpers/Functions.php:3044
+#: app/Controllers/Query.php:1369
+#: app/Helpers/Functions.php:3049
 #: views/settings/advanced-settings.php:89
 msgid "My Listings"
 msgstr ""
 
-#: app/Controllers/Query.php:1332
+#: app/Controllers/Query.php:1372
 msgid "My Favourites Listings"
 msgstr ""
 
-#: app/Controllers/Query.php:1335
+#: app/Controllers/Query.php:1375
 #: templates/elementor/header-button/header-button.php:72
 msgid "Chat"
 msgstr ""
 
-#: app/Controllers/Query.php:1338
+#: app/Controllers/Query.php:1378
 msgid "Account details"
 msgstr ""
 
-#: app/Controllers/Query.php:1341
+#: app/Controllers/Query.php:1381
 msgid "Verify your account"
 msgstr ""
 
-#: app/Controllers/Query.php:1344
+#: app/Controllers/Query.php:1384
 msgid "Lost password"
 msgstr ""
 
 #: app/Controllers/Settings/AdminSettings.php:243
 #: app/Controllers/Settings/AdminSettings.php:373
 #: app/Controllers/Settings/AdminSettings.php:374
-#: src/form-builder/backend/components/pages/FormBuilder.jsx:386
-#: src/form-builder/backend/components/pages/FormBuilder.jsx:433
+#: app/Services/FormBuilder/LocalizedString.php:96
 #: src/form-builder/backend/components/TopNavMenu.jsx:14
 msgid "Settings"
 msgstr ""
@@ -5626,12 +5625,12 @@ msgctxt "Price range: from-to"
 msgid "<div class=\"rtcl-price-range\">%1$s <span class=\"sep\">&ndash;</span> %2$s</div>"
 msgstr ""
 
-#: app/Helpers/Functions.php:1361
+#: app/Helpers/Functions.php:1366
 #: app/Widgets/Filter.php:323
 msgid "Show More"
 msgstr ""
 
-#: app/Helpers/Functions.php:1601
+#: app/Helpers/Functions.php:1606
 #: app/Helpers/Text.php:101
 #: templates/listing-form/category.php:52
 #: templates/widgets/search/vertical.php:96
@@ -5640,163 +5639,163 @@ msgstr ""
 msgid "Select a category"
 msgstr ""
 
-#: app/Helpers/Functions.php:2079
+#: app/Helpers/Functions.php:2084
 msgid "Select an Option"
 msgstr ""
 
 #. translators:  Human read able time
 #. translators: Human read able time.
-#: app/Helpers/Functions.php:2769
-#: app/Models/Listing.php:940
+#: app/Helpers/Functions.php:2774
+#: app/Models/Listing.php:943
 msgid "%s ago"
 msgstr ""
 
-#: app/Helpers/Functions.php:3043
+#: app/Helpers/Functions.php:3048
 msgid "Dashboard"
 msgstr ""
 
-#: app/Helpers/Functions.php:3047
+#: app/Helpers/Functions.php:3052
 #: templates/myaccount/form-edit-account.php:35
 msgid "Account Details"
 msgstr ""
 
-#: app/Helpers/Functions.php:3048
+#: app/Helpers/Functions.php:3053
 #: views/settings/advanced-settings.php:114
 msgid "Logout"
 msgstr ""
 
 #. translators: %s template
-#: app/Helpers/Functions.php:3215
+#: app/Helpers/Functions.php:3220
 msgid "%s does not exist."
 msgstr ""
 
-#: app/Helpers/Functions.php:3406
-#: app/Helpers/Functions.php:3429
-#: app/Helpers/Functions.php:3441
-#: app/Helpers/Functions.php:3464
-#: app/Helpers/Functions.php:3479
-#: app/Helpers/Functions.php:3504
+#: app/Helpers/Functions.php:3411
+#: app/Helpers/Functions.php:3434
+#: app/Helpers/Functions.php:3446
+#: app/Helpers/Functions.php:3469
+#: app/Helpers/Functions.php:3484
+#: app/Helpers/Functions.php:3509
 msgid "This function should not be called before rtcl_init."
 msgstr ""
 
-#: app/Helpers/Functions.php:3638
+#: app/Helpers/Functions.php:3643
 msgid "Please provide a valid email address."
 msgstr ""
 
-#: app/Helpers/Functions.php:3643
+#: app/Helpers/Functions.php:3648
 msgid "An account is already registered with your email address. Please log in."
 msgstr ""
 
-#: app/Helpers/Functions.php:3653
+#: app/Helpers/Functions.php:3658
 msgid "Please enter a valid account username."
 msgstr ""
 
-#: app/Helpers/Functions.php:3658
+#: app/Helpers/Functions.php:3663
 msgid "An account is already registered with that username. Please choose another."
 msgstr ""
 
-#: app/Helpers/Functions.php:3663
+#: app/Helpers/Functions.php:3668
 msgid "Please enter your first name."
 msgstr ""
 
-#: app/Helpers/Functions.php:3666
+#: app/Helpers/Functions.php:3671
 msgid "Please enter your last name."
 msgstr ""
 
-#: app/Helpers/Functions.php:3671
+#: app/Helpers/Functions.php:3676
 msgid "Please enter your phone."
 msgstr ""
 
-#: app/Helpers/Functions.php:3675
+#: app/Helpers/Functions.php:3680
 msgid "An account is already registered with your phone number. Please log in."
 msgstr ""
 
-#: app/Helpers/Functions.php:3687
+#: app/Helpers/Functions.php:3692
 msgid "Please enter an account password."
 msgstr ""
 
-#: app/Helpers/Functions.php:3721
+#: app/Helpers/Functions.php:3726
 msgid "Couldn&#8217;t register you&hellip; please contact us if you continue to have problems."
 msgstr ""
 
 #. translators: 1: rating 2: rating count
-#: app/Helpers/Functions.php:4305
-#: app/Helpers/Functions.php:4330
+#: app/Helpers/Functions.php:4310
+#: app/Helpers/Functions.php:4335
 msgid "Rated %1$s out of 5 based on %2$s customer rating"
 msgid_plural "Rated %1$s out of 5 based on %2$s customer ratings"
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: rating
-#: app/Helpers/Functions.php:4310
+#: app/Helpers/Functions.php:4315
 msgid "Rated %s out of 5"
 msgstr ""
 
-#: app/Helpers/Functions.php:4716
+#: app/Helpers/Functions.php:4725
 msgid "M j, Y @ H:i"
 msgstr ""
 
-#: app/Helpers/Functions.php:4732
+#: app/Helpers/Functions.php:4741
 #: app/Resources/Options.php:2904
 msgid "Month"
 msgstr ""
 
 #. translators: 1: month number (01, 02, etc.), 2: month abbreviation
-#: app/Helpers/Functions.php:4739
+#: app/Helpers/Functions.php:4748
 msgid "%1$s-%2$s"
 msgstr ""
 
-#: app/Helpers/Functions.php:4743
+#: app/Helpers/Functions.php:4752
 #: app/Resources/Options.php:2912
 msgid "Day"
 msgstr ""
 
-#: app/Helpers/Functions.php:4745
+#: app/Helpers/Functions.php:4754
 #: app/Resources/Options.php:2900
 msgid "Year"
 msgstr ""
 
-#: app/Helpers/Functions.php:4747
+#: app/Helpers/Functions.php:4756
 #: app/Resources/Options.php:2916
 msgid "Hour"
 msgstr ""
 
-#: app/Helpers/Functions.php:4749
+#: app/Helpers/Functions.php:4758
 msgid "Minute"
 msgstr ""
 
-#: app/Helpers/Functions.php:4753
+#: app/Helpers/Functions.php:4762
 msgid "Expired on: <b>%1$s</b>"
 msgstr ""
 
-#: app/Helpers/Functions.php:4759
+#: app/Helpers/Functions.php:4768
 msgid "Edit date and time"
 msgstr ""
 
-#: app/Helpers/Functions.php:4762
+#: app/Helpers/Functions.php:4771
 msgid "Date and time"
 msgstr ""
 
-#: app/Helpers/Functions.php:4788
+#: app/Helpers/Functions.php:4797
 msgid "OK"
 msgstr ""
 
-#: app/Helpers/Functions.php:4790
+#: app/Helpers/Functions.php:4799
 #: app/Resources/Gallery.php:458
 msgid "Cancel"
 msgstr ""
 
-#: app/Helpers/Functions.php:4902
-#: app/Helpers/Functions.php:4903
+#: app/Helpers/Functions.php:4911
+#: app/Helpers/Functions.php:4912
 msgid "Select a country / region&hellip;"
 msgstr ""
 
-#: app/Helpers/Functions.php:4912
-#: app/Helpers/Functions.php:4913
+#: app/Helpers/Functions.php:4921
+#: app/Helpers/Functions.php:4922
 msgid "Update country / region"
 msgstr ""
 
-#: app/Helpers/Functions.php:5002
+#: app/Helpers/Functions.php:5011
 msgid "Choose an option"
 msgstr ""
 
@@ -6152,12 +6151,12 @@ msgstr ""
 msgid "Invalid listing."
 msgstr ""
 
-#: app/Models/Listing.php:1009
+#: app/Models/Listing.php:1012
 #: src/blocks/listing-ads/inspector.js:576
 msgid "Author"
 msgstr ""
 
-#: app/Models/Listing.php:1426
+#: app/Models/Listing.php:1429
 msgid "Free!"
 msgstr ""
 
@@ -6497,7 +6496,7 @@ msgid "Delete File"
 msgstr ""
 
 #: app/Resources/Gallery.php:227
-#: app/Services/FormBuilder/LocalizedString.php:44
+#: app/Services/FormBuilder/LocalizedString.php:45
 msgid "Attachment Details"
 msgstr ""
 
@@ -7024,7 +7023,7 @@ msgid "Pending"
 msgstr ""
 
 #: app/Resources/Options.php:585
-#: src/form-builder/backend/components/pages/FormBuilder.jsx:491
+#: app/Services/FormBuilder/LocalizedString.php:101
 msgid "Draft"
 msgstr ""
 
@@ -9000,7 +8999,7 @@ msgid "If you enable this then on page transition automatic scrolling will be di
 msgstr ""
 
 #: app/Services/FormBuilder/ElementCustomization.php:915
-#: app/Services/FormBuilder/LocalizedString.php:9
+#: app/Services/FormBuilder/LocalizedString.php:10
 #: views/settings/moderation-settings.php:64
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:189
 msgid "Enable"
@@ -9375,7 +9374,7 @@ msgid "Please provide digits count value"
 msgstr ""
 
 #: app/Services/FormBuilder/ElementCustomization.php:1284
-#: src/form-builder/store/reducer.js:143
+#: src/form-builder/store/reducer.js:150
 msgid "Step"
 msgstr ""
 
@@ -9459,53 +9458,53 @@ msgstr ""
 msgid "The minimum column width is 10%, Maximum column number 4"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:660
+#: app/Services/FormBuilder/FBHelper.php:663
 msgid "Listing type is not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:669
-#: app/Services/FormBuilder/FBHelper.php:675
+#: app/Services/FormBuilder/FBHelper.php:672
+#: app/Services/FormBuilder/FBHelper.php:678
 msgid "Tag is not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:683
-#: app/Services/FormBuilder/FBHelper.php:689
+#: app/Services/FormBuilder/FBHelper.php:686
+#: app/Services/FormBuilder/FBHelper.php:692
 msgid "Category is not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:712
-#: app/Services/FormBuilder/FBHelper.php:718
+#: app/Services/FormBuilder/FBHelper.php:715
+#: app/Services/FormBuilder/FBHelper.php:721
 msgid "Location is not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:723
+#: app/Services/FormBuilder/FBHelper.php:726
 msgid "Invalid email"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:727
+#: app/Services/FormBuilder/FBHelper.php:730
 msgid "Invalid url"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:734
-#: app/Services/FormBuilder/FBHelper.php:740
+#: app/Services/FormBuilder/FBHelper.php:737
+#: app/Services/FormBuilder/FBHelper.php:743
 msgid "Invalid video url"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:753
-#: app/Services/FormBuilder/FBHelper.php:768
-#: app/Services/FormBuilder/FBHelper.php:773
+#: app/Services/FormBuilder/FBHelper.php:756
+#: app/Services/FormBuilder/FBHelper.php:771
+#: app/Services/FormBuilder/FBHelper.php:776
 msgid "Option not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:776
+#: app/Services/FormBuilder/FBHelper.php:779
 msgid "Value should ne an array"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:781
+#: app/Services/FormBuilder/FBHelper.php:784
 msgid "Invalid Google reCAPTACHA secret key"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:787
+#: app/Services/FormBuilder/FBHelper.php:790
 msgid "Error in Google reCAPTACHA"
 msgstr ""
 
@@ -9533,202 +9532,240 @@ msgstr ""
 msgid "Sample Form"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:15
-msgid "Change"
+#: app/Services/FormBuilder/LocalizedString.php:9
+msgid "Changes that you made may not be saved."
 msgstr ""
 
 #: app/Services/FormBuilder/LocalizedString.php:16
-msgid "Error while saving data"
+msgid "Change"
 msgstr ""
 
 #: app/Services/FormBuilder/LocalizedString.php:17
+msgid "Error while saving data"
+msgstr ""
+
+#: app/Services/FormBuilder/LocalizedString.php:18
 #: templates/listing-form/information.php:49
 msgid "Character limit"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:18
+#: app/Services/FormBuilder/LocalizedString.php:19
 msgid "Are you sure to remove?"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:19
+#: app/Services/FormBuilder/LocalizedString.php:20
 msgid "Please select an item"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:20
+#: app/Services/FormBuilder/LocalizedString.php:21
 msgid "Type to search"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:22
+#: app/Services/FormBuilder/LocalizedString.php:23
 msgid "Field is required"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:23
+#: app/Services/FormBuilder/LocalizedString.php:24
 msgid "Upload"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:26
+#: app/Services/FormBuilder/LocalizedString.php:27
 msgid "Pasting this exceeds the maximum allowed number of ___ characters for the input."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:28
+#: app/Services/FormBuilder/LocalizedString.php:29
 #: src/form-builder/backend/components/editor/elements/ReCaptchaElement.jsx:24
 msgid "reCaptcha site key is missing."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:31
+#: app/Services/FormBuilder/LocalizedString.php:32
 msgid "Please select a location first"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:35
+#: app/Services/FormBuilder/LocalizedString.php:36
 msgid "Caption"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:37
+#: app/Services/FormBuilder/LocalizedString.php:38
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:41
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:43
 msgid "Add to feature"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:38
+#: app/Services/FormBuilder/LocalizedString.php:39
 msgid "File name"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:39
+#: app/Services/FormBuilder/LocalizedString.php:40
 msgid "File type"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:40
+#: app/Services/FormBuilder/LocalizedString.php:41
 msgid "File size"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:41
+#: app/Services/FormBuilder/LocalizedString.php:42
 msgid "Dimensions"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:42
+#: app/Services/FormBuilder/LocalizedString.php:43
 msgid "Uploaded on"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:43
-#: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:113
+#: app/Services/FormBuilder/LocalizedString.php:44
+#: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:114
 msgid "Click or drag file to this area to upload"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:45
+#: app/Services/FormBuilder/LocalizedString.php:46
 msgid "File successfully uploaded"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:46
+#: app/Services/FormBuilder/LocalizedString.php:47
 msgid "File successfully removed"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:47
+#: app/Services/FormBuilder/LocalizedString.php:48
 msgid "Error while uploading file"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:48
+#: app/Services/FormBuilder/LocalizedString.php:49
 msgid "Error while removing file."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:49
+#: app/Services/FormBuilder/LocalizedString.php:50
 msgid "Error while updating file."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:50
+#: app/Services/FormBuilder/LocalizedString.php:51
 msgid "Error while getting data"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:53
+#: app/Services/FormBuilder/LocalizedString.php:54
 #: src/form-builder/backend/components/editor/elements/OsmMapElement.jsx:79
 msgid "Enter address, please"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:54
+#: app/Services/FormBuilder/LocalizedString.php:55
 msgid "A marker with a popup."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:55
+#: app/Services/FormBuilder/LocalizedString.php:56
 #: src/form-builder/backend/components/editor/elements/GoogleMapElement.jsx:109
 #: src/form-builder/backend/components/editor/elements/OsmMapElement.jsx:91
 msgid "Latitude"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:56
+#: app/Services/FormBuilder/LocalizedString.php:57
 #: src/form-builder/backend/components/editor/elements/GoogleMapElement.jsx:115
 #: src/form-builder/backend/components/editor/elements/OsmMapElement.jsx:97
 msgid "Longitude"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:60
+#: app/Services/FormBuilder/LocalizedString.php:61
 msgid "Maximum repeater field applied"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:63
+#: app/Services/FormBuilder/LocalizedString.php:64
 msgid "Select a currency"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:64
+#: app/Services/FormBuilder/LocalizedString.php:65
 #: views/settings/general-settings.php:149
 #: views/settings/payment-settings.php:40
 #: src/form-builder/backend/components/editor/elements/PricingElement.jsx:81
 msgid "Currency"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:65
+#: app/Services/FormBuilder/LocalizedString.php:66
 #: templates/listing-form/price-unit.php:23
 msgid "No unit"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:66
+#: app/Services/FormBuilder/LocalizedString.php:67
 #: templates/block/listing-search/search.php:243
 #: src/blocks/listing-search/layout/style-1.js:96
 #: src/form-builder/backend/components/editor/elements/PricingElement.jsx:122
 msgid "Max"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:69
+#: app/Services/FormBuilder/LocalizedString.php:70
 #: src/form-builder/backend/components/editor/elements/BookingElement.jsx:197
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:24
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:219
 msgid "Open 24 hours"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:70
+#: app/Services/FormBuilder/LocalizedString.php:71
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:19
 msgid "Open 24 hours 7 days"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:71
+#: app/Services/FormBuilder/LocalizedString.php:72
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:20
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:25
 msgid "Open for Selected Hours"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:72
+#: app/Services/FormBuilder/LocalizedString.php:73
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:245
 msgid "Special Hours - Overrides"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:73
+#: app/Services/FormBuilder/LocalizedString.php:74
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:273
 msgid "Once"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:74
+#: app/Services/FormBuilder/LocalizedString.php:75
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:274
 msgid "Repeat"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:75
+#: app/Services/FormBuilder/LocalizedString.php:76
 msgid "Timezone"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:76
+#: app/Services/FormBuilder/LocalizedString.php:77
 msgid "Select a timezone"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:79
+#: app/Services/FormBuilder/LocalizedString.php:80
 msgid "Select Color"
+msgstr ""
+
+#: app/Services/FormBuilder/LocalizedString.php:89
+#: src/form-builder/backend/components/TopNavMenu.jsx:11
+msgid "Form List"
+msgstr ""
+
+#: app/Services/FormBuilder/LocalizedString.php:91
+msgid "Update From"
+msgstr ""
+
+#: app/Services/FormBuilder/LocalizedString.php:92
+msgid "Save Form"
+msgstr ""
+
+#: app/Services/FormBuilder/LocalizedString.php:93
+#: views/settings/email-settings.php:47
+msgid "From name"
+msgstr ""
+
+#: app/Services/FormBuilder/LocalizedString.php:94
+msgid "Rename from"
+msgstr ""
+
+#: app/Services/FormBuilder/LocalizedString.php:95
+msgid "Input Fields"
+msgstr ""
+
+#: app/Services/FormBuilder/LocalizedString.php:98
+msgid "Input Customization"
+msgstr ""
+
+#: app/Services/FormBuilder/LocalizedString.php:100
+msgid "Publish"
 msgstr ""
 
 #: app/Services/FormBuilder/ValidationRuleSettings.php:11
@@ -11210,11 +11247,6 @@ msgstr ""
 msgid "Email sender option"
 msgstr ""
 
-#: views/settings/email-settings.php:47
-#: src/form-builder/backend/components/pages/FormBuilder.jsx:470
-msgid "From name"
-msgstr ""
-
 #: views/settings/email-settings.php:50
 msgid "The name system generated emails are sent from. This should probably be your site or directory name."
 msgstr ""
@@ -12676,7 +12708,7 @@ msgid "Loading ...."
 msgstr ""
 
 #: src/form-builder/backend/components/editor/sidebar/Customizer/Customizer.jsx:28
-#: src/form-builder/store/reducer.js:118
+#: src/form-builder/store/reducer.js:124
 msgid "Section"
 msgstr ""
 
@@ -12758,35 +12790,6 @@ msgstr ""
 #: src/form-builder/backend/components/FormTranslationModal.jsx:372
 #: src/form-builder/backend/components/TranslationModal.jsx:627
 msgid "Please select a language to translate"
-msgstr ""
-
-#: src/form-builder/backend/components/pages/FormBuilder.jsx:389
-#: src/form-builder/backend/components/TopNavMenu.jsx:11
-msgid "Form List"
-msgstr ""
-
-#: src/form-builder/backend/components/pages/FormBuilder.jsx:399
-msgid "Save Form"
-msgstr ""
-
-#: src/form-builder/backend/components/pages/FormBuilder.jsx:415
-msgid "Input Fields"
-msgstr ""
-
-#: src/form-builder/backend/components/pages/FormBuilder.jsx:419
-msgid "Input Customization"
-msgstr ""
-
-#: src/form-builder/backend/components/pages/FormBuilder.jsx:447
-msgid "Rename from"
-msgstr ""
-
-#: src/form-builder/backend/components/pages/FormBuilder.jsx:490
-msgid "Publish"
-msgstr ""
-
-#: src/form-builder/backend/components/pages/FormBuilder.jsx:500
-msgid "Update From"
 msgstr ""
 
 #: src/form-builder/backend/components/pages/FormList.jsx:376
