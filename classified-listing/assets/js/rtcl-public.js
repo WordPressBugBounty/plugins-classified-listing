@@ -67,25 +67,48 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
             _this.data.params[_item.id] = decodeURI(url.searchParams.get(_item.id)).split(',');
           }
         } else {
-          if (['location', 'category', 'tag'].includes(_item.id) && rtcl.listing_term && rtcl.listing_term.taxonomy.replace("rtcl_", '') === _item.id) {
-            // Add current term 
-            var filterName = 'filter_' + _item.id;
-            var terms;
-            if (url.searchParams.has(filterName)) {
-              terms = decodeURI(url.searchParams.get(filterName)).split(',');
-              terms.push(rtcl.listing_term.term_id);
-              _this.addParam(filterName, rtcl.listing_term.term_id, true);
-            } else {
-              terms = [rtcl.listing_term.term_id];
-              _this.addParam(filterName, rtcl.listing_term.term_id, true);
-            }
-            _this.data.params[filterName] = terms;
+          if (['location', 'category', 'tag'].includes(_item.id) && Array.isArray(rtcl.activeTerms) && rtcl.activeTerms.length) {
+            rtcl.activeTerms.map(function (_term) {
+              if (_term.taxonomy.replace("rtcl_", '') === _item.id) {
+                // Add current term 
+                var filterName = 'filter_' + _item.id;
+                var terms;
+                if (url.searchParams.has(filterName)) {
+                  terms = decodeURI(url.searchParams.get(filterName)).split(',');
+                  terms.push(_term.term_id);
+                  _this.addParam(filterName, _term.term_id, true);
+                } else {
+                  terms = [_term.term_id];
+                  _this.addParam(filterName, _term.term_id, true);
+                }
+                _this.data.params[filterName] = terms;
+              }
+            });
           } else {
             var paramName = 'filter_' + _item.id;
             if (url.searchParams.has(paramName)) {
               _this.data.params[paramName] = ['checkbox', 'radio'].includes(_item.type) ? decodeURI(url.searchParams.get(paramName)).split(',') : url.searchParams.get(paramName);
             }
           }
+          // if (['location', 'category', 'tag'].includes(_item.id) && rtcl.listing_term && rtcl.listing_term.taxonomy.replace("rtcl_", '') === _item.id) {
+          // 	// Add current term 
+          // 	const filterName = 'filter_' + _item.id;
+          // 	let terms;
+          // 	if (url.searchParams.has(filterName)) {
+          // 		terms = decodeURI(url.searchParams.get(filterName)).split(',');
+          // 		terms.push(rtcl.listing_term.term_id);
+          // 		this.addParam(filterName, rtcl.listing_term.term_id, true);
+          // 	} else {
+          // 		terms = [rtcl.listing_term.term_id];
+          // 		this.addParam(filterName, rtcl.listing_term.term_id, true);
+          // 	}
+          // 	this.data.params[filterName] = terms
+          // } else {
+          // 	const paramName = 'filter_' + _item.id;
+          // 	if (url.searchParams.has(paramName)) {
+          // 		this.data.params[paramName] = ['checkbox', 'radio'].includes(_item.type) ? decodeURI(url.searchParams.get(paramName)).split(',') : url.searchParams.get(paramName)
+          // 	}
+          // }
         }
       });
     }
@@ -262,7 +285,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
             distance: _distance
           });
           _this.addParam('center_lat', data.lat);
-          _this.addParam('center_lat', data.lng);
+          _this.addParam('center_lng', data.lng);
           _this.addParam('distance', _distance);
           _this.addParam('geo_address', data.address);
           $itemWrap.addClass('is-active');
@@ -835,6 +858,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
     _this.renderListings(data.listings);
     _this.renderPagination(data.pagination);
     _this.renderResultCount(data.pagination);
+    _this.$(document).trigger('rtcl_ajax_filter_after_render', [data]);
   });
   _defineProperty(this, "renderListings", function (listings) {
     if (_this.isArchive && _this.initLoading) {
@@ -1041,6 +1065,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
     is_listings: rtcl.is_listings,
     is_listing: rtcl.is_listing,
     listing_term: rtcl.listing_term,
+    activeTerms: rtcl.active_terms || [],
     action: 'rtcl_ajax_filter_load_data',
     __rtcl_wpnonce: rtcl.__rtcl_wpnonce
   };

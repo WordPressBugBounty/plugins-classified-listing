@@ -43,7 +43,7 @@ class FilterHooks {
 		add_action( 'rss2_item', [ __CLASS__, 'custom_data_to_rss' ] );
 		// Custom page template
 		self::$templates = [
-			'rtcl-canvas_template' => __( 'Classified Listing - Dashboard', 'classified-listing' )
+			'rtcl-canvas_template' => 'Classified Listing - Dashboard'
 		];
 
 		if ( absint( Functions::get_description_character_limit() ) ) {
@@ -52,7 +52,7 @@ class FilterHooks {
 	}
 
 	public static function rss_posts_per_page( $query ) {
-		if ( is_admin() || !$query->is_main_query() || !$query->is_feed() ) {
+		if ( is_admin() || ! $query->is_main_query() || ! $query->is_feed() ) {
 			return;
 		}
 
@@ -67,11 +67,11 @@ class FilterHooks {
 
 	public static function custom_data_to_rss() {
 		if ( get_post_type() === 'rtcl_listing' ) {
-			$listing = rtcl()->factory->get_listing( get_the_ID() );
+			$listing       = rtcl()->factory->get_listing( get_the_ID() );
 			if ( has_post_thumbnail( $listing->get_id() ) ) :
 				$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $listing->get_id() ), 'rtcl-thumbnail' );
 				$thumbnail = $thumbnail[0] ?? '';
-				if ( !empty( $thumbnail ) ) {
+				if ( ! empty( $thumbnail ) ) {
 					?>
 					<image><?php echo esc_url( $thumbnail ); ?></image>;
 				<?php } endif; ?>
@@ -94,7 +94,7 @@ class FilterHooks {
 		if ( $editor_id === 'description' ) {
 			$maxLimit = absint( Functions::get_description_character_limit() );
 			/* translators:  maxLimit*/
-			$errorText = sprintf( esc_html__( 'Pasting this exceeds the maximum allowed number of %s characters for the input.', 'classified-listing' ), $maxLimit );
+			$errorText              = sprintf( esc_html__( 'Pasting this exceeds the maximum allowed number of %s characters for the input.', 'classified-listing' ), $maxLimit );
 			$in['paste_preprocess'] = "function(plugin, args){
 													const editor = tinymce.get('description');
 													const length = editor.getContent({format: 'text'}).length;
@@ -168,22 +168,22 @@ class FilterHooks {
 		global $post;
 
 		// Return template if post is empty
-		if ( !$post ) {
+		if ( ! $post ) {
 			return $template;
 		}
 
 		// Return default template if we don't have a custom one defined
-		if ( !isset( self::$templates[get_post_meta(
+		if ( ! isset( self::$templates[ get_post_meta(
 				$post->ID, '_wp_page_template', true
-			)] )
+			) ] )
 		) {
 			return $template;
 		}
 
 		// Allows filtering of file path
-		$selected_template = get_post_meta( $post->ID, '_wp_page_template', true );
+		$selected_template    = get_post_meta( $post->ID, '_wp_page_template', true );
 		$canvas_template_path = apply_filters( 'rtcl_page_template_path', RTCL_PATH ) . 'templates/canvas-template.php';
-		$file = ( 'rtcl-canvas_template' === $selected_template ) ? $canvas_template_path : '';
+		$file                 = ( 'rtcl-canvas_template' === $selected_template ) ? $canvas_template_path : '';
 
 		// Just to be safe, we check if the file exist first
 		if ( file_exists( $file ) ) {
@@ -215,7 +215,7 @@ class FilterHooks {
 	}
 
 	public static function add_title_attr_img( $attr, $attachment = null ) {
-		if ( !empty( $attachment ) ) {
+		if ( ! empty( $attachment ) ) {
 			$attr['title'] = esc_attr( wp_get_attachment_caption( $attachment->ID ) );
 		}
 
@@ -248,7 +248,7 @@ class FilterHooks {
 	}
 
 	public static function wpml_ajaxurl_current_lang( $current_lang ) {
-		if ( !defined( 'ICL_SITEPRESS_VERSION' ) ) {
+		if ( ! defined( 'ICL_SITEPRESS_VERSION' ) ) {
 			return $current_lang;
 		}
 
@@ -256,7 +256,7 @@ class FilterHooks {
 	}
 
 	public static function wpml_transient_lang_prefix( $prefix ) {
-		if ( !defined( 'ICL_SITEPRESS_VERSION' ) ) {
+		if ( ! defined( 'ICL_SITEPRESS_VERSION' ) ) {
 			return $prefix;
 		}
 		global $sitepress;
@@ -265,7 +265,7 @@ class FilterHooks {
 	}
 
 	public static function wpml_get_page_object_id( $page_id ) {
-		if ( !defined( 'ICL_SITEPRESS_VERSION' ) ) {
+		if ( ! defined( 'ICL_SITEPRESS_VERSION' ) ) {
 			return $page_id;
 		}
 
@@ -273,7 +273,7 @@ class FilterHooks {
 	}
 
 	public static function wpml_get_post_object_id( $post_id ) {
-		if ( !defined( 'ICL_SITEPRESS_VERSION' ) ) {
+		if ( ! defined( 'ICL_SITEPRESS_VERSION' ) ) {
 			return $post_id;
 		}
 
@@ -283,7 +283,7 @@ class FilterHooks {
 
 	/**
 	 * @param WP_Error $errors
-	 * @param string $password
+	 * @param string   $password
 	 *
 	 * @return WP_Error
 	 */
@@ -295,8 +295,8 @@ class FilterHooks {
 
 	/**
 	 * @param WP_Error $errors
-	 * @param WP_User $user
-	 * @param array $posted_fields
+	 * @param WP_User  $user
+	 * @param array    $posted_fields
 	 *
 	 * @return WP_Error
 	 */
@@ -309,9 +309,9 @@ class FilterHooks {
 
 	/**
 	 * @param WP_Error $errors
-	 * @param string $email
-	 * @param string $username
-	 * @param string $password
+	 * @param string   $email
+	 * @param string   $username
+	 * @param string   $password
 	 */
 	public static function password_validation( $errors, $email, $username, $password ) {
 		self::min_password_validation_message( $errors, $password );
@@ -321,7 +321,7 @@ class FilterHooks {
 
 	/**
 	 * @param WP_Error $errors
-	 * @param string $password
+	 * @param string   $password
 	 */
 	private static function min_password_validation_message( &$errors, $password ) {
 		$length = Functions::password_min_length();
@@ -360,7 +360,7 @@ class FilterHooks {
 
 		$position = array_search( 'myaccount_edit_account_endpoint', array_keys( $options ) );
 
-		if ( $position > -1 ) {
+		if ( $position > - 1 ) {
 			$newOptions = [
 				'myaccount_registration_endpoint' => [
 					'title'   => esc_html__( 'Registration', 'classified-listing' ),

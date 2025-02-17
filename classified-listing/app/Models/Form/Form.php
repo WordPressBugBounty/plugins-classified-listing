@@ -10,15 +10,15 @@ use Rtcl\Services\FormBuilder\FBField;
 /**
  * This is the model class for table "client".
  *
- * @property int         $id
+ * @property int $id
  * @property string|null $title
  * @property string|null $status
  * @property string|null $appearance_settings
- * @property array|null  $sections
- * @property array|null  $settings
+ * @property array|null $sections
+ * @property array|null $settings
  * @property object|null $fields
- * @property array|null  $translations
- * @property string      $type
+ * @property array|null $translations
+ * @property string $type
  * @property object|null $conditions
  * @property string|null $created_by
  * @property string|null $created_at
@@ -52,12 +52,12 @@ class Form extends Model {
 		}
 
 		if ( $type === 'uuid' ) {
-			return ! empty( $this->fields[ $value ] ) ? $this->fields[ $value ] : null;
+			return !empty( $this->fields[$value] ) ? $this->fields[$value] : null;
 		}
 		$fields = $this->fields;
-		if ( ! empty( $fields ) ) {
+		if ( !empty( $fields ) ) {
 			foreach ( $fields as $field ) {
-				if ( ! empty( $field[ $type ] ) && $field[ $type ] === $value ) {
+				if ( !empty( $field[$type] ) && $field[$type] === $value ) {
 					return $field;
 				}
 			}
@@ -144,12 +144,12 @@ class Form extends Model {
 			return null;
 		}
 		if ( $type === 'uuid' ) {
-			return ! empty( $this->sections[ $value ] ) ? $this->sections[ $value ] : null;
+			return !empty( $this->sections[$value] ) ? $this->sections[$value] : null;
 		}
 		$sections = $this->sections;
-		if ( ! empty( $sections ) ) {
+		if ( !empty( $sections ) ) {
 			foreach ( $sections as $section ) {
-				if ( ! empty( $section[ $type ] ) && $section[ $type ] === $value ) {
+				if ( !empty( $section[$type] ) && $section[$type] === $value ) {
 					return $section;
 				}
 			}
@@ -164,24 +164,24 @@ class Form extends Model {
 	 * @return array|array[]|mixed
 	 */
 	public function getFieldAsGroup( $type = '' ) {
-		$data   = [ FBField::PRESET => [], FBField::CUSTOM => [] ];
+		$data = [ FBField::PRESET => [], FBField::CUSTOM => [] ];
 		$fields = $this->fields;
-		if ( ! empty( $fields ) ) {
+		if ( !empty( $fields ) ) {
 			foreach ( $fields as $fieldId => $field ) {
-				$name = ! empty( $field['name'] ) ? $field['name'] : '';
-				if ( ! $name ) {
+				$name = !empty( $field['name'] ) ? $field['name'] : '';
+				if ( !$name ) {
 					continue;
 				}
 				if ( isset( $field['preset'] ) && $field['preset'] == 1 ) {
-					$data['preset'][ $name ] = $field;
+					$data['preset'][$name] = $field;
 				} else {
-					$data['custom'][ $name ] = $field;
+					$data['custom'][$name] = $field;
 				}
 			}
 		}
 
 		if ( in_array( $type, [ FBField::PRESET, FBField::CUSTOM, FBField::SECTIONS ] ) ) {
-			return $data[ $type ];
+			return $data[$type];
 		}
 
 		return $data;
@@ -198,11 +198,11 @@ class Form extends Model {
 	 * @return array|array[]|mixed
 	 */
 	public function getArchiveViewAbleFields() {
-		$fields         = $this->getFieldAsGroup( FBField::CUSTOM );
+		$fields = $this->getFieldAsGroup( FBField::CUSTOM );
 		$listableFields = [];
-		if ( ! empty( $fields ) ) {
+		if ( !empty( $fields ) ) {
 			$listableFields = array_filter( $fields, function ( $field ) {
-				return ! empty( $field['archive_view'] );
+				return !empty( $field['archive_view'] );
 			} );
 		}
 
@@ -215,57 +215,59 @@ class Form extends Model {
 	 * @return void
 	 */
 	public function translatedForm( $language_code ) {
-		if ( ! empty( $this->translations[ $language_code ] ) ) {
-			$translations     = $this->translations[ $language_code ];
+		if ( !empty( $this->translations[$language_code] ) ) {
+			$translations = $this->translations[$language_code];
 			$tempTranslations = $translations;
 
 			// Form root fields
 			$formFields = AvailableFields::translatableFormFields();
-			if ( ! empty( $formFields ) && is_array( $formFields ) ) {
+			if ( !empty( $formFields ) && is_array( $formFields ) ) {
 				foreach ( $formFields as $field ) {
-					if ( ! empty( $field['id'] ) && ! empty( $translations['form'][ $field['id'] ] ) ) {
-						$this->{$field['id']} = $translations['form'][ $field['id'] ];
+					if ( !empty( $field['id'] ) && !empty( $translations['form'][$field['id']] ) ) {
+						$this->{$field['id']} = $translations['form'][$field['id']];
 					}
 				}
 			}
 
 			$formSettingFields = AvailableFields::settings();
-			if ( ! empty( $formSettingFields ) && is_array( $formSettingFields ) ) {
+			if ( !empty( $formSettingFields ) && is_array( $formSettingFields ) ) {
 				$settings = $this->settings;
 				foreach ( $formSettingFields as $key => $formSettingField ) {
-					if ( ! empty( $formSettingField[ $key ] ) && ! empty( $translations['settings'][ $formSettingField[ $key ] ] ) ) {
-						$settings[ $formSettingField[ $key ] ] = $translations['settings'][ $formSettingField[ $key ] ];
+					if ( !empty( $formSettingField[$key] ) && !empty( $translations['settings'][$formSettingField[$key]] ) ) {
+						$settings[$formSettingField[$key]] = $translations['settings'][$formSettingField[$key]];
 					}
 				}
 				$this->settings = $settings;
 			}
 
 			$sections = $this->sections;
-			if ( ! empty( $sections ) ) {
+			$formFields = $this->fields;
+			if ( !empty( $sections ) ) {
 				foreach ( $sections as $sectionIndex => $section ) {
-					if ( ! empty( $section['uuid'] ) && ! empty( $translations[ $section['uuid'] ] ) && is_array( $translations[ $section['uuid'] ] ) ) {
-						$sections[ $sectionIndex ] = $this->getTranslatedField( $translations[ $section['uuid'] ], $section );
-						unset( $tempTranslations[ $section['uuid'] ] );
+					if ( !empty( $section['uuid'] ) && !empty( $translations[$section['uuid']] ) && is_array( $translations[$section['uuid']] ) ) {
+						$sections[$sectionIndex] = $this->getTranslatedField( $translations[$section['uuid']], $section );
+						unset( $tempTranslations[$section['uuid']] );
 					}
+					$sections[$sectionIndex]['logics'] = $this->getTranslatedConditionFieldValueForTaxonomy( $section['logics'], $formFields );
 				}
 			}
 			$this->sections = $sections;
 
-			$formFields = $this->fields;
 
-			if ( ! empty( $formFields ) && ! empty( $tempTranslations ) ) {
+			if ( !empty( $formFields ) && !empty( $tempTranslations ) ) {
 				foreach ( $tempTranslations as $uuid => $trValues ) {
-					if ( ! empty( $formFields[ $uuid ] ) ) {
-						$formFields[ $uuid ] = $this->getTranslatedField( $trValues, $formFields[ $uuid ] );
+					if ( !empty( $formFields[$uuid] ) ) {
+						$formFields[$uuid] = $this->getTranslatedField( $trValues, $formFields[$uuid] );
 					}
+					$formFields[$uuid]['logics'] = $this->getTranslatedConditionFieldValueForTaxonomy( $formFields[$uuid]['logics'], $formFields );
 				}
 			}
 
 			// Translate category ids
-			if ( ! empty( $formFields ) ) {
+			if ( !empty( $formFields ) ) {
 				foreach ( $formFields as $fieldId => $field ) {
-					if ( ! empty( $field['element'] ) && 'category' === $field['element'] && ! empty( $field['top_level_ids'] ) && is_array( $field['top_level_ids'] ) ) {
-						$formFields[ $fieldId ]['top_level_ids'] = array_map( function ( $categoryId ) {
+					if ( !empty( $field['element'] ) && 'category' === $field['element'] && !empty( $field['top_level_ids'] ) && is_array( $field['top_level_ids'] ) ) {
+						$formFields[$fieldId]['top_level_ids'] = array_map( function ( $categoryId ) {
 							return apply_filters( 'wpml_object_id', $categoryId, rtcl()->category );
 						}, $field['top_level_ids'] );
 						break;
@@ -278,6 +280,36 @@ class Form extends Model {
 	}
 
 	/**
+	 * @param $logics
+	 * @param $formFields
+	 * @return array
+	 */
+	private function getTranslatedConditionFieldValueForTaxonomy( $logics, $formFields ) {
+		if ( empty( $logics['status'] ) || empty( $logics['conditions'] ) ) {
+			return $logics;
+		}
+
+		$updatedLogics = $logics;
+		foreach ( $logics['conditions'] as $conditionIndex => $condition ) {
+			if ( empty( $condition['fieldId'] ) || empty( $formFields[$condition['fieldId']] ) || empty( $condition['value'] ) || empty( $formFields[$condition['fieldId']]['element'] ) || !in_array( $formFields[$condition['fieldId']]['element'], [ 'category', 'location', 'tag' ] ) ) {
+				continue;
+			}
+
+			$field = $formFields[$condition['fieldId']];
+			if ( $field['element'] === 'location' ) {
+				$trId = apply_filters( 'wpml_object_id', $condition['value'], rtcl()->location );
+			} else if ( $field['element'] === 'tag' ) {
+				$trId = apply_filters( 'wpml_object_id', $condition['value'], rtcl()->tag );
+			} else {
+				$trId = apply_filters( 'wpml_object_id', $condition['value'], rtcl()->category );
+			}
+			$updatedLogics['conditions'][$conditionIndex]['value'] = $trId;
+		}
+
+		return $updatedLogics;
+	}
+
+	/**
 	 * @param array $trData
 	 * @param array $field
 	 *
@@ -286,36 +318,36 @@ class Form extends Model {
 	private function getTranslatedField( $trData, $field ) {
 
 		foreach ( $trData as $fieldKey => $_translation ) {
-			if ( isset( $field[ $fieldKey ] ) && ! empty( $_translation ) ) {
+			if ( isset( $field[$fieldKey] ) && !empty( $_translation ) ) {
 				if ( $fieldKey === 'fields' && $field['element'] === 'repeater' ) {
-					if ( ! is_array( $_translation ) ) {
+					if ( !is_array( $_translation ) ) {
 						continue;
 					}
 
-					if ( ! empty( $field['fields'] ) && is_array( $field['fields'] ) ) {
+					if ( !empty( $field['fields'] ) && is_array( $field['fields'] ) ) {
 						foreach ( $field['fields'] as $repeaterFieldIndex => $repeaterField ) {
 
-							if ( empty( $_translation[ $repeaterField['uuid'] ] ) ) {
+							if ( empty( $_translation[$repeaterField['uuid']] ) ) {
 								continue;
 							}
-							foreach ( $_translation[ $repeaterField['uuid'] ] as $innerFieldKey => $innerTr ) {
-								if ( empty( $repeaterField[ $innerFieldKey ] ) || empty( $innerTr ) ) {
+							foreach ( $_translation[$repeaterField['uuid']] as $innerFieldKey => $innerTr ) {
+								if ( empty( $repeaterField[$innerFieldKey] ) || empty( $innerTr ) ) {
 									continue;
 								}
-								$originalValue = $repeaterField[ $innerFieldKey ];
-								$value         = $this->getSanitizedTr( $originalValue, $innerTr, $innerFieldKey, $repeaterField );
+								$originalValue = $repeaterField[$innerFieldKey];
+								$value = $this->getSanitizedTr( $originalValue, $innerTr, $innerFieldKey, $repeaterField );
 								if ( $value !== '' ) {
-									$field['fields'][ $repeaterFieldIndex ][ $innerFieldKey ] = $value;
+									$field['fields'][$repeaterFieldIndex][$innerFieldKey] = $value;
 								}
 							}
 
 						}
 					}
 				} else {
-					$originalValue = ! empty( $field[ $fieldKey ] ) ? $field[ $fieldKey ] : '';
-					$value         = $this->getSanitizedTr( $originalValue, $_translation, $fieldKey, $field );
-					if ( ! empty( $value ) ) {
-						$field[ $fieldKey ] = $value;
+					$originalValue = !empty( $field[$fieldKey] ) ? $field[$fieldKey] : '';
+					$value = $this->getSanitizedTr( $originalValue, $_translation, $fieldKey, $field );
+					if ( !empty( $value ) ) {
+						$field[$fieldKey] = $value;
 					}
 				}
 			}
@@ -324,7 +356,7 @@ class Form extends Model {
 
 		return $field;
 	}
-	
+
 	/**
 	 * @param $originalValue
 	 * @param $_trValue
@@ -337,16 +369,16 @@ class Form extends Model {
 		if ( $fieldKey === 'options' || $fieldKey === 'advanced_options' ) {
 			if ( is_array( $_trValue ) && is_array( $originalValue ) ) {
 				foreach ( $_trValue as $index => $option ) {
-					if ( ! empty( $option['label'] ) ) {
-						$originalValue[ $index ]['label'] = sanitize_text_field( $option['label'] );
+					if ( !empty( $option['label'] ) ) {
+						$originalValue[$index]['label'] = sanitize_text_field( $option['label'] );
 					}
 				}
 			}
 		} else if ( $fieldKey === 'validation' ) {
 			if ( is_array( $_trValue ) ) {
 				foreach ( $_trValue as $ruleKey => $_validation ) {
-					if ( ! empty( $_validation['message'] ) ) {
-						$originalValue[ $ruleKey ]['message'] = sanitize_text_field( $_validation['message'] );
+					if ( !empty( $_validation['message'] ) ) {
+						$originalValue[$ruleKey]['message'] = sanitize_text_field( $_validation['message'] );
 					}
 				}
 			}

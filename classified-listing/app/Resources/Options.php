@@ -664,6 +664,8 @@ class Options {
 				'm/d/Y'  => 'MM/DD/YYYY',
 				'd/m/Y'  => 'DD/MM/YYYY',
 				'F j, Y' => 'MMMM D, YYYY',
+				'j F, Y' => 'D MMMM, YYYY',
+				'j F Y' => 'D MMMM YYYY',
 				'h:i:s'  => 'hh:mm:ss',
 				'g:i a'  => 'h:mm a',
 				'g:i A'  => 'h:mm A',
@@ -789,10 +791,12 @@ class Options {
 							             'type'    => 'radio',
 							             'default' => 'Y-m-d',
 							             'options' => [
-								             'Y-m-d'  => 'Y-m-d (2019-11-12)',
-								             'm/d/Y'  => 'm/d/Y (11/12/2019)',
-								             'd/m/Y'  => 'd/m/Y (12/11/2019)',
-								             'F j, Y' => 'F j, Y (November 12, 2019)',
+								             'Y-m-d'  => 'Y-m-d (2025-11-12)',
+								             'm/d/Y'  => 'm/d/Y (11/12/2025)',
+								             'd/m/Y'  => 'd/m/Y (12/11/2025)',
+								             'F j, Y' => 'F j, Y (November 12, 2025)',
+								             'j F, Y' => 'j F, Y (12 November, 2025)',
+								             'j F Y'  => 'j F Y (12 November 2025)',
 							             ]
 						             ],
 						             '_date_time_format'     => [

@@ -725,6 +725,16 @@ class FormBuilderAjax {
 		// Insert the attachment.
 		$attach_id = wp_insert_attachment( $attachment, $filename, $parent_post_id );
 		if ( ! is_wp_error( $attach_id ) ) {
+			//TODO : We need to add custom function which will generate custom image meta data  
+			// Also need to add this at 
+			// only custom image size will be removed, default size like (thumbnail, medium, medium_large, large) will nor remove
+			$rtclSizes = array_keys( rtcl()->gallery['image_sizes'] );
+			foreach (get_intermediate_image_sizes() as $size) {
+				if (!in_array($size, $rtclSizes)) {
+					remove_image_size($size);
+				}
+			}
+			
 			wp_update_attachment_metadata( $attach_id, wp_generate_attachment_metadata( $attach_id, $filename ) );
 			if ( ! has_post_thumbnail( $parent_post_id ) ) {
 				set_post_thumbnail( $parent_post_id, $attach_id );

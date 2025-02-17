@@ -11,19 +11,56 @@ class Export {
 	function __construct() {
 		add_action( 'wp_ajax_rtcl_taxonomy_settings_export', array( __CLASS__, 'rtcl_taxonomy_settings_export' ) );
 		add_action( 'wp_ajax_rtcl_listings_export', array( __CLASS__, 'rtcl_listings_export' ) );
+		add_action( 'wp_ajax_rtcl_remove_temporary_file', array( __CLASS__, 'remove_temporary_file' ) );
+	}
+
+	/**
+	 * @return void
+	 */
+	public static function remove_temporary_file() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'Unauthorized access!!!', 'classified-listing' ) );
+		}
+
+		if ( ! wp_verify_nonce( $_POST[ rtcl()->nonceId ] ?? '', rtcl()->nonceText ) ) {
+			wp_send_json_error( esc_html__( 'Session Expired!!', 'classified-listing' ) );
+		}
+
+		if ( empty( $_POST['file_path'] ) ) {
+			wp_send_json_error( esc_html__( 'Unknown file!!', 'classified-listing' ) );
+		}
+
+		$path     = sanitize_text_field( $_POST['file_path'] );
+		$filename = basename( $path );
+		$filepath = untrailingslashit( RTCL_PATH ) . '/assets/export/' . $filename;
+
+		if ( file_exists( $filepath ) ) {
+			unlink( $filepath );
+			wp_send_json_success( esc_html__( 'File removed successfully!!!', 'classified-listing' ) );
+		}
+
+		wp_send_json_error( esc_html__( 'Not allowed to remove the file!!', 'classified-listing' ) );
 	}
 
 	public static function rtcl_taxonomy_settings_export() {
 
-		$filename = 'classified-listing-' . date( 'd-m-Y-His' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'Unauthorized access!!!', 'classified-listing' ) );
+		}
+
+		if ( ! wp_verify_nonce( $_POST[ rtcl()->nonceId ] ?? '', rtcl()->nonceText ) ) {
+			wp_send_json_error( esc_html__( 'Session Expired!!', 'classified-listing' ) );
+		}
 
 		$export_types = [ 'categories', 'locations', 'types', 'settings' ];
 
 		$download_path = RTCL_PATH . '/assets/export/';
-		self::export_as_json( $download_path, $export_types );
+		$filename      = 'data_' . time() . '.json';
+
+		self::export_as_json( $download_path, $export_types, $filename );
 
 		$data = [
-			'path'         => rtcl()->get_assets_uri( '/export/data.json' ),
+			'path'         => rtcl()->get_assets_uri( '/export/' . $filename ),
 			'file_name'    => $filename,
 			'export_types' => $export_types
 		];
@@ -31,7 +68,7 @@ class Export {
 		wp_send_json_success( $data );
 	}
 
-	public static function export_as_json( $download_path, $export_types ) {
+	public static function export_as_json( $download_path, $export_types, $filename ) {
 		global $wp_filesystem;
 
 		if ( empty( $wp_filesystem ) ) {
@@ -184,12 +221,20 @@ class Export {
 		if ( ! is_dir( $download_path ) ) {
 			mkdir( $download_path );
 		}
-		$wp_filesystem->put_contents( $download_path . 'data.json', $results );
+		$wp_filesystem->put_contents( $download_path . $filename, $results );
 
 		return true;
 	}
 
 	public static function rtcl_listings_export() {
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'Unauthorized access!!!', 'classified-listing' ) );
+		}
+
+		if ( ! wp_verify_nonce( $_REQUEST[ rtcl()->nonceId ] ?? '', rtcl()->nonceText ) ) {
+			wp_send_json_error( esc_html__( 'Session Expired!!', 'classified-listing' ) );
+		}
 
 		$columns = Functions::get_listings_default_fields();
 

@@ -234,7 +234,7 @@ class FBField {
 	}
 
 	public function getDateFilterDateType(): string {
-		return $this->getData( 'filter_date_type', 'single' );
+		return $this->getData( 'filterable_date_type', 'single' );
 	}
 
 	/**

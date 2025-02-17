@@ -86,7 +86,7 @@ class Gallery {
 					}
 					printf(
 					/* translators: Image size. 1: Width, 2: Height. */
-						'<p>' . esc_html__( "Recommended image size to (%1\$d, %2\$d)px", "classified-listing" ) . '</p>',
+						'<p>' . esc_html__( "Recommended image size to (%s, %s)px", "classified-listing" ) . '</p>',
 						isset( $image_size['width'] ) ? absint( $image_size['width'] ) : 0,
 						isset( $image_size['height'] ) ? absint( $image_size['height'] ) : 0
 					);
@@ -547,17 +547,17 @@ class Gallery {
 			"rtcl-gallery"           => [
 				"title" => __( "Gallery - Slider", "classified-listing" ),
 				/* translators: Image Width and height */
-				"desc"  => __( "Image resized to %1\$d x %2\$d - used in the images slider on classified details page.", "classified-listing" )
+				"desc"  => __( "Image resized to %s x %s - used in the images slider on classified details page.", "classified-listing" )
 			],
 			"rtcl-thumbnail"         => [
 				"title" => __( "Listing Thumbnail", "classified-listing" ),
 				/* translators: Image Width and height */
-				"desc"  => __( "Image resized to %1\$d x %2\$d - used on the classifieds list.", "classified-listing" )
+				"desc"  => __( "Image resized to %s x %s - used on the classifieds list.", "classified-listing" )
 			],
 			"rtcl-gallery-thumbnail" => [
 				"title" => __( "Gallery Thumbnail", "classified-listing" ),
 				/* translators: Image Width and height */
-				"desc"  => __( "Image resized to %1\$d x %2\$d - the image visible in upload preview.", "classified-listing" )
+				"desc"  => __( "Image resized to %s x %s - the image visible in upload preview.", "classified-listing" )
 			],
 		], $size );
 

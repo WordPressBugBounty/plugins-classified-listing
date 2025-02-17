@@ -26,21 +26,24 @@ class DateTime {
 	 */
 	public function getAvailableDateFormats() {
 		$dateFormats = apply_filters( 'rtcl/available_date_formats', [
-			'm/d/Y'       => 'm/d/Y - (Ex: 04/28/2018)', // USA
-			'd/m/Y'       => 'd/m/Y - (Ex: 28/04/2018)', // Canada, UK
-			'd.m.Y'       => 'd.m.Y - (Ex: 28.04.2019)', // Germany
-			'n/j/y'       => 'n/j/y - (Ex: 4/28/18)',
-			'm/d/y'       => 'm/d/y - (Ex: 04/28/18)',
-			'M/d/Y'       => 'M/d/Y - (Ex: Apr/28/2018)',
-			'y/m/d'       => 'y/m/d - (Ex: 18/04/28)',
-			'Y-m-d'       => 'Y-m-d - (Ex: 2018-04-28)',
-			'd-M-y'       => 'd-M-y - (Ex: 28-Apr-18)',
-			'm/d/Y h:i A' => 'm/d/Y h:i A - (Ex: 04/28/2018 08:55 PM)', // USA
-			'm/d/Y H:i'   => 'm/d/Y H:i - (Ex: 04/28/2018 20:55)', // USA
-			'd/m/Y h:i A' => 'd/m/Y h:i A - (Ex: 28/04/2018 08:55 PM)', // Canada, UK
-			'd/m/Y H:i'   => 'd/m/Y H:i - (Ex: 28/04/2018 20:55)', // Canada, UK
-			'd.m.Y h:i A' => 'd.m.Y h:i A - (Ex: 28.04.2019 08:55 PM)', // Germany
-			'd.m.Y H:i'   => 'd.m.Y H:i - (Ex: 28.04.2019 20:55)', // Germany
+			'm/d/Y'       => 'm/d/Y - (Ex: 04/28/2025)', // USA
+			'd/m/Y'       => 'd/m/Y - (Ex: 28/04/2025)', // Canada, UK
+			'd.m.Y'       => 'd.m.Y - (Ex: 28.04.2025)', // Germany
+			'n/j/y'       => 'n/j/y - (Ex: 4/28/25)',
+			'm/d/y'       => 'm/d/y - (Ex: 04/28/25)',
+			'M/d/Y'       => 'M/d/Y - (Ex: Apr/28/2025)',
+			'y/m/d'       => 'y/m/d - (Ex: 25/04/28)',
+			'Y-m-d'       => 'Y-m-d - (Ex: 2025-04-28)',
+			'd-M-y'       => 'd-M-y - (Ex: 28-Apr-25)',
+			'F j, Y'      => 'F j, Y - (November 12, 2025)',
+			'j F, Y'      => 'j F, Y - (12 November, 2025)',
+			'j F Y'       => 'j F Y - (12 November 2025)',
+			'm/d/Y h:i A' => 'm/d/Y h:i A - (Ex: 04/28/2025 08:55 PM)', // USA
+			'm/d/Y H:i'   => 'm/d/Y H:i - (Ex: 04/28/2025 20:55)', // USA
+			'd/m/Y h:i A' => 'd/m/Y h:i A - (Ex: 28/04/2025 08:55 PM)', // Canada, UK
+			'd/m/Y H:i'   => 'd/m/Y H:i - (Ex: 28/04/2025 20:55)', // Canada, UK
+			'd.m.Y h:i A' => 'd.m.Y h:i A - (Ex: 28.04.2025 08:55 PM)', // Germany
+			'd.m.Y H:i'   => 'd.m.Y H:i - (Ex: 28.04.2025 20:55)', // Germany
 			'h:i A'       => 'h:i A (Only Time Ex: 08:55 PM)',
 			'H:i'         => 'H:i (Only Time Ex: 20:55)',
 		] );
