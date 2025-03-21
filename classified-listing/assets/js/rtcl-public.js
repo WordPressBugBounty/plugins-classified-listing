@@ -40,6 +40,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
     var _this$options;
     var url = new URL(window.location.href);
     if ((_this$options = _this.options) !== null && _this$options !== void 0 && _this$options.items && Array.isArray(_this.options.items)) {
+      var that = _this;
       _this.options.items.map(function (_item) {
         if (_item.id === "price_range") {
           if (url.searchParams.has('filter_price')) {
@@ -62,53 +63,33 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
           if (url.searchParams.has('distance')) {
             _this.data.params.distancem = url.searchParams.get('distance');
           }
-        } else if (_item.id === "directory") {
+        } else if (that.withOutFilterPrefix.includes(_item.id)) {
           if (url.searchParams.has(_item.id)) {
             _this.data.params[_item.id] = decodeURI(url.searchParams.get(_item.id)).split(',');
           }
         } else {
-          if (['location', 'category', 'tag'].includes(_item.id) && Array.isArray(rtcl.activeTerms) && rtcl.activeTerms.length) {
-            rtcl.activeTerms.map(function (_term) {
-              if (_term.taxonomy.replace("rtcl_", '') === _item.id) {
-                // Add current term 
-                var filterName = 'filter_' + _item.id;
-                var terms;
-                if (url.searchParams.has(filterName)) {
-                  terms = decodeURI(url.searchParams.get(filterName)).split(',');
-                  terms.push(_term.term_id);
-                  _this.addParam(filterName, _term.term_id, true);
-                } else {
-                  terms = [_term.term_id];
-                  _this.addParam(filterName, _term.term_id, true);
-                }
-                _this.data.params[filterName] = terms;
-              }
-            });
+          var foundTerm = null;
+          if (['location', 'category', 'tag'].includes(_item.id) && Array.isArray(rtcl.activeTerms) && rtcl.activeTerms.length && (foundTerm = rtcl.activeTerms.find(function (element) {
+            return element.taxonomy.replace("rtcl_", '') === _item.id;
+          }))) {
+            // Add current term 
+            var filterName = 'filter_' + _item.id;
+            var terms;
+            if (url.searchParams.has(filterName)) {
+              terms = decodeURI(url.searchParams.get(filterName)).split(',');
+              terms.push(foundTerm.term_id);
+              _this.addParam(filterName, foundTerm.term_id, true);
+            } else {
+              terms = [foundTerm.term_id];
+              _this.addParam(filterName, foundTerm.term_id, true);
+            }
+            _this.data.params[filterName] = terms;
           } else {
             var paramName = 'filter_' + _item.id;
             if (url.searchParams.has(paramName)) {
               _this.data.params[paramName] = ['checkbox', 'radio'].includes(_item.type) ? decodeURI(url.searchParams.get(paramName)).split(',') : url.searchParams.get(paramName);
             }
           }
-          // if (['location', 'category', 'tag'].includes(_item.id) && rtcl.listing_term && rtcl.listing_term.taxonomy.replace("rtcl_", '') === _item.id) {
-          // 	// Add current term 
-          // 	const filterName = 'filter_' + _item.id;
-          // 	let terms;
-          // 	if (url.searchParams.has(filterName)) {
-          // 		terms = decodeURI(url.searchParams.get(filterName)).split(',');
-          // 		terms.push(rtcl.listing_term.term_id);
-          // 		this.addParam(filterName, rtcl.listing_term.term_id, true);
-          // 	} else {
-          // 		terms = [rtcl.listing_term.term_id];
-          // 		this.addParam(filterName, rtcl.listing_term.term_id, true);
-          // 	}
-          // 	this.data.params[filterName] = terms
-          // } else {
-          // 	const paramName = 'filter_' + _item.id;
-          // 	if (url.searchParams.has(paramName)) {
-          // 		this.data.params[paramName] = ['checkbox', 'radio'].includes(_item.type) ? decodeURI(url.searchParams.get(paramName)).split(',') : url.searchParams.get(paramName)
-          // 	}
-          // }
         }
       });
     }
@@ -754,7 +735,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
       itemId = $self.data('item-id'),
       filterName = $self.data('filter-name'),
       filterValue = $self.data('filter-value'),
-      $item = _this.$('.rtcl-ajax-filter-item.rtcl-filter_' + itemId),
+      $item = _this.withOutFilterPrefix.includes(itemId) ? _this.$('.rtcl-ajax-filter-item.rtcl-' + itemId) : _this.$('.rtcl-ajax-filter-item.rtcl-filter_' + itemId),
       $container = $item.find('.rtcl-filter-content'),
       options = $container.data('options');
     if (!$item.length) {
@@ -805,6 +786,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
     }
   });
   _defineProperty(this, "resetFilter", function () {
+    var that = _this;
     var view = _this.data.params.view;
     _this.data.params = {};
     if (view) {
@@ -821,7 +803,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
           url.searchParams["delete"]('geo_address');
           url.searchParams["delete"]('distance');
         } else {
-          var paramName = 'filter_' + _item.id;
+          var paramName = that.withOutFilterPrefix.includes(_item.id) ? _item.id : 'filter_' + _item.id;
           url.searchParams["delete"](paramName);
         }
       });
@@ -861,7 +843,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
     _this.$(document).trigger('rtcl_ajax_filter_after_render', [data]);
   });
   _defineProperty(this, "renderListings", function (listings) {
-    if (_this.isArchive && _this.initLoading) {
+    if (_this.isArchive && _this.initLoading && !_this.$(_this.resultWrapClass).length) {
       return;
     }
     var $wrap = _this.$(document).find(_this.listingsContainerClass);
@@ -1053,6 +1035,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
   this.options = this.$(this.filterWraperClass).data("options");
   this.isArchive = this.$('body').hasClass('post-type-archive-rtcl_listing') || this.$('body').hasClass('tax-rtcl_category') || this.$('body').hasClass('tax-rtcl_location') || this.$('body').hasClass('tax-rtcl_tag');
   this.initLoading = true;
+  this.withOutFilterPrefix = ['directory'];
   this.reset = false;
   this.data = {
     filterData: _objectSpread(_objectSpread({}, this.options), {}, {
@@ -1131,6 +1114,8 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+(() => {
 /*!**************************!*\
   !*** ./src/js/public.js ***!
   \**************************/
@@ -3078,5 +3063,7 @@ __webpack_require__.r(__webpack_exports__);
 
   //End Compare icon update
 })(jQuery);
+})();
+
 /******/ })()
 ;

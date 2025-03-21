@@ -19,6 +19,7 @@ use Rtcl\Services\FormBuilder\FBHelper;
 use Rtcl\Traits\Functions\CoreTrait;
 use Rtcl\Traits\Functions\FormatTrait;
 use Rtcl\Traits\Functions\ListingTrait;
+use Rtcl\Traits\Functions\MediaTrait;
 use Rtcl\Traits\Functions\SettingsTrait;
 use Rtcl\Traits\Functions\TemplateTrait;
 use Rtcl\Traits\Functions\UtilityTrait;
@@ -38,6 +39,7 @@ class Functions {
 	use UtilityTrait;
 	use TemplateTrait;
 	use FormatTrait;
+	use MediaTrait;
 
 	/**
 	 * Define a constant if it is not already defined.
@@ -1436,14 +1438,14 @@ class Functions {
 					if ( ! empty( $args['show_icon_image'] ) ) {
 						$image_id = get_term_meta( $term->term_id, '_rtcl_image', true );
 						if ( $image_id ) {
-							$image_attributes = wp_get_attachment_image_src( (int) $image_id, 'medium' );
-							$image            = $image_attributes[0];
-							if ( '' !== $image ) {
-								$cat_img_icon = sprintf( '<img src="%s" alt="%s" class="rtcl-cat-img" />', esc_url( $image ), esc_attr( $term->name ) );
+							$imageAttributes = wp_get_attachment_image_src( (int) $image_id, 'medium' );
+							if ( !empty( $imageAttributes[0] ) ) {
+								$cat_img_icon = sprintf( '<img src="%s" alt="%s" class="rtcl-cat-img" />', esc_url( $imageAttributes[0] ), esc_attr( $term->name ) );
 							}
 						}
 						$icon_id = get_term_meta( $term->term_id, '_rtcl_icon', true );
-						if ( ! $cat_img_icon && $icon_id ) {
+						
+						if ( ! $cat_img_icon && $icon_id && !is_array($icon_id) ) {
 							if ( str_contains( $icon_id, 'fa-' ) ) {
 								$cat_img_icon = sprintf( '<span class="rtcl-cat-icon %s"></span>', $icon_id );
 							} else {
@@ -5650,4 +5652,79 @@ class Functions {
 		);
 	}
 
+	/**
+	 *  Get the map type
+	 * 
+	 * @return bool
+	 */
+	public static function is_ai_enabled()
+	{
+		$settings = self::get_option('rtcl_ai_settings');
+		if (empty($settings)) {
+			return false;
+		}
+
+		$type = self::get_option_item('rtcl_ai_settings', 'ai_tools');
+		if (empty($type)) {
+			return false;
+		}
+
+		$key_suffix = self::getKeySuffix($type);
+
+		if (empty($key_suffix)) {
+			return false;
+		}
+
+		$api_key = self::get_option_item('rtcl_ai_settings', "{$key_suffix}_api_key");
+		$model = self::get_option_item('rtcl_ai_settings', "{$key_suffix}_models");
+		if($key_suffix == 'gemini'){
+			return $api_key;
+		}
+		return !(empty($api_key) || empty($model));
+	}
+	
+
+	public static function is_openai_connected()
+	{
+		$type = self::get_option_item('rtcl_ai_settings','ai_tools');
+		$key_suffix = $type === 'OpenAI' ? 'gpt' : '';
+		if(empty($key_suffix)){
+			return false;
+		}
+		$api_key = self::get_option_item('rtcl_ai_settings', "{$key_suffix}_api_key");
+		$model = self::get_option_item('rtcl_ai_settings', "{$key_suffix}_models");
+
+		return !(empty($api_key) || empty($model));
+	}
+	
+	public static function get_max_prompt_input_limit()
+	{
+		$type = self::get_option_item('rtcl_ai_settings', 'ai_tools');
+		if (empty($type)) {
+			return false;
+		}
+		$key_suffix = self::getKeySuffix($type);
+
+		if (empty($key_suffix)) {
+			return false;
+		}
+
+		return self::get_option_item('rtcl_ai_settings', "{$key_suffix}_max_token");
+		
+	}
+
+	public static function getKeySuffix(string $type): string {
+		$suffixes = [
+			'OpenAI' => 'gpt',
+			'Gemini' => 'gemini',
+			'DeepSeek' => 'deepseek'
+		];
+
+		return $suffixes[$type] ?? '';
+	}
+
+	public static function get_current_theme()
+	{
+		return wp_get_theme()->get_stylesheet();
+	}
 }

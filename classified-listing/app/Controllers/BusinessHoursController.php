@@ -500,8 +500,11 @@ class BusinessHoursController {
 		return $rawBhs;
 	}
 
-	public static function display_business_hours( $listing = false ) {
-		/** @var Listing $listing */
+	/**
+	 * @param Listing $listing
+	 * @return void
+	 */
+	public static function display_business_hours( $listing = null ) {
 		if ( !$listing ) {
 			global $listing;
 		}

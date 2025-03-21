@@ -15,15 +15,15 @@ class ElementCustomization {
 				'advance' => [ 'default_value', 'container_class', 'help_message' ]
 			],
 			'title'               => [
-				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation','ai' ],
 				'advance' => [ 'default_value', 'container_class', 'help_message' ]
 			],
 			'description'         => [
-				'general' => [ 'label', 'label_placement', 'icon', 'editor_type', 'rows', 'validation' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'editor_type', 'rows', 'validation','ai' ],
 				'advance' => [ 'container_class', 'help_message', 'admin_use_only' ]
 			],
 			'excerpt'             => [
-				'general' => [ 'label', 'label_placement', 'icon', 'validation' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'validation','ai' ],
 				'advance' => [ 'container_class', 'help_message', 'admin_use_only' ]
 			],
 			'category'            => [
@@ -64,6 +64,7 @@ class ElementCustomization {
 					'icon',
 					'user_social_default',
 					'validation',
+					'help_message',
 					'admin_use_only'
 				]
 			],
@@ -260,7 +261,8 @@ class ElementCustomization {
 					'filterable',
 					'single_view',
 					'archive_view',
-					'order'
+					'order',
+					'ai'
 				],
 				'advance' => [
 					'default_value',
@@ -283,7 +285,8 @@ class ElementCustomization {
 					'validation',
 					'single_view',
 					'archive_view',
-					'order'
+					'order',
+					'ai'
 				],
 				'advance' => [
 					'default_value',
@@ -453,6 +456,7 @@ class ElementCustomization {
 			'help_text'        => __( 'You can write your own date configuration as JS object. Please write valid configuration as per flatpickr config.', 'classified-listing' ),
 		];
 		$settingsFields     = [
+			
 			'name'                         => [
 				'template'  => 'nameAttr',
 				'label'     => __( 'Name Attribute', 'classified-listing' ),
@@ -1364,6 +1368,11 @@ class ElementCustomization {
 						'label' => '5-Column Layout',
 					],
 				],
+			],
+			'ai'                    => [
+				'template'  => 'inputYesNoCheckBox',
+				'label'     => __( 'Enable AI Integration', 'classified-listing' ),
+				'help_text' => __( 'Toggle this option to enable or disable AI-powered features for this listing.', 'classified-listing' ),
 			],
 			'file_location'                => [
 				'template'  => 'radio',

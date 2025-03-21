@@ -3,6 +3,7 @@
 namespace Rtcl\Controllers\Ajax;
 
 use Exception;
+use Rtcl\Controllers\AIServiceFactory;
 use Rtcl\Helpers\Functions;
 use Rtcl\Models\Form\Form;
 use Rtcl\Services\FormBuilder\Components\FieldSanitization;
@@ -28,6 +29,7 @@ class FormBuilderAdminAjax {
 		add_action( 'wp_ajax_rtcl_fb_admin_form_update_slug', [ $this, 'form_update_slug' ] );
 		add_action( 'wp_ajax_rtcl_fb_admin_form_mark_as_default', [ $this, 'form_mark_as_default' ] );
 		add_action( 'wp_ajax_rtcl_fb_admin_form_delete', [ $this, 'form_delete' ] );
+		add_action( 'wp_ajax_rtcl_fb_admin_form_bulk_delete', [ $this, 'form_bulk_delete' ] );
 		add_action( 'wp_ajax_rtcl_fb_admin_get_terms_by_keyword', [ $this, 'get_terms_by_keyword' ] );
 		add_action( 'wp_ajax_rtcl_fb_admin_form_update_translation', [ $this, 'update_translation' ] );
 		add_action( 'wp_ajax_rtcl_fb_admin_form_delete_translation', [ $this, 'delete_translation' ] );
@@ -42,6 +44,9 @@ class FormBuilderAdminAjax {
 
 		add_action( 'wp_ajax_rtcl_fb_admin_export_forms', [ $this, 'export_forms' ] );
 		add_action( 'wp_ajax_rtcl_fb_admin_import_forms', [ $this, 'import_forms' ] );
+		
+		add_action('wp_ajax_rtcl_fb_admin_fetch_ai_keyword', [$this, 'fetch_ai_keyword']);
+		add_action('wp_ajax_rtcl_fb_admin_fetch_ai_form_fields', [$this, 'fetch_ai_form_fields']);
 	}
 
 	public function import_forms() {
@@ -409,9 +414,11 @@ class FormBuilderAdminAjax {
 
 		if ( 'sample' === $type ) {
 			$formData = FormPreDefined::sample();
+		}elseif ('ai' === $type){
+			$formData = !empty($_POST['ai_form_data']) ?  Functions::clean($_POST['ai_form_data']) :  [];
 		} else {
 			$formData = FormPreDefined::blank();
-		}
+		};
 
 		$form = Form::query()->insert( $formData );
 		if ( ! $form ) {
@@ -446,6 +453,33 @@ class FormBuilderAdminAjax {
 
 		if ( ! $form->delete() ) {
 			wp_send_json_error( esc_html__( 'Error while deleting form', 'classified-listing' ) );
+		}
+		wp_send_json_success( [
+			'message' => __( 'Deleted successfully', 'classified-listing' ),
+			'id'      => $formId
+		] );
+	}
+	public function form_bulk_delete() {
+		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
+		}
+
+		$formId = isset( $_POST['ids'] ) ? array_map('absint', (array) $_POST['ids']) : [];
+		
+		if(empty($formId)){
+			wp_send_json_error( esc_html__( 'No form found to Delete', 'classified-listing' ) );
+		}
+		foreach($formId as $id){
+			$form = Form::query()->find( $id );
+			if ( empty( $form ) ) {
+				wp_send_json_error( esc_html__( 'No form found to edit', 'classified-listing' ) );
+			}
+			if ( $form->default == 1 ) {
+				wp_send_json_error( esc_html__( 'Default form can\'t be deleted.', 'classified-listing' ) );
+			}
+			if ( ! $form->delete() ) {
+				wp_send_json_error( esc_html__( 'Error while deleting form', 'classified-listing' ) );
+			}
 		}
 		wp_send_json_success( [
 			'message' => __( 'Deleted successfully', 'classified-listing' ),
@@ -649,4 +683,41 @@ class FormBuilderAdminAjax {
 			'message' => esc_html__( 'Mars as default successfully.', 'classified-listing' )
 		] );
 	}
+
+	/**
+	 * Fetch AI keyword
+	 * 
+	 * @return void
+	 */
+	public function fetch_ai_keyword()
+	{
+		$this->get_ai_service('keyword');
+	}
+
+	/**
+	 * Fetch AI form fields
+	 * 
+	 * @return void
+	 */
+	public function fetch_ai_form_fields()
+	{
+		$this->get_ai_service('fields');
+	}
+
+	private function get_ai_service(string $type)
+	{
+		$aiController = new AIController();
+		switch ($type) {
+			case 'keyword':
+				$aiController->fetch_ai_keyword();
+				break;
+			case 'fields':
+				$aiController->fetch_ai_form_fields();
+				break;
+			default:
+				wp_send_json_error(esc_html__('Invalid AI service type.', 'classified-listing'));
+		}
+	}
+	
+	
 }

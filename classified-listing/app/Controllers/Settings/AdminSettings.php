@@ -578,7 +578,8 @@ class AdminSettings extends SettingsAPI {
 			'style'      => esc_html__( 'Style', 'classified-listing' ),
 			'misc'       => esc_html__( 'Misc', 'classified-listing' ),
 			'advanced'   => esc_html__( 'Advanced', 'classified-listing' ),
-			'tools'      => esc_html__( 'Tools', 'classified-listing' )
+			'tools'      => esc_html__( 'Tools', 'classified-listing' ),
+			'ai'         => esc_html__( 'AI Integration', 'classified-listing' ),
 		];
 		// Hook to register custom tabs
 		$this->tabs = apply_filters( 'rtcl_register_settings_tabs', $this->tabs );

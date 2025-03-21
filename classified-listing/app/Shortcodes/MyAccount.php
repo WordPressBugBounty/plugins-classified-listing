@@ -126,7 +126,7 @@ class MyAccount {
 
 		$args = [
 			'post_type'      => rtcl()->post_type,
-			'post_status'    => ['publish', 'pending', 'future', 'rtcl-reviewed', 'rtcl-expired'],
+			'post_status'    => 'any',
 			'posts_per_page' => ! empty( $general_settings['listings_per_page'] ) ? absint( $general_settings['listings_per_page'] ) : 10,
 			'paged'          => $paged,
 			'author'         => get_current_user_id()

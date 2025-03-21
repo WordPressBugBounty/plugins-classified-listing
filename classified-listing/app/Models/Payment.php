@@ -84,11 +84,11 @@ class Payment {
 	 * @param \WP_Post $post
 	 */
 	private function setData( $post ) {
-		$this->id           = $post->ID;
-		$this->payment      = $post;
-		$this->status       = $post->post_status;
+		$this->id = $post->ID;
+		$this->payment = $post;
+		$this->status = $post->post_status;
 		$this->created_date = $post->post_date;
-		$this->pricing      = rtcl()->factory->get_pricing( $this->get_pricing_id() );
+		$this->pricing = rtcl()->factory->get_pricing( $this->get_pricing_id() );
 		$this->setGateWay();
 	}
 
@@ -112,7 +112,7 @@ class Payment {
 	protected function get_address_prop( $prop, $address = 'billing' ) {
 		$value = null;
 
-		if ( array_key_exists( $prop, $this->data[ $address ] ) ) {
+		if ( array_key_exists( $prop, $this->data[$address] ) ) {
 			return get_post_meta( $this->get_id(), '_' . $address . '_' . $prop, true );
 		}
 
@@ -123,13 +123,18 @@ class Payment {
 	/**
 	 * Sets a prop for a setter method.
 	 *
-	 * @param string $prop    Name of prop to set.
+	 * @param string $prop Name of prop to set.
 	 * @param string $address Name of address to set. billing or shipping.
-	 * @param mixed  $value   Value of the prop.
+	 * @param mixed $value Value of the prop.
 	 */
 	protected function set_address_prop( $prop, $address, $value ) {
-		if ( array_key_exists( $prop, $this->data[ $address ] ) ) {
-			return update_post_meta( $this->id, '_' . $address . '_' . $prop, $value );
+		if ( array_key_exists( $prop, $this->data[$address] ) ) {
+			$done = update_post_meta( $this->id, '_' . $address . '_' . $prop, $value );
+			if ( $done ) {
+				$post = get_post( $this->get_id() );
+				$this->setData( $post );
+			}
+			return $done;
 		}
 
 		return false;
@@ -137,7 +142,12 @@ class Payment {
 
 	private function set_prop( $prop, $value = null ) {
 		if ( array_key_exists( $prop, $this->data ) ) {
-			return update_post_meta( $this->id, $prop, $value );
+			$done = update_post_meta( $this->id, $prop, $value );
+			if ( $done ) {
+				$post = get_post( $this->get_id() );
+				$this->setData( $post );
+			}
+			return $done;
 		}
 
 		return false;
@@ -145,52 +155,62 @@ class Payment {
 
 	/**
 	 * @param string $meta_key
-	 * @param bool   $single
+	 * @param bool $single
 	 *
 	 * @return mixed|string
 	 */
 	public function get_meta( $meta_key, $single = true, $default = null ) {
-		if ( ! $meta_key ) {
+		if ( !$meta_key ) {
 			return '';
 		}
 		$value = get_post_meta( $this->get_id(), $meta_key, $single );
 
-		return ! is_null( $value ) ? $value : $default;
+		return !is_null( $value ) ? $value : $default;
 	}
 
 	/**
 	 * @param string $meta_key
-	 * @param mixed  $single
+	 * @param mixed $single
 	 *
 	 * @return mixed|string
 	 */
 	public function update_meta( $meta_key, $meta_value ) {
-		if ( ! $meta_key ) {
+		if ( !$meta_key ) {
 			return '';
 		}
 
-		return update_post_meta( $this->get_id(), $meta_key, $meta_value );
+		$done = update_post_meta( $this->get_id(), $meta_key, $meta_value );
+		if ( $done ) {
+			$post = get_post( $this->get_id() );
+			$this->setData( $post );
+		}
+		return $done;
 	}
 
 	/**
-	 * @param int    $post_id    Post ID.
-	 * @param string $meta_key   Metadata name.
-	 * @param mixed  $meta_value Optional. Metadata value. If provided,
+	 * @param int $post_id Post ID.
+	 * @param string $meta_key Metadata name.
+	 * @param mixed $meta_value Optional. Metadata value. If provided,
 	 *                           rows will only be removed that match the value.
 	 *                           Must be serializable if non-scalar. Default empty.
 	 *
 	 * @return bool True on success, false on failure.
 	 */
 	public function delete_meta( $meta_key, $meta_value = '' ) {
-		if ( ! $meta_key ) {
+		if ( !$meta_key ) {
 			return '';
 		}
 
-		return delete_post_meta( $this->get_id(), $meta_key, $meta_value );
+		$done = delete_post_meta( $this->get_id(), $meta_key, $meta_value );
+		if ( $done ) {
+			$post = get_post( $this->get_id() );
+			$this->setData( $post );
+		}
+		return $done;
 	}
 
 	public function is_applied() {
-		return $this->get_prop( '_applied' ) ? true : false;
+		return (bool)$this->get_prop( '_applied' );
 	}
 
 	/**
@@ -265,7 +285,7 @@ class Payment {
 	 */
 	public function get_wc_id() {
 		$wc_id = absint( get_post_meta( $this->get_id(), '_woo_order_id', true ) );
-		if ( ! $wc_id ) {
+		if ( !$wc_id ) {
 			return '';
 		}
 
@@ -308,7 +328,7 @@ class Payment {
 	 * @return string
 	 */
 	public function get_order_number() {
-		return (string) apply_filters( 'rtcl_get_order_number', $this->get_id(), $this );
+		return (string)apply_filters( 'rtcl_get_order_number', $this->get_id(), $this );
 	}
 
 
@@ -319,7 +339,7 @@ class Payment {
 	 *
 	 */
 	public function set_currency( $value ) {
-		if ( $value && ! in_array( $value, array_keys( Options::get_currency_list() ), true ) ) {
+		if ( $value && !in_array( $value, array_keys( Options::get_currency_list() ), true ) ) {
 			Functions::add_notice( __( 'Invalid currency code', 'classified-listing' ), 'error', 'order_invalid_currency' );
 		}
 
@@ -356,13 +376,13 @@ class Payment {
 
 			return $user_info->user_email;
 		}
-		
+
 		return null;
 	}
 
 
 	public function get_customer_full_name() {
-		$user_id   = $this->get_customer_id();
+		$user_id = $this->get_customer_id();
 		$user_info = get_userdata( $user_id );
 
 		/* translators: 1: first name 2: last name */
@@ -472,17 +492,17 @@ class Payment {
 	 * @return string
 	 */
 	public function get_formatted_billing_address( $empty_content = '' ) {
-		$raw_address = array();
+		$raw_address = [];
 
 		$raw_address['first_name'] = $this->get_billing_first_name();
-		$raw_address['last_name']  = $this->get_billing_last_name();
-		$raw_address['company']    = $this->get_billing_company();
-		$raw_address['address_1']  = $this->get_billing_address_1();
-		$raw_address['address_2']  = $this->get_billing_address_2();
-		$raw_address['city']       = $this->get_billing_city();
-		$raw_address['state']      = $this->get_billing_state();
-		$raw_address['postcode']   = $this->get_billing_postcode();
-		$raw_address['country']    = $this->get_billing_country();
+		$raw_address['last_name'] = $this->get_billing_last_name();
+		$raw_address['company'] = $this->get_billing_company();
+		$raw_address['address_1'] = $this->get_billing_address_1();
+		$raw_address['address_2'] = $this->get_billing_address_2();
+		$raw_address['city'] = $this->get_billing_city();
+		$raw_address['state'] = $this->get_billing_state();
+		$raw_address['postcode'] = $this->get_billing_postcode();
+		$raw_address['country'] = $this->get_billing_country();
 
 		$address = rtcl()->countries->get_formatted_address( $raw_address );
 
@@ -495,7 +515,7 @@ class Payment {
 	 * @param string $value Billing email.
 	 */
 	public function set_billing_email( $value ) {
-		if ( $value && ! is_email( $value ) ) {
+		if ( $value && !is_email( $value ) ) {
 			throw new Exception( 'order_invalid_billing_email', esc_html__( 'Invalid billing email address', 'classified-listing' ) );
 		}
 		$this->set_address_prop( 'email', 'billing', sanitize_email( $value ) );
@@ -640,10 +660,10 @@ class Payment {
 	 * @return array
 	 */
 	public function set_status( $new_status ) {
-		$old_status  = $this->get_status();
-		$new_status  = 'rtcl-' === substr( $new_status, 0, 5 ) ? $new_status : 'rtcl-' . $new_status;
+		$old_status = $this->get_status();
+		$new_status = 'rtcl-' === substr( $new_status, 0, 5 ) ? $new_status : 'rtcl-' . $new_status;
 		$status_list = array_keys( Options::get_payment_status_list() );
-		if ( ! in_array( $new_status, $status_list ) ) {
+		if ( !in_array( $new_status, $status_list ) ) {
 			$new_status = 'rtcl-pending';
 		}
 
@@ -657,14 +677,14 @@ class Payment {
 	 * Updates status of order immediately. Order must exist.
 	 *
 	 * @param string $new_status Status to change the order to. No internal wc- prefix is required.
-	 * @param bool   $manual
+	 * @param bool $manual
 	 *
 	 * @return bool
 	 * @uses Payment::set_status()
 	 */
 	public function update_status( $new_status, $manual = false ) {
 		try {
-			if ( ! $this->get_id() ) {
+			if ( !$this->get_id() ) {
 				return false;
 			}
 
@@ -690,20 +710,24 @@ class Payment {
 	protected function status_transition( $new_status ) {
 
 		$result = $this->set_status( $new_status );
-		if ( is_array( $result ) && ! empty( $result['from'] ) && $result['to'] && ( $result['from'] !== $result['to'] ) ) {
-			wp_update_post( [
+		if ( is_array( $result ) && !empty( $result['from'] ) && $result['to'] && ( $result['from'] !== $result['to'] ) ) {
+			$update = wp_update_post( [
 				'ID'                => $this->get_id(),
 				'post_status'       => $result['to'],
 				'post_modified'     => current_time( 'mysql' ),
 				'post_modified_gmt' => current_time( 'mysql', 1 ),
 			] );
+			if ( !is_wp_error( $update ) ) {
+				$payment = get_post( $this->get_id() );
+				$this->setData( $payment );
+			}
 		}
 
 	}
 
 	public function payment_complete( $transaction_id = '' ) {
 		try {
-			if ( ! $this->get_id() ) {
+			if ( !$this->get_id() ) {
 				return false;
 			}
 
@@ -715,10 +739,10 @@ class Payment {
 				'rtcl-cancelled'
 			] )
 			) {
-				if ( ! empty( $transaction_id ) ) {
+				if ( !empty( $transaction_id ) ) {
 					$this->set_transaction_id( $transaction_id );
 				}
-				if ( ! $this->get_date_paid() ) {
+				if ( !$this->get_date_paid() ) {
 					$this->set_date_paid( Functions::datetime() );
 				}
 				$this->update_status( 'rtcl-completed' );
@@ -747,7 +771,8 @@ class Payment {
 			<tr style="background-color:#F0F0F0;">
 				<th colspan="2"><?php
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					echo get_the_title( $this->get_listing_id() ); ?> (<span class="listing-id"><?php esc_html_e( "ID#", 'classified-listing' );
+					echo get_the_title( $this->get_listing_id() ); ?> (<span
+						class="listing-id"><?php esc_html_e( "ID#", 'classified-listing' );
 						echo absint( $this->get_listing_id() ) ?></span>)
 				</th>
 			</tr>
@@ -785,16 +810,16 @@ class Payment {
 	}
 
 	function add_note( $note, $is_customer_note = 0, $added_by_user = false ) {
-		if ( ! $this->get_id() ) {
+		if ( !$this->get_id() ) {
 			return 0;
 		}
 
 		if ( is_user_logged_in() && current_user_can( 'manage_rtcl_options', $this->get_id() ) && $added_by_user ) {
-			$user                 = get_user_by( 'id', get_current_user_id() );
-			$comment_author       = $user->display_name;
+			$user = get_user_by( 'id', get_current_user_id() );
+			$comment_author = $user->display_name;
 			$comment_author_email = $user->user_email;
 		} else {
-			$comment_author       = 'RtclListing';
+			$comment_author = 'RtclListing';
 			$comment_author_email = strtolower( $comment_author ) . '@';
 			$comment_author_email .= isset( $_SERVER['HTTP_HOST'] ) ? str_replace( 'www.', '', sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) )
 				: 'noreply.com'; // WPCS: input var ok.
@@ -864,7 +889,7 @@ class Payment {
 	 */
 	public function get_cancel_endpoint() {
 		$cancel_endpoint = Link::get_account_endpoint_url();
-		if ( ! $cancel_endpoint ) {
+		if ( !$cancel_endpoint ) {
 			$cancel_endpoint = home_url();
 		}
 

@@ -14,6 +14,23 @@ use Rtcl\Resources\Options;
 class FBHelper {
 
 	/**
+	 * @param $id
+	 * @return mixed|Form|null
+	 */
+	public static function getFormById($id) {
+		$form = $id ? Form::query()->find( $id ) : null;
+
+		$_form = apply_filters( 'rtcl_fb_form', $form );
+
+		if ( is_a( $_form, Form::class ) ) {
+			return $_form;
+		}
+
+		return null;
+	}
+	
+	
+	/**
 	 * @return bool
 	 */
 	public static function isEnabled(): bool {
@@ -516,6 +533,7 @@ class FBHelper {
 			}
 			$name = $field['name'];
 			$value = null;
+			
 			if ( !empty( $field['default_value'] ) ) {
 				$value = apply_filters( 'rtcl/fb/parse_default_value', $field['default_value'], $field, $form );
 				if ( $value ) {
@@ -1180,7 +1198,7 @@ class FBHelper {
 	}
 
 	/**
-	 * @param string|int $directory
+	 * @param string|int|array $directory
 	 *
 	 * @return array
 	 */
@@ -1190,8 +1208,17 @@ class FBHelper {
 			FBField::CUSTOM   => [],
 			FBField::SECTIONS => []
 		];
-		if ( $directory === 'all' ) {
-			$allForms = Form::query()->where( 'status', 'publish' )->order_by( 'created_at', 'DESC' )->get();
+		if ( $directory === 'all' || is_array( $directory ) ) {
+			if ( is_array( $directory ) ) {
+				$directoryIds = !empty( $directory ) ? array_filter( array_map( 'absint', $directory ) ) : [];
+				if ( !empty( $directoryIds ) ) {
+					$allForms = Form::query()->where( 'status', 'publish' )->where( 'id', 'in', $directoryIds )->order_by( 'created_at', 'DESC' )->get();
+				} else {
+					$allForms = [];
+				}
+			} else {
+				$allForms = Form::query()->where( 'status', 'publish' )->order_by( 'created_at', 'DESC' )->get();
+			}
 			if ( !empty( $allForms ) ) {
 				foreach ( $allForms as $_form ) {
 					$_form = apply_filters( 'rtcl_fb_form', $_form );

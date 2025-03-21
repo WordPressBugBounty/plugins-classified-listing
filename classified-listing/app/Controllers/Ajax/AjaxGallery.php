@@ -169,7 +169,7 @@ class AjaxGallery
 		// Insert the attachment.
 		$attach_id = wp_insert_attachment($attachment, $filename, $parent_post_id);
 		if (!is_wp_error($attach_id)) {
-			wp_update_attachment_metadata($attach_id, wp_generate_attachment_metadata($attach_id, $filename));
+			wp_update_attachment_metadata($attach_id, Functions::generate_attachment_metadata( $attach_id, $filename, Functions::get_image_sizes() ));
 		}
 		// Fix the image guid url
 		Filters::afterUpload();

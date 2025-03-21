@@ -11,6 +11,7 @@ class LocalizedString {
 			'type'               => __( 'Type', 'classified-listing' ),
 			'open'               => __( 'Open', 'classified-listing' ),
 			'save'               => __( 'Save', 'classified-listing' ),
+			'term_suggest_close' => __( 'Close', 'classified-listing' ),
 			'submit'             => __( 'Submit', 'classified-listing' ),
 			'update'             => __( 'Update', 'classified-listing' ),
 			'change'             => __( 'Change', 'classified-listing' ),

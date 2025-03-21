@@ -2,6 +2,12 @@
 
 namespace Rtcl\Models;
 
+use Exception;
+use Rtcl\Helpers\Functions;
+use Rtcl\Services\AIServices\DeepSeekAdapter;
+use Rtcl\Services\AIServices\GeminiAdapter;
+use Rtcl\Services\AIServices\OpenAIAdapter;
+
 class Factory
 {
 
@@ -207,5 +213,55 @@ class Factory
             return false;
         }
     }
+
+	public function createAIService(string $aiType, $client)
+	{
+		switch ($aiType) {
+			case 'OpenAI':
+				return new OpenAIAdapter($client);
+			 case 'Gemini':
+			     return new GeminiAdapter($client);
+			 case 'DeepSeek':
+			     return new DeepSeekAdapter($client);
+			default:
+				throw new Exception("AI service not supported");
+		}
+	}
+
+	/**
+	 * Initializes the AI service based on the configured AI tools.
+	 *
+	 * This method retrieves the AI tool settings from the configuration,
+	 * checks if the tool is available, and then creates the corresponding
+	 * AI client. If the tool or client class does not exist, an error is returned.
+	 *
+	 * @return OpenAIAdapter|void Returns an AI service instance on success or
+	 *                           sends a JSON error response on failure.
+	 *
+	 * @throws Exception If the client class cannot be instantiated or an error occurs.
+	 */
+	public function initializeAIService()
+	{
+		$ai_tools = Functions::get_option_item('rtcl_ai_settings', 'ai_tools', '');
+		if (empty($ai_tools)) {
+			wp_send_json_error(esc_html__('AI tools are not configured.', 'classified-listing'));
+			return;
+		}
+
+		$clientClass = "Rtcl\\Services\\AIServices\\AIClients\\" . $ai_tools . "Client";
+
+		if (!class_exists($clientClass)) {
+			wp_send_json_error(esc_html__('AI client is not found.', 'classified-listing'));
+			return;
+		}
+
+		try {
+			$client = new $clientClass();
+			return rtcl()->factory->createAIService($ai_tools, $client);
+			// You might want to return or use $aiService here
+		} catch (Exception $e) {
+			wp_send_json_error(esc_html__($e->getMessage(), 'classified-listing'));
+		}
+	}
 
 }

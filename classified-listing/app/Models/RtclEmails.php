@@ -58,6 +58,9 @@ class RtclEmails {
 		// Email Order user details
 		add_action( 'rtcl_email_order_customer_details', [ __CLASS__, 'order_customer_details' ], 10, 3 );
 
+		// add offline payment details 
+		add_action( 'rtcl_email_before_order_table', [ __CLASS__, 'add_offline_bank_details' ], 10, 3 );
+		
 		// Let 3rd parties unhook the above via this hook.
 		do_action( 'rtcl_email', $this );
 	}
@@ -188,6 +191,20 @@ class RtclEmails {
 		);
 	}
 
+	/**
+	 * @param $order Payment
+	 * @param boolean $sent_to_admin 
+	 * @param  $email
+	 * @return void
+	 */
+	public static function add_offline_bank_details( $order, $sent_to_admin = false, $email = null ) {
+		if($sent_to_admin || $order->get_payment_method() !== 'offline'){
+			return;
+		}
+
+		Functions::the_offline_payment_instructions();
+	}
+	
 	public static function order_customer_details( $order, $sent_to_admin = false, $email = null ) {
 		if ( ! $order instanceof Payment ) {
 			return;

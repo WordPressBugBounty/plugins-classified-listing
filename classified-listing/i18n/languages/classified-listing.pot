@@ -2,40 +2,35 @@
 # This file is distributed under the same license as the Classified Listing – Classified ads & Business Directory Plugin plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – Classified ads & Business Directory Plugin 4.0.5\n"
+"Project-Id-Version: Classified Listing – Classified ads & Business Directory Plugin 4.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-17T11:51:04+00:00\n"
+"POT-Creation-Date: 2025-03-21T08:47:36+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: classified-listing\n"
 
 #. Plugin Name of the plugin
-#: classified-listing.php
 msgid "Classified Listing – Classified ads & Business Directory Plugin"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: classified-listing.php
 msgid "https://radiustheme.com/demo/wordpress/classified"
 msgstr ""
 
 #. Description of the plugin
-#: classified-listing.php
 msgid "The Best Classified Listing and Business Directory Plugin for WordPress to create Classified ads website, job directory, local business directory and service directory."
 msgstr ""
 
 #. Author of the plugin
-#: classified-listing.php
 msgid "Business Directory Team by RadiusTheme"
 msgstr ""
 
 #. Author URI of the plugin
-#: classified-listing.php
 msgid "https://radiustheme.com"
 msgstr ""
 
@@ -52,22 +47,22 @@ msgstr ""
 #: app/Abstracts/ElementorWidgetBase.php:296
 #: app/Resources/Options.php:386
 #: app/Resources/Options.php:602
-#: app/Services/FormBuilder/ElementCustomization.php:558
-#: app/Services/FormBuilder/ElementCustomization.php:871
+#: app/Services/FormBuilder/ElementCustomization.php:562
+#: app/Services/FormBuilder/ElementCustomization.php:875
 #: src/blocks/listing-ads/constants.js:84
 msgid "Left"
 msgstr ""
 
 #: app/Abstracts/ElementorWidgetBase.php:300
 #: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:129
-#: app/Services/FormBuilder/ElementCustomization.php:875
+#: app/Services/FormBuilder/ElementCustomization.php:879
 msgid "Center"
 msgstr ""
 
 #: app/Abstracts/ElementorWidgetBase.php:304
 #: app/Resources/Options.php:601
-#: app/Services/FormBuilder/ElementCustomization.php:570
-#: app/Services/FormBuilder/ElementCustomization.php:879
+#: app/Services/FormBuilder/ElementCustomization.php:574
+#: app/Services/FormBuilder/ElementCustomization.php:883
 msgid "Right"
 msgstr ""
 
@@ -161,7 +156,7 @@ msgid "Static Report"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/AddMetaBox.php:109
-#: app/Services/FormBuilder/ElementCustomization.php:655
+#: app/Services/FormBuilder/ElementCustomization.php:659
 msgid "Pricing Options"
 msgstr ""
 
@@ -183,13 +178,13 @@ msgstr ""
 
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:72
 #: app/Controllers/Admin/RegisterPostType.php:34
-#: app/Helpers/Functions.php:1164
+#: app/Helpers/Functions.php:1166
 msgid "All Categories"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:135
 #: app/Controllers/Elementor/Widgets/ListingSearch.php:223
-#: app/Services/FormBuilder/LocalizedString.php:97
+#: app/Services/FormBuilder/LocalizedString.php:98
 msgid "Fields"
 msgstr ""
 
@@ -247,9 +242,9 @@ msgstr ""
 #: app/Controllers/Elementor/Widgets/SingleLocation.php:88
 #: app/Controllers/Elementor/Widgets/SingleLocation.php:275
 #: app/Resources/Options.php:884
-#: app/Services/FormBuilder/AvailableFields.php:1023
-#: app/Services/FormBuilder/ElementCustomization.php:522
-#: app/Services/FormBuilder/ElementCustomization.php:746
+#: app/Services/FormBuilder/AvailableFields.php:1025
+#: app/Services/FormBuilder/ElementCustomization.php:526
+#: app/Services/FormBuilder/ElementCustomization.php:750
 #: src/blocks/listing-cat-box/constants.js:57
 #: src/blocks/listing-cat-box/inspector.js:799
 #: src/blocks/single-location/inspector.js:453
@@ -279,7 +274,7 @@ msgstr ""
 #: app/Resources/Gallery.php:201
 #: app/Resources/Gallery.php:283
 #: app/Resources/Options.php:574
-#: app/Services/FormBuilder/LocalizedString.php:37
+#: app/Services/FormBuilder/LocalizedString.php:38
 #: views/settings/moderation-settings.php:40
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:35
 msgid "Featured"
@@ -288,7 +283,7 @@ msgstr ""
 #: app/Controllers/Admin/Meta/ListingMetaColumn.php:31
 #: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:163
 #: app/Resources/Options.php:385
-#: app/Services/FormBuilder/ElementCustomization.php:566
+#: app/Services/FormBuilder/ElementCustomization.php:570
 #: src/blocks/listing-ads/constants.js:83
 msgid "Top"
 msgstr ""
@@ -371,10 +366,10 @@ msgstr ""
 #: app/Controllers/Hooks/TemplateHooks.php:1339
 #: app/Resources/OrderOptions.php:22
 #: app/Resources/OrderOptions.php:23
-#: app/Services/FormBuilder/AvailableFields.php:1035
+#: app/Services/FormBuilder/AvailableFields.php:1037
 #: app/Services/FormBuilder/FormPreDefined.php:34
 #: app/Services/FormBuilder/FormPreDefined.php:274
-#: app/Services/FormBuilder/LocalizedString.php:15
+#: app/Services/FormBuilder/LocalizedString.php:16
 #: templates/listing-form/form-builder.php:26
 #: views/settings/listing-type.php:57
 msgid "Update"
@@ -392,6 +387,7 @@ msgstr ""
 #: templates/elementor/search/fields/types-field.php:29
 #: views/settings/listing-type.php:50
 #: src/blocks/listing-search/layout/style-1.js:79
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:193
 msgid "Type"
 msgstr ""
 
@@ -616,7 +612,7 @@ msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:79
 #: app/Controllers/Elementor/Widgets/AllLocations.php:32
-#: app/Helpers/Functions.php:1165
+#: app/Helpers/Functions.php:1167
 msgid "All Locations"
 msgstr ""
 
@@ -680,7 +676,7 @@ msgid "Tags"
 msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:123
-#: app/Helpers/Functions.php:1167
+#: app/Helpers/Functions.php:1169
 msgid "All Tags"
 msgstr ""
 
@@ -791,7 +787,7 @@ msgstr ""
 #: app/Controllers/Admin/RegisterPostType.php:243
 #: app/Controllers/Admin/RegisterPostType.php:312
 #: app/Controllers/Admin/RegisterPostType.php:349
-#: app/Services/FormBuilder/LocalizedString.php:22
+#: app/Services/FormBuilder/LocalizedString.php:23
 msgid "Add New"
 msgstr ""
 
@@ -884,7 +880,7 @@ msgid "No payments found in Trash"
 msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:323
-#: app/Helpers/Functions.php:3051
+#: app/Helpers/Functions.php:3053
 #: views/settings/advanced-settings.php:104
 msgid "Payments"
 msgstr ""
@@ -1108,13 +1104,13 @@ msgid "Main"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:188
-#: app/Controllers/Admin/ScriptLoader.php:703
+#: app/Controllers/Admin/ScriptLoader.php:707
 msgid "Error while upload image"
 msgstr ""
 
 #. translators: Image size
 #: app/Controllers/Admin/ScriptLoader.php:190
-#: app/Controllers/Admin/ScriptLoader.php:705
+#: app/Controllers/Admin/ScriptLoader.php:709
 msgid "Image size is more then %s."
 msgstr ""
 
@@ -1123,7 +1119,7 @@ msgid "Image limit is over."
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:193
-#: app/Controllers/Admin/ScriptLoader.php:707
+#: app/Controllers/Admin/ScriptLoader.php:711
 msgid "File extension not supported."
 msgstr ""
 
@@ -1136,7 +1132,7 @@ msgstr ""
 #: app/Controllers/Ajax/Import.php:392
 #: app/Controllers/Ajax/Import.php:419
 #: app/Controllers/Ajax/Import.php:444
-#: app/Controllers/Ajax/Import.php:576
+#: app/Controllers/Ajax/Import.php:580
 #: app/Controllers/Ajax/PublicUser.php:425
 #: app/Controllers/Ajax/PublicUser.php:497
 #: app/Controllers/Ajax/PublicUser.php:552
@@ -1307,7 +1303,7 @@ msgid "Weak"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:248
-#: app/Services/FormBuilder/ElementCustomization.php:605
+#: app/Services/FormBuilder/ElementCustomization.php:609
 msgid "Medium"
 msgstr ""
 
@@ -1320,8 +1316,8 @@ msgid "Mismatch"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:263
-#: app/Helpers/Functions.php:4945
 #: app/Helpers/Functions.php:4947
+#: app/Helpers/Functions.php:4949
 msgid "Select an option&hellip;"
 msgstr ""
 
@@ -1376,12 +1372,12 @@ msgid "Searching&hellip;"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:280
-#: app/Helpers/Functions.php:4844
+#: app/Helpers/Functions.php:4846
 msgid "required"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:281
-#: app/Helpers/Functions.php:4846
+#: app/Helpers/Functions.php:4848
 msgid "optional"
 msgstr ""
 
@@ -1393,8 +1389,8 @@ msgstr ""
 #. translators: decimal_separator
 #. translators: pricing_decimal_separator
 #: app/Controllers/Admin/ScriptLoader.php:630
-#: app/Controllers/Admin/ScriptLoader.php:871
-#: app/Controllers/Admin/ScriptLoader.php:874
+#: app/Controllers/Admin/ScriptLoader.php:875
+#: app/Controllers/Admin/ScriptLoader.php:878
 msgid "Please enter in decimal (%s) format without thousand separators."
 msgstr ""
 
@@ -1402,8 +1398,8 @@ msgstr ""
 #. translators: decimal_separator
 #. translators: pricing_decimal_separator
 #: app/Controllers/Admin/ScriptLoader.php:633
-#: app/Controllers/Admin/ScriptLoader.php:877
-#: app/Controllers/Admin/ScriptLoader.php:880
+#: app/Controllers/Admin/ScriptLoader.php:881
+#: app/Controllers/Admin/ScriptLoader.php:884
 msgid "Please enter in monetary decimal (%s) format without thousand separators and currency symbols."
 msgstr ""
 
@@ -1480,63 +1476,110 @@ msgstr ""
 msgid "Loading ..."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:678
+#: app/Controllers/Admin/ScriptLoader.php:682
 msgid "You can't leave Captcha Code empty"
 msgstr ""
 
 #. translators: 1: related to , 2: Related form
 #. translators: related something
-#: app/Controllers/Admin/ScriptLoader.php:687
+#: app/Controllers/Admin/ScriptLoader.php:691
 #: app/Controllers/Hooks/TemplateHooks.php:748
 msgid "Need to discuss something related to '%1$s' from %2$s"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:711
+#: app/Controllers/Admin/ScriptLoader.php:715
 msgid "Clear all filters"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:712
+#: app/Controllers/Admin/ScriptLoader.php:716
 msgid "No result found."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:714
+#: app/Controllers/Admin/ScriptLoader.php:718
 msgid "Showing all % results"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:715
+#: app/Controllers/Admin/ScriptLoader.php:719
 msgid "Showing _ of % results"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:733
+#: app/Controllers/Admin/ScriptLoader.php:737
 msgid "Please select ad type first"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:734
+#: app/Controllers/Admin/ScriptLoader.php:738
 msgid "Please select parent category first"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:884
+#: app/Controllers/Admin/ScriptLoader.php:888
 #: templates/emails/listing-expired-email-to-admin.php:35
 msgid "Expired on:"
 msgstr ""
 
 #. translators: Date formate
 #. translators: 1: month, 2: day, 3: year, 4: hour, 5: minute
-#: app/Controllers/Admin/ScriptLoader.php:886
-#: app/Helpers/Functions.php:4774
+#: app/Controllers/Admin/ScriptLoader.php:890
+#: app/Helpers/Functions.php:4776
 msgid "%1$s %2$s, %3$s @ %4$s:%5$s"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:887
+#: app/Controllers/Admin/ScriptLoader.php:891
 msgid "Are you sure you wish to delete this note? This action cannot be undone."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:888
+#: app/Controllers/Admin/ScriptLoader.php:892
 msgid "Message"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:889
+#: app/Controllers/Admin/ScriptLoader.php:893
 msgid "Send"
+msgstr ""
+
+#: app/Controllers/Ajax/AIController.php:20
+#: app/Controllers/Ajax/FilterFormAdminAjax.php:23
+#: app/Controllers/Ajax/FilterFormAdminAjax.php:67
+#: app/Controllers/Ajax/FilterFormAdminAjax.php:89
+#: app/Controllers/Ajax/FilterFormAdminAjax.php:161
+#: app/Controllers/Ajax/FilterFormAdminAjax.php:213
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:54
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:130
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:176
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:225
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:244
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:283
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:316
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:328
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:347
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:378
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:396
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:439
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:464
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:492
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:530
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:554
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:593
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:626
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:657
+#: app/Controllers/Ajax/FormBuilderAjax.php:71
+#: app/Controllers/Ajax/FormBuilderAjax.php:510
+#: app/Controllers/Ajax/FormBuilderAjax.php:580
+#: app/Controllers/Ajax/FormBuilderAjax.php:616
+#: app/Controllers/Ajax/FormBuilderAjax.php:645
+#: app/Controllers/Ajax/FormBuilderAjax.php:756
+#: app/Controllers/Ajax/FormBuilderAjax.php:793
+#: app/Controllers/Ajax/FormBuilderAjax.php:838
+#: app/Controllers/Ajax/FormBuilderAjax.php:1051
+#: app/Controllers/Ajax/FormBuilderAjax.php:1219
+#: app/Controllers/Ajax/FormBuilderAjax.php:1248
+#: app/Controllers/Ajax/FormBuilderAjax.php:1298
+#: app/Controllers/Ajax/FormBuilderAjax.php:1356
+#: app/Controllers/Ajax/FormBuilderAjax.php:1390
+#: app/Controllers/Ajax/FormBuilderAjax.php:1426
+#: app/Controllers/Ajax/FormBuilderAjax.php:1455
+#: app/Controllers/Ajax/InlineSearchAjax.php:53
+#: app/Controllers/Ajax/PublicUser.php:1252
+#: app/Controllers/Ajax/PublicUser.php:1296
+msgid "Session error !!"
 msgstr ""
 
 #: app/Controllers/Ajax/AjaxCFG.php:30
@@ -1572,33 +1615,33 @@ msgid "Invalid Session. Please refresh the page and try again."
 msgstr ""
 
 #: app/Controllers/Ajax/AjaxGallery.php:52
-#: app/Controllers/Ajax/FormBuilderAjax.php:520
-#: app/Controllers/Ajax/FormBuilderAjax.php:582
-#: app/Controllers/Ajax/FormBuilderAjax.php:768
-#: app/Controllers/Ajax/FormBuilderAjax.php:805
-#: app/Controllers/Ajax/FormBuilderAjax.php:1129
+#: app/Controllers/Ajax/FormBuilderAjax.php:526
+#: app/Controllers/Ajax/FormBuilderAjax.php:588
+#: app/Controllers/Ajax/FormBuilderAjax.php:764
+#: app/Controllers/Ajax/FormBuilderAjax.php:801
+#: app/Controllers/Ajax/FormBuilderAjax.php:1125
 msgid "Attachment does not exist."
 msgstr ""
 
 #: app/Controllers/Ajax/AjaxGallery.php:57
-#: app/Controllers/Ajax/FormBuilderAjax.php:526
-#: app/Controllers/Ajax/FormBuilderAjax.php:590
-#: app/Controllers/Ajax/FormBuilderAjax.php:776
-#: app/Controllers/Ajax/FormBuilderAjax.php:813
-#: app/Controllers/Ajax/FormBuilderAjax.php:1143
+#: app/Controllers/Ajax/FormBuilderAjax.php:532
+#: app/Controllers/Ajax/FormBuilderAjax.php:596
+#: app/Controllers/Ajax/FormBuilderAjax.php:772
+#: app/Controllers/Ajax/FormBuilderAjax.php:809
+#: app/Controllers/Ajax/FormBuilderAjax.php:1139
 msgid "Incorrect attachment ID."
 msgstr ""
 
 #: app/Controllers/Ajax/AjaxGallery.php:64
-#: app/Controllers/Ajax/FormBuilderAjax.php:537
-#: app/Controllers/Ajax/FormBuilderAjax.php:1197
+#: app/Controllers/Ajax/FormBuilderAjax.php:543
+#: app/Controllers/Ajax/FormBuilderAjax.php:1193
 #: app/Controllers/Ajax/PublicUser.php:362
 msgid "File could not be deleted."
 msgstr ""
 
 #: app/Controllers/Ajax/AjaxGallery.php:158
-#: app/Controllers/Ajax/FormBuilderAjax.php:692
-#: app/Controllers/Ajax/FormBuilderAjax.php:1023
+#: app/Controllers/Ajax/FormBuilderAjax.php:698
+#: app/Controllers/Ajax/FormBuilderAjax.php:1019
 msgid "RTCL Auto Temp"
 msgstr ""
 
@@ -1713,7 +1756,7 @@ msgstr ""
 #: app/Controllers/Ajax/Import.php:382
 #: app/Controllers/Ajax/Import.php:409
 #: app/Controllers/Ajax/Import.php:434
-#: app/Controllers/Ajax/Import.php:566
+#: app/Controllers/Ajax/Import.php:570
 msgid "Unauthorized access!!!"
 msgstr ""
 
@@ -1755,50 +1798,6 @@ msgstr ""
 #: app/Resources/Options.php:233
 #: app/Resources/Options.php:238
 msgid "Radius Filter"
-msgstr ""
-
-#: app/Controllers/Ajax/FilterFormAdminAjax.php:23
-#: app/Controllers/Ajax/FilterFormAdminAjax.php:67
-#: app/Controllers/Ajax/FilterFormAdminAjax.php:89
-#: app/Controllers/Ajax/FilterFormAdminAjax.php:161
-#: app/Controllers/Ajax/FilterFormAdminAjax.php:213
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:49
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:125
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:171
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:220
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:239
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:278
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:311
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:323
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:342
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:373
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:391
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:432
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:458
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:496
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:520
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:559
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:592
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:623
-#: app/Controllers/Ajax/FormBuilderAjax.php:65
-#: app/Controllers/Ajax/FormBuilderAjax.php:504
-#: app/Controllers/Ajax/FormBuilderAjax.php:574
-#: app/Controllers/Ajax/FormBuilderAjax.php:610
-#: app/Controllers/Ajax/FormBuilderAjax.php:639
-#: app/Controllers/Ajax/FormBuilderAjax.php:760
-#: app/Controllers/Ajax/FormBuilderAjax.php:797
-#: app/Controllers/Ajax/FormBuilderAjax.php:842
-#: app/Controllers/Ajax/FormBuilderAjax.php:1055
-#: app/Controllers/Ajax/FormBuilderAjax.php:1223
-#: app/Controllers/Ajax/FormBuilderAjax.php:1252
-#: app/Controllers/Ajax/FormBuilderAjax.php:1302
-#: app/Controllers/Ajax/FormBuilderAjax.php:1355
-#: app/Controllers/Ajax/FormBuilderAjax.php:1389
-#: app/Controllers/Ajax/FormBuilderAjax.php:1425
-#: app/Controllers/Ajax/InlineSearchAjax.php:53
-#: app/Controllers/Ajax/PublicUser.php:1252
-#: app/Controllers/Ajax/PublicUser.php:1296
-msgid "Session error !!"
 msgstr ""
 
 #: app/Controllers/Ajax/FilterFormAdminAjax.php:29
@@ -1863,240 +1862,252 @@ msgstr ""
 msgid "Filter item form removed !!"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:55
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:60
 msgid "No file found to import"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:79
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:84
 msgid "Imported Form"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:96
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:101
 msgid "You have a faulty JSON file, please export the Fluent Forms again."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:107
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:112
 msgid "Error while importing form"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:112
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:117
 msgid "You form has been successfully imported."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:131
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:136
 msgid "Empty from ids"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:138
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:143
 msgid "No from found to export"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:381
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:440
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:386
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:447
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:475
 msgid "No form found to edit"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:384
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:389
 msgid "Form data"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:418
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:425
 msgid "Error while creating new form!"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:425
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:432
 msgid "Form has been created successfully"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:444
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:451
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:478
 msgid "Default form can't be deleted."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:448
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:455
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:481
 msgid "Error while deleting form"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:451
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:458
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:485
 msgid "Deleted successfully"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:465
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:503
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:470
+msgid "No form found to Delete"
+msgstr ""
+
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:499
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:537
 msgid "No form found to update."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:475
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:509
 msgid "Invalid JSON data: "
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:489
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:523
 msgid "The form is successfully updated."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:513
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:547
 msgid "Translations are successfully updated."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:527
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:561
 msgid "No form found to remove translation."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:535
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:569
 msgid "Field id is missing to remove translations."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:552
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:586
 msgid "Translations are successfully deleted."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:565
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:597
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:628
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:599
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:631
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:662
 msgid "No form found."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:571
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:605
 msgid "Empty slug is not allowed."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:577
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:611
 msgid "Slug is already exist."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:585
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:619
 msgid "Slug is successfully updated."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:616
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:650
 msgid "Form is successfully updated."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:634
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:668
 msgid "This form is already mark as default."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAdminAjax.php:649
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:683
 msgid "Mars as default successfully."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:75
-#: app/Controllers/Ajax/FormBuilderAjax.php:512
-#: app/Controllers/Ajax/FormBuilderAjax.php:1137
+#: app/Controllers/Ajax/FormBuilderAdminAjax.php:718
+msgid "Invalid AI service type."
+msgstr ""
+
+#: app/Controllers/Ajax/FormBuilderAjax.php:81
+#: app/Controllers/Ajax/FormBuilderAjax.php:518
+#: app/Controllers/Ajax/FormBuilderAjax.php:1133
 #: app/Shortcodes/ListingForm.php:31
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:91
+#: app/Controllers/Ajax/FormBuilderAjax.php:97
 msgid "Form not found !!"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:105
+#: app/Controllers/Ajax/FormBuilderAjax.php:111
 msgid "Missing form field"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:132
+#: app/Controllers/Ajax/FormBuilderAjax.php:138
 msgid "Missing required email to register user"
 msgstr ""
 
 #. translators:  new account email
 #. translators: Email address
-#: app/Controllers/Ajax/FormBuilderAjax.php:140
+#: app/Controllers/Ajax/FormBuilderAjax.php:146
 #: app/Controllers/Ajax/PublicUser.php:1074
 msgid "A new account is registered, password is sent to your email(%s)."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:462
+#: app/Controllers/Ajax/FormBuilderAjax.php:468
 #: app/Controllers/Ajax/PublicUser.php:1173
 msgid "Thank you for submitting your ad!"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:464
+#: app/Controllers/Ajax/FormBuilderAjax.php:470
 #: app/Controllers/Ajax/PublicUser.php:1183
 msgid "Successfully updated !!!"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:596
+#: app/Controllers/Ajax/FormBuilderAjax.php:602
 msgid "File is already as featured."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:600
+#: app/Controllers/Ajax/FormBuilderAjax.php:606
 msgid "Error while making feature."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:603
+#: app/Controllers/Ajax/FormBuilderAjax.php:609
 msgid "Image successfully featured."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:617
+#: app/Controllers/Ajax/FormBuilderAjax.php:623
 msgid "You do not have sufficient permissions to set."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:623
+#: app/Controllers/Ajax/FormBuilderAjax.php:629
 msgid "Attachment ids not exist."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:645
-#: app/Controllers/Ajax/FormBuilderAjax.php:848
+#: app/Controllers/Ajax/FormBuilderAjax.php:651
+#: app/Controllers/Ajax/FormBuilderAjax.php:844
 msgid "Given file is empty to upload."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:782
-#: app/Controllers/Ajax/FormBuilderAjax.php:819
+#: app/Controllers/Ajax/FormBuilderAjax.php:778
+#: app/Controllers/Ajax/FormBuilderAjax.php:815
 msgid "Unauthorized access"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:855
+#: app/Controllers/Ajax/FormBuilderAjax.php:851
 msgid "From id is empty to upload."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:867
-#: app/Controllers/Ajax/FormBuilderAjax.php:898
+#: app/Controllers/Ajax/FormBuilderAjax.php:863
+#: app/Controllers/Ajax/FormBuilderAjax.php:894
 msgid "Field id is empty to upload."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:874
-#: app/Controllers/Ajax/FormBuilderAjax.php:907
+#: app/Controllers/Ajax/FormBuilderAjax.php:870
+#: app/Controllers/Ajax/FormBuilderAjax.php:903
 msgid "No field found to upload."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:890
-#: app/Controllers/Ajax/FormBuilderAjax.php:1097
+#: app/Controllers/Ajax/FormBuilderAjax.php:886
+#: app/Controllers/Ajax/FormBuilderAjax.php:1093
 msgid "Repeater field index is not defined."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:915
-#: app/Controllers/Ajax/FormBuilderAjax.php:1121
+#: app/Controllers/Ajax/FormBuilderAjax.php:911
+#: app/Controllers/Ajax/FormBuilderAjax.php:1117
 msgid "Field name is empty."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:972
+#: app/Controllers/Ajax/FormBuilderAjax.php:968
 msgid "Your file upload limit is over."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1062
+#: app/Controllers/Ajax/FormBuilderAjax.php:1058
 msgid "From id is empty to delete."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1074
-#: app/Controllers/Ajax/FormBuilderAjax.php:1104
+#: app/Controllers/Ajax/FormBuilderAjax.php:1070
+#: app/Controllers/Ajax/FormBuilderAjax.php:1100
 msgid "Field id is empty to delete."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1081
-#: app/Controllers/Ajax/FormBuilderAjax.php:1113
+#: app/Controllers/Ajax/FormBuilderAjax.php:1077
+#: app/Controllers/Ajax/FormBuilderAjax.php:1109
 msgid "No field found to delete."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1191
+#: app/Controllers/Ajax/FormBuilderAjax.php:1187
 msgid "No file found to delete."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1396
+#: app/Controllers/Ajax/FormBuilderAjax.php:1397
 msgid "Tag name is required"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1404
-#: app/Controllers/Ajax/FormBuilderAjax.php:1411
+#: app/Controllers/Ajax/FormBuilderAjax.php:1405
+#: app/Controllers/Ajax/FormBuilderAjax.php:1412
 msgid "Error while creating new tag."
 msgstr ""
 
@@ -2121,7 +2132,7 @@ msgid "%s is already exist!"
 msgstr ""
 
 #: app/Controllers/Ajax/Import.php:472
-#: app/Controllers/Ajax/Import.php:554
+#: app/Controllers/Ajax/Import.php:558
 msgid "%s Successfully Created"
 msgstr ""
 
@@ -2134,60 +2145,56 @@ msgid "Item is empty."
 msgstr ""
 
 #. translators:  name
-#: app/Controllers/Ajax/Import.php:524
+#: app/Controllers/Ajax/Import.php:525
 msgid "%s Successfully created"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:526
-msgid "Error!!!"
-msgstr ""
-
 #. translators:  Name
-#: app/Controllers/Ajax/Import.php:532
+#: app/Controllers/Ajax/Import.php:533
 msgid "%s is already exist"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:618
+#: app/Controllers/Ajax/Import.php:622
 msgid "Please, add maximum 100 listings in one file. You added %s listings!!"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:635
+#: app/Controllers/Ajax/Import.php:639
 msgid "Map CSV fields to listings"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:638
+#: app/Controllers/Ajax/Import.php:642
 msgid "Select fields from your CSV file to map against listings fields, or to ignore during import."
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:649
+#: app/Controllers/Ajax/Import.php:653
 msgid "Column name"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:650
+#: app/Controllers/Ajax/Import.php:654
 msgid "Map to field"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:663
+#: app/Controllers/Ajax/Import.php:667
 msgid "Do not import"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:683
+#: app/Controllers/Ajax/Import.php:687
 msgid "Continue"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:694
+#: app/Controllers/Ajax/Import.php:698
 msgid "Please, add at least one listings!!"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:700
+#: app/Controllers/Ajax/Import.php:704
 msgid "File does not exist!!"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:703
+#: app/Controllers/Ajax/Import.php:707
 msgid "Error in file upload!!"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:706
+#: app/Controllers/Ajax/Import.php:710
 msgid "File not found!!"
 msgstr ""
 
@@ -2215,7 +2222,7 @@ msgid "Error!!"
 msgstr ""
 
 #: app/Controllers/Ajax/ListingAdminAjax.php:61
-#: app/Services/FormBuilder/LocalizedString.php:90
+#: app/Services/FormBuilder/LocalizedString.php:91
 msgid "Please select all field"
 msgstr ""
 
@@ -2523,7 +2530,7 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: app/Controllers/BusinessHoursController.php:544
+#: app/Controllers/BusinessHoursController.php:547
 #: app/Services/FormBuilder/LocalizedString.php:12
 #: templates/listing-form/business-hours.php:44
 #: templates/listing-form/business-hours.php:138
@@ -2534,29 +2541,30 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: app/Controllers/BusinessHoursController.php:545
+#: app/Controllers/BusinessHoursController.php:548
 #: app/Resources/Gallery.php:529
+#: app/Services/FormBuilder/LocalizedString.php:14
 #: templates/listing/business-hours.php:38
 #: templates/listing/business-hours.php:51
 msgid "Close"
 msgstr ""
 
-#: app/Controllers/BusinessHoursController.php:546
+#: app/Controllers/BusinessHoursController.php:549
 #: templates/listing/business-hours.php:97
 msgid "Open Today (24 Hours)"
 msgstr ""
 
-#: app/Controllers/BusinessHoursController.php:547
+#: app/Controllers/BusinessHoursController.php:550
 #: templates/listing/business-hours.php:83
 msgid "Closed Today"
 msgstr ""
 
-#: app/Controllers/BusinessHoursController.php:548
+#: app/Controllers/BusinessHoursController.php:551
 #: templates/listing/business-hours.php:24
 msgid "We are currently open."
 msgstr ""
 
-#: app/Controllers/BusinessHoursController.php:549
+#: app/Controllers/BusinessHoursController.php:552
 #: templates/listing/business-hours.php:26
 msgid "Sorry, we are currently closed."
 msgstr ""
@@ -3034,7 +3042,7 @@ msgstr ""
 #: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:586
 #: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:942
 #: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:1192
-#: app/Services/FormBuilder/ElementCustomization.php:1150
+#: app/Services/FormBuilder/ElementCustomization.php:1154
 #: src/blocks/all-location/inspector.js:1023
 #: src/blocks/listing-ads/inspector.js:2247
 #: src/blocks/listing-search/inspector.js:698
@@ -3252,7 +3260,7 @@ msgstr ""
 #: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:357
 #: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:142
 #: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:151
-#: app/Services/FormBuilder/ElementCustomization.php:574
+#: app/Services/FormBuilder/ElementCustomization.php:578
 msgid "Hide"
 msgstr ""
 
@@ -3466,8 +3474,8 @@ msgstr ""
 #: app/Resources/PricingOptions.php:58
 #: app/Services/FormBuilder/AvailableFields.php:74
 #: app/Services/FormBuilder/AvailableFields.php:94
-#: app/Services/FormBuilder/ElementCustomization.php:851
-#: app/Services/FormBuilder/LocalizedString.php:35
+#: app/Services/FormBuilder/ElementCustomization.php:855
+#: app/Services/FormBuilder/LocalizedString.php:36
 #: templates/checkout/promotions.php:22
 #: templates/listing-form/information.php:144
 #: src/blocks/listing-ads/inspector.js:1883
@@ -3690,7 +3698,7 @@ msgstr ""
 #: src/blocks/listing-ads/inspector.js:992
 #: src/blocks/listing-cat-box/constants.js:45
 #: src/blocks/listing-cat-box/inspector.js:909
-#: src/form-builder/backend/components/pages/FormList.jsx:471
+#: src/form-builder/backend/components/pages/FormList.jsx:584
 msgid "Title"
 msgstr ""
 
@@ -3810,7 +3818,7 @@ msgid "Cart Icon"
 msgstr ""
 
 #: app/Controllers/Elementor/Widgets/HeaderButton.php:253
-#: app/Helpers/Functions.php:3050
+#: app/Helpers/Functions.php:3052
 #: templates/elementor/header-button/header-button.php:61
 #: views/settings/advanced-settings.php:94
 msgid "Favourites"
@@ -3935,10 +3943,10 @@ msgstr ""
 #: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:540
 #: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:261
 #: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:643
-#: app/Services/FormBuilder/AvailableFields.php:1019
-#: app/Services/FormBuilder/ElementCustomization.php:518
-#: app/Services/FormBuilder/ElementCustomization.php:957
-#: app/Services/FormBuilder/ElementCustomization.php:1209
+#: app/Services/FormBuilder/AvailableFields.php:1021
+#: app/Services/FormBuilder/ElementCustomization.php:522
+#: app/Services/FormBuilder/ElementCustomization.php:961
+#: app/Services/FormBuilder/ElementCustomization.php:1213
 #: views/settings/general-settings.php:91
 #: views/widgets/categories.php:41
 #: src/blocks/listing-ads/constants.js:73
@@ -3948,12 +3956,12 @@ msgstr ""
 #: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:129
 #: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:262
 #: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:640
-#: app/Services/FormBuilder/ElementCustomization.php:1044
+#: app/Services/FormBuilder/ElementCustomization.php:1048
 #: views/settings/listing-type.php:45
 #: src/blocks/all-location/constants.js:76
 #: src/blocks/listing-ads/constants.js:69
 #: src/blocks/listing-cat-box/constants.js:43
-#: src/form-builder/backend/components/pages/FormList.jsx:470
+#: src/form-builder/backend/components/pages/FormList.jsx:583
 msgid "ID"
 msgstr ""
 
@@ -4025,8 +4033,8 @@ msgid "Show or Hide Category Title. Default: On"
 msgstr ""
 
 #: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:177
-#: app/Services/FormBuilder/AvailableFields.php:1015
-#: app/Services/FormBuilder/ElementCustomization.php:514
+#: app/Services/FormBuilder/AvailableFields.php:1017
+#: app/Services/FormBuilder/ElementCustomization.php:518
 #: src/blocks/listing-cat-box/inspector.js:287
 msgid "Icon Type"
 msgstr ""
@@ -4180,7 +4188,7 @@ msgstr ""
 
 #: app/Controllers/Elementor/Widgets/ListingSearch.php:62
 #: app/Resources/Options.php:493
-#: app/Services/FormBuilder/ElementCustomization.php:623
+#: app/Services/FormBuilder/ElementCustomization.php:627
 #: src/blocks/listing-search/constants.js:58
 msgid "Vertical"
 msgstr ""
@@ -4533,7 +4541,7 @@ msgid "Badge Text Color"
 msgstr ""
 
 #: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:657
-#: app/Services/FormBuilder/ElementCustomization.php:1335
+#: app/Services/FormBuilder/ElementCustomization.php:1339
 #: src/blocks/all-location/inspector.js:152
 #: src/blocks/listing-ads/inspector.js:299
 #: src/blocks/listing-cat-box/inspector.js:176
@@ -4620,8 +4628,8 @@ msgstr ""
 #: app/Controllers/FormHandler.php:216
 #: app/Controllers/FormHandler.php:220
 #: app/Controllers/FormHandler.php:339
-#: app/Helpers/Functions.php:3592
-#: app/Helpers/Functions.php:3725
+#: app/Helpers/Functions.php:3594
+#: app/Helpers/Functions.php:3727
 msgid "Error:"
 msgstr ""
 
@@ -4643,7 +4651,7 @@ msgid "Need to fill all the required field."
 msgstr ""
 
 #: app/Controllers/Hooks/ActionHooks.php:91
-#: app/Services/FormBuilder/LocalizedString.php:58
+#: app/Services/FormBuilder/LocalizedString.php:59
 #: src/form-builder/backend/components/editor/elements/GoogleMapElement.jsx:103
 msgid "Don't show the Map"
 msgstr ""
@@ -4744,12 +4752,12 @@ msgid "Select"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:335
-#: app/Helpers/Functions.php:1490
+#: app/Helpers/Functions.php:1492
 msgid "More"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:336
-#: app/Helpers/Functions.php:1491
+#: app/Helpers/Functions.php:1493
 msgid "Less"
 msgstr ""
 
@@ -4854,25 +4862,25 @@ msgid "Renew"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:851
-#: app/Helpers/Functions.php:4767
-#: app/Services/FormBuilder/LocalizedString.php:25
+#: app/Helpers/Functions.php:4769
+#: app/Services/FormBuilder/LocalizedString.php:26
 #: views/settings/listing-type.php:38
-#: src/form-builder/backend/components/pages/FormList.jsx:386
-#: src/form-builder/backend/components/pages/FormList.jsx:389
-#: src/form-builder/backend/components/pages/FormList.jsx:397
-#: src/form-builder/backend/components/pages/FormList.jsx:482
+#: src/form-builder/backend/components/pages/FormList.jsx:457
+#: src/form-builder/backend/components/pages/FormList.jsx:460
+#: src/form-builder/backend/components/pages/FormList.jsx:469
+#: src/form-builder/backend/components/pages/FormList.jsx:595
 msgid "Edit"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:865
 #: app/Controllers/Hooks/TemplateHooks.php:871
-#: app/Services/FormBuilder/LocalizedString.php:26
+#: app/Services/FormBuilder/LocalizedString.php:27
 #: templates/myaccount/favourite-listings.php:118
 #: views/settings/listing-type.php:39
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:50
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:52
 #: src/form-builder/backend/components/FormTranslationModal.jsx:359
-#: src/form-builder/backend/components/pages/FormList.jsx:409
+#: src/form-builder/backend/components/pages/FormList.jsx:482
 #: src/form-builder/backend/components/TranslationModal.jsx:614
 msgid "Delete"
 msgstr ""
@@ -4921,10 +4929,10 @@ msgid "Clear filters"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:1341
-#: app/Services/FormBuilder/AvailableFields.php:1030
+#: app/Services/FormBuilder/AvailableFields.php:1032
 #: app/Services/FormBuilder/FormPreDefined.php:33
 #: app/Services/FormBuilder/FormPreDefined.php:273
-#: app/Services/FormBuilder/LocalizedString.php:14
+#: app/Services/FormBuilder/LocalizedString.php:15
 #: templates/listing-form/form-builder.php:28
 #: templates/listing/actions.php:77
 #: templates/listing/email-to-seller-form.php:36
@@ -4986,7 +4994,7 @@ msgid "Payments Orders"
 msgstr ""
 
 #: app/Controllers/Query.php:1369
-#: app/Helpers/Functions.php:3049
+#: app/Helpers/Functions.php:3051
 #: views/settings/advanced-settings.php:89
 msgid "My Listings"
 msgstr ""
@@ -5015,7 +5023,7 @@ msgstr ""
 #: app/Controllers/Settings/AdminSettings.php:243
 #: app/Controllers/Settings/AdminSettings.php:373
 #: app/Controllers/Settings/AdminSettings.php:374
-#: app/Services/FormBuilder/LocalizedString.php:96
+#: app/Services/FormBuilder/LocalizedString.php:97
 #: src/form-builder/backend/components/TopNavMenu.jsx:14
 msgid "Settings"
 msgstr ""
@@ -5116,19 +5124,23 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: app/Controllers/Settings/AdminSettings.php:619
+#: app/Controllers/Settings/AdminSettings.php:582
+msgid "AI Integration"
+msgstr ""
+
+#: app/Controllers/Settings/AdminSettings.php:620
 msgid "HTML email template"
 msgstr ""
 
-#: app/Controllers/Settings/AdminSettings.php:646
+#: app/Controllers/Settings/AdminSettings.php:647
 msgid "You are not allow to make this request."
 msgstr ""
 
-#: app/Controllers/Settings/AdminSettings.php:651
+#: app/Controllers/Settings/AdminSettings.php:652
 msgid "Your Rest API key is regenerated."
 msgstr ""
 
-#: app/Controllers/Settings/AdminSettings.php:653
+#: app/Controllers/Settings/AdminSettings.php:654
 msgid "Your Rest API key is generated."
 msgstr ""
 
@@ -5639,17 +5651,17 @@ msgid "All cache has been removed."
 msgstr ""
 
 #. translators: 1: price from 2: price to
-#: app/Helpers/Functions.php:641
+#: app/Helpers/Functions.php:643
 msgctxt "Price range: from-to"
 msgid "<div class=\"rtcl-price-range\">%1$s <span class=\"sep\">&ndash;</span> %2$s</div>"
 msgstr ""
 
-#: app/Helpers/Functions.php:1366
+#: app/Helpers/Functions.php:1368
 #: app/Widgets/Filter.php:323
 msgid "Show More"
 msgstr ""
 
-#: app/Helpers/Functions.php:1606
+#: app/Helpers/Functions.php:1608
 #: app/Helpers/Text.php:101
 #: templates/listing-form/category.php:52
 #: templates/widgets/search/vertical.php:96
@@ -5658,163 +5670,163 @@ msgstr ""
 msgid "Select a category"
 msgstr ""
 
-#: app/Helpers/Functions.php:2084
+#: app/Helpers/Functions.php:2086
 msgid "Select an Option"
 msgstr ""
 
 #. translators:  Human read able time
 #. translators: Human read able time.
-#: app/Helpers/Functions.php:2774
+#: app/Helpers/Functions.php:2776
 #: app/Models/Listing.php:943
 msgid "%s ago"
 msgstr ""
 
-#: app/Helpers/Functions.php:3048
+#: app/Helpers/Functions.php:3050
 msgid "Dashboard"
 msgstr ""
 
-#: app/Helpers/Functions.php:3052
+#: app/Helpers/Functions.php:3054
 #: templates/myaccount/form-edit-account.php:35
 msgid "Account Details"
 msgstr ""
 
-#: app/Helpers/Functions.php:3053
+#: app/Helpers/Functions.php:3055
 #: views/settings/advanced-settings.php:114
 msgid "Logout"
 msgstr ""
 
 #. translators: %s template
-#: app/Helpers/Functions.php:3220
+#: app/Helpers/Functions.php:3222
 msgid "%s does not exist."
 msgstr ""
 
-#: app/Helpers/Functions.php:3411
-#: app/Helpers/Functions.php:3434
-#: app/Helpers/Functions.php:3446
-#: app/Helpers/Functions.php:3469
-#: app/Helpers/Functions.php:3484
-#: app/Helpers/Functions.php:3509
+#: app/Helpers/Functions.php:3413
+#: app/Helpers/Functions.php:3436
+#: app/Helpers/Functions.php:3448
+#: app/Helpers/Functions.php:3471
+#: app/Helpers/Functions.php:3486
+#: app/Helpers/Functions.php:3511
 msgid "This function should not be called before rtcl_init."
 msgstr ""
 
-#: app/Helpers/Functions.php:3643
+#: app/Helpers/Functions.php:3645
 msgid "Please provide a valid email address."
 msgstr ""
 
-#: app/Helpers/Functions.php:3648
+#: app/Helpers/Functions.php:3650
 msgid "An account is already registered with your email address. Please log in."
 msgstr ""
 
-#: app/Helpers/Functions.php:3658
+#: app/Helpers/Functions.php:3660
 msgid "Please enter a valid account username."
 msgstr ""
 
-#: app/Helpers/Functions.php:3663
+#: app/Helpers/Functions.php:3665
 msgid "An account is already registered with that username. Please choose another."
 msgstr ""
 
-#: app/Helpers/Functions.php:3668
+#: app/Helpers/Functions.php:3670
 msgid "Please enter your first name."
 msgstr ""
 
-#: app/Helpers/Functions.php:3671
+#: app/Helpers/Functions.php:3673
 msgid "Please enter your last name."
 msgstr ""
 
-#: app/Helpers/Functions.php:3676
+#: app/Helpers/Functions.php:3678
 msgid "Please enter your phone."
 msgstr ""
 
-#: app/Helpers/Functions.php:3680
+#: app/Helpers/Functions.php:3682
 msgid "An account is already registered with your phone number. Please log in."
 msgstr ""
 
-#: app/Helpers/Functions.php:3692
+#: app/Helpers/Functions.php:3694
 msgid "Please enter an account password."
 msgstr ""
 
-#: app/Helpers/Functions.php:3726
+#: app/Helpers/Functions.php:3728
 msgid "Couldn&#8217;t register you&hellip; please contact us if you continue to have problems."
 msgstr ""
 
 #. translators: 1: rating 2: rating count
-#: app/Helpers/Functions.php:4310
-#: app/Helpers/Functions.php:4335
+#: app/Helpers/Functions.php:4312
+#: app/Helpers/Functions.php:4337
 msgid "Rated %1$s out of 5 based on %2$s customer rating"
 msgid_plural "Rated %1$s out of 5 based on %2$s customer ratings"
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: rating
-#: app/Helpers/Functions.php:4315
+#: app/Helpers/Functions.php:4317
 msgid "Rated %s out of 5"
 msgstr ""
 
-#: app/Helpers/Functions.php:4725
+#: app/Helpers/Functions.php:4727
 msgid "M j, Y @ H:i"
 msgstr ""
 
-#: app/Helpers/Functions.php:4741
+#: app/Helpers/Functions.php:4743
 #: app/Resources/Options.php:2908
 msgid "Month"
 msgstr ""
 
 #. translators: 1: month number (01, 02, etc.), 2: month abbreviation
-#: app/Helpers/Functions.php:4748
+#: app/Helpers/Functions.php:4750
 msgid "%1$s-%2$s"
 msgstr ""
 
-#: app/Helpers/Functions.php:4752
+#: app/Helpers/Functions.php:4754
 #: app/Resources/Options.php:2916
 msgid "Day"
 msgstr ""
 
-#: app/Helpers/Functions.php:4754
+#: app/Helpers/Functions.php:4756
 #: app/Resources/Options.php:2904
 msgid "Year"
 msgstr ""
 
-#: app/Helpers/Functions.php:4756
+#: app/Helpers/Functions.php:4758
 #: app/Resources/Options.php:2920
 msgid "Hour"
 msgstr ""
 
-#: app/Helpers/Functions.php:4758
+#: app/Helpers/Functions.php:4760
 msgid "Minute"
 msgstr ""
 
-#: app/Helpers/Functions.php:4762
+#: app/Helpers/Functions.php:4764
 msgid "Expired on: <b>%1$s</b>"
 msgstr ""
 
-#: app/Helpers/Functions.php:4768
+#: app/Helpers/Functions.php:4770
 msgid "Edit date and time"
 msgstr ""
 
-#: app/Helpers/Functions.php:4771
+#: app/Helpers/Functions.php:4773
 msgid "Date and time"
 msgstr ""
 
-#: app/Helpers/Functions.php:4797
+#: app/Helpers/Functions.php:4799
 msgid "OK"
 msgstr ""
 
-#: app/Helpers/Functions.php:4799
+#: app/Helpers/Functions.php:4801
 #: app/Resources/Gallery.php:458
 msgid "Cancel"
 msgstr ""
 
-#: app/Helpers/Functions.php:4911
-#: app/Helpers/Functions.php:4912
+#: app/Helpers/Functions.php:4913
+#: app/Helpers/Functions.php:4914
 msgid "Select a country / region&hellip;"
 msgstr ""
 
-#: app/Helpers/Functions.php:4921
-#: app/Helpers/Functions.php:4922
+#: app/Helpers/Functions.php:4923
+#: app/Helpers/Functions.php:4924
 msgid "Update country / region"
 msgstr ""
 
-#: app/Helpers/Functions.php:5011
+#: app/Helpers/Functions.php:5013
 msgid "Choose an option"
 msgstr ""
 
@@ -5979,8 +5991,8 @@ msgstr ""
 #. translators: 1: first name 2: last name
 #: app/Models/Countries.php:787
 #: app/Models/Countries.php:803
-#: app/Models/Payment.php:370
-#: app/Models/Payment.php:375
+#: app/Models/Payment.php:390
+#: app/Models/Payment.php:395
 msgctxt "full name"
 msgid "%1$s %2$s"
 msgstr ""
@@ -6151,7 +6163,7 @@ msgstr ""
 
 #: app/Models/Countries.php:1779
 #: templates/myaccount/form-login.php:99
-#: templates/myaccount/form-registration.php:45
+#: templates/myaccount/form-registration.php:48
 msgid "Email address"
 msgstr ""
 
@@ -6170,6 +6182,14 @@ msgstr ""
 msgid "Invalid listing."
 msgstr ""
 
+#: app/Models/Factory.php:247
+msgid "AI tools are not configured."
+msgstr ""
+
+#: app/Models/Factory.php:254
+msgid "AI client is not found."
+msgstr ""
+
 #: app/Models/Listing.php:1012
 #: src/blocks/listing-ads/inspector.js:576
 msgid "Author"
@@ -6179,38 +6199,38 @@ msgstr ""
 msgid "Free!"
 msgstr ""
 
-#: app/Models/Payment.php:323
+#: app/Models/Payment.php:343
 msgid "Invalid currency code"
 msgstr ""
 
-#: app/Models/Payment.php:499
+#: app/Models/Payment.php:519
 msgid "Invalid billing email address"
 msgstr ""
 
-#: app/Models/Payment.php:750
+#: app/Models/Payment.php:775
 #: templates/checkout/pricing-info.php:28
 #: templates/myaccount/popup-pricing-info.php:23
 msgid "ID#"
 msgstr ""
 
-#: app/Models/Payment.php:755
+#: app/Models/Payment.php:780
 msgid "Pricing "
 msgstr ""
 
-#: app/Models/Payment.php:762
+#: app/Models/Payment.php:787
 msgid "Visible "
 msgstr ""
 
 #. translators: Days number
 #. translators: Days
-#: app/Models/Payment.php:766
+#: app/Models/Payment.php:791
 #: templates/checkout/promotions.php:51
 msgid "%s Day"
 msgid_plural "%s Days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: app/Models/Payment.php:776
+#: app/Models/Payment.php:801
 #: templates/checkout/pricing-info.php:65
 #: templates/myaccount/popup-pricing-info.php:48
 msgid "Amount "
@@ -6250,8 +6270,8 @@ msgid "Value"
 msgstr ""
 
 #: app/Models/RtclCFGField.php:269
-#: app/Services/FormBuilder/ElementCustomization.php:554
-#: app/Services/FormBuilder/ElementCustomization.php:1340
+#: app/Services/FormBuilder/ElementCustomization.php:558
+#: app/Services/FormBuilder/ElementCustomization.php:1344
 msgid "Default"
 msgstr ""
 
@@ -6264,24 +6284,24 @@ msgid "Add Option"
 msgstr ""
 
 #: app/Models/RtclCFGField.php:376
-#: app/Services/FormBuilder/ElementCustomization.php:895
-#: app/Services/FormBuilder/ElementCustomization.php:1309
+#: app/Services/FormBuilder/ElementCustomization.php:899
+#: app/Services/FormBuilder/ElementCustomization.php:1313
 #: app/Services/FormBuilder/ValidationRuleSettings.php:50
 #: app/Services/FormBuilder/ValidationRuleSettings.php:65
 #: app/Services/FormBuilder/ValidationRuleSettings.php:80
 #: app/Services/FormBuilder/ValidationRuleSettings.php:95
-#: src/form-builder/backend/components/pages/FormList.jsx:406
+#: src/form-builder/backend/components/pages/FormList.jsx:479
 msgid "Yes"
 msgstr ""
 
 #: app/Models/RtclCFGField.php:377
-#: app/Services/FormBuilder/ElementCustomization.php:899
-#: app/Services/FormBuilder/ElementCustomization.php:1313
+#: app/Services/FormBuilder/ElementCustomization.php:903
+#: app/Services/FormBuilder/ElementCustomization.php:1317
 #: app/Services/FormBuilder/ValidationRuleSettings.php:54
 #: app/Services/FormBuilder/ValidationRuleSettings.php:69
 #: app/Services/FormBuilder/ValidationRuleSettings.php:84
 #: app/Services/FormBuilder/ValidationRuleSettings.php:99
-#: src/form-builder/backend/components/pages/FormList.jsx:407
+#: src/form-builder/backend/components/pages/FormList.jsx:480
 msgid "No"
 msgstr ""
 
@@ -6302,16 +6322,16 @@ msgstr ""
 msgid "Add rule group"
 msgstr ""
 
-#: app/Models/RtclEmails.php:162
+#: app/Models/RtclEmails.php:165
 msgid "Payment Option "
 msgstr ""
 
-#: app/Models/RtclEmails.php:166
+#: app/Models/RtclEmails.php:169
 #: templates/checkout/pricing-info.php:39
 msgid "Features "
 msgstr ""
 
-#: app/Models/RtclEmails.php:170
+#: app/Models/RtclEmails.php:173
 #: templates/checkout/pricing-info.php:46
 #: templates/myaccount/popup-pricing-info.php:36
 msgid "Days"
@@ -6515,7 +6535,7 @@ msgid "Delete File"
 msgstr ""
 
 #: app/Resources/Gallery.php:227
-#: app/Services/FormBuilder/LocalizedString.php:45
+#: app/Services/FormBuilder/LocalizedString.php:46
 msgid "Attachment Details"
 msgstr ""
 
@@ -6714,7 +6734,7 @@ msgstr ""
 #: app/Resources/ListingDetails.php:149
 #: app/Resources/Options.php:3049
 #: app/Services/FormBuilder/AvailableFields.php:143
-#: app/Services/FormBuilder/ElementCustomization.php:662
+#: app/Services/FormBuilder/ElementCustomization.php:666
 #: templates/listing-form/information.php:85
 msgid "Price Type"
 msgstr ""
@@ -6738,7 +6758,7 @@ msgid "Item title"
 msgstr ""
 
 #: app/Resources/Options.php:41
-#: app/Services/FormBuilder/ElementCustomization.php:629
+#: app/Services/FormBuilder/ElementCustomization.php:633
 msgid "Placeholder"
 msgstr ""
 
@@ -6756,7 +6776,7 @@ msgstr ""
 #: app/Resources/Options.php:848
 #: app/Services/FormBuilder/AvailableFields.php:884
 #: app/Services/FormBuilder/AvailableFields.php:920
-#: app/Services/FormBuilder/ElementCustomization.php:1254
+#: app/Services/FormBuilder/ElementCustomization.php:1258
 msgid "Checkbox"
 msgstr ""
 
@@ -6767,7 +6787,7 @@ msgstr ""
 #: app/Resources/Options.php:837
 #: app/Services/FormBuilder/AvailableFields.php:843
 #: app/Services/FormBuilder/AvailableFields.php:873
-#: app/Services/FormBuilder/ElementCustomization.php:1258
+#: app/Services/FormBuilder/ElementCustomization.php:1262
 msgid "Radio"
 msgstr ""
 
@@ -7028,7 +7048,7 @@ msgid "Regular submission"
 msgstr ""
 
 #: app/Resources/Options.php:566
-#: app/Services/FormBuilder/ElementCustomization.php:1233
+#: app/Services/FormBuilder/ElementCustomization.php:1237
 #: views/widgets/categories.php:40
 msgid "Custom"
 msgstr ""
@@ -7042,7 +7062,7 @@ msgid "Pending"
 msgstr ""
 
 #: app/Resources/Options.php:585
-#: app/Services/FormBuilder/LocalizedString.php:101
+#: app/Services/FormBuilder/LocalizedString.php:102
 msgid "Draft"
 msgstr ""
 
@@ -7059,7 +7079,7 @@ msgid "Temporary"
 msgstr ""
 
 #: app/Resources/Options.php:603
-#: app/Services/FormBuilder/ElementCustomization.php:562
+#: app/Services/FormBuilder/ElementCustomization.php:566
 msgid "Bottom"
 msgstr ""
 
@@ -7110,13 +7130,13 @@ msgstr ""
 #: app/Resources/Options.php:697
 #: app/Services/FormBuilder/AvailableFields.php:627
 #: app/Services/FormBuilder/AvailableFields.php:641
-#: app/Services/FormBuilder/ElementCustomization.php:469
+#: app/Services/FormBuilder/ElementCustomization.php:473
 #: views/settings/general-settings.php:109
 msgid "Textarea"
 msgstr ""
 
 #: app/Resources/Options.php:710
-#: app/Services/FormBuilder/ElementCustomization.php:723
+#: app/Services/FormBuilder/ElementCustomization.php:727
 msgid "Rows"
 msgstr ""
 
@@ -7165,12 +7185,12 @@ msgid "Date & Time Range"
 msgstr ""
 
 #: app/Resources/Options.php:790
-#: app/Services/FormBuilder/ElementCustomization.php:700
+#: app/Services/FormBuilder/ElementCustomization.php:704
 msgid "Date Format"
 msgstr ""
 
 #: app/Resources/Options.php:803
-#: app/Services/FormBuilder/ElementCustomization.php:709
+#: app/Services/FormBuilder/ElementCustomization.php:713
 msgid "Time Format"
 msgstr ""
 
@@ -7179,24 +7199,24 @@ msgid "Search able date type"
 msgstr ""
 
 #: app/Resources/Options.php:819
-#: app/Services/FormBuilder/ElementCustomization.php:484
-#: app/Services/FormBuilder/ElementCustomization.php:504
-#: app/Services/FormBuilder/ElementCustomization.php:533
+#: app/Services/FormBuilder/ElementCustomization.php:488
+#: app/Services/FormBuilder/ElementCustomization.php:508
+#: app/Services/FormBuilder/ElementCustomization.php:537
 msgid "Single"
 msgstr ""
 
 #: app/Resources/Options.php:820
-#: app/Services/FormBuilder/ElementCustomization.php:488
-#: app/Services/FormBuilder/ElementCustomization.php:508
+#: app/Services/FormBuilder/ElementCustomization.php:492
+#: app/Services/FormBuilder/ElementCustomization.php:512
 msgid "Range"
 msgstr ""
 
 #: app/Resources/Options.php:831
 #: app/Resources/Options.php:842
 #: app/Resources/Options.php:853
-#: app/Services/FormBuilder/ElementCustomization.php:733
-#: app/Services/FormBuilder/ElementCustomization.php:738
-#: app/Services/FormBuilder/ElementCustomization.php:1059
+#: app/Services/FormBuilder/ElementCustomization.php:737
+#: app/Services/FormBuilder/ElementCustomization.php:742
+#: app/Services/FormBuilder/ElementCustomization.php:1063
 msgid "Options"
 msgstr ""
 
@@ -7237,7 +7257,7 @@ msgid "Include this field in the listing?"
 msgstr ""
 
 #: app/Resources/Options.php:905
-#: app/Services/FormBuilder/ElementCustomization.php:1068
+#: app/Services/FormBuilder/ElementCustomization.php:1072
 msgid "Conditional Logic"
 msgstr ""
 
@@ -8137,7 +8157,7 @@ msgstr ""
 
 #: app/Resources/Options.php:3048
 #: app/Services/FormBuilder/AvailableFields.php:142
-#: app/Services/FormBuilder/ElementCustomization.php:658
+#: app/Services/FormBuilder/ElementCustomization.php:662
 msgid "Pricing Type"
 msgstr ""
 
@@ -8343,7 +8363,7 @@ msgid "Excerpt"
 msgstr ""
 
 #: app/Services/FormBuilder/AvailableFields.php:144
-#: app/Services/FormBuilder/ElementCustomization.php:666
+#: app/Services/FormBuilder/ElementCustomization.php:670
 #: templates/listing-form/price-unit.php:21
 msgid "Price Unit"
 msgstr ""
@@ -8409,7 +8429,7 @@ msgstr ""
 
 #: app/Services/FormBuilder/AvailableFields.php:552
 #: app/Services/FormBuilder/AvailableFields.php:564
-#: app/Services/FormBuilder/ElementCustomization.php:813
+#: app/Services/FormBuilder/ElementCustomization.php:817
 msgid "Terms & Conditions"
 msgstr ""
 
@@ -8513,29 +8533,25 @@ msgstr ""
 msgid "Custom HTML"
 msgstr ""
 
-#: app/Services/FormBuilder/AvailableFields.php:1029
+#: app/Services/FormBuilder/AvailableFields.php:1031
 msgid "Submit button text"
 msgstr ""
 
-#: app/Services/FormBuilder/AvailableFields.php:1034
+#: app/Services/FormBuilder/AvailableFields.php:1036
 msgid "Update button text"
 msgstr ""
 
-#: app/Services/FormBuilder/AvailableFields.php:1060
-#: app/Services/FormBuilder/ElementCustomization.php:1378
+#: app/Services/FormBuilder/AvailableFields.php:1062
+#: app/Services/FormBuilder/ElementCustomization.php:1387
 msgid "Section title"
 msgstr ""
 
-#: app/Services/FormBuilder/AvailableFields.php:1108
+#: app/Services/FormBuilder/AvailableFields.php:1110
 msgid "Form Title"
 msgstr ""
 
-#: app/Services/FormBuilder/AvailableFields.php:1118
+#: app/Services/FormBuilder/AvailableFields.php:1120
 msgid "Active From builder"
-msgstr ""
-
-#: app/Services/FormBuilder/AvailableFields.php:1119
-msgid "Not compatible with mobile app (We are working on this feature)."
 msgstr ""
 
 #: app/Services/FormBuilder/EditorShortCode.php:10
@@ -8642,888 +8658,896 @@ msgstr ""
 msgid "Cookie Value"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:446
-#: app/Services/FormBuilder/ElementCustomization.php:447
+#: app/Services/FormBuilder/ElementCustomization.php:449
+#: app/Services/FormBuilder/ElementCustomization.php:450
 msgid "Advanced Date Configuration"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:453
+#: app/Services/FormBuilder/ElementCustomization.php:456
 msgid "You can write your own date configuration as JS object. Please write valid configuration as per flatpickr config."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:458
+#: app/Services/FormBuilder/ElementCustomization.php:462
 msgid "Name Attribute"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:459
+#: app/Services/FormBuilder/ElementCustomization.php:463
 msgid "This is the field name attributes which is used to submit form data, name attribute must be unique."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:464
-#: app/Services/FormBuilder/ElementCustomization.php:465
+#: app/Services/FormBuilder/ElementCustomization.php:468
+#: app/Services/FormBuilder/ElementCustomization.php:469
 msgid "Editor Type"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:473
+#: app/Services/FormBuilder/ElementCustomization.php:477
 #: views/settings/general-settings.php:108
 msgid "WP Editor"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:480
+#: app/Services/FormBuilder/ElementCustomization.php:484
 msgid "Date Type"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:495
+#: app/Services/FormBuilder/ElementCustomization.php:499
 msgid "Filter Date Type"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:529
+#: app/Services/FormBuilder/ElementCustomization.php:533
 msgid "Selection Type"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:537
+#: app/Services/FormBuilder/ElementCustomization.php:541
 msgid "Multiple"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:543
+#: app/Services/FormBuilder/ElementCustomization.php:547
 #: src/form-builder/backend/components/editor/sidebar/Customizer/CustomizerAOptions.jsx:354
 msgid "Label"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:544
-#: app/Services/FormBuilder/ElementCustomization.php:635
-#: app/Services/FormBuilder/ElementCustomization.php:640
-#: app/Services/FormBuilder/ElementCustomization.php:645
-#: app/Services/FormBuilder/ElementCustomization.php:650
-#: app/Services/FormBuilder/ElementCustomization.php:670
+#: app/Services/FormBuilder/ElementCustomization.php:548
+#: app/Services/FormBuilder/ElementCustomization.php:639
+#: app/Services/FormBuilder/ElementCustomization.php:644
+#: app/Services/FormBuilder/ElementCustomization.php:649
+#: app/Services/FormBuilder/ElementCustomization.php:654
+#: app/Services/FormBuilder/ElementCustomization.php:674
 msgid "This is the field title the user will see when filling out the form."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:549
+#: app/Services/FormBuilder/ElementCustomization.php:553
 msgid "Label Placement"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:550
+#: app/Services/FormBuilder/ElementCustomization.php:554
 msgid "Determine the position of label title where the user will see this. By choosing \"Default\", global label placement setting will be applied."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:580
+#: app/Services/FormBuilder/ElementCustomization.php:584
 msgid "Display order"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:581
+#: app/Services/FormBuilder/ElementCustomization.php:585
 msgid "Custom field display order,  Default 0"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:586
+#: app/Services/FormBuilder/ElementCustomization.php:590
 msgid "Allowed Top level categories"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:587
+#: app/Services/FormBuilder/ElementCustomization.php:591
 msgid "Allowed top level categories"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:591
+#: app/Services/FormBuilder/ElementCustomization.php:595
 msgid "Button Style"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:592
+#: app/Services/FormBuilder/ElementCustomization.php:596
 msgid "Select a button style from the dropdown"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:596
+#: app/Services/FormBuilder/ElementCustomization.php:600
 msgid "Button Size"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:597
+#: app/Services/FormBuilder/ElementCustomization.php:601
 msgid "Define a size of the button"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:601
+#: app/Services/FormBuilder/ElementCustomization.php:605
 msgid "Small"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:609
+#: app/Services/FormBuilder/ElementCustomization.php:613
 msgid "Large"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:615
+#: app/Services/FormBuilder/ElementCustomization.php:619
 msgid "Direction"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:619
+#: app/Services/FormBuilder/ElementCustomization.php:623
 msgid "Horizontal"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:630
+#: app/Services/FormBuilder/ElementCustomization.php:634
 msgid "This is the field placeholder, the user will see this if the input field is empty."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:634
+#: app/Services/FormBuilder/ElementCustomization.php:638
 msgid "Pricing Type Label"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:639
+#: app/Services/FormBuilder/ElementCustomization.php:643
 msgid "Pricing Label"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:644
+#: app/Services/FormBuilder/ElementCustomization.php:648
 msgid "Price Type Label"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:649
+#: app/Services/FormBuilder/ElementCustomization.php:653
 msgid "Price Unit Label"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:674
+#: app/Services/FormBuilder/ElementCustomization.php:678
 msgid "Max Image Limit"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:680
+#: app/Services/FormBuilder/ElementCustomization.php:684
 msgid "Search result Limit"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:681
+#: app/Services/FormBuilder/ElementCustomization.php:685
 msgid "Blank or 0 for all matched result"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:690
+#: app/Services/FormBuilder/ElementCustomization.php:694
 msgid "Max Upload Size Per Image in MB"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:691
-#: app/Services/FormBuilder/ElementCustomization.php:696
+#: app/Services/FormBuilder/ElementCustomization.php:695
+#: app/Services/FormBuilder/ElementCustomization.php:700
 msgid "Here 0 means unlimited."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:695
+#: app/Services/FormBuilder/ElementCustomization.php:699
 msgid "Total Upload Size in MB"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:703
+#: app/Services/FormBuilder/ElementCustomization.php:707
 msgid "Select Date Format"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:704
+#: app/Services/FormBuilder/ElementCustomization.php:708
 msgid "Select any date format from the dropdown. The user will be able to choose a date in this given format."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:710
-#: app/Services/FormBuilder/ElementCustomization.php:716
+#: app/Services/FormBuilder/ElementCustomization.php:714
+#: app/Services/FormBuilder/ElementCustomization.php:720
 msgid "Select time Format"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:715
+#: app/Services/FormBuilder/ElementCustomization.php:719
 msgid "Display Time Format"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:724
+#: app/Services/FormBuilder/ElementCustomization.php:728
 msgid "How many rows will textarea take in a form. It's an HTML attributes for browser support."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:728
+#: app/Services/FormBuilder/ElementCustomization.php:732
 #: src/blocks/listing-ads/inspector.js:677
 msgid "Columns"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:729
+#: app/Services/FormBuilder/ElementCustomization.php:733
 msgid "How many cols will textarea take in a form. It's an HTML attributes for browser support."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:734
+#: app/Services/FormBuilder/ElementCustomization.php:738
 msgid "Create options for the field and checkmark them for default selection."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:739
+#: app/Services/FormBuilder/ElementCustomization.php:743
 msgid "Create visual options for the field and checkmark them for default selection."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:742
+#: app/Services/FormBuilder/ElementCustomization.php:746
 msgid "Show Values"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:753
+#: app/Services/FormBuilder/ElementCustomization.php:757
 msgid "Allow New"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:754
+#: app/Services/FormBuilder/ElementCustomization.php:758
 msgid "If you enable this it will create new if not exist."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:758
+#: app/Services/FormBuilder/ElementCustomization.php:762
 msgid "Link with WhatsApp"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:762
+#: app/Services/FormBuilder/ElementCustomization.php:766
 #: app/Services/FormBuilder/ValidationRuleSettings.php:45
 msgid "Required"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:768
+#: app/Services/FormBuilder/ElementCustomization.php:772
 msgid "Default value from current user"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:769
+#: app/Services/FormBuilder/ElementCustomization.php:773
 msgid "This will pre-populate the value from user"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:773
+#: app/Services/FormBuilder/ElementCustomization.php:777
 msgid "Admin use only"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:774
+#: app/Services/FormBuilder/ElementCustomization.php:778
 msgid "If you enable this then filed will only display at admin end."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:778
+#: app/Services/FormBuilder/ElementCustomization.php:782
 msgid "Filterable"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:779
+#: app/Services/FormBuilder/ElementCustomization.php:783
 msgid "If you enable this then filed will allow to filter the listing."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:783
+#: app/Services/FormBuilder/ElementCustomization.php:787
 msgid "Display at archive page"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:784
+#: app/Services/FormBuilder/ElementCustomization.php:788
 msgid "if enable then display this field at archive listing view."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:788
+#: app/Services/FormBuilder/ElementCustomization.php:792
 msgid "Display at single page"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:789
+#: app/Services/FormBuilder/ElementCustomization.php:793
 msgid "if enable then display this field at single listing view."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:793
+#: app/Services/FormBuilder/ElementCustomization.php:797
 msgid "Enable Searchable Smart Options"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:794
+#: app/Services/FormBuilder/ElementCustomization.php:798
 msgid "If you enable this then options will be searchable by select2 js library"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:798
+#: app/Services/FormBuilder/ElementCustomization.php:802
 msgid "Subscription Items"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:799
+#: app/Services/FormBuilder/ElementCustomization.php:803
 msgid "Set your subscription plans"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:803
+#: app/Services/FormBuilder/ElementCustomization.php:807
 msgid "Validation Rules"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:808
+#: app/Services/FormBuilder/ElementCustomization.php:812
 msgid "Required validation Message"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:814
+#: app/Services/FormBuilder/ElementCustomization.php:818
 msgid "Write HTML content for terms & condition checkbox"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:820
+#: app/Services/FormBuilder/ElementCustomization.php:824
 msgid "Privacy and Policy"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:821
+#: app/Services/FormBuilder/ElementCustomization.php:825
 msgid "Write HTML content for Privacy and Policy checkbox"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:827
+#: app/Services/FormBuilder/ElementCustomization.php:831
 msgid "Hook Name"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:828
+#: app/Services/FormBuilder/ElementCustomization.php:832
 msgid "WordPress Hook name to hook something in this place."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:832
+#: app/Services/FormBuilder/ElementCustomization.php:836
 msgid "Show Checkbox"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:844
+#: app/Services/FormBuilder/ElementCustomization.php:848
 msgid "HTML Code"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:845
+#: app/Services/FormBuilder/ElementCustomization.php:849
 msgid "Your valid HTML code will be shown to the user as normal content."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:852
+#: app/Services/FormBuilder/ElementCustomization.php:856
 msgid "Description will be shown to the user as normal text content."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:856
+#: app/Services/FormBuilder/ElementCustomization.php:860
 msgid "Button Text"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:857
+#: app/Services/FormBuilder/ElementCustomization.php:861
 msgid "This will be visible as button text for upload file."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:861
+#: app/Services/FormBuilder/ElementCustomization.php:865
 msgid "Submit Button"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:862
+#: app/Services/FormBuilder/ElementCustomization.php:866
 msgid "This is form submission button."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:866
+#: app/Services/FormBuilder/ElementCustomization.php:870
 #: src/blocks/listing-cat-box/inspector.js:369
 msgid "Content Alignment"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:867
+#: app/Services/FormBuilder/ElementCustomization.php:871
 msgid "How the content will be aligned."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:885
+#: app/Services/FormBuilder/ElementCustomization.php:889
 msgid "Shortcode"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:886
+#: app/Services/FormBuilder/ElementCustomization.php:890
 msgid "Your shortcode to render desired content in current place."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:890
+#: app/Services/FormBuilder/ElementCustomization.php:894
 msgid "Apply Styles"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:891
+#: app/Services/FormBuilder/ElementCustomization.php:895
 msgid "Apply styles provided here"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:905
+#: app/Services/FormBuilder/ElementCustomization.php:909
 msgid "Step Title"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:906
-#: app/Services/FormBuilder/ElementCustomization.php:964
+#: app/Services/FormBuilder/ElementCustomization.php:910
+#: app/Services/FormBuilder/ElementCustomization.php:968
 msgid "Form step titles, user will see each title in each step."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:910
+#: app/Services/FormBuilder/ElementCustomization.php:914
 msgid "Disable auto focus when changing each page"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:911
+#: app/Services/FormBuilder/ElementCustomization.php:915
 msgid "If you enable this then on page transition automatic scrolling will be disabled"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:915
+#: app/Services/FormBuilder/ElementCustomization.php:919
 #: app/Services/FormBuilder/LocalizedString.php:10
 #: views/settings/moderation-settings.php:64
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:189
 msgid "Enable"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:919
+#: app/Services/FormBuilder/ElementCustomization.php:923
 msgid "Multi Selection"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:920
+#: app/Services/FormBuilder/ElementCustomization.php:924
 msgid "User can able to select multiple item."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:924
+#: app/Services/FormBuilder/ElementCustomization.php:928
 msgid "Enable auto page change for single radio field"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:925
+#: app/Services/FormBuilder/ElementCustomization.php:929
 msgid "If you enable this then for last radio item field will trigger next page change"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:929
+#: app/Services/FormBuilder/ElementCustomization.php:933
 msgid "Enable Per step data save (Save and Continue)"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:930
+#: app/Services/FormBuilder/ElementCustomization.php:934
 msgid "If you enable this then on each step change the data current step data will be persisted in a step form<br />Your users can resume the form where they left"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:934
+#: app/Services/FormBuilder/ElementCustomization.php:938
 msgid "Resume Step from last form session"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:935
+#: app/Services/FormBuilder/ElementCustomization.php:939
 msgid "If you enable this then users will see the form as step page where it has been left"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:944
+#: app/Services/FormBuilder/ElementCustomization.php:948
 msgid "Progress Indicator"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:945
+#: app/Services/FormBuilder/ElementCustomization.php:949
 msgid "Select any of them below, user will see progress of form steps according to your choice."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:949
+#: app/Services/FormBuilder/ElementCustomization.php:953
 msgid "Progress Bar"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:953
+#: app/Services/FormBuilder/ElementCustomization.php:957
 msgid "Steps"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:963
+#: app/Services/FormBuilder/ElementCustomization.php:967
 msgid "Step Titles"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:968
+#: app/Services/FormBuilder/ElementCustomization.php:972
 msgid "Previous Button"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:969
+#: app/Services/FormBuilder/ElementCustomization.php:973
 msgid "Multi-step form's previous button"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:973
+#: app/Services/FormBuilder/ElementCustomization.php:977
 msgid "Next Button"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:974
+#: app/Services/FormBuilder/ElementCustomization.php:978
 msgid "Multi-step form's next button"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:978
+#: app/Services/FormBuilder/ElementCustomization.php:982
 msgid "Address Fields"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:983
+#: app/Services/FormBuilder/ElementCustomization.php:987
 msgid "Name Fields"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:987
+#: app/Services/FormBuilder/ElementCustomization.php:991
 msgid "Enable Multiple Columns"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:991
+#: app/Services/FormBuilder/ElementCustomization.php:995
 msgid "Repeat Fields"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:992
+#: app/Services/FormBuilder/ElementCustomization.php:996
 msgid "This is a form field which a user will be able to repeat."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:996
+#: app/Services/FormBuilder/ElementCustomization.php:1000
 msgid "Admin Field Label"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:997
+#: app/Services/FormBuilder/ElementCustomization.php:1001
 msgid "Admin field label is field title which will be used for admin field title."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1001
+#: app/Services/FormBuilder/ElementCustomization.php:1005
 msgid "Max text length"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1002
-#: app/Services/FormBuilder/ElementCustomization.php:1007
+#: app/Services/FormBuilder/ElementCustomization.php:1006
+#: app/Services/FormBuilder/ElementCustomization.php:1011
 msgid "The maximum number of characters the input should accept"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1006
+#: app/Services/FormBuilder/ElementCustomization.php:1010
 msgid "Min text length"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1012
+#: app/Services/FormBuilder/ElementCustomization.php:1016
 msgid "Default Checked"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1013
+#: app/Services/FormBuilder/ElementCustomization.php:1017
 msgid "Default checked."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1017
+#: app/Services/FormBuilder/ElementCustomization.php:1021
 msgid "Default Value"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1018
-#: app/Services/FormBuilder/ElementCustomization.php:1024
+#: app/Services/FormBuilder/ElementCustomization.php:1022
+#: app/Services/FormBuilder/ElementCustomization.php:1028
 msgid "If you would like to pre-populate the value of a field, enter it here."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1023
+#: app/Services/FormBuilder/ElementCustomization.php:1027
 msgid "Dynamic Default Value"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1029
+#: app/Services/FormBuilder/ElementCustomization.php:1033
 msgid "Max Selection"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1030
+#: app/Services/FormBuilder/ElementCustomization.php:1034
 msgid "Define Max selections items that a user can select ."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1039
+#: app/Services/FormBuilder/ElementCustomization.php:1043
 #: views/settings/style-settings.php:45
 msgid "Container Class"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1040
+#: app/Services/FormBuilder/ElementCustomization.php:1044
 msgid "Class for the field wrapper. This can be used to style current element."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1045
+#: app/Services/FormBuilder/ElementCustomization.php:1049
 msgid "This should be unique id"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1049
+#: app/Services/FormBuilder/ElementCustomization.php:1053
 msgid "Element Class"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1050
+#: app/Services/FormBuilder/ElementCustomization.php:1054
 msgid "Class for the field. This can be used to style current element."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1054
+#: app/Services/FormBuilder/ElementCustomization.php:1058
 msgid "Country List"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1063
+#: app/Services/FormBuilder/ElementCustomization.php:1067
 msgid "Help Message"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1064
+#: app/Services/FormBuilder/ElementCustomization.php:1068
 msgid "Help message will be shown as tooltip next to sidebar or below the field."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1069
+#: app/Services/FormBuilder/ElementCustomization.php:1073
 msgid "Create rules to dynamically display or hide this field based on values from another field."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1071
+#: app/Services/FormBuilder/ElementCustomization.php:1075
 msgid "Relation"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1072
+#: app/Services/FormBuilder/ElementCustomization.php:1076
 msgid "Select to match whether all rules are required or any. if the match success then the field will be show"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1076
+#: app/Services/FormBuilder/ElementCustomization.php:1080
 msgid "OR"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1080
+#: app/Services/FormBuilder/ElementCustomization.php:1084
 msgid "AND"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1087
+#: app/Services/FormBuilder/ElementCustomization.php:1091
 msgid "Equal"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1091
+#: app/Services/FormBuilder/ElementCustomization.php:1095
 msgid "Not equal"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1095
+#: app/Services/FormBuilder/ElementCustomization.php:1099
 msgid "greater than"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1099
+#: app/Services/FormBuilder/ElementCustomization.php:1103
 msgid "less than"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1103
+#: app/Services/FormBuilder/ElementCustomization.php:1107
 msgid "greater than or equal"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1107
+#: app/Services/FormBuilder/ElementCustomization.php:1111
 msgid "less than or equal"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1111
+#: app/Services/FormBuilder/ElementCustomization.php:1115
 msgid "Includes"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1115
+#: app/Services/FormBuilder/ElementCustomization.php:1119
 msgid "Not includes"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1119
+#: app/Services/FormBuilder/ElementCustomization.php:1123
 msgid "Starts with"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1123
+#: app/Services/FormBuilder/ElementCustomization.php:1127
 msgid "Ends with"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1127
+#: app/Services/FormBuilder/ElementCustomization.php:1131
 msgid "Empty"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1131
+#: app/Services/FormBuilder/ElementCustomization.php:1135
 msgid "Not Empty"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1135
+#: app/Services/FormBuilder/ElementCustomization.php:1139
 msgid "Regex match"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1151
+#: app/Services/FormBuilder/ElementCustomization.php:1155
 msgid "The Background color of the element"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1155
+#: app/Services/FormBuilder/ElementCustomization.php:1159
 msgid "Font Color"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1156
+#: app/Services/FormBuilder/ElementCustomization.php:1160
 msgid "Font color of the element"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1160
+#: app/Services/FormBuilder/ElementCustomization.php:1164
 msgid "Custom Mask"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1161
-#: app/Services/FormBuilder/ElementCustomization.php:1240
-#: app/Services/FormBuilder/ElementCustomization.php:1245
+#: app/Services/FormBuilder/ElementCustomization.php:1165
+#: app/Services/FormBuilder/ElementCustomization.php:1244
+#: app/Services/FormBuilder/ElementCustomization.php:1249
 msgid "Write your own mask for this input"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1170
+#: app/Services/FormBuilder/ElementCustomization.php:1174
 msgid "Activating a reversible mask"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1171
+#: app/Services/FormBuilder/ElementCustomization.php:1175
 msgid "If you enable this then it the mask will work as reverse"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1180
+#: app/Services/FormBuilder/ElementCustomization.php:1184
 msgid "Shuffle the available options"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1181
+#: app/Services/FormBuilder/ElementCustomization.php:1185
 msgid "If you enable this then the checkable options will be shuffled"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1185
+#: app/Services/FormBuilder/ElementCustomization.php:1189
 msgid "Clear if not match"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1186
+#: app/Services/FormBuilder/ElementCustomization.php:1190
 msgid "Clear value if not match the mask"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1195
+#: app/Services/FormBuilder/ElementCustomization.php:1199
 msgid "Allow hide map"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1196
+#: app/Services/FormBuilder/ElementCustomization.php:1200
 msgid "Allow user to hide map"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1200
+#: app/Services/FormBuilder/ElementCustomization.php:1204
 msgid "Visible latitude and longitude field"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1204
+#: app/Services/FormBuilder/ElementCustomization.php:1208
 msgid "Mask Input"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1205
+#: app/Services/FormBuilder/ElementCustomization.php:1209
 msgid "Select a mask for the input field"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1221
+#: app/Services/FormBuilder/ElementCustomization.php:1225
 msgid "23/03/2018"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1225
+#: app/Services/FormBuilder/ElementCustomization.php:1229
 msgid "23:59:59"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1229
+#: app/Services/FormBuilder/ElementCustomization.php:1233
 msgid "23/03/2018 23:59:59"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1239
+#: app/Services/FormBuilder/ElementCustomization.php:1243
 msgid "Grid Columns"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1244
+#: app/Services/FormBuilder/ElementCustomization.php:1248
 msgid "Grid Rows"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1249
-#: app/Services/FormBuilder/ElementCustomization.php:1250
+#: app/Services/FormBuilder/ElementCustomization.php:1253
+#: app/Services/FormBuilder/ElementCustomization.php:1254
 msgid "Field Type"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1264
+#: app/Services/FormBuilder/ElementCustomization.php:1268
 msgid "Max Repeat inputs"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1265
+#: app/Services/FormBuilder/ElementCustomization.php:1269
 msgid "Please provide max number of rows the user can fill up for this repeat field. Keep blank/0 for unlimited numbers"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1269
+#: app/Services/FormBuilder/ElementCustomization.php:1273
 #: app/Services/FormBuilder/ValidationRuleSettings.php:106
 msgid "Min Value"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1270
+#: app/Services/FormBuilder/ElementCustomization.php:1274
 msgid "Please provide minimum value"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1274
+#: app/Services/FormBuilder/ElementCustomization.php:1278
 #: app/Services/FormBuilder/ValidationRuleSettings.php:118
 msgid "Max Value"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1275
+#: app/Services/FormBuilder/ElementCustomization.php:1279
 msgid "Please provide Maximum value"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1279
+#: app/Services/FormBuilder/ElementCustomization.php:1283
 msgid "Digits Count"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1280
+#: app/Services/FormBuilder/ElementCustomization.php:1284
 msgid "Please provide digits count value"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1284
+#: app/Services/FormBuilder/ElementCustomization.php:1288
 #: src/form-builder/store/reducer.js:150
 msgid "Step"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1285
+#: app/Services/FormBuilder/ElementCustomization.php:1289
 msgid "Please provide step attribute for this field. Give value \"any\" for floating value"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1289
+#: app/Services/FormBuilder/ElementCustomization.php:1293
 msgid "Prefix Label"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1290
+#: app/Services/FormBuilder/ElementCustomization.php:1294
 msgid "Provide Input Prefix Label. It will show in the input field as prefix label"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1294
+#: app/Services/FormBuilder/ElementCustomization.php:1298
 msgid "Suffix Label"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1295
+#: app/Services/FormBuilder/ElementCustomization.php:1299
 msgid "Provide Input Suffix Label. It will show in the input field as suffix label"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1299
+#: app/Services/FormBuilder/ElementCustomization.php:1303
 msgid "Validate as Unique"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1300
+#: app/Services/FormBuilder/ElementCustomization.php:1304
 msgid "If you make it unique then it will validate as unique from previous submissions of this form"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1304
+#: app/Services/FormBuilder/ElementCustomization.php:1308
 msgid "Show Text"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1305
+#: app/Services/FormBuilder/ElementCustomization.php:1309
 msgid "Show Text value on selection"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1319
+#: app/Services/FormBuilder/ElementCustomization.php:1323
 msgid "Number Format"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1320
+#: app/Services/FormBuilder/ElementCustomization.php:1324
 msgid "Select the format of numbers that are allowed in this field. You have the option to use a comma or a dot as the decimal separator."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1325
+#: app/Services/FormBuilder/ElementCustomization.php:1329
 msgid "Validation Message for Duplicate"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1326
+#: app/Services/FormBuilder/ElementCustomization.php:1330
 msgid "If validation failed then it will show this message"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1336
+#: app/Services/FormBuilder/ElementCustomization.php:1340
 msgid "Select the Layout for check able items"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1370
-msgid "File Location"
+#: app/Services/FormBuilder/ElementCustomization.php:1374
+msgid "Enable AI Integration"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1371
-msgid "Uploaded files can be stored in classified-listing or media library."
+#: app/Services/FormBuilder/ElementCustomization.php:1375
+msgid "Toggle this option to enable or disable AI-powered features for this listing."
 msgstr ""
 
 #: app/Services/FormBuilder/ElementCustomization.php:1379
+msgid "File Location"
+msgstr ""
+
+#: app/Services/FormBuilder/ElementCustomization.php:1380
+msgid "Uploaded files can be stored in classified-listing or media library."
+msgstr ""
+
+#: app/Services/FormBuilder/ElementCustomization.php:1388
 msgid "Set the section title."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1383
+#: app/Services/FormBuilder/ElementCustomization.php:1392
 msgid "Column Settings"
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1384
+#: app/Services/FormBuilder/ElementCustomization.php:1393
 msgid "Set the width of the columns. The minimum column width is 10%."
 msgstr ""
 
-#: app/Services/FormBuilder/ElementCustomization.php:1385
+#: app/Services/FormBuilder/ElementCustomization.php:1394
 msgid "The minimum column width is 10%, Maximum column number 4"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:663
+#: app/Services/FormBuilder/FBHelper.php:681
 msgid "Listing type is not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:672
-#: app/Services/FormBuilder/FBHelper.php:678
+#: app/Services/FormBuilder/FBHelper.php:690
+#: app/Services/FormBuilder/FBHelper.php:696
 msgid "Tag is not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:686
-#: app/Services/FormBuilder/FBHelper.php:692
+#: app/Services/FormBuilder/FBHelper.php:704
+#: app/Services/FormBuilder/FBHelper.php:710
 msgid "Category is not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:715
-#: app/Services/FormBuilder/FBHelper.php:721
+#: app/Services/FormBuilder/FBHelper.php:733
+#: app/Services/FormBuilder/FBHelper.php:739
 msgid "Location is not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:726
+#: app/Services/FormBuilder/FBHelper.php:744
 msgid "Invalid email"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:730
+#: app/Services/FormBuilder/FBHelper.php:748
 msgid "Invalid url"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:737
-#: app/Services/FormBuilder/FBHelper.php:743
+#: app/Services/FormBuilder/FBHelper.php:755
+#: app/Services/FormBuilder/FBHelper.php:761
 msgid "Invalid video url"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:756
-#: app/Services/FormBuilder/FBHelper.php:771
-#: app/Services/FormBuilder/FBHelper.php:776
+#: app/Services/FormBuilder/FBHelper.php:774
+#: app/Services/FormBuilder/FBHelper.php:789
+#: app/Services/FormBuilder/FBHelper.php:794
 msgid "Option not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:779
+#: app/Services/FormBuilder/FBHelper.php:797
 msgid "Value should ne an array"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:784
+#: app/Services/FormBuilder/FBHelper.php:802
 msgid "Invalid Google reCAPTACHA secret key"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:790
+#: app/Services/FormBuilder/FBHelper.php:808
 msgid "Error in Google reCAPTACHA"
 msgstr ""
 
@@ -9555,235 +9579,235 @@ msgstr ""
 msgid "Changes that you made may not be saved."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:16
+#: app/Services/FormBuilder/LocalizedString.php:17
 msgid "Change"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:17
+#: app/Services/FormBuilder/LocalizedString.php:18
 msgid "Error while saving data"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:18
+#: app/Services/FormBuilder/LocalizedString.php:19
 #: templates/listing-form/information.php:49
 msgid "Character limit"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:19
+#: app/Services/FormBuilder/LocalizedString.php:20
 msgid "Are you sure to remove?"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:20
+#: app/Services/FormBuilder/LocalizedString.php:21
 msgid "Please select an item"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:21
+#: app/Services/FormBuilder/LocalizedString.php:22
 msgid "Type to search"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:23
+#: app/Services/FormBuilder/LocalizedString.php:24
 msgid "Field is required"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:24
+#: app/Services/FormBuilder/LocalizedString.php:25
 msgid "Upload"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:27
+#: app/Services/FormBuilder/LocalizedString.php:28
 msgid "Pasting this exceeds the maximum allowed number of ___ characters for the input."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:29
+#: app/Services/FormBuilder/LocalizedString.php:30
 #: src/form-builder/backend/components/editor/elements/ReCaptchaElement.jsx:24
 msgid "reCaptcha site key is missing."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:32
+#: app/Services/FormBuilder/LocalizedString.php:33
 msgid "Please select a location first"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:36
+#: app/Services/FormBuilder/LocalizedString.php:37
 msgid "Caption"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:38
+#: app/Services/FormBuilder/LocalizedString.php:39
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:41
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:43
 msgid "Add to feature"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:39
+#: app/Services/FormBuilder/LocalizedString.php:40
 msgid "File name"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:40
+#: app/Services/FormBuilder/LocalizedString.php:41
 msgid "File type"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:41
+#: app/Services/FormBuilder/LocalizedString.php:42
 msgid "File size"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:42
+#: app/Services/FormBuilder/LocalizedString.php:43
 msgid "Dimensions"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:43
+#: app/Services/FormBuilder/LocalizedString.php:44
 msgid "Uploaded on"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:44
+#: app/Services/FormBuilder/LocalizedString.php:45
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:114
 msgid "Click or drag file to this area to upload"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:46
+#: app/Services/FormBuilder/LocalizedString.php:47
 msgid "File successfully uploaded"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:47
+#: app/Services/FormBuilder/LocalizedString.php:48
 msgid "File successfully removed"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:48
+#: app/Services/FormBuilder/LocalizedString.php:49
 msgid "Error while uploading file"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:49
+#: app/Services/FormBuilder/LocalizedString.php:50
 msgid "Error while removing file."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:50
+#: app/Services/FormBuilder/LocalizedString.php:51
 msgid "Error while updating file."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:51
+#: app/Services/FormBuilder/LocalizedString.php:52
 msgid "Error while getting data"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:54
+#: app/Services/FormBuilder/LocalizedString.php:55
 #: src/form-builder/backend/components/editor/elements/OsmMapElement.jsx:79
 msgid "Enter address, please"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:55
+#: app/Services/FormBuilder/LocalizedString.php:56
 msgid "A marker with a popup."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:56
+#: app/Services/FormBuilder/LocalizedString.php:57
 #: src/form-builder/backend/components/editor/elements/GoogleMapElement.jsx:109
 #: src/form-builder/backend/components/editor/elements/OsmMapElement.jsx:91
 msgid "Latitude"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:57
+#: app/Services/FormBuilder/LocalizedString.php:58
 #: src/form-builder/backend/components/editor/elements/GoogleMapElement.jsx:115
 #: src/form-builder/backend/components/editor/elements/OsmMapElement.jsx:97
 msgid "Longitude"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:61
+#: app/Services/FormBuilder/LocalizedString.php:62
 msgid "Maximum repeater field applied"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:64
+#: app/Services/FormBuilder/LocalizedString.php:65
 msgid "Select a currency"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:65
+#: app/Services/FormBuilder/LocalizedString.php:66
 #: views/settings/general-settings.php:149
 #: views/settings/payment-settings.php:40
 #: src/form-builder/backend/components/editor/elements/PricingElement.jsx:81
 msgid "Currency"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:66
+#: app/Services/FormBuilder/LocalizedString.php:67
 #: templates/listing-form/price-unit.php:23
 msgid "No unit"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:67
+#: app/Services/FormBuilder/LocalizedString.php:68
 #: templates/block/listing-search/search.php:243
 #: src/blocks/listing-search/layout/style-1.js:96
 #: src/form-builder/backend/components/editor/elements/PricingElement.jsx:122
 msgid "Max"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:70
+#: app/Services/FormBuilder/LocalizedString.php:71
 #: src/form-builder/backend/components/editor/elements/BookingElement.jsx:197
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:24
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:219
 msgid "Open 24 hours"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:71
+#: app/Services/FormBuilder/LocalizedString.php:72
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:19
 msgid "Open 24 hours 7 days"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:72
+#: app/Services/FormBuilder/LocalizedString.php:73
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:20
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:25
 msgid "Open for Selected Hours"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:73
+#: app/Services/FormBuilder/LocalizedString.php:74
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:245
 msgid "Special Hours - Overrides"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:74
+#: app/Services/FormBuilder/LocalizedString.php:75
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:273
 msgid "Once"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:75
+#: app/Services/FormBuilder/LocalizedString.php:76
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:274
 msgid "Repeat"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:76
+#: app/Services/FormBuilder/LocalizedString.php:77
 msgid "Timezone"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:77
+#: app/Services/FormBuilder/LocalizedString.php:78
 msgid "Select a timezone"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:80
+#: app/Services/FormBuilder/LocalizedString.php:81
 msgid "Select Color"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:89
+#: app/Services/FormBuilder/LocalizedString.php:90
 #: src/form-builder/backend/components/TopNavMenu.jsx:11
 msgid "Form List"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:91
+#: app/Services/FormBuilder/LocalizedString.php:92
 msgid "Update From"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:92
+#: app/Services/FormBuilder/LocalizedString.php:93
 msgid "Save Form"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:93
+#: app/Services/FormBuilder/LocalizedString.php:94
 #: views/settings/email-settings.php:47
 msgid "From name"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:94
+#: app/Services/FormBuilder/LocalizedString.php:95
 msgid "Rename from"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:95
+#: app/Services/FormBuilder/LocalizedString.php:96
 msgid "Input Fields"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:98
+#: app/Services/FormBuilder/LocalizedString.php:99
 msgid "Input Customization"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:100
+#: app/Services/FormBuilder/LocalizedString.php:101
 msgid "Publish"
 msgstr ""
 
@@ -10122,6 +10146,7 @@ msgstr ""
 #: templates/elementor/listing-ads/list/style-1.php:238
 #: src/blocks/listing-ads/layout/list/style-list1.js:90
 #: src/blocks/listing-ads/layout/list/style-list2.js:124
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:231
 msgid "Details"
 msgstr ""
 
@@ -10547,7 +10572,7 @@ msgstr ""
 #: templates/global/form-login.php:46
 #: templates/myaccount/form-login.php:38
 #: templates/myaccount/form-login.php:109
-#: templates/myaccount/form-registration.php:55
+#: templates/myaccount/form-registration.php:60
 msgid "Password"
 msgstr ""
 
@@ -10566,7 +10591,7 @@ msgstr ""
 #: templates/myaccount/form-login.php:67
 #: templates/myaccount/form-login.php:80
 #: templates/myaccount/form-login.php:136
-#: templates/myaccount/form-registration.php:82
+#: templates/myaccount/form-registration.php:88
 msgid "Register"
 msgstr ""
 
@@ -10576,6 +10601,7 @@ msgid "Forgot your password?"
 msgstr ""
 
 #: templates/global/pagination.php:21
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:362
 msgid "Previous"
 msgstr ""
 
@@ -10769,7 +10795,7 @@ msgstr ""
 
 #: templates/myaccount/favourite-listings.php:25
 #: templates/myaccount/my-listings.php:60
-#: src/form-builder/backend/components/pages/FormList.jsx:472
+#: src/form-builder/backend/components/pages/FormList.jsx:585
 msgid "Action"
 msgstr ""
 
@@ -10811,13 +10837,13 @@ msgstr ""
 
 #: templates/myaccount/form-edit-account.php:128
 #: templates/myaccount/form-login.php:118
-#: templates/myaccount/form-registration.php:64
+#: templates/myaccount/form-registration.php:69
 msgid "Confirm Password"
 msgstr ""
 
 #: templates/myaccount/form-edit-account.php:133
 #: templates/myaccount/form-login.php:125
-#: templates/myaccount/form-registration.php:71
+#: templates/myaccount/form-registration.php:76
 msgid "Password does not match."
 msgstr ""
 
@@ -10843,7 +10869,7 @@ msgid "Username"
 msgstr ""
 
 #: templates/myaccount/form-login.php:94
-#: templates/myaccount/form-registration.php:40
+#: templates/myaccount/form-registration.php:41
 msgid "Username cannot be changed."
 msgstr ""
 
@@ -10856,11 +10882,11 @@ msgstr ""
 msgid "Reset Password"
 msgstr ""
 
-#: templates/myaccount/form-registration.php:83
+#: templates/myaccount/form-registration.php:89
 msgid "Already have an account? Please login"
 msgstr ""
 
-#: templates/myaccount/form-registration.php:85
+#: templates/myaccount/form-registration.php:91
 msgid "Here"
 msgstr ""
 
@@ -11248,6 +11274,108 @@ msgstr ""
 msgid "Payment Failure"
 msgstr ""
 
+#: views/settings/ai-settings.php:13
+msgid "AI Integration Settings"
+msgstr ""
+
+#: views/settings/ai-settings.php:16
+msgid "To integrate with Write with AI services, you need to obtain an API key from your chosen provider. Visit the respective service provider’s website to generate an API key."
+msgstr ""
+
+#: views/settings/ai-settings.php:26
+msgid "AI Tools"
+msgstr ""
+
+#: views/settings/ai-settings.php:30
+msgid "ChatGPT"
+msgstr ""
+
+#: views/settings/ai-settings.php:31
+msgid "Google Gemini"
+msgstr ""
+
+#: views/settings/ai-settings.php:32
+msgid "DeepSeek"
+msgstr ""
+
+#: views/settings/ai-settings.php:36
+msgid "GPT Model"
+msgstr ""
+
+#: views/settings/ai-settings.php:41
+msgid "GPT-4o (Full Version)"
+msgstr ""
+
+#: views/settings/ai-settings.php:42
+msgid "GPT-4o Mini (Light Version)"
+msgstr ""
+
+#: views/settings/ai-settings.php:54
+msgid "ChatGPT API Key"
+msgstr ""
+
+#: views/settings/ai-settings.php:57
+msgid "To integrate with ChatGPT, you need to obtain an API key from OpenAI. Visit <a href=\"https://platform.openai.com/account/api-keys\" target=\"_blank\">OpenAI API Keys</a> to generate one."
+msgstr ""
+
+#: views/settings/ai-settings.php:67
+msgid "sk-p********"
+msgstr ""
+
+#: views/settings/ai-settings.php:78
+#: views/settings/ai-settings.php:118
+#: views/settings/ai-settings.php:176
+msgid "Maximum characters in prompt input"
+msgstr ""
+
+#: views/settings/ai-settings.php:80
+#: views/settings/ai-settings.php:120
+#: views/settings/ai-settings.php:178
+msgid "Set the maximum character limit for the prompt input. This controls how many characters users can enter, ensuring input stays concise and manageable. Higher limits may affect performance and response quality."
+msgstr ""
+
+#: views/settings/ai-settings.php:83
+#: views/settings/ai-settings.php:123
+#: views/settings/ai-settings.php:181
+msgid "500"
+msgstr ""
+
+#: views/settings/ai-settings.php:94
+msgid "Gemini API Key"
+msgstr ""
+
+#: views/settings/ai-settings.php:97
+msgid "To integrate with Google Gemini, you need to obtain an API key from Google Cloud. Visit <a href=\"https://makersuite.google.com/app/apikey\" target=\"_blank\">Google AI Studio API Keys</a> to generate one."
+msgstr ""
+
+#: views/settings/ai-settings.php:107
+msgid "AIzaSy***********************"
+msgstr ""
+
+#: views/settings/ai-settings.php:134
+msgid "DeepSeek API Key"
+msgstr ""
+
+#: views/settings/ai-settings.php:137
+msgid "To integrate with DeepSeek, you need to obtain an API key from DeepSeek. Visit <a href=\"https://www.deepseek.com/api-keys\" target=\"_blank\">DeepSeek API Keys</a> to generate one."
+msgstr ""
+
+#: views/settings/ai-settings.php:147
+msgid "ds-***********************"
+msgstr ""
+
+#: views/settings/ai-settings.php:158
+msgid "DeepSeek Model"
+msgstr ""
+
+#: views/settings/ai-settings.php:163
+msgid "DeepSeek Chat (Full Version)"
+msgstr ""
+
+#: views/settings/ai-settings.php:164
+msgid "DeepSeek Reasoner Mini (Light Version)"
+msgstr ""
+
 #: views/settings/email-settings.php:15
 #: views/settings/moderation-settings.php:14
 #: views/settings/payment-settings.php:14
@@ -11491,7 +11619,7 @@ msgstr ""
 #: views/settings/export.php:10
 #: views/settings/export.php:17
 #: views/settings/import-export.php:10
-#: src/form-builder/backend/components/pages/FormList.jsx:394
+#: src/form-builder/backend/components/pages/FormList.jsx:466
 msgid "Export"
 msgstr ""
 
@@ -11611,6 +11739,7 @@ msgstr ""
 
 #: views/settings/general-settings.php:86
 #: views/widgets/categories.php:36
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:176
 msgid "Name"
 msgstr ""
 
@@ -12593,6 +12722,143 @@ msgstr ""
 msgid "Radius (Miles)"
 msgstr ""
 
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:22
+msgid "Car Directory"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:22
+msgid "Create a directory for cars"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:23
+msgid "Hotel Directory"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:23
+msgid "Build a comprehensive hotel directory"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:24
+msgid "Travel Directory"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:24
+msgid "Establish a travel directory"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:25
+msgid "Job Listing"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:25
+msgid "Create a job board or employment opportunities listing"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:26
+msgid "Classified Ads"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:26
+msgid "List classified ads"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:27
+msgid "Lawyer Directory"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:27
+msgid "Establish a lawyer directory"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:28
+msgid "Real-estate Directory"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:28
+msgid "Create a real-estate directory"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:46
+msgid "I want to create a %s named is \"%s\" in %s ."
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:182
+msgid "Enter directory name"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:190
+msgid "Choose a name for your directory"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:215
+msgid "Or create your own"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:221
+msgid "Enter custom directory type"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:228
+msgid "Select or create a directory type"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:237
+msgid "Enter location (e.g., Global, New York, Remote)"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:247
+msgid "Write you prompt the purpose and goals of your directory"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:254
+msgid "Specify location and  write you prompt"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:257
+msgid "Keywords"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:264
+msgid "Enter keywords separated by commas"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:271
+msgid "%d/%d"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:279
+msgid "Selected  keywords:"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:298
+msgid "Suggested  keywords:"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:318
+msgid "Add relevant keywords"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:337
+msgid "Generating..."
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:337
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:367
+msgid "Continue to Generate"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:341
+msgid "Create Your Directory with AI"
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:342
+msgid "This form is powered by AI to help you create a directory effortlessly."
+msgstr ""
+
+#: src/form-builder/backend/components/DirectoryAIForm.jsx:367
+msgid "Fetching Keywords..."
+msgstr ""
+
 #: src/form-builder/backend/components/editor/Board.jsx:53
 msgid "Add New Section"
 msgstr ""
@@ -12686,7 +12952,7 @@ msgstr ""
 msgid "reCaptcha v3 is activated"
 msgstr ""
 
-#: src/form-builder/backend/components/editor/elements/SocialProfilesElement.jsx:60
+#: src/form-builder/backend/components/editor/elements/SocialProfilesElement.jsx:61
 msgid "Please select a profile"
 msgstr ""
 
@@ -12760,7 +13026,7 @@ msgstr ""
 msgid "This message will be shown if validation fails for"
 msgstr ""
 
-#: src/form-builder/backend/components/editor/sidebar/Customizer/YesNoCheckboxField.jsx:24
+#: src/form-builder/backend/components/editor/sidebar/Customizer/YesNoCheckboxField.jsx:27
 msgid "Only Pro"
 msgstr ""
 
@@ -12811,36 +13077,40 @@ msgstr ""
 msgid "Please select a language to translate"
 msgstr ""
 
-#: src/form-builder/backend/components/pages/FormList.jsx:376
+#: src/form-builder/backend/components/pages/FormAI.jsx:25
+msgid " %s"
+msgstr ""
+
+#: src/form-builder/backend/components/pages/FormList.jsx:447
 msgid "Click to toggle"
 msgstr ""
 
-#: src/form-builder/backend/components/pages/FormList.jsx:404
+#: src/form-builder/backend/components/pages/FormList.jsx:477
 msgid "Are you sure delete?"
 msgstr ""
 
-#: src/form-builder/backend/components/pages/FormList.jsx:423
+#: src/form-builder/backend/components/pages/FormList.jsx:511
 msgid "Search forms..."
 msgstr ""
 
-#: src/form-builder/backend/components/pages/FormList.jsx:428
+#: src/form-builder/backend/components/pages/FormList.jsx:520
 msgid "Add New Form"
 msgstr ""
 
-#: src/form-builder/backend/components/pages/FormList.jsx:453
+#: src/form-builder/backend/components/pages/FormList.jsx:564
 msgid "Create New From"
 msgstr ""
 
-#: src/form-builder/backend/components/pages/FormList.jsx:462
-#: src/form-builder/backend/components/pages/FormList.jsx:497
+#: src/form-builder/backend/components/pages/FormList.jsx:575
+#: src/form-builder/backend/components/pages/FormList.jsx:610
 msgid "Import Forms"
 msgstr ""
 
-#: src/form-builder/backend/components/pages/FormList.jsx:463
+#: src/form-builder/backend/components/pages/FormList.jsx:576
 msgid "Select the Classified Listing Builder Forms export file(.json) you would like to import. When you click the import button below, Classified listing builder will import the forms."
 msgstr ""
 
-#: src/form-builder/backend/components/pages/FormList.jsx:489
+#: src/form-builder/backend/components/pages/FormList.jsx:602
 msgid "Select File"
 msgstr ""
 

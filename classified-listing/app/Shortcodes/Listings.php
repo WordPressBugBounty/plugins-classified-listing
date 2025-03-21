@@ -387,6 +387,11 @@ class Listings
 		if ( apply_filters('rtcl_listings_shortcode_show_top_listings', true ) ) {
 			ob_start();
 			do_action('rtcl_listing_loop_prepend_data');
+			global $rtclTopListingIds;
+			if(!empty($rtclTopListingIds)) {
+				$this->query_args['post__not_in'] = $rtclTopListingIds;
+				$listings = $this->get_query_results();
+			}
 			$listing_loop_prepend_data = ob_get_clean();
 		}
 		ob_start();

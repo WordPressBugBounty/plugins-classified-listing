@@ -39,11 +39,11 @@ class Installer {
 	 */
 	public static function needs_db_update(): bool {
 		$current_db_version = get_option( 'rtcl_db_version', null );
-		$updates            = self::get_db_update_callbacks();
-		$update_versions    = array_keys( $updates );
+		$updates = self::get_db_update_callbacks();
+		$update_versions = array_keys( $updates );
 		usort( $update_versions, 'version_compare' );
 
-		return ! is_null( $current_db_version ) && version_compare( $current_db_version, end( $update_versions ), '<' );
+		return !is_null( $current_db_version ) && version_compare( $current_db_version, end( $update_versions ), '<' );
 	}
 
 
@@ -72,7 +72,7 @@ class Installer {
 
 	private static function doDBUpdate() {
 		$current_db_version = get_option( 'rtcl_pro_db_version' );
-		$loop               = 0;
+		$loop = 0;
 
 		foreach ( self::get_db_update_callbacks() as $version => $update_callbacks ) {
 			if ( version_compare( $current_db_version, $version, '<' ) ) {
@@ -87,7 +87,7 @@ class Installer {
 
 
 	public static function activate( $network_wide = null ) {
-		if ( ! is_blog_installed() ) {
+		if ( !is_blog_installed() ) {
 			return;
 		}
 
@@ -100,7 +100,7 @@ class Installer {
 		set_transient( 'rtcl_installing', 'yes', MINUTE_IN_SECONDS * 10 );
 
 
-		if ( ! get_option( 'rtcl_version' ) ) {
+		if ( !get_option( 'rtcl_version' ) ) {
 			self::create_options();
 		}
 
@@ -269,7 +269,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 				'image_size_gallery'           => [ 'width' => 924, 'height' => 462, 'crop' => 'yes' ],
 				'image_size_gallery_thumbnail' => [ 'width' => 150, 'height' => 105, 'crop' => 'yes' ],
 				'image_size_thumbnail'         => [ 'width' => 320, 'height' => 240, 'crop' => 'yes' ],
-				'image_allowed_type'           => [ 'png', 'jpg', 'jpeg' ],
+				'image_allowed_type'           => [ 'png', 'jpg', 'jpeg', 'webp' ],
 				'image_allowed_memory'         => 2,
 				'image_edit_cap'               => 'yes',
 				'social_services'              => [ 'facebook', 'twitter' ],
@@ -316,11 +316,11 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 		}
 
 		$pages = Functions::insert_custom_pages();
-		if ( ! empty( $pages ) ) {
+		if ( !empty( $pages ) ) {
 			$pSettings = get_option( 'rtcl_advanced_settings', [] );
 			foreach ( $pages as $pSlug => $pId ) {
 				if ( $pId > 0 ) {
-					$pSettings[ $pSlug ] = $pId;
+					$pSettings[$pSlug] = $pId;
 				}
 			}
 			update_option( 'rtcl_advanced_settings', $pSettings );
@@ -376,7 +376,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 			$collate = $wpdb->get_charset_collate();
 		}
 		$tax_table_name = $wpdb->prefix . "rtcl_tax_rates";
-		$table_schema   = [];
+		$table_schema = [];
 
 		if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $tax_table_name ) ) !== $tax_table_name ) {
 			$table_schema[] = "CREATE TABLE $tax_table_name (
@@ -452,19 +452,19 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 	 */
 	private static function create_cron_jobs() {
 		self::clean_cron_jobs();
-		if ( ! wp_next_scheduled( 'rtcl_cleanup_sessions' ) ) {
+		if ( !wp_next_scheduled( 'rtcl_cleanup_sessions' ) ) {
 			wp_schedule_event( time() + ( 6 * HOUR_IN_SECONDS ), 'twicedaily', 'rtcl_cleanup_sessions' );
 		}
-		
-		if ( ! wp_next_scheduled( 'rtcl_cleanup_temp_listings' ) ) {
+
+		if ( !wp_next_scheduled( 'rtcl_cleanup_temp_listings' ) ) {
 			wp_schedule_event( time() + ( 6 * HOUR_IN_SECONDS ), 'twicedaily', 'rtcl_cleanup_temp_listings' );
 		}
-		
-		if ( ! wp_next_scheduled( 'rtcl_hourly_scheduled_events' ) ) {
+
+		if ( !wp_next_scheduled( 'rtcl_hourly_scheduled_events' ) ) {
 			wp_schedule_event( time(), 'hourly', 'rtcl_hourly_scheduled_events' );
 		}
 
-		if ( ! wp_next_scheduled( 'rtcl_daily_scheduled_events' ) ) {
+		if ( !wp_next_scheduled( 'rtcl_daily_scheduled_events' ) ) {
 			$ve = get_option( 'gmt_offset' ) > 0 ? '-' : '+';
 			wp_schedule_event( strtotime( '00:00 tomorrow ' . $ve . absint( get_option( 'gmt_offset' ) ) . ' HOURS' ), 'daily', 'rtcl_daily_scheduled_events' );
 		}

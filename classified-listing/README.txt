@@ -2,10 +2,10 @@
 Contributors: techlabpro1
 Donate link:
 Tags: business directory, classifieds, directory plugin, listings, classifieds ads
-Requires at least: 5.0
+Requires at least: 5.6
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 4.0.5
+Stable tag: 4.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -24,6 +24,19 @@ A Classified Ads and Business Directory Plugin for WordPress, designed to create
 == Classified ads Plugin for WordPress  ==
 
 Classified ads & Business Directory WordPress Plugin can use to create a Classified ads, Business Directory and Members Directory website easily. This plugin has both Elementor and Gutenberg blocks so you can build the classified site easily with the default Gutenberg block editor and most popular Elementor page builder.
+
+== 🔥 AI-Generated Directory Creation 🔥 ==
+Classified Listing now lets you generate diverse directories using AI based on your needs. You can create any type of directory with a few clicks. 
+
+With Classified Listing’s AI-powered form builder, you can effortlessly create multi-directory forms that suit your needs. This innovative tool analyzes user requirements and generates customized forms. So, it saves time and simplifies complex directory management. 
+
+It now supports AI-assisted keyword generation to make your directories more discoverable in search results. It analyzes your content and suggests the best keywords to increase visibility and attract more users. 
+
+Additionally, the plugin supports integration with personal AI APIs like ChatGPT, Gemini, and DeepSeek. As a result, your targeted users can generate high-quality, engaging listing titles and descriptions automatically. They can enhance the content quality and SEO performance using AI!
+
+Thus, experience a smarter way to manage classified listings - save time, boost engagement, and optimize your directory with AI-driven automation!
+
+👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/ai-integration/settings/)
 
 == 🔥 Free Classified WordPress Theme 🔥 ==
 > [CLClassified – Free Classified WordPress Theme](https://www.radiustheme.com/downloads/clclassified-classified-ads-wordpress-theme/)
@@ -323,6 +336,24 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 4.1.0 ( Mar 21, 2025 ) =
+* Added: AI support to create new form (ChatGPT, Google Gemini, DeepSeek)
+* Added: Add close text for terms popup close suggestion
+* Added: getFormById new function added to get form
+* Optimized: Listing image size generation
+* Fixed: Error message for unregister user while submitting new listings
+* Fixed: User default value issue at phone and other user meta
+* Fixed: Custom field load issue at ajax filter
+* Fixed: Form builder Button translation issue
+* Fixed: MyAccount page listing issue which exclude draft
+* Fixed: Ajax filter issue at result archive,
+* Fixed: Ajax filter selected directory remove issue,
+* Fixed: Offline info added at order email to customer
+* Fixed: Divi builder template load issue for hook priority
+* Fixed: Empty repeater label, booking data hide at inactive mode
+* Fixed: open street map marker update issue
+* Fixed: get terms custom order issue at Category list widget and rtcl_get_terms hook 
 
 = 4.0.5 ( Feb 17, 2025 ) =
 * Added: Ajax filter new hook added (rtcl_ajax_filter_after_render)

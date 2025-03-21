@@ -117,10 +117,7 @@ class Categories extends WP_Widget {
 
 		if ( $settings['imm_child_only'] ) {
 
-			if ( $settings['term_id'] > $settings['parent']
-			     && ! in_array( $settings['term_id'],
-					$settings['ancestors'] )
-			) {
+			if ( $settings['term_id'] > $settings['parent'] && ! in_array( $settings['term_id'], $settings['ancestors'] ) ) {
 				return '';
 			}
 
@@ -135,9 +132,10 @@ class Categories extends WP_Widget {
 			'hierarchical' => ! empty( $settings['hide_empty'] )
 		];
 		if ( $settings['orderby'] === '_rtcl_order' ) {
+			$args['orderby']  = 'meta_value_num';
 			$args['meta_key'] = '_rtcl_order'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 		}
-
+		
 		$terms = get_terms( $args );
 
 		$html = '';

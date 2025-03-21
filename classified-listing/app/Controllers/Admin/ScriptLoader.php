@@ -661,6 +661,10 @@ class ScriptLoader {
 			'activeTerms'                              => $activeTerms,
 			'is_enable_tax'                            => Functions::is_enable_tax(),
 			'payment_currency_symbol'                  => Functions::get_order_currency_symbol(),
+			'ai_enabled'                               => Functions::is_ai_enabled(),
+			'current_user'							   => wp_get_current_user(),
+			'admin_url'							   		=> admin_url(),
+			'prompt_max_limit' 						   => Functions::get_max_prompt_input_limit()
 		];
 
 		if ( !empty( $misc_settings['recaptcha_site_key'] ) && !empty( $misc_settings['recaptcha_forms'] ) ) {
@@ -887,6 +891,10 @@ class ScriptLoader {
 			'i18n_delete_note'               => esc_html__( 'Are you sure you wish to delete this note? This action cannot be undone.', 'classified-listing' ),
 			'i18n_message'                   => esc_html__( 'Message', 'classified-listing' ),
 			'i18n_send'                      => esc_html__( 'Send', 'classified-listing' ),
+			'ai_enabled'                     => Functions::is_ai_enabled(),
+			'current_user'					 => wp_get_current_user(),
+			'admin_url'						 => admin_url(),
+			'prompt_max_limit' 				 => Functions::get_max_prompt_input_limit()
 		];
 		wp_localize_script( 'rtcl-admin', 'rtcl', apply_filters( 'rtcl_localize_params_admin', $localize ) );
 
@@ -1109,6 +1117,7 @@ class ScriptLoader {
 			'pluginUrl'     => RTCL_URL,
 			rtcl()->nonceId => wp_create_nonce( rtcl()->nonceText ),
 			'hasPro'        => rtcl()->has_pro(),
+			'theme' 		=> wp_get_theme()->get_stylesheet(),
 			'forms'         => Form::query()->get(),
 			'settingFields' => AvailableFields::settings(),
 			'optionFields'  => AvailableFields::optionFields(),
@@ -1127,7 +1136,6 @@ class ScriptLoader {
 		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
 			wp_dequeue_style( 'wpml-ate-jobs-sync-ui' );
 		}
-
 		wp_enqueue_editor();
 		wp_localize_script( 'rtcl-fb-admin', 'rtclFB', apply_filters( 'rtcl_localize_fb_admin_params', $formBuilderLocalize ) );
 		wp_enqueue_style( 'rtcl-fb-admin' );

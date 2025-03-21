@@ -9144,6 +9144,8 @@ body.rtl .rtcl-el-slider-wrapper.rtcl-slider-btn-style-2 .rtcl-slider-btn.button
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  display: flex;
+  gap: 5px;
 }
 .rtcl-active-filters-wrap .rtcl-clear-filters i {
   color: var(--rtcl-primary-color, #5787FA);

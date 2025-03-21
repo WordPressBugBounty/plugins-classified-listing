@@ -60,7 +60,7 @@ class AvailableFields {
 					'title'      => __( 'Title', 'classified-listing' ),
 					'icon_class' => 'rtcl-icon-header',
 					'template'   => 'inputText',
-				]
+				],
 			],
 			'description'         => [
 				'element'         => 'description',
@@ -996,6 +996,8 @@ class AvailableFields {
 			unset( $fields['geo_location'] );
 		}
 
+		$fields = self::addAIFieldToElements( $fields );
+
 		return apply_filters( 'rtcl_fb_fields', $fields );
 	}
 
@@ -1116,12 +1118,24 @@ class AvailableFields {
 		$fields = [
 			[
 				'label' => __( 'Active From builder', 'classified-listing' ),
-				'help'  => '<span style="color: red">' . __( 'Not compatible with mobile app (We are working on this feature).', 'classified-listing' ) . '</span>',
 				'type'  => 'switch',
 				'name'  => 'active',
 			]
 		];
 
 		return apply_filters( 'rtcl/fb/option_fields', $fields );
+	}
+	
+	private static function addAIFieldToElements(array $fields): array {
+		$typesWithAI = ['text', 'title', 'textarea', 'description', 'excerpt'];
+		$aiEnabled = Functions::is_ai_enabled();
+		$hasPro = rtcl()->has_pro();
+
+		return array_map(function ($field) use ($aiEnabled, $typesWithAI, $hasPro) {
+			if (in_array($field['element'], $typesWithAI)) {
+				$field['ai'] = in_array($field['element'], ['title', 'description','excerpt']) ? $aiEnabled : $hasPro && $aiEnabled;
+			}
+			return $field;
+		}, $fields);
 	}
 }

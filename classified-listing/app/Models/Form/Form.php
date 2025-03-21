@@ -231,10 +231,13 @@ class Form extends Model {
 
 			$formSettingFields = AvailableFields::settings();
 			if ( !empty( $formSettingFields ) && is_array( $formSettingFields ) ) {
+				$buttonKeys = ['submit_btn_text', 'update_btn_text'];
 				$settings = $this->settings;
 				foreach ( $formSettingFields as $key => $formSettingField ) {
-					if ( !empty( $formSettingField[$key] ) && !empty( $translations['settings'][$formSettingField[$key]] ) ) {
-						$settings[$formSettingField[$key]] = $translations['settings'][$formSettingField[$key]];
+					if ( !empty( $translations['settings'][$key] ) ) {
+						$settings[$key] = $translations['settings'][$key];
+					}else if(in_array($key, $buttonKeys)){
+						$settings[$key] = '';
 					}
 				}
 				$this->settings = $settings;
@@ -259,7 +262,9 @@ class Form extends Model {
 					if ( !empty( $formFields[$uuid] ) ) {
 						$formFields[$uuid] = $this->getTranslatedField( $trValues, $formFields[$uuid] );
 					}
-					$formFields[$uuid]['logics'] = $this->getTranslatedConditionFieldValueForTaxonomy( $formFields[$uuid]['logics'], $formFields );
+					if(!empty($formFields[$uuid]['logics'])) {
+						$formFields[$uuid]['logics'] = $this->getTranslatedConditionFieldValueForTaxonomy( $formFields[$uuid]['logics'], $formFields );
+					}
 				}
 			}
 

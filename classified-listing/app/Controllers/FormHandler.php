@@ -146,7 +146,7 @@ class FormHandler {
 				if ( $order_id ) {
 					$payment_process_data = [];
 					$order                = rtcl()->factory->get_order( $order_id );
-					$order->payment_complete( wp_generate_password( 12, true ) );
+					$order->payment_complete( wp_generate_password() );
 					$redirect_url = Link::get_payment_receipt_page_link( $order_id );
 					Functions::add_notice( esc_html__( "Payment successfully made.", "classified-listing" ) );
 					do_action( 'rtcl_checkout_process_success', $order, $payment_process_data );

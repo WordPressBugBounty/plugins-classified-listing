@@ -186,8 +186,7 @@ class EditorShortcodeParser {
 				$metaKey = substr( $prop, strlen( 'meta.' ) );
 				$userId  = $user->ID;
 				$data    = get_user_meta( $userId, $metaKey, true );
-
-				return is_array( $data ) && ! empty( $data ) ? $data : '';
+				return !is_array( $data )  ? $data : '';
 			}
 
 			return $user->{$prop};
