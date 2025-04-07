@@ -167,8 +167,6 @@ class ElementCustomization {
 					'placeholder',
 					'validation',
 					'advanced_options',
-					'randomize_options',
-					'enable_select_2',
 					'filterable',
 					'single_view',
 					'archive_view',
@@ -792,10 +790,10 @@ class ElementCustomization {
 				'label'     => __( 'Display at single page', 'classified-listing' ),
 				'help_text' => __( 'if enable then display this field at single listing view.', 'classified-listing' ),
 			],
-			'enable_select_2'              => [
+			'select_filter_option'              => [
 				'template'  => 'inputYesNoCheckBox',
-				'label'     => __( 'Enable Searchable Smart Options', 'classified-listing' ),
-				'help_text' => __( 'If you enable this then options will be searchable by select2 js library', 'classified-listing' ),
+				'label'     => __( 'Enable filter Option', 'classified-listing' ),
+				'help_text' => __( 'If you enable this then options will be searchable', 'classified-listing' ),
 			],
 			'subscription_options'         => [
 				'template'  => 'subscriptionOptions',

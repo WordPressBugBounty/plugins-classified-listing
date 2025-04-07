@@ -909,7 +909,6 @@ class AvailableFields {
 				'enable_icon_class' => false,
 				'values_visible'    => false,
 				'direction'         => 'horizontal',
-				'randomize_options' => 'no',
 				'validation'        => [
 					'required' => [
 						'value'   => false,

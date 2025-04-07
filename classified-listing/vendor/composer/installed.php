@@ -3,7 +3,7 @@
         'name' => 'radiustheme/classified-listing',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'a38fd7bf99561533ce54219560388f76c424cb43',
+        'reference' => '3a32c36cfd4d548a19e37b131d46c4180fc5c129',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -112,7 +112,7 @@
         'radiustheme/classified-listing' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'a38fd7bf99561533ce54219560388f76c424cb43',
+            'reference' => '3a32c36cfd4d548a19e37b131d46c4180fc5c129',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

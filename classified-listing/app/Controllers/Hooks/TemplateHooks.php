@@ -134,7 +134,7 @@ class TemplateHooks {
 		], 10 );
 		add_action( 'rtcl_single_listing_inner_sidebar', [ __CLASS__, 'add_single_listing_inner_sidebar_action' ], 20 );
 
-		if ( ! Functions::get_option_item( 'rtcl_account_settings', 'disable_name_phone_registration', false, 'checkbox' ) ) {
+		if ( !Functions::get_option_item( 'rtcl_account_settings', 'disable_name_phone_registration', false, 'checkbox' ) ) {
 			add_action( 'rtcl_register_form_start', [ __CLASS__, 'add_name_fields_at_registration_form' ], 10 );
 		} else {
 			add_filter( 'rtcl_registration_name_validation', function () {
@@ -142,7 +142,7 @@ class TemplateHooks {
 			} );
 		}
 
-		if ( ! Functions::get_option_item( 'rtcl_account_settings', 'disable_phone_at_registration', false, 'checkbox' ) ) {
+		if ( !Functions::get_option_item( 'rtcl_account_settings', 'disable_phone_at_registration', false, 'checkbox' ) ) {
 			add_action( 'rtcl_register_form_start', [ __CLASS__, 'add_phone_at_registration_form' ], 20 );
 		}
 
@@ -240,21 +240,21 @@ class TemplateHooks {
 
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
+	 * @param array $itemData
+	 * @param array $filterData
 	 * @param AjaxFilter $object
 	 *
 	 * @return void
 	 */
 	public static function ajax_filter_render_search( $itemData, $filterData, $object ) {
 
-		$q                  = ! empty( $_GET['q'] ) ? trim( sanitize_text_field( wp_unslash( $_GET['q'] ) ) )
+		$q = !empty( $_GET['q'] ) ? trim( sanitize_text_field( wp_unslash( $_GET['q'] ) ) )
 			: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-		$itemData['title']  = ! empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Search', 'classified-listing' );
-		$placeholder        = ! empty( $itemData['placeholder'] ) ? $itemData['placeholder'] : esc_html__( 'Search ...', 'classified-listing' );
-		$itemData['active'] = ! empty( $q );
-		$field_html         = '';
-		$field_html         = sprintf( '<div class="rtcl-ajax-filter-text">
+		$itemData['title'] = !empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Search', 'classified-listing' );
+		$placeholder = !empty( $itemData['placeholder'] ) ? $itemData['placeholder'] : esc_html__( 'Search ...', 'classified-listing' );
+		$itemData['active'] = !empty( $q );
+		$field_html = '';
+		$field_html = sprintf( '<div class="rtcl-ajax-filter-text">
 											<input name="q" type="text"  role="presentation" autocomplete="off" value="%1$s" class="form-control rtcl-filter-text-field" placeholder="%2$s">
 											<i class="rtcl-clear-text rtcl-icon-trash"></i>
 										</div>',
@@ -267,8 +267,8 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
+	 * @param array $itemData
+	 * @param array $filterData
 	 * @param AjaxFilter $object
 	 *
 	 * @return void
@@ -277,30 +277,30 @@ class TemplateHooks {
 		if ( Functions::is_ad_type_disabled() ) {
 			return;
 		}
-		$ad_type           = ! empty( $_GET['filter_ad_type'] ) ? sanitize_text_field( wp_unslash( $_GET['filter_ad_type'] ) )
+		$ad_type = !empty( $_GET['filter_ad_type'] ) ? sanitize_text_field( wp_unslash( $_GET['filter_ad_type'] ) )
 			: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-		$selectedValues    = $ad_type ? explode( ',', $ad_type ) : [];
-		$itemData['title'] = ! empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Ad Type', 'classified-listing' );
-		$fieldType         = ! empty( $itemData['type'] )
-							 && in_array( $itemData['type'],
+		$selectedValues = $ad_type ? explode( ',', $ad_type ) : [];
+		$itemData['title'] = !empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Ad Type', 'classified-listing' );
+		$fieldType = !empty( $itemData['type'] )
+		&& in_array( $itemData['type'],
 			[
 				'checkbox',
 				'radio',
 				'select'
 			] ) ? $itemData['type'] : 'checkbox';
-		$options           = [
+		$options = [
 			'name'       => 'filter_ad_type',
 			'field_type' => $fieldType,
 			'values'     => $selectedValues
 		];
 
 		$field_html = '<div class="rtcl-ajax-filter-data">';
-		$ad_types   = Functions::get_listing_types();
-		$count      = 0;
-		if ( ! empty( $ad_types ) ) {
+		$ad_types = Functions::get_listing_types();
+		$count = 0;
+		if ( !empty( $ad_types ) ) {
 			if ( in_array( $fieldType, [ 'checkbox', 'radio' ] ) ) {
 				foreach ( $ad_types as $optKey => $optValue ) {
-					$count ++;
+					$count++;
 					$field_html .= sprintf( '<div class="rtcl-ajax-filter-data-item rtcl-filter-checkbox-item rtcl-filter-ad_type-%1$s%6$s">
 															<div class="rtcl-ajax-filter-diiWrap">
 																<input id="filters-ad-type-value-%1$s" name="%2$s" value="%1$s" type="%3$s" class="rtcl-filter-checkbox"%4$s />
@@ -342,24 +342,31 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
+	 * @param array $itemData
+	 * @param array $filterData
 	 * @param AjaxFilter $object
 	 *
 	 * @return void
 	 */
 	public static function ajax_filter_render_category( $itemData, $filterData, $object ) {
-		$fieldType         = ! empty( $itemData['type'] )
-							 && in_array( $itemData['type'],
+		$fieldType = !empty( $itemData['type'] )
+		&& in_array( $itemData['type'],
 			[
 				'checkbox',
 				'radio',
 			] ) ? $itemData['type'] : 'checkbox';
-		$category          = ! empty( $_GET['filter_category'] ) ? sanitize_text_field( wp_unslash( $_GET['filter_category'] ) )
+		$category = !empty( $_GET['filter_category'] ) ? sanitize_text_field( wp_unslash( $_GET['filter_category'] ) )
 			: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-		$selectedValues    = $category ? explode( ',', $category ) : [];
-		$itemData['title'] = ! empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Category', 'classified-listing' );
-		$options           = wp_parse_args( $itemData,
+		$selectedValues = $category ? explode( ',', $category ) : [];
+		$catSlug = !empty( $_GET['rtcl_category'] ) ? wp_unslash( sanitize_text_field( $_GET['rtcl_category'] ) ) : get_query_var( 'rtcl_category' );
+		if ( $catSlug ) {
+			$cat_term = get_term_by( 'slug', $catSlug, rtcl()->category );
+			if ( $cat_term && !is_wp_error( $cat_term ) ) {
+				$selectedValues[] = $cat_term->term_id;
+			}
+		}
+		$itemData['title'] = !empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Category', 'classified-listing' );
+		$options = wp_parse_args( $itemData,
 			[
 				'name'       => 'filter_category',
 				'taxonomy'   => rtcl()->category,
@@ -373,8 +380,8 @@ class TemplateHooks {
 
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
+	 * @param array $itemData
+	 * @param array $filterData
 	 * @param AjaxFilter $object
 	 *
 	 * @return string|void
@@ -384,17 +391,24 @@ class TemplateHooks {
 			return '';
 		}
 
-		$fieldType         = ! empty( $itemData['type'] )
-							 && in_array( $itemData['type'],
+		$fieldType = !empty( $itemData['type'] )
+		&& in_array( $itemData['type'],
 			[
 				'checkbox',
 				'radio',
 			] ) ? $itemData['type'] : 'checkbox';
-		$locations         = ! empty( $_GET['filter_location'] ) ? sanitize_text_field( wp_unslash( $_GET['filter_location'] ) )
+		$locations = !empty( $_GET['filter_location'] ) ? sanitize_text_field( wp_unslash( $_GET['filter_location'] ) )
 			: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-		$selectedValues    = $locations ? explode( ',', $locations ) : [];
-		$itemData['title'] = ! empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Category', 'classified-listing' );
-		$options           = wp_parse_args( $itemData,
+		$selectedValues = $locations ? explode( ',', $locations ) : [];
+		$locSlug = !empty( $_GET['rtcl_location'] ) ? wp_unslash( sanitize_text_field( $_GET['rtcl_location'] ) ) : get_query_var( 'rtcl_location' );
+		if ( $locSlug ) {
+			$loc_term = get_term_by( 'slug', $locSlug, rtcl()->location );
+			if ( $loc_term && !is_wp_error( $loc_term ) ) {
+				$selectedValues[] = $loc_term->term_id;
+			}
+		}
+		$itemData['title'] = !empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Category', 'classified-listing' );
+		$options = wp_parse_args( $itemData,
 			[
 				'name'       => 'filter_location',
 				'taxonomy'   => rtcl()->location,
@@ -407,24 +421,31 @@ class TemplateHooks {
 
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
+	 * @param array $itemData
+	 * @param array $filterData
 	 * @param AjaxFilter $object
 	 *
 	 * @return void
 	 */
 	public static function ajax_filter_render_tag( $itemData, $filterData, $object ) {
-		$fieldType         = ! empty( $itemData['type'] )
-							 && in_array( $itemData['type'],
+		$fieldType = !empty( $itemData['type'] )
+		&& in_array( $itemData['type'],
 			[
 				'checkbox',
 				'radio',
 			] ) ? $itemData['type'] : 'checkbox';
-		$tags              = ! empty( $_GET['filter_tag'] ) ? sanitize_text_field( wp_unslash( $_GET['filter_tag'] ) )
+		$tags = !empty( $_GET['filter_tag'] ) ? sanitize_text_field( wp_unslash( $_GET['filter_tag'] ) )
 			: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-		$selectedValues    = $tags ? explode( ',', $tags ) : [];
-		$itemData['title'] = ! empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Tag', 'classified-listing' );
-		$options           = wp_parse_args( $itemData,
+		$selectedValues = $tags ? explode( ',', $tags ) : [];
+		$tagSlug = !empty( $_GET['rtcl_tag'] ) ? wp_unslash( sanitize_text_field( $_GET['rtcl_tag'] ) ) : get_query_var( 'rtcl_tag' );
+		if ( $tagSlug ) {
+			$tag_term = get_term_by( 'slug', $tagSlug, rtcl()->tag );
+			if ( $tag_term && !is_wp_error( $tag_term ) ) {
+				$selectedValues[] = $tag_term->term_id;
+			}
+		}
+		$itemData['title'] = !empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Tag', 'classified-listing' );
+		$options = wp_parse_args( $itemData,
 			[
 				'name'       => 'filter_tag',
 				'taxonomy'   => rtcl()->tag,
@@ -436,22 +457,22 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
+	 * @param array $itemData
+	 * @param array $filterData
 	 * @param AjaxFilter $object
 	 *
 	 * @return void
 	 */
 	public static function ajax_filter_render_price_range( $itemData, $filterData, $object ) {
-		$filterInputPrice   = ! empty( $_GET['filter_price'] ) ? sanitize_text_field( wp_unslash( $_GET['filter_price'] ) )
+		$filterInputPrice = !empty( $_GET['filter_price'] ) ? sanitize_text_field( wp_unslash( $_GET['filter_price'] ) )
 			: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-		$filterInputPrice   = ! empty( $filterInputPrice ) ? explode( ',', $filterInputPrice ) : [ null, null ];
-		$minPrice           = ! empty( $itemData['min_price'] ) ? absint( $itemData['min_price'] ) : 0;
-		$maxPrice           = ! empty( $itemData['max_price'] ) ? absint( $itemData['max_price'] ) : 50000;
-		$step               = ! empty( $itemData['step'] ) ? absint( $itemData['step'] ) : 1000;
-		$inputMinPrice      = $filterInputPrice[0] ?? $minPrice;
-		$inputMaxPrice      = $filterInputPrice[1] ?? $maxPrice;
-		$field_html         = sprintf( '<div class="rtcl-price-range-wrap">
+		$filterInputPrice = !empty( $filterInputPrice ) ? explode( ',', $filterInputPrice ) : [ null, null ];
+		$minPrice = !empty( $itemData['min_price'] ) ? absint( $itemData['min_price'] ) : 0;
+		$maxPrice = !empty( $itemData['max_price'] ) ? absint( $itemData['max_price'] ) : 50000;
+		$step = !empty( $itemData['step'] ) ? absint( $itemData['step'] ) : 1000;
+		$inputMinPrice = $filterInputPrice[0] ?? $minPrice;
+		$inputMaxPrice = $filterInputPrice[1] ?? $maxPrice;
+		$field_html = sprintf( '<div class="rtcl-price-range-wrap">
 												<div class="rtcl-price-range-slider rtcl-noUiSlider" data-min="%1$d" data-max="%2$d" data-step="%3$d"></div>
 												<div class="rtcl-range-slider-input-wrap">
 													<input type="number" name="filter_min_price" class="form-control rtcl-range-slider-input min" placeholder="%6$s" value="%4$d" min="%1$d" max="%2$d" step="%3$d">
@@ -467,29 +488,29 @@ class TemplateHooks {
 			esc_html__( 'max', 'classified-listing' ),
 		);
 		$itemData['active'] = $filterInputPrice[0] || $filterInputPrice[1];
-		$itemData['title']  = ! empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Price Range', 'classified-listing' );
-		$options            = [ 'name' => 'filter_price_range', 'allow_rest' => true ];
+		$itemData['title'] = !empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Price Range', 'classified-listing' );
+		$options = [ 'name' => 'filter_price_range', 'allow_rest' => true ];
 		Functions::print_html( $object->render_filter_item( $itemData, $options, $field_html ), true );
 	}
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
+	 * @param array $itemData
+	 * @param array $filterData
 	 * @param AjaxFilter $object
 	 *
 	 * @return void
 	 */
 	public static function ajax_filter_render_radius_filter( $itemData, $filterData, $object ) {
-		$rs_data           = Options::radius_search_options();
-		$geoAddress        = ! empty( $_GET['geo_address'] ) ? esc_attr( $_GET['geo_address'] )
+		$rs_data = Options::radius_search_options();
+		$geoAddress = !empty( $_GET['geo_address'] ) ? esc_attr( $_GET['geo_address'] )
 			: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-		$centerLat         = ! empty( $_GET['center_lat'] ) ? esc_attr( $_GET['center_lat'] )
+		$centerLat = !empty( $_GET['center_lat'] ) ? esc_attr( $_GET['center_lat'] )
 			: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-		$centerLng         = ! empty( $_GET['center_lng'] ) ? esc_attr( $_GET['center_lng'] )
+		$centerLng = !empty( $_GET['center_lng'] ) ? esc_attr( $_GET['center_lng'] )
 			: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-		$distance          = absint( ! empty( $_GET['distance'] ) ? absint( $_GET['distance'] )
+		$distance = absint( !empty( $_GET['distance'] ) ? absint( $_GET['distance'] )
 			: $rs_data['default_distance'] ); /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-		$field_html        = sprintf( '
+		$field_html = sprintf( '
                                     <div class="rtcl-radius-search-wrap">
                                         <div class="rtcl-geo-address-field">
                                             <input type="text" name="geo_address" autocomplete="off" value="%1$s" placeholder="%2$s" class="form-control rtcl-geo-address-input" />
@@ -516,10 +537,10 @@ class TemplateHooks {
 			$rs_data['default_distance'],
 			$rs_data['max_distance']
 		);
-		$itemData['title'] = ! empty( $settings['title'] ) ? $settings['title'] : esc_html__( 'Radius Search', 'classified-listing' );
+		$itemData['title'] = !empty( $settings['title'] ) ? $settings['title'] : esc_html__( 'Radius Search', 'classified-listing' );
 
 		$itemData['active'] = $centerLat && $centerLng && $distance;
-		$options            = [ 'name' => 'filter_radius_filter', 'allow_rest' => true ];
+		$options = [ 'name' => 'filter_radius_filter', 'allow_rest' => true ];
 		Functions::print_html( $object->render_filter_item( $itemData, $options, $field_html ), true );
 	}
 
@@ -532,7 +553,7 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param int     $paymentId
+	 * @param int $paymentId
 	 * @param Payment $payment
 	 */
 	public static function payment_receipt_pricing_info( $paymentId, $payment ) {
@@ -540,7 +561,7 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param int     $paymentId
+	 * @param int $paymentId
 	 * @param Payment $payment
 	 */
 	public static function payment_receipt_billing_info( $paymentId, $payment ) {
@@ -552,7 +573,7 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param int     $paymentId
+	 * @param int $paymentId
 	 * @param Payment $payment
 	 */
 	public static function payment_receipt_payment_info( $paymentId, $payment ) {
@@ -580,7 +601,7 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param int     $paymentId
+	 * @param int $paymentId
 	 * @param Payment $payment
 	 */
 	public static function offline_payment_instruction( $paymentId, $payment ) {
@@ -609,9 +630,9 @@ class TemplateHooks {
 	 * @param Listing $listing
 	 */
 	public static function seller_email( $listing ) {
-		
+
 		if ( is_a( $listing, Listing::class ) && Functions::get_option_item( 'rtcl_moderation_settings', 'has_contact_form', false, 'checkbox' )
-			 && $email = get_post_meta( $listing->get_id(), 'email', true )
+			&& $email = get_post_meta( $listing->get_id(), 'email', true )
 		) {
 			if ( is_user_logged_in() && get_current_user_id() === $listing->get_author_id() ) {
 				return;
@@ -637,21 +658,21 @@ class TemplateHooks {
 	 */
 	public static function seller_phone_whatsapp_number( $listing ) {
 		if ( is_a( $listing, Listing::class ) ) {
-			$phone           = get_post_meta( $listing->get_id(), 'phone', true );
+			$phone = get_post_meta( $listing->get_id(), 'phone', true );
 			$whatsapp_number = get_post_meta( $listing->get_id(), '_rtcl_whatsapp_number', true );
-			if ( $phone || ( $whatsapp_number && ! Functions::is_field_disabled( 'whatsapp_number' ) ) ) {
-				$mobileClass   = wp_is_mobile() ? " rtcl-mobile" : null;
+			if ( $phone || ( $whatsapp_number && !Functions::is_field_disabled( 'whatsapp_number' ) ) ) {
+				$mobileClass = wp_is_mobile() ? " rtcl-mobile" : null;
 				$phone_options = [];
 				if ( $phone ) {
 					$phone_options = [
 						'safe_phone'   => mb_substr( $phone, 0, mb_strlen( $phone ) - 3 ) . apply_filters( 'rtcl_phone_number_placeholder', 'XXX' ),
-						'phone_hidden' => mb_substr( $phone, - 3 )
+						'phone_hidden' => mb_substr( $phone, -3 )
 					];
 				}
-				if ( $whatsapp_number && ! Functions::is_field_disabled( 'whatsapp_number' ) ) {
+				if ( $whatsapp_number && !Functions::is_field_disabled( 'whatsapp_number' ) ) {
 					$phone_options['safe_whatsapp_number'] = mb_substr( $whatsapp_number, 0, mb_strlen( $whatsapp_number ) - 3 )
-															 . apply_filters( 'rtcl_phone_number_placeholder', 'XXX' );
-					$phone_options['whatsapp_hidden']      = mb_substr( $whatsapp_number, - 3 );
+						. apply_filters( 'rtcl_phone_number_placeholder', 'XXX' );
+					$phone_options['whatsapp_hidden'] = mb_substr( $whatsapp_number, -3 );
 				}
 				$phone_options = apply_filters( 'rtcl_phone_number_options', $phone_options, [
 					'phone'           => $phone,
@@ -661,7 +682,8 @@ class TemplateHooks {
 				<div class='list-group-item reveal-phone<?php echo esc_attr( $mobileClass ); ?>'
 					 data-options="<?php
 					 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					 echo htmlspecialchars( wp_json_encode( $phone_options ) ); ?>" data-id="<?php echo $listing->get_id(); ?>">
+					 echo htmlspecialchars( wp_json_encode( $phone_options ) ); ?>"
+					 data-id="<?php echo $listing->get_id(); ?>">
 					<div class='media'>
 						<span class='rtcl-icon rtcl-icon-phone mr-2'></span>
 						<div class='media-body'>
@@ -747,7 +769,7 @@ class TemplateHooks {
 			/* translators: related something */
 			$message = sprintf( esc_html__( "Need to discuss something related to '%1\$s' from %2\$s", "classified-listing" ), $listing->get_the_title(),
 				get_permalink( $listing->get_id() ) );
-			if ( ! empty( $telegram ) ) {
+			if ( !empty( $telegram ) ) {
 				?>
 				<div class='list-group-item'>
 					<div class='media'>
@@ -769,7 +791,7 @@ class TemplateHooks {
 	 * @param Listing $listing
 	 */
 	public static function my_listing_promotion_button( $listing ) {
-		if ( is_a( $listing, Listing::class ) && ! Functions::is_payment_disabled() ) {
+		if ( is_a( $listing, Listing::class ) && !Functions::is_payment_disabled() ) {
 			?>
 			<a href="<?php echo esc_url( Link::get_checkout_endpoint_url( "submission", $listing->get_id() ) ); ?>"
 			   class="rtcl-promote-btn">
@@ -798,11 +820,11 @@ class TemplateHooks {
 	 * @param Listing $listing
 	 */
 	public static function my_listing_renew_button( Listing $listing ) {
-		if ( ! $listing->isExpired() ) {
+		if ( !$listing->isExpired() ) {
 			return;
 		}
 
-		if ( ! apply_filters( 'rtcl_enable_renew_button', Functions::is_enable_renew(), $listing ) ) {
+		if ( !apply_filters( 'rtcl_enable_renew_button', Functions::is_enable_renew(), $listing ) ) {
 			return;
 		}
 
@@ -950,12 +972,12 @@ class TemplateHooks {
 			<div class="rtcl-field-col">
 				<?php
 				$social_options = Options::get_social_profiles_list();
-				$social_media   = get_current_user_id() ? Functions::get_user_social_profile( get_current_user_id() ) : [];
+				$social_media = get_current_user_id() ? Functions::get_user_social_profile( get_current_user_id() ) : [];
 				foreach ( $social_options as $key => $social_option ) {
 					echo sprintf(
 						'<input type="url" name="social_media[%1$s]" id="rtcl-account-social-%1$s" value="%2$s" placeholder="%3$s" class="rtcl-form-control"/>',
 						esc_attr( $key ),
-						esc_url( isset( $social_media[ $key ] ) ? $social_media[ $key ] : '' ),
+						esc_url( isset( $social_media[$key] ) ? $social_media[$key] : '' ),
 						esc_html( $social_option )
 					);
 				} ?>
@@ -965,14 +987,14 @@ class TemplateHooks {
 	}
 
 	public static function edit_account_form_location_field() {
-		$user_id        = get_current_user_id();
-		$location_id    = $sub_location_id = 0;
-		$user_locations = (array) get_user_meta( $user_id, '_rtcl_location', true );
-		$zipcode        = get_user_meta( $user_id, '_rtcl_zipcode', true );
-		$address        = get_user_meta( $user_id, '_rtcl_address', true );
-		$state_text     = Text::location_level_first();
-		$city_text      = Text::location_level_second();
-		$town_text      = Text::location_level_third(); ?>
+		$user_id = get_current_user_id();
+		$location_id = $sub_location_id = 0;
+		$user_locations = (array)get_user_meta( $user_id, '_rtcl_location', true );
+		$zipcode = get_user_meta( $user_id, '_rtcl_zipcode', true );
+		$address = get_user_meta( $user_id, '_rtcl_address', true );
+		$state_text = Text::location_level_first();
+		$city_text = Text::location_level_second();
+		$town_text = Text::location_level_third(); ?>
 		<div class="rtcl-form-group">
 			<div class="rtcl-field-col" id="rtcl-location-row">
 				<label for="rtcl-location" class="rtcl-field-label">
@@ -984,16 +1006,16 @@ class TemplateHooks {
 					<option value="">--<?php esc_html_e( 'Select state', 'classified-listing' ) ?>--</option>
 					<?php
 					$locations = Functions::get_one_level_locations();
-					if ( ! empty( $locations ) ) {
+					if ( !empty( $locations ) ) {
 						foreach ( $locations as $location ) {
 							$slt = '';
 							if ( in_array( $location->term_id, $user_locations ) ) {
 								$location_id = $location->term_id;
-								$slt         = " selected";
+								$slt = " selected";
 							}
 							echo "<option value='" . esc_attr( $location->term_id ) . "'" . esc_attr( $slt ) . ">" .
-								 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								 $location->name . "</option>";
+								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+								$location->name . "</option>";
 						}
 					} ?>
 				</select>
@@ -1011,16 +1033,16 @@ class TemplateHooks {
 						class="rtcl-select2 rtcl-select rtcl-form-control rtcl-map-field" required>
 					<option value="">--<?php esc_html_e( 'Select location', 'classified-listing' ) ?>--</option>
 					<?php
-					if ( ! empty( $sub_locations ) ) {
+					if ( !empty( $sub_locations ) ) {
 						foreach ( $sub_locations as $location ) {
 							$slt = '';
 							if ( in_array( $location->term_id, $user_locations ) ) {
 								$sub_location_id = $location->term_id;
-								$slt             = " selected";
+								$slt = " selected";
 							}
 							echo "<option value='" . esc_attr( $location->term_id ) . "'" . esc_attr( $slt ) . ">" .
-								 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								 $location->name . "</option>";
+								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+								$location->name . "</option>";
 						}
 					} ?>
 				</select>
@@ -1040,15 +1062,15 @@ class TemplateHooks {
 						class="rtcl-select2 rtcl-select rtcl-form-control rtcl-map-field" required>
 					<option value="">--<?php esc_html_e( 'Select location', 'classified-listing' ) ?>--</option>
 					<?php
-					if ( ! empty( $sub_sub_locations ) ) {
+					if ( !empty( $sub_sub_locations ) ) {
 						foreach ( $sub_sub_locations as $location ) {
 							$slt = '';
 							if ( in_array( $location->term_id, $user_locations ) ) {
 								$slt = " selected";
 							}
 							echo "<option value='" . esc_attr( $location->term_id ) . "'" . esc_attr( $slt ) . ">" .
-								 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								 $location->name . "</option>";
+								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+								$location->name . "</option>";
 						}
 					} ?>
 				</select>
@@ -1071,7 +1093,7 @@ class TemplateHooks {
 
 
 	public static function edit_account_form_geo_location() {
-		$user_id     = get_current_user_id();
+		$user_id = get_current_user_id();
 		$geo_address = get_user_meta( $user_id, '_rtcl_geo_address', true ); ?>
 		<div class="rtcl-form-group">
 			<label class="rtcl-field-label" for="rtcl-geo-address">
@@ -1092,9 +1114,9 @@ class TemplateHooks {
 	}
 
 	public static function edit_account_map_field() {
-		$user_id   = get_current_user_id();
-		$address   = get_user_meta( $user_id, '_rtcl_address', true );
-		$latitude  = get_user_meta( $user_id, '_rtcl_latitude', true );
+		$user_id = get_current_user_id();
+		$address = get_user_meta( $user_id, '_rtcl_address', true );
+		$latitude = get_user_meta( $user_id, '_rtcl_latitude', true );
 		$longitude = get_user_meta( $user_id, '_rtcl_longitude', true ); ?>
 		<div class="rtcl-form-group">
 			<label for="rtcl-map" class="rtcl-field-label">
@@ -1120,16 +1142,16 @@ class TemplateHooks {
 	 * @param Listing $listing
 	 */
 	public static function listing_featured_badge( $listing ) {
-		if ( ! $listing->is_featured() ) {
+		if ( !$listing->is_featured() ) {
 			return;
 		}
-		$display_option    = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
-		$can_show          = apply_filters( 'rtcl_listing_can_show_featured_badge', true, $listing );
+		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
+		$can_show = apply_filters( 'rtcl_listing_can_show_featured_badge', true, $listing );
 		$can_show_settings = Functions::get_option_item( 'rtcl_moderation_settings', $display_option, 'featured', 'multi_checkbox' );
 
 		$can_show_settings = apply_filters( 'rtcl_listing_can_show_featured_badge_settings', $can_show_settings );
 
-		if ( ! $can_show || ! $can_show_settings ) {
+		if ( !$can_show || !$can_show_settings ) {
 			return;
 		}
 		$label = Functions::get_option_item( 'rtcl_moderation_settings', 'listing_featured_label' );
@@ -1142,13 +1164,13 @@ class TemplateHooks {
 	 */
 	public static function listing_new_badge( $listing ) {
 		$can_show = apply_filters( 'rtcl_listing_can_show_new_badge', true, $listing );
-		if ( ! $can_show || ! $listing->is_new() ) {
+		if ( !$can_show || !$listing->is_new() ) {
 			return;
 		}
-		$display_option    = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
+		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
 		$can_show_settings = Functions::get_option_item( 'rtcl_moderation_settings', $display_option, 'new', 'multi_checkbox' );
 		$can_show_settings = apply_filters( 'rtcl_listing_can_show_new_badge_settings', $can_show_settings );
-		if ( ! $can_show_settings ) {
+		if ( !$can_show_settings ) {
 			return;
 		}
 
@@ -1164,11 +1186,11 @@ class TemplateHooks {
 	 */
 	public static function listing_category( $post_id ) {
 		if ( $post_id ) {
-			$category_id   = wp_get_object_terms( $post_id, rtcl()->category, [ 'fields' => 'ids' ] );
-			$category_id   = ( is_array( $category_id ) && ! empty( $category_id ) ) ? end( $category_id ) : 0;
+			$category_id = wp_get_object_terms( $post_id, rtcl()->category, [ 'fields' => 'ids' ] );
+			$category_id = ( is_array( $category_id ) && !empty( $category_id ) ) ? end( $category_id ) : 0;
 			$selected_type = get_post_meta( $post_id, 'ad_type', true );
 		} else {
-			$category_id   = isset( $_GET['category'] ) ? absint( $_GET['category'] ) : 0;
+			$category_id = isset( $_GET['category'] ) ? absint( $_GET['category'] ) : 0;
 			$selected_type = ( isset( $_GET['type'] ) && in_array( $_GET['type'], array_keys( Functions::get_listing_types() ) ) ) ? $_GET['type'] : '';
 		}
 		Functions::get_template( "listing-form/category-section", compact( 'post_id', 'category_id', 'selected_type' ) );
@@ -1181,32 +1203,32 @@ class TemplateHooks {
 	 */
 	public static function listing_information( $post_id ) {
 		if ( $post_id ) {
-			$category_id   = wp_get_object_terms( $post_id, rtcl()->category, [ 'fields' => 'ids' ] );
-			$category_id   = ( is_array( $category_id ) && ! empty( $category_id ) ) ? end( $category_id ) : 0;
+			$category_id = wp_get_object_terms( $post_id, rtcl()->category, [ 'fields' => 'ids' ] );
+			$category_id = ( is_array( $category_id ) && !empty( $category_id ) ) ? end( $category_id ) : 0;
 			$selected_type = get_post_meta( $post_id, 'ad_type', true );
 		} else {
-			$category_id   = isset( $_GET['category'] ) ? absint( $_GET['category'] ) : 0;
+			$category_id = isset( $_GET['category'] ) ? absint( $_GET['category'] ) : 0;
 			$selected_type = ( isset( $_GET['type'] ) && in_array( $_GET['type'], array_keys( Functions::get_listing_types() ) ) ) ? $_GET['type'] : '';
 		}
-		$general_settings    = Functions::get_option( 'rtcl_general_settings' );
+		$general_settings = Functions::get_option( 'rtcl_general_settings' );
 		$moderation_settings = Functions::get_option( 'rtcl_moderation_settings' );
-		$editor              = ! empty( $general_settings['text_editor'] ) ? $general_settings['text_editor'] : 'wp_editor';
-		$price               = $post_content = $listing_pricing = $price_type = $title = '';
-		$listing             = null;
-		$tags                = [];
+		$editor = !empty( $general_settings['text_editor'] ) ? $general_settings['text_editor'] : 'wp_editor';
+		$price = $post_content = $listing_pricing = $price_type = $title = '';
+		$listing = null;
+		$tags = [];
 		if ( $post_id > 0 ) {
-			$listing         = new Listing( $post_id );
-			$category_id     = wp_get_object_terms( $post_id, rtcl()->category, [ 'fields' => 'ids' ] );
-			$category_id     = ( is_array( $category_id ) && ! empty( $category_id ) ) ? end( $category_id ) : 0;
-			$price_type      = get_post_meta( $post_id, 'price_type', true );
+			$listing = new Listing( $post_id );
+			$category_id = wp_get_object_terms( $post_id, rtcl()->category, [ 'fields' => 'ids' ] );
+			$category_id = ( is_array( $category_id ) && !empty( $category_id ) ) ? end( $category_id ) : 0;
+			$price_type = get_post_meta( $post_id, 'price_type', true );
 			$listing_pricing = get_post_meta( $post_id, '_rtcl_listing_pricing', true );
-			$price           = get_post_meta( $post_id, 'price', true );
-			$tags            = wp_get_object_terms( $post_id, rtcl()->tag );
+			$price = get_post_meta( $post_id, 'price', true );
+			$tags = wp_get_object_terms( $post_id, rtcl()->tag );
 
 			global $post;
 			$post = get_post( $post_id );
 			setup_postdata( $post );
-			$title        = get_the_title();
+			$title = get_the_title();
 			$post_content = get_the_content();
 			wp_reset_postdata();
 		}
@@ -1226,7 +1248,7 @@ class TemplateHooks {
 			'description_limit' => Functions::get_description_character_limit(),
 			'parent_cat_id'     => 0,
 			'child_cat_id'      => 0,
-			'hidden_fields'     => ( ! empty( $moderation_settings['hide_form_fields'] ) ) ? $moderation_settings['hide_form_fields'] : []
+			'hidden_fields'     => ( !empty( $moderation_settings['hide_form_fields'] ) ) ? $moderation_settings['hide_form_fields'] : []
 		] );
 	}
 
@@ -1235,14 +1257,14 @@ class TemplateHooks {
 	 */
 	public static function listing_gallery( $post_id ) {
 		// Images
-		if ( ! Functions::is_gallery_disabled() ) {
+		if ( !Functions::is_gallery_disabled() ) {
 			Functions::get_template( "listing-form/gallery", compact( 'post_id' ) );
 
 
 			// Videos
-			if ( ! Functions::is_video_urls_disabled() ) {
+			if ( !Functions::is_video_urls_disabled() ) {
 				$video_urls = get_post_meta( $post_id, '_rtcl_video_urls', true );
-				$video_urls = ! empty( $video_urls ) && is_array( $video_urls ) ? $video_urls : [];
+				$video_urls = !empty( $video_urls ) && is_array( $video_urls ) ? $video_urls : [];
 				Functions::get_template( "listing-form/video-urls", compact( 'post_id', 'video_urls' ) );
 			}
 		}
@@ -1250,7 +1272,7 @@ class TemplateHooks {
 
 	public static function listing_recaptcha( $post_id ) {
 		$settings = Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', [] );
-		if ( ! empty( $settings ) && is_array( $settings ) && in_array( 'listing', $settings ) ) {
+		if ( !empty( $settings ) && is_array( $settings ) && in_array( 'listing', $settings ) ) {
 			Functions::get_template( "listing-form/recaptcha", compact( 'post_id' ) );
 		}
 	}
@@ -1261,36 +1283,36 @@ class TemplateHooks {
 	}
 
 	public static function listing_contact( $post_id ) {
-		$location_id        = $sub_location_id = $sub_sub_location_id = 0;
-		$user_id            = get_current_user_id();
-		$user               = get_userdata( $user_id );
-		$email              = $user ? $user->user_email : '';
-		$phone              = get_user_meta( $user_id, '_rtcl_phone', true );
-		$whatsapp_number    = get_user_meta( $user_id, '_rtcl_whatsapp_number', true );
-		$telegram           = get_user_meta( $user_id, '_rtcl_telegram', true );
-		$website            = get_user_meta( $user_id, '_rtcl_website', true );
-		$selected_locations = (array) get_user_meta( $user_id, '_rtcl_location', true );
-		$zipcode            = get_user_meta( $user_id, '_rtcl_zipcode', true );
-		$geo_address        = get_user_meta( $user_id, '_rtcl_geo_address', true );
-		$address            = get_user_meta( $user_id, '_rtcl_address', true );
-		$latitude           = get_user_meta( $user_id, '_rtcl_latitude', true );
-		$longitude          = get_user_meta( $user_id, '_rtcl_longitude', true );
+		$location_id = $sub_location_id = $sub_sub_location_id = 0;
+		$user_id = get_current_user_id();
+		$user = get_userdata( $user_id );
+		$email = $user ? $user->user_email : '';
+		$phone = get_user_meta( $user_id, '_rtcl_phone', true );
+		$whatsapp_number = get_user_meta( $user_id, '_rtcl_whatsapp_number', true );
+		$telegram = get_user_meta( $user_id, '_rtcl_telegram', true );
+		$website = get_user_meta( $user_id, '_rtcl_website', true );
+		$selected_locations = (array)get_user_meta( $user_id, '_rtcl_location', true );
+		$zipcode = get_user_meta( $user_id, '_rtcl_zipcode', true );
+		$geo_address = get_user_meta( $user_id, '_rtcl_geo_address', true );
+		$address = get_user_meta( $user_id, '_rtcl_address', true );
+		$latitude = get_user_meta( $user_id, '_rtcl_latitude', true );
+		$longitude = get_user_meta( $user_id, '_rtcl_longitude', true );
 
 		if ( $post_id ) {
 			$selected_locations = 'local' === Functions::location_type() ? wp_get_object_terms( $post_id, rtcl()->location, [ 'fields' => 'ids' ] ) : [];
-			$latitude           = get_post_meta( $post_id, 'latitude', true );
-			$longitude          = get_post_meta( $post_id, 'longitude', true );
-			$zipcode            = get_post_meta( $post_id, 'zipcode', true );
-			$address            = get_post_meta( $post_id, 'address', true );
-			$geo_address        = get_post_meta( $post_id, '_rtcl_geo_address', true );
-			$phone              = get_post_meta( $post_id, 'phone', true );
-			$whatsapp_number    = get_post_meta( $post_id, '_rtcl_whatsapp_number', true );
-			$telegram           = get_post_meta( $post_id, '_rtcl_telegram', true );
-			$email              = get_post_meta( $post_id, 'email', true );
-			$website            = get_post_meta( $post_id, 'website', true );
+			$latitude = get_post_meta( $post_id, 'latitude', true );
+			$longitude = get_post_meta( $post_id, 'longitude', true );
+			$zipcode = get_post_meta( $post_id, 'zipcode', true );
+			$address = get_post_meta( $post_id, 'address', true );
+			$geo_address = get_post_meta( $post_id, '_rtcl_geo_address', true );
+			$phone = get_post_meta( $post_id, 'phone', true );
+			$whatsapp_number = get_post_meta( $post_id, '_rtcl_whatsapp_number', true );
+			$telegram = get_post_meta( $post_id, '_rtcl_telegram', true );
+			$email = get_post_meta( $post_id, 'email', true );
+			$website = get_post_meta( $post_id, 'website', true );
 		}
 		$moderation_settings = Functions::get_option( 'rtcl_moderation_settings' );
-		$data                = [
+		$data = [
 			'post_id'                    => $post_id,
 			'state_text'                 => Text::location_level_first(),
 			'city_text'                  => Text::location_level_second(),
@@ -1309,8 +1331,8 @@ class TemplateHooks {
 			'location_id'                => $location_id,
 			'sub_location_id'            => $sub_location_id,
 			'sub_sub_location_id'        => $sub_sub_location_id,
-			'hidden_fields'              => ( ! empty( $moderation_settings['hide_form_fields'] ) ) ? $moderation_settings['hide_form_fields'] : [],
-			'enable_post_for_unregister' => ! is_user_logged_in() && Functions::is_enable_post_for_unregister()
+			'hidden_fields'              => ( !empty( $moderation_settings['hide_form_fields'] ) ) ? $moderation_settings['hide_form_fields'] : [],
+			'enable_post_for_unregister' => !is_user_logged_in() && Functions::is_enable_post_for_unregister()
 		];
 		Functions::get_template( "listing-form/contact", apply_filters( 'rtcl_listing_form_contact_tpl_attributes', $data, $post_id ) );
 	}
@@ -1353,8 +1375,8 @@ class TemplateHooks {
 	public static function add_listing_form_hidden_field( $post_id ) {
 		echo sprintf( '<input type="hidden" name="_post_id" id="_post_id" value="%d"/>', esc_attr( $post_id ) );
 		wp_nonce_field( rtcl()->nonceText, rtcl()->nonceId );
-		if ( ! $post_id ) {
-			$category_id   = isset( $_GET['category'] ) ? absint( $_GET['category'] ) : 0;
+		if ( !$post_id ) {
+			$category_id = isset( $_GET['category'] ) ? absint( $_GET['category'] ) : 0;
 			$selected_type = ( isset( $_GET['type'] ) && in_array( $_GET['type'], array_keys( Functions::get_listing_types() ) ) ) ? $_GET['type'] : '';
 			echo sprintf( '<input type="hidden" name="_category_id" id="category-id" value="%d"/>', esc_attr( $category_id ) );
 			echo sprintf( '<input type="hidden" name="_ad_type" id="ad-type" value="%s"/>', esc_attr( $selected_type ) );
@@ -1370,7 +1392,7 @@ class TemplateHooks {
 					<strong class="rtcl-required">*</strong>
 				</label>
 				<input type="text" name="first_name" id="rtcl-reg-first-name"
-					   value="<?php if ( ! empty( $_POST['first_name'] ) ) {
+					   value="<?php if ( !empty( $_POST['first_name'] ) ) {
 						   echo esc_attr( $_POST['first_name'] );
 					   } ?>"
 					   class="rtcl-form-control" required/>
@@ -1381,7 +1403,7 @@ class TemplateHooks {
 					<strong class="rtcl-required">*</strong>
 				</label>
 				<input type="text" name="last_name"
-					   value="<?php if ( ! empty( $_POST['last_name'] ) ) {
+					   value="<?php if ( !empty( $_POST['last_name'] ) ) {
 						   echo esc_attr( $_POST['last_name'] );
 					   } ?>"
 					   id="rtcl-reg-last-name" class="rtcl-form-control" required/>
@@ -1391,7 +1413,7 @@ class TemplateHooks {
 	}
 
 	public static function add_phone_at_registration_form() {
-		$is_required = (boolean) apply_filters( 'rtcl_registration_phone_validation', false, '' );
+		$is_required = (boolean)apply_filters( 'rtcl_registration_phone_validation', false, '' );
 		?>
 		<div class="rtcl-form-group phone-row">
 			<?php do_action( 'rtcl_register_form_phone_start' ); ?>
@@ -1402,7 +1424,7 @@ class TemplateHooks {
 				<?php endif; ?>
 			</label>
 			<input type="text" name="phone"
-				   value="<?php if ( ! empty( $_POST['phone'] ) ) {
+				   value="<?php if ( !empty( $_POST['phone'] ) ) {
 					   echo esc_attr( $_POST['phone'] );
 				   } ?>"
 				   id="rtcl-reg-phone" class="rtcl-form-control"<?php echo $is_required ? ' required' : '' ?>/>
@@ -1448,18 +1470,18 @@ class TemplateHooks {
 	 */
 	public static function single_listing_map_content( $listing ) {
 		if ( is_a( $listing, Listing::class ) ) {
-			if ( ( $form = $listing->getForm() ) && ! $form->getFieldByElement( 'map' ) ) {
+			if ( ( $form = $listing->getForm() ) && !$form->getFieldByElement( 'map' ) ) {
 				return;
 			}
-			$latitude  = get_post_meta( $listing->get_id(), 'latitude', true );
+			$latitude = get_post_meta( $listing->get_id(), 'latitude', true );
 			$longitude = get_post_meta( $listing->get_id(), 'longitude', true );
-			$address   = null;
+			$address = null;
 			if ( 'geo' === Functions::location_type() ) {
 				$address = esc_html( wp_strip_all_tags( get_post_meta( $listing->get_id(), '_rtcl_geo_address', true ) ) );
 			}
 
-			if ( ! $address ) {
-				$locations    = [];
+			if ( !$address ) {
+				$locations = [];
 				$rawLocations = $listing->get_locations();
 				if ( count( $rawLocations ) ) {
 					foreach ( $rawLocations as $location ) {
@@ -1473,11 +1495,11 @@ class TemplateHooks {
 					$locations[] = esc_html( $address );
 				}
 				$locations = array_reverse( $locations );
-				$address   = ! empty( $locations ) ? implode( ',', $locations ) : null;
+				$address = !empty( $locations ) ? implode( ',', $locations ) : null;
 			}
-			$map_options  = [];
+			$map_options = [];
 			$map_settings = [
-				'has_map'     => Functions::has_map() && ! Functions::hide_map( $listing->get_id() ),
+				'has_map'     => Functions::has_map() && !Functions::hide_map( $listing->get_id() ),
 				'latitude'    => $latitude,
 				'longitude'   => $longitude,
 				'address'     => $address,
@@ -1520,16 +1542,16 @@ class TemplateHooks {
 	 * Output the Listing sorting options.
 	 */
 	public static function catalog_ordering() {
-		if ( ! Functions::get_loop_prop( 'is_paginated' ) ) {
+		if ( !Functions::get_loop_prop( 'is_paginated' ) ) {
 			return;
 		}
-		$orderby                 = Functions::get_option_item( 'rtcl_general_settings', 'orderby' );
-		$order                   = Functions::get_option_item( 'rtcl_general_settings', 'order' );
-		$orderby_order           = $orderby . "-" . $order;
+		$orderby = Functions::get_option_item( 'rtcl_general_settings', 'orderby' );
+		$order = Functions::get_option_item( 'rtcl_general_settings', 'order' );
+		$orderby_order = $orderby . "-" . $order;
 		$catalog_orderby_options = Options::get_listing_orderby_options();
 
 		$default_orderby = Functions::get_loop_prop( 'is_search' ) ? 'relevance' : $orderby_order;
-		$orderby         = isset( $_GET['orderby'] ) ? Functions::clean( wp_unslash( $_GET['orderby'] ) )
+		$orderby = isset( $_GET['orderby'] ) ? Functions::clean( wp_unslash( $_GET['orderby'] ) )
 			: $default_orderby; // WPCS: sanitization ok, input var ok, CSRF ok.
 
 		if ( Functions::get_loop_prop( 'is_search' ) ) {
@@ -1538,7 +1560,7 @@ class TemplateHooks {
 			unset( $catalog_orderby_options['menu_order'] );
 		}
 
-		if ( ! array_key_exists( $orderby, $catalog_orderby_options ) ) {
+		if ( !array_key_exists( $orderby, $catalog_orderby_options ) ) {
 			$orderby = current( array_keys( $catalog_orderby_options ) );
 		}
 
@@ -1556,7 +1578,7 @@ class TemplateHooks {
 	 * Output the result count text (Showing x - x of x results).
 	 */
 	public static function result_count() {
-		if ( ! Functions::get_loop_prop( 'is_paginated' ) ) {
+		if ( !Functions::get_loop_prop( 'is_paginated' ) ) {
 			return;
 		}
 		$args = [
@@ -1622,9 +1644,9 @@ class TemplateHooks {
 			return;
 		}
 		echo '<h3 class="' . esc_attr( apply_filters( 'rtcl_listing_loop_title_classes', 'listing-title rtcl-listing-title' ) ) . '"><a href="'
-			 . esc_url( $listing->get_the_permalink() ) . '">' .
-			 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			 $listing->get_the_title() . '</a></h3>';
+			. esc_url( $listing->get_the_permalink() ) . '">' .
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$listing->get_the_title() . '</a></h3>';
 	}
 
 	public static function loop_item_wrapper_start() {
@@ -1634,7 +1656,7 @@ class TemplateHooks {
 			return;
 		}
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo apply_filters( 'rtcl_loop_item_wrapper_start', sprintf( '<div class="item-content%s">', ! $listing->can_show_price() ? ' no-price' : '' ) );
+		echo apply_filters( 'rtcl_loop_item_wrapper_start', sprintf( '<div class="item-content%s">', !$listing->can_show_price() ? ' no-price' : '' ) );
 	}
 
 	public static function loop_item_wrapper_end() {
@@ -1718,11 +1740,11 @@ public static function output_main_wrapper_start() {
 			$term = get_queried_object();
 		} elseif ( Functions::is_listings() ) {
 			$category = get_query_var( '__cat' );
-			if ( ! empty( $category ) ) {
+			if ( !empty( $category ) ) {
 				$term = get_term_by( 'slug', $category, rtcl()->category );
 			}
 		}
-		if ( $term && ! empty( $term->description ) ) {
+		if ( $term && !empty( $term->description ) ) {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo '<div class="rtcl-term-description">' . Functions::format_content( $term->description ) . '</div>';
 		}
@@ -1735,7 +1757,7 @@ public static function output_main_wrapper_start() {
 		}
 
 		if ( is_post_type_archive( rtcl()->post_type )
-			 && in_array( absint( get_query_var( 'paged' ) ), [
+			&& in_array( absint( get_query_var( 'paged' ) ), [
 				0,
 				1
 			], true )
@@ -1764,7 +1786,7 @@ public static function output_main_wrapper_start() {
 	 * @return array
 	 */
 	public static function body_class( $classes ) {
-		$classes = (array) $classes;
+		$classes = (array)$classes;
 		if ( Functions::is_rtcl() ) {
 			$classes[] = 'rtcl';
 			$classes[] = 'rtcl-page';
@@ -1777,7 +1799,7 @@ public static function output_main_wrapper_start() {
 			if ( Functions::is_registration_page_separate() ) {
 				if ( Functions::is_account_page( 'registration' ) ) {
 					$classes[] = 'rtcl-page-registration';
-				} elseif ( ! is_user_logged_in() ) {
+				} elseif ( !is_user_logged_in() ) {
 					$classes[] = 'rtcl-page-login';
 				}
 			}
@@ -1786,9 +1808,9 @@ public static function output_main_wrapper_start() {
 			$classes[] = 'rtcl-page';
 		}
 
-		if ( Functions::is_listing() && ! is_active_sidebar( 'rtcl-single-sidebar' ) ) {
+		if ( Functions::is_listing() && !is_active_sidebar( 'rtcl-single-sidebar' ) ) {
 			$classes[] = 'rtcl-single-no-sidebar';
-		} elseif ( ( Functions::is_listings() || Functions::is_listing_taxonomy() ) && ! is_active_sidebar( 'rtcl-archive-sidebar' ) ) {
+		} elseif ( ( Functions::is_listings() || Functions::is_listing_taxonomy() ) && !is_active_sidebar( 'rtcl-archive-sidebar' ) ) {
 			$classes[] = 'rtcl-archive-no-sidebar';
 		}
 
@@ -1805,21 +1827,21 @@ public static function output_main_wrapper_start() {
 	 *
 	 * Note: For performance reasons we instead recommend using listing_class/get_listing_class instead.
 	 *
-	 * @param array        $classes Current classes.
-	 * @param string|array $class   Additional class.
-	 * @param int          $post_id Post ID.
+	 * @param array $classes Current classes.
+	 * @param string|array $class Additional class.
+	 * @param int $post_id Post ID.
 	 *
 	 * @return array
 	 * @since 1.5.4
 	 */
 	public static function listing_post_class( $classes, $class = '', $post_id = 0 ) {
-		if ( ! $post_id || rtcl()->post_type !== get_post_type( $post_id ) ) {
+		if ( !$post_id || rtcl()->post_type !== get_post_type( $post_id ) ) {
 			return $classes;
 		}
 
 		$listing = rtcl()->factory->get_listing( $post_id );
 
-		if ( ! $listing ) {
+		if ( !$listing ) {
 			return $classes;
 		}
 
@@ -1857,7 +1879,7 @@ public static function output_main_wrapper_start() {
 	public static function account_content() {
 		global $wp;
 
-		if ( ! empty( $wp->query_vars ) ) {
+		if ( !empty( $wp->query_vars ) ) {
 			foreach ( $wp->query_vars as $key => $value ) {
 				// Ignore pagename param.
 				if ( 'pagename' === $key ) {
@@ -1881,7 +1903,7 @@ public static function output_main_wrapper_start() {
 	public static function checkout_content() {
 		global $wp;
 
-		if ( ! empty( $wp->query_vars ) ) {
+		if ( !empty( $wp->query_vars ) ) {
 			foreach ( $wp->query_vars as $key => $value ) {
 				// Ignore pagename param.
 				if ( 'pagename' === $key ) {
@@ -1926,7 +1948,7 @@ public static function output_main_wrapper_start() {
 
 
 	public static function social_login_shortcode() {
-		if ( ! apply_filters( 'rtcl_social_login_shortcode_disabled', false ) ) {
+		if ( !apply_filters( 'rtcl_social_login_shortcode_disabled', false ) ) {
 			$shortcode = apply_filters( 'rtcl_social_login_shortcode', Functions::get_option_item( 'rtcl_account_settings', 'social_login_shortcode', '' ) );
 			if ( $shortcode ) {
 				echo sprintf( '<div class="rtcl-social-login-wrap">%s</div>', do_shortcode( $shortcode ) );
@@ -1936,7 +1958,7 @@ public static function output_main_wrapper_start() {
 
 	public static function logged_in_hidden_fields() {
 		wp_nonce_field( 'rtcl-login', 'rtcl-login-nonce' );
-		if ( ! empty( $_REQUEST['redirect_to'] ) ) {
+		if ( !empty( $_REQUEST['redirect_to'] ) ) {
 			$redirect_to = $_REQUEST['redirect_to'];
 		} else {
 			$redirect_to = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -1946,7 +1968,7 @@ public static function output_main_wrapper_start() {
 
 	public static function registration_hidden_fields() {
 		wp_nonce_field( 'rtcl-register', 'rtcl-register-nonce' );
-		if ( ! empty( $_REQUEST['redirect_to'] ) ) {
+		if ( !empty( $_REQUEST['redirect_to'] ) ) {
 			$redirect_to = $_REQUEST['redirect_to'];
 		} else {
 			$redirect_to = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -2005,7 +2027,7 @@ public static function output_main_wrapper_start() {
 	}
 
 	public static function add_checkout_billing_details() {
-		if ( ! Functions::is_billing_address_disabled() ) {
+		if ( !Functions::is_billing_address_disabled() ) {
 			Functions::get_template( "checkout/form-billing" );
 		}
 	}
@@ -2069,15 +2091,15 @@ public static function output_main_wrapper_start() {
 	public static function checkout_terms_and_conditions_page_content() {
 		$terms_page_id = Functions::get_terms_and_conditions_page_id();
 
-		if ( ! $terms_page_id ) {
+		if ( !$terms_page_id ) {
 			return;
 		}
 
 		$page = get_post( $terms_page_id );
 
-		if ( $page && 'publish' === $page->post_status && $page->post_content && ! has_shortcode( $page->post_content, 'rtcl_checkout' ) ) {
+		if ( $page && 'publish' === $page->post_status && $page->post_content && !has_shortcode( $page->post_content, 'rtcl_checkout' ) ) {
 			echo '<div class="rtcl-terms-and-conditions" style="display: none; max-height: 200px; overflow: auto;">'
-				 . wp_kses_post( Functions::format_content( $page->post_content ) ) . '</div>';
+				. wp_kses_post( Functions::format_content( $page->post_content ) ) . '</div>';
 		}
 	}
 
@@ -2086,10 +2108,10 @@ public static function output_main_wrapper_start() {
 	 * @param Filter $object
 	 */
 	public static function add_hidden_field_filter_form( $object ) {
-		$args             = $object->get_instance();
-		$current_category = ! empty( $args['current_taxonomy'][ rtcl()->category ] ) ? $args['current_taxonomy'][ rtcl()->category ]->slug : '';
-		$current_tag      = ! empty( $args['current_taxonomy'][ rtcl()->tag ] ) ? $args['current_taxonomy'][ rtcl()->tag ]->slug : '';
-		$current_location = ! empty( $args['current_taxonomy'][ rtcl()->location ] ) ? $args['current_taxonomy'][ rtcl()->location ]->slug : ''; ?>
+		$args = $object->get_instance();
+		$current_category = !empty( $args['current_taxonomy'][rtcl()->category] ) ? $args['current_taxonomy'][rtcl()->category]->slug : '';
+		$current_tag = !empty( $args['current_taxonomy'][rtcl()->tag] ) ? $args['current_taxonomy'][rtcl()->tag]->slug : '';
+		$current_location = !empty( $args['current_taxonomy'][rtcl()->location] ) ? $args['current_taxonomy'][rtcl()->location]->slug : ''; ?>
 		<input type="hidden" name="rtcl_category" value="<?php echo esc_attr( $current_category ) ?>">
 		<input type="hidden" name="rtcl_tag" value="<?php echo esc_attr( $current_tag ) ?>">
 		<input type="hidden" name="rtcl_location" value="<?php echo esc_attr( $current_location ) ?>">

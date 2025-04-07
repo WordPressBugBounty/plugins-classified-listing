@@ -36,7 +36,6 @@ class Query {
 			add_action( 'pre_get_posts', [ $this, 'pre_get_posts' ] );
 			add_action( 'pre_get_posts', [ $this, 'allow_pending_listings' ] );
 			add_action( 'pre_get_posts', [ $this, 'exclude_blocked_listings_users' ] );
-
 		}
 
 		if ( ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' ) ) {
@@ -1157,36 +1156,34 @@ class Query {
 				'relation' => 'AND',
 			];
 		}
-
-		if ( Functions::is_listings() ) {
-			$filterCategories = ! empty( $_GET['filter_category'] ) && is_string( $_GET['filter_category'] ) ? array_filter( array_map( 'absint',
-				explode( ',', $_GET['filter_category'] ) ) ) : [];
-			if ( ! empty( $filterCategories ) ) {
-				$tax_query[] = [
-					'taxonomy' => rtcl()->category,
-					'terms'    => $filterCategories,
-					'field'    => 'term_id',
-				];
-			}
-			$filterLocations = ! empty( $_GET['filter_location'] ) && is_string( $_GET['filter_location'] ) ? array_filter( array_map( 'absint',
-				explode( ',', $_GET['filter_location'] ) ) ) : [];
-			if ( ! empty( $filterLocations ) ) {
-				$tax_query[] = [
-					'taxonomy' => rtcl()->location,
-					'terms'    => $filterLocations,
-					'field'    => 'term_id',
-				];
-			}
-
-			$filterTags = ! empty( $_GET['filter_tag'] ) && is_string( $_GET['filter_tag'] ) ? array_filter( array_map( 'absint',
-				explode( ',', $_GET['filter_tag'] ) ) ) : [];
-			if ( ! empty( $filterTags ) ) {
-				$tax_query[] = [
-					'taxonomy' => rtcl()->tag,
-					'terms'    => $filterTags,
-					'field'    => 'term_id',
-				];
-			}
+		$queriedObject = get_queried_object();
+		$filterCategories = !empty( $_GET['filter_category'] ) && is_string( $_GET['filter_category'] ) ? array_filter( array_map( 'absint',
+			explode( ',', $_GET['filter_category'] ) ) ) : [];
+		if ( !empty( $filterCategories ) ) {
+			$tax_query[] = [
+				'taxonomy' => rtcl()->category,
+				'terms'    => array_unique($filterCategories),
+				'field'    => 'term_id',
+			];
+		}
+		$filterLocations = !empty( $_GET['filter_location'] ) && is_string( $_GET['filter_location'] ) ? array_filter( array_map( 'absint',
+			explode( ',', $_GET['filter_location'] ) ) ) : [];
+		if ( !empty( $filterLocations ) ) {
+			$tax_query[] = [
+				'taxonomy' => rtcl()->location,
+				'terms'    => array_unique($filterLocations),
+				'field'    => 'term_id',
+			];
+		}
+		
+		$filterTags = !empty( $_GET['filter_tag'] ) && is_string( $_GET['filter_tag'] ) ? array_filter( array_map( 'absint',
+			explode( ',', $_GET['filter_tag'] ) ) ) : [];
+		if ( !empty( $filterTags ) ) {
+			$tax_query[] = [
+				'taxonomy' => rtcl()->tag,
+				'terms'    => $filterTags,
+				'field'    => 'term_id',
+			];
 		}
 
 		if ( ! Functions::is_listings()
@@ -1270,7 +1267,7 @@ class Query {
 				];
 			}
 		}
-
+		
 		return array_filter( apply_filters( 'rtcl_listing_query_tax_query', $tax_query, $this ) );
 	}
 

@@ -24,16 +24,18 @@ class ListingsAjaxController {
 
 		if ( ! empty( $settings['locations'] ) ) {
 			foreach ( $settings['locations'] as $tax_id ) {
-				$location_list[] = absint( $tax_id );
+				if(!empty($tax_id['value'])) {
+					$location_list[] = absint( $tax_id['value'] );
+				}
 			}
 		}
-
 		if ( ! empty( $settings['cats'] ) ) {
-			foreach ( $settings['cats'] as $tax_id ) {
-				$category_list[] = absint( $tax_id );
+			foreach ( $settings['cats'] as $cat ) {
+				if(!empty($cat['value'])) {
+					$category_list[] = absint( $cat['value'] );
+				}
 			}
 		}
-
 		$settings['promotion_in']     = ! empty( $settings['promotion_in'] ) ? wp_list_pluck( $settings['promotion_in'], 'value' ) : [];
 		$settings['promotion_not_in'] = ! empty( $settings['promotion_not_in'] ) ? wp_list_pluck( $settings['promotion_not_in'], 'value' ) : [];
 		$listing_type                 = ! empty( $settings['listing_type'] ) ? sanitize_text_field( $settings['listing_type'] ) : 'all';
@@ -257,7 +259,6 @@ class ListingsAjaxController {
 
 		$settings       = isset( $_POST['attributes'] ) ? map_deep( wp_unslash( $_POST['attributes'] ), 'sanitize_text_field' ) : [];
 		$this->settings = $settings;
-		//$offset = $_POST['offset'];
 
 		$listings = self::rtcl_gb_listings_query( $settings );
 

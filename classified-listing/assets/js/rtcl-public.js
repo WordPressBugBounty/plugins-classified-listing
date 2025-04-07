@@ -138,6 +138,20 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
       _this.$(_this.archivePaginationClass).remove();
       _this.$(_this.noListingFoundClass).remove();
     }
+    if (_this.isTaxArchive) {
+      var targetSelector = _this.$('body').hasClass('tax-rtcl_category') ? 'rtcl-filter_category' : _this.$('body').hasClass('tax-rtcl_location') ? 'rtcl-filter_location' : _this.$('body').hasClass('tax-rtcl_tag') ? 'rtcl-filter_tag' : '';
+      var $targetSelector = _this.$('body').find('.' + targetSelector);
+      if ($targetSelector.length) {
+        var targetOptions = $targetSelector.find('.rtcl-filter-content').data('options');
+        if (targetOptions && targetOptions.field_type === "checkbox") {
+          var $showAll = _this.$('<div class="rtcl-show-all">' + rtclAjaxFilterObj.show_all + '</div>');
+          $showAll.on('click', function (e) {
+            window.location.replace(rtclAjaxFilterObj.listings_archive_url);
+          });
+          $targetSelector.append($showAll);
+        }
+      }
+    }
     _this.callAjax();
   });
   /**
@@ -1033,7 +1047,9 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
   this.noListingFoundClass = '.no-listing-found';
   this.cfWrapperClass = '.rtcl-ajax-filter-cf-wrap';
   this.options = this.$(this.filterWraperClass).data("options");
-  this.isArchive = this.$('body').hasClass('post-type-archive-rtcl_listing') || this.$('body').hasClass('tax-rtcl_category') || this.$('body').hasClass('tax-rtcl_location') || this.$('body').hasClass('tax-rtcl_tag');
+  this.isTaxArchive = this.$('body').hasClass('tax-rtcl_category') || this.$('body').hasClass('tax-rtcl_location') || this.$('body').hasClass('tax-rtcl_tag');
+  this.isListingArchive = this.$('body').hasClass('post-type-archive-rtcl_listing');
+  this.isArchive = this.isListingArchive || this.isTaxArchive;
   this.initLoading = true;
   this.withOutFilterPrefix = ['directory'];
   this.reset = false;

@@ -8796,6 +8796,18 @@ body.rtl .rtcl-el-slider-wrapper.rtcl-slider-btn-style-2 .rtcl-slider-btn.button
   padding: 0;
 }
 
+.tax-rtcl_category .rtcl-ajax-filter-item.rtcl-filter_category:not(.showAllItems) .rtcl-ajax-filter-data-item.rtcl-filter-checkbox-item:not(.active) {
+  display: none;
+}
+
+.tax-rtcl_location .rtcl-ajax-filter-item.rtcl-filter_location:not(.showAllItems) .rtcl-ajax-filter-data-item.rtcl-filter-checkbox-item:not(.active) {
+  display: none;
+}
+
+.tax-rtcl_tag .rtcl-ajax-filter-item.rtcl-filter_tag:not(.showAllItems) .rtcl-ajax-filter-data-item.rtcl-filter-checkbox-item:not(.active) {
+  display: none;
+}
+
 .rtcl-filter-checkbox-item label {
   margin: 0;
   cursor: pointer;
@@ -9047,6 +9059,9 @@ body.rtl .rtcl-el-slider-wrapper.rtcl-slider-btn-style-2 .rtcl-slider-btn.button
 .rtcl-ajax-filter-item.is-active .rtcl-clear-text,
 .rtcl-ajax-filter-item.is-active .rtcl-reset {
   display: block;
+}
+.rtcl-ajax-filter-item .rtcl-show-all {
+  cursor: pointer;
 }
 
 .rtcl-ajax-filter-cf-wrap + .rtcl-ajax-filter-item {

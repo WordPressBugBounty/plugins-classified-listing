@@ -1246,15 +1246,15 @@ class Functions {
 					$cat_img = $cat_icon = null;
 					if ( ! empty( $args['instance']['show_icon_image_for_category'] ) ) {
 						$image_id = get_term_meta( $term->term_id, '_rtcl_image', true );
-						if ( $image_id ) {
-							$image_attributes = wp_get_attachment_image_src( (int) $image_id, 'medium' );
-							$image            = $image_attributes[0];
+						if ( !empty( $image_id ) && !is_array( $image_id ) ) {
+							$image_attributes = wp_get_attachment_image_src( (int)$image_id, 'medium' );
+							$image = $image_attributes[0];
 							if ( '' !== $image ) {
 								$cat_img = sprintf( '<img src="%s" alt="%s" class="rtcl-cat-img" />', esc_url( $image ), esc_attr( $term->name ) );
 							}
 						}
 						$icon_id = get_term_meta( $term->term_id, '_rtcl_icon', true );
-						if ( $icon_id ) {
+						if ( is_string( $icon_id ) && !empty( $icon_id ) ) {
 							if ( str_contains( $icon_id, 'fa-' ) ) {
 								$cat_icon = sprintf( '<span class="rtcl-cat-icon %s"></span>', $icon_id );
 							} else {

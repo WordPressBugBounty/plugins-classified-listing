@@ -596,9 +596,7 @@ class ScriptLoader {
 
 		$decimal_separator = Functions::get_decimal_separator();
 		$activeTerms = [];
-		if ( Functions::is_listing_tax() ) {
-			$activeTerms[] = get_queried_object();
-		} else if ( Functions::is_listings() ) {
+		if ( Functions::is_listings()  || Functions::is_listing_tax()) {
 			$catSlug = get_query_var( '__cat' );
 			$locSlug = get_query_var( '__loc' );
 			$tagSlug = get_query_var( '__tag' );
@@ -621,6 +619,27 @@ class ScriptLoader {
 					$activeTerms[] = $tagTerm;
 				}
 			}
+			if ( Functions::is_listing_tax() ) {
+				$activeTerms[] = get_queried_object();
+				if(!empty($_GET['rtcl_location'])){
+					$loc_term = get_term_by( 'slug', wp_unslash(sanitize_text_field($_GET['rtcl_location'])), rtcl()->location );
+					if ( $loc_term && !is_wp_error( $loc_term ) ) {
+						$activeTerms[] = $loc_term;
+					}
+				}
+				if(!empty($_GET['rtcl_category'])){
+					$cat_term = get_term_by( 'slug', wp_unslash(sanitize_text_field($_GET['rtcl_category'])), rtcl()->category );
+					if ( $cat_term && !is_wp_error( $cat_term ) ) {
+						$activeTerms[] = $cat_term;
+					}
+				}
+				if(!empty($_GET['rtcl_tag'])){
+					$tag_term = get_term_by( 'slug', wp_unslash(sanitize_text_field($_GET['rtcl_tag'])), rtcl()->tag );
+					if ( $tag_term && !is_wp_error( $tag_term ) ) {
+						$activeTerms[] = $tag_term;
+					}
+				}
+			} 
 		}
 		$localize = [
 			'plugin_url'                               => RTCL_URL,
@@ -714,6 +733,8 @@ class ScriptLoader {
 		$ajaxFilerLocalize = [
 			'clear_all_filter'     => __( 'Clear all filters', 'classified-listing' ),
 			'no_result_found'      => __( 'No result found.', 'classified-listing' ),
+			'show_all'             => __( 'Show All', 'classified-listing' ),
+			'listings_archive_url' => Link::get_listings_page_link(),
 			'result_count'         => [
 				'all'  => __( 'Showing all % results', 'classified-listing' ),
 				'part' => __( 'Showing _ of % results', 'classified-listing' )
