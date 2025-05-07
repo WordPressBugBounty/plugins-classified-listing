@@ -337,7 +337,8 @@ trait UtilityTrait {
 	static function set_404() {
 		global $wp_query;
 		if ( ! empty( $_REQUEST['debug-404'] ) ) { /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-			self::debug( debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT, $_REQUEST['debug-404'] ) ); /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
+			self::debug( debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT,
+				$_REQUEST['debug-404'] ) ); /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
 		}
 		$wp_query->set_404();
 		status_header( 404 );
@@ -395,8 +396,12 @@ trait UtilityTrait {
 	static function replace_policy_and_terms_page_link_placeholders( $text ) {
 		$privacy_page_id = Functions::get_privacy_policy_page_id();
 		$terms_page_id   = Functions::get_terms_and_conditions_page_id();
-		$privacy_link    = $privacy_page_id ? '<a href="' . esc_url( get_permalink( $privacy_page_id ) ) . '" class="rtcl-privacy-policy-link" target="_blank">' . esc_html__( 'privacy policy', 'classified-listing' ) . '</a>' : esc_html__( 'privacy policy', 'classified-listing' );
-		$terms_link      = $terms_page_id ? '<a href="' . esc_url( get_permalink( $terms_page_id ) ) . '" class="rtcl-terms-and-conditions-link" target="_blank">' . esc_html__( 'terms and conditions', 'classified-listing' ) . '</a>' : esc_html__( 'terms and conditions', 'classified-listing' );
+		$privacy_link    = $privacy_page_id ? '<a href="' . esc_url( get_permalink( $privacy_page_id ) ) . '" class="rtcl-privacy-policy-link" target="_blank">'
+											  . esc_html__( 'privacy policy', 'classified-listing' ) . '</a>'
+			: esc_html__( 'privacy policy', 'classified-listing' );
+		$terms_link      = $terms_page_id ? '<a href="' . esc_url( get_permalink( $terms_page_id ) )
+											. '" class="rtcl-terms-and-conditions-link" target="_blank">' . esc_html__( 'terms and conditions',
+				'classified-listing' ) . '</a>' : esc_html__( 'terms and conditions', 'classified-listing' );
 
 		$find_replace = [
 			'[terms]'          => $terms_link,
@@ -405,7 +410,8 @@ trait UtilityTrait {
 
 		$updated_text = str_replace( array_keys( $find_replace ), array_values( $find_replace ), $text );
 
-		return apply_filters( 'rtcl_replace_policy_and_terms_page_link_placeholders', $updated_text, $text, $privacy_page_id, $privacy_link, $terms_page_id, $terms_link );
+		return apply_filters( 'rtcl_replace_policy_and_terms_page_link_placeholders', $updated_text, $text, $privacy_page_id, $privacy_link, $terms_page_id,
+			$terms_link );
 	}
 
 	/**
@@ -418,19 +424,19 @@ trait UtilityTrait {
 		}
 		?>
 
-        <div class="form-group rtcl-privacy-policy-wrap">
-            <div class="form-check">
-                <input id="rtcl-privacy-policy" name="rtcl_privacy_policy" type="checkbox" class="form-check-input"
-                       required>
-                <label class="form-check-label" for="rtcl-privacy-policy">
+		<div class="form-group rtcl-privacy-policy-wrap">
+			<div class="form-check">
+				<input id="rtcl-privacy-policy" name="rtcl_privacy_policy" type="checkbox" class="form-check-input"
+					   required>
+				<label class="rtcl-form-check-label" for="rtcl-privacy-policy">
 					<?php
 					echo wp_kses_post( wpautop( Functions::replace_policy_and_terms_page_link_placeholders( Text::get_privacy_policy_text( $type ) ) ) );
 					?>
-                </label>
-                <div class="with-errors help-block"
-                     data-error="<?php esc_attr_e( 'This field is required', 'classified-listing' ); ?>"></div>
-            </div>
-        </div>
+				</label>
+				<div class="with-errors help-block"
+					 data-error="<?php esc_attr_e( 'This field is required', 'classified-listing' ); ?>"></div>
+			</div>
+		</div>
 		<?php
 	}
 
@@ -455,7 +461,7 @@ trait UtilityTrait {
 
 	static function switch_to_site_locale() {
 		global $wp_locale_switcher;
-		if ( function_exists( 'switch_to_locale' ) && isset( $wp_locale_switcher )) {
+		if ( function_exists( 'switch_to_locale' ) && isset( $wp_locale_switcher ) ) {
 			switch_to_locale( get_locale() );
 
 			// Filter on plugin_locale so load_language loads the correct locale.
@@ -468,7 +474,7 @@ trait UtilityTrait {
 
 	static function restore_locale() {
 		global $wp_locale_switcher;
-		if ( function_exists( 'restore_previous_locale' ) && isset( $wp_locale_switcher )) {
+		if ( function_exists( 'restore_previous_locale' ) && isset( $wp_locale_switcher ) ) {
 			restore_previous_locale();
 
 			// Remove filter.
@@ -642,7 +648,7 @@ trait UtilityTrait {
 		$classes[] = 'rtcl-listings';
 		$classes[] = 'rtcl-ajax-listings';
 		$classes[] = apply_filters( 'rtcl_listings_view_class', 'rtcl-list-view' );
-		$classes[] = apply_filters( 'rtcl_listings_grid_columns_class', 'columns-3' );
+		$classes[] = apply_filters( 'rtcl_listings_grid_columns_class', 'columns-3 tab-columns-2' );
 		$classes   = apply_filters( 'rtcl_listing_loop_start_class', $classes );
 		$classes   = array_map( 'esc_attr', array_unique( array_filter( $classes ) ) );
 		if ( ! empty( $classes ) ) {
@@ -843,31 +849,32 @@ trait UtilityTrait {
 			'id'               => 'comment_ID',
 		];
 
-		$args['orderby'] = ! empty( $args['orderby'] ) && in_array(
-			$args['orderby'],
-			[
-				'date_created',
-				'date_created_gmt',
-				'id',
-			],
-			true
-		) ? $orderby_mapping[ $args['orderby'] ] : 'comment_ID';
+		$args['orderby'] = ! empty( $args['orderby'] )
+						   && in_array(
+							   $args['orderby'],
+							   [
+								   'date_created',
+								   'date_created_gmt',
+								   'id',
+							   ],
+							   true
+						   ) ? $orderby_mapping[ $args['orderby'] ] : 'comment_ID';
 
 		// Set Classified Listing payment note type.
 		if ( isset( $args['type'] ) && 'customer' === $args['type'] ) {
 			$args['meta_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				[
-					'key'     => 'is_customer_note',
-					'value'   => 1,
-					'compare' => '=',
-				],
+									[
+										'key'     => 'is_customer_note',
+										'value'   => 1,
+										'compare' => '=',
+									],
 			];
 		} elseif ( isset( $args['type'] ) && 'internal' === $args['type'] ) {
 			$args['meta_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				[
-					'key'     => 'is_customer_note',
-					'compare' => 'NOT EXISTS',
-				],
+									[
+										'key'     => 'is_customer_note',
+										'compare' => 'NOT EXISTS',
+									],
 			];
 		}
 

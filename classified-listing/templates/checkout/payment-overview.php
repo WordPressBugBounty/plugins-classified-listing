@@ -12,7 +12,7 @@ use Rtcl\Helpers\Functions;
 
 <div id="rtcl-payment-overview">
 	<h3 class="rtcl-checkout-heading"><?php esc_html_e( 'Cart totals', 'classified-listing' ); ?></h3>
-	<table class="rtcl-checkout-overview-table">
+	<table class="rtcl-checkout-overview-table rtcl-table">
 		<tbody>
 		<tr class="cart-subtotal">
 			<th><?php esc_html_e( 'Subtotal', 'classified-listing' ); ?></th>

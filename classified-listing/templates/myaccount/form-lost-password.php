@@ -29,7 +29,7 @@ Functions::print_notices(); ?>
 	<?php do_action( 'rtcl_lost_password_form' ); ?>
 
 	<div class="rtcl-form-submit-wrap">
-		<input type="submit" name="rtcl-lost-password" class="btn" value="<?php esc_html_e( 'Reset Password', 'classified-listing' ); ?>"/>
+		<input type="submit" name="rtcl-lost-password" class="rtcl-btn" value="<?php esc_html_e( 'Reset Password', 'classified-listing' ); ?>"/>
 	</div>
 	<?php wp_nonce_field( 'rtcl-lost-password', 'rtcl-lost-password-nonce' ); ?>
 

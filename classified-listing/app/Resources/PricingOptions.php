@@ -21,7 +21,7 @@ class PricingOptions {
 			$promotion_html .= sprintf( '<div class="form-check">
                                     <input class="form-check-input" name="%1$s" type="checkbox"
                                            value="1" %2$s id="allowed_featured_%1$s">
-                                    <label class="form-check-label" for="allowed_featured_%1$s">%3$s</label>
+                                    <label class="rtcl-form-check-label" for="allowed_featured_%1$s">%3$s</label>
                                 </div>', esc_attr( $promo_id ), checked( $promo_value, 1, false ), $promotion );
 		}
 
@@ -43,10 +43,10 @@ class PricingOptions {
 				'value'       => $visible,
 				'description' => __( "Number of days the pricing will be validate.", "classified-listing" ),
 			],
-			'allowed'     => sprintf( '<div class="row form-group">
-                            <label class="col-2 col-form-label"
+			'allowed'     => sprintf( '<div class="rtcl-row rtcl-form-group">
+                            <label class="rtcl-col-2 rtcl-field-label"
                                    for="pricing-featured">%s</label>
-                            <div class="col-10">%s</div>
+                            <div class="rtcl-col-10">%s</div>
                         </div>',
 				__( "Allowed", 'classified-listing' ),
 				$promotion_html
@@ -57,6 +57,7 @@ class PricingOptions {
 				'type'        => 'textarea',
 				'label'       => __( "Description", "classified-listing" ),
 				'value'       => $description,
+				'class'       => [ 'rtcl-form-control' ],
 				'description' => __( "HTML is allowed :)", "classified-listing" ),
 			],
 		];
@@ -152,7 +153,7 @@ class PricingOptions {
 								value="<?php echo esc_attr( $option_key ); ?>"
 								<?php checked( in_array( $option_key, $field['value'] ) ); ?>
 							>
-							<label class="form-check-label"
+							<label class="rtcl-form-check-label"
 								   for="<?php echo esc_attr( $field['id'] . '-' . $option_key ); ?>"><?php echo esc_html( $option_value ); ?></label>
 						</div>
 					<?php endforeach; ?>
@@ -236,7 +237,7 @@ class PricingOptions {
 	private static function get_description_html( $field ) {
 		$description = ! empty( $field['description'] ) ? $field['description'] : '';
 
-		return $description ? '<div class="description">' . wp_kses_post( $description ) . '</div>' . "\n" : '';
+		return $description ? '<div class="rtcl-hints">' . wp_kses_post( $description ) . '</div>' . "\n" : '';
 	}
 
 	private static function get_attribute_html( $field ) {
@@ -257,9 +258,9 @@ class PricingOptions {
 			'label'            => '',
 			'id'               => '',
 			'disabled'         => false,
-			'label_class'      => [ 'col-2 col-form-label' ],
-			'field_wrap_class' => [ 'col-10' ],
-			'class'            => [ 'form-control' ],
+			'label_class'      => [ 'rtcl-col-2 rtcl-field-label' ],
+			'field_wrap_class' => [ 'rtcl-col-10' ],
+			'class'            => [ 'rtcl-form-control' ],
 			'css'              => '',
 			'placeholder'      => '',
 			'blank'            => true,
@@ -268,7 +269,7 @@ class PricingOptions {
 			'type'             => 'text',
 			'description'      => '',
 			'attributes'       => [],
-			'wrapper_class'    => [ 'row', 'form-group' ],
+			'wrapper_class'    => [ 'rtcl-row', 'rtcl-form-group' ],
 			'options'          => [],
 			'select_buttons'   => false,
 			'dependency'       => '',

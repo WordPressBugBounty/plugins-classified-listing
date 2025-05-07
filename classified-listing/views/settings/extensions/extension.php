@@ -5,16 +5,18 @@ use Rtcl\Resources\Options;
 $addons = Options::addons();
 $themes = Options::themes();
 ?>
-<div id="rtcl" class="wrap rtcl-extensions">
-	<h1><?php esc_html_e( "Get Addons & Themes", 'classified-listing' ) ?></h1>
-	<div id="rtcl-ext-wrap" class="rtcl-extension-wrap rtcl">
+<div id="rtcl" class="rtcl-admin-wrap rtcl-extensions">
+	<div class="rtcl-admin-header">
+		<h1 class="rtcl-header-title"><?php esc_html_e( "Get Addons & Themes", 'classified-listing' ) ?></h1>
+	</div>
+	<div id="rtcl-ext-wrap" class="rtcl-extension-wrap rtcl-admin-settings-wrap">
 		<div class="rtcl-product-addons">
 			<div class="rtcl-product-heading">
 				<h2>Addons & Apps</h2>
 			</div>
 			<div class="rtcl-product-list">
 				<?php
-				if ( ! empty( $addons ) ) {
+				if ( !empty( $addons ) ) {
 					foreach ( $addons as $addon ) {
 						$addon = wp_parse_args( $addon, [
 							'title'    => '',
@@ -35,7 +37,7 @@ $themes = Options::themes();
 								}
 								?>
 								<h3 class="rtcl-p-title">
-									<?php if ( ! empty( $addon['buy_url'] ) ): ?>
+									<?php if ( !empty( $addon['buy_url'] ) ): ?>
 										<a target="_blank" href="<?php echo esc_url( $addon['buy_url'] ) ?>">
 											<?php echo esc_attr( $addon['title'] ) ?></a>
 									<?php else: ?>
@@ -43,7 +45,7 @@ $themes = Options::themes();
 									<?php endif; ?>
 								</h3>
 								<div class="rtcl-p-action">
-									<?php if ( ! empty( $addon['buy_url'] ) ): ?>
+									<?php if ( !empty( $addon['buy_url'] ) ): ?>
 										<a class="rtcl__btn btn__buy" target="_blank"
 										   href="<?php echo esc_url( $addon['buy_url'] ) ?>"><?php esc_html_e( "Buy Now", "classified-listing" ); ?></a>
 									<?php endif; ?>
@@ -66,7 +68,7 @@ $themes = Options::themes();
 			</div>
 			<div class="rtcl-product-list">
 				<?php
-				if ( ! empty( $themes ) ) {
+				if ( !empty( $themes ) ) {
 					foreach ( $themes as $theme ) {
 						$theme = wp_parse_args( $theme, [
 							'title'    => '',

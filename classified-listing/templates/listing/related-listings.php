@@ -14,8 +14,10 @@ if ( ! $rtcl_related_query->have_posts() ) {
 	return;
 }
 ?>
-<div class="rtcl mb-3 rtcl-related-listing rtcl-listings">
-    <div class="rtcl-related-title"><h2><?php esc_html_e( "Related Listing", "classified-listing" ); ?></h2></div>
+<div class="rtcl rtcl-related-listing-wrap rtcl-listings">
+    <div class="rtcl-related-title">
+		<h3><?php esc_html_e( "Related Listing", "classified-listing" ); ?></h3>
+	</div>
     <div class="rtcl-related-listings">
         <div class="rtcl-related-slider-wrap">
             <div class="rtcl-related-slider rtcl-carousel-slider" id="rtcl-related-slider"

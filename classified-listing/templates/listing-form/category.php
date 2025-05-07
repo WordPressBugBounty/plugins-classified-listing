@@ -12,8 +12,11 @@
 use Rtcl\Helpers\Functions;
 use Rtcl\Helpers\Text;
 
-Functions::print_notices();
 ?>
+
+<div class="rtcl-notices-wrapper">
+	<?php Functions::print_notices(); ?>
+</div>
 
 <div class="rtcl-listing-info-selecting">
 	<?php if ( ! Functions::is_ad_type_disabled() ): ?>
@@ -23,13 +26,13 @@ Functions::print_notices();
 					<i class="rtcl-icon rtcl-icon-tags"></i><?php esc_html_e( "Select a type", "classified-listing" ); ?>
 				</h3>
 			</div>
-			<div class="form-group row">
+			<div class="rtcl-form-group rtcl-row">
 				<label for="rtcl-category"
-					   class="col-md-2 col-form-label"><?php esc_html_e( 'Ad Type', 'classified-listing' ); ?>
+					   class="rtcl-col-md-2 rtcl-field-label"><?php esc_html_e( 'Ad Type', 'classified-listing' ); ?>
 					<span class="require-star">*</span>
 				</label>
-				<div class="col-md-10">
-					<select class="rtcl-select2 form-control" id="rtcl-ad-type" name="type" required>
+				<div class="rtcl-col-md-10">
+					<select class="rtcl-select2 rtcl-form-control" id="rtcl-ad-type" name="type" required>
 						<option value="">--<?php esc_html_e( "Select a type", "classified-listing" ) ?>--</option>
 						<?php
 						$types = Functions::get_listing_types();
@@ -46,19 +49,20 @@ Functions::print_notices();
 		</div>
 	<?php endif; ?>
 	<div id="rtcl-ad-category-selection"
-		 style="display: <?php echo esc_attr( ( ( $selected_type && in_array( $selected_type, array_keys( Functions::get_listing_types() ) ) ) || Functions::is_ad_type_disabled() ) ? 'block' : 'none' ); ?>">
+		 style="display: <?php echo esc_attr( ( ( $selected_type && in_array( $selected_type, array_keys( Functions::get_listing_types() ) ) )
+												|| Functions::is_ad_type_disabled() ) ? 'block' : 'none' ); ?>">
 		<div class="rtcl-post-section-title">
 			<h3>
 				<i class="rtcl-icon rtcl-icon-tags"></i><?php esc_html_e( "Select a category", "classified-listing" ); ?>
 			</h3>
 		</div>
 		<div class="rtcl-post-category">
-			<div class="form-group row" id="cat-row">
+			<div class="rtcl-form-group rtcl-row" id="cat-row">
 				<label for="rtcl-category"
-					   class="col-md-2 col-form-label"><?php esc_html_e( 'Category', 'classified-listing' ); ?>
+					   class="rtcl-col-md-2 rtcl-field-label"><?php esc_html_e( 'Category', 'classified-listing' ); ?>
 					<span class="require-star">*</span></label>
-				<div class="col-md-10" id="rtcl-category-wrap">
-					<select class="rtcl-select2 form-control" id="rtcl-category" required>
+				<div class="rtcl-col-md-10" id="rtcl-category-wrap">
+					<select class="rtcl-select2 rtcl-form-control" id="rtcl-category" required>
 						<option value=""><?php echo esc_html( Text::get_select_category_text() ) ?></option>
 						<?php
 						$cats          = Functions::get_one_level_categories( 0, $selected_type );
@@ -76,14 +80,14 @@ Functions::print_notices();
 				</div>
 			</div>
 			<?php $child_cats = $parent_cat_id ? Functions::get_one_level_categories( $parent_cat_id ) : [] ?>
-			<div class="form-group row<?php echo empty( $child_cats ) ? ' rtcl-hide' : ''; ?>" id="sub-cat-row">
+			<div class="rtcl-form-group rtcl-row<?php echo empty( $child_cats ) ? ' rtcl-hide' : ''; ?>" id="sub-cat-row">
 				<label for="rtcl-sub-category"
-					   class="col-md-2 col-form-label"><?php esc_html_e( 'Sub Category', 'classified-listing' ); ?>
+					   class="rtcl-col-md-2 rtcl-field-label"><?php esc_html_e( 'Sub Category', 'classified-listing' ); ?>
 					<span class="require-star">*</span></label>
-				<div class="col-md-10" id="rtcl-sub-category-wrap">
+				<div class="rtcl-col-md-10" id="rtcl-sub-category-wrap">
 					<?php
 					if ( ! empty( $child_cats ) ) {
-						echo '<select class="form-control" required>';
+						echo '<select class="rtcl-form-control" required>';
 						echo "<option value=''>" . esc_html( Text::get_select_category_text() ) . "</option>";
 						foreach ( $child_cats as $cat ) {
 							echo "<option value='" . absint( $cat->term_id ) . "'>" . esc_html( $cat->name ) . "</option>";

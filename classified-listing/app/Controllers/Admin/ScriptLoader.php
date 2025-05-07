@@ -33,7 +33,7 @@ class ScriptLoader {
 	private static $wp_localize_scripts = [];
 
 	function __construct() {
-		$this->suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+		$this->suffix  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 		$this->version = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : RTCL_VERSION;
 		$this->ajaxurl = admin_url( 'admin-ajax.php' );
 		if ( $current_lang = apply_filters( 'rtcl_ajaxurl_current_lang', null, $this->ajaxurl ) ) {
@@ -157,7 +157,7 @@ class ScriptLoader {
 		if ( Functions::has_map() ) {
 			$map_type = Functions::get_map_type();
 			if ( 'google' === $map_type && $map_api_key = Functions::get_option_item( 'rtcl_misc_settings', 'map_api_key' ) ) {
-				$options = Options::google_map_script_options();
+				$options        = Options::google_map_script_options();
 				$options['key'] = $map_api_key;
 				wp_register_script( 'rtcl-google-map', add_query_arg( $options, 'https://maps.googleapis.com/maps/api/js' ), '', $this->version );
 				wp_register_script(
@@ -287,15 +287,15 @@ class ScriptLoader {
 		global $pagenow, $post_type, $post;
 
 		if ( Functions::is_listing_form_page()
-			|| ( is_admin()
-				&& in_array(
-					$pagenow,
-					[
-						'post.php',
-						'post-new.php',
-					]
-				)
-				&& rtcl()->post_type === $post_type )
+		     || ( is_admin()
+		          && in_array(
+			          $pagenow,
+			          [
+				          'post.php',
+				          'post-new.php',
+			          ]
+		          )
+		          && rtcl()->post_type === $post_type )
 		) {
 			if ( is_admin() ) {
 				$raw_listing_id = $post->ID ?? 0;
@@ -303,30 +303,30 @@ class ScriptLoader {
 				$raw_listing_id = 'edit' == get_query_var( 'rtcl_action' ) ? absint( get_query_var( 'rtcl_listing_id', 0 ) ) : 0;
 			}
 			$listing_id = 0;
-			$form = null;
-			$forms = [];
+			$form       = null;
+			$forms      = [];
 			if ( $raw_listing_id
-				&& ( ( is_admin() && current_user_can( 'edit_rtcl_listing', $raw_listing_id ) )
-					|| ( !is_admin()
-						&& Functions::current_user_can( 'edit_' . rtcl()->post_type, $raw_listing_id ) ) )
+			     && ( ( is_admin() && current_user_can( 'edit_rtcl_listing', $raw_listing_id ) )
+			          || ( ! is_admin()
+			               && Functions::current_user_can( 'edit_' . rtcl()->post_type, $raw_listing_id ) ) )
 			) {
 				$form_id = absint( get_post_meta( $raw_listing_id, '_rtcl_form_id', true ) );
 				if ( $form_id && $_form = Form::query()->find( $form_id ) ) {
 					$form = apply_filters( 'rtcl_fb_form', $_form );
 				} else {
 					$form = Form::query()
-						->where( 'status', 'publish' )
-						->where( 'default', 1 )
-						->one();
+					            ->where( 'status', 'publish' )
+					            ->where( 'default', 1 )
+					            ->one();
 				}
 				$listing_id = $raw_listing_id;
 			}
 
 			$rawForms = Form::query()
-				->where( 'status', 'publish' )
-				->order_by( 'created_at', 'DESC' )
-				->get();
-			if ( !empty( $rawForms ) ) {
+			                ->where( 'status', 'publish' )
+			                ->order_by( 'created_at', 'DESC' )
+			                ->get();
+			if ( ! empty( $rawForms ) ) {
 				foreach ( $rawForms as $raw_form ) {
 					$_form = apply_filters( 'rtcl_fb_form', $raw_form );
 					if ( is_a( $_form, Form::class ) ) {
@@ -335,7 +335,7 @@ class ScriptLoader {
 				}
 			}
 
-			$forms = apply_filters( 'rtcl_fb_forms', $forms );
+			$forms             = apply_filters( 'rtcl_fb_forms', $forms );
 			$fromBuilderParams = apply_filters(
 				'rtcl_localize_fb_params',
 				[
@@ -365,22 +365,22 @@ class ScriptLoader {
 		$this->register_script_both_end();
 		$this->localization_both_end();
 		$moderation_settings = Functions::get_option( 'rtcl_moderation_settings' );
-		$misc_settings = Functions::get_option( 'rtcl_misc_settings' );
-		$general_settings = Functions::get_option( 'rtcl_general_settings' );
+		$misc_settings       = Functions::get_option( 'rtcl_misc_settings' );
+		$general_settings    = Functions::get_option( 'rtcl_general_settings' );
 		$rtclPublicDepsStyle = [];
-		if ( !empty( $general_settings['load_bootstrap'] ) && in_array( 'css', $general_settings['load_bootstrap'] ) ) {
+		if ( ! empty( $general_settings['load_bootstrap'] ) && in_array( 'css', $general_settings['load_bootstrap'] ) ) {
 			wp_register_style( 'rtcl-bootstrap', rtcl()->get_assets_uri( 'css/rtcl-bootstrap.min.css' ), [], '4.1.1' );
 
-			if ( !Functions::is_account_page() ) {
+			if ( ! Functions::is_account_page() ) {
 				$rtclPublicDepsStyle[] = 'rtcl-bootstrap';
 			}
 		}
 
 		$rtclPublicDepsScript = [ 'jquery', 'jquery-ui-autocomplete', 'rtcl-common' ];
-		if ( !empty( $general_settings['load_bootstrap'] ) && in_array( 'js', $general_settings['load_bootstrap'] ) ) {
+		if ( ! empty( $general_settings['load_bootstrap'] ) && in_array( 'js', $general_settings['load_bootstrap'] ) ) {
 			wp_register_script( 'rtcl-bootstrap', rtcl()->get_assets_uri( 'vendor/bootstrap/bootstrap.bundle.min.js' ), [ 'jquery' ], '4.1.1', true );
 
-			if ( !Functions::is_account_page() ) {
+			if ( ! Functions::is_account_page() ) {
 				$rtclPublicDepsScript[] = 'rtcl-bootstrap';
 			}
 		}
@@ -412,7 +412,7 @@ class ScriptLoader {
 			true
 		);
 
-		$recaptcha_version = !empty( $misc_settings['recaptcha_version'] ) ? $misc_settings['recaptcha_version'] : 2;
+		$recaptcha_version = ! empty( $misc_settings['recaptcha_version'] ) ? $misc_settings['recaptcha_version'] : 2;
 		if ( $recaptcha_version == 3 ) {
 			wp_register_script( 'rtcl-recaptcha', 'https://www.google.com/recaptcha/api.js?render=' . esc_attr( $misc_settings['recaptcha_site_key'] ), '',
 				RTCL_VERSION );
@@ -421,7 +421,7 @@ class ScriptLoader {
 				true );
 		}
 		$rtclPublicDepsScript = apply_filters( 'rtcl_public_script_dependencies', $rtclPublicDepsScript, $this );
-		$rtclPublicDepsStyle = apply_filters( 'rtcl_public_style_dependencies', $rtclPublicDepsStyle, $this );
+		$rtclPublicDepsStyle  = apply_filters( 'rtcl_public_style_dependencies', $rtclPublicDepsStyle, $this );
 		wp_register_script( 'rtcl-public', rtcl()->get_assets_uri( "js/rtcl-public{$this->suffix}.js" ), $rtclPublicDepsScript, $this->version, true );
 		wp_register_style( 'rtcl-public', rtcl()->get_assets_uri( "css/rtcl-public{$this->suffix}.css" ), $rtclPublicDepsStyle, $this->version );
 
@@ -440,7 +440,7 @@ class ScriptLoader {
 		$validator_script = false;
 		global $wp;
 		if ( Functions::is_account_page() ) {
-			if ( !is_user_logged_in() || isset( $wp->query_vars['lost-password'] ) ) {
+			if ( ! is_user_logged_in() || isset( $wp->query_vars['lost-password'] ) ) {
 				$validator_script = true;
 			}
 			if ( isset( $wp->query_vars['edit-account'] ) || isset( $wp->query_vars['rtcl_edit_account'] ) ) {
@@ -448,9 +448,9 @@ class ScriptLoader {
 				wp_enqueue_script( 'rtcl-map' );
 				wp_enqueue_script( 'rtcl-public-add-post' );
 			}
-			if ( !is_user_logged_in()
-				&& ( Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'registration', 'multi_checkbox' )
-					|| Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'login', 'multi_checkbox' ) )
+			if ( ! is_user_logged_in()
+			     && ( Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'registration', 'multi_checkbox' )
+			          || Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'login', 'multi_checkbox' ) )
 			) {
 				wp_enqueue_script( 'rtcl-recaptcha' );
 			}
@@ -469,8 +469,8 @@ class ScriptLoader {
 				wp_enqueue_script( 'rtcl-public-add-post' );
 			}
 			if ( Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'listing', 'multi_checkbox' )
-				|| ( !is_user_logged_in()
-					&& Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'login', 'multi_checkbox' ) )
+			     || ( ! is_user_logged_in()
+			          && Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'login', 'multi_checkbox' ) )
 			) {
 				wp_enqueue_script( 'rtcl-recaptcha' );
 			}
@@ -480,7 +480,7 @@ class ScriptLoader {
 		if ( is_singular( rtcl()->post_type ) ) {
 			$validator_script = true;
 			if ( Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'contact', 'multi_checkbox' )
-				|| Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'report_abuse', 'multi_checkbox' )
+			     || Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'report_abuse', 'multi_checkbox' )
 			) {
 				wp_enqueue_script( 'rtcl-recaptcha' );
 			}
@@ -489,7 +489,7 @@ class ScriptLoader {
 
 		if ( Functions::is_checkout_page() ) {
 			$validator_script = true;
-			if ( !is_user_logged_in() && Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'login', 'multi_checkbox' ) ) {
+			if ( ! is_user_logged_in() && Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'login', 'multi_checkbox' ) ) {
 				wp_enqueue_script( 'rtcl-recaptcha' );
 			}
 			wp_enqueue_script( 'select2' );
@@ -504,74 +504,80 @@ class ScriptLoader {
 		wp_enqueue_script( 'rtcl-public' );
 
 		$rtcl_style_opt = Functions::get_option( 'rtcl_style_settings' );
-		$rootVar = null;
-		$style = null;
-		if ( is_array( $rtcl_style_opt ) && !empty( $rtcl_style_opt ) ) {
-			$primary = !empty( $rtcl_style_opt['primary'] ) ? $rtcl_style_opt['primary'] : null;
+		$rootVar        = null;
+		$style          = null;
+		if ( is_array( $rtcl_style_opt ) && ! empty( $rtcl_style_opt ) ) {
+			$primary = ! empty( $rtcl_style_opt['primary'] ) ? $rtcl_style_opt['primary'] : null;
 			$rootVar = '';
 			if ( $primary ) {
 				$rootVar .= '--rtcl-primary-color:' . $primary . ';';
-				$style .= ".rtcl .rtcl-icon, 
+				$style   .= ".rtcl .rtcl-icon, 
 							.rtcl-chat-form button.rtcl-chat-send, 
 							.rtcl-chat-container a.rtcl-chat-card-link .rtcl-cc-content .rtcl-cc-listing-amount,
 							.rtcl-chat-container ul.rtcl-messages-list .rtcl-message span.read-receipt-status .rtcl-icon.rtcl-read{color: $primary;}";
-				$style .= '#rtcl-chat-modal {background-color: var(--rtcl-primary-color); border-color: var(--rtcl-primary-color)}';
-				$style .= '#rtcl-compare-btn-wrap a.rtcl-compare-btn, .rtcl-btn, #rtcl-compare-panel-btn, .rtcl-chat-container ul.rtcl-messages-list .rtcl-message-wrap.own-message .rtcl-message-text, .rtcl-sold-out {background : var(--rtcl-primary-color);}';
+				$style   .= '#rtcl-chat-modal {background-color: var(--rtcl-primary-color); border-color: var(--rtcl-primary-color)}';
+				$style   .= '#rtcl-compare-btn-wrap a.rtcl-compare-btn, .rtcl-btn, #rtcl-compare-panel-btn, .rtcl-chat-container ul.rtcl-messages-list .rtcl-message-wrap.own-message .rtcl-message-text, .rtcl-sold-out {background : var(--rtcl-primary-color);}';
 			}
-			$link = !empty( $rtcl_style_opt['link'] ) ? $rtcl_style_opt['link'] : null;
+			$link = ! empty( $rtcl_style_opt['link'] ) ? $rtcl_style_opt['link'] : null;
 			if ( $link ) {
 				$rootVar .= '--rtcl-link-color:' . $link . ';';
-				$style .= '.rtcl a{ color: var(--rtcl-link-color)}';
+				$style   .= '.rtcl a{ color: var(--rtcl-link-color)}';
 			}
-			$linkHover = !empty( $rtcl_style_opt['link_hover'] ) ? $rtcl_style_opt['link_hover'] : null;
+			$linkHover = ! empty( $rtcl_style_opt['link_hover'] ) ? $rtcl_style_opt['link_hover'] : null;
 			if ( $linkHover ) {
 				$rootVar .= '--rtcl-link-hover-color:' . $linkHover . ';';
-				$style .= '.rtcl a:hover{ color: var(--rtcl-link-hover-color)}';
+				$style   .= '.rtcl a:hover{ color: var(--rtcl-link-hover-color)}';
+			}
+			$sidebarWidth = ! empty( $rtcl_style_opt['sidebar_width'] ) ? $rtcl_style_opt['sidebar_width'] : null;
+			if ( is_array( $sidebarWidth ) ) {
+				$size    = $sidebarWidth['size'] ?? 28;
+				$unit    = $sidebarWidth['unit'] ?? '%';
+				$rootVar .= '--rtcl-sidebar-width:' . absint( $size ) . esc_attr( $unit ) . ';';
 			}
 			// Button
-			$button = !empty( $rtcl_style_opt['button'] ) ? $rtcl_style_opt['button'] : null;
+			$button = ! empty( $rtcl_style_opt['button'] ) ? $rtcl_style_opt['button'] : null;
 			if ( $button ) {
 				$rootVar .= '--rtcl-button-bg-color:' . $button . ';';
-				$style .= '.rtcl .btn{ background-color: var(--rtcl-button-bg-color); border-color:var(--rtcl-button-bg-color); }';
+				$style   .= '.rtcl .rtcl-btn{ background-color: var(--rtcl-button-bg-color); border-color:var(--rtcl-button-bg-color); }';
 			}
-			$buttonText = !empty( $rtcl_style_opt['button_text'] ) ? $rtcl_style_opt['button_text'] : null;
+			$buttonText = ! empty( $rtcl_style_opt['button_text'] ) ? $rtcl_style_opt['button_text'] : null;
 			if ( $buttonText ) {
 				$rootVar .= '--rtcl-button-color:' . $buttonText . ';';
-				$style .= '.rtcl .btn{ color: var(--rtcl-button-color); }';
-				$style .= '[class*=rtcl-slider] [class*=swiper-button-],.rtcl-carousel-slider [class*=swiper-button-] { color: var(--rtcl-button-color); }';
+				$style   .= '.rtcl .rtcl-btn{ color: var(--rtcl-button-color); }';
+				$style   .= '[class*=rtcl-slider] [class*=swiper-button-],.rtcl-carousel-slider [class*=swiper-button-] { color: var(--rtcl-button-color); }';
 			}
 
 			// Button hover
-			$buttonHover = !empty( $rtcl_style_opt['button_hover'] ) ? $rtcl_style_opt['button_hover'] : null;
+			$buttonHover = ! empty( $rtcl_style_opt['button_hover'] ) ? $rtcl_style_opt['button_hover'] : null;
 			if ( $buttonHover ) {
 				$rootVar .= '--rtcl-button-hover-bg-color:' . $buttonHover . ';';
-				$style .= '.rtcl-pagination ul.page-numbers li span.page-numbers.current,.rtcl-pagination ul.page-numbers li a.page-numbers:hover{ background-color: var(--rtcl-button-hover-bg-color); }';
-				$style .= '.rtcl .btn:hover{ background-color: var(--rtcl-button-hover-bg-color); border-color: var(--rtcl-button-hover-bg-color); }';
+				$style   .= '.rtcl-pagination ul.page-numbers li span.page-numbers.current,.rtcl-pagination ul.page-numbers li a.page-numbers:hover{ background-color: var(--rtcl-button-hover-bg-color); }';
+				$style   .= '.rtcl .rtcl-btn:hover{ background-color: var(--rtcl-button-hover-bg-color); border-color: var(--rtcl-button-hover-bg-color); }';
 			}
-			$buttonHoverText = !empty( $rtcl_style_opt['button_hover_text'] ) ? $rtcl_style_opt['button_hover_text'] : null;
+			$buttonHoverText = ! empty( $rtcl_style_opt['button_hover_text'] ) ? $rtcl_style_opt['button_hover_text'] : null;
 			if ( $buttonHoverText ) {
 				$rootVar .= '--rtcl-button-hover-color:' . $buttonHoverText . ';';
-				$style .= '.rtcl-pagination ul.page-numbers li a.page-numbers:hover, .rtcl-pagination ul.page-numbers li span.page-numbers.current{ color: var(--rtcl-button-hover-color); }';
-				$style .= '.rtcl .btn:hover{ color: var(--rtcl-button-hover-color)}';
-				$style .= '[class*=rtcl-slider] [class*=swiper-button-],.rtcl-carousel-slider [class*=swiper-button-]:hover { color: var(--rtcl-button-hover-color); }';
+				$style   .= '.rtcl-pagination ul.page-numbers li a.page-numbers:hover, .rtcl-pagination ul.page-numbers li span.page-numbers.current{ color: var(--rtcl-button-hover-color); }';
+				$style   .= '.rtcl .rtcl-btn:hover{ color: var(--rtcl-button-hover-color)}';
+				$style   .= '[class*=rtcl-slider] [class*=swiper-button-],.rtcl-carousel-slider [class*=swiper-button-]:hover { color: var(--rtcl-button-hover-color); }';
 			}
 
 			// New
-			$new = !empty( $rtcl_style_opt['new'] ) ? $rtcl_style_opt['new'] : null;
+			$new = ! empty( $rtcl_style_opt['new'] ) ? $rtcl_style_opt['new'] : null;
 			if ( $new ) {
 				$rootVar .= '--rtcl-badge-new-bg-color:' . $new . ';';
 			}
-			$newText = !empty( $rtcl_style_opt['new_text'] ) ? $rtcl_style_opt['new_text'] : null;
+			$newText = ! empty( $rtcl_style_opt['new_text'] ) ? $rtcl_style_opt['new_text'] : null;
 			if ( $newText ) {
 				$rootVar .= '--rtcl-badge-new-color:' . $newText . ';';
 			}
 
 			// Feature
-			$feature = !empty( $rtcl_style_opt['feature'] ) ? $rtcl_style_opt['feature'] : null;
+			$feature = ! empty( $rtcl_style_opt['feature'] ) ? $rtcl_style_opt['feature'] : null;
 			if ( $feature ) {
 				$rootVar .= '--rtcl-badge-featured-bg-color:' . $feature . ';';
 			}
-			$featureText = !empty( $rtcl_style_opt['feature_text'] ) ? $rtcl_style_opt['feature_text'] : null;
+			$featureText = ! empty( $rtcl_style_opt['feature_text'] ) ? $rtcl_style_opt['feature_text'] : null;
 			if ( $featureText ) {
 				$rootVar .= '--rtcl-badge-featured-color:' . $featureText . ';';
 			}
@@ -595,51 +601,52 @@ class ScriptLoader {
 		$location_base = esc_html_x( $location_base, 'slug', 'classified-listing' );
 
 		$decimal_separator = Functions::get_decimal_separator();
+
 		$activeTerms = [];
-		if ( Functions::is_listings()  || Functions::is_listing_tax()) {
+		if ( Functions::is_listings() || Functions::is_listing_tax() ) {
 			$catSlug = get_query_var( '__cat' );
 			$locSlug = get_query_var( '__loc' );
 			$tagSlug = get_query_var( '__tag' );
 			if ( $catSlug ) {
 				$cat_term = get_term_by( 'slug', $catSlug, rtcl()->category );
-				if ( $cat_term && !is_wp_error( $cat_term ) ) {
+				if ( $cat_term && ! is_wp_error( $cat_term ) ) {
 					$activeTerms[] = $cat_term;
 					//$activeTerms = $cat_term;
 				}
 			}
 			if ( $locSlug ) {
 				$loc_term = get_term_by( 'slug', $locSlug, rtcl()->location );
-				if ( $loc_term && !is_wp_error( $loc_term ) ) {
+				if ( $loc_term && ! is_wp_error( $loc_term ) ) {
 					$activeTerms[] = $loc_term;
 				}
 			}
 			if ( $tagSlug ) {
 				$tagTerm = get_term_by( 'slug', $tagSlug, rtcl()->location );
-				if ( $tagTerm && !is_wp_error( $tagTerm ) ) {
+				if ( $tagTerm && ! is_wp_error( $tagTerm ) ) {
 					$activeTerms[] = $tagTerm;
 				}
 			}
 			if ( Functions::is_listing_tax() ) {
 				$activeTerms[] = get_queried_object();
-				if(!empty($_GET['rtcl_location'])){
-					$loc_term = get_term_by( 'slug', wp_unslash(sanitize_text_field($_GET['rtcl_location'])), rtcl()->location );
-					if ( $loc_term && !is_wp_error( $loc_term ) ) {
+				if ( ! empty( $_GET['rtcl_location'] ) ) {
+					$loc_term = get_term_by( 'slug', wp_unslash( sanitize_text_field( $_GET['rtcl_location'] ) ), rtcl()->location );
+					if ( $loc_term && ! is_wp_error( $loc_term ) ) {
 						$activeTerms[] = $loc_term;
 					}
 				}
-				if(!empty($_GET['rtcl_category'])){
-					$cat_term = get_term_by( 'slug', wp_unslash(sanitize_text_field($_GET['rtcl_category'])), rtcl()->category );
-					if ( $cat_term && !is_wp_error( $cat_term ) ) {
+				if ( ! empty( $_GET['rtcl_category'] ) ) {
+					$cat_term = get_term_by( 'slug', wp_unslash( sanitize_text_field( $_GET['rtcl_category'] ) ), rtcl()->category );
+					if ( $cat_term && ! is_wp_error( $cat_term ) ) {
 						$activeTerms[] = $cat_term;
 					}
 				}
-				if(!empty($_GET['rtcl_tag'])){
-					$tag_term = get_term_by( 'slug', wp_unslash(sanitize_text_field($_GET['rtcl_tag'])), rtcl()->tag );
-					if ( $tag_term && !is_wp_error( $tag_term ) ) {
+				if ( ! empty( $_GET['rtcl_tag'] ) ) {
+					$tag_term = get_term_by( 'slug', wp_unslash( sanitize_text_field( $_GET['rtcl_tag'] ) ), rtcl()->tag );
+					if ( $tag_term && ! is_wp_error( $tag_term ) ) {
 						$activeTerms[] = $tag_term;
 					}
 				}
-			} 
+			}
 		}
 		$localize = [
 			'plugin_url'                               => RTCL_URL,
@@ -681,20 +688,20 @@ class ScriptLoader {
 			'is_enable_tax'                            => Functions::is_enable_tax(),
 			'payment_currency_symbol'                  => Functions::get_order_currency_symbol(),
 			'ai_enabled'                               => Functions::is_ai_enabled(),
-			'current_user'							   => wp_get_current_user(),
-			'admin_url'							   		=> admin_url(),
-			'prompt_max_limit' 						   => Functions::get_max_prompt_input_limit()
+			'current_user'                             => wp_get_current_user(),
+			'admin_url'                                => admin_url(),
+			'prompt_max_limit'                         => Functions::get_max_prompt_input_limit()
 		];
 
-		if ( !empty( $misc_settings['recaptcha_site_key'] ) && !empty( $misc_settings['recaptcha_forms'] ) ) {
-			$v = isset( $misc_settings['recaptcha_version'] ) ? absint( $misc_settings['recaptcha_version'] ) : 2;
-			$recaptcha = [
+		if ( ! empty( $misc_settings['recaptcha_site_key'] ) && ! empty( $misc_settings['recaptcha_forms'] ) ) {
+			$v                     = isset( $misc_settings['recaptcha_version'] ) ? absint( $misc_settings['recaptcha_version'] ) : 2;
+			$recaptcha             = [
 				'site_key'   => $misc_settings['recaptcha_site_key'],
 				'v'          => $v ?: 2,
 				'on'         => $misc_settings['recaptcha_forms'],
 				'conditions' => [
-					'has_contact_form' => !empty( $moderation_settings['has_contact_form'] ) && $moderation_settings['has_contact_form'] == 'yes' ? 1 : 0,
-					'has_report_abuse' => !empty( $moderation_settings['has_report_abuse'] ) && $moderation_settings['has_report_abuse'] == 'yes' ? 1 : 0,
+					'has_contact_form' => ! empty( $moderation_settings['has_contact_form'] ) && $moderation_settings['has_contact_form'] == 'yes' ? 1 : 0,
+					'has_report_abuse' => ! empty( $moderation_settings['has_report_abuse'] ) && $moderation_settings['has_report_abuse'] == 'yes' ? 1 : 0,
 					'listing'          => in_array( 'listing', $misc_settings['recaptcha_forms'] ) ? 1 : 0,
 				],
 				'msg'        => [
@@ -704,28 +711,28 @@ class ScriptLoader {
 			$localize['recaptcha'] = $recaptcha;
 		}
 		if ( is_singular( rtcl()->post_type ) ) {
-			$localize['post_id'] = $post->ID;
+			$localize['post_id']    = $post->ID;
 			$localize['post_title'] = $post->post_title;
 			/* translators: 1: related to , 2: Related form */
-			$message = sprintf( esc_html__( "Need to discuss something related to '%1\$s' from %2\$s", 'classified-listing' ), $post->post_title,
+			$message                = sprintf( esc_html__( "Need to discuss something related to '%1\$s' from %2\$s", 'classified-listing' ), $post->post_title,
 				get_permalink( $post->ID ) );
 			$localize['wa_message'] = apply_filters( 'rtcl_default_wa_message', $message );
 		}
 		if ( is_author() ) {
-			$author = get_user_by( 'slug', get_query_var( 'author_name' ) );
+			$author              = get_user_by( 'slug', get_query_var( 'author_name' ) );
 			$localize['user_id'] = $author->ID;
 		}
 		if ( isset( $wp->query_vars['edit-account'] ) || isset( $wp->query_vars['rtcl_edit_account'] ) ) {
 			$max_image_size = Functions::get_max_upload();
-			$extensions = (array)Functions::get_option_item( 'rtcl_misc_settings', 'image_allowed_type' );
+			$extensions     = (array) Functions::get_option_item( 'rtcl_misc_settings', 'image_allowed_type' );
 			if ( empty( $extensions ) ) {
 				$extensions = [ 'png', 'jpg', 'jpeg' ];
 			}
-			$localize['image_allowed_type'] = $extensions;
-			$localize['max_image_size'] = $max_image_size;
+			$localize['image_allowed_type']  = $extensions;
+			$localize['max_image_size']      = $max_image_size;
 			$localize['error_upload_common'] = esc_html__( 'Error while upload image', 'classified-listing' );
 			/* translators: Image size */
-			$localize['error_image_size'] = sprintf( __( 'Image size is more then %s.', 'classified-listing' ),
+			$localize['error_image_size']      = sprintf( __( 'Image size is more then %s.', 'classified-listing' ),
 				Functions::formatBytes( $max_image_size ) );
 			$localize['error_image_extension'] = esc_html__( 'File extension not supported.', 'classified-listing' );
 		}
@@ -810,9 +817,10 @@ class ScriptLoader {
 			'jquery-ui-draggable',
 			'jquery-ui-tabs',
 		], $this->version, true );
-
-		wp_register_style( 'rtcl-bootstrap', rtcl()->get_assets_uri( "css/rtcl-bootstrap.min.css" ), [], '4.1.0' );
-		wp_register_style( 'rtcl-admin', rtcl()->get_assets_uri( "css/rtcl-admin.min.css" ), [ 'rtcl-bootstrap' ], $this->version );
+		if ( ! empty( $general_settings['load_bootstrap'] ) && in_array( 'css', $general_settings['load_bootstrap'] ) ) {
+			wp_register_style( 'rtcl-bootstrap', rtcl()->get_assets_uri( "css/rtcl-bootstrap.min.css" ), [], '4.1.0' );
+		}
+		wp_register_style( 'rtcl-admin', rtcl()->get_assets_uri( "css/rtcl-admin.min.css" ), '', $this->version );
 		wp_register_style( 'jquery-ui', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' );
 		wp_register_script( 'rtcl-admin-widget', rtcl()->get_assets_uri( 'js/admin-widget.min.js' ), [ 'jquery' ], $this->version );
 		wp_register_script( 'rtcl-timepicker', rtcl()->get_assets_uri( 'vendor/jquery-ui-timepicker-addon.js' ), [ 'jquery' ], $this->version, true );
@@ -886,9 +894,9 @@ class ScriptLoader {
 			'wp-i18n'
 		], $this->version, true );
 
-		$decimal_separator = Functions::get_decimal_separator();
+		$decimal_separator         = Functions::get_decimal_separator();
 		$pricing_decimal_separator = Functions::get_decimal_separator( true );
-		$localize = [
+		$localize                  = [
 			'ajaxurl'                        => $this->ajaxurl,
 			'decimal_point'                  => $decimal_separator,
 			'pricing_decimal_point'          => $pricing_decimal_separator,
@@ -913,9 +921,9 @@ class ScriptLoader {
 			'i18n_message'                   => esc_html__( 'Message', 'classified-listing' ),
 			'i18n_send'                      => esc_html__( 'Send', 'classified-listing' ),
 			'ai_enabled'                     => Functions::is_ai_enabled(),
-			'current_user'					 => wp_get_current_user(),
-			'admin_url'						 => admin_url(),
-			'prompt_max_limit' 				 => Functions::get_max_prompt_input_limit()
+			'current_user'                   => wp_get_current_user(),
+			'admin_url'                      => admin_url(),
+			'prompt_max_limit'               => Functions::get_max_prompt_input_limit()
 		];
 		wp_localize_script( 'rtcl-admin', 'rtcl', apply_filters( 'rtcl_localize_params_admin', $localize ) );
 
@@ -927,7 +935,7 @@ class ScriptLoader {
 
 	function load_admin_script_page_custom_fields() {
 		global $pagenow, $post_type;
-		if ( !in_array( $pagenow, [ 'post.php', 'post-new.php', 'edit.php' ] ) ) {
+		if ( ! in_array( $pagenow, [ 'post.php', 'post-new.php', 'edit.php' ] ) ) {
 			return;
 		}
 		if ( rtcl()->post_type_cfg != $post_type ) {
@@ -948,7 +956,7 @@ class ScriptLoader {
 	}
 
 	function load_admin_script_setting_page() {
-		if ( !empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-settings' ) {
+		if ( ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-settings' ) {
 			wp_enqueue_media();
 			wp_enqueue_style( 'rtcl-admin' );
 			wp_enqueue_script( 'rt-field-dependency' );
@@ -968,7 +976,7 @@ class ScriptLoader {
 	}
 
 	public function load_admin_script_report_page() {
-		if ( !empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-admin' ) {
+		if ( ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-admin' ) {
 			wp_enqueue_style( 'rtcl-admin' );
 			wp_enqueue_script( 'rtcl-admin' );
 			wp_enqueue_script( 'rtcl-chart' );
@@ -978,7 +986,7 @@ class ScriptLoader {
 	}
 
 	public function load_admin_script_export_import_page() {
-		if ( !empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-import-export' ) {
+		if ( ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-import-export' ) {
 			wp_enqueue_style( 'rtcl-admin' );
 			wp_enqueue_script( 'rtcl-admin' );
 			wp_enqueue_script( 'rtcl-admin-ie' );
@@ -986,7 +994,7 @@ class ScriptLoader {
 	}
 
 	public function load_admin_script_listing_types_page() {
-		if ( !empty( $_GET['post_type'] ) && $_GET['post_type'] == rtcl()->post_type && !empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-listing-type' ) {
+		if ( ! empty( $_GET['post_type'] ) && $_GET['post_type'] == rtcl()->post_type && ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-listing-type' ) {
 			wp_enqueue_style( 'rtcl-bootstrap' );
 			wp_enqueue_style( 'rtcl-admin' );
 			if ( Functions::has_map() ) {
@@ -1006,7 +1014,7 @@ class ScriptLoader {
 	}
 
 	function load_admin_script_extension_page() {
-		if ( !empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-extension' ) {
+		if ( ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-extension' ) {
 			wp_enqueue_style( 'rtcl-admin' );
 		}
 	}
@@ -1015,7 +1023,7 @@ class ScriptLoader {
 		global $pagenow, $post_type;
 
 		// validate page
-		if ( !in_array( $pagenow, [ 'post.php', 'post-new.php', 'edit.php' ] ) ) {
+		if ( ! in_array( $pagenow, [ 'post.php', 'post-new.php', 'edit.php' ] ) ) {
 			return;
 		}
 
@@ -1057,7 +1065,7 @@ class ScriptLoader {
 		global $pagenow, $post_type;
 
 		// validate page
-		if ( !in_array( $pagenow, [ 'post.php', 'post-new.php', 'edit.php' ] ) ) {
+		if ( ! in_array( $pagenow, [ 'post.php', 'post-new.php', 'edit.php' ] ) ) {
 			return;
 		}
 
@@ -1076,7 +1084,7 @@ class ScriptLoader {
 		global $pagenow, $post_type;
 
 		// validate page
-		if ( !in_array( $pagenow, [ 'post.php', 'post-new.php', 'edit.php' ] ) ) {
+		if ( ! in_array( $pagenow, [ 'post.php', 'post-new.php', 'edit.php' ] ) ) {
 			return;
 		}
 
@@ -1095,7 +1103,7 @@ class ScriptLoader {
 		global $pagenow, $post_type;
 
 		// validate page
-		if ( !in_array( $pagenow, [ 'term.php', 'edit-tags.php' ] ) ) {
+		if ( ! in_array( $pagenow, [ 'term.php', 'edit-tags.php' ] ) ) {
 			return;
 		}
 
@@ -1129,7 +1137,7 @@ class ScriptLoader {
 	 */
 	public function load_script_at_form_builder( $hook ) {
 
-		if ( !preg_match( "#_page_rtcl-fb$#", $hook ) || !empty( $_GET['page'] ) && $_GET['page'] !== 'rtcl-fb' ) {
+		if ( ! preg_match( "#_page_rtcl-fb$#", $hook ) || ! empty( $_GET['page'] ) && $_GET['page'] !== 'rtcl-fb' ) {
 			return;
 		}
 
@@ -1138,7 +1146,7 @@ class ScriptLoader {
 			'pluginUrl'     => RTCL_URL,
 			rtcl()->nonceId => wp_create_nonce( rtcl()->nonceText ),
 			'hasPro'        => rtcl()->has_pro(),
-			'theme' 		=> wp_get_theme()->get_stylesheet(),
+			'theme'         => wp_get_theme()->get_stylesheet(),
 			'forms'         => Form::query()->get(),
 			'settingFields' => AvailableFields::settings(),
 			'optionFields'  => AvailableFields::optionFields(),
@@ -1168,16 +1176,16 @@ class ScriptLoader {
 	 */
 	public function load_script_at_filter_builder( $hook ) {
 
-		if ( !preg_match( "#_page_rtcl-ajax-filter$#", $hook ) || !empty( $_GET['page'] ) && $_GET['page'] !== 'rtcl-ajax-filter' ) {
+		if ( ! preg_match( "#_page_rtcl-ajax-filter$#", $hook ) || ! empty( $_GET['page'] ) && $_GET['page'] !== 'rtcl-ajax-filter' ) {
 			return;
 		}
 
 		$rawForms = Form::query()
-			->where( 'status', 'publish' )
-			->order_by( 'created_at', 'DESC' )
-			->get();
-		$forms = [];
-		if ( !empty( $rawForms ) ) {
+		                ->where( 'status', 'publish' )
+		                ->order_by( 'created_at', 'DESC' )
+		                ->get();
+		$forms    = [];
+		if ( ! empty( $rawForms ) ) {
 			foreach ( $rawForms as $raw_form ) {
 				$_form = apply_filters( 'rtcl_fb_form', $raw_form );
 				if ( is_a( $_form, Form::class ) ) {
@@ -1201,14 +1209,14 @@ class ScriptLoader {
 	}
 
 	private static function localize_script( $handle ) {
-		if ( !in_array( $handle, self::$wp_localize_scripts, true ) ) {
+		if ( ! in_array( $handle, self::$wp_localize_scripts, true ) ) {
 			$data = self::get_script_data( $handle );
 
-			if ( !$data ) {
+			if ( ! $data ) {
 				return;
 			}
 
-			$name = str_replace( '-', '_', $handle ) . '_localized_params';
+			$name                        = str_replace( '-', '_', $handle ) . '_localized_params';
 			self::$wp_localize_scripts[] = $handle;
 			wp_localize_script( $handle, $name, apply_filters( $name, $data ) );
 		}
@@ -1263,7 +1271,7 @@ class ScriptLoader {
 	private function get_fb_settings_options( bool $admin = false ): array {
 		// 'timezones'       => Options::get_timezone_list()
 		$currency = Functions::get_currency();
-		$options = [
+		$options  = [
 			'week_days'       => FBHelper::getWeekDays(),
 			'listing_types'   => Functions::get_listing_types(),
 			'pricing'         => [
@@ -1285,14 +1293,14 @@ class ScriptLoader {
 
 		if ( $admin ) {
 			$i18Options = FBHelper::getBackEndi18nOptions();
-			if ( !empty( $i18Options ) ) {
+			if ( ! empty( $i18Options ) ) {
 				$options['translation'] = $i18Options;
 			}
 			$options['section'] = AvailableFields::getSectionField();
-			$options['icons'] = Options::get_icon_class_list();
+			$options['icons']   = Options::get_icon_class_list();
 		} else {
 			$i18Options = FBHelper::getFrontEndi18nOptions();
-			if ( !empty( $i18Options ) ) {
+			if ( ! empty( $i18Options ) ) {
 				$options['language'] = $i18Options;
 			}
 		}

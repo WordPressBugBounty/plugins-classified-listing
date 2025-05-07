@@ -33,42 +33,42 @@ if ( is_user_logged_in() ) {
 			echo wpautop( wptexturize( $message ) );
 		} ?>
 
-		<div class="form-group">
-			<label for="rtcl-user-login" class="control-label"><?php esc_html_e( 'Username or E-mail',
+		<div class="rtcl-form-group">
+			<label for="rtcl-user-login" class="rtcl-field-label"><?php esc_html_e( 'Username or E-mail',
 					'classified-listing' ); ?></label>
 			<input type="text" name="username" autocomplete="username"
 				   value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>"
-				   id="rtcl-user-login" class="form-control" required/>
+				   id="rtcl-user-login" class="rtcl-form-control" required/>
 		</div>
 
-		<div class="form-group">
-			<label for="rtcl-user-pass" class="control-label">
+		<div class="rtcl-form-group">
+			<label for="rtcl-user-pass" class="rtcl-field-label">
 				<?php esc_html_e( 'Password', 'classified-listing' ); ?>
 			</label>
 			<input type="password" name="password" id="rtcl-user-pass" autocomplete="current-password"
-				   class="form-control" required/>
+				   class="rtcl-form-control" required/>
 		</div>
 
 		<?php do_action( 'rtcl_login_form' ); ?>
 
-		<div class="form-group">
+		<div class="rtcl-form-group">
 			<div id="rtcl-login-g-recaptcha" class="mb-2"></div>
 			<div id="rtcl-login-g-recaptcha-message"></div>
 		</div>
 
-		<div class="form-group d-flex align-items-center">
-			<button type="submit" name="rtcl-login" class="btn btn-primary" value="login">
+		<div class="rtcl-form-group rtcl-login-form-submit-wrap">
+			<button type="submit" name="rtcl-login" class="rtcl-btn" value="login">
 				<?php esc_html_e( 'Login', 'classified-listing' ); ?>
 			</button>
 			<div class="form-check">
 				<input type="checkbox" name="rememberme" id="rtcl-rememberme" value="forever">
-				<label class="form-check-label" for="rtcl-rememberme">
+				<label class="rtcl-form-check-label" for="rtcl-rememberme">
 					<?php esc_html_e( 'Remember Me', 'classified-listing' ); ?>
 				</label>
 			</div>
 		</div>
 
-		<div class="form-group">
+		<div class="rtcl-form-group">
 			<p class="rtcl-forgot-password">
 				<?php if ( Functions::is_registration_enabled() ):
 					$register_link = Link::get_my_account_page_link();

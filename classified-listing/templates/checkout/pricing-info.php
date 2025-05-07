@@ -16,7 +16,7 @@ use Rtcl\Resources\Options;
 ?>
 <div class="pricing-info">
 	<h2><?php esc_html_e( 'Details', 'classified-listing' ); ?></h2>
-	<table class="table table-bordered table-striped">
+	<table class="rtcl-bs-table rtcl-bs-table-bordered rtcl-bs-table-striped">
 		<tr>
 			<th colspan="2">
 				<?php

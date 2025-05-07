@@ -35,7 +35,10 @@ class Filter extends WP_Widget {
 	}
 
 	public function enqueue_scripts() {
-		if ( Functions::is_enable_map() && ( is_active_widget( false, false, $this->id_base, true ) || Functions::is_active_elementor_widget( $this->id_base ) ) ) {
+		if ( Functions::is_enable_map()
+			 && ( is_active_widget( false, false, $this->id_base, true )
+				  || Functions::is_active_elementor_widget( $this->id_base ) )
+		) {
 			wp_enqueue_script( 'rtcl-map' );
 		}
 		do_action( 'rtcl_widget_search_enqueue_scripts', $this );
@@ -86,7 +89,10 @@ class Filter extends WP_Widget {
 		$data         = apply_filters( 'rtcl_widget_filter_values', $data, $args, $instance, $this );
 		$data['data'] = $data;
 		?>
-		<div class="rtcl-widget-filter-wrapper <?php echo esc_attr($instance['filter_style'] ?? ''); ?>">
+		<div class="rtcl-widget-filter-wrapper <?php echo esc_attr( $instance['filter_style'] ?? '' ); ?>">
+			<?php if ( rtcl()->is_request( 'frontend' ) ): ?>
+				<a id="rtcl-toggle-filter-mobile" href="#"><?php esc_html_e( 'Toggle Filter', 'classified-listing' ); ?></a>
+			<?php endif; ?>
 			<?php
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $args['before_widget'];
@@ -95,7 +101,7 @@ class Filter extends WP_Widget {
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 			}
-			
+
 			Functions::get_template( $data['template'], $data, '', $data['default_template_path'] );
 
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -183,10 +189,14 @@ class Filter extends WP_Widget {
 			$tag_query_var      = get_query_var( '__tag' );
 			$exist_query_var    = ! empty( $location_query_var ) || ! empty( $tag_query_var );
 
-			if ( $category_query_var && ( $current_category = get_term_by( 'slug', $category_query_var, rtcl()->category ) ) && ! is_wp_error( $current_category ) ) {
+			if ( $category_query_var && ( $current_category = get_term_by( 'slug', $category_query_var, rtcl()->category ) )
+				 && ! is_wp_error( $current_category )
+			) {
 				$args['instance']['current_taxonomy'][ rtcl()->category ] = $current_category;
 			}
-			if ( $location_query_var && ( $current_location = get_term_by( 'slug', $location_query_var, rtcl()->location ) ) && ! is_wp_error( $current_location ) ) {
+			if ( $location_query_var && ( $current_location = get_term_by( 'slug', $location_query_var, rtcl()->location ) )
+				 && ! is_wp_error( $current_location )
+			) {
 				$args['instance']['current_taxonomy'][ rtcl()->location ] = $current_location;
 			}
 			if ( $tag_query_var && ( $current_tag = get_term_by( 'slug', $tag_query_var, rtcl()->location ) ) && ! is_wp_error( $current_tag ) ) {
@@ -225,10 +235,14 @@ class Filter extends WP_Widget {
 			$tag_query_var      = get_query_var( '__tag' );
 			$exist_query_var    = ! empty( $category_query_var ) || ! empty( $location_query_var );
 
-			if ( $category_query_var && ( $current_category = get_term_by( 'slug', $category_query_var, rtcl()->category ) ) && ! is_wp_error( $current_category ) ) {
+			if ( $category_query_var && ( $current_category = get_term_by( 'slug', $category_query_var, rtcl()->category ) )
+				 && ! is_wp_error( $current_category )
+			) {
 				$args['instance']['current_taxonomy'][ rtcl()->category ] = $current_category;
 			}
-			if ( $location_query_var && ( $current_location = get_term_by( 'slug', $location_query_var, rtcl()->location ) ) && ! is_wp_error( $current_location ) ) {
+			if ( $location_query_var && ( $current_location = get_term_by( 'slug', $location_query_var, rtcl()->location ) )
+				 && ! is_wp_error( $current_location )
+			) {
 				$args['instance']['current_taxonomy'][ rtcl()->location ] = $current_location;
 			}
 			if ( $tag_query_var && ( $current_tag = get_term_by( 'slug', $tag_query_var, rtcl()->location ) ) && ! is_wp_error( $current_tag ) ) {
@@ -274,10 +288,14 @@ class Filter extends WP_Widget {
 			$tag_query_var      = get_query_var( '__tag' );
 			$exist_query_var    = ! empty( $category_query_var ) || ! empty( $tag_query_var );
 
-			if ( $category_query_var && ( $current_category = get_term_by( 'slug', $category_query_var, rtcl()->category ) ) && ! is_wp_error( $current_category ) ) {
+			if ( $category_query_var && ( $current_category = get_term_by( 'slug', $category_query_var, rtcl()->category ) )
+				 && ! is_wp_error( $current_category )
+			) {
 				$args['instance']['current_taxonomy'][ rtcl()->category ] = $current_category;
 			}
-			if ( $location_query_var && ( $current_location = get_term_by( 'slug', $location_query_var, rtcl()->location ) ) && ! is_wp_error( $current_location ) ) {
+			if ( $location_query_var && ( $current_location = get_term_by( 'slug', $location_query_var, rtcl()->location ) )
+				 && ! is_wp_error( $current_location )
+			) {
 				$args['instance']['current_taxonomy'][ rtcl()->location ] = $current_location;
 			}
 			if ( $tag_query_var && ( $current_tag = get_term_by( 'slug', $tag_query_var, rtcl()->location ) ) && ! is_wp_error( $current_tag ) ) {
@@ -320,7 +338,8 @@ class Filter extends WP_Widget {
 					$field_html .= "</li>";
 				}
 			}
-			$field_html .= '<li class="is-opener"><span class="rtcl-more"><i class="rtcl-icon rtcl-icon-plus-circled"></i><span class="text">' . __( "Show More",
+			$field_html .= '<li class="is-opener"><span class="rtcl-more"><i class="rtcl-icon rtcl-icon-plus-circled"></i><span class="text">'
+						   . __( "Show More",
 					"classified-listing" ) . '</span></span></li>';
 			$field_html .= "</ul>";
 
@@ -345,14 +364,14 @@ class Filter extends WP_Widget {
 			$filters    = ! empty( $_GET['filters'] ) ? $_GET['filters'] : []; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
 			$fMinValue  = ! empty( $filters['price']['min'] ) ? esc_attr( $filters['price']['min'] ) : null;
 			$fMaxValue  = ! empty( $filters['price']['max'] ) ? esc_attr( $filters['price']['max'] ) : null;
-			$field_html = sprintf( '<div class="form-group">
+			$field_html = sprintf( '<div class="rtcl-form-group">
 										<div class="price-container">
-								            <div class="row">
-								                <div class="col-md-6 col-6">
-								                    <input type="number" name="filters[price][min]" class="form-control" placeholder="%s" value="%s">
+								            <div class="rtcl-row">
+								                <div class="rtcl-col-md-6 rtcl-col-6">
+								                    <input type="number" name="filters[price][min]" class="rtcl-form-control" placeholder="%s" value="%s">
 								                </div>
-								                <div class="col-md-6 col-6">
-								                    <input type="number" name="filters[price][max]" class="form-control" placeholder="%s" value="%s">
+								                <div class="rtcl-col-md-6 rtcl-col-6">
+								                    <input type="number" name="filters[price][max]" class="rtcl-form-control" placeholder="%s" value="%s">
 								                </div>
 								            </div>
 								        </div>
@@ -382,7 +401,7 @@ class Filter extends WP_Widget {
 			$field_html = sprintf( '
                                     <div class="form-group">
                                         <div class="rtcl-geo-address-field">
-                                            <input type="text" name="geo_address" autocomplete="off" value="%1$s" placeholder="%7$s" class="form-control rtcl-geo-address-input" />
+                                            <input type="text" name="geo_address" autocomplete="off" value="%1$s" placeholder="%7$s" class="rtcl-form-control rtcl-geo-address-input" />
                                             <i class="rtcl-get-location rtcl-icon rtcl-icon-target"></i>
                                             <input type="hidden" class="latitude" name="center_lat" value="%2$s">
                                             <input type="hidden" class="longitude" name="center_lng" value="%3$s">
@@ -402,7 +421,8 @@ class Filter extends WP_Widget {
 					'kilometers'
 				] ) ? esc_html__( "km", "classified-listing" ) : esc_html__( "Miles", "classified-listing" ),
 				$rs_data['max_distance'],
-				absint( ! empty( $_GET['distance'] ) ? absint( $_GET['distance'] ) : $rs_data['default_distance'] ), /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
+				absint( ! empty( $_GET['distance'] ) ? absint( $_GET['distance'] ) : $rs_data['default_distance'] ),
+				/* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
 				esc_html__( "Select a location", "classified-listing" ),
 				esc_html__( "Radius", "classified-listing" )
 			);

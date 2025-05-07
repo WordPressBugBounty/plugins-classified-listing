@@ -84,7 +84,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<div class="rtcl-form-group rtcl-form-group-no-margin-bottom">
 					<div id="rtcl-registration-g-recaptcha"></div>
 					<div id="rtcl-registration-g-recaptcha-message"></div>
-					<input type="submit" name="rtcl-register" class="btn btn-primary"
+					<input type="submit" name="rtcl-register" class="rtcl-btn rtcl-btn-primary"
 						   value="<?php esc_attr_e( 'Register', 'classified-listing' ); ?>"/>
 					<p class="login-link"><?php esc_html_e( 'Already have an account? Please login', 'classified-listing' ); ?>
 						<a

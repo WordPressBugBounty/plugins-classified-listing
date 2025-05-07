@@ -14,9 +14,9 @@
     <div class="rtcl-post-section-title">
         <h3><i class="rtcl-icon rtcl-icon-link"></i><?php esc_html_e( "Video URL", "classified-listing" ); ?></h3>
     </div>
-    <div class="form-group">
+    <div class="rtcl-form-group">
         <input type="url"
-               class="form-control"
+               class="rtcl-form-control"
                value="<?php echo esc_url( isset( $video_urls[0] ) ? $video_urls[0] : '' ) ?>"
                id="video-urls"
                data-rule-pattern="(https?:\/\/)(www.)?(youtube.com\/watch[?]v=([a-zA-Z0-9_-]{11}))|https?:\/\/(www.)?vimeo.com\/(\d+)"

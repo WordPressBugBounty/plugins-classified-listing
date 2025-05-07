@@ -36,7 +36,11 @@ class TemplateLoader {
 		self::$listings_page_id = Functions::get_page_id( 'listings' );
 		if ( self::$theme_support ) {
 			// For Divi theme need to add 99 priority to override template filter hook , when add_theme_support('rtcl) is added
-			add_filter( 'template_include', [ __CLASS__, 'template_loader' ], 99 );
+			if( 'Divi' === wp_get_theme()->get( 'Name' ) || class_exists( 'ET_Builder_Plugin' ) ) {
+				add_filter( 'template_include', [ __CLASS__, 'template_loader' ] );
+			} else {
+				add_filter( 'template_include', [ __CLASS__, 'template_loader' ],99 );
+			}
 		} else {
 			// Unsupported themes.
 			add_action( 'template_redirect', [ __CLASS__, 'unsupported_theme_init' ] );

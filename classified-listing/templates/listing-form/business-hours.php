@@ -24,8 +24,8 @@ if ( ! Functions::is_enable_business_hours() ) {
 		<h3><i class="rtcl-icon rtcl-icon-clock"></i><?php esc_html_e( "Open Hours", "classified-listing" ); ?></h3>
 	</div>
 	<div id="rtcl-bhs-holder">
-		<div class="form-check">
-			<label class="form-check-label"
+		<div class="rtcl-form-check">
+			<label class="rtcl-form-check-label"
 				   for="rtcl-active-bhs"><?php esc_html_e( "Active Opening Hours", "classified-listing" ); ?></label>
 		</div>
 		<input type="hidden" name="_rtcl_active_bhs" value="0">
@@ -38,8 +38,8 @@ if ( ! Functions::is_enable_business_hours() ) {
 					<div class="rtcl-bh">
 						<div class="rtcl-day-label"><?php echo esc_html( $day ); ?></div>
 						<div class="rtcl-day-actions">
-							<div class="action-item form-check open">
-								<label class="form-check-label"
+							<div class="action-item rtcl-form-check open">
+								<label class="rtcl-form-check-label"
 									   for="business-hours-open-<?php echo esc_html( $day_key ); ?>">
 									<?php esc_html_e( "Open", "classified-listing" ); ?>
 								</label>
@@ -47,8 +47,8 @@ if ( ! Functions::is_enable_business_hours() ) {
 							<input type="checkbox" name="_rtcl_bhs[<?php echo esc_attr( $day_key ) ?>][open]"
 								   class="form-check-input check-open"
 								   id="business-hours-open-<?php echo esc_html( $day_key ); ?>"<?php echo ! empty( $bhs[ $day_key ]['open'] ) ? ' checked' : '' ?>>
-							<div class="action-item form-check day-time-slot">
-								<label class="form-check-label"
+							<div class="action-item rtcl-form-check day-time-slot">
+								<label class="rtcl-form-check-label"
 									   for="time-slot-open-<?php echo esc_html( $day_key ); ?>">
 									<?php esc_html_e( "Want to set a time slot? (Default All day long)", "classified-listing" ); ?>
 								</label>
@@ -111,8 +111,8 @@ if ( ! Functions::is_enable_business_hours() ) {
 			</div>
 		</div>
 		<div id="rtcl-special-bhs-wrap">
-			<div class="form-check">
-				<label class="form-check-label"
+			<div class="rtcl-form-check">
+				<label class="rtcl-form-check-label"
 					   for="rtcl-active-special-bhs"><?php esc_html_e( "Special Hours - overrides", "classified-listing" ); ?></label>
 			</div>
 			<input type="hidden" name="_rtcl_active_special_bhs" value="0">
@@ -133,8 +133,8 @@ if ( ! Functions::is_enable_business_hours() ) {
 										   name="_rtcl_special_bhs[<?php echo esc_attr( $count ) ?>][date]"/>
 								</div>
 								<div class="rtcl-special-bh-actions rtcl-day-actions">
-									<div class="action-item form-check open">
-										<label class="form-check-label"
+									<div class="action-item rtcl-form-check open">
+										<label class="rtcl-form-check-label"
 											   for="shs-open-<?php echo esc_attr( $count ) ?>"><?php esc_html_e( "Open", "classified-listing" ); ?></label>
 									</div>
 									<input type="checkbox"
@@ -142,8 +142,8 @@ if ( ! Functions::is_enable_business_hours() ) {
 										   class="form-check-input check-open"
 										   id="shs-open-<?php echo esc_attr( $count ) ?>"
 										<?php echo ! empty( $special_bhs[ $key ]['open'] ) ? 'checked' : '' ?>>
-									<div class="action-item form-check day-time-slot">
-										<label class="form-check-label"
+									<div class="action-item rtcl-form-check day-time-slot">
+										<label class="rtcl-form-check-label"
 											   for="shs-time-slot-open-<?php echo esc_attr( $count ) ?>"><?php esc_html_e( "Want to set atime slot? (Default All day long)", "classified-listing" ); ?></label>
 									</div>
 									<input type="checkbox"
@@ -209,15 +209,15 @@ if ( ! Functions::is_enable_business_hours() ) {
 								   name="_rtcl_special_bhs[<?php echo esc_attr( $count ) ?>][date]"/>
 						</div>
 						<div class="rtcl-special-bh-actions rtcl-day-actions">
-							<div class="action-item form-check open">
-								<label class="form-check-label"
+							<div class="action-item rtcl-form-check open">
+								<label class="rtcl-form-check-label"
 									   for="bho-open-<?php echo esc_attr( $count ) ?>"><?php esc_html_e( "Open", "classified-listing" ); ?></label>
 							</div>
 							<input type="checkbox" name="_rtcl_special_bhs[<?php echo esc_attr( $count ) ?>][open]"
 								   class="form-check-input check-open"
 								   id="bho-open-<?php echo esc_attr( $count ) ?>">
-							<div class="action-item form-check day-time-slot">
-								<label class="form-check-label"
+							<div class="action-item rtcl-form-check day-time-slot">
+								<label class="rtcl-form-check-label"
 									   for="bho-time-slot-open-<?php echo esc_attr( $count ) ?>">
 									<?php esc_html_e( "Want to set a time slot? (Default All day long)", "classified-listing" ); ?>
 								</label>

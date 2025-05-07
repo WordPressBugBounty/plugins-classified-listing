@@ -17,9 +17,9 @@
 use Rtcl\Helpers\Functions;
 
 ?>
-<div class="form-group rtcl-cf-wrap"<?php Functions::esc_attrs_e($field_attr) ?>>
+<div class="rtcl-form-group rtcl-cf-wrap"<?php Functions::esc_attrs_e($field_attr) ?>>
     <label for="<?php echo esc_attr($id) ?>"
-           class="col-form-label rtcl-cf-label"><?php echo esc_html($label);
+           class="rtcl-field-label rtcl-cf-label"><?php echo esc_html($label);
         Functions::print_html($required_label); ?></label>
     <div class='rtcl-cf-field-wrap'>
         <?php Functions::print_html($field, true); ?>

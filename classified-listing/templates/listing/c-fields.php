@@ -34,7 +34,8 @@ if ( count( $fields ) ) :
 		}
 		$icon = $field->getIconData();
 		?>
-		<div class="rtcl-cfp-item rtcl-cfp-<?php echo esc_attr( $field->getElement() ); ?>" data-name="<?php echo esc_attr( $field->getName() ); ?>" data-uuid="<?php echo esc_attr( $field->getUuid() ); ?>">
+		<div class="rtcl-cfp-item rtcl-cfp-<?php echo esc_attr( $field->getElement() ); ?>" data-name="<?php echo esc_attr( $field->getName() ); ?>"
+			 data-uuid="<?php echo esc_attr( $field->getUuid() ); ?>">
 			<?php
 			if ( $field->getElement() === 'url' ) {
 				$nofollow = ! empty( $field->getNofollow() ) ? ' rel="nofollow"' : '';
@@ -74,12 +75,18 @@ if ( count( $fields ) ) :
 										<?php
 										foreach ( $repeaterFields as $repeaterField ) {
 											$rField = new FBField( $repeaterField );
-											$rValue = 'file' === $rField->getElement() ? ( ! empty( $rValues[ $rField->getName() ] ) && is_array( $rValues[ $rField->getName() ] ) ? FBHelper::getFieldAttachmentFiles( $listing_id, $rField->getField(), $rValues[ $rField->getName() ], true ) : [] ) : ( $rValues[ $rField->getName() ] ?? '' );
+											$rValue = 'file' === $rField->getElement() ? ( ! empty( $rValues[ $rField->getName() ] )
+																						   && is_array( $rValues[ $rField->getName() ] )
+												? FBHelper::getFieldAttachmentFiles( $listing_id, $rField->getField(), $rValues[ $rField->getName() ], true )
+												: [] ) : ( $rValues[ $rField->getName() ] ?? '' );
 											?>
-											<div class="rtcl-cfp-repeater-field" data-name="<?php echo esc_attr( $field->getName() ); ?>" data-uuid="<?php echo esc_attr( $field->getUuid() ); ?>">
+											<div class="rtcl-cfp-repeater-field" data-name="<?php echo esc_attr( $field->getName() ); ?>"
+												 data-uuid="<?php echo esc_attr( $field->getUuid() ); ?>">
 												<?php
 												$rIcon = $rField->getIconData();
-												if ( ( ! empty( $rIcon['type'] ) && 'class' === $rIcon['type'] && ! empty( $rIcon['class'] ) ) || ! empty( $rField->getLabel() ) ) {
+												if ( ( ! empty( $rIcon['type'] ) && 'class' === $rIcon['type'] && ! empty( $rIcon['class'] ) )
+													 || ! empty( $rField->getLabel() )
+												) {
 													?>
 													<div class="rtcl-cfp-label-wrap">
 														<?php
@@ -124,10 +131,17 @@ if ( count( $fields ) ) :
 	}
 	$fieldData = ob_get_clean();
 	if ( $fieldData ) :
-		printf( '<div class="rtcl-cf-properties">%s</div>',
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		$fieldData );
+		?>
+		<div class="rtcl-single-custom-fields">
+			<div class="rtcl-section-heading">
+				<h3><?php echo esc_html( apply_filters( 'rtcl_custom_fields_section_title', __( 'Overview', 'classified-listing' ) ) ); ?></h3>
+			</div>
+			<div class="rtcl-cf-properties">
+				<?php Functions::print_html( $fieldData, true ); ?>
+			</div>
+		</div>
+	<?php
 	endif;
 	?>
-	<?php
+<?php
 endif;

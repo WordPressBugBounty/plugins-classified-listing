@@ -161,7 +161,7 @@ $current_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['t
 						]
 					];
 					?>
-					<label><?php esc_html_e( 'Date Range', 'classified-listing' ); ?></label>
+					<label class="rtcl-field-label"><?php esc_html_e( 'Date Range', 'classified-listing' ); ?></label>
 					<input type="text" id="rtcl-revenue-report-search" class="rtcl-date rtcl-form-control"
 						   data-options="<?php echo htmlspecialchars( wp_json_encode( $date_options ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"/>
 				</div>

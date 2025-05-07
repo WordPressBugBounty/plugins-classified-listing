@@ -8,10 +8,13 @@
 
 use Rtcl\Helpers\Functions;
 
-if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
 }
-get_header('listing'); ?>
+get_header( 'listing' ); ?>
+
+<?php do_action( 'rtcl_before_content_wrapper' ); ?>
+
 <?php
 /**
  * rtcl_before_main_content hook.
@@ -19,13 +22,13 @@ get_header('listing'); ?>
  * @hooked rtcl_output_content_wrapper - 10 (outputs opening divs for the content)
  * @hooked rtcl_breadcrumb - 20
  */
-do_action('rtcl_before_main_content');
+do_action( 'rtcl_before_main_content' );
 ?>
 
-<?php while (have_posts()) : ?>
-    <?php the_post(); ?>
+<?php while ( have_posts() ) : ?>
+	<?php the_post(); ?>
 
-    <?php Functions::get_template_part('content', 'single-rtcl_listing'); ?>
+	<?php Functions::get_template_part( 'content', 'single-rtcl_listing' ); ?>
 
 <?php endwhile; // end of the loop. ?>
 
@@ -35,7 +38,7 @@ do_action('rtcl_before_main_content');
  *
  * @hooked rtcl_output_content_wrapper_end - 10 (outputs closing divs for the content)
  */
-do_action('rtcl_after_main_content');
+do_action( 'rtcl_after_main_content' );
 ?>
 
 <?php
@@ -44,8 +47,10 @@ do_action('rtcl_after_main_content');
  *
  * @hooked rtcl_get_sidebar - 10
  */
-do_action('rtcl_sidebar');
+do_action( 'rtcl_sidebar' );
 ?>
 
+<?php do_action( 'rtcl_after_content_wrapper' ); ?>
+
 <?php
-get_footer('listing');
+get_footer( 'listing' );

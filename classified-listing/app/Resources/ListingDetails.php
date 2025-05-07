@@ -47,11 +47,11 @@ class ListingDetails {
 		$category_id      = 0;
 		if ( ! Functions::is_ad_type_disabled() ) :
 			?>
-			<div class="form-group">
+			<div class="rtcl-form-group">
 				<label for="rtcl-ad-type"
-					   class="col-form-label"><?php esc_html_e( 'Listing Type', 'classified-listing' ); ?>
+					   class="rtcl-field-label"><?php esc_html_e( 'Listing Type', 'classified-listing' ); ?>
 					<span class="require-star">*</span></label>
-				<select class="rtcl-select2 form-control" id="rtcl-ad-type" name="ad_type" required>
+				<select class="rtcl-select2 rtcl-form-control" id="rtcl-ad-type" name="ad_type" required>
 					<option value=""><?php esc_html_e( 'Select a type', 'classified-listing' ); ?></option>
 					<?php
 					$adTypes = Functions::get_listing_types();
@@ -64,9 +64,9 @@ class ListingDetails {
 				</select>
 			</div>
 		<?php endif; ?>
-		<div class="form-group">
+		<div class="rtcl-form-group">
 			<label for="rtcl-category"
-				   class="rtcl-from-label"><?php esc_html_e( 'Category', 'classified-listing' ); ?><span
+				   class="rtcl-field-label"><?php esc_html_e( 'Category', 'classified-listing' ); ?><span
 					class="require-star">*</span></label>
 			<div id="rtcl-category-wrap">
 				<?php
@@ -76,7 +76,7 @@ class ListingDetails {
 				$current_category    = $listing->get_current_selected_category();
 				$current_category_id = $current_category ? $current_category->term_id : null;
 				?>
-				<select class="form-control" name="rtcl-category-of-type" id="rtcl-category-of-type" required>
+				<select class="rtcl-form-control" name="rtcl-category-of-type" id="rtcl-category-of-type" required>
 					<option value=""><?php echo esc_html( Text::get_select_category_text() ); ?></option>
 					<?php
 					if ( ! empty( $parents_cats ) ) {
@@ -97,7 +97,8 @@ class ListingDetails {
 					$old_cat       = $parent_cat_id;
 					$parent_cat_id = 0;
 					if ( ! empty( $cats ) ) {
-						echo '<select class="form-control" id="rtcl-category-of-' . esc_attr( $old_cat ) . '" name="rtcl-category-of-' . esc_attr( $old_cat ) . '" required>';
+						echo '<select class="rtcl-form-control" id="rtcl-category-of-' . esc_attr( $old_cat ) . '" name="rtcl-category-of-'
+							 . esc_attr( $old_cat ) . '" required>';
 						echo '<option value="">' . esc_html( Text::get_select_category_text() ) . '</option>';
 						$parent_cat_id = 0;
 						foreach ( $cats as $cat ) {
@@ -123,7 +124,7 @@ class ListingDetails {
 			?>
 			<div id="rtcl-pricing-wrap">
 				<div class="rtcl-form-group">
-					<label class="rtcl-from-label"><?php esc_html_e( 'Pricing:', 'classified-listing' ); ?></label>
+					<label class="rtcl-field-label"><?php esc_html_e( 'Pricing:', 'classified-listing' ); ?></label>
 					<div class="rtcl-checkbox-list rtcl-checkbox-inline rtcl-listing-pricing-types">
 						<?php
 						foreach ( $listingPricingTypes as $type_id => $type ) {
@@ -144,12 +145,12 @@ class ListingDetails {
 				</div>
 				<div id="rtcl-pricing-items" class="<?php echo esc_attr( 'rtcl-pricing-' . $listing_pricing ); ?>">
 					<?php if ( ! Functions::is_price_type_disabled() ) : ?>
-						<div class="form-group rtcl-pricing-item rtcl-form-group">
-							<label for="rtcl-price-type">
+						<div class="rtcl-form-group rtcl-pricing-item">
+							<label for="rtcl-price-type" class="rtcl-field-label">
 								<?php esc_html_e( 'Price Type', 'classified-listing' ); ?>
 								<span class="require-star">*</span>
 							</label>
-							<select class="form-control" id="rtcl-price-type" name="price_type">
+							<select class="rtcl-form-control" id="rtcl-price-type" name="price_type">
 								<?php
 								$price_types = Options::get_price_types();
 								foreach ( $price_types as $key => $type ) {
@@ -163,10 +164,9 @@ class ListingDetails {
 					<?php do_action( 'rtcl_listing_form_price_items', $listing ); ?>
 					<div id="rtcl-price-items"
 						 class="rtcl-pricing-item<?php echo ! Functions::is_price_type_disabled() ? ' rtcl-price-type-' . esc_attr( $price_type ) : ''; ?>">
-						<div class="form-group rtcl-price-item" id="rtcl-price-wrap">
+						<div class="rtcl-form-group rtcl-price-item" id="rtcl-price-wrap">
 							<div class="price-wrap">
-								<label
-									for="rtcl-price">
+								<label for="rtcl-price" class="rtcl-field-label">
 									<?php
 									echo sprintf(
 										'<span class="price-label">%s [<span class="rtcl-currency-symbol">%s</span>]</span>',
@@ -177,7 +177,7 @@ class ListingDetails {
 									<span
 										class="require-star">*</span></label>
 								<input type="text"
-									   class="form-control rtcl-price"
+									   class="rtcl-form-control rtcl-price"
 									   value="<?php echo $listing ? esc_attr( $listing->get_price() ) : ''; ?>"
 									   name="price"
 									   id="rtcl-price"<?php echo esc_attr( ! $price_type || $price_type == 'fixed' ? ' required' : '' ); ?>>
@@ -195,7 +195,7 @@ class ListingDetails {
 									<span
 										class="require-star">*</span></label>
 								<input type="text"
-									   class="form-control rtcl-price"
+									   class="rtcl-form-control rtcl-price"
 									   value="<?php echo $listing ? esc_attr( $listing->get_max_price() ) : ''; ?>"
 									   name="_rtcl_max_price"
 									   id="rtcl-max-price"<?php echo esc_attr( ! $price_type || $price_type == 'fixed' ? ' required' : '' ); ?>>

@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <div class="rtcl-listing-g-recaptcha rtcl-post-section">
-    <div class="form-group">
+    <div class="rtcl-form-group">
         <div id="rtcl-listing-g-recaptcha"></div>
         <div id="rtcl-listing-g-recaptcha-message"></div>
     </div>

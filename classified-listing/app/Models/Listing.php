@@ -1716,7 +1716,7 @@ class Listing extends Data {
 					"slidesPerView" => 2
 				],
 				768 => [
-					"slidesPerView" => 4
+					"slidesPerView" => 3
 				]
 			]
 		] );

@@ -108,7 +108,7 @@ do_action( 'rtcl_before_edit_account_form' ); ?>
 			<div class="form-check">
 				<input type="hidden" name="change_password" value="0">
 				<input type="checkbox" name="change_password" class="form-check-input" id="rtcl-change-password" value="1">
-				<label class="form-check-label" for="rtcl-change-password">
+				<label class="rtcl-form-check-label" for="rtcl-change-password">
 					<?php esc_html_e( 'Change Password', 'classified-listing' ); ?>
 				</label>
 			</div>

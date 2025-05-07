@@ -975,7 +975,6 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
           $pageItem = _this.$('<li class="rtcl-ajax-pagination-item dots"><span>&#8230;</span></li>');
         } else {
           $pageItem = _this.$('<li class="rtcl-ajax-pagination-item page-item" data-id="' + i + '"><span>' + i + '</span></li>');
-          ;
           if (i === data.current_page) {
             $pageItem.addClass('active');
           }
@@ -1049,7 +1048,9 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
   this.options = this.$(this.filterWraperClass).data("options");
   this.isTaxArchive = this.$('body').hasClass('tax-rtcl_category') || this.$('body').hasClass('tax-rtcl_location') || this.$('body').hasClass('tax-rtcl_tag');
   this.isListingArchive = this.$('body').hasClass('post-type-archive-rtcl_listing');
-  this.isArchive = this.isListingArchive || this.isTaxArchive;
+  this.isStoreSingle = this.$('body').hasClass('single-store');
+  this.isArchive = this.isListingArchive || this.isTaxArchive || this.isStoreSingle;
+  this.store_id = this.$('body.single-store').find('#rtcl_store_id').val();
   this.initLoading = true;
   this.withOutFilterPrefix = ['directory'];
   this.reset = false;
@@ -1064,6 +1065,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
     is_listings: rtcl.is_listings,
     is_listing: rtcl.is_listing,
     listing_term: rtcl.listing_term,
+    rtcl_store_id: this.store_id,
     activeTerms: rtcl.active_terms || [],
     action: 'rtcl_ajax_filter_load_data',
     __rtcl_wpnonce: rtcl.__rtcl_wpnonce
@@ -1270,6 +1272,13 @@ __webpack_require__.r(__webpack_exports__);
 
   // Init Tabs and Star Ratings
   $("#rating").trigger("init");
+
+  // Listing - Toggle Filter
+  $('#rtcl-toggle-filter-mobile').on('click', function (e) {
+    e.preventDefault();
+    var $filter = $('.rtcl-widget-filter-wrapper .rtcl-widget-filter-class');
+    $filter.toggle();
+  });
   $(document).on("click", "#rtcl-resend-verify-link", function (e) {
     e.preventDefault();
     if (confirm(rtcl.re_send_confirm_text)) {
@@ -1334,6 +1343,19 @@ __webpack_require__.r(__webpack_exports__);
         console.log(e.errorText);
       }
     });
+  }).on('click', '#rtcl-report-abuse-modal-link', function (e) {
+    e.preventDefault();
+    var $this = $(this),
+      $wrapper = $this.closest('.single-listing-custom-fields-action'),
+      $popupWrapper = $wrapper.find('.rtcl-popup-wrapper');
+    if ($popupWrapper.length) {
+      $("#rtcl-report-abuse-message").val("");
+      $("#rtcl-report-abuse-message-display").html("");
+      $popupWrapper.animate({
+        opacity: 1
+      }, 300);
+      $popupWrapper.addClass('show');
+    }
   }).on('click', '.rtcl-popup-close', function (e) {
     e.preventDefault();
     var $wrapper = $(this).closest('.rtcl-popup-wrapper');
@@ -1740,15 +1762,6 @@ __webpack_require__.r(__webpack_exports__);
         $(".rtcl-password-fields").hide().find('input[type="password"]').attr("disabled", "disabled");
       }
     }).trigger("change");
-
-    // Report abuse [on modal closed]
-    $("#rtcl-report-abuse-modal").on("hidden.bs.modal", function (e) {
-      $("#rtcl-report-abuse-message").val("");
-      $("#rtcl-report-abuse-message-display").html("");
-      $(this).find(".modal-dialog").removeClass("modal-vertical-centered");
-    }).on("shown.bs.modal", function () {
-      $(this).find(".modal-dialog").addClass("modal-vertical-centered");
-    });
 
     // Alert users to login (only if applicable)
     $(".rtcl-require-login").on("click", function (e) {
@@ -2712,7 +2725,7 @@ __webpack_require__.r(__webpack_exports__);
             if (reCaptchaToken) {
               fromData.append("g-recaptcha-response", reCaptchaToken);
             }
-            var targetBtn = $form.find(".btn.btn-primary");
+            var targetBtn = $form.find(".rtcl-btn.rtcl-btn-primary");
             $.ajax({
               url: rtcl.ajaxurl,
               data: fromData,
@@ -2730,7 +2743,7 @@ __webpack_require__.r(__webpack_exports__);
                   form.reset();
                   $form.find("#rtcl-report-abuse-message-display").removeClass("text-danger").addClass("text-success").html(response.data.message);
                   setTimeout(function () {
-                    $form.parents("#rtcl-report-abuse-modal").modal("hide");
+                    $form.parents("#rtcl-report-abuse-modal").removeClass('show');
                   }, 1500);
                 } else {
                   $form.find("#rtcl-report-abuse-message-display").removeClass("text-success").addClass("text-danger").html(response.data.error);

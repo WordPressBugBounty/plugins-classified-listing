@@ -46,11 +46,21 @@ class MyAccount {
 
 			$endpoints = Functions::get_my_account_page_endpoints();
 			if (
-				( isset( $wp->query_vars['lost-password'] ) && ( empty( $wp->query_vars['lost-password'] ) || ( ! empty( $wp->query_vars['lost-password'] ) && $wp->query_vars['lost-password'] === $endpoints['lost-password'] ) ) ) ||
-				( isset( $wp->query_vars['rtcl_lost_password'] ) && ( empty( $wp->query_vars['rtcl_lost_password'] ) || ( ! empty( $wp->query_vars['rtcl_lost_password'] ) && $wp->query_vars['rtcl_lost_password'] === $endpoints['lost-password'] ) ) )
+				( isset( $wp->query_vars['lost-password'] )
+				  && ( empty( $wp->query_vars['lost-password'] )
+				       || ( ! empty( $wp->query_vars['lost-password'] )
+				            && $wp->query_vars['lost-password'] === $endpoints['lost-password'] ) ) )
+				|| ( isset( $wp->query_vars['rtcl_lost_password'] )
+				     && ( empty( $wp->query_vars['rtcl_lost_password'] )
+				          || ( ! empty( $wp->query_vars['rtcl_lost_password'] )
+				               && $wp->query_vars['rtcl_lost_password'] === $endpoints['lost-password'] ) ) )
 			) {
 				self::lost_password();
-			} elseif ( ( isset( $wp->query_vars['registration'] ) && ( empty( $wp->query_vars['registration'] ) || ( ! empty( $wp->query_vars['registration'] ) && $wp->query_vars['registration'] === $endpoints['registration'] ) ) ) ) {
+			} elseif ( ( isset( $wp->query_vars['registration'] )
+			             && ( empty( $wp->query_vars['registration'] )
+			                  || ( ! empty( $wp->query_vars['registration'] )
+			                       && $wp->query_vars['registration'] === $endpoints['registration'] ) ) )
+			) {
 				self::registration();
 			} else {
 				do_action( 'rtcl_my_account_verify' );
@@ -101,11 +111,11 @@ class MyAccount {
 			'posts_per_page' => isset( $general_settings['listings_per_page'] ) ? $general_settings['listings_per_page'] : 10,
 			'paged'          => $paged,
 			'meta_query'     => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				[
-					'key'     => 'customer_id',
-					'value'   => get_current_user_id(),
-					'compare' => '=',
-				],
+			                      [
+				                      'key'     => 'customer_id',
+				                      'value'   => get_current_user_id(),
+				                      'compare' => '=',
+			                      ],
 			]
 		];
 		$rtcl_query = new \WP_Query( apply_filters( 'rtcl_payment_history_args', $args ) );
@@ -133,6 +143,11 @@ class MyAccount {
 		];
 		if ( ! empty( $_REQUEST['u'] ) && $s = sanitize_text_field( $_REQUEST['u'] ) ) { /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
 			$args['s'] = $s;
+		}
+		if ( ! empty( $_REQUEST['status'] )
+		     && $status = sanitize_text_field( $_REQUEST['status'] )
+		) { /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
+			$args['post_status'] = $status;
 		}
 		$args       = apply_filters( 'rtcl_my_listings_args', $args );
 		$rtcl_query = new \WP_Query( $args );
@@ -214,7 +229,7 @@ class MyAccount {
 	/**
 	 * Retrieves a user row based on password reset key and login.
 	 *
-	 * @param string $key Hash to validate sending user's password
+	 * @param string $key   Hash to validate sending user's password
 	 * @param string $login The user login
 	 *
 	 * @return WP_User|bool User's database row on success, false for invalid keys
@@ -226,7 +241,8 @@ class MyAccount {
 		$user = check_password_reset_key( $key, $login );
 
 		if ( is_wp_error( $user ) ) {
-			Functions::add_notice( esc_html__( 'This key is invalid or has already been used. Please reset your password again if needed.', 'classified-listing' ), 'error' );
+			Functions::add_notice( esc_html__( 'This key is invalid or has already been used. Please reset your password again if needed.',
+				'classified-listing' ), 'error' );
 
 			return false;
 		}
@@ -337,7 +353,7 @@ class MyAccount {
 	/**
 	 * Handles resetting the user's password.
 	 *
-	 * @param object $user The user
+	 * @param object $user     The user
 	 * @param string $new_pass New password for the user in plaintext
 	 */
 	public static function reset_password( $user, $new_pass ) {

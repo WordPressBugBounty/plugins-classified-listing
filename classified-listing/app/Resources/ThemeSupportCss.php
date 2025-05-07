@@ -29,7 +29,7 @@ class ThemeSupportCss
             margin: auto;
             padding-top: 20px;
         }
-        #et-main-area .rtcl-wrapper {
+        #et-main-area .rtcl-content-wrapper {
             width: 80%;
             max-width: <?php echo esc_attr($content_width); ?>px !important;
             margin: auto;

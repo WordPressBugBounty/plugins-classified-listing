@@ -3,9 +3,9 @@ Contributors: techlabpro1
 Donate link:
 Tags: business directory, classifieds, directory plugin, listings, classifieds ads
 Requires at least: 5.6
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 4.1.1
+Stable tag: 4.1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -15,28 +15,35 @@ A Classified Ads and Business Directory Plugin for WordPress, designed to create
 
 [Classified Listing](https://www.radiustheme.com/downloads/classified-listing-pro-wordpress/) classified ads Business Directory plugin comes with all the features necessary for building a classified listing website. This classified ads WordPress plugin boasts a plethora of backend admin settings and an excellent frontend posting management system. It lets you create as many ad listing categories as you want so that each ad listing page will be as clean as possible.
 
-👉 [Demo](https://radiustheme.net/publicdemo/classified-listing/) | [Documentation](https://www.radiustheme.com/docs/classified-listing/) | [Extensions](https://www.radiustheme.com/classified-listing-addons/) | [RoadMaps](https://radiustheme.com/classified-listing-roadmaps/) |[Get Pro](https://www.radiustheme.com/downloads/classified-listing-pro-wordpress/?utm_source=WordPress&utm_medium=Listing&utm_campaign=pro_click') 👈
+👉 [Try Admin Demo](https://radiustheme.net/sandbox/classified-listing/) | [Demo](https://radiustheme.net/publicdemo/classified-listing/) | [Documentation](https://www.radiustheme.com/docs/classified-listing/) | [Addons](https://www.radiustheme.com/classified-listing-addons/) | [Themes](https://www.radiustheme.com/classified-listing-themes/) | [RoadMaps](https://radiustheme.com/classified-listing-roadmaps/) | [Get Pro](https://www.radiustheme.com/downloads/classified-listing-pro-wordpress/?utm_source=WordPress&utm_medium=Listing&utm_campaign=pro_click') 👈
 
-== 🏆 Demo access of Classified ads Plugin ==
-> URL: [Demo](https://radiustheme.net/publicdemo/classified-listing/)
-> username: demo || password: demo
-
-== Classified ads Plugin for WordPress  ==
+== 🔥 Classified ads Plugin for WordPress 🔥 ==
 
 Classified ads & Business Directory WordPress Plugin can use to create a Classified ads, Business Directory and Members Directory website easily. This plugin has both Elementor and Gutenberg blocks so you can build the classified site easily with the default Gutenberg block editor and most popular Elementor page builder.
 
+[youtube https://www.youtube.com/watch?v=lg9ADZr5XTY]
+
 == 🔥 AI-Generated Directory Creation 🔥 ==
-Classified Listing now lets you generate diverse directories using AI based on your needs. You can create any type of directory with a few clicks. 
+Classified Listing now allows you to create various directories with the help of AI according to your requirements - build any directory type with a few clicks!
 
-With Classified Listing’s AI-powered form builder, you can effortlessly create multi-directory forms that suit your needs. This innovative tool analyzes user requirements and generates customized forms. So, it saves time and simplifies complex directory management. 
+**Form Generation:** This plugin has an AI-powered form builder, enabling you to generate custom multi-directory forms easily. It analyzes your input and creates customized forms. So, it saves time and simplifies form generation. 
 
-It now supports AI-assisted keyword generation to make your directories more discoverable in search results. It analyzes your content and suggests the best keywords to increase visibility and attract more users. 
+**Write with AI:** This plugin integrates with ChatGPT, Gemini, and DeepSeek to help you write titles, descriptions, and text-based content efficiently. Just insert you own API keys and you will be ready to use AI.
 
-Additionally, the plugin supports integration with personal AI APIs like ChatGPT, Gemini, and DeepSeek. As a result, your targeted users can generate high-quality, engaging listing titles and descriptions automatically. They can enhance the content quality and SEO performance using AI!
-
-Thus, experience a smarter way to manage classified listings - save time, boost engagement, and optimize your directory with AI-driven automation!
+Thus, enjoy a modern and smart way to create and manage diverse directories with AI-assisted automation!
 
 👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/ai-integration/settings/)
+
+== 🔥🔥 Drag & Drop Form Builder 🔥🔥 ==
+Classified Listing has a drag & drop form builder, enabling you to create listing submission forms with your preferred fields! Also, you can use AI to generate forms. You can generate various forms for diverse directories, including business, travel, events, and other niche directories. 
+
+== 🔥🔥 AJAX Drag & Drop Filter Builder 🔥🔥 ==
+Utilize the power of our drag-and-drop AJAX filter builder to create dynamic filters easily. It has 9 filter elements, including Categories, Location, Tags, Price Range, and more. You can easily reorder these elements by dragging and dropping!
+
+== 🔥🔥 Android & iOS Mobile Apps 🔥🔥 ==
+Classified Listing is now available on Android and iOS platforms to help elevate your classified ads business to the next level. Our mobile apps connect with the Classified Listing Pro plugin and let you manage your business with your smartphone!
+
+👉 [Mobile App](https://www.radiustheme.com/classified-listing-mobile-apps/)
 
 == 🔥 Free Classified WordPress Theme 🔥 ==
 > [CLClassified – Free Classified WordPress Theme](https://www.radiustheme.com/downloads/clclassified-classified-ads-wordpress-theme/)
@@ -52,88 +59,91 @@ Thus, experience a smarter way to manage classified listings - save time, boost 
 
 * [ClassiList – Classified ads WordPress Theme using Classified Listing Pro & Store plugin](https://www.radiustheme.com/downloads/classilist-classified-ads-wordpress-theme/)
 
-* [Mobile App – Classified ads iOS & Android mobile app](https://www.radiustheme.com/classified-listing-mobile-apps/)
-
-
-[youtube https://www.youtube.com/watch?v=RiXdDGk_XCU]
-
-== 🏆 WordPress Business Directory Plugin: ==
-This WordPress Business Directory plugin makes it incredibly easy to build a business directory website. The price fields can be controlled from the front end so that users can add prices, price ranges or leave out prices for their listings. We included business hours as well as social profile features on the listing submission page.
+== 🔥 WordPress Business Directory Plugin 🔥 ==
+This WordPress Business Directory plugin makes it incredibly easy to build a business directory website. From Drag & Drop form builder you can build the submission form using the desire fields including business hours and social profile.
 
 👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/main-settings/general-settings/)
 
-== 🏆 Business Hours for Business Directory ==
+== 🔥 Business Hours & Social Profile for Business Directory 🔥 ==
 The Business Hours allows you to set the hours of operation for your business. This feature is very important for Business Directory website. You can set the hours for each day of the week, and you can also set special hours for holidays.
 
-== 🏆 Social Profile for Business Directory ==
-User can add there social profiles in there directory listing. There are many social profiles that can be used for directory listings. The most popular ones are LinkedIn, Facebook, and Twitter.
+User can also add social profiles in there directory listing. There are many social profiles that can be used for directory listings. The most popular ones are LinkedIn, Facebook, and Twitter.
 
+== 🔥 Unlimited Custom Fields with Conditional Logic 🔥 ==
+You can create unlimited custom fields. You can apply conditional logic for the fields and set category and others condition. You’ll also have full control over the fields visible in the archive or detail view of the ads. Also fields level position, icon, placeholder text, error message and fields order.
 
-== 🏆 UNLIMITED CUSTOM FIELDS ==
-You can create unlimited custom fields and set them category-wise. Alternatively, you can create groups and fields under these groups.
-
-* Text Box
-* Text Area
-* Number
-* URL
-* Date & Time with Range
-* Color Picker
-* Dropdown
-* Switch
-* Radio
-* Checkbox
-* File Upload
-* Hidden File
-* Custom HTML
+* Text Box, Text Area, Number, URL, Date & Time with Range
+* Color Picker, Dropdown, Switch, Radio, Checkbox, File Upload
+* Hidden File, Custom HTML
 * **Repeter Field [Pro]**
 
-[youtube https://www.youtube.com/watch?v=LTnCkt5K64M]
-
-Classified Listing plugin offers extensive admin control over the fields that your pages will display in the listing page of all your ads. What’s more, you’ll also have control over the fields visible in the detail view of the ads. It is in each detail page of your ads that you will have the main descriptions. With Classified Listing Pro, you can display the custom fields in the filters if you want.
+[youtube https://www.youtube.com/watch?v=sl31SMctVFc]
 
 👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/listing-management-admin/custom-fields/)
 
-== 🏆 User Friendly ==
+== 🔥 Listing CSV Import/ Export with custom fields 🔥 ==
+We introduce import and export option. So now you can import categories, locations, settings and listings from other plugins and themes easily. 
+
+* Category import/ export
+* Location image/ export
+* Listings import/ export
+* Settings import/ export
+
+== 🔥 Live Chat 🔥 ==
+The One of important feature is real time communication between sellers and buyers via live chat. This eliminates the need for sharing contact information. We implement Pusher so chat is now on real time. 
+
+ 👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/main-settings/chat-settings/)
+
+== Radius Search ==
+This plugin allows radius searches using Google place API & OpenStreet GoogleMap so that users can search for listings close to them.
+
+== User Friendly ==
 Classified Listing is crafted to provide the possible user experience to all users, including the admins, buyers, and sellers of ad listings. All your users will enjoy a smooth interface on any device since this plugin is fully responsive. This classified listing WordPress plugin makes your elements look great on all devices, whether they’re using desktops, tablets, or mobile phones.
 
-== 🏆 Search and Filter Functions ==
-The search and filter functions of this plugin are incredibly powerful. The Ajax search and filter functions accommodate multiple search options. You can even filter your search results by custom fields, category, location, and price. The Ajax autocomplete function that makes the search process even smoother. The premium version of Classified Listing has the radius search function, which enables users to find listing items near them.
+== Search and Filter Functions ==
+The search and filter functions of this plugin are incredibly powerful. The Ajax search and filter functions accommodate multiple search options. You can even filter your search results by custom fields, category, location, and price. 
 
 == Review from WordPress Community expert Darrel Wilson ==
 [youtube https://www.youtube.com/watch?v=kt4Sbb1fkL8]
 
-== 🏆 Frontend User Dashboard Options ==
+== Frontend Listing Management ==
 Each of your users can control their own data and listings from your website’s front end. Users can manage their own ad listings by editing, deleting, and promoting them. Classified Listing allows them to manage the ads they want to be their favorites.
 
 👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/listing-management-front-end/my-account-menu/)
 
-== 🏆 Admin Ad Control Options ==
+== Admin Ad Control ==
 This classified ads WordPress plugin gives the site admin immense control over various elements and features. Since it grants you Permalink control over links in your listing detail page, you can easily modify the links you want.
 
 👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/main-settings/moderation/)
 
-== 🏆 Ad Control ==
-This classified ads WordPress plugin gives you a choice between automatic and manual approval of your listings. On the other hand, manually approving listings help screen ads in detail before posting them.
-
-With Classified Listing, you will have immense control over the ad listings. You can set the number of days for which a listing should last before being removed. This ad directory WordPress plugin allows you to set the threshold of days within when a listing will be marked as ‘new’ and given prominence.
-
-👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/main-settings/moderation/)
-
-== 🏆 Location ==
-With Classified Listing, you can set up to a maximum of 3 location levels. The default location types include state, city, and tow; however, you can set your own custom levels. This classified listing WordPress plugin lets you import location. The import option for locations is via CSV; therefore, you can import bulk location data easily.
+== Location ==
+With Classified Listing, you can set up to a maximum of 3 location levels. The default location types include state, city, and town; however, you can set your own custom levels. This classified listing WordPress plugin lets you import location. The import option for locations is via CSV; therefore, you can import bulk location data easily.
 
 👉 [Check Documentation](https://www.radiustheme.com/docs/listing-management-admin/locations/)
 
-== 🏆 Payment Options ==
+== Mark As Sold ==
+If any items are sold out, but you feel the need to keep them active on the site for SEO purposes, you can mark them as sold. In this case, such ads will show in the front end, but communication on them will be disabled.
+
+👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/faqs/enable-mark-as-sold/)
+
+== Quick View & Compare ==
+The PRO version facilitates quick view, enabling users to view brief details of ad listings without going to the ad details. They can even compare ad listings quickly for differences in prices and other details easily.
+
+👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/faqs/how-to-add-compare/)
+
+== MAP View ==
+The PRO version allows GoogleMap View using Google place API & OpenStreet GoogleMap. You can display your ads with GoogleMap. So that your can easily view the ads location wise in MAP.
+
+== Multiple Payments ==
 The payment options on your site should depend mainly on your location and that of your users. You can receive payments on your site via
 
-* Offline methods
+* Offline Payment
 * [PayPal](https://www.paypal.com/) payment system
 * [Authorize.net](https://www.authorize.net/) [PRO]
 * [Stripe](https://stripe.com/) [PRO]
 * WooCommerce payment system [PRO]
 
-== 🏆 Earning From Your Listings ==
+== Earning From Your Listings ==
 You can make money from posting ads where users pay for each ad or for ad promotions, such as
 
 * **Featured ads –** Featured ads highlighted with a special background color so this ads get
@@ -141,15 +151,15 @@ more view
 * **Pay Per Ads –** You can set pay per ad option so after post ads user need to pay.
 * **Top ads [Pro] –** Top ads display top of archive page and search page with a special highlighted color so this ads get mote view
 * **Bumpup ads [Pro] –** Bumpup ads changes the ads data daily so it show top of list in archive page and search page.
-* **Membership [Pro]:** Classified Listing comes with the Store and Membership addon, which allows you to enable membership packages for sellers. You can offer an ad promotion option along with the membership packages.
+* **Membership & Subscription [Pro]:** Classified Listing comes with the Store and Membership addon, which allows you to enable membership packages for sellers. You can offer an ad promotion option along with the membership packages. You can also enable subscription for Stripe and Authorize.net payment gateway. 
 
-== 🏆 Elementor Addon ==
+== Elementor Addon ==
 This Classified ads and Business Directory plugin has multiple Elementor addons to display ads in different layouts. The Pro version support archive builder also single ads builder. 
 
-== 🏆 GutenBerg Blocks ==
+== GutenBerg Blocks ==
 This Classifieds ads plugins has multiple Gutenberg blocks. So you can easily use the block in WordPress default Gutenberg builder. The Pro version support archive builder also single ads builder.
 
-== 🏆 Email Notification Options ==
+== Email Notification Options ==
 
 **Admin Notifications**
 Classified Listing – Classified ads WordPress plugin gives you complete control over the email notifications that you receive.
@@ -161,11 +171,7 @@ Classified Listing – Classified ads WordPress plugin gives you complete contro
 * Payment Received/ Order Completed
 * Contact message is sent to a Listing owner
 
-You will receive email notifications each time an order is created for a listing. The plugin will also ensure that you’re notified when you receive a payment or upon the completion of an order.
-
-👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/email-settings/general-settings-email/)
-
-== 🏆 User Notification ==
+**User Notification**
 With Classified Listing, your users can receive various email notifications as they interact with you, your site, and other users. User get following email notifications
 
 * Listing Submission
@@ -176,11 +182,9 @@ With Classified Listing, your users can receive various email notifications as t
 * Order Created
 * Order Completed
 
-Classified Listing notifies users when their listings are about to expire and have reached their renewal email threshold. It also notifies them when a listing has expired.
-
 👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/email-settings/general-settings-email/)
 
-== 🏆 Multiple Map Option ==
+== Multiple Map Option ==
 Location search is one of most important feature for Directory website as well as Classified ads website. Classified as plugin has multiple GoogleMap source. We included both Google GoogleMap and Open Street GoogleMap.
 
 **Google Map and Location**
@@ -191,13 +195,7 @@ OpenStreet GoogleMap is a free platform to display location and use the map feat
 
 👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/main-settings/misc-settings/)
 
-== 🏆 Radius Search ==
-This plugin allows radius searches using Google place API & OpenStreet GoogleMap so that users can search for listings close to them.
-
-== 🏆 Ad Publishing Control ==
-Classified Listing – Business directory plugin allows you to choose whether you want ads to pass by you for approval or have them automatically approved and published by the system. If you choose to approve ads manually, you will have to publish them yourself after that. 
-
-== 🏆 Widgets and Shortcodes ==
+== Widgets and Shortcodes ==
 Classified Listing is a widget-ready plugin. It works seamlessly with any widgets that your site already has. What’s more, it comes with some widgets of its own. Support following widgets
 
 * Classified Listing – Categories
@@ -209,28 +207,29 @@ This directory WordPress plugin is also shortcode-ready. If you’re already usi
 
 👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/shortcodes/categories-display/)
 
-== 🏆 Translatability ==
+== Fully Translatable & RTL Compatible ==
 Classified Listing is fully translatable. However, it comes with a ready translation for Spanish. Still, you can translate it into whichever language you want using simple WordPress translation plugins, such as Loco Translate and the WPML plugin.
 
-== 🏆 Some Pro Features ==
+== 🔥🔥 Popular Addons 🔥🔥 ==
+Classified Listing provides a range of cost effective [Addons](https://www.radiustheme.com/classified-listing-addons/) to enhance the features of your Classified ads and Business directory website. Currently, there are 19 powerful addons available to enhance your site.. 
 
-👉 **[Store & Membership Addon](https://www.radiustheme.com/downloads/classified-listing-store-membership-addon-for-wordpress/):** You can utilize the Store and Membership Addon to let ad sellers open stores within your website so that all their ads can appear within their own stores. The membership options also allow you to let sellers become members in different packages. 
+👉 **[Store & Membership](https://www.radiustheme.com/downloads/classified-listing-store-membership-addon-for-wordpress/):** You can utilize the Store and Membership Addon to let ad sellers open stores within your website so that all their ads can appear within their own stores. The membership options also allow you to let sellers become members in different packages. 
 
-👉 **[Elementor & Gutenberg Builder Addon](https://www.radiustheme.com/downloads/classified-listing-elementor-builder/):** You can easily customize the listing archive page and single page using drag & drop in Elementor and Gutenberg builder.
+👉 **[Elementor & Gutenberg Builder](https://www.radiustheme.com/downloads/classified-listing-elementor-builder/):** You can easily customize the listing archive page and single page using drag & drop in Elementor and Gutenberg builder.
 
-👉 **[Mobile No Verification Addon](https://www.radiustheme.com/downloads/classified-listing-mobile-no-verification/):** Mobile number verification is an OTP( One time password ) based security addon for Classified Listing Pro. This addon helps verify a real user by sending an OTP verification code during registration, login, and contact form submissions. Sometimes spammers added listings and tricks the buyer.
+👉 **[Mobile No Verification](https://www.radiustheme.com/downloads/classified-listing-mobile-no-verification/):** Mobile number verification is an OTP( One time password ) based security addon for Classified Listing Pro. This addon helps verify a real user by sending an OTP verification code during registration, login, and contact form submissions. Sometimes spammers added listings and tricks the buyer.
 
-👉 **[MultiCurrency Addon](https://www.radiustheme.com/downloads/classified-listing-multi-currency-addon/):** Make your business experience hassle free with the Classified Listing – Multi Currency add-ons. It is a convenient add-on for Classified Ads and the business directory WordPress plugin.
-
-👉 **MAP View:** The PRO version allows GoogleMap View using Google place API & OpenStreet GoogleMap. You can display your ads with GoogleMap. So that your can easily view the ads location wise in MAP.
-
-👉 **[Mark As Sold](https://www.radiustheme.com/docs/faqs/enable-mark-as-sold/):** If any items are sold out, but you feel the need to keep them active on the site for SEO purposes, you can mark them as sold. In this case, such ads will show in the front end, but communication on them will be disabled.
-
-👉 **[Live chat](https://www.radiustheme.com/docs/classified-listing/docs/main-settings/chat-settings/):** Another important feature is communication between sellers and buyers via live chat. This eliminates the need for sharing contact information. They can communicate via live chat about the ad items.
-
-👉 **[Quick View & Compare](https://www.radiustheme.com/docs/classified-listing/docs/faqs/how-to-add-compare/):** The PRO version facilitates quick view, enabling users to view brief details of ad listings without going to the ad details. They can even compare ad listings quickly for differences in prices and other details easily.
+👉 **[MultiCurrency](https://www.radiustheme.com/downloads/classified-listing-multi-currency-addon/):** Make your business experience hassle free with the Classified Listing – Multi Currency add-ons. It is a convenient add-on for Classified Ads and the business directory WordPress plugin.
 
 👉 **[WPML addon](https://www.radiustheme.com/downloads/classified-listing-multilingual-addon/):** If you want a multilingual website, you can get it quickly since the pro version supports WPML. For translation, you may need WPML Plugin and our WPML addon. By WPML plugin and Our WPML addon you can translate all ads, category, locations, custom fields.
+
+👉 **[Seller Verification](https://www.radiustheme.com/downloads/classified-listing-seller-verification/):** Seller verification addon is a seller authenticity checking addon for Classified Listing Plugin. This addon helps verify an actual seller via their photo ID, passport, Driving License, and essential documents. 
+
+👉 **[Booking](https://www.radiustheme.com/downloads/classified-listing-booking/):** Booking Addon allows you to add a booking system to your classified listings, and make it easy for customers to book appointments or services directly from your listings.
+
+👉 **[Claim Listing](https://www.radiustheme.com/downloads/claim-listing/):** The claim listing feature allows business owners to claim ownership of their listing on the classified & directory listing website. 
+
+👉 **[Marketplace](https://www.radiustheme.com/downloads/marketplace/):** Using the marketplace addon you can build a marketplace to sell your products and digital download items. This addon works with Woocommerce to make the payment.
 
 👉 **[Mobile APP](https://www.radiustheme.com/downloads/classima-classified-ads-android-app/):** If you want to build mobile app for your classified ads or directory then you need the Pro version of the plugin, By using the Pro version you can build both Android &amp; IOS apps.
 
@@ -325,6 +324,15 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 4.1.2 ( May 07, 2025 ) =
+* Updated: Page layout
+* Added: Listing status filter in my-listings
+* Fixed: Form Builder wordpress Editor load issue 
+* Fixed: OpenStreetMap marker icon link to category icon issue
+* Fixed: Form Builder Date/Time picker field date time invalid formate issue
+* Fixed: Email notification for submit and publish issue
+* Fixed: Selection place at map issue
 
 = 4.1.1 ( Apr 07, 2025 ) =
 * Added: Form builder Search filter at select field

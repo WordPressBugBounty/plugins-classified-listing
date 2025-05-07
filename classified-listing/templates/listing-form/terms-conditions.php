@@ -17,8 +17,8 @@ if ( apply_filters( 'rtcl_show_listing_terms_conditions', true ) && Functions::g
 
     <div class="rtcl-listing-terms-conditions rtcl-post-section">
 		<?php do_action( 'rtcl_listing_terms_and_conditions' ); ?>
-        <div class="form-group">
-            <div class="form-check">
+        <div class="rtcl-form-group">
+            <div class="rtcl-form-check">
                 <input type="checkbox"
                        class="form-check-input"
                        name="rtcl_agree"
@@ -26,7 +26,7 @@ if ( apply_filters( 'rtcl_show_listing_terms_conditions', true ) && Functions::g
                        required
 					<?php checked( 1, $post_id ? $agreed : apply_filters( 'rtcl_listing_terms_is_checked_default', false ) ); // WPCS: input var ok, csrf ok. ?>
                 >
-                <label class="form-check-label" for="rtcl-terms-conditions">
+                <label class="rtcl-field-label" for="rtcl-terms-conditions">
 					<?php Functions::terms_and_conditions_checkbox_text(); ?>
                 </label>
                 <div class="with-errors help-block"

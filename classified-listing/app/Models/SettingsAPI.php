@@ -691,6 +691,53 @@ abstract class SettingsAPI {
 		return ob_get_clean();
 	}
 
+	public function generate_range_html( $key, $data ) {
+		$field_key     = $this->get_field_key( $key );
+		$id            = $this->get_field_id( $key );
+		$defaults      = $this->get_placeholder_data();
+		$default_unit  = $data['default_unit'] ?? '';
+		$data          = wp_parse_args( $data, $defaults );
+		$wrapper_class = implode( ' ', [ $id, $data['wrapper_class'] ] );
+		$depends       = empty( $data['dependency'] ) ? '' : "data-rt-depends='" . wp_json_encode( $data['dependency'] ) . "'";
+		$range         = $this->get_option( $key );
+		$range_size    = $range['size'] ?? ( $data['default'] ?? 0 );
+		$min_size      = $data['min_size'] ?? 0;
+		$max_size      = isset( $data['max_size'] ) ? absint( $data['max_size'] ) : '';
+		$max_attr      = ! empty( $max_size ) ? "max=$max_size" : '';
+		$range_unit    = $range['unit'] ?? $default_unit;
+		ob_start(); ?>
+		<tr valign="top"
+			class="<?php echo esc_attr( $wrapper_class ); ?>" <?php
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $depends; ?>>
+			<th scope="row" class="title-desc">
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $this->get_tooltip_html( $data ); ?>
+				<label for="<?php echo esc_attr( $id ); ?>"><?php echo wp_kses_post( $data['title'] ); ?></label>
+			</th>
+			<td class="form-input rtcl-image-size-wrap">
+				<fieldset>
+					<input type="number" class="input-text regular-input" name="<?php echo esc_attr( $field_key ); ?>[size]"
+						   value="<?php echo absint( $range_size ); ?>" min="<?php echo absint( $min_size ) ?>" <?php echo esc_attr( $max_attr ); ?>
+						   id="<?php echo esc_attr( $id ); ?>">
+					<select name="<?php echo esc_attr( $field_key ); ?>[unit]">
+						<?php foreach ( (array) $data['units'] as $option_key => $option_value ) : ?>
+							<option <?php selected( $range_unit, $option_key ); ?>
+								value="<?php echo esc_attr( $option_key ); ?>"><?php echo esc_html( $option_value ); ?></option>
+						<?php endforeach; ?>
+					</select>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo $this->get_description_html( $data ); ?>
+				</fieldset>
+			</td>
+		</tr>
+		<?php
+
+		return ob_get_clean();
+	}
+
 	public function generate_image_html( $key, $data ) {
 		$field_key       = $this->get_field_key( $key );
 		$id              = $this->get_field_id( $key );
@@ -1487,6 +1534,13 @@ abstract class SettingsAPI {
 	}
 
 	public function validate_image_size_field( $key, $value ) {
+		return is_array( $value ) ? array_map(
+			[ Functions::class, 'clean' ],
+			array_map( 'stripslashes', $value )
+		) : '';
+	}
+
+	public function validate_range_field( $key, $value ) {
 		return is_array( $value ) ? array_map(
 			[ Functions::class, 'clean' ],
 			array_map( 'stripslashes', $value )

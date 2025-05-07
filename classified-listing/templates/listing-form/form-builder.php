@@ -20,7 +20,7 @@
 		<div id="rtcl-fb-extra-from-wrap">
 			<form enctype="multipart/form-data" id="rtcl-fb-extra-form">
 				<?php do_action( 'rtcl_fb_extra_form', $post_id ); ?>
-				<button type="submit" class="btn btn-primary rtcl-submit-btn">
+				<button type="submit" class="rtcl-btn rtcl-btn-primary rtcl-submit-btn">
 					<?php
 					if ( $post_id > 0 ) {
 						echo esc_html( apply_filters( 'rtcl_listing_form_update_btn_text', esc_html__( 'Update', 'classified-listing' ) ) );

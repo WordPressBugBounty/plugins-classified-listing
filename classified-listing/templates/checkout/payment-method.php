@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<li class="list-group-item rtcl-no-margin-left rtcl-payment-method form-check">
+<li class="rtcl-list-group-item rtcl-no-margin-left rtcl-payment-method rtcl-form-check">
 	<label for="gateway-<?php echo esc_attr( $gateway->id ) ?>">
 		<span class="rtcl-payment-method-input">
 			<input type="radio" name="payment_method"
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</label>
 	<?php if ( $gateway->has_fields() || $gateway->get_description() ) {
 		echo sprintf( '<div class="payment_box payment_method_%s" %s>%s</div>',
-			esc_attr($gateway->id),
+			esc_attr( $gateway->id ),
 			! $gateway->chosen ? 'style="display:none;"' : null,
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			$gateway->payment_fields()

@@ -29,8 +29,9 @@ use Rtcl\Helpers\Link;
 				array_unshift( $args, [ 'type' => $selected_type ] );
 			}
 			?>
-			<a href="<?php echo esc_url( add_query_arg( $args, Link::get_listing_form_page_link() ) ); ?>"
-			   class="change-cat"><?php esc_html_e( "Change Category", "classified-listing" ); ?></a>
+			<a href="<?php echo esc_url( add_query_arg( $args, Link::get_listing_form_page_link() ) ); ?>" class="change-cat">
+				<?php esc_html_e( "Change Category", "classified-listing" ); ?>
+			</a>
 		<?php endif; ?>
 	</div>
 </div>

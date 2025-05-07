@@ -23,6 +23,31 @@ global $post;
 
 	<!-- header here -->
 	<div class="rtcl-action-wrap">
+		<div class="rtcl-my-listings-status">
+			<ul>
+				<?php
+				$status_filter = [
+					'any'          => esc_html__( "All", 'classified-listing' ),
+					'publish'      => esc_html__( "Published", 'classified-listing' ),
+					'pending'      => esc_html__( "Pending", 'classified-listing' ),
+					'rtcl-expired' => esc_html__( "Expired", 'classified-listing' ),
+				];
+
+				$active_status = ! empty( $_REQUEST['status'] ) ? sanitize_text_field( $_REQUEST['status'] ) : 'any';
+
+				foreach ( $status_filter as $status => $title ) {
+					?>
+					<li>
+						<a href="<?php echo esc_url( add_query_arg( [ 'status' => $status ] ) ); ?>"
+						   class="<?php echo esc_attr( $status === $active_status ? 'active' : '' ); ?>">
+							<?php echo esc_html( $title ); ?>
+						</a>
+					</li>
+					<?php
+				}
+				?>
+			</ul>
+		</div>
 		<div class="rtcl-my-listings-search-form">
 			<form action="<?php echo esc_url( Link::get_account_endpoint_url( "listings" ) ); ?>" class="form-inline">
 				<input type="text" id="search-ml" name="u" class="rtcl-form-control"
@@ -39,12 +64,6 @@ global $post;
 				<?php Functions::query_string_form_fields( null, [ 'submit', 'paged', 'u' ] ); ?>
 			</form>
 		</div>
-		<?php if ( apply_filters( 'rtcl_add_new_listing_button', true ) ) { ?>
-			<div class="rtcl-add-new-listing">
-				<a href="<?php echo esc_url( Link::get_listing_form_page_link() ); ?>"
-				   class="btn btn-success"><?php esc_html_e( 'Add Listing', 'classified-listing' ); ?></a>
-			</div>
-		<?php } ?>
 	</div>
 
 	<?php if ( $rtcl_query->have_posts() ): ?>

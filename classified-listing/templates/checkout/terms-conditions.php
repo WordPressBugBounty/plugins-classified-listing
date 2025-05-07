@@ -27,7 +27,7 @@ if (apply_filters('rtcl_show_checkout_terms_conditions', true) && Functions::is_
                        required
                     <?php checked(1, apply_filters('rtcl_checkout_terms_is_checked_default', false)); // WPCS: input var ok, csrf ok. ?>
                 >
-                <label class="form-check-label" for="rtcl-terms-conditions">
+                <label class="rtcl-form-check-label" for="rtcl-terms-conditions">
                     <?php Functions::terms_and_conditions_checkbox_text(); ?>
                 </label>
                 <div class="with-errors help-block"

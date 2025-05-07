@@ -10,26 +10,9 @@ defined( 'ABSPATH' ) || exit;
 
 get_header( 'listing' );
 
-$listing_page_id = Functions::get_page_id( 'listings' );
+do_action( 'rtcl_before_content_wrapper' );
 
-if ( post_password_required( $listing_page_id ) ) { ?>
-	<div class="rtcl-wrapper">
-		<?php
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo get_the_password_form( $listing_page_id );
-		?>
-	</div>
-	<?php
-} else {
-
-	/**
-	 * Hook: rtcl_before_main_content.
-	 *
-	 * @hooked rtcl_output_content_wrapper - 10 (outputs opening divs for the content)
-	 */
-	do_action( 'rtcl_before_main_content' );
-
-	?>
+?>
 	<header class="rtcl-listing-header">
 		<?php if ( apply_filters( 'rtcl_show_page_title', true ) ) : ?>
 			<h1 class="rtcl-listings-header-title page-title"><?php Functions::page_title(); ?></h1>
@@ -45,8 +28,26 @@ if ( post_password_required( $listing_page_id ) ) { ?>
 		do_action( 'rtcl_archive_description' );
 		?>
 	</header>
-	<?php
+<?php
 
+$listing_page_id = Functions::get_page_id( 'listings' );
+
+if ( post_password_required( $listing_page_id ) ) { ?>
+	<div class="rtcl-content-wrapper">
+		<?php
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo get_the_password_form( $listing_page_id );
+		?>
+	</div>
+	<?php
+} else {
+
+	/**
+	 * Hook: rtcl_before_main_content.
+	 *
+	 * @hooked rtcl_output_content_wrapper - 10 (outputs opening divs for the content)
+	 */
+	do_action( 'rtcl_before_main_content' );
 
 	/**
 	 * Hook: rtcl_before_listing_loop.
@@ -81,7 +82,7 @@ if ( post_password_required( $listing_page_id ) ) { ?>
 
 	Functions::listing_loop_end();
 
-	if ( !rtcl()->wp_query()->have_posts() ) {
+	if ( ! rtcl()->wp_query()->have_posts() ) {
 		/**
 		 * Hook: rtl_no_listings_found.
 		 *
@@ -111,5 +112,7 @@ if ( post_password_required( $listing_page_id ) ) { ?>
 	 */
 	do_action( 'rtcl_sidebar' );
 }
+
+do_action( 'rtcl_after_content_wrapper' );
 
 get_footer( 'listing' );

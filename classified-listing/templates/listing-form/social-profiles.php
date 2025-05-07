@@ -29,11 +29,11 @@ if (!Functions::is_enable_social_profiles() || empty($social_list = Options::get
         <?php
         foreach ($social_list as $item_key => $item) {
             ?>
-            <div class="form-group row">
+            <div class="rtcl-form-group rtcl-row">
                 <label for="rtcl-social-<?php echo esc_attr($item_key) ?>"
-                       class="col-md-2 col-form-label"><?php echo esc_html($item); ?></label>
-                <div class="col-md-10">
-                    <input type="url" class="form-control" id="rtcl-social-<?php echo esc_attr($item_key) ?>"
+                       class="rtcl-col-md-2 rtcl-field-label"><?php echo esc_html($item); ?></label>
+                <div class="rtcl-col-md-10">
+                    <input type="url" class="rtcl-form-control" id="rtcl-social-<?php echo esc_attr($item_key) ?>"
                            name="rtcl_social_profiles[<?php echo esc_attr($item_key) ?>]"
                            value="<?php echo !empty($social_profiles[$item_key]) ? esc_url($social_profiles[$item_key]) : '' ?>"
                     />

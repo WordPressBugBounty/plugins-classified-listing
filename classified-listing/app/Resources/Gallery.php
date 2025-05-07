@@ -46,11 +46,12 @@ class Gallery {
 			'filters'             => [
 				[
 					'title'      => __( 'Allowed Files', "classified-listing" ),
-					'extensions' => implode( ",", apply_filters( 'rtcl_gallery_image_allowed_extensions', Functions::get_option_item( 'rtcl_misc_settings', 'image_allowed_type', [
-						'jpg',
-						'jpeg',
-						'png'
-					] ) ) )
+					'extensions' => implode( ",",
+						apply_filters( 'rtcl_gallery_image_allowed_extensions', Functions::get_option_item( 'rtcl_misc_settings', 'image_allowed_type', [
+							'jpg',
+							'jpeg',
+							'png'
+						] ) ) )
 				]
 			],
 			'multipart'           => true,
@@ -73,45 +74,47 @@ class Gallery {
 				<div class="rtcl-gallery">
 					<p><?php esc_html_e( "Drop files here to add them.", "classified-listing" ) ?></p>
 					<p><a href="#" id="rtcl-gallery-browse-button"
-						  class="rtcl-gallery-browse-button btn btn-primary <?php echo esc_attr( $button ) ?>"><?php esc_html_e( "Browse files ...", "classified-listing" ) ?></a>
+						  class="rtcl-gallery-browse-button rtcl-btn rtcl-btn-primary <?php echo esc_attr( $button ) ?>"><?php esc_html_e( "Browse files ...",
+								"classified-listing" ) ?></a>
 					</p>
 				</div>
 				<div class="rtcl-gallery-uploads"></div>
-				<div class="description alert alert-danger">
-					<?php
-					$image_size = Functions::get_option_item( 'rtcl_misc_settings', 'image_size_gallery', [] );
-					if ( Functions::is_gallery_image_required() ) { ?>
-						<p><?php esc_html_e( "Image is required.", "classified-listing" ); ?></p>
+				<div class="rtcl-notices-wrapper">
+					<div class="description alert alert-danger">
 						<?php
-					}
-					printf(
-					/* translators: Image size. 1: Width, 2: Height. */
-						'<p>' . esc_html__( "Recommended image size to (%s, %s)px", "classified-listing" ) . '</p>',
-						isset( $image_size['width'] ) ? absint( $image_size['width'] ) : 0,
-						isset( $image_size['height'] ) ? absint( $image_size['height'] ) : 0
-					);
-					printf(
-					/* translators: Image max size */
-						'<p>' . esc_html__( "Image maximum size %s.", "classified-listing" ) . '</p>',
-						esc_html( Functions::formatBytes( $max_image_size, 0 ) )
-					);
-					printf(
-					/* translators: Image allowed type */
-						'<p>' . esc_html__( "Allowed image type (%s).", "classified-listing" ) . '</p>',
-						esc_html( implode( ', ', (array) Functions::get_option_item( 'rtcl_misc_settings', 'image_allowed_type', [
-							'png',
-							'jpeg',
-							'jpg'
-						] ) ) )
-					);
-					printf(
-					/* translators: Allowed image count */
-						'<p>' . esc_html__( "You can upload up to %d images.", "classified-listing" ) . '</p>',
-						absint( $max_image_limit )
-					);
-					?>
+						$image_size = Functions::get_option_item( 'rtcl_misc_settings', 'image_size_gallery', [] );
+						if ( Functions::is_gallery_image_required() ) { ?>
+							<p><?php esc_html_e( "Image is required.", "classified-listing" ); ?></p>
+							<?php
+						}
+						printf(
+						/* translators: Image size. 1: Width, 2: Height. */
+							'<p>' . esc_html__( "Recommended image size to (%s, %s)px", "classified-listing" ) . '</p>',
+							isset( $image_size['width'] ) ? absint( $image_size['width'] ) : 0,
+							isset( $image_size['height'] ) ? absint( $image_size['height'] ) : 0
+						);
+						printf(
+						/* translators: Image max size */
+							'<p>' . esc_html__( "Image maximum size %s.", "classified-listing" ) . '</p>',
+							esc_html( Functions::formatBytes( $max_image_size, 0 ) )
+						);
+						printf(
+						/* translators: Image allowed type */
+							'<p>' . esc_html__( "Allowed image type (%s).", "classified-listing" ) . '</p>',
+							esc_html( implode( ', ', (array) Functions::get_option_item( 'rtcl_misc_settings', 'image_allowed_type', [
+								'png',
+								'jpeg',
+								'jpg'
+							] ) ) )
+						);
+						printf(
+						/* translators: Allowed image count */
+							'<p>' . esc_html__( "You can upload up to %d images.", "classified-listing" ) . '</p>',
+							absint( $max_image_limit )
+						);
+						?>
+					</div>
 				</div>
-
 			</div>
 		</div>
 		<?php
@@ -304,7 +307,8 @@ class Gallery {
 
 				<div>
 					<a href="#"
-					   class="<?php echo esc_attr( $button ) ?> <?php echo is_admin() ? ' button-primary' : 'btn btn-primary'; ?> rtcl-upload-modal-update"><?php esc_html_e( "Update Options", "classified-listing" ) ?></a>
+					   class="<?php echo esc_attr( $button ) ?> <?php echo is_admin() ? ' button-primary'
+						   : 'btn btn-primary'; ?> rtcl-upload-modal-update"><?php esc_html_e( "Update Options", "classified-listing" ) ?></a>
 					<span class="rtcl-spinner rtcl-icon-spinner animate-spin" style="display: none"></span>
 					<span class="rtcl-update-description-success rtcl-icon-ok"></span>
 				</div>
@@ -320,7 +324,8 @@ class Gallery {
 									<?php foreach ( self::rtcl_gallery_explain_size() as $key => $size ): ?>
 										<?php if ( ( $key == "full" || has_image_size( $key ) ) ): ?>
 											<option value="<?php echo esc_html( str_replace( "-", "_", $key ) ) ?>"
-													data-explain="<?php echo esc_attr( isset( $size["desc_parsed"] ) ? $size["desc_parsed"] : $size["desc"] ) ?>"><?php echo esc_html( $size["title"] ) ?></option>
+													data-explain="<?php echo esc_attr( isset( $size["desc_parsed"] ) ? $size["desc_parsed"]
+														: $size["desc"] ) ?>"><?php echo esc_html( $size["title"] ) ?></option>
 										<?php endif; ?>
 									<?php endforeach; ?>
 								</select>
@@ -333,9 +338,11 @@ class Gallery {
 							<?php if ( Functions::user_can_edit_image() ): ?>
 								<div class="rtcl-control-group wprtcl-file-browser-image-actions">
 									<a href="#"
-									   class="<?php echo esc_attr( $button ) ?> wprtcl-attachment-edit-image"><?php esc_html_e( "Edit Image", 'classified-listing' ) ?></a>
+									   class="<?php echo esc_attr( $button ) ?> wprtcl-attachment-edit-image"><?php esc_html_e( "Edit Image",
+											'classified-listing' ) ?></a>
 									<a href="#" class="<?php echo esc_attr( $button ) ?> wprtcl-attachment-create-image"
-									   title="<?php esc_html_e( "Create thumbnail from full size image.", 'classified-listing' ) ?>"><?php esc_html_e( "Create Image", 'classified-listing' ) ?></a>
+									   title="<?php esc_html_e( "Create thumbnail from full size image.",
+										   'classified-listing' ) ?>"><?php esc_html_e( "Create Image", 'classified-listing' ) ?></a>
 								</div>
 							<?php endif; ?>
 
@@ -444,7 +451,8 @@ class Gallery {
 								<input type="number" class="rtcl-image-scale-height" name="d_height"
 									   value="{{ data.dim[1] }}" max="{{ data.dim[1] }}" step="1"/>
 								<a href="#"
-								   class="rtcl-image-action-scale <?php echo esc_attr( $button ) ?> rtcl-button-small"><?php esc_html_e( "Scale", 'classified-listing' ) ?></a>
+								   class="rtcl-image-action-scale <?php echo esc_attr( $button ) ?> rtcl-button-small"><?php esc_html_e( "Scale",
+										'classified-listing' ) ?></a>
 							</div>
 
 							<div class="rtcl-control-group">
@@ -459,7 +467,8 @@ class Gallery {
 								&nbsp;
 								<a href="#"
 								   class="rtcl-image-action-restore <?php echo esc_attr( $button ) ?> rtcl-button-small"
-								   title="<?php esc_html_e( "Restore original image", 'classified-listing' ) ?>"><?php esc_html_e( "Restore", 'classified-listing' ) ?></a>
+								   title="<?php esc_html_e( "Restore original image", 'classified-listing' ) ?>"><?php esc_html_e( "Restore",
+										'classified-listing' ) ?></a>
 
 								&nbsp;
 
@@ -471,7 +480,8 @@ class Gallery {
 									<input type="checkbox" name="wprtcl-image-action-apply-to"
 										   class="wprtcl-image-action-apply-to" value="1" checked="checked"/>
 									<label
-										for="wprtcl-image-action-apply-to"><?php esc_html_e( "Apply changes to all image sizes", 'classified-listing' ) ?></label>
+										for="wprtcl-image-action-apply-to"><?php esc_html_e( "Apply changes to all image sizes",
+											'classified-listing' ) ?></label>
 								</div>
 								<# } else { #>
 								<input type="hidden" name="wprtcl-image-action-apply-to"

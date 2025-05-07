@@ -51,12 +51,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
             <div class="rtcl-form-group rtcl-login-form-submit-wrap">
 
-                <button type="submit" name="rtcl-login" class="btn" value="login">
+                <button type="submit" name="rtcl-login" class="rtcl-btn" value="login">
 					<?php esc_html_e( 'Login', 'classified-listing' ); ?>
                 </button>
                 <div class="form-check">
                     <input type="checkbox" name="rememberme" id="rtcl-rememberme" value="forever">
-                    <label class="form-check-label" for="rtcl-rememberme">
+                    <label class="rtcl-form-check-label" for="rtcl-rememberme">
 						<?php esc_html_e( 'Remember Me', 'classified-listing' ); ?>
                     </label>
                 </div>
@@ -132,7 +132,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <div class="rtcl-form-group rtcl-form-group-no-margin-bottom">
                     <div id="rtcl-registration-g-recaptcha"></div>
                     <div id="rtcl-registration-g-recaptcha-message"></div>
-                    <input type="submit" name="rtcl-register" class="btn"
+                    <input type="submit" name="rtcl-register" class="rtcl-btn"
                            value="<?php esc_attr_e( 'Register', 'classified-listing' ); ?>"/>
                 </div>
 				<?php do_action( 'rtcl_register_form_end' ); ?>

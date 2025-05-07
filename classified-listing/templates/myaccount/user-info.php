@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<h5><?php echo esc_html( Functions::get_author_name( $current_user ) ); ?></h5>
 				<p class="rtcl-media-heading"><?php printf( "<strong>%s</strong> : %s", esc_html__( "Email", "classified-listing" ),
 						esc_html( $current_user->user_email ) ); ?></p>
-				<?php $current_user->description ? printf( "<p>%s</p>", esc_html( $current_user->description ) ) : '' ?>
+				<?php $current_user->description ? printf( "<p>%s</p>", wp_kses_post( $current_user->description ) ) : '' ?>
 			</div>
 		</div>
 	</div>
