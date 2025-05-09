@@ -71,6 +71,11 @@ do_action( 'rtcl_before_single_listing' );
 
 		<!-- Review  -->
 		<?php do_action( 'rtcl_single_listing_review' ) ?>
+
+		<?php if ( ! current_theme_supports( 'rtcl' ) && in_array( $sidebar_position, [ 'left', 'right' ] ) ) : ?>
+			<!-- Sidebar -->
+			<?php do_action( 'rtcl_single_listing_sidebar' ); ?>
+		<?php endif; ?>
 	</div>
 </div>
 

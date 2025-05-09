@@ -515,7 +515,7 @@ if ( !class_exists( Rtcl::class ) ) {
 		}
 
 		private function load_hooks() {
-			register_activation_hook( RTCL_PLUGIN_FILE, [ Installer::class, 'activate' ] );
+			register_activation_hook( RTCL_PLUGIN_FILE, [ Installer::class, 'install' ] );
 			register_deactivation_hook( RTCL_PLUGIN_FILE, [ Installer::class, 'deactivate' ] );
 
 			add_action( 'plugins_loaded', [ $this, 'on_plugins_loaded' ], -1 );

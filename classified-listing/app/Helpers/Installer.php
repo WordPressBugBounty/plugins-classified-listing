@@ -8,15 +8,11 @@ use Rtcl\Models\Roles;
 
 class Installer {
 
-	const DB_VERSION = '1.0.0';
+	const DB_VERSION = '4.0.0';
 
-	private static array $db_updates
-		= [
-			'3.4.4' => [
-				'update_344_xxxxxxxxx',
-				'update_344_xxxxxxxxx',
-			],
-		];
+	private static array $db_updates = [
+//		'4.2.0' => [ 'migrate_settings_420' ],
+	];
 
 
 	public static function init() {
@@ -26,7 +22,7 @@ class Installer {
 
 	public static function check_version() {
 		if ( version_compare( get_option( 'rtcl_version' ), RTCL_VERSION, '<' ) ) {
-			self::activate();
+			self::install();
 			self::handleTables( false );
 			do_action( 'rtcl_upgraded' );
 		}
@@ -72,8 +68,6 @@ class Installer {
 
 	private static function doDBUpdate() {
 		$current_db_version = get_option( 'rtcl_pro_db_version' );
-		$loop               = 0;
-
 		foreach ( self::get_db_update_callbacks() as $version => $update_callbacks ) {
 			if ( version_compare( $current_db_version, $version, '<' ) ) {
 				foreach ( $update_callbacks as $update_callback ) {
@@ -81,12 +75,13 @@ class Installer {
 						self::$update_callback();
 					}
 				}
+				self::update_db_version( $version );
 			}
 		}
 	}
 
 
-	public static function activate( $network_wide = null ) {
+	public static function install( $network_wide = null ) {
 		if ( ! is_blog_installed() ) {
 			return;
 		}
@@ -107,9 +102,9 @@ class Installer {
 		self::create_tables();
 		self::handleTables( $network_wide );
 		self::create_roles();
-		self::upgrade();
 		self::create_cron_jobs();
 		self::update_rtcl_version();
+		self::maybe_update_db_version();
 
 		delete_transient( 'rtcl_installing' );
 
@@ -129,7 +124,7 @@ class Installer {
 	 * @param string|null $version New WooCommerce DB version or null.
 	 */
 	public static function update_db_version( string $version = null ) {
-		update_option( 'rtcl_pro_db_version', is_null( $version ) ? RTCL_VERSION : $version );
+		update_option( 'rtcl_db_version', is_null( $version ) ? self::DB_VERSION : $version );
 	}
 
 	private static function create_options() {
@@ -420,25 +415,6 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 		];
 	}
 
-	private static function upgrade() {
-		self::update_user_email_settings(); // TODO remove this method after few version update
-	}
-
-
-	// TODO remove this method after few version update
-	private static function update_user_email_settings() {
-		$user_email_settings_updated = get_option( 'rtcl_email_user_settings_updated_temp' );
-		if ( 'yes' !== $user_email_settings_updated && version_compare( RTCL_VERSION, '2.3.7', '>=' ) ) {
-			$email_options = get_option( 'rtcl_email_settings', [] );
-			if ( isset( $email_options['notify_users'] ) && is_array( $email_options['notify_users'] ) ) {
-				$email_options['notify_users'][] = 'register_new_user';
-			}
-			update_option( 'rtcl_email_settings', $email_options );
-			update_option( 'rtcl_email_user_settings_updated_temp', 'yes' );
-		}
-	}
-
-
 	public static function deactivate() {
 		self::clean_cron_jobs();
 	}
@@ -477,5 +453,9 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 
 	public static function create_roles() {
 		Roles::create_roles();
+	}
+
+	public static function migrate_settings_420(  ) {
+		// TODO: Migrate your settings
 	}
 }
