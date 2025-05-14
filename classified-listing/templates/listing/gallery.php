@@ -36,6 +36,7 @@ if ( $total_gallery_item ) :
 					foreach ( $videos as $index => $video_url ) { ?>
 						<div class="swiper-slide rtcl-slider-item rtcl-slider-video-item">
 							<iframe class="rtcl-lightbox-iframe"
+									data-src="<?php echo esc_url(Functions::get_sanitized_embed_url( $video_url )) ?>"
 									src="<?php echo esc_url(Functions::get_sanitized_embed_url( $video_url )) ?>"
 									style="width: 100%; height: 400px; margin: 0;padding: 0; background-color: #000"
 									frameborder="0" webkitAllowFullScreen

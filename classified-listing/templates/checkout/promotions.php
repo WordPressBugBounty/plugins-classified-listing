@@ -67,8 +67,8 @@ $currency_symbol = Functions::get_currency_symbol( $currency );
 							</div>
 							<div class="rtcl-pricing-btn">
 								<?php
-								printf( '<input type="radio" name="%s" value="%s" class="rtcl-checkout-pricing" required data-price="%s"/><label>%s</label>',
-									'pricing_id', esc_attr( $pricing->ID ), esc_attr( $price ),
+								printf( '<input type="radio" name="%s" id="pricing_id_%s" value="%s" class="rtcl-checkout-pricing" required data-price="%s"/><label for="pricing_id_%s">%s</label>',
+									'pricing_id', esc_attr( $pricing->ID ), esc_attr( $pricing->ID ), esc_attr( $price ), esc_attr( $pricing->ID ),
 									esc_html__( 'Select This Package', 'classified-listing-store' ) );
 								?>
 							</div>

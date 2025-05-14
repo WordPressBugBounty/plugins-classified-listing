@@ -10026,6 +10026,14 @@ body.rtl .rtcl-el-slider-wrapper.rtcl-slider-btn-style-2 .rtcl-slider-btn.button
   background-color: var(--rtcl-button-bg-color);
   border-color: var(--rtcl-button-bg-color);
   color: var(--rtcl-button-color);
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
 }
 .rtcl-widget-filter-class .panel-block .rtcl-filter-form .ui-buttons.has-expanded .rtcl-filter-clear-btn:hover {
   background-color: var(--rtcl-button-hover-bg-color);
@@ -10886,8 +10894,19 @@ table.rtcl-table-striped-border tr:hover td {
   left: 30px;
   background-color: #BEBEBE;
 }
-.rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.is-active a:before, .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link:hover a:before {
+.rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link a:after {
+  content: "";
+  width: 2px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
   background-color: var(--rtcl-primary-color);
+}
+.rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.is-active a:after, .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link:hover a:after {
+  opacity: 1;
 }
 .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--dashboard a:before {
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16.4128 18H11.2301C10.3551 18 9.64286 17.2877 9.64286 16.4128V9.94436C9.64286 9.06943 10.3551 8.35714 11.2301 8.35714H16.4128C17.2877 8.35714 18 9.06943 18 9.94436V16.4128C18 17.2877 17.2877 18 16.4128 18ZM11.2301 9.64286C11.0636 9.64286 10.9286 9.77786 10.9286 9.94436V16.4128C10.9286 16.5793 11.0636 16.7143 11.2301 16.7143H16.4128C16.5793 16.7143 16.7143 16.5793 16.7143 16.4128V9.94436C16.7143 9.77786 16.5793 9.64286 16.4128 9.64286H11.2301Z' fill='%23BEBEBE'/%3E%3Cpath d='M16.4128 7.07143H11.2301C10.3551 7.07143 9.64286 6.35914 9.64286 5.48421V1.58721C9.64286 0.712286 10.3551 0 11.2301 0H16.4128C17.2877 0 18 0.712286 18 1.58721V5.48421C18 6.35914 17.2877 7.07143 16.4128 7.07143ZM11.2301 1.28571C11.0636 1.28571 10.9286 1.42071 10.9286 1.58721V5.48421C10.9286 5.65071 11.0636 5.78571 11.2301 5.78571H16.4128C16.5793 5.78571 16.7143 5.65071 16.7143 5.48421V1.58721C16.7143 1.42071 16.5793 1.28571 16.4128 1.28571H11.2301Z' fill='%23BEBEBE'/%3E%3Cpath d='M6.76993 9.64286H1.58721C0.712286 9.64286 0 8.93057 0 8.05564V1.58721C0 0.712286 0.712286 0 1.58721 0H6.76993C7.64486 0 8.35714 0.712286 8.35714 1.58721V8.05564C8.35714 8.93057 7.64486 9.64286 6.76993 9.64286ZM1.58721 1.28571C1.42071 1.28571 1.28571 1.42071 1.28571 1.58721V8.05564C1.28571 8.22214 1.42071 8.35714 1.58721 8.35714H6.76993C6.93643 8.35714 7.07143 8.22214 7.07143 8.05564V1.58721C7.07143 1.42071 6.93643 1.28571 6.76993 1.28571H1.58721Z' fill='%23BEBEBE'/%3E%3Cpath d='M6.76993 18H1.58721C0.712286 18 0 17.2877 0 16.4128V12.5158C0 11.6409 0.712286 10.9286 1.58721 10.9286H6.76993C7.64486 10.9286 8.35714 11.6409 8.35714 12.5158V16.4128C8.35714 17.2877 7.64486 18 6.76993 18ZM1.58721 12.2143C1.42071 12.2143 1.28571 12.3493 1.28571 12.5158V16.4128C1.28571 16.5793 1.42071 16.7143 1.58721 16.7143H6.76993C6.93643 16.7143 7.07143 16.5793 7.07143 16.4128V12.5158C7.07143 12.3493 6.93643 12.2143 6.76993 12.2143H1.58721Z' fill='%23BEBEBE'/%3E%3C/svg%3E%0A");
@@ -10948,41 +10967,25 @@ table.rtcl-table-striped-border tr:hover td {
   height: 20px;
 }
 .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing {
-  background-color: #e4f0fd;
+  background-color: var(--rtcl-primary-color);
+  margin-top: 20px;
 }
 .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing a {
   line-height: 21px;
-  color: var(--rtcl-primary-color);
+  color: #ffffff;
 }
 .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing a:before {
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='21' height='21' viewBox='0 0 21 21' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_3546_1866)'%3E%3Cpath d='M10.5 21C4.71007 21 0 16.2899 0 10.5C0 4.71007 4.71007 0 10.5 0C16.2899 0 21 4.71007 21 10.5C21 16.2899 16.2899 21 10.5 21ZM10.5 1.3125C5.43375 1.3125 1.3125 5.43375 1.3125 10.5C1.3125 15.5662 5.43375 19.6875 10.5 19.6875C15.5662 19.6875 19.6875 15.5662 19.6875 10.5C19.6875 5.43375 15.5662 1.3125 10.5 1.3125Z' fill='%23BEBEBE'/%3E%3Cpath d='M15.0938 11.1562H5.90625C5.544 11.1562 5.25 10.8622 5.25 10.5C5.25 10.1378 5.544 9.84375 5.90625 9.84375H15.0938C15.456 9.84375 15.75 10.1378 15.75 10.5C15.75 10.8622 15.456 11.1562 15.0938 11.1562Z' fill='%23BEBEBE'/%3E%3Cpath d='M10.5 15.75C10.1378 15.75 9.84375 15.456 9.84375 15.0938V5.90625C9.84375 5.544 10.1378 5.25 10.5 5.25C10.8622 5.25 11.1562 5.544 11.1562 5.90625V15.0938C11.1562 15.456 10.8622 15.75 10.5 15.75Z' fill='%23BEBEBE'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_3546_1866'%3E%3Crect width='21' height='21' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A");
   mask-image: url("data:image/svg+xml,%3Csvg width='21' height='21' viewBox='0 0 21 21' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_3546_1866)'%3E%3Cpath d='M10.5 21C4.71007 21 0 16.2899 0 10.5C0 4.71007 4.71007 0 10.5 0C16.2899 0 21 4.71007 21 10.5C21 16.2899 16.2899 21 10.5 21ZM10.5 1.3125C5.43375 1.3125 1.3125 5.43375 1.3125 10.5C1.3125 15.5662 5.43375 19.6875 10.5 19.6875C15.5662 19.6875 19.6875 15.5662 19.6875 10.5C19.6875 5.43375 15.5662 1.3125 10.5 1.3125Z' fill='%23BEBEBE'/%3E%3Cpath d='M15.0938 11.1562H5.90625C5.544 11.1562 5.25 10.8622 5.25 10.5C5.25 10.1378 5.544 9.84375 5.90625 9.84375H15.0938C15.456 9.84375 15.75 10.1378 15.75 10.5C15.75 10.8622 15.456 11.1562 15.0938 11.1562Z' fill='%23BEBEBE'/%3E%3Cpath d='M10.5 15.75C10.1378 15.75 9.84375 15.456 9.84375 15.0938V5.90625C9.84375 5.544 10.1378 5.25 10.5 5.25C10.8622 5.25 11.1562 5.544 11.1562 5.90625V15.0938C11.1562 15.456 10.8622 15.75 10.5 15.75Z' fill='%23BEBEBE'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_3546_1866'%3E%3Crect width='21' height='21' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A");
   height: 21px;
-  background-color: var(--rtcl-primary-color);
-}
-.rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing a:hover {
-  color: #ffffff;
-}
-.rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing a:hover:before {
   background-color: #ffffff;
 }
-.rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--logout {
-  background-color: rgb(255, 229, 227);
-  border-top: none !important;
-}
-.rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--logout a {
-  color: rgb(255, 60, 72);
+.rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing a:hover {
+  background-color: var(--rtcl-psecondary-color);
 }
 .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--logout a:before {
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M3.50459 2.34596C3.81493 2.65829 3.81502 3.16474 3.50478 3.47717C2.61603 4.37216 2.01085 5.51236 1.76576 6.75359C1.52067 7.99484 1.64667 9.28136 2.12783 10.4505C2.60899 11.6196 3.42369 12.6189 4.46894 13.3219C5.51419 14.0249 6.74308 14.4002 8.00012 14.4002C9.25717 14.4002 10.4861 14.0249 11.5313 13.3219C12.5765 12.6189 13.3913 11.6196 13.8724 10.4505C14.3536 9.28136 14.4795 7.99484 14.2345 6.75359C13.9894 5.51236 13.3842 4.37216 12.4955 3.47717C12.1852 3.16474 12.1853 2.65829 12.4957 2.34596C12.806 2.03365 13.3091 2.03373 13.6193 2.34616C14.7302 3.4649 15.4867 4.89015 15.7931 6.44172C16.0995 7.99324 15.942 9.60139 15.3405 11.0628C14.739 12.5242 13.7207 13.7733 12.4141 14.6521C11.1075 15.531 9.57149 16 8.00012 16C6.42875 16 4.89271 15.531 3.58615 14.6521C2.27958 13.7733 1.26119 12.5242 0.659747 11.0628C0.0583016 9.60139 -0.0991928 7.99324 0.207167 6.44172C0.513535 4.89015 1.27 3.4649 2.38094 2.34616C2.69117 2.03373 3.19425 2.03365 3.50459 2.34596Z' fill='%23BEBEBE'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M8.00012 0C8.43895 0 8.79467 0.358121 8.79467 0.799876V7.99876C8.79467 8.44053 8.43895 8.79864 8.00012 8.79864C7.5613 8.79864 7.20558 8.44053 7.20558 7.99876V0.799876C7.20558 0.358121 7.5613 0 8.00012 0Z' fill='%23BEBEBE'/%3E%3C/svg%3E%0A");
   mask-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M3.50459 2.34596C3.81493 2.65829 3.81502 3.16474 3.50478 3.47717C2.61603 4.37216 2.01085 5.51236 1.76576 6.75359C1.52067 7.99484 1.64667 9.28136 2.12783 10.4505C2.60899 11.6196 3.42369 12.6189 4.46894 13.3219C5.51419 14.0249 6.74308 14.4002 8.00012 14.4002C9.25717 14.4002 10.4861 14.0249 11.5313 13.3219C12.5765 12.6189 13.3913 11.6196 13.8724 10.4505C14.3536 9.28136 14.4795 7.99484 14.2345 6.75359C13.9894 5.51236 13.3842 4.37216 12.4955 3.47717C12.1852 3.16474 12.1853 2.65829 12.4957 2.34596C12.806 2.03365 13.3091 2.03373 13.6193 2.34616C14.7302 3.4649 15.4867 4.89015 15.7931 6.44172C16.0995 7.99324 15.942 9.60139 15.3405 11.0628C14.739 12.5242 13.7207 13.7733 12.4141 14.6521C11.1075 15.531 9.57149 16 8.00012 16C6.42875 16 4.89271 15.531 3.58615 14.6521C2.27958 13.7733 1.26119 12.5242 0.659747 11.0628C0.0583016 9.60139 -0.0991928 7.99324 0.207167 6.44172C0.513535 4.89015 1.27 3.4649 2.38094 2.34616C2.69117 2.03373 3.19425 2.03365 3.50459 2.34596Z' fill='%23BEBEBE'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M8.00012 0C8.43895 0 8.79467 0.358121 8.79467 0.799876V7.99876C8.79467 8.44053 8.43895 8.79864 8.00012 8.79864C7.5613 8.79864 7.20558 8.44053 7.20558 7.99876V0.799876C7.20558 0.358121 7.5613 0 8.00012 0Z' fill='%23BEBEBE'/%3E%3C/svg%3E%0A");
-  background-color: rgb(255, 60, 72) !important;
-}
-.rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--logout a:hover {
-  color: #ffffff !important;
-}
-.rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--logout a:hover:before {
-  background-color: #ffffff !important;
 }
 .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation .rtcl-unread-badge {
   bottom: auto;
@@ -11489,7 +11492,7 @@ table.rtcl-table-striped-border tr:hover td {
 @media screen and (max-width: 1024px) {
   .rtcl-MyAccount-wrap .rtcl-MyAccount-content .rtcl-my-listing-table td a.listing-title {
     display: block;
-    padding-right: 30px;
+    margin-right: 30px;
   }
 }
 .rtcl-MyAccount-wrap .rtcl-MyAccount-content .rtcl-my-listing-table td a:hover {
@@ -11730,6 +11733,7 @@ table.rtcl-table-striped-border tr:hover td {
     position: absolute;
     right: 10px;
     top: 12px;
+    z-index: 99;
   }
   .rtcl-MyAccount-wrap .rtcl-MyAccount-content .rtcl-my-listing-table tr td.title-cell .rtcl-my-listings-table-toggle-info span.rtcl-icon {
     background-color: var(--rtcl-primary-color);
@@ -11992,6 +11996,17 @@ table.rtcl-table-striped-border tr:hover td {
   color: var(--rtcl-primary-color);
 }
 
+body.rtcl-account.page-template-rtcl-canvas_template #rtcl-user-registration-wrapper,
+body.rtcl-account.page-template-rtcl-canvas_template #rtcl-user-login-wrapper {
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+}
+body.rtcl-account.page-template-rtcl-canvas_template #rtcl-user-registration-wrapper.have-registration-form,
+body.rtcl-account.page-template-rtcl-canvas_template #rtcl-user-login-wrapper.have-registration-form {
+  width: 100%;
+  max-width: 1320px;
+}
 body.rtcl-account.page-template-rtcl-canvas_template .rtcl-MyAccount-mobile-navbar > h4 {
   display: none;
 }
@@ -12029,13 +12044,11 @@ body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap 
 body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation .rtcl-myaccount-logo {
   display: none;
 }
-body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul {
-  background-color: #ffffff;
-}
 body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li {
   border-right: none;
   border-color: #E8E8E8;
   color: #646464;
+  background-color: #ffffff;
 }
 body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li:first-child {
   border-top: none;
@@ -12049,25 +12062,35 @@ body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap 
 }
 body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing {
   border-top: none;
-}
-body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing a {
-  color: var(--rtcl-primary-color);
-}
-body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing a:before {
+  margin-top: 20px;
   background-color: var(--rtcl-primary-color);
 }
-body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing a:hover {
+@media screen and (min-width: 992px) {
+  body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing {
+    border-radius: 6px;
+  }
+}
+body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing a {
   color: #ffffff;
 }
-body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing a:hover:before {
+body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing a:before {
   background-color: #ffffff;
+}
+body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing a:after {
+  content: none;
+}
+body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.rtcl-MyAccount-navigation-link.rtcl-MyAccount-navigation-link--add-listing:hover {
+  background-color: var(--rtcl-secondary-color);
 }
 body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li:hover, body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.is-active {
-  color: #ffffff;
-  background: var(--rtcl-primary-color);
+  color: var(--rtcl-primary-color);
+  background: #EBF3FC;
 }
 body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li:hover a:before, body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.is-active a:before {
-  background-color: #ffffff;
+  background-color: var(--rtcl-primary-color);
+}
+body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li:hover a:after, body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-navigation ul li.is-active a:after {
+  opacity: 1;
 }
 body.rtcl-account:not(.page-template-rtcl-canvas_template) .rtcl-MyAccount-wrap .rtcl-MyAccount-content {
   background-color: transparent;

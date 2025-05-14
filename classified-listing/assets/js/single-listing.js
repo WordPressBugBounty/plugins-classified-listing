@@ -56,9 +56,11 @@
         swiperThumbsSlider = this.swiperThumbsSlider;
         this.swiperThumbsSlider.update();
       } else {
+        var _rtcl_single_listing_;
         swiperThumbsSlider = new Swiper(this.sliderThumbs, {
           watchSlidesVisibility: true,
           spaceBetween: ($sliderThumbsGap === null || $sliderThumbsGap === void 0 ? void 0 : $sliderThumbsGap.spaceBetween) || 5,
+          slidesPerView: 5,
           navigation: {
             nextEl: $sliderThumbs.find(".swiper-button-next").get(0),
             prevEl: $sliderThumbs.find(".swiper-button-prev").get(0)
@@ -71,11 +73,24 @@
               slidesPerView: 4
             },
             768: {
-              slidesPerView: 5
+              allowTouchMove: true
+            },
+            1024: {
+              allowTouchMove: ((_rtcl_single_listing_ = rtcl_single_listing_localized_params.slider_options) === null || _rtcl_single_listing_ === void 0 || (_rtcl_single_listing_ = _rtcl_single_listing_.nav) === null || _rtcl_single_listing_ === void 0 ? void 0 : _rtcl_single_listing_.allowTouchMove.l) || false
             }
           }
         });
         this.swiperThumbsSlider = swiperThumbsSlider;
+        // ✅ Add click event to thumbnail slides
+        swiperThumbsSlider.slides.forEach(function (slide, index) {
+          slide.addEventListener("click", function () {
+            console.log("Thumbnail clicked:", index);
+            if (that.swiperSlider) {
+              that.swiperSlider.slideTo(index);
+            }
+            that.$sliderWrapper.trigger("rtcl_thumbnail_clicked", [index, slide]);
+          });
+        });
       }
       var swiperSlider;
       var swiperSliderDefaultParams = {
@@ -105,15 +120,31 @@
         swiperSlider = new Swiper(this.slider, swiperSliderParams);
         this.swiperSlider = swiperSlider;
       }
-      swiperSlider.on("slideChange", function (e) {
+      swiperSlider.on("init slideChange", function (e) {
         that.initZoomForTarget(swiperSlider.activeIndex);
+        var activeIndex = swiperSlider.activeIndex;
         swiperSlider.slides.forEach(function (slide, index) {
-          if (index !== swiperSlider.activeIndex) {
-            var $iframes = $(slide).find("iframe");
-            if ($iframes.length) {
+          var $iframes = $(slide).find("iframe");
+          if ($iframes.length) {
+            if (index === activeIndex) {
               $iframes.each(function () {
-                var src = $(this).attr("src");
-                $(this).attr("src", src);
+                var dataSrc = $(this).attr("data-src");
+                var currentSrc = $(this).attr("src");
+                if (!dataSrc && currentSrc) {
+                  $(this).attr("data-src", currentSrc);
+                }
+                if (!currentSrc || currentSrc !== dataSrc) {
+                  $(this).attr("src", dataSrc);
+                }
+              });
+            } else {
+              $iframes.each(function () {
+                var dataSrc = $(this).attr("data-src");
+                var currentSrc = $(this).attr("src");
+                $(this).attr("src", "");
+                if (currentSrc && !dataSrc) {
+                  $(this).attr("data-src", currentSrc);
+                }
               });
             }
           }
