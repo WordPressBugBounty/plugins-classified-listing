@@ -9369,11 +9369,12 @@ body.rtl .rtcl-el-slider-wrapper.rtcl-slider-btn-style-2 .rtcl-slider-btn.button
   cursor: pointer;
 }
 
+.rtcl-widget-ajax-filter-class .rtcl-ajax-filter-wrap {
+  padding: 0;
+}
+
 .rtcl-ajax-filter-item {
   font-size: 16px;
-}
-.rtcl-ajax-filter-item:first-child .rtcl-filter-title-wrap {
-  padding-top: 0;
 }
 .rtcl-ajax-filter-item .rtcl-filter-checkbox-item label {
   margin: 0;
@@ -9455,10 +9456,10 @@ body.rtl .rtcl-el-slider-wrapper.rtcl-slider-btn-style-2 .rtcl-slider-btn.button
   align-items: center;
   justify-content: space-between;
   grid-gap: 10px;
-  font-weight: 700;
-  color: #212529;
+  font-weight: 600;
+  color: #222222;
   cursor: pointer;
-  padding: 10px 0;
+  padding: 12px 20px;
   border-bottom: 1px solid #d4ded9;
 }
 .rtcl-ajax-filter-item .rtcl-filter-title-wrap .rtcl-filter-title {
@@ -9466,6 +9467,7 @@ body.rtl .rtcl-el-slider-wrapper.rtcl-slider-btn-style-2 .rtcl-slider-btn.button
   display: flex;
   align-items: center;
   grid-gap: 10px;
+  line-height: 1.3;
 }
 .rtcl-ajax-filter-item .rtcl-filter-title-wrap .rtcl-icon {
   font-size: 14px;
@@ -9484,8 +9486,8 @@ body.rtl .rtcl-el-slider-wrapper.rtcl-slider-btn-style-2 .rtcl-slider-btn.button
   justify-content: center;
 }
 .rtcl-ajax-filter-item .rtcl-filter-content {
-  margin-top: 15px;
-  margin-bottom: 5px;
+  margin: 0;
+  padding: 20px;
 }
 .rtcl-ajax-filter-item .rtcl-price-range-wrap {
   display: flex;
@@ -9506,6 +9508,10 @@ body.rtl .rtcl-el-slider-wrapper.rtcl-slider-btn-style-2 .rtcl-slider-btn.button
   display: flex;
   grid-gap: 5px;
   align-items: center;
+}
+.rtcl-ajax-filter-item .rtcl-more-less-btn .text .rtcl-icon {
+  display: inline-block;
+  text-align: center;
 }
 .rtcl-ajax-filter-item .rtcl-more-less-btn .text.less-text {
   display: none;
@@ -9797,6 +9803,84 @@ body.rtl .rtcl-el-slider-wrapper.rtcl-slider-btn-style-2 .rtcl-slider-btn.button
 }
 .rtcl-ajax-pagination-wrap ul li.page-item.active {
   cursor: not-allowed;
+}
+
+@media screen and (min-width: 768px) {
+  .rtcl-ajax-filter-floating-mobile {
+    display: none;
+  }
+  .rtcl-ajax-filter-wrap {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  }
+}
+@media screen and (max-width: 767px) {
+  .rtcl-widget-ajax-filter-wrapper .rtcl-ajax-filter-floating-mobile {
+    display: flex;
+    align-items: center;
+    background: var(--rtcl-primary-color);
+    padding: 15px 20px;
+    border-radius: 2px;
+  }
+  .rtcl-widget-ajax-filter-wrapper .rtcl-ajax-filter-floating-mobile h4 {
+    font-size: 20px;
+    color: #ffffff;
+    margin: 0;
+  }
+  .rtcl-widget-ajax-filter-wrapper .rtcl-ajax-filter-floating-mobile .rtcl-ajax-filter-open-filter {
+    margin-left: auto;
+    cursor: pointer;
+    position: relative;
+    display: inline-flex;
+    padding: 10px 0;
+    align-items: center;
+    gap: 8px;
+  }
+  .rtcl-widget-ajax-filter-wrapper .rtcl-ajax-filter-floating-mobile .rtcl-ajax-filter-open-filter strong {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    display: none;
+  }
+  .rtcl-widget-ajax-filter-wrapper.rtcl-loading {
+    min-height: auto;
+  }
+  .rtcl-widget-ajax-filter-wrapper.sidebar-filter-open.rtcl-loading .rtcl-loading-overlay {
+    position: fixed !important;
+    width: 260px !important;
+    height: 100% !important;
+    left: 0 !important;
+    z-index: 100000 !important;
+  }
+  .rtcl-widget-ajax-filter-wrapper .rtcl-widget-ajax-filter-class {
+    height: 100%;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    left: -265px;
+    overflow-x: hidden;
+    transition: 0.5s;
+    background-color: #ffffff;
+    flex: 0 0 260px;
+    width: 260px;
+    border-radius: 0;
+  }
+  .rtcl-widget-ajax-filter-wrapper .rtcl-widget-ajax-filter-class .rtcl-widget-heading h3, .rtcl-widget-ajax-filter-wrapper .rtcl-widget-ajax-filter-class > h3 {
+    border-radius: 0;
+  }
+  .sidebar-ajax-filter-opened {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+}
+.rtcl-ajax-listings .no-listing-found {
+  margin: 0;
+  padding: 12px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
 }
 
 .rtcl .rtcl-breadcrumb {

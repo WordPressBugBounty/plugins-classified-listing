@@ -257,7 +257,7 @@ class TemplateHooks {
 		$itemData['active'] = ! empty( $q );
 		$field_html         = '';
 		$field_html         = sprintf( '<div class="rtcl-ajax-filter-text">
-											<input name="q" type="text"  role="presentation" autocomplete="off" value="%1$s" class="form-control rtcl-filter-text-field" placeholder="%2$s">
+											<input name="q" type="text"  role="presentation" autocomplete="off" value="%1$s" class="rtcl-form-control rtcl-filter-text-field" placeholder="%2$s">
 											<i class="rtcl-clear-text rtcl-icon-trash"></i>
 										</div>',
 			$q,
@@ -376,6 +376,10 @@ class TemplateHooks {
 				'values'     => $selectedValues,
 				'ajax_load'  => 1
 			] );
+
+		if ( class_exists( 'RtclStore' ) && \RtclStore\Helpers\Functions::is_single_store() ) {
+			$options['is_single_store'] = get_the_ID();
+		}
 
 		Functions::print_html( $object->render_filter_item( $itemData, $options ), true );
 	}

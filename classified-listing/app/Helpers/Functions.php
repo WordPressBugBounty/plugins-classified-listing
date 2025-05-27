@@ -1421,7 +1421,7 @@ class Functions {
 					continue;
 				}
 				$itemCount ++;
-				$children       = self::get_sub_terms( $args['taxonomy'], $term->term_id );
+				$children       = self::get_sub_terms( $args['taxonomy'], $term->term_id, [ 'has_sub' => $itemCount ] );
 				$args['parent'] = $term->term_id;
 				$cls            = $has_arrow = $sub_term_html = $cls_open = null;
 				if ( ! empty( $children ) ) {
@@ -1563,7 +1563,82 @@ class Functions {
 			}
 		}
 
+		if ( ! empty( $_REQUEST['hide_empty'] ) && ! empty( $_REQUEST['is_single_store'] ) && class_exists( 'RtclStore' ) ) {
+			if ( ! isset( $data['has_sub'] ) ) {
+				$terms = self::get_store_listings_terms();
+			}
+		}
+
 		return $terms;
+	}
+
+	public static function get_store_listings_terms() {
+
+		if ( ! isset( $_REQUEST['name'] ) || $_REQUEST['name'] !== 'filter_category' ) {
+			return [];
+		}
+
+		$store_id = absint( $_REQUEST['is_single_store'] );
+
+		$store = rtclStore()->factory->get_store( $store_id );
+
+		if ( ! is_object( $store ) ) {
+			return [];
+		}
+
+		$store_owner_user_id = $store->owner_id();
+
+		$args = [
+			'post_type'      => rtcl()->post_type,
+			'post_status'    => 'publish',
+			'posts_per_page' => - 1,
+			'author'         => $store_owner_user_id
+		];
+
+		$parent_id = ! empty( $_REQUEST['parent'] ) ? absint( $_REQUEST['parent'] ) : 0;
+
+		if ( $parent_id ) {
+			$args['tax_query'] = [
+				[
+					'taxonomy' => rtcl()->category,
+					'terms'    => [ $parent_id ],
+					'field'    => 'term_id',
+				]
+			];
+		}
+
+		$user_ads_query = new \WP_Query( $args );
+		$term_relations = [];
+
+		if ( ! empty( $user_ads_query->posts ) ) {
+			foreach ( $user_ads_query->posts as $post ) {
+				$terms = get_the_terms( $post->ID, rtcl()->category );
+
+				if ( $terms && ! is_wp_error( $terms ) ) {
+					foreach ( $terms as $term ) {
+						$child_term_id  = $term->term_id;
+						$parent_term_id = $term->parent;
+
+						while ( $parent_term_id && $parent_id !== $parent_term_id ) {
+							$term = get_term( $parent_term_id, rtcl()->category );
+							if ( is_wp_error( $term ) ) {
+								break;
+							}
+							$child_term_id  = $term->term_id;
+							$parent_term_id = $term->parent;
+						}
+
+						if ( $parent_id === $parent_term_id ) {
+							$term_relations[ $child_term_id ] = $term;
+						}
+					}
+				}
+			}
+		}
+
+		wp_reset_postdata();
+
+		return $term_relations;
 	}
 
 	/**

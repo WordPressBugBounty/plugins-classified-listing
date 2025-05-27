@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
  * Main Gutenberg locationbox.
@@ -21,13 +22,13 @@ if ( isset( $settings['className'] ) ) {
 
 <div class="<?php echo esc_attr( $wrap_class ); ?>">
 	<div class="rtcl gb-all-locations grid-style-1">
-		<div class="row">
+		<div class="rtcl-row">
 			<?php
-			$classes = 'col-xl-' . $settings['col_xl'];
-			$classes .= ' col-lg-' . $settings['col_lg'];
-			$classes .= ' col-md-' . $settings['col_md'];
-			$classes .= ' col-sm-' . $settings['col_sm'];
-			$classes .= ' col-' . $settings['col_mobile'];
+			$classes = 'rtcl-col-xl-' . $settings['col_xl'];
+			$classes .= ' rtcl-col-lg-' . $settings['col_lg'];
+			$classes .= ' rtcl-col-md-' . $settings['col_md'];
+			$classes .= ' rtcl-col-sm-' . $settings['col_sm'];
+			$classes .= ' rtcl-col-' . $settings['col_mobile'];
 			?>
 			<?php
 			if ( !empty( $terms ) ) {
@@ -37,7 +38,7 @@ if ( isset( $settings['className'] ) ) {
 					$count_html = null;
 					if ( $settings['show_count'] && !empty( $trm['count'] ) ) {
 						ob_start();
-						$count_data = sprintf( /* translators: Ads count */ _n( '(%s Ad)', '(%s Ads)', $trm["count"], 'classified-listing' ), $trm['count'] ); ?>
+						$count_data = sprintf( /* translators: Ads count */ _n( '(%s Ad)', '(%s Ads)', $trm["count"], 'classified-listing-toolkits' ), $trm['count'] ); ?>
 						<span class="rtcl-counter">
 							<?php if ( !empty( $settings['count_after_text'] ) ) { ?>
 								<span><?php echo esc_html( $trm['count'] ); ?></span>

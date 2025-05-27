@@ -209,9 +209,9 @@ if ( !class_exists( Rtcl::class ) ) {
 			$this->load_hooks();
 
 			// Init Elementor
-			ElementorController::init();
+//			ElementorController::init();
 			// Gutenberg Block init
-			new BlockController();
+//			new BlockController();
 			new LicensingController();
 		}
 
@@ -229,7 +229,7 @@ if ( !class_exists( Rtcl::class ) ) {
 				$this->initialize_session();
 				$this->initialize_cart();
 			}
-
+			new BlockController();
 			$this->load_url_message();
 			Installer::init();
 			do_action( 'rtcl_init', $this );

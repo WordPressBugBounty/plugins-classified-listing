@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Classified Listing – Classified ads & Business Directory Plugin plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – Classified ads & Business Directory Plugin 4.1.4\n"
+"Project-Id-Version: Classified Listing – Classified ads & Business Directory Plugin 4.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-05-14T04:27:13+00:00\n"
+"POT-Creation-Date: 2025-05-27T06:44:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: classified-listing\n"
@@ -42,65 +42,6 @@ msgstr ""
 #. translators: %s: $key Key to check
 #: app/Abstracts/Data.php:303
 msgid "Generic add/update/get meta methods should not be used for internal meta data, including \"%s\". Use getters and setters."
-msgstr ""
-
-#: app/Abstracts/ElementorWidgetBase.php:113
-#: app/Abstracts/ElementorWidgetBaseV2.php:51
-msgid "Go Premium for More Features"
-msgstr ""
-
-#: app/Abstracts/ElementorWidgetBase.php:296
-#: app/Resources/Options.php:386
-#: app/Resources/Options.php:602
-#: app/Services/FormBuilder/ElementCustomization.php:560
-#: app/Services/FormBuilder/ElementCustomization.php:873
-#: src/blocks/listing-ads/constants.js:84
-msgid "Left"
-msgstr ""
-
-#: app/Abstracts/ElementorWidgetBase.php:300
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:129
-#: app/Services/FormBuilder/ElementCustomization.php:877
-msgid "Center"
-msgstr ""
-
-#: app/Abstracts/ElementorWidgetBase.php:304
-#: app/Resources/Options.php:601
-#: app/Services/FormBuilder/ElementCustomization.php:572
-#: app/Services/FormBuilder/ElementCustomization.php:881
-msgid "Right"
-msgstr ""
-
-#: app/Abstracts/ElementorWidgetBase.php:399
-msgid "Column 8"
-msgstr ""
-
-#: app/Abstracts/ElementorWidgetBase.php:400
-msgid "Column 7"
-msgstr ""
-
-#: app/Abstracts/ElementorWidgetBase.php:401
-msgid "Column 6"
-msgstr ""
-
-#: app/Abstracts/ElementorWidgetBase.php:402
-msgid "Column 5"
-msgstr ""
-
-#: app/Abstracts/ElementorWidgetBase.php:403
-msgid "Column 4"
-msgstr ""
-
-#: app/Abstracts/ElementorWidgetBase.php:404
-msgid "Column 3"
-msgstr ""
-
-#: app/Abstracts/ElementorWidgetBase.php:405
-msgid "Column 2"
-msgstr ""
-
-#: app/Abstracts/ElementorWidgetBase.php:406
-msgid "Column 1"
 msgstr ""
 
 #: app/Controllers/Admin/AddConfig.php:34
@@ -188,7 +129,6 @@ msgid "All Categories"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:135
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:223
 #: app/Services/FormBuilder/LocalizedString.php:98
 msgid "Fields"
 msgstr ""
@@ -223,7 +163,6 @@ msgstr ""
 
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:362
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:465
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:179
 #: src/blocks/listing-ads/inspector.js:433
 #: src/blocks/listing-cat-box/constants.js:56
 msgid "Image"
@@ -243,9 +182,6 @@ msgstr ""
 
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:374
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:487
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:180
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:88
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:275
 #: app/Resources/Options.php:884
 #: app/Services/FormBuilder/AvailableFields.php:1024
 #: app/Services/FormBuilder/ElementCustomization.php:524
@@ -261,20 +197,18 @@ msgstr ""
 #: app/Models/SettingsAPI.php:1578
 #: app/Resources/Options.php:887
 #: app/Resources/PricingOptions.php:267
-#: app/Widgets/AjaxFilter.php:108
+#: app/Widgets/AjaxFilter.php:124
 msgid "Select one"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/ListingMetaColumn.php:29
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:642
 #: src/blocks/listing-ads/constants.js:71
 #: src/blocks/listing-ads/inspector.js:584
 msgid "Views"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/ListingMetaColumn.php:30
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:191
-#: app/Controllers/Hooks/TemplateHooks.php:1160
+#: app/Controllers/Hooks/TemplateHooks.php:1164
 #: app/Helpers/Installer.php:158
 #: app/Resources/Gallery.php:204
 #: app/Resources/Gallery.php:286
@@ -286,7 +220,6 @@ msgid "Featured"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/ListingMetaColumn.php:31
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:163
 #: app/Resources/Options.php:385
 #: app/Services/FormBuilder/ElementCustomization.php:568
 #: src/blocks/listing-ads/constants.js:83
@@ -351,8 +284,6 @@ msgid "Mark as"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/ListingSubmitBoxMice.php:66
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:91
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:664
 #: app/Resources/Options.php:322
 #: src/blocks/all-location/inspector.js:154
 #: src/blocks/listing-ads/inspector.js:301
@@ -368,7 +299,7 @@ msgid "Save"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/ListingSubmitBoxMice.php:111
-#: app/Controllers/Hooks/TemplateHooks.php:1363
+#: app/Controllers/Hooks/TemplateHooks.php:1367
 #: app/Resources/OrderOptions.php:22
 #: app/Resources/OrderOptions.php:23
 #: app/Services/FormBuilder/AvailableFields.php:1036
@@ -389,7 +320,6 @@ msgstr ""
 #: app/Services/FormBuilder/LocalizedString.php:11
 #: app/Widgets/Filter.php:353
 #: templates/block/listing-search/search.php:205
-#: templates/elementor/search/fields/types-field.php:29
 #: views/settings/listing-type.php:50
 #: src/blocks/listing-search/layout/style-1.js:79
 #: src/form-builder/backend/components/DirectoryAIForm.jsx:193
@@ -408,9 +338,6 @@ msgid "Transaction ID"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/OrderMetaColumn.php:78
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:130
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:263
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:639
 #: app/Resources/Options.php:769
 #: app/Resources/Options.php:783
 #: templates/checkout/payment-info.php:35
@@ -436,9 +363,6 @@ msgid "All payments"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/PricingMetaColumn.php:38
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPriceTrait.php:32
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:292
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:641
 #: app/Resources/ListingDetails.php:173
 #: app/Resources/Options.php:304
 #: app/Resources/Options.php:1396
@@ -463,7 +387,6 @@ msgid "Visible Days"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/PricingMetaColumn.php:40
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:724
 #: app/Resources/OrderOptions.php:147
 #: src/blocks/listing-ads/inspector.js:330
 msgid "Promotions"
@@ -503,7 +426,7 @@ msgid "Website"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/UserMeta.php:59
-#: app/Controllers/Hooks/TemplateHooks.php:1088
+#: app/Controllers/Hooks/TemplateHooks.php:1092
 #: app/Resources/Options.php:926
 #: app/Resources/Options.php:3021
 #: app/Resources/Options.php:3057
@@ -534,8 +457,6 @@ msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:33
 #: app/Controllers/Ajax/FilterAjax.php:125
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:82
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:753
 #: app/Controllers/Settings/AdminSettings.php:157
 #: app/Resources/Options.php:49
 #: app/Widgets/Categories.php:94
@@ -608,7 +529,6 @@ msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:78
 #: app/Controllers/Ajax/FilterAjax.php:157
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:783
 #: app/Controllers/Settings/AdminSettings.php:170
 #: app/Resources/Options.php:94
 #: src/blocks/listing-ads/inspector.js:382
@@ -616,7 +536,6 @@ msgid "Locations"
 msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:79
-#: app/Controllers/Elementor/Widgets/AllLocations.php:32
 #: app/Helpers/Functions.php:1168
 msgid "All Locations"
 msgstr ""
@@ -885,7 +804,7 @@ msgid "No payments found in Trash"
 msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:323
-#: app/Helpers/Functions.php:3055
+#: app/Helpers/Functions.php:3130
 #: views/settings/advanced-settings.php:104
 msgid "Payments"
 msgstr ""
@@ -1321,8 +1240,8 @@ msgid "Mismatch"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:263
-#: app/Helpers/Functions.php:4951
-#: app/Helpers/Functions.php:4953
+#: app/Helpers/Functions.php:5026
+#: app/Helpers/Functions.php:5028
 msgid "Select an option&hellip;"
 msgstr ""
 
@@ -1377,12 +1296,12 @@ msgid "Searching&hellip;"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:280
-#: app/Helpers/Functions.php:4849
+#: app/Helpers/Functions.php:4924
 msgid "required"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:281
-#: app/Helpers/Functions.php:4851
+#: app/Helpers/Functions.php:4926
 msgid "optional"
 msgstr ""
 
@@ -1415,14 +1334,13 @@ msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:670
 #: app/Controllers/Hooks/TemplateHooks.php:370
-#: app/Controllers/Hooks/TemplateHooks.php:412
+#: app/Controllers/Hooks/TemplateHooks.php:416
 #: app/Resources/ListingDetails.php:69
 #: app/Resources/Options.php:55
 #: app/Services/FormBuilder/AvailableFields.php:168
 #: app/Services/FormBuilder/AvailableFields.php:180
 #: app/Widgets/Filter.php:214
 #: templates/block/listing-search/search.php:152
-#: templates/elementor/search/fields/category-field.php:30
 #: templates/listing-form/category.php:62
 #: src/blocks/listing-ads/inspector.js:552
 #: src/blocks/listing-search/layout/style-1.js:70
@@ -1434,9 +1352,8 @@ msgid "Go back"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:672
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:64
-#: app/Controllers/Hooks/TemplateHooks.php:754
-#: app/Controllers/Hooks/TemplateHooks.php:1102
+#: app/Controllers/Hooks/TemplateHooks.php:758
+#: app/Controllers/Hooks/TemplateHooks.php:1106
 #: app/Resources/Options.php:100
 #: app/Resources/Options.php:3055
 #: app/Services/FormBuilder/AvailableFields.php:232
@@ -1445,8 +1362,6 @@ msgstr ""
 #: app/Widgets/Filter.php:312
 #: templates/block/listing-search/search.php:52
 #: templates/block/listing-search/search.php:91
-#: templates/elementor/search/fields/location-field.php:34
-#: templates/elementor/search/fields/location-field.php:56
 #: templates/listing-form/contact.php:139
 #: templates/listing/map.php:19
 #: src/blocks/listing-ads/inspector.js:544
@@ -1470,7 +1385,7 @@ msgid "Delete Permanently"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:679
-#: app/Controllers/Hooks/TemplateHooks.php:2075
+#: app/Controllers/Hooks/TemplateHooks.php:2079
 msgid "Proceed to payment"
 msgstr ""
 
@@ -1489,7 +1404,7 @@ msgstr ""
 #. translators: 1: related to , 2: Related form
 #. translators: related something
 #: app/Controllers/Admin/ScriptLoader.php:717
-#: app/Controllers/Hooks/TemplateHooks.php:772
+#: app/Controllers/Hooks/TemplateHooks.php:776
 msgid "Need to discuss something related to '%1$s' from %2$s"
 msgstr ""
 
@@ -1529,7 +1444,7 @@ msgstr ""
 #. translators: Date formate
 #. translators: 1: month, 2: day, 3: year, 4: hour, 5: minute
 #: app/Controllers/Admin/ScriptLoader.php:919
-#: app/Helpers/Functions.php:4779
+#: app/Helpers/Functions.php:4854
 msgid "%1$s %2$s, %3$s @ %4$s:%5$s"
 msgstr ""
 
@@ -1786,7 +1701,6 @@ msgstr ""
 #: app/Resources/Options.php:29
 #: app/Resources/Options.php:35
 #: templates/block/listing-search/search.php:254
-#: templates/elementor/search/fields/keyword-field.php:33
 #: src/blocks/listing-search/layout/style-1.js:104
 msgid "Keyword"
 msgstr ""
@@ -2459,13 +2373,6 @@ msgstr ""
 #: app/Controllers/BlockController.php:320
 #: app/Controllers/BlockController.php:328
 #: app/Controllers/BlockController.php:334
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:152
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingStyleTrait.php:43
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingStyleTrait.php:60
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:307
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:221
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:35
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:50
 #: src/blocks/all-location/constants.js:57
 #: src/blocks/all-location/constants.js:61
 #: src/blocks/listing-ads/constants.js:112
@@ -2475,9 +2382,6 @@ msgid "Style 1"
 msgstr ""
 
 #: app/Controllers/BlockController.php:312
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:153
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:222
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:51
 #: src/blocks/all-location/constants.js:58
 #: src/blocks/listing-ads/constants.js:113
 #: src/blocks/listing-cat-box/constants.js:29
@@ -2486,7 +2390,6 @@ msgid "Style 2"
 msgstr ""
 
 #: app/Controllers/BlockController.php:358
-#: app/Controllers/ElementorController.php:89
 #: app/Controllers/Settings/AdminSettings.php:149
 #: app/Controllers/Settings/AdminSettings.php:275
 #: app/Controllers/Settings/AdminSettings.php:276
@@ -2494,28 +2397,18 @@ msgid "Classified Listing"
 msgstr ""
 
 #: app/Controllers/Blocks/AdminAjaxController.php:65
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:457
 msgid "Please Select a Location and Background"
 msgstr ""
 
 #: app/Controllers/Blocks/ListingsAjaxController.php:175
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:101
 msgid "Sold Out"
 msgstr ""
 
 #: app/Controllers/Blocks/ListingsAjaxController.php:191
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:222
-#: templates/elementor/header-button/header-button.php:39
-#: templates/elementor/listing-ads/grid/style-1.php:102
-#: templates/elementor/listing-ads/list/style-1.php:104
-#: templates/elementor/listing-ads/list/style-1.php:106
 msgid "Compare"
 msgstr ""
 
 #: app/Controllers/Blocks/ListingsAjaxController.php:201
-#: templates/elementor/listing-ads/grid/style-1.php:76
-#: templates/elementor/listing-ads/list/style-1.php:77
-#: templates/elementor/listing-ads/list/style-1.php:80
 msgid "Quick View"
 msgstr ""
 
@@ -2579,2034 +2472,6 @@ msgstr ""
 msgid "Sorry, we are currently closed."
 msgstr ""
 
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:26
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:142
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:70
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:79
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:52
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:86
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:719
-#: app/Controllers/Settings/AdminSettings.php:506
-#: app/Controllers/Settings/AdminSettings.php:515
-#: app/Controllers/Settings/AdminSettings.php:574
-#: app/Resources/OrderOptions.php:84
-msgid "General"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:31
-msgid "Result count"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:32
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:41
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:50
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:59
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:51
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:60
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:69
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:78
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:119
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:142
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:32
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:42
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:51
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:69
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:78
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:106
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:115
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:124
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:133
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:160
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:169
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:180
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:189
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:198
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:239
-#: app/Controllers/Elementor/Hooks/ELFilterHooks.php:44
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:72
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:91
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:110
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:98
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:119
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:151
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:160
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:169
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:189
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:207
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:242
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:99
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:107
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:115
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:124
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:132
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:140
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:71
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:80
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:147
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:211
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:236
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:252
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:284
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:765
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:794
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:818
-msgid "On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:33
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:42
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:51
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:60
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:52
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:61
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:70
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:79
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:120
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:143
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:33
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:43
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:52
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:70
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:79
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:107
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:116
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:125
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:134
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:161
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:170
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:181
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:190
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:199
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:240
-#: app/Controllers/Elementor/Hooks/ELFilterHooks.php:45
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:73
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:92
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:111
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:99
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:120
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:152
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:161
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:170
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:190
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:208
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:243
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:100
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:108
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:116
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:125
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:133
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:141
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:72
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:81
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:148
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:212
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:237
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:253
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:285
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:766
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:795
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:819
-msgid "Off"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:34
-msgid "Switch to Show Result Count"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:40
-msgid "Catalog Ordering"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:43
-msgid "Switch to Show Catalog Ordering"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:49
-msgid "View Switcher"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:52
-msgid "Switch to Show View Switcher"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:58
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPaginationTrait.php:28
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:563
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:817
-#: src/blocks/listing-ads/inspector.js:648
-#: src/blocks/listing-ads/inspector.js:2002
-msgid "Pagination"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:61
-msgid "Switch to Show Pagination"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:65
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:592
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:841
-#: app/Resources/Gallery.php:447
-#: src/blocks/listing-ads/inspector.js:436
-#: src/blocks/listing-cat-box/inspector.js:298
-msgid "Image Size"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ArchiveGeneralTrait.php:72
-msgid "Select Image Size"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:24
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:40
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:65
-#: src/blocks/all-location/constants.js:92
-#: src/blocks/listing-ads/constants.js:103
-#: src/blocks/listing-cat-box/constants.js:34
-msgid "1 Col"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:25
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:41
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:66
-#: src/blocks/all-location/constants.js:91
-#: src/blocks/listing-ads/constants.js:104
-#: src/blocks/listing-cat-box/constants.js:35
-msgid "2 Col"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:26
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:42
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:67
-#: src/blocks/all-location/constants.js:90
-#: src/blocks/listing-ads/constants.js:105
-#: src/blocks/listing-cat-box/constants.js:36
-msgid "3 Col"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:27
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:43
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:68
-#: src/blocks/all-location/constants.js:89
-#: src/blocks/listing-ads/constants.js:106
-#: src/blocks/listing-cat-box/constants.js:37
-msgid "4 Col"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:28
-#: src/blocks/listing-ads/constants.js:107
-#: src/blocks/listing-cat-box/constants.js:38
-msgid "5 Col"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:29
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:44
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:69
-#: src/blocks/all-location/constants.js:88
-#: src/blocks/listing-ads/constants.js:108
-#: src/blocks/listing-cat-box/constants.js:39
-msgid "6 Col"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:45
-msgid "Slider Options"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:50
-msgid "Auto Height"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:53
-msgid "Auto Height. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:59
-msgid "Loop"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:63
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:122
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:145
-msgid "Loop to first item. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:68
-msgid "Autoplay"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:72
-msgid "Enable or disable autoplay. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:77
-msgid "Stop on Hover"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:81
-msgid "Stop autoplay on mouse hover. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:87
-msgid "Autoplay Delay"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:89
-msgid "7 Seconds"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:90
-msgid "6 Seconds"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:91
-msgid "5 Seconds"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:92
-msgid "4 Seconds"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:93
-msgid "3 Seconds"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:94
-msgid "2 Seconds"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:95
-msgid "1 Second"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:98
-msgid "Set any value for example 5 seconds to play it in every 5 seconds. Default: 5 Seconds"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:104
-msgid "Slide Speed"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:106
-msgid "Slide speed in milliseconds. Default: 200"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:111
-msgid "Space Between"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:113
-msgid "Space Between. Default: 20"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:118
-msgid "Arrow Navigation"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:127
-msgid "Arrow Position"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:130
-msgid "Left Top"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:131
-msgid "Right Top"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:141
-msgid "Dot Navigation"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:150
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:75
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:84
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:57
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:240
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:102
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:679
-#: app/Controllers/Settings/AdminSettings.php:580
-#: app/Resources/Options.php:490
-#: src/blocks/all-location/inspector.js:163
-#: src/blocks/listing-ads/inspector.js:310
-#: src/blocks/listing-ads/inspector.js:319
-#: src/blocks/listing-cat-box/inspector.js:178
-#: src/blocks/listing-search/inspector.js:97
-#: src/blocks/single-location/inspector.js:144
-#: src/blocks/single-location/inspector.js:423
-msgid "Style"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:154
-#: src/blocks/listing-ads/constants.js:114
-#: src/blocks/listing-cat-box/constants.js:30
-msgid "Style 3"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:155
-#: src/blocks/listing-ads/constants.js:115
-msgid "Style 4"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:181
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:254
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:297
-msgid "Number of Responsive Columns"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:186
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:259
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:305
-#: src/blocks/all-location/inspector.js:337
-msgid "Desktops: >1199px"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:193
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:266
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:312
-#: src/blocks/all-location/inspector.js:345
-msgid "Desktops: >991px"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:200
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:273
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:319
-#: src/blocks/all-location/inspector.js:353
-msgid "Tablets: >767px"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:207
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:280
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:326
-#: src/blocks/all-location/inspector.js:361
-msgid "Phones: >575px"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ElSliderTrait.php:214
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:287
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:333
-#: src/blocks/all-location/inspector.js:369
-msgid "Small Phones: <576px"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:34
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:29
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:873
-#: src/blocks/listing-ads/inspector.js:1732
-#: src/blocks/listing-search/inspector.js:347
-msgid "Button"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:40
-msgid "Button Typography"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:70
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingMetaTrait.php:68
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPromotionFieldsTrait.php:38
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingTitleTrait.php:65
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:436
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:575
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:395
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:631
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:715
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:782
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:849
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:420
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:169
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:290
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:607
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:74
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:88
-#: app/Controllers/Elementor/WidgetSettings/IconSettings.php:83
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:114
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:180
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:883
-msgid "Normal"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:75
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:297
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:888
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:1138
-msgid "Details Button Background Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:102
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:324
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:915
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:1165
-msgid "Details Button Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:129
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:351
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPaginationTrait.php:51
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPriceTrait.php:78
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingWrapperTrait.php:34
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:580
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:615
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:86
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:117
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:105
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:134
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:350
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:586
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:942
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:1192
-#: app/Services/FormBuilder/ElementCustomization.php:1152
-#: src/blocks/all-location/inspector.js:1023
-#: src/blocks/listing-ads/inspector.js:2247
-#: src/blocks/listing-search/inspector.js:698
-#: src/blocks/single-location/inspector.js:750
-msgid "Background Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:176
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:431
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:457
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:989
-msgid "Button Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:220
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingWrapperTrait.php:124
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:1088
-msgid "Border"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:262
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:1060
-msgid "Action Button Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:292
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingMetaTrait.php:98
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPromotionFieldsTrait.php:73
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingTitleTrait.php:80
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:500
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:609
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:479
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:664
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:730
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:797
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:864
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:446
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:187
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:339
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:636
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:105
-#: app/Controllers/Elementor/WidgetSettings/IconSettings.php:129
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:129
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:210
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:1133
-msgid "Hover"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:396
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:1237
-msgid "Text Color In hover"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:439
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:125
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:1032
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:1280
-msgid "Border Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingActionBtnTrait.php:466
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:1307
-msgid "Action Button Hover Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:29
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:406
-msgid "Badge "
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:43
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:409
-msgid "padding"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:56
-msgid "Badge Spacing"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:79
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:603
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:190
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:305
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:395
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:149
-#: app/Controllers/Elementor/WidgetSettings/IconSettings.php:67
-#: src/blocks/all-location/inspector.js:560
-#: src/blocks/listing-ads/inspector.js:805
-#: src/blocks/listing-ads/inspector.js:2081
-#: src/blocks/listing-cat-box/inspector.js:894
-#: src/blocks/listing-search/inspector.js:332
-#: src/blocks/listing-search/inspector.js:623
-msgid "Border Radius"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:109
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:438
-msgid "Sold Out Background Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:117
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:446
-msgid "Sold Out Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:128
-msgid "Default Badge"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:136
-msgid "Badge Default Typography"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:142
-msgid "Badge Default Background"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:151
-msgid "Badge Default Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:170
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPromotionFieldsTrait.php:43
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPromotionFieldsTrait.php:78
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:477
-msgid "Top Background Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:179
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:485
-msgid "Top Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:198
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPromotionFieldsTrait.php:56
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPromotionFieldsTrait.php:90
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:493
-msgid "Featured Background Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:207
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:501
-msgid "Featured Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:219
-#: app/Controllers/Hooks/TemplateHooks.php:1180
-#: app/Helpers/Installer.php:155
-#: views/settings/moderation-settings.php:34
-msgid "New"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:226
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:509
-msgid "New Background Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:235
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:517
-msgid "New Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:247
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:650
-#: app/Helpers/Installer.php:157
-msgid "Popular"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:254
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:525
-msgid "Popular Background Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:263
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:533
-msgid "Popular Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:275
-msgid "Bump Up"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:282
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:541
-msgid "Bump Up Background Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:291
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:549
-msgid "Bump Up Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:314
-msgid "Badge Visibility "
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:319
-msgid "Show New?"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:320
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:329
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:338
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:347
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:356
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:143
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:152
-msgid "Show"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:321
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:330
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:339
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:348
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:357
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:142
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:151
-#: app/Services/FormBuilder/ElementCustomization.php:576
-msgid "Hide"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:323
-msgid "Switch to Show Badge New "
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:328
-msgid "Show Top?"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:332
-msgid "Switch to Show Badge Top "
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:337
-msgid "Show Featured?"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:341
-msgid "Switch to Show Badge Featured "
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:346
-msgid "Show Popular?"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:350
-msgid "Switch to Show Badge Popular "
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:355
-msgid "Show Bump Up?"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingBadgeTrait.php:359
-msgid "Switch to Show Badge Bump Up "
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:26
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:66
-msgid "Content Visibility "
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:31
-#: app/Resources/Options.php:377
-msgid "Show Image"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:35
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:163
-msgid "Show or Hide Listing Icon/Image. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:41
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:168
-msgid "Show Title"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:45
-msgid "Show or Hide Listing Title. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:50
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:835
-#: src/blocks/listing-ads/inspector.js:492
-#: src/blocks/listing-ads/inspector.js:500
-msgid "Short Description"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:54
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:210
-msgid "Show or Hide Listing Description. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:60
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:243
-msgid "Short Description Word Limit"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:62
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:218
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:245
-msgid "Number of Words to display"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:68
-msgid "Show Badge"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:72
-msgid "Show or Hide labels. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:77
-msgid "Show Details Button"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:81
-msgid "Show or Hide Details Button. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:105
-#: app/Resources/Options.php:411
-msgid "Show Date"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:109
-msgid "Show or Hide date. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:114
-#: app/Resources/Options.php:396
-msgid "Show Location"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:118
-msgid "Show or Hide Location. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:123
-#: app/Resources/Options.php:391
-msgid "Show Category"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:127
-msgid "Show or Hide Category. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:132
-#: app/Resources/Options.php:406
-msgid "Show Price"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:136
-msgid "Show or Hide Price. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:141
-msgid "Show Price Unit"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:150
-msgid "Show Price Type"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:159
-#: app/Resources/Options.php:416
-msgid "Show User"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:163
-msgid "Show or Hide User/Author Name. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:168
-msgid "Show Verified User Base"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:172
-msgid "Show or Hide User/Author Verified Base. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:179
-#: app/Resources/Options.php:421
-msgid "Show Views"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:183
-msgid "Show or Hide Views Count's. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:188
-msgid "Show Types"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:192
-msgid "Show or Hide Types. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:197
-msgid "Show Phone"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:238
-msgid "Show Favourites"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:246
-#: src/blocks/listing-ads/inspector.js:658
-msgid "Action Button Layout"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:248
-msgid "Vertical View"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingContentVisibilityTrait.php:249
-msgid "Horizontal View"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingDescTrait.php:30
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingDescTrait.php:36
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:692
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:250
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:256
-#: app/Gateways/Offline/GatewayOffline.php:51
-#: app/Gateways/Paypal/GatewayPaypal.php:300
-#: app/Resources/Gallery.php:301
-#: app/Resources/Options.php:3051
-#: app/Resources/PricingOptions.php:58
-#: app/Services/FormBuilder/AvailableFields.php:74
-#: app/Services/FormBuilder/AvailableFields.php:94
-#: app/Services/FormBuilder/ElementCustomization.php:853
-#: app/Services/FormBuilder/LocalizedString.php:36
-#: templates/listing-form/information.php:145
-#: src/blocks/listing-ads/inspector.js:1883
-#: src/blocks/listing-cat-box/inspector.js:1212
-msgid "Description"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingDescTrait.php:48
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingMetaTrait.php:37
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPriceTrait.php:41
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingTitleTrait.php:43
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:749
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:815
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:882
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:400
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:396
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:672
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:35
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:64
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:92
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:159
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:268
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:301
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:455
-#: src/blocks/all-location/inspector.js:639
-#: src/blocks/single-location/inspector.js:534
-msgid "Typography"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingDescTrait.php:54
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:274
-msgid "Short Description Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingDescTrait.php:60
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:280
-msgid "On Items Hover Description color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingImageTrait.php:33
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:64
-msgid "Image Wrapper"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingImageTrait.php:38
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:612
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:68
-msgid "Image Spacing"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingMetaTrait.php:30
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:152
-#: src/blocks/listing-ads/inspector.js:1447
-msgid "Meta"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingMetaTrait.php:41
-msgid "Meta Wrpper Spacing"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingMetaTrait.php:51
-msgid "Meta Item Spacing"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingMetaTrait.php:73
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingMetaTrait.php:103
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingTitleTrait.php:70
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingTitleTrait.php:85
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:636
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:669
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:720
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:735
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:787
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:802
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:854
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:869
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:561
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:77
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:108
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:119
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:134
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:185
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:215
-#: app/Services/FormBuilder/AvailableFields.php:758
-#: src/blocks/all-location/inspector.js:573
-msgid "Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingMetaTrait.php:82
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingMetaTrait.php:112
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:194
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:224
-msgid "Meta Icon Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingMetaTrait.php:89
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingMetaTrait.php:121
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:201
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:233
-msgid "Category Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPaginationTrait.php:35
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:570
-msgid "Pagination Typography"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPaginationTrait.php:39
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:574
-msgid "Pagination spacing"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPaginationTrait.php:59
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:594
-msgid "Active Background Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPaginationTrait.php:68
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPriceTrait.php:47
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:588
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:623
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:97
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:127
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:392
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:603
-msgid "Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPaginationTrait.php:76
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:611
-msgid "Active Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPriceTrait.php:56
-msgid "Price Label Typography"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPriceTrait.php:66
-msgid "Price Label Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPriceTrait.php:119
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:329
-msgid "Price padding"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPriceTrait.php:162
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:339
-#: src/blocks/listing-ads/inspector.js:1718
-msgid "Price Margin"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPromotionFieldsTrait.php:28
-msgid "Promotional Post"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPromotionFieldsTrait.php:50
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPromotionFieldsTrait.php:84
-msgid "Top Border Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPromotionFieldsTrait.php:62
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingPromotionFieldsTrait.php:96
-msgid "Featured Border Color"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingResponsiveControlTrait.php:27
-msgid "Responsive Columns"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingResponsiveControlTrait.php:34
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:705
-#: src/form-builder/backend/components/editor/sidebar/Customizer/Column.jsx:113
-#: src/form-builder/backend/components/editor/sidebar/SectionColumn.jsx:18
-msgid "Column"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingStyleTrait.php:23
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:94
-#: src/blocks/all-location/constants.js:65
-#: src/blocks/listing-ads/constants.js:62
-msgid "List View"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingStyleTrait.php:27
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:93
-#: src/blocks/all-location/constants.js:64
-#: src/blocks/listing-ads/constants.js:63
-msgid "Grid View"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingTitleTrait.php:34
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:131
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:700
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:245
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:402
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:264
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:566
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:678
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:83
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:638
-#: app/Gateways/Offline/GatewayOffline.php:45
-#: app/Gateways/Paypal/GatewayPaypal.php:294
-#: app/Resources/Gallery.php:296
-#: app/Resources/Options.php:271
-#: app/Resources/Options.php:302
-#: app/Resources/Options.php:432
-#: app/Resources/Options.php:486
-#: app/Services/FormBuilder/AvailableFields.php:41
-#: app/Services/FormBuilder/AvailableFields.php:60
-#: app/Widgets/AjaxFilter.php:111
-#: templates/listing-form/information.php:37
-#: templates/myaccount/favourite-listings.php:23
-#: templates/myaccount/my-listings.php:75
-#: views/settings/general-settings.php:66
-#: views/widgets/categories.php:3
-#: src/blocks/all-location/constants.js:78
-#: src/blocks/listing-ads/constants.js:68
-#: src/blocks/listing-ads/inspector.js:476
-#: src/blocks/listing-ads/inspector.js:992
-#: src/blocks/listing-cat-box/constants.js:45
-#: src/blocks/listing-cat-box/inspector.js:909
-#: src/form-builder/backend/components/pages/FormList.jsx:584
-msgid "Title"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingTitleTrait.php:47
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:753
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:96
-msgid "Title Spacing"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingWrapperTrait.php:29
-#: src/blocks/listing-ads/inspector.js:708
-msgid "Item Wrapper"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingWrapperTrait.php:41
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:466
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:521
-msgid "Box Shadow"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingWrapperTrait.php:49
-msgid "Hover Box Shadow"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingWrapperTrait.php:57
-msgid "Wrapper Spacing"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingWrapperTrait.php:89
-#: src/blocks/listing-ads/inspector.js:749
-msgid "Gutter Spacing"
-msgstr ""
-
-#: app/Controllers/Elementor/ELWidgetsTraits/ListingWrapperTrait.php:113
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:886
-msgid "Content Spacing"
-msgstr ""
-
-#: app/Controllers/Elementor/Hooks/ELFilterHooks.php:43
-#: app/Controllers/Hooks/TemplateHooks.php:542
-#: app/Widgets/Filter.php:437
-#: src/blocks/listing-search/inspector.js:126
-msgid "Radius Search"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:34
-msgid "Header Button"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:71
-msgid "Show favourites icon"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:75
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:94
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:113
-msgid "Show or Hide Icon. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:80
-msgid "Favourites icon order"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:82
-msgid "Icon order"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:90
-msgid "Show profile"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:99
-msgid "Profile icon order"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:101
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:284
-msgid "Profile"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:109
-msgid "Show add listing button"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:118
-msgid "Add listing button order"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:120
-msgid "Add listing icon order"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:146
-msgid "Content spacing"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:155
-msgid "Icon Border Radius"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:165
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:576
-msgid "Icon Size"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:179
-msgid "Icon Font Size"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:193
-msgid "Icon Gap"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:230
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:261
-msgid "Cart Icon"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:253
-#: app/Helpers/Functions.php:3054
-#: templates/elementor/header-button/header-button.php:61
-#: views/settings/advanced-settings.php:94
-msgid "Favourites"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:292
-msgid "Sign in Icon"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:315
-msgid "Chat Option"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:323
-msgid "Chat Icon"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:346
-msgid "Add listing button"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:354
-msgid "Button text"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:360
-msgid "Add Listing Icon"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:367
-msgid "Button width"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:381
-msgid "Button Height"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:425
-#: app/Controllers/Elementor/WidgetSettings/IconSettings.php:30
-msgid "Icon style"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:441
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:505
-#: app/Controllers/Elementor/WidgetSettings/IconSettings.php:87
-#: app/Controllers/Elementor/WidgetSettings/IconSettings.php:133
-msgid "Icon Background"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:449
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:513
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:596
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:631
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:306
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:354
-#: app/Controllers/Elementor/WidgetSettings/IconSettings.php:94
-#: app/Controllers/Elementor/WidgetSettings/IconSettings.php:140
-msgid "Icon Color"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:480
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:527
-msgid "Icon Count Background Color"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:488
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:535
-msgid "Icon Count Color"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/HeaderButton.php:564
-msgid "Button style"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:34
-msgid "Listing Category"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:85
-msgid "Start typing category names. If empty then all parent categories will be displayed"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:90
-#: src/blocks/listing-cat-box/inspector.js:227
-msgid "Category Limit"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:92
-msgid "How Many Category will Display ?"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:97
-msgid "Display Sub Category"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:107
-#: src/blocks/listing-cat-box/inspector.js:247
-msgid "Sub Category Limit"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:109
-msgid "How Many Child Category will Display ?"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:118
-#: src/blocks/listing-cat-box/inspector.js:260
-msgid "Counts Include Children"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:126
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:259
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:825
-#: app/Resources/Options.php:299
-#: views/widgets/categories.php:31
-#: src/blocks/all-location/inspector.js:284
-#: src/blocks/listing-ads/inspector.js:396
-#: src/blocks/listing-cat-box/inspector.js:209
-msgid "Order By"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:128
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:540
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:261
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:643
-#: app/Services/FormBuilder/AvailableFields.php:1020
-#: app/Services/FormBuilder/ElementCustomization.php:520
-#: app/Services/FormBuilder/ElementCustomization.php:959
-#: app/Services/FormBuilder/ElementCustomization.php:1211
-#: views/settings/general-settings.php:91
-#: views/widgets/categories.php:41
-#: src/blocks/listing-ads/constants.js:73
-msgid "None"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:129
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:262
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:640
-#: app/Services/FormBuilder/ElementCustomization.php:1046
-#: views/settings/listing-type.php:45
-#: src/blocks/all-location/constants.js:76
-#: src/blocks/listing-ads/constants.js:69
-#: src/blocks/listing-cat-box/constants.js:43
-#: src/form-builder/backend/components/pages/FormList.jsx:583
-msgid "ID"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:132
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:265
-#: views/settings/general-settings.php:88
-#: views/widgets/categories.php:38
-#: src/blocks/all-location/constants.js:79
-#: src/blocks/listing-cat-box/constants.js:46
-msgid "Count"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:133
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:266
-#: views/settings/general-settings.php:90
-#: src/blocks/all-location/constants.js:80
-#: src/blocks/listing-cat-box/constants.js:47
-msgid "Custom Order"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:140
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:273
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:832
-#: src/blocks/all-location/inspector.js:294
-#: src/blocks/listing-ads/inspector.js:406
-msgid "Sort By"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:142
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:275
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:834
-#: views/settings/general-settings.php:77
-#: views/settings/general-settings.php:99
-#: src/blocks/all-location/constants.js:83
-#: src/blocks/listing-ads/constants.js:78
-#: src/blocks/listing-cat-box/constants.js:51
-msgid "Ascending"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:143
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:276
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:835
-#: views/settings/general-settings.php:78
-#: views/settings/general-settings.php:100
-#: src/blocks/all-location/constants.js:84
-#: src/blocks/listing-ads/constants.js:79
-#: src/blocks/listing-cat-box/constants.js:52
-msgid "Descending"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:150
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:283
-#: src/blocks/all-location/inspector.js:304
-#: src/blocks/listing-cat-box/inspector.js:269
-msgid "Hide Empty"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:154
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:287
-msgid "Hide Categories that has no listings. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:159
-msgid "Show Icon/Image"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:172
-msgid "Show or Hide Category Title. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:177
-#: app/Services/FormBuilder/AvailableFields.php:1016
-#: app/Services/FormBuilder/ElementCustomization.php:516
-#: src/blocks/listing-cat-box/inspector.js:287
-msgid "Icon Type"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:188
-msgid "Listing Counts"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:192
-msgid "Show or Hide Listing Counts. Default: On"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:197
-msgid "Text After Count "
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:206
-msgid "Category Description"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:216
-msgid "Description Word Limit"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:225
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:233
-msgid "Content alignment"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:241
-msgid "Equal Height"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:325
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:356
-msgid "Box style"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:329
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:360
-msgid "Gutter pading"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:340
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:371
-msgid "Box pading"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:350
-msgid "Box Border Radius"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:360
-msgid "Head Section Pading"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:373
-msgid "Body Section Pading"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:401
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:485
-msgid "Head background"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:412
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:421
-msgid "Header Border Color"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:423
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:496
-msgid "Body background"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:433
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:506
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:203
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:141
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:149
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:463
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:530
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:730
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:737
-#: src/blocks/all-location/inspector.js:448
-#: src/blocks/all-location/inspector.js:528
-#: src/blocks/listing-ads/inspector.js:709
-#: src/blocks/listing-cat-box/inspector.js:482
-#: src/blocks/listing-cat-box/inspector.js:505
-#: src/blocks/single-location/inspector.js:206
-msgid "Background"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:538
-msgid "Content Vertical Alignment"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:541
-msgid "Middle"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:555
-msgid "Icon And Image"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:561
-#: src/blocks/listing-cat-box/inspector.js:849
-msgid "Icon Area"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:652
-msgid "Icon Bg Color"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:681
-msgid "Icon Bg Hover Color"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:768
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:263
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:409
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:584
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:685
-#: src/blocks/listing-cat-box/inspector.js:1061
-msgid "Counter"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingCategoryBox.php:819
-msgid "Counter Spacing"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingItems.php:35
-msgid "Listing Showcase"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:32
-msgid "Search Form"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:46
-#: src/blocks/listing-search/constants.js:50
-msgid "Dependency Selection"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:61
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:222
-#: src/blocks/all-location/constants.js:72
-#: src/blocks/listing-search/constants.js:57
-msgid "Inline"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:62
-#: app/Resources/Options.php:493
-#: app/Services/FormBuilder/ElementCustomization.php:625
-#: src/blocks/listing-search/constants.js:58
-msgid "Vertical"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:91
-#: src/blocks/listing-search/inspector.js:106
-msgid "Oriantation"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:98
-msgid "Show fields Label"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:106
-msgid "Keywords field"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:114
-msgid "Location field"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:123
-msgid "Category field"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:131
-msgid "Types field"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:139
-msgid "Price field"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:178
-msgid "General Style"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:181
-#: src/blocks/listing-ads/inspector.js:734
-#: src/blocks/listing-ads/inspector.js:2051
-msgid "Wrapper Padding"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:229
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:35
-msgid "Label Typography"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:238
-msgid "Label Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:249
-msgid "Field text color"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:257
-msgid "Field background"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:263
-msgid "Field Gutter Spacing"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:280
-msgid "Field Height"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:332
-msgid "Button Section"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:335
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:419
-#: src/blocks/listing-search/inspector.js:444
-msgid "Margin"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:344
-#: src/blocks/listing-cat-box/inspector.js:451
-#: src/blocks/listing-cat-box/inspector.js:569
-#: src/blocks/listing-search/inspector.js:471
-msgid "Padding"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:353
-msgid "Min Width"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:375
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:109
-msgid "Max Width"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:406
-msgid "Button alignment"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:425
-#: app/Controllers/Elementor/Widgets/ListingSearch.php:451
-msgid "Button Background"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:35
-msgid "Single Location"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:70
-#: views/widgets/categories.php:109
-msgid "Show Listing Counts"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:79
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:251
-#: src/blocks/all-location/inspector.js:273
-msgid "Enable Link"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:129
-msgid "Box Height"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:154
-msgid "Overlay Settings"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:177
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:195
-msgid "Overlay Background"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:254
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:575
-msgid "Title Hover"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:296
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:345
-msgid "Icon Background Color"
-msgstr ""
-
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:314
-#: app/Controllers/Elementor/Widgets/SingleLocation.php:362
-msgid "Icon Rotate"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:113
-#: src/blocks/all-location/inspector.js:173
-msgid "Location Display Type"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:115
-#: src/blocks/all-location/constants.js:68
-msgid "All Location"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:116
-#: src/blocks/all-location/constants.js:69
-msgid "Selected Location"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:123
-#: src/blocks/all-location/inspector.js:184
-msgid "Select Location"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:126
-msgid "Only Location that has listings"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:134
-#: src/blocks/all-location/inspector.js:200
-msgid "Location Limit"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:136
-msgid "How Many Location will Display? Leave empty for all."
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:146
-#: src/blocks/all-location/inspector.js:225
-msgid "Show Child location"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:176
-#: src/blocks/all-location/inspector.js:234
-msgid "Sub Location Limit"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:178
-msgid "How Many Child Location will Display ?"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:210
-#: src/blocks/all-location/inspector.js:249
-#: src/blocks/single-location/inspector.js:164
-msgid "Show Counts"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:220
-#: src/blocks/all-location/inspector.js:256
-msgid "Count position"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:223
-#: src/blocks/all-location/constants.js:73
-msgid "New Line"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:235
-#: src/blocks/all-location/inspector.js:313
-#: src/blocks/listing-cat-box/inspector.js:351
-msgid "Show Description"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:410
-msgid "Special style Settings"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:430
-msgid "Header pading"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:487
-msgid "Special Style Body Settings"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:496
-msgid "Body pading"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:590
-msgid "Description Color"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:615
-msgid "Child List Color"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:624
-msgid "Child List Icon Color"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:644
-msgid "Child List Hover Color"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:653
-msgid "Child List Icon Hover Color"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/AllLocationsSettings.php:699
-msgid "Child Location"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:39
-#: views/settings/misc-settings.php:24
-#: views/settings/misc-settings.php:35
-#: views/settings/misc-settings.php:46
-#: src/blocks/listing-ads/inspector.js:459
-#: src/blocks/listing-cat-box/inspector.js:322
-msgid "Height"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:52
-#: views/settings/misc-settings.php:23
-#: views/settings/misc-settings.php:34
-#: views/settings/misc-settings.php:45
-#: src/blocks/all-location/inspector.js:550
-#: src/blocks/listing-ads/inspector.js:448
-#: src/blocks/listing-ads/inspector.js:795
-#: src/blocks/listing-cat-box/inspector.js:311
-#: src/blocks/listing-cat-box/inspector.js:633
-#: src/blocks/listing-search/inspector.js:299
-#: src/blocks/listing-search/inspector.js:535
-#: src/blocks/listing-search/inspector.js:586
-msgid "Width"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:139
-msgid "Border Radius (px)"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:156
-msgid "Padding (px)"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ButtonSettings.php:165
-msgid "Margin (px)"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:30
-msgid "Form Label"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:39
-msgid "Label Color"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:46
-msgid "Label Margin"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:59
-msgid "Form Field's"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:68
-msgid "Field's Height"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:117
-msgid "Hover & Focus"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/FormFieldSettings.php:157
-msgid "Fields Padding (px)"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/IconSettings.php:33
-msgid "Icon Wrapper Size"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/IconSettings.php:50
-msgid "Font Size"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/IconSettings.php:158
-msgid "Icon Margin (px)"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:163
-msgid "Meta Spacing"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:309
-msgid "Unit Label Typography"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:319
-msgid "Unit Label Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:461
-msgid "Badge Background Color"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:469
-msgid "Badge Text Color"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:657
-#: app/Services/FormBuilder/ElementCustomization.php:1337
-#: src/blocks/all-location/inspector.js:152
-#: src/blocks/listing-ads/inspector.js:299
-#: src/blocks/listing-cat-box/inspector.js:176
-#: src/blocks/single-location/inspector.js:142
-msgid "Layout"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:732
-msgid "Promotions Exclude"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:740
-#: app/Controllers/Settings/AdminSettings.php:185
-#: app/Controllers/Settings/AdminSettings.php:336
-#: app/Controllers/Settings/AdminSettings.php:337
-#: views/settings/listing-type.php:7
-msgid "Listing Types"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:758
-msgid "Start typing category names. If empty then all listings will display."
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:764
-msgid "Include Children Categories"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:788
-msgid "Start typing locations names."
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:793
-msgid "Include Inner Location"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:810
-#: src/blocks/listing-ads/inspector.js:415
-msgid "Listing Per Page"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:812
-msgid "Number of listing to display"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:851
-msgid "No Listing Text"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:854
-msgid "No Listing Found"
-msgstr ""
-
-#: app/Controllers/Elementor/WidgetSettings/ListingItemsSettings.php:855
-msgid "Type your description here"
-msgstr ""
-
 #: app/Controllers/FormHandler.php:53
 msgid "Order cancelled by customer."
 msgstr ""
@@ -4637,8 +2502,8 @@ msgstr ""
 #: app/Controllers/FormHandler.php:216
 #: app/Controllers/FormHandler.php:220
 #: app/Controllers/FormHandler.php:339
-#: app/Helpers/Functions.php:3597
-#: app/Helpers/Functions.php:3730
+#: app/Helpers/Functions.php:3672
+#: app/Helpers/Functions.php:3805
 msgid "Error:"
 msgstr ""
 
@@ -4665,7 +2530,7 @@ msgstr ""
 msgid "Don't show the Map"
 msgstr ""
 
-#: app/Controllers/Hooks/AdminHooks.php:65
+#: app/Controllers/Hooks/AdminHooks.php:157
 msgid "Country states not found!"
 msgstr ""
 
@@ -4742,7 +2607,6 @@ msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:255
 #: templates/block/listing-search/search.php:272
-#: templates/elementor/search/fields/submit-button.php:27
 #: templates/widgets/search/inline.php:175
 #: src/blocks/listing-search/layout/style-1.js:115
 #: src/form-builder/components/IconPicker.jsx:40
@@ -4770,7 +2634,7 @@ msgstr ""
 msgid "Less"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:449
+#: app/Controllers/Hooks/TemplateHooks.php:453
 #: app/Resources/Options.php:144
 #: app/Services/FormBuilder/AvailableFields.php:191
 #: app/Services/FormBuilder/AvailableFields.php:204
@@ -4778,23 +2642,21 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:489
+#: app/Controllers/Hooks/TemplateHooks.php:493
 #: app/Widgets/Filter.php:379
-#: templates/elementor/search/fields/price-field.php:29
 #: templates/widgets/search/inline.php:146
 #: templates/widgets/search/vertical.php:144
 msgid "min"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:490
+#: app/Controllers/Hooks/TemplateHooks.php:494
 #: app/Widgets/Filter.php:381
-#: templates/elementor/search/fields/price-field.php:36
 #: templates/widgets/search/inline.php:153
 #: templates/widgets/search/vertical.php:151
 msgid "max"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:493
+#: app/Controllers/Hooks/TemplateHooks.php:497
 #: app/Resources/Options.php:201
 #: app/Resources/Options.php:207
 #: app/Resources/Options.php:1397
@@ -4803,12 +2665,11 @@ msgstr ""
 msgid "Price Range"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:529
-#: app/Controllers/Hooks/TemplateHooks.php:1109
+#: app/Controllers/Hooks/TemplateHooks.php:533
+#: app/Controllers/Hooks/TemplateHooks.php:1113
 #: app/Helpers/Text.php:97
 #: app/Widgets/Filter.php:426
 #: templates/block/listing-search/search.php:57
-#: templates/elementor/search/fields/location-field.php:37
 #: templates/listing-form/contact.php:144
 #: templates/widgets/search/inline.php:34
 #: templates/widgets/search/vertical.php:40
@@ -4818,60 +2679,66 @@ msgstr ""
 msgid "Select a location"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:532
+#: app/Controllers/Hooks/TemplateHooks.php:536
 #: app/Widgets/Filter.php:427
 msgid "Radius"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:537
+#: app/Controllers/Hooks/TemplateHooks.php:541
 #: app/Widgets/Filter.php:422
 #: templates/widgets/search/inline.php:51
 #: templates/widgets/search/vertical.php:54
 msgid "km"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:537
+#: app/Controllers/Hooks/TemplateHooks.php:541
 #: app/Widgets/Filter.php:422
 #: templates/widgets/search/inline.php:51
 #: templates/widgets/search/vertical.php:54
 msgid "Miles"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:589
+#: app/Controllers/Hooks/TemplateHooks.php:546
+#: app/Widgets/Filter.php:437
+#: src/blocks/listing-search/inspector.js:126
+msgid "Radius Search"
+msgstr ""
+
+#: app/Controllers/Hooks/TemplateHooks.php:593
 msgid "View all my listings"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:599
+#: app/Controllers/Hooks/TemplateHooks.php:603
 msgid "View details"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:624
+#: app/Controllers/Hooks/TemplateHooks.php:628
 msgid "Visit Website"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:692
+#: app/Controllers/Hooks/TemplateHooks.php:696
 msgid "Contact Number"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:700
+#: app/Controllers/Hooks/TemplateHooks.php:704
 msgid "Click to reveal phone number"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:782
+#: app/Controllers/Hooks/TemplateHooks.php:786
 msgid "Message to Telegram"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:814
+#: app/Controllers/Hooks/TemplateHooks.php:818
 #: views/settings/advanced-settings.php:130
 msgid "Promote"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:850
+#: app/Controllers/Hooks/TemplateHooks.php:854
 msgid "Renew"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:875
-#: app/Helpers/Functions.php:4772
+#: app/Controllers/Hooks/TemplateHooks.php:879
+#: app/Helpers/Functions.php:4847
 #: app/Services/FormBuilder/LocalizedString.php:26
 #: views/settings/listing-type.php:38
 #: src/form-builder/backend/components/pages/FormList.jsx:457
@@ -4881,8 +2748,8 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:889
-#: app/Controllers/Hooks/TemplateHooks.php:895
+#: app/Controllers/Hooks/TemplateHooks.php:893
+#: app/Controllers/Hooks/TemplateHooks.php:899
 #: app/Services/FormBuilder/LocalizedString.php:27
 #: templates/myaccount/favourite-listings.php:118
 #: views/settings/listing-type.php:39
@@ -4894,27 +2761,27 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:962
+#: app/Controllers/Hooks/TemplateHooks.php:966
 msgid "Update Account"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:972
+#: app/Controllers/Hooks/TemplateHooks.php:976
 msgid "Social Profile"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1008
+#: app/Controllers/Hooks/TemplateHooks.php:1012
 msgid "Select state"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1036
-#: app/Controllers/Hooks/TemplateHooks.php:1065
+#: app/Controllers/Hooks/TemplateHooks.php:1040
+#: app/Controllers/Hooks/TemplateHooks.php:1069
 #: templates/listing-form/contact.php:45
 #: templates/listing-form/contact.php:75
 #: templates/listing-form/contact.php:104
 msgid "Select location"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1082
+#: app/Controllers/Hooks/TemplateHooks.php:1086
 #: app/Resources/Options.php:920
 #: app/Resources/Options.php:3022
 #: app/Resources/Options.php:3056
@@ -4922,22 +2789,28 @@ msgstr ""
 msgid "Zip Code"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1125
+#: app/Controllers/Hooks/TemplateHooks.php:1129
 #: app/Services/FormBuilder/AvailableFields.php:278
 #: app/Services/FormBuilder/AvailableFields.php:287
 #: views/settings/misc-settings.php:151
 msgid "Map"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1346
+#: app/Controllers/Hooks/TemplateHooks.php:1184
+#: app/Helpers/Installer.php:155
+#: views/settings/moderation-settings.php:34
+msgid "New"
+msgstr ""
+
+#: app/Controllers/Hooks/TemplateHooks.php:1350
 msgid "Apply filters"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1351
+#: app/Controllers/Hooks/TemplateHooks.php:1355
 msgid "Clear filters"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1365
+#: app/Controllers/Hooks/TemplateHooks.php:1369
 #: app/Services/FormBuilder/AvailableFields.php:1031
 #: app/Services/FormBuilder/FormPreDefined.php:33
 #: app/Services/FormBuilder/FormPreDefined.php:273
@@ -4949,33 +2822,33 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1393
+#: app/Controllers/Hooks/TemplateHooks.php:1397
 #: templates/myaccount/form-edit-account.php:50
 msgid "First Name"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1404
+#: app/Controllers/Hooks/TemplateHooks.php:1408
 #: templates/myaccount/form-edit-account.php:58
 msgid "Last Name"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1423
+#: app/Controllers/Hooks/TemplateHooks.php:1427
 msgid "Phone Number"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1560
+#: app/Controllers/Hooks/TemplateHooks.php:1564
 msgid "Relevance"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:2008
+#: app/Controllers/Hooks/TemplateHooks.php:2012
 msgid "Please review your order, and click purchase once you are ready to proceed."
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:2022
+#: app/Controllers/Hooks/TemplateHooks.php:2026
 msgid "Given Listing Id is not a valid listing"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:2070
+#: app/Controllers/Hooks/TemplateHooks.php:2074
 msgid "Go to My Account"
 msgstr ""
 
@@ -5003,7 +2876,7 @@ msgid "Payments Orders"
 msgstr ""
 
 #: app/Controllers/Query.php:1366
-#: app/Helpers/Functions.php:3053
+#: app/Helpers/Functions.php:3128
 #: views/settings/advanced-settings.php:89
 msgid "My Listings"
 msgstr ""
@@ -5013,7 +2886,6 @@ msgid "My Favourites Listings"
 msgstr ""
 
 #: app/Controllers/Query.php:1372
-#: templates/elementor/header-button/header-button.php:72
 msgid "Chat"
 msgstr ""
 
@@ -5027,6 +2899,13 @@ msgstr ""
 
 #: app/Controllers/Query.php:1381
 msgid "Lost password"
+msgstr ""
+
+#: app/Controllers/Settings/AdminSettings.php:185
+#: app/Controllers/Settings/AdminSettings.php:336
+#: app/Controllers/Settings/AdminSettings.php:337
+#: views/settings/listing-type.php:7
+msgid "Listing Types"
 msgstr ""
 
 #: app/Controllers/Settings/AdminSettings.php:243
@@ -5082,6 +2961,13 @@ msgstr ""
 msgid "Add Filter"
 msgstr ""
 
+#: app/Controllers/Settings/AdminSettings.php:506
+#: app/Controllers/Settings/AdminSettings.php:515
+#: app/Controllers/Settings/AdminSettings.php:574
+#: app/Resources/OrderOptions.php:84
+msgid "General"
+msgstr ""
+
 #: app/Controllers/Settings/AdminSettings.php:507
 msgid "Directory"
 msgstr ""
@@ -5120,6 +3006,18 @@ msgstr ""
 
 #: app/Controllers/Settings/AdminSettings.php:579
 msgid "Account & Policy"
+msgstr ""
+
+#: app/Controllers/Settings/AdminSettings.php:580
+#: app/Resources/Options.php:490
+#: src/blocks/all-location/inspector.js:163
+#: src/blocks/listing-ads/inspector.js:310
+#: src/blocks/listing-ads/inspector.js:319
+#: src/blocks/listing-cat-box/inspector.js:178
+#: src/blocks/listing-search/inspector.js:97
+#: src/blocks/single-location/inspector.js:144
+#: src/blocks/single-location/inspector.js:423
+msgid "Style"
 msgstr ""
 
 #: app/Controllers/Settings/AdminSettings.php:581
@@ -5356,6 +3254,31 @@ msgstr ""
 msgid "Enable Offline Payment"
 msgstr ""
 
+#: app/Gateways/Offline/GatewayOffline.php:45
+#: app/Gateways/Paypal/GatewayPaypal.php:294
+#: app/Resources/Gallery.php:296
+#: app/Resources/Options.php:271
+#: app/Resources/Options.php:302
+#: app/Resources/Options.php:432
+#: app/Resources/Options.php:486
+#: app/Services/FormBuilder/AvailableFields.php:41
+#: app/Services/FormBuilder/AvailableFields.php:60
+#: app/Widgets/AjaxFilter.php:127
+#: templates/listing-form/information.php:37
+#: templates/myaccount/favourite-listings.php:23
+#: templates/myaccount/my-listings.php:75
+#: views/settings/general-settings.php:66
+#: views/widgets/categories.php:3
+#: src/blocks/all-location/constants.js:78
+#: src/blocks/listing-ads/constants.js:68
+#: src/blocks/listing-ads/inspector.js:476
+#: src/blocks/listing-ads/inspector.js:992
+#: src/blocks/listing-cat-box/constants.js:45
+#: src/blocks/listing-cat-box/inspector.js:909
+#: src/form-builder/backend/components/pages/FormList.jsx:584
+msgid "Title"
+msgstr ""
+
 #: app/Gateways/Offline/GatewayOffline.php:47
 #: app/Gateways/Paypal/GatewayPaypal.php:297
 msgid "This controls the title which the user sees during checkout."
@@ -5364,6 +3287,21 @@ msgstr ""
 #: app/Gateways/Offline/GatewayOffline.php:48
 #: app/Helpers/Installer.php:201
 msgid "Direct Bank Transfer"
+msgstr ""
+
+#: app/Gateways/Offline/GatewayOffline.php:51
+#: app/Gateways/Paypal/GatewayPaypal.php:300
+#: app/Resources/Gallery.php:301
+#: app/Resources/Options.php:3051
+#: app/Resources/PricingOptions.php:58
+#: app/Services/FormBuilder/AvailableFields.php:74
+#: app/Services/FormBuilder/AvailableFields.php:94
+#: app/Services/FormBuilder/ElementCustomization.php:853
+#: app/Services/FormBuilder/LocalizedString.php:36
+#: templates/listing-form/information.php:145
+#: src/blocks/listing-ads/inspector.js:1883
+#: src/blocks/listing-cat-box/inspector.js:1212
+msgid "Description"
 msgstr ""
 
 #: app/Gateways/Offline/GatewayOffline.php:54
@@ -5671,7 +3609,7 @@ msgstr ""
 msgid "Show More"
 msgstr ""
 
-#: app/Helpers/Functions.php:1610
+#: app/Helpers/Functions.php:1685
 #: app/Helpers/Text.php:101
 #: templates/listing-form/category.php:56
 #: templates/widgets/search/vertical.php:96
@@ -5680,167 +3618,172 @@ msgstr ""
 msgid "Select a category"
 msgstr ""
 
-#: app/Helpers/Functions.php:2088
+#: app/Helpers/Functions.php:2163
 msgid "Select an Option"
 msgstr ""
 
 #. translators:  Human read able time
 #. translators: Human read able time.
-#: app/Helpers/Functions.php:2778
+#: app/Helpers/Functions.php:2853
 #: app/Models/Listing.php:943
 msgid "%s ago"
 msgstr ""
 
-#: app/Helpers/Functions.php:3052
+#: app/Helpers/Functions.php:3127
 msgid "Dashboard"
 msgstr ""
 
-#: app/Helpers/Functions.php:3056
+#: app/Helpers/Functions.php:3129
+#: views/settings/advanced-settings.php:94
+msgid "Favourites"
+msgstr ""
+
+#: app/Helpers/Functions.php:3131
 #: templates/myaccount/form-edit-account.php:35
 msgid "Account Details"
 msgstr ""
 
-#: app/Helpers/Functions.php:3057
+#: app/Helpers/Functions.php:3132
 #: views/settings/advanced-settings.php:114
 msgid "Logout"
 msgstr ""
 
-#: app/Helpers/Functions.php:3058
+#: app/Helpers/Functions.php:3133
 msgid "Add Listing"
 msgstr ""
 
 #. translators: %s template
-#: app/Helpers/Functions.php:3225
+#: app/Helpers/Functions.php:3300
 msgid "%s does not exist."
 msgstr ""
 
-#: app/Helpers/Functions.php:3416
-#: app/Helpers/Functions.php:3439
-#: app/Helpers/Functions.php:3451
-#: app/Helpers/Functions.php:3474
-#: app/Helpers/Functions.php:3489
+#: app/Helpers/Functions.php:3491
 #: app/Helpers/Functions.php:3514
+#: app/Helpers/Functions.php:3526
+#: app/Helpers/Functions.php:3549
+#: app/Helpers/Functions.php:3564
+#: app/Helpers/Functions.php:3589
 msgid "This function should not be called before rtcl_init."
 msgstr ""
 
-#: app/Helpers/Functions.php:3648
+#: app/Helpers/Functions.php:3723
 msgid "Please provide a valid email address."
 msgstr ""
 
-#: app/Helpers/Functions.php:3653
+#: app/Helpers/Functions.php:3728
 msgid "An account is already registered with your email address. Please log in."
 msgstr ""
 
-#: app/Helpers/Functions.php:3663
+#: app/Helpers/Functions.php:3738
 msgid "Please enter a valid account username."
 msgstr ""
 
-#: app/Helpers/Functions.php:3668
+#: app/Helpers/Functions.php:3743
 msgid "An account is already registered with that username. Please choose another."
 msgstr ""
 
-#: app/Helpers/Functions.php:3673
+#: app/Helpers/Functions.php:3748
 msgid "Please enter your first name."
 msgstr ""
 
-#: app/Helpers/Functions.php:3676
+#: app/Helpers/Functions.php:3751
 msgid "Please enter your last name."
 msgstr ""
 
-#: app/Helpers/Functions.php:3681
+#: app/Helpers/Functions.php:3756
 msgid "Please enter your phone."
 msgstr ""
 
-#: app/Helpers/Functions.php:3685
+#: app/Helpers/Functions.php:3760
 msgid "An account is already registered with your phone number. Please log in."
 msgstr ""
 
-#: app/Helpers/Functions.php:3697
+#: app/Helpers/Functions.php:3772
 msgid "Please enter an account password."
 msgstr ""
 
-#: app/Helpers/Functions.php:3731
+#: app/Helpers/Functions.php:3806
 msgid "Couldn&#8217;t register you&hellip; please contact us if you continue to have problems."
 msgstr ""
 
 #. translators: 1: rating 2: rating count
-#: app/Helpers/Functions.php:4315
-#: app/Helpers/Functions.php:4340
+#: app/Helpers/Functions.php:4390
+#: app/Helpers/Functions.php:4415
 msgid "Rated %1$s out of 5 based on %2$s customer rating"
 msgid_plural "Rated %1$s out of 5 based on %2$s customer ratings"
 msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: rating
-#: app/Helpers/Functions.php:4320
+#: app/Helpers/Functions.php:4395
 msgid "Rated %s out of 5"
 msgstr ""
 
-#: app/Helpers/Functions.php:4730
+#: app/Helpers/Functions.php:4805
 msgid "M j, Y @ H:i"
 msgstr ""
 
-#: app/Helpers/Functions.php:4746
+#: app/Helpers/Functions.php:4821
 #: app/Resources/Options.php:2908
 msgid "Month"
 msgstr ""
 
 #. translators: 1: month number (01, 02, etc.), 2: month abbreviation
-#: app/Helpers/Functions.php:4753
+#: app/Helpers/Functions.php:4828
 msgid "%1$s-%2$s"
 msgstr ""
 
-#: app/Helpers/Functions.php:4757
+#: app/Helpers/Functions.php:4832
 #: app/Resources/Options.php:2916
 msgid "Day"
 msgstr ""
 
-#: app/Helpers/Functions.php:4759
+#: app/Helpers/Functions.php:4834
 #: app/Resources/Options.php:2904
 msgid "Year"
 msgstr ""
 
-#: app/Helpers/Functions.php:4761
+#: app/Helpers/Functions.php:4836
 #: app/Resources/Options.php:2920
 msgid "Hour"
 msgstr ""
 
-#: app/Helpers/Functions.php:4763
+#: app/Helpers/Functions.php:4838
 msgid "Minute"
 msgstr ""
 
-#: app/Helpers/Functions.php:4767
+#: app/Helpers/Functions.php:4842
 msgid "Expired on: <b>%1$s</b>"
 msgstr ""
 
-#: app/Helpers/Functions.php:4773
+#: app/Helpers/Functions.php:4848
 msgid "Edit date and time"
 msgstr ""
 
-#: app/Helpers/Functions.php:4776
+#: app/Helpers/Functions.php:4851
 msgid "Date and time"
 msgstr ""
 
-#: app/Helpers/Functions.php:4802
+#: app/Helpers/Functions.php:4877
 msgid "OK"
 msgstr ""
 
-#: app/Helpers/Functions.php:4804
+#: app/Helpers/Functions.php:4879
 #: app/Resources/Gallery.php:466
 msgid "Cancel"
 msgstr ""
 
-#: app/Helpers/Functions.php:4917
-#: app/Helpers/Functions.php:4918
+#: app/Helpers/Functions.php:4992
+#: app/Helpers/Functions.php:4993
 msgid "Select a country / region&hellip;"
 msgstr ""
 
-#: app/Helpers/Functions.php:4927
-#: app/Helpers/Functions.php:4928
+#: app/Helpers/Functions.php:5002
+#: app/Helpers/Functions.php:5003
 msgid "Update country / region"
 msgstr ""
 
-#: app/Helpers/Functions.php:5018
+#: app/Helpers/Functions.php:5093
 msgid "Choose an option"
 msgstr ""
 
@@ -5888,6 +3831,10 @@ msgstr ""
 #: app/Helpers/Installer.php:146
 #: views/settings/general-settings.php:140
 msgid "Town"
+msgstr ""
+
+#: app/Helpers/Installer.php:157
+msgid "Popular"
 msgstr ""
 
 #: app/Helpers/Installer.php:249
@@ -6629,6 +4576,12 @@ msgstr ""
 msgid "Undo"
 msgstr ""
 
+#: app/Resources/Gallery.php:447
+#: src/blocks/listing-ads/inspector.js:436
+#: src/blocks/listing-cat-box/inspector.js:298
+msgid "Image Size"
+msgstr ""
+
 #: app/Resources/Gallery.php:454
 msgid "Scale"
 msgstr ""
@@ -6755,7 +4708,6 @@ msgstr ""
 
 #: app/Resources/ListingDetails.php:191
 #: templates/block/listing-search/search.php:239
-#: templates/elementor/search/fields/price-field.php:33
 #: templates/listing-form/information.php:122
 #: src/blocks/listing-search/layout/style-1.js:95
 msgid "Max Price"
@@ -6877,6 +4829,14 @@ msgstr ""
 msgid "Limit / Listing per page(pagination)"
 msgstr ""
 
+#: app/Resources/Options.php:299
+#: views/widgets/categories.php:31
+#: src/blocks/all-location/inspector.js:284
+#: src/blocks/listing-ads/inspector.js:396
+#: src/blocks/listing-cat-box/inspector.js:209
+msgid "Order By"
+msgstr ""
+
 #: app/Resources/Options.php:303
 #: views/settings/general-settings.php:67
 msgid "Date posted"
@@ -6926,12 +4886,48 @@ msgstr ""
 msgid "Number of items at Mobile (Slider)"
 msgstr ""
 
+#: app/Resources/Options.php:377
+msgid "Show Image"
+msgstr ""
+
 #: app/Resources/Options.php:382
 msgid "Image Position"
 msgstr ""
 
+#: app/Resources/Options.php:386
+#: app/Resources/Options.php:602
+#: app/Services/FormBuilder/ElementCustomization.php:560
+#: app/Services/FormBuilder/ElementCustomization.php:873
+#: src/blocks/listing-ads/constants.js:84
+msgid "Left"
+msgstr ""
+
+#: app/Resources/Options.php:391
+msgid "Show Category"
+msgstr ""
+
+#: app/Resources/Options.php:396
+msgid "Show Location"
+msgstr ""
+
 #: app/Resources/Options.php:401
 msgid "Show Labels"
+msgstr ""
+
+#: app/Resources/Options.php:406
+msgid "Show Price"
+msgstr ""
+
+#: app/Resources/Options.php:411
+msgid "Show Date"
+msgstr ""
+
+#: app/Resources/Options.php:416
+msgid "Show User"
+msgstr ""
+
+#: app/Resources/Options.php:421
+msgid "Show Views"
 msgstr ""
 
 #: app/Resources/Options.php:436
@@ -6976,6 +4972,12 @@ msgstr ""
 
 #: app/Resources/Options.php:472
 msgid "All Categories / All Locations link"
+msgstr ""
+
+#: app/Resources/Options.php:493
+#: app/Services/FormBuilder/ElementCustomization.php:625
+#: src/blocks/listing-search/constants.js:58
+msgid "Vertical"
 msgstr ""
 
 #: app/Resources/Options.php:494
@@ -7093,6 +5095,12 @@ msgstr ""
 
 #: app/Resources/Options.php:590
 msgid "Temporary"
+msgstr ""
+
+#: app/Resources/Options.php:601
+#: app/Services/FormBuilder/ElementCustomization.php:572
+#: app/Services/FormBuilder/ElementCustomization.php:881
+msgid "Right"
 msgstr ""
 
 #: app/Resources/Options.php:603
@@ -8492,6 +6500,11 @@ msgstr ""
 msgid "Date / Time"
 msgstr ""
 
+#: app/Services/FormBuilder/AvailableFields.php:758
+#: src/blocks/all-location/inspector.js:573
+msgid "Color"
+msgstr ""
+
 #: app/Services/FormBuilder/AvailableFields.php:774
 msgid "Color Picker"
 msgstr ""
@@ -8548,6 +6561,22 @@ msgstr ""
 
 #: app/Services/FormBuilder/AvailableFields.php:983
 msgid "Custom HTML"
+msgstr ""
+
+#: app/Services/FormBuilder/AvailableFields.php:1016
+#: app/Services/FormBuilder/ElementCustomization.php:516
+#: src/blocks/listing-cat-box/inspector.js:287
+msgid "Icon Type"
+msgstr ""
+
+#: app/Services/FormBuilder/AvailableFields.php:1020
+#: app/Services/FormBuilder/ElementCustomization.php:520
+#: app/Services/FormBuilder/ElementCustomization.php:959
+#: app/Services/FormBuilder/ElementCustomization.php:1211
+#: views/settings/general-settings.php:91
+#: views/widgets/categories.php:41
+#: src/blocks/listing-ads/constants.js:73
+msgid "None"
 msgstr ""
 
 #: app/Services/FormBuilder/AvailableFields.php:1030
@@ -8738,6 +6767,10 @@ msgstr ""
 
 #: app/Services/FormBuilder/ElementCustomization.php:552
 msgid "Determine the position of label title where the user will see this. By choosing \"Default\", global label placement setting will be applied."
+msgstr ""
+
+#: app/Services/FormBuilder/ElementCustomization.php:576
+msgid "Hide"
 msgstr ""
 
 #: app/Services/FormBuilder/ElementCustomization.php:582
@@ -9017,6 +7050,10 @@ msgstr ""
 msgid "How the content will be aligned."
 msgstr ""
 
+#: app/Services/FormBuilder/ElementCustomization.php:877
+msgid "Center"
+msgstr ""
+
 #: app/Services/FormBuilder/ElementCustomization.php:887
 msgid "Shortcode"
 msgstr ""
@@ -9204,6 +7241,15 @@ msgstr ""
 msgid "Class for the field wrapper. This can be used to style current element."
 msgstr ""
 
+#: app/Services/FormBuilder/ElementCustomization.php:1046
+#: views/settings/listing-type.php:45
+#: src/blocks/all-location/constants.js:76
+#: src/blocks/listing-ads/constants.js:69
+#: src/blocks/listing-cat-box/constants.js:43
+#: src/form-builder/backend/components/pages/FormList.jsx:583
+msgid "ID"
+msgstr ""
+
 #: app/Services/FormBuilder/ElementCustomization.php:1047
 msgid "This should be unique id"
 msgstr ""
@@ -9298,6 +7344,14 @@ msgstr ""
 
 #: app/Services/FormBuilder/ElementCustomization.php:1137
 msgid "Regex match"
+msgstr ""
+
+#: app/Services/FormBuilder/ElementCustomization.php:1152
+#: src/blocks/all-location/inspector.js:1023
+#: src/blocks/listing-ads/inspector.js:2247
+#: src/blocks/listing-search/inspector.js:698
+#: src/blocks/single-location/inspector.js:750
+msgid "Background Color"
 msgstr ""
 
 #: app/Services/FormBuilder/ElementCustomization.php:1153
@@ -9480,6 +7534,14 @@ msgstr ""
 
 #: app/Services/FormBuilder/ElementCustomization.php:1328
 msgid "If validation failed then it will show this message"
+msgstr ""
+
+#: app/Services/FormBuilder/ElementCustomization.php:1337
+#: src/blocks/all-location/inspector.js:152
+#: src/blocks/listing-ads/inspector.js:299
+#: src/blocks/listing-cat-box/inspector.js:176
+#: src/blocks/single-location/inspector.js:142
+msgid "Layout"
 msgstr ""
 
 #: app/Services/FormBuilder/ElementCustomization.php:1338
@@ -10057,15 +8119,23 @@ msgstr ""
 msgid "Classified Listing Ajax Filter"
 msgstr ""
 
-#: app/Widgets/AjaxFilter.php:62
+#: app/Widgets/AjaxFilter.php:53
+msgid "Show Filter"
+msgstr ""
+
+#: app/Widgets/AjaxFilter.php:61
+msgid "Filters"
+msgstr ""
+
+#: app/Widgets/AjaxFilter.php:77
 msgid "No filter form is selected"
 msgstr ""
 
-#: app/Widgets/AjaxFilter.php:115
+#: app/Widgets/AjaxFilter.php:131
 msgid "Select a filter form"
 msgstr ""
 
-#: app/Widgets/AjaxFilter.php:120
+#: app/Widgets/AjaxFilter.php:136
 #: app/Widgets/Filter.php:159
 #: src/blocks/all-location/inspector.js:171
 #: src/blocks/listing-ads/inspector.js:328
@@ -10141,19 +8211,6 @@ msgid "Add widgets on listing single page"
 msgstr ""
 
 #. translators: Ads count
-#. translators: ads count
-#: templates/block/all-location/grid/style-1.php:40
-#: templates/block/all-location/grid/style-2.php:36
-#: templates/block/all-location/list/style-1.php:29
-#: templates/elementor/all-locations/grid/style-1.php:27
-#: templates/elementor/all-locations/grid/style-2.php:27
-#: templates/elementor/all-locations/list/style-1.php:21
-msgid "(%s Ad)"
-msgid_plural "(%s Ads)"
-msgstr[0] ""
-msgstr[1] ""
-
-#. translators: Ads count
 #: templates/block/category-box/style-1.php:34
 msgid "%s Ad"
 msgid_plural "%s Ads"
@@ -10166,7 +8223,6 @@ msgstr ""
 
 #: templates/block/listing-ads/list/style-1.php:121
 #: templates/checkout/pricing-info.php:18
-#: templates/elementor/listing-ads/list/style-1.php:238
 #: src/blocks/listing-ads/layout/list/style-list1.js:90
 #: src/blocks/listing-ads/layout/list/style-list2.js:124
 #: src/form-builder/backend/components/DirectoryAIForm.jsx:231
@@ -10174,14 +8230,11 @@ msgid "Details"
 msgstr ""
 
 #. translators: Radius unit
-#. translators: radius unite
 #: templates/block/listing-search/search.php:70
-#: templates/elementor/search/fields/location-field.php:45
 msgid "Radius (%1$s)"
 msgstr ""
 
 #: templates/block/listing-search/search.php:229
-#: templates/elementor/search/fields/price-field.php:26
 #: src/blocks/listing-search/layout/style-1.js:90
 msgid "Min Price"
 msgstr ""
@@ -10192,7 +8245,6 @@ msgid "Min"
 msgstr ""
 
 #: templates/block/listing-search/search.php:258
-#: templates/elementor/search/fields/keyword-field.php:36
 #: templates/widgets/search/inline.php:165
 #: templates/widgets/search/vertical.php:25
 #: src/blocks/listing-search/layout/style-1.js:106
@@ -10200,16 +8252,13 @@ msgid "Enter your keyword here ..."
 msgstr ""
 
 #: templates/block/listing-search/search.php:267
-#: templates/elementor/search/fields/submit-button.php:24
 #: src/blocks/listing-search/layout/style-1.js:113
 msgid "Submit button"
 msgstr ""
 
 #. translators: ads count
-#. translators: Ads count
 #: templates/block/single-location/style-1.php:4
 #: templates/block/single-location/style-2.php:4
-#: templates/elementor/single-location/grid-style-1.php:11
 msgctxt "Number of Ads"
 msgid "%s Ad"
 msgid_plural "%s Ads"
@@ -10217,11 +8266,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: post link
-#. translators: %s: Category term
 #: templates/categories/categories-grid.php:40
 #: templates/categories/categories-grid.php:50
 #: templates/categories/categories-grid.php:58
-#: templates/elementor/listing-cat-box/grid-style-1.php:45
 msgid "View all posts in %s"
 msgstr ""
 
@@ -10295,31 +8342,6 @@ msgstr ""
 
 #: templates/checkout/promotions.php:81
 msgid "No promotion plan found."
-msgstr ""
-
-#: templates/elementor/header-button/header-button.php:18
-msgid " My Account"
-msgstr ""
-
-#: templates/elementor/header-button/header-button.php:18
-msgid " Sign in"
-msgstr ""
-
-#. translators: %s: views count
-#. translators: View count
-#: templates/elementor/listing-ads/grid/style-1.php:178
-#: templates/elementor/listing-ads/list/style-1.php:180
-#: templates/listing/meta.php:80
-#: templates/widgets/listings.php:69
-msgid "%s view"
-msgid_plural "%s views"
-msgstr[0] ""
-msgstr[1] ""
-
-#: templates/elementor/search/fields/types-field.php:32
-#: templates/widgets/search/inline.php:125
-#: templates/widgets/search/vertical.php:121
-msgid "Select type"
 msgstr ""
 
 #: templates/emails/contact-email-to-admin.php:27
@@ -10771,6 +8793,14 @@ msgstr[1] ""
 msgid "by "
 msgstr ""
 
+#. translators: View count
+#: templates/listing/meta.php:80
+#: templates/widgets/listings.php:69
+msgid "%s view"
+msgid_plural "%s views"
+msgstr[0] ""
+msgstr[1] ""
+
 #: templates/listing/related-listings.php:19
 msgid "Related Listing"
 msgstr ""
@@ -11005,6 +9035,11 @@ msgstr ""
 #: templates/widgets/search/inline.php:46
 #: templates/widgets/search/vertical.php:52
 msgid "Radius (%1$s %2$s)"
+msgstr ""
+
+#: templates/widgets/search/inline.php:125
+#: templates/widgets/search/vertical.php:121
+msgid "Select type"
 msgstr ""
 
 #: templates/widgets/search/vertical.php:119
@@ -11730,6 +9765,22 @@ msgstr ""
 msgid "Sort listings by"
 msgstr ""
 
+#: views/settings/general-settings.php:77
+#: views/settings/general-settings.php:99
+#: src/blocks/all-location/constants.js:83
+#: src/blocks/listing-ads/constants.js:78
+#: src/blocks/listing-cat-box/constants.js:51
+msgid "Ascending"
+msgstr ""
+
+#: views/settings/general-settings.php:78
+#: views/settings/general-settings.php:100
+#: src/blocks/all-location/constants.js:84
+#: src/blocks/listing-ads/constants.js:79
+#: src/blocks/listing-cat-box/constants.js:52
+msgid "Descending"
+msgstr ""
+
 #: views/settings/general-settings.php:82
 msgid "Category / Location Order by"
 msgstr ""
@@ -11745,9 +9796,22 @@ msgstr ""
 msgid "Id"
 msgstr ""
 
+#: views/settings/general-settings.php:88
+#: views/widgets/categories.php:38
+#: src/blocks/all-location/constants.js:79
+#: src/blocks/listing-cat-box/constants.js:46
+msgid "Count"
+msgstr ""
+
 #: views/settings/general-settings.php:89
 #: views/widgets/categories.php:39
 msgid "Slug"
+msgstr ""
+
+#: views/settings/general-settings.php:90
+#: src/blocks/all-location/constants.js:80
+#: src/blocks/listing-cat-box/constants.js:47
+msgid "Custom Order"
 msgstr ""
 
 #: views/settings/general-settings.php:95
@@ -11904,6 +9968,28 @@ msgstr ""
 
 #: views/settings/misc-settings.php:19
 msgid "Galley Slider"
+msgstr ""
+
+#: views/settings/misc-settings.php:23
+#: views/settings/misc-settings.php:34
+#: views/settings/misc-settings.php:45
+#: src/blocks/all-location/inspector.js:550
+#: src/blocks/listing-ads/inspector.js:448
+#: src/blocks/listing-ads/inspector.js:795
+#: src/blocks/listing-cat-box/inspector.js:311
+#: src/blocks/listing-cat-box/inspector.js:633
+#: src/blocks/listing-search/inspector.js:299
+#: src/blocks/listing-search/inspector.js:535
+#: src/blocks/listing-search/inspector.js:586
+msgid "Width"
+msgstr ""
+
+#: views/settings/misc-settings.php:24
+#: views/settings/misc-settings.php:35
+#: views/settings/misc-settings.php:46
+#: src/blocks/listing-ads/inspector.js:459
+#: src/blocks/listing-cat-box/inspector.js:322
+msgid "Height"
 msgstr ""
 
 #: views/settings/misc-settings.php:25
@@ -12439,6 +10525,67 @@ msgstr ""
 msgid "Hide Empty Categories"
 msgstr ""
 
+#: views/widgets/categories.php:109
+msgid "Show Listing Counts"
+msgstr ""
+
+#: src/blocks/all-location/constants.js:64
+#: src/blocks/listing-ads/constants.js:63
+msgid "Grid View"
+msgstr ""
+
+#: src/blocks/all-location/constants.js:65
+#: src/blocks/listing-ads/constants.js:62
+msgid "List View"
+msgstr ""
+
+#: src/blocks/all-location/constants.js:68
+msgid "All Location"
+msgstr ""
+
+#: src/blocks/all-location/constants.js:69
+msgid "Selected Location"
+msgstr ""
+
+#: src/blocks/all-location/constants.js:72
+#: src/blocks/listing-search/constants.js:57
+msgid "Inline"
+msgstr ""
+
+#: src/blocks/all-location/constants.js:73
+msgid "New Line"
+msgstr ""
+
+#: src/blocks/all-location/constants.js:88
+#: src/blocks/listing-ads/constants.js:108
+#: src/blocks/listing-cat-box/constants.js:39
+msgid "6 Col"
+msgstr ""
+
+#: src/blocks/all-location/constants.js:89
+#: src/blocks/listing-ads/constants.js:106
+#: src/blocks/listing-cat-box/constants.js:37
+msgid "4 Col"
+msgstr ""
+
+#: src/blocks/all-location/constants.js:90
+#: src/blocks/listing-ads/constants.js:105
+#: src/blocks/listing-cat-box/constants.js:36
+msgid "3 Col"
+msgstr ""
+
+#: src/blocks/all-location/constants.js:91
+#: src/blocks/listing-ads/constants.js:104
+#: src/blocks/listing-cat-box/constants.js:35
+msgid "2 Col"
+msgstr ""
+
+#: src/blocks/all-location/constants.js:92
+#: src/blocks/listing-ads/constants.js:103
+#: src/blocks/listing-cat-box/constants.js:34
+msgid "1 Col"
+msgstr ""
+
 #: src/blocks/all-location/edit.js:74
 #: src/blocks/listing-ads/edit.js:78
 #: src/blocks/listing-cat-box/edit.js:79
@@ -12446,12 +10593,60 @@ msgstr ""
 msgid "No posts found."
 msgstr ""
 
+#: src/blocks/all-location/inspector.js:173
+msgid "Location Display Type"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:184
+msgid "Select Location"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:200
+msgid "Location Limit"
+msgstr ""
+
 #: src/blocks/all-location/inspector.js:213
 msgid "Only Parent Location"
 msgstr ""
 
+#: src/blocks/all-location/inspector.js:225
+msgid "Show Child location"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:234
+msgid "Sub Location Limit"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:249
+#: src/blocks/single-location/inspector.js:164
+msgid "Show Counts"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:256
+msgid "Count position"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:273
+msgid "Enable Link"
+msgstr ""
+
 #: src/blocks/all-location/inspector.js:278
 msgid "Add nofollow"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:294
+#: src/blocks/listing-ads/inspector.js:406
+msgid "Sort By"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:304
+#: src/blocks/listing-cat-box/inspector.js:269
+msgid "Hide Empty"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:313
+#: src/blocks/listing-cat-box/inspector.js:351
+msgid "Show Description"
 msgstr ""
 
 #: src/blocks/all-location/inspector.js:323
@@ -12467,6 +10662,26 @@ msgstr ""
 msgid "Number of Responsive cols"
 msgstr ""
 
+#: src/blocks/all-location/inspector.js:337
+msgid "Desktops: >1199px"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:345
+msgid "Desktops: >991px"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:353
+msgid "Tablets: >767px"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:361
+msgid "Phones: >575px"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:369
+msgid "Small Phones: <576px"
+msgstr ""
+
 #: src/blocks/all-location/inspector.js:383
 msgid "Box Style"
 msgstr ""
@@ -12479,6 +10694,15 @@ msgstr ""
 msgid "Box Padding"
 msgstr ""
 
+#: src/blocks/all-location/inspector.js:448
+#: src/blocks/all-location/inspector.js:528
+#: src/blocks/listing-ads/inspector.js:709
+#: src/blocks/listing-cat-box/inspector.js:482
+#: src/blocks/listing-cat-box/inspector.js:505
+#: src/blocks/single-location/inspector.js:206
+msgid "Background"
+msgstr ""
+
 #: src/blocks/all-location/inspector.js:473
 #: src/blocks/listing-cat-box/inspector.js:540
 msgid "Header Padding"
@@ -12486,6 +10710,20 @@ msgstr ""
 
 #: src/blocks/all-location/inspector.js:511
 msgid "Body Padding"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:560
+#: src/blocks/listing-ads/inspector.js:805
+#: src/blocks/listing-ads/inspector.js:2081
+#: src/blocks/listing-cat-box/inspector.js:894
+#: src/blocks/listing-search/inspector.js:332
+#: src/blocks/listing-search/inspector.js:623
+msgid "Border Radius"
+msgstr ""
+
+#: src/blocks/all-location/inspector.js:639
+#: src/blocks/single-location/inspector.js:534
+msgid "Typography"
 msgstr ""
 
 #: src/blocks/all-location/inspector.js:976
@@ -12515,6 +10753,20 @@ msgstr ""
 msgid "Rand"
 msgstr ""
 
+#: src/blocks/listing-ads/constants.js:107
+#: src/blocks/listing-cat-box/constants.js:38
+msgid "5 Col"
+msgstr ""
+
+#: src/blocks/listing-ads/constants.js:114
+#: src/blocks/listing-cat-box/constants.js:30
+msgid "Style 3"
+msgstr ""
+
+#: src/blocks/listing-ads/constants.js:115
+msgid "Style 4"
+msgstr ""
+
 #: src/blocks/listing-ads/constants.js:116
 msgid "Style 5"
 msgstr ""
@@ -12523,12 +10775,21 @@ msgstr ""
 msgid "Promotions Excludes"
 msgstr ""
 
+#: src/blocks/listing-ads/inspector.js:415
+msgid "Listing Per Page"
+msgstr ""
+
 #: src/blocks/listing-ads/inspector.js:416
 msgid "The number of listings to show. Set -1 to show all listings."
 msgstr ""
 
 #: src/blocks/listing-ads/inspector.js:473
 msgid "Content Visibility"
+msgstr ""
+
+#: src/blocks/listing-ads/inspector.js:492
+#: src/blocks/listing-ads/inspector.js:500
+msgid "Short Description"
 msgstr ""
 
 #: src/blocks/listing-ads/inspector.js:528
@@ -12560,6 +10821,15 @@ msgstr ""
 msgid "Compare  Button"
 msgstr ""
 
+#: src/blocks/listing-ads/inspector.js:648
+#: src/blocks/listing-ads/inspector.js:2002
+msgid "Pagination"
+msgstr ""
+
+#: src/blocks/listing-ads/inspector.js:658
+msgid "Action Button Layout"
+msgstr ""
+
 #: src/blocks/listing-ads/inspector.js:685
 #: src/blocks/listing-cat-box/inspector.js:390
 msgid "Tablets"
@@ -12568,6 +10838,19 @@ msgstr ""
 #: src/blocks/listing-ads/inspector.js:693
 #: src/blocks/listing-cat-box/inspector.js:398
 msgid "Phones"
+msgstr ""
+
+#: src/blocks/listing-ads/inspector.js:708
+msgid "Item Wrapper"
+msgstr ""
+
+#: src/blocks/listing-ads/inspector.js:734
+#: src/blocks/listing-ads/inspector.js:2051
+msgid "Wrapper Padding"
+msgstr ""
+
+#: src/blocks/listing-ads/inspector.js:749
+msgid "Gutter Spacing"
 msgstr ""
 
 #: src/blocks/listing-ads/inspector.js:773
@@ -12594,8 +10877,21 @@ msgstr ""
 msgid "Badge Margin"
 msgstr ""
 
+#: src/blocks/listing-ads/inspector.js:1447
+msgid "Meta"
+msgstr ""
+
 #: src/blocks/listing-ads/inspector.js:1462
 msgid "Meta Margin"
+msgstr ""
+
+#: src/blocks/listing-ads/inspector.js:1718
+msgid "Price Margin"
+msgstr ""
+
+#: src/blocks/listing-ads/inspector.js:1732
+#: src/blocks/listing-search/inspector.js:347
+msgid "Button"
 msgstr ""
 
 #: src/blocks/listing-ads/inspector.js:1898
@@ -12642,8 +10938,20 @@ msgstr ""
 msgid "Short By"
 msgstr ""
 
+#: src/blocks/listing-cat-box/inspector.js:227
+msgid "Category Limit"
+msgstr ""
+
 #: src/blocks/listing-cat-box/inspector.js:240
 msgid "Show Child Category"
+msgstr ""
+
+#: src/blocks/listing-cat-box/inspector.js:247
+msgid "Sub Category Limit"
+msgstr ""
+
+#: src/blocks/listing-cat-box/inspector.js:260
+msgid "Counts Include Children"
 msgstr ""
 
 #: src/blocks/listing-cat-box/inspector.js:277
@@ -12666,8 +10974,18 @@ msgstr ""
 msgid "Gutter Speacing"
 msgstr ""
 
+#: src/blocks/listing-cat-box/inspector.js:451
+#: src/blocks/listing-cat-box/inspector.js:569
+#: src/blocks/listing-search/inspector.js:471
+msgid "Padding"
+msgstr ""
+
 #: src/blocks/listing-cat-box/inspector.js:643
 msgid "Radius Width"
+msgstr ""
+
+#: src/blocks/listing-cat-box/inspector.js:849
+msgid "Icon Area"
 msgstr ""
 
 #: src/blocks/listing-cat-box/inspector.js:869
@@ -12683,12 +11001,20 @@ msgstr ""
 msgid "Description Spacing"
 msgstr ""
 
+#: src/blocks/listing-cat-box/inspector.js:1061
+msgid "Counter"
+msgstr ""
+
 #: src/blocks/listing-cat-box/inspector.js:1141
 msgid "Sub Category "
 msgstr ""
 
 #: src/blocks/listing-cat-box/inspector.js:1417
 msgid "Main Wrapper Background"
+msgstr ""
+
+#: src/blocks/listing-search/constants.js:50
+msgid "Dependency Selection"
 msgstr ""
 
 #: src/blocks/listing-search/constants.js:51
@@ -12701,6 +11027,10 @@ msgstr ""
 
 #: src/blocks/listing-search/constants.js:53
 msgid "Standard"
+msgstr ""
+
+#: src/blocks/listing-search/inspector.js:106
+msgid "Oriantation"
 msgstr ""
 
 #: src/blocks/listing-search/inspector.js:115
@@ -12729,6 +11059,10 @@ msgstr ""
 
 #: src/blocks/listing-search/inspector.js:158
 msgid "Field"
+msgstr ""
+
+#: src/blocks/listing-search/inspector.js:444
+msgid "Margin"
 msgstr ""
 
 #: src/blocks/listing-search/layout/style-1.js:63
@@ -12995,6 +11329,11 @@ msgstr ""
 
 #: src/form-builder/backend/components/editor/sidebar/Customizer/Column.jsx:44
 msgid "Are you sure you want to delete this column?"
+msgstr ""
+
+#: src/form-builder/backend/components/editor/sidebar/Customizer/Column.jsx:113
+#: src/form-builder/backend/components/editor/sidebar/SectionColumn.jsx:18
+msgid "Column"
 msgstr ""
 
 #: src/form-builder/backend/components/editor/sidebar/Customizer/ConditionalLogics.jsx:167

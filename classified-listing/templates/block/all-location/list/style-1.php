@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
  * Main Gutenberg locationbox.
@@ -20,13 +21,13 @@ if (isset($settings['className'])) {
 <div class="<?php echo esc_attr($wrap_class); ?>">
 	<div class="rtcl gb-all-locations list-style-1">
 		<?php
-		$classes = 'col-12';
+		$classes = 'rtcl-col-12';
 		if (!empty($terms)) {
 			foreach ($terms as $trm) {
 				$count_html = null;
 				if ($settings['show_count'] && !empty($trm['count'])) {
 					ob_start();
-					$count_data = sprintf( /* translators: ads count */_n('(%s Ad)', '(%s Ads)', $trm['count'], 'classified-listing'), $trm['count']); ?>
+					$count_data = sprintf( /* translators: ads count */_n('(%s Ad)', '(%s Ads)', $trm['count'], 'classified-listing-toolkits'), $trm['count']); ?>
 					<span class="rtcl-counter">
 						<?php if (!empty($settings['count_after_text'])) { ?>
 							<span><?php echo esc_html($trm['count']); ?></span>
@@ -35,7 +36,7 @@ if (isset($settings['className'])) {
 							<?php echo esc_html($count_data); ?>
 						<?php } ?>
 					</span>
-				<?php
+					<?php
 					$count_html = ob_get_clean();
 				}
 				?>
@@ -47,7 +48,7 @@ if (isset($settings['className'])) {
 									<a <?php echo esc_attr(isset($settings['enable_nofollow']) && $settings['enable_nofollow'] == '1' ? 'rel=nofollow' : ''); ?> href="<?php echo esc_url($trm['permalink']); ?>">
 										<?php echo esc_html($trm['name']); ?>
 									</a>
-								<?php
+									<?php
 								} else {
 									echo esc_html($trm['name']);
 								}
@@ -73,7 +74,7 @@ if (isset($settings['className'])) {
 
 					</div>
 				</div>
-		<?php
+				<?php
 			}
 		}
 		?>

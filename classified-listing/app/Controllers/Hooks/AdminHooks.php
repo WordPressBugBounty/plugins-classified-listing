@@ -22,7 +22,99 @@ class AdminHooks {
 		add_action( 'wp_ajax_rtcl_tax_country_state', [ __CLASS__, 'load_country_state' ] );
 		add_action( 'wp_ajax_rtcl_tax_remove_record', [ __CLASS__, 'remove_tax_record' ] );
 		add_action( 'in_admin_header', [ __CLASS__, 'remove_all_notices' ], 1000 );
+		add_action('admin_notices', [__CLASS__,'cl_toolkits_addon_notice']);
+		add_action( 'wp_ajax_cl_toolkits_dismiss_notice', [ __CLASS__, 'cl_toolkit_dismiss_notice' ] );
+
 	}
+
+	public static function cl_toolkits_addon_notice() {
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			return;
+		}
+
+		// Don't show again if dismissed by this user
+		if ( get_user_meta( get_current_user_id(), '_cl_toolkits_addon_notice_dismissed', true ) ) {
+			return;
+		}
+
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+		$plugin_slug = 'classified-listing-toolkits';
+		$plugin_file = 'classified-listing-toolkits/classified-listing-toolkits.php';
+
+		$is_divi_active = defined( 'ET_CORE_VERSION' ) || is_plugin_active( 'divi-builder/divi-builder.php' );
+		$is_elementor_active = is_plugin_active( 'elementor/elementor.php' );
+
+		if ( ! $is_divi_active && ! $is_elementor_active ) {
+			return;
+		}
+
+		$installed_plugins = get_plugins();
+		$is_installed = isset( $installed_plugins[ $plugin_file ] );
+		$is_active = is_plugin_active( $plugin_file );
+
+		$plugin_name = 'Classified Listing Toolkits';
+		$plugin_description = 'This addon is required to enable integration with Elementor widgets, and Divi modules in <strong>Classified Listing</strong>.';
+
+		if ( ! $is_installed || ! $is_active ) {
+			$action_url = $is_installed
+				? wp_nonce_url( self_admin_url( 'plugins.php?action=activate&plugin=' . $plugin_file ), 'activate-plugin_' . $plugin_file )
+				: wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=' . $plugin_slug ), 'install-plugin_' . $plugin_slug );
+
+			$button_label = $is_installed ? 'Activate Now' : 'Install Now';
+
+			printf(
+				'<div class="notice notice-warning is-dismissible cl-toolkits-addon-notice"><div style="display: flex; align-items: center; gap: 12px;">
+				<div>
+					<p><strong>%1$s</strong> addon %2$s.</p>
+					<p>%3$s</p>
+					<p><a href="%4$s" class="button button-primary">%5$s</a></p>
+				</div>
+			</div></div>',
+				esc_html( $plugin_name ),
+				$is_installed ? 'is installed but not active' : 'is not installed',
+				( $plugin_description ),
+				esc_url( $action_url ),
+				esc_html( $button_label )
+			);
+
+			add_action( 'admin_footer', [ __CLASS__, 'cl_toolkits_addon_notice_js' ] );
+		}
+	}
+
+
+	public static function cl_toolkits_addon_notice_js() {
+		?>
+		<script type="text/javascript">
+			jQuery(function($) {
+				var ajaxurl = '<?php echo admin_url( 'admin-ajax.php' ); ?>'; // fallback definition
+
+				$(document).on('click', '.cl-toolkits-addon-notice .notice-dismiss', function () {
+					$.post(ajaxurl, {
+						action: 'cl_toolkits_dismiss_notice',
+						nonce: '<?php echo esc_js( wp_create_nonce( 'cl_toolkits_dismiss_nonce' ) ); ?>'
+					})
+						.done(function() {
+							console.log('Dismiss saved');
+						})
+						.fail(function(xhr) {
+							console.error('AJAX failed:', xhr.responseText);
+						});
+				});
+			});
+		</script>
+		<?php
+	}
+
+
+	public static function cl_toolkit_dismiss_notice(  ) {
+		check_ajax_referer( 'cl_toolkits_dismiss_nonce', 'nonce' );
+
+		update_user_meta( get_current_user_id(), '_cl_toolkits_addon_notice_dismissed', 1 );
+
+		wp_send_json_success();
+	}
+	
 
 	public static function remove_tax_record() {
 		global $wpdb;

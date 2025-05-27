@@ -1276,7 +1276,8 @@ __webpack_require__.r(__webpack_exports__);
   // Listing - Toggle Filter
   $('#rtcl-toggle-filter-mobile').on('click', function (e) {
     e.preventDefault();
-    var $filter = $('.rtcl-widget-filter-wrapper .rtcl-widget-filter-class');
+    var $this = $(this),
+      $filter = $this.closest('.rtcl-widget-filter-wrapper').find('.rtcl-widget-filter-class');
     $filter.toggle();
   });
   $(document).on("click", "#rtcl-resend-verify-link", function (e) {
@@ -1385,6 +1386,29 @@ __webpack_require__.r(__webpack_exports__);
     $navWrapper.css('left', '-225px');
     $(this).remove();
     $collapseButton.removeClass('sidebar-open');
+  }).on('click', '.rtcl-ajax-filter-floating-mobile .rtcl-ajax-filter-open-filter', function (e) {
+    e.preventDefault();
+    var $this = $(this),
+      $floatingWrapper = $this.closest(".rtcl-ajax-filter-floating-mobile"),
+      $mainWrapper = $floatingWrapper.closest(".rtcl-widget-ajax-filter-wrapper"),
+      $filterWrapper = $mainWrapper.find('.rtcl-widget-ajax-filter-class'),
+      $body = $("body"),
+      $html = '<div class="sidebar-ajax-filter-opened"></div>';
+    if ($mainWrapper.hasClass('sidebar-filter-open')) {
+      $filterWrapper.css('left', '-265px');
+      $body.find('.sidebar-ajax-filter-opened').remove();
+    } else {
+      $filterWrapper.css('left', '0');
+      $body.prepend($html);
+    }
+    $mainWrapper.toggleClass('sidebar-filter-open');
+  }).on('click', '.sidebar-ajax-filter-opened', function (e) {
+    e.preventDefault();
+    var $filterWrapper = $(".rtcl-widget-ajax-filter-class"),
+      $wrapper = $(".rtcl-widget-ajax-filter-wrapper");
+    $filterWrapper.css('left', '-265px');
+    $(this).remove();
+    $wrapper.removeClass('sidebar-filter-open');
   }).on('click', '.rtcl-my-listing-table .rtcl-actions-wrap .actions-dot', function (e) {
     $('.rtcl-my-listing-table').find('.rtcl-actions').removeClass('opened').addClass('closed');
     $(this).closest('.rtcl-actions-wrap').find('.rtcl-actions').removeClass('closed').addClass('opened');
