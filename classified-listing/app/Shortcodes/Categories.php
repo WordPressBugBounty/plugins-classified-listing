@@ -46,20 +46,23 @@ class Categories {
 		if ( $settings['types'] && $types = explode( ',', $settings['types'] ) ) {
 			if ( is_array( $types ) && ! empty( $types ) ) {
 				$args['meta_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-					[
-						'key'     => '_rtcl_types',
-						'value'   => $types,
-						'compare' => 'IN'
-					]
+				                        [
+					                        'key'     => '_rtcl_types',
+					                        'value'   => $types,
+					                        'compare' => 'IN'
+				                        ]
 				];
 			}
 		}
 
-		$terms = get_terms( apply_filters( 'rtcl_shortcode_categories_terms_args', $args ) );
+		$terms         = get_terms( apply_filters( 'rtcl_shortcode_categories_terms_args', $args ) );
+		$allowed_views = apply_filters( 'rtcl_category_shortcode_allowed_views', [ 'grid', 'list' ] );
 
 		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+			$view = isset( $settings['view'] ) && in_array( $settings['view'], $allowed_views, true ) ? sanitize_key( $settings['view'] )
+				: 'grid';
 
-			Functions::get_template( "categories/categories-{$settings['view']}", [
+			Functions::get_template( "categories/categories-{$view}", [
 				'settings' => $settings,
 				'terms'    => $terms
 			] );

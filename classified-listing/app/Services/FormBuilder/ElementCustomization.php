@@ -15,15 +15,15 @@ class ElementCustomization {
 				'advance' => [ 'default_value', 'container_class', 'help_message' ]
 			],
 			'title'               => [
-				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation','ai' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation', 'ai' ],
 				'advance' => [ 'default_value', 'container_class', 'help_message' ]
 			],
 			'description'         => [
-				'general' => [ 'label', 'label_placement', 'icon', 'editor_type', 'rows', 'validation','ai' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'editor_type', 'rows', 'validation', 'ai' ],
 				'advance' => [ 'container_class', 'help_message', 'admin_use_only' ]
 			],
 			'excerpt'             => [
-				'general' => [ 'label', 'label_placement', 'icon', 'validation','ai' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'validation', 'ai' ],
 				'advance' => [ 'container_class', 'help_message', 'admin_use_only' ]
 			],
 			'category'            => [
@@ -32,7 +32,7 @@ class ElementCustomization {
 					'label_placement',
 					'icon',
 					'placeholder',
-					'top_level_category_ids',
+					'category_filter',
 					'multiple',
 					'max_selection',
 					'category_limit',
@@ -116,7 +116,8 @@ class ElementCustomization {
 					'pricing_type_label',
 					'price_type_label',
 					'price_unit_label',
-					'price_label'
+					'price_label',
+					'validation'
 				],
 				'advance' => [
 					'container_class',
@@ -440,8 +441,8 @@ class ElementCustomization {
 	}
 
 	public static function settingsFields() {
-		$dateTime           = new DateTime();
-		$dateFormats        = $dateTime->getAvailableDateFormats();
+		$dateTime = new DateTime();
+		$dateFormats = $dateTime->getAvailableDateFormats();
 		$dateConfigSettings = [
 			'template'         => 'inputTextarea',
 			'label'            => __( 'Advanced Date Configuration', 'classified-listing' ),
@@ -453,8 +454,8 @@ class ElementCustomization {
 			'inline_help_text' => '',
 			'help_text'        => __( 'You can write your own date configuration as JS object. Please write valid configuration as per flatpickr config.', 'classified-listing' ),
 		];
-		$settingsFields     = [
-			
+		$settingsFields = [
+
 			'name'                         => [
 				'template'  => 'nameAttr',
 				'label'     => __( 'Name Attribute', 'classified-listing' ),
@@ -581,6 +582,20 @@ class ElementCustomization {
 				'template'  => 'inputNumber',
 				'label'     => __( 'Display order', 'classified-listing' ),
 				'help_text' => __( 'Custom field display order,  Default 0', 'classified-listing' ),
+			],
+			'category_filter'              => [
+				'key'         => 'filter',
+				'template'    => 'categoryFilter',
+				'label'       => __( 'Category filter', 'classified-listing' ),
+				'placeholder' => __( "Type to search category", 'classified-listing' ),
+				'help_text'   => __( 'Filter top level categories', 'classified-listing' ),
+				'mode'        => [
+					'default' => 'include',
+					'options' => [
+						[ 'value' => 'include', 'label' => __( 'Include', 'classified-listing' ) ],
+						[ 'value' => 'exclude', 'label' => __( 'Exclude', 'classified-listing' ) ],
+					]
+				]
 			],
 			'top_level_category_ids'       => [
 				'key'       => 'top_level_ids',
@@ -790,7 +805,7 @@ class ElementCustomization {
 				'label'     => __( 'Display at single page', 'classified-listing' ),
 				'help_text' => __( 'if enable then display this field at single listing view.', 'classified-listing' ),
 			],
-			'select_filter_option'              => [
+			'select_filter_option'         => [
 				'template'  => 'inputYesNoCheckBox',
 				'label'     => __( 'Enable filter Option', 'classified-listing' ),
 				'help_text' => __( 'If you enable this then options will be searchable', 'classified-listing' ),
@@ -1367,7 +1382,7 @@ class ElementCustomization {
 					],
 				],
 			],
-			'ai'                    => [
+			'ai'                           => [
 				'template'  => 'inputYesNoCheckBox',
 				'label'     => __( 'Enable AI Integration', 'classified-listing' ),
 				'help_text' => __( 'Toggle this option to enable or disable AI-powered features for this listing.', 'classified-listing' ),

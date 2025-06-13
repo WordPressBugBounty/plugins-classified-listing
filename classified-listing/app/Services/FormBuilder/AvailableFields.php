@@ -28,6 +28,7 @@ class AvailableFields {
 					'title'      => __( 'Listing type', 'classified-listing' ),
 					'icon_class' => 'rtcl-icon-header',
 					'template'   => 'inputText',
+					'deprecated' => true,
 				]
 			],
 			'title'               => [
@@ -267,7 +268,7 @@ class AvailableFields {
 				'editor'          => [
 					'title'      => __( 'Geo Location', 'classified-listing' ),
 					'icon_class' => 'rtcl-icon-location',
-					'template'   => 'geo_location',
+					'template'   => 'geoLocation',
 				],
 			],
 			'map'                 => [
@@ -1035,6 +1036,18 @@ class AvailableFields {
 				'label'   => __( 'Update button text', 'classified-listing' ),
 				'default' => __( 'Update', 'classified-listing' ),
 			],
+			//			'category_filter' => [
+			//				'type'      => 'category_filter',
+			//				'help_text' => __( 'Select top label categories for this form.', 'classified-listing' ),
+			//				'label'     => __( 'Category Filter', 'classified-listing' ),
+			//				'mode'      => [
+			//					'default' => 'include',
+			//					'options' => [
+			//						[ 'value' => 'include', 'label' => __( 'Include', 'classified-listing' ) ],
+			//						[ 'value' => 'exclude', 'label' => __( 'Exclude', 'classified-listing' ) ],
+			//					]
+			//				]
+			//			],
 			// 'form_type' => [
 			// 'type'    => 'radio',
 			// 'name'    => 'type',
@@ -1124,17 +1137,22 @@ class AvailableFields {
 
 		return apply_filters( 'rtcl/fb/option_fields', $fields );
 	}
-	
-	private static function addAIFieldToElements(array $fields): array {
-		$typesWithAI = ['text', 'title', 'textarea', 'description', 'excerpt'];
+
+	private static function addAIFieldToElements( array $fields ): array {
+		$typesWithAI = [ 'text', 'title', 'textarea', 'description', 'excerpt' ];
 		$aiEnabled = Functions::is_ai_enabled();
 		$hasPro = rtcl()->has_pro();
 
-		return array_map(function ($field) use ($aiEnabled, $typesWithAI, $hasPro) {
-			if (in_array($field['element'], $typesWithAI)) {
-				$field['ai'] = in_array($field['element'], ['title', 'description','excerpt']) ? $aiEnabled : $hasPro && $aiEnabled;
+		return array_map( function ( $field ) use ( $aiEnabled, $typesWithAI, $hasPro ) {
+			if ( in_array( $field['element'], $typesWithAI ) ) {
+				$field['ai'] = in_array( $field['element'], [
+					'title',
+					'description',
+					'excerpt'
+				] ) ? $aiEnabled : $hasPro && $aiEnabled;
 			}
+
 			return $field;
-		}, $fields);
+		}, $fields );
 	}
 }

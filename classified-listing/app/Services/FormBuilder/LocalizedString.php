@@ -6,6 +6,8 @@ class LocalizedString {
 
 	public static function public() {
 		$strings = [
+			'close'              => __( 'Close', 'classified-listing' ),
+			'loading'            => __( 'Loading ....', 'classified-listing' ),
 			'unload_message'     => __( 'Changes that you made may not be saved.', 'classified-listing' ),
 			'enable'             => __( 'Enable', 'classified-listing' ),
 			'type'               => __( 'Type', 'classified-listing' ),
@@ -87,17 +89,21 @@ class LocalizedString {
 
 	public static function admin() {
 		$adminStrings = [
-			'form_list'           => __( 'Form List', 'classified-listing' ),
-			'select_all_fields'   => __( 'Please select all field', 'classified-listing' ),
-			'update_form'         => __( 'Update From', 'classified-listing' ),
-			'save_form'           => __( 'Save Form', 'classified-listing' ),
-			'form_name'           => __( "From name", 'classified-listing' ),
-			'rename_form'         => __( "Rename from", 'classified-listing' ),
-			'input_fields'        => __( "Input Fields", 'classified-listing' ),
-			'settings'            => __( 'Settings', 'classified-listing' ),
-			'fields'              => __( 'Fields', 'classified-listing' ),
-			'input_customization' => __( 'Input Customization', 'classified-listing' ),
-			'status'              => [
+			'deprecated'                     => __( 'Deprecated', 'classified-listing' ),
+			'bulk_category_logic_assignment' => __( 'Bulk Category Assignment', 'classified-listing' ),
+			'checked'                        => __( 'Checked', 'classified-listing' ),
+			'_select_'                       => __( '- Select -', 'classified-listing' ),
+			'form_list'                      => __( 'Form List', 'classified-listing' ),
+			'select_all_fields'              => __( 'Please select all field', 'classified-listing' ),
+			'update_form'                    => __( 'Update From', 'classified-listing' ),
+			'save_form'                      => __( 'Save Form', 'classified-listing' ),
+			'form_name'                      => __( "From name", 'classified-listing' ),
+			'rename_form'                    => __( "Rename from", 'classified-listing' ),
+			'input_fields'                   => __( "Input Fields", 'classified-listing' ),
+			'settings'                       => __( 'Settings', 'classified-listing' ),
+			'fields'                         => __( 'Fields', 'classified-listing' ),
+			'input_customization'            => __( 'Input Customization', 'classified-listing' ),
+			'status'                         => [
 				'publish' => __( 'Publish', 'classified-listing' ),
 				'draft'   => __( 'Draft', 'classified-listing' ),
 			]

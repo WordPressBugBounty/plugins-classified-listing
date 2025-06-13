@@ -282,6 +282,9 @@ class TemplateHooks {
 		$ad_type           = ! empty( $_GET['filter_ad_type'] ) ? sanitize_text_field( wp_unslash( $_GET['filter_ad_type'] ) )
 			: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
 		$selectedValues    = $ad_type ? explode( ',', $ad_type ) : [];
+		if ( empty( $selectedValues ) && !empty( $_GET['filters']['ad_type'] ) ) {
+			$selectedValues = [ sanitize_text_field( wp_unslash( $_GET['filters']['ad_type'] ) ) ];
+		}
 		$itemData['title'] = ! empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Ad Type', 'classified-listing' );
 		$fieldType         = ! empty( $itemData['type'] )
 							 && in_array( $itemData['type'],

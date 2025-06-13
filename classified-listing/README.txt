@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, classifieds a
 Requires at least: 5.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 4.2.0
+Stable tag: 4.2.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -309,21 +309,39 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 
 == Screenshots ==
 
-01. Listing layout and filtering
-02. Widget
-03. New listing form
-04. User backend
-05. Payment History
-06. User account settings
-07. Elementor Widget List
-08. Elementor Listing Widget
-09. GutenBerg Listing Block
+01. Home Page
+02. Listings Grid View
+03. Listings List View
+04. Listing details page
+05. Gutenberg Blocks Settings
+06. Gutenberg Blocks
+07. Listing Submission Form 
+08. User Dashboard
+09. My Listings
+10. Account Details
+11. Live chat With User
+12. Chat Management
+13. Checkout page
+14. Form Builder
+15. AI-Powered Form Builder
+16. Builder Form List
 
 == Translation ==
 
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 4.2.1 ( Jun 13, 2025 ) =
+* Added: Form builder - include/exclude category for specific form
+* Added: Form builder: GEO auto suggestions at GEO location field
+* Added: Form builder - Bulk category condition apply
+* Updated: Ajax Filter builder - Directory default selection
+* Fixed: From builder - Conditional logic for check box field add includes and Not Includes operator
+* Fixed: Ajax filter sort custom field issue at builder
+* Fixed: Search form widget ad type compatibility
+* Fixed: Mark as sold listing hidden issue when active filter/search
+* Fixed: LFI vulnerability issue
 
 = 4.2.0 ( May 27, 2025 ) =
 * Added: Toolkit addon compatibility 
@@ -353,36 +371,5 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 * Fixed: Ajax filter initial load issue at taxonomy page
 * Fixed: Author bio html formatting issue
 * Fixed: Category icon and image warning issue
-
-= 4.1.0 ( Mar 21, 2025 ) =
-* Added: AI support to create new form (ChatGPT, Google Gemini, DeepSeek)
-* Added: Add close text for terms popup close suggestion
-* Added: getFormById new function added to get form
-* Optimized: Listing image size generation
-* Fixed: Error message for unregister user while submitting new listings
-* Fixed: User default value issue at phone and other user meta
-* Fixed: Custom field load issue at ajax filter
-* Fixed: Form builder Button translation issue
-* Fixed: MyAccount page listing issue which exclude draft
-* Fixed: Ajax filter issue at result archive,
-* Fixed: Ajax filter selected directory remove issue,
-* Fixed: Offline info added at order email to customer
-* Fixed: Divi builder template load issue for hook priority
-* Fixed: Empty repeater label, booking data hide at inactive mode
-* Fixed: open street map marker update issue
-* Fixed: get terms custom order issue at Category list widget and rtcl_get_terms hook 
-
-= 4.0.5 ( Feb 17, 2025 ) =
-* Added: Ajax filter new hook added (rtcl_ajax_filter_after_render)
-* Added: New 3 date format is added for date custom field
-* Added: Close button added at multicategory to close the options
-* Fixed: Form builder category,location and tag issue at conditional logics for WPML
-* Fixed: Ajax filter Date and Date range filter issue
-* Fixed: Ajax filter radius search issue
-* Fixed: Ajax filter conflict with old filters
-* Fixed: updated select2 library
-* Fixed: js file not enqueue due to wrong translation of Loco
-* Fixed: Settings export security issue
-* Fixed: Listings export security issue
 
 [See changelog for all versions.](https://raw.githubusercontent.com/radiustheme/changelog/refs/heads/main/classified-listing.txt)

@@ -66,6 +66,12 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
         } else if (that.withOutFilterPrefix.includes(_item.id)) {
           if (url.searchParams.has(_item.id)) {
             _this.data.params[_item.id] = decodeURI(url.searchParams.get(_item.id)).split(',');
+          } else {
+            if (_item.selected) {
+              that.initLoading = false;
+              _this.data.params[_item.id] = Array.isArray(_item.selected) ? _item.selected : url.searchParams.get(_item.selected).split(',');
+              _this.addParam(_item.id, _this.data.params[_item.id], true);
+            }
           }
         } else {
           var foundTerm = null;
@@ -88,6 +94,24 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
             var paramName = 'filter_' + _item.id;
             if (url.searchParams.has(paramName)) {
               _this.data.params[paramName] = ['checkbox', 'radio'].includes(_item.type) ? decodeURI(url.searchParams.get(paramName)).split(',') : url.searchParams.get(paramName);
+            } else {
+              if (_item.selected) {
+                that.initLoading = false;
+                if (['checkbox', 'radio'].includes(_item.type)) {
+                  _this.data.params[_item.id] = Array.isArray(_item.selected) ? _item.selected : url.searchParams.get(_item.selected).split(',');
+                  _this.addParam(_item.id, _this.data.params[_item.id], true);
+                } else {
+                  _this.data.params[_item.id] = url.searchParams.get(_item.selected);
+                  _this.addParam(_item.id, _this.data.params[_item.id]);
+                }
+              } else {
+                if ('ad_type' === _item.id && url.searchParams.has('filters[ad_type]')) {
+                  that.initLoading = false;
+                  var adType = url.searchParams.get('filters[ad_type]');
+                  _this.data.params[paramName] = adType;
+                  _this.addParam(paramName, adType);
+                }
+              }
             }
           }
         }
@@ -133,7 +157,6 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
     _this.loadInitData();
   });
   _defineProperty(this, "loadInitData", function () {
-    _this.initLoading = true;
     if (_this.isArchive) {
       _this.$(_this.archivePaginationClass).remove();
       _this.$(_this.noListingFoundClass).remove();

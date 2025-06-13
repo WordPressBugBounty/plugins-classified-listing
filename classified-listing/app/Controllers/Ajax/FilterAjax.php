@@ -327,7 +327,7 @@ class FilterAjax {
 				$args['meta_query']['relation'] = 'AND';
 			}
 		}
-
+		
 		$query    = new WP_Query( $args );
 		$listings = null;
 		if ( $query->have_posts() ) {

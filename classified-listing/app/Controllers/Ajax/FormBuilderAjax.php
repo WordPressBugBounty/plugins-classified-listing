@@ -53,9 +53,9 @@ class FormBuilderAjax {
 			add_action( 'wp_ajax_nopriv_rtcl_fb_file_delete', [ $this, 'file_delete' ] );
 
 			add_action( 'wp_ajax_nopriv_rtcl_update_listing', [ $this, 'update_listing' ] );
-			
+
 			add_action( 'wp_ajax_nopriv_rtcl_fb_write_with_ai', [ $this, 'write_with_ai' ] );
-			
+
 			add_action( 'wp_ajax_nopriv_rtcl_fb_get_tags', [ $this, 'get_tags' ] );
 		}
 
@@ -1222,9 +1222,21 @@ class FormBuilderAjax {
 		}
 
 		$parent_id = !empty( $_POST['parentId'] ) ? absint( $_POST['parentId'] ) : 0;
-		$listingType = Functions::request( 'listingType' );
+		$excludeIds = !empty( $_POST['exclude'] ) && is_array( $_POST['exclude'] ) ? array_map( 'absint', $_POST['exclude'] ) : [];
+		$includeIds = !empty( $_POST['include'] ) && is_array( $_POST['include'] ) ? array_map( 'absint', $_POST['include'] ) : [];
 
-		$categories = Functions::get_one_level_categories( $parent_id, $listingType );
+		$listingType = Functions::request( 'listingType' );
+		$data = [];
+		if ( !empty( $listingType ) ) {
+			$data['type'] = $listingType;
+		}
+		if ( !empty( $excludeIds ) ) {
+			$data['exclude'] = $excludeIds;
+		}
+		if ( !empty( $includeIds ) ) {
+			$data['include'] = $includeIds;
+		}
+		$categories = Functions::get_sub_terms( rtcl()->category, $parent_id, $data );
 		$data = [
 			'success' => true,
 			'message' => [],
@@ -1282,8 +1294,21 @@ class FormBuilderAjax {
 		}
 		$data = [];
 		$categories = get_terms( $args );
-		if ( !is_wp_error( $categories ) ) {
-			$data = $categories;
+		if ( !is_wp_error( $categories ) && !empty( $categories ) ) {
+			foreach ( $categories as $term ) {
+				$image_id = get_term_meta( $term->term_id, '_rtcl_image', true );
+				if ( $image_id ) {
+					$image_attributes = wp_get_attachment_image_src( (int)$image_id, 'medium' );
+					if ( !empty( $image_attributes[0] ) ) {
+						$term->img_url = $image_attributes[0];
+					}
+				}
+				$icon_id = get_term_meta( $term->term_id, '_rtcl_icon', true );
+				if ( $icon_id ) {
+					$term->icon = $icon_id;
+				}
+				$data[] = $term;
+			}
 		}
 		wp_send_json_success( [
 			'data' => $data
@@ -1299,10 +1324,14 @@ class FormBuilderAjax {
 
 			return;
 		}
-		$ids = !empty( $_POST['ids'] ) && is_array( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : [];
+		$includeIds = !empty( $_POST['includeIds'] ) && is_array( $_POST['includeIds'] ) ? array_map( 'absint', $_POST['includeIds'] ) : [];
+		if ( empty( $includeIds ) && !empty( $_POST['ids'] ) ) {
+			$includeIds = is_array( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : [];
+		}
 		$parentId = isset( $_POST['parentId'] ) ? ( $_POST['parentId'] == 0 ? 0 : absint( $_POST['parentId'] ) ) : '';
 		$excludeIds = !empty( $_POST['excludeIds'] ) && is_array( $_POST['excludeIds'] ) ? array_map( 'absint', $_POST['excludeIds'] ) : [];
 		$q = !empty( $_POST['q'] ) ? sanitize_text_field( $_POST['q'] ) : '';
+		$withHasChildren = !empty( $_POST['withHasChildren'] );
 		$orderby = strtolower( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_orderby', 'name' ) );
 		$order = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_order', 'DESC' ) );
 		$taxonomy = isset( $_POST['taxonomy'] ) && in_array( $_POST['taxonomy'], [
@@ -1311,6 +1340,14 @@ class FormBuilderAjax {
 			rtcl()->location
 		] ) ? $_POST['taxonomy'] : rtcl()->category;
 		$number = isset( $_POST['number'] ) ? absint( $_POST['number'] ) : 0;
+		if ( $parentId === '' && $q ) {
+			if ( !empty( $excludeIds ) ) {
+				$excludeIds = Functions::get_all_term_descendants( $excludeIds, $taxonomy );
+			}
+			if ( !empty( $includeIds ) ) {
+				$includeIds = Functions::get_all_term_descendants( $includeIds, $taxonomy );
+			}
+		}
 		$args = [
 			'hide_empty'   => false,
 			'orderby'      => $orderby,
@@ -1320,14 +1357,14 @@ class FormBuilderAjax {
 			'hierarchical' => 1,
 			'parent'       => $parentId,
 			'search'       => $q,
-			'include'      => $ids,
+			'include'      => $includeIds,
 			'exclude'      => $excludeIds,
 			'number'       => $number
 			// phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
 		];
 		if ( $args['orderby'] == '_rtcl_order' ) {
-			$args['orderby']  = 'meta_value_num';
-			$args['meta_key'] = '_rtcl_order'; 
+			$args['orderby'] = 'meta_value_num';
+			$args['meta_key'] = '_rtcl_order';
 			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 		}
 		$listingType = Functions::request( 'listingType' );
@@ -1339,11 +1376,39 @@ class FormBuilderAjax {
 				]
 			];
 		}
-		
+
 		$data = [];
-		$categories = get_terms( $args );
-		if ( !is_wp_error( $categories ) ) {
-			$data = $categories;
+		$terms = get_terms( $args );
+		if ( !is_wp_error( $terms ) && !empty( $terms ) ) {
+			if ( rtcl()->category === $taxonomy || $withHasChildren ) {
+				$data = array_map( function ( $term ) use ( $withHasChildren ) {
+					if ( rtcl()->category === $term->taxonomy ) {
+						$image_id = get_term_meta( $term->term_id, '_rtcl_image', true );
+						if ( $image_id ) {
+							$image_attributes = wp_get_attachment_image_src( (int)$image_id, 'medium' );
+							if ( !empty( $image_attributes[0] ) ) {
+								$term->img_url = $image_attributes[0];
+							}
+						}
+						$icon_id = get_term_meta( $term->term_id, '_rtcl_icon', true );
+						if ( $icon_id ) {
+							$term->icon = $icon_id;
+						}
+					}
+					if ( $withHasChildren ) {
+						$children = get_terms( [
+							'taxonomy'   => $term->taxonomy,
+							'hide_empty' => false,
+							'parent'     => $term->term_id,
+							'number'     => 1
+						] );
+						$term->has_children = !empty( $children );
+					}
+					return $term;
+				}, $terms );
+			} else {
+				$data = $terms;
+			}
 		}
 		wp_send_json_success( [
 			'data' => $data
@@ -1449,25 +1514,24 @@ class FormBuilderAjax {
 	 *
 	 * @throws Exception If the AI service fails or an error occurs during the response generation.
 	 */
-	public function write_with_ai()
-	{
-		if (!wp_verify_nonce(isset($_REQUEST[rtcl()->nonceId]) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText)) {
-			wp_send_json_error(esc_html__('Session error !!', 'classified-listing'));
+	public function write_with_ai() {
+		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
+			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
 			return;
 		}
 
-		$prompt = isset($_POST['prompt']) ? sanitize_text_field(wp_unslash($_POST['prompt'])) : '';
-		$system_prompt = isset($_POST['systemPrompt']) ? sanitize_text_field(wp_unslash($_POST['systemPrompt'])) : '';
+		$prompt = isset( $_POST['prompt'] ) ? sanitize_text_field( wp_unslash( $_POST['prompt'] ) ) : '';
+		$system_prompt = isset( $_POST['systemPrompt'] ) ? sanitize_text_field( wp_unslash( $_POST['systemPrompt'] ) ) : '';
 		try {
 			$aiService = rtcl()->factory->initializeAIService();
-			$response = $aiService->generateResponse($prompt,$system_prompt);
-			if (is_wp_error($response)) {
-				wp_send_json_error($response->get_error_message());
+			$response = $aiService->generateResponse( $prompt, $system_prompt );
+			if ( is_wp_error( $response ) ) {
+				wp_send_json_error( $response->get_error_message() );
 				return;
 			}
-			wp_send_json_success(['response' => $response]);
-		} catch (Exception $e) {
-			wp_send_json_error($e->getMessage());
+			wp_send_json_success( [ 'response' => $response ] );
+		} catch ( Exception $e ) {
+			wp_send_json_error( $e->getMessage() );
 		}
 	}
 

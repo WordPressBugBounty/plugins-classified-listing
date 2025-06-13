@@ -17,7 +17,7 @@ class FBHelper {
 	 * @param $id
 	 * @return mixed|Form|null
 	 */
-	public static function getFormById($id) {
+	public static function getFormById( $id ) {
 		$form = $id ? Form::query()->find( $id ) : null;
 
 		$_form = apply_filters( 'rtcl_fb_form', $form );
@@ -28,8 +28,8 @@ class FBHelper {
 
 		return null;
 	}
-	
-	
+
+
 	/**
 	 * @return bool
 	 */
@@ -533,7 +533,7 @@ class FBHelper {
 			}
 			$name = $field['name'];
 			$value = null;
-			
+
 			if ( !empty( $field['default_value'] ) ) {
 				$value = apply_filters( 'rtcl/fb/parse_default_value', $field['default_value'], $field, $form );
 				if ( $value ) {
@@ -597,7 +597,7 @@ class FBHelper {
 		} elseif ( 'contains' === $condition['operator'] ) {
 			return is_array( $currentValue ) && in_array( $condition['value'], $currentValue );
 		} elseif ( 'doNotContains' === $condition['operator'] ) {
-			return is_array( $currentValue ) && !in_array( $condition['value'], $currentValue );
+			return !is_array( $currentValue ) || !in_array( $condition['value'], $currentValue );
 		} elseif ( 'startsWith' === $condition['operator'] ) {
 			return $currentValue && str_starts_with( $currentValue, $condition['value'] );
 		} elseif ( 'endsWith' === $condition['operator'] ) {
@@ -612,7 +612,7 @@ class FBHelper {
 	}
 
 	/**
-	 * @param string $value
+	 * @param string|array $value
 	 * @param array $field
 	 * @param Listing | null $listing
 	 *
@@ -633,8 +633,45 @@ class FBHelper {
 				}
 				$hasError = false;
 				if ( 'required' === $ruleKey ) {
-					if ( !$value ) {
-						$hasError = true;
+					if ( 'pricing' === $field['element'] ) {
+						if ( !empty( $field['options'] ) && is_array( $field['options'] ) ) {
+							$ruleMessage = !empty( $rule['message'] ) ? str_replace( '{value}', $rule['value'], $rule['message'] ) : '';
+							$priceRequiredErrors = [];
+							if ( in_array( 'pricing_type', $field['options'] ) ) {
+								if ( empty( $value['pricing_type'] ) ) {
+									$priceRequiredErrors['pricing_type'] = $ruleMessage;
+								}
+							}
+							if ( !in_array( 'pricing_type', $field['options'] ) || ( in_array( 'pricing_type', $field['options'] ) && !empty( $value['pricing_type'] ) && $value['pricing_type'] !== "disabled" ) ) {
+								if ( in_array( 'price_type', $field['options'] ) ) {
+									if ( empty( $value['price_type'] ) ) {
+										$priceRequiredErrors['price_type'] = $ruleMessage;
+									}
+								}
+								if ( ( !in_array( 'price_type', $field['options'] ) || ( in_array( 'price_type', $field['options'] ) && !empty( $value['price_type'] ) && $value['price_type'] !== "on_call" ) ) ) {
+									if ( in_array( 'price_unit', $field['options'] ) ) {
+										if ( empty( $value['price_unit'] ) ) {
+											$priceRequiredErrors['price_unit'] = $ruleMessage;
+										}
+									}
+									if ( empty( $value['price'] ) ) {
+										$priceRequiredErrors['price'] = $ruleMessage;
+									}
+									if ( in_array( 'pricing_type', $field['options'] ) && !empty( $value['pricing_type'] ) && $value['pricing_type'] === "range" ) {
+										if ( empty( $value['max_price'] ) ) {
+											$priceRequiredErrors['max_price'] = $ruleMessage;
+										}
+									}
+								}
+							}
+							if ( !empty( $priceRequiredErrors ) ) {
+								$errors[$ruleKey] = $priceRequiredErrors;
+							}
+						} else {
+							$hasError = empty( $value['price'] );
+						}
+					} else {
+						$hasError = !$value;
 					}
 				} elseif ( 'min' === $ruleKey ) {
 					if ( "number" === $field['element'] ) {
@@ -680,8 +717,6 @@ class FBHelper {
 					if ( !in_array( $value, array_keys( Functions::get_listing_types() ) ) ) {
 						$errors['not_exist'] = __( 'Listing type is not exist', 'classified-listing' );
 					}
-				} elseif ( 'pricing' === $field['element'] ) {
-
 				} elseif ( 'tag' === $field['element'] ) {
 					if ( is_array( $value ) ) {
 						foreach ( $value as $tag ) {

@@ -27,7 +27,7 @@ class AddTermMetaField {
 			$this,
 			'add_taxonomy_order_column_value'
 		], 10, 3 );
-		if ( ! Functions::is_ad_type_disabled() ) {
+		if ( !Functions::is_ad_type_disabled() ) {
 			add_filter( 'manage_' . rtcl()->category . '_custom_column', [
 				$this,
 				'add_cat_types_column_value'
@@ -36,13 +36,13 @@ class AddTermMetaField {
 			add_filter( 'manage_edit-' . rtcl()->category . '_columns', [
 				$this,
 				'add_cat_type_columns'
-			], 10, 1 );
+			] );
 		}
 
 		add_filter( 'manage_edit-' . rtcl()->category . '_columns', [
 			$this,
 			'add_taxonomy_order_columns'
-		], 10, 1 );
+		] );
 
 		add_filter( 'manage_' . rtcl()->location . '_custom_column', [ $this, 'add_taxonomy_order_column_value' ], 10, 3 );
 		add_filter( 'manage_edit-' . rtcl()->location . '_columns', [ $this, 'add_taxonomy_order_columns' ] );
@@ -67,7 +67,6 @@ class AddTermMetaField {
 		global $typenow, $wp_query;
 
 		if ( rtcl()->post_type_cfg == $typenow ) {
-			// Restrict by category
 			wp_dropdown_categories( [
 				'show_option_none'  => __( "All Categories", 'classified-listing' ),
 				'option_none_value' => 0,
@@ -75,7 +74,7 @@ class AddTermMetaField {
 				'name'              => 'rtcl_category',
 				'orderby'           => 'name',
 				'id'                => 'rtcl_category_listing',
-				'selected'          => isset( $wp_query->query['rtcl_category'] ) ? $wp_query->query['rtcl_category'] : '',
+				'selected'          => $wp_query->query['rtcl_category'] ?? '',
 				'hierarchical'      => true,
 				'depth'             => 3,
 				'show_count'        => false,
@@ -94,10 +93,10 @@ class AddTermMetaField {
 
 			// Convert category id to taxonomy term in query
 			if ( isset( $query->query_vars['rtcl_category'] ) && ctype_digit( $query->query_vars['rtcl_category'] )
-				 && $query->query_vars['rtcl_category'] != 0
+				&& $query->query_vars['rtcl_category'] != 0
 			) {
 
-				$term                               = get_term_by( 'id', $query->query_vars['rtcl_category'], 'rtcl_category' );
+				$term = get_term_by( 'id', $query->query_vars['rtcl_category'], 'rtcl_category' );
 				$query->query_vars['rtcl_category'] = $term->slug;
 
 			}
@@ -217,10 +216,10 @@ class AddTermMetaField {
 
 	function taxonomy_quick_edit_order( $column_name, $screen ) {
 		if ( $screen != 'edit-tags' || $column_name != '_rtcl_order'
-			 ||
-			 ! isset( $_GET['taxonomy'] )
-			 ||
-			 ! in_array( $_GET['taxonomy'], [ rtcl()->category, rtcl()->location ] )
+			||
+			!isset( $_GET['taxonomy'] )
+			||
+			!in_array( $_GET['taxonomy'], [ rtcl()->category, rtcl()->location ] )
 		) {
 			return false;
 		}
@@ -236,14 +235,14 @@ class AddTermMetaField {
 					</label>
 				</div>
 			</fieldset>
-			<?php if ( $_GET['taxonomy'] == rtcl()->category && ! Functions::is_ad_type_disabled() ) :
+			<?php if ( $_GET['taxonomy'] == rtcl()->category && !Functions::is_ad_type_disabled() ) :
 				$types = Functions::get_listing_types();
 				?>
 				<fieldset style="width: 50%; float: left">
 					<div class="form-field rtcl-term-group-wrap" id="rtcl-category-types">
 						<label for="rtcl-category-types"><span
 								class="title"><?php esc_html_e( 'Types', 'classified-listing' ); ?></span></label>
-						<?php if ( ! empty( $types ) ): ?>
+						<?php if ( !empty( $types ) ): ?>
 							<ul class="cat-checklist rtcl_category-types-list">
 								<?php foreach ( $types as $type_id => $type ) : ?>
 									<li id="rtcl_category-<?php echo esc_attr( $type_id ); ?>">
@@ -271,7 +270,7 @@ class AddTermMetaField {
 		if ( Functions::is_ajax() ) {
 			$newOrder = isset( $_POST['_rtcl_order'] ) ? absint( $_POST['_rtcl_order'] ) : $oldOrder;
 		} else {
-			$newOrder = ! empty( $_POST['_rtcl_order'] ) ? esc_attr( absint( $_POST['_rtcl_order'] ) ) : 0;
+			$newOrder = !empty( $_POST['_rtcl_order'] ) ? esc_attr( absint( $_POST['_rtcl_order'] ) ) : 0;
 		}
 		update_term_meta( $term_id, '_rtcl_order', $newOrder );
 	}
@@ -280,24 +279,26 @@ class AddTermMetaField {
 	 * @param $term_id
 	 */
 	static function save_category_meta( $term_id ) {
-		if ( ! Functions::is_ad_type_disabled() && isset( $_POST['_rtcl_types'] ) ) {
-			$types = ! empty( $_POST['_rtcl_types'] ) ? $_POST['_rtcl_types'] : [];
+		if ( !Functions::is_ad_type_disabled() && isset( $_POST['_rtcl_types'] ) ) {
+			$types = !empty( $_POST['_rtcl_types'] ) ? $_POST['_rtcl_types'] : [];
 			delete_term_meta( $term_id, '_rtcl_types' );
-			if ( ! empty( $types ) ) {
+			if ( !empty( $types ) ) {
 				foreach ( $types as $type ) {
 					add_term_meta( $term_id, '_rtcl_types', $type );
 				}
 			}
 		}
-
-		if ( isset( $_POST['_rtcl_price_units'] ) ) {
-			delete_term_meta( $term_id, '_rtcl_price_units' );
-			$price_units = ! empty( $_POST['_rtcl_price_units'] ) && is_array( $_POST['_rtcl_price_units'] ) ? $_POST['_rtcl_price_units'] : [];
-			$price_units = array_map( 'trim', $price_units );
-			$price_units = array_filter( $price_units );
-			if ( ! empty( $price_units ) ) {
-				foreach ( $price_units as $unit ) {
-					add_term_meta( $term_id, '_rtcl_price_units', $unit );
+		
+		if ( !Functions::isEnableFb() ) {
+			if ( isset( $_POST['_rtcl_price_units'] ) ) {
+				delete_term_meta( $term_id, '_rtcl_price_units' );
+				$price_units = !empty( $_POST['_rtcl_price_units'] ) && is_array( $_POST['_rtcl_price_units'] ) ? $_POST['_rtcl_price_units'] : [];
+				$price_units = array_map( 'trim', $price_units );
+				$price_units = array_filter( $price_units );
+				if ( !empty( $price_units ) ) {
+					foreach ( $price_units as $unit ) {
+						add_term_meta( $term_id, '_rtcl_price_units', $unit );
+					}
 				}
 			}
 		}
@@ -323,15 +324,14 @@ class AddTermMetaField {
 	}
 
 	function category_add_meta_field() {
-		$icons           = Options::get_icon_list();
-		$price_unit_list = Options::get_price_unit_list();
-		if ( ! Functions::is_ad_type_disabled() ):
+		$icons = Options::get_icon_list();
+		if ( !Functions::is_ad_type_disabled() ){
 			$types = Functions::get_listing_types();
 			?>
 			<div class="form-field rtcl-term-group-wrap" id="rtcl-category-types">
 				<label for="rtcl-category-types"><?php esc_html_e( 'Types', 'classified-listing' ); ?></label>
 				<fieldset class="rtcl-checkbox-wrap">
-					<?php if ( ! empty( $types ) ): ?>
+					<?php if ( !empty( $types ) ): ?>
 						<?php foreach ( $types as $type_id => $type ) : ?>
 							<label>
 								<input type="checkbox" name="_rtcl_types[]"
@@ -343,21 +343,26 @@ class AddTermMetaField {
 					<?php endif; ?>
 				</fieldset>
 			</div>
-		<?php endif; ?>
-		<div class="form-field term-group">
-			<label for="rtcl-price-units"><?php esc_html_e( 'Price Units', 'classified-listing' ); ?></label>
-			<fieldset class="rtcl-checkbox-wrap">
-				<?php if ( ! empty( $price_unit_list ) ) {
-					foreach ( $price_unit_list as $unit_key => $unit ) {
-						echo sprintf( '<label><input type="checkbox" name="_rtcl_price_units[]" value="%s" /> %s (%s)</label>',
-							esc_attr( $unit_key ),
-							esc_html( $unit['title'] ),
-							esc_html( $unit['short'] )
-						);
-					}
-				} ?>
-			</fieldset>
-		</div>
+		<?php }
+		
+		if ( !Functions::isEnableFb() ) {
+			$price_unit_list = Options::get_price_unit_list();
+			 ?>
+			<div class="form-field term-group">
+				<label for="rtcl-price-units"><?php esc_html_e( 'Price Units', 'classified-listing' ); ?></label>
+				<fieldset class="rtcl-checkbox-wrap">
+					<?php if ( !empty( $price_unit_list ) ) {
+						foreach ( $price_unit_list as $unit_key => $unit ) {
+							echo sprintf( '<label><input type="checkbox" name="_rtcl_price_units[]" value="%s" /> %s (%s)</label>',
+								esc_attr( $unit_key ),
+								esc_html( $unit['title'] ),
+								esc_html( $unit['short'] )
+							);
+						}
+					} ?>
+				</fieldset>
+			</div>
+		<?php } ?>
 		<div class="form-field rtcl-term-group-wrap">
 			<label for="rtcl-category-image-id"><?php esc_html_e( 'Image', 'classified-listing' ); ?></label>
 			<input type="hidden" class="rtcl-category-image-id" id="rtcl-category-image-id" name="_rtcl_image"/>
@@ -388,7 +393,7 @@ class AddTermMetaField {
 	 * @param $term
 	 */
 	function taxonomy_edit_meta_field( $term ) {
-		$t_id      = $term->term_id;
+		$t_id = $term->term_id;
 		$term_meta = esc_attr( absint( get_term_meta( $t_id, "_rtcl_order", true ) ) );
 		?>
 		<tr class="form-field rtcl-term-group-wrap">
@@ -407,14 +412,12 @@ class AddTermMetaField {
 	 * @param $term
 	 */
 	function category_edit_meta_field( $term ) {
-		$icons              = Options::get_icon_list();
-		$t_id               = $term->term_id;
-		$f_icon             = esc_attr( get_term_meta( $t_id, "_rtcl_icon", true ) );
-		$image_id           = absint( get_term_meta( $t_id, "_rtcl_image", true ) );
-		$image_src          = $image_id ? wp_get_attachment_thumb_url( $image_id ) : '';
-		$price_unit_list    = Options::get_price_unit_list();
-		$price_units        = get_term_meta( $term->term_id, "_rtcl_price_units" );
-		if ( ! Functions::is_ad_type_disabled() ):
+		$icons = Options::get_icon_list();
+		$t_id = $term->term_id;
+		$f_icon = esc_attr( get_term_meta( $t_id, "_rtcl_icon", true ) );
+		$image_id = absint( get_term_meta( $t_id, "_rtcl_image", true ) );
+		$image_src = $image_id ? wp_get_attachment_thumb_url( $image_id ) : '';
+		if ( !Functions::is_ad_type_disabled() ){
 			$types = Functions::get_listing_types();
 			$selected_types = get_term_meta( $t_id, '_rtcl_types' );
 			?>
@@ -424,7 +427,7 @@ class AddTermMetaField {
 				</th>
 				<td>
 					<fieldset class="rtcl-checkbox-wrap">
-						<?php if ( ! empty( $types ) ): ?>
+						<?php if ( !empty( $types ) ): ?>
 							<?php foreach ( $types as $type_id => $type ) :
 								$slt = in_array( $type_id, $selected_types ) ? " checked" : null;
 								?>
@@ -439,27 +442,32 @@ class AddTermMetaField {
 					</fieldset>
 				</td>
 			</tr>
-		<?php endif; ?>
-		<tr class="form-field term-group-wrap" id="rtcl-price-unit-wrap">
-			<th scope="row">
-				<label for="rtcl-price-unit"><?php esc_html_e( 'Price Units', 'classified-listing' ); ?></label>
-			</th>
-			<td>
-				<fieldset class="rtcl-checkbox-wrap">
-					<input type="hidden" name="_rtcl_price_units[]" value=""/>
-					<?php if ( ! empty( $price_unit_list ) ) {
-						foreach ( $price_unit_list as $unit_key => $unit ) {
-							echo sprintf( '<label><input type="checkbox" name="_rtcl_price_units[]" value="%s"%s/> %s (%s)</label>',
-								esc_attr( $unit_key ),
-								in_array( $unit_key, $price_units ) ? " checked" : null,
-								esc_html( $unit['title'] ),
-								esc_html( $unit['short'] )
-							);
-						}
-					} ?>
-				</fieldset>
-			</td>
-		</tr>
+		<?php }
+		if ( !Functions::isEnableFb() ) {
+			$price_unit_list = Options::get_price_unit_list();
+			$price_units = get_term_meta( $term->term_id, "_rtcl_price_units" );
+			 ?>
+			<tr class="form-field term-group-wrap" id="rtcl-price-unit-wrap">
+				<th scope="row">
+					<label for="rtcl-price-unit"><?php esc_html_e( 'Price Units', 'classified-listing' ); ?></label>
+				</th>
+				<td>
+					<fieldset class="rtcl-checkbox-wrap">
+						<input type="hidden" name="_rtcl_price_units[]" value=""/>
+						<?php if ( !empty( $price_unit_list ) ) {
+							foreach ( $price_unit_list as $unit_key => $unit ) {
+								echo sprintf( '<label><input type="checkbox" name="_rtcl_price_units[]" value="%s"%s/> %s (%s)</label>',
+									esc_attr( $unit_key ),
+									in_array( $unit_key, $price_units ) ? " checked" : null,
+									esc_html( $unit['title'] ),
+									esc_html( $unit['short'] )
+								);
+							}
+						} ?>
+					</fieldset>
+				</td>
+			</tr>
+		<?php } ?>
 		<tr class="form-field rtcl-term-group-wrap">
 			<th scope="row">
 				<label for="rtcl-category-image-id"><?php esc_html_e( 'Image', 'classified-listing' ); ?></label>
@@ -493,7 +501,7 @@ class AddTermMetaField {
 					foreach ( $icons as $icon ) {
 						$slt = $icon == $f_icon ? " selected" : null;
 						echo '<option value="' . esc_attr( $icon ) . '" ' . esc_attr( $slt ) . ' data-icon="' . esc_attr( $icon ) . '">' . esc_html( $icon )
-							 . '</option>';
+							. '</option>';
 					}
 					?>
 				</select>

@@ -83,6 +83,16 @@ class FieldSanitization {
 				if ( ! empty( $value ) && is_array( $value ) ) {
 					$field[ $fieldKey ] = array_map( 'absint', $value );
 				}
+			} elseif ( $fieldKey === 'filter' ) {
+				if ( !empty( $value ) && is_array( $value ) ) {
+					$ids = !empty( $value['ids'] ) ? array_filter( array_map( 'absint', $value['ids'] ) ) : [];
+					if ( !empty( $ids ) ) {
+						$field[$fieldKey] = [
+							'ids'  => $ids,
+							'mode' => !empty( $value['mode'] ) && in_array( $value['mode'], [ 'include', 'exclude' ] ) ? $value['mode'] : 'include',
+						];
+					}
+				}
 			} elseif ( $fieldKey === 'logics' ) {
 				if ( isset( $value['status'] ) && in_array( $value['status'], [ 'true', 'false' ], true ) ) {
 					if ( $value['status'] === 'true' ) {

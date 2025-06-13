@@ -3893,6 +3893,27 @@ button.toast-close-button {
   font-size: 80%;
   font-style: italic;
 }
+.rtcl-modal-field .rtcl-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.rtcl-modal-field .rtcl-checkbox-group label {
+  cursor: pointer;
+}
+
+.rtcl-cat-label {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.rtcl-cat-label .rtcl-cat-img {
+  width: 20px;
+  height: 20px;
+}
+.rtcl-cat-label .rtcl-cat-icon {
+  font-size: 20px;
+}
 
 /* ============== Password strength START ============== */
 .rtcl-pass-strength-result {
