@@ -118,7 +118,7 @@ class Comments {
 	public static function comments_open( $open, $post_id ) {
 		if ( rtcl()->post_type === get_post_type( $post_id ) ) {
 			$open = false;
-			if ( Functions::get_option_item( 'rtcl_moderation_settings', 'has_comment_form', false, 'checkbox' ) ) {
+			if ( Functions::get_option_item( 'rtcl_single_listing_settings', 'has_comment_form', false, 'checkbox' ) ) {
 				$open = true;
 			}
 		}
@@ -155,7 +155,7 @@ class Comments {
 			$comment_exist = get_comments( $args );
 
 			if ( count( $comment_exist ) > 0 ) {
-				if ( Functions::get_option_item( 'rtcl_moderation_settings', 'enable_update_rating', '', 'checkbox' ) ) {
+				if ( Functions::get_option_item( 'rtcl_single_listing_settings', 'enable_update_rating', '', 'checkbox' ) ) {
 					if ( wp_doing_ajax() ) {
 						die( esc_html__( 'Only ajax can update the comment.', 'classified-listing' ) );
 					}
@@ -181,7 +181,7 @@ class Comments {
 	 */
 	public static function check_comment_rating( $comment_data ) {
 		// If posting a comment (not trackback etc) and not logged in.
-		if ( ! is_admin() && isset( $_POST['comment_post_ID'], $_POST['rating'], $comment_data['comment_type'] ) && rtcl()->post_type === get_post_type( absint( $_POST['comment_post_ID'] ) ) && empty( $_POST['rating'] ) && '' === $comment_data['comment_type'] && Functions::get_option_item( 'rtcl_moderation_settings', 'enable_review_rating', false, 'checkbox' ) ) { // WPCS: input var ok, CSRF ok.
+		if ( ! is_admin() && isset( $_POST['comment_post_ID'], $_POST['rating'], $comment_data['comment_type'] ) && rtcl()->post_type === get_post_type( absint( $_POST['comment_post_ID'] ) ) && empty( $_POST['rating'] ) && '' === $comment_data['comment_type'] && Functions::get_option_item( 'rtcl_single_listing_settings', 'enable_review_rating', false, 'checkbox' ) ) { // WPCS: input var ok, CSRF ok.
 			if ( wp_doing_ajax() ) {
 				die( esc_html__( 'Please rate the listing.', 'classified-listing' ) );
 			}

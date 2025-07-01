@@ -42,7 +42,7 @@ class FilterAjax {
 			$_GET['view'] = $params['view'];
 		}
 		$orderByArgs  = rtcl()->query->get_catalog_ordering_args();
-		$perPage      = apply_filters( 'rtcl_loop_listing_per_page', Functions::get_option_item( 'rtcl_general_settings', 'listings_per_page' ) );
+		$perPage      = apply_filters( 'rtcl_loop_listing_per_page', Functions::get_option_item( 'rtcl_archive_listing_settings', 'listings_per_page' ) );
 		$perPage      = max( 1, absint( $perPage ) );
 		$currentPaged = max( 1, ! empty( $params['page'] ) ? absint( $params['page'] ) : 1 );
 

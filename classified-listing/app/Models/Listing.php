@@ -27,6 +27,8 @@ class Listing extends Data {
 	protected $post_content;
 	protected $user_id;
 	protected $moderation_settings = [];
+	protected $archive_settings = [];
+	protected $single_settings = [];
 	protected $general_settings = [];
 	protected $misc_settings = [];
 	protected $page_settings = [];
@@ -503,7 +505,7 @@ class Listing extends Data {
 	 * @return bool
 	 */
 	function is_new() {
-		if(empty($this->post_date)){
+		if ( empty( $this->post_date ) ) {
 			return false;
 		}
 		$each_hours            = 60 * 60 * 24; // seconds in a day
@@ -511,7 +513,7 @@ class Listing extends Data {
 		$s_date2               = strtotime( $this->post_date ); // seconds for date 2
 		$s_date_diff           = abs( $s_date1 - $s_date2 ); // different of the two dates in seconds
 		$days                  = round( $s_date_diff / $each_hours ); // divided the different with second in a day
-		$new_listing_threshold = Functions::get_option_item( 'rtcl_moderation_settings', 'new_listing_threshold', 3, 'number' );
+		$new_listing_threshold = Functions::get_option_item( 'rtcl_general_listing_label_settings', 'new_listing_threshold', 3, 'number' );
 		if ( $days <= $new_listing_threshold ) {
 			return true;
 		}
@@ -642,108 +644,88 @@ class Listing extends Data {
 		return false;
 	}
 
-
-	function can_show_date() {
-		$this->setModerationSettings();
-		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
-
-		$can_show_date = ! empty( $this->moderation_settings[ $display_option ] ) && in_array( 'date', $this->moderation_settings[ $display_option ] );
-
-		return apply_filters( 'rtcl_listing_can_show_date', $can_show_date, $this );
-	}
-
 	function can_show_category() {
-		$this->setModerationSettings();
-		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
+		$display_option = Functions::get_display_options();
 
-		$can_show_category = ! empty( $this->moderation_settings[ $display_option ] ) && in_array( 'category', $this->moderation_settings[ $display_option ] );
+		$can_show_category = in_array( 'category', $display_option );
 
 		return apply_filters( 'rtcl_listing_can_show_category', $can_show_category, $this );
 	}
 
 	function can_show_location() {
-		$this->setModerationSettings();
-		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
+		$display_option = Functions::get_display_options();
 
-		$can_show_location = ! empty( $this->moderation_settings[ $display_option ] ) && in_array( 'location', $this->moderation_settings[ $display_option ] );
+		$can_show_location = in_array( 'location', $display_option );
 
 		return apply_filters( 'rtcl_listing_can_show_location', $can_show_location, $this );
 	}
 
-	function can_show_views() {
-		$this->setModerationSettings();
-		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
+	function can_show_date() {
+		$display_option = Functions::get_display_options();
 
-		$can_show_views = ! empty( $this->moderation_settings[ $display_option ] ) && in_array( 'views', $this->moderation_settings[ $display_option ] );
+		$can_show_date = in_array( 'date', $display_option );
+
+		return apply_filters( 'rtcl_listing_can_show_date', $can_show_date, $this );
+	}
+
+	function can_show_views() {
+		$display_option = Functions::get_display_options();
+
+		$can_show_views = in_array( 'views', $display_option );
 
 		return apply_filters( 'rtcl_listing_can_show_views', $can_show_views, $this );
 	}
 
 	function can_show_user() {
-		$this->setModerationSettings();
-		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
+		$display_option = Functions::get_display_options();
 
-		$can_show_user = ! empty( $this->moderation_settings[ $display_option ] ) && in_array( 'user', $this->moderation_settings[ $display_option ] );
+		$can_show_user = in_array( 'user', $display_option );
 
 		return apply_filters( 'rtcl_listing_can_show_user', $can_show_user, $this );
 	}
 
 	function can_add_user_link() {
-		$this->setModerationSettings();
-		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
+		$display_option = Functions::get_display_options();
 
-		$can_show_user_link = ! empty( $this->moderation_settings[ $display_option ] )
-		                      && in_array( 'user_link', $this->moderation_settings[ $display_option ] );
+		$can_show_user_link = in_array( 'user_link', $display_option );
 
 		return apply_filters( 'rtcl_listing_can_show_user_link', $can_show_user_link, $this );
 	}
 
 	function can_show_membership_badge() {
-		$this->setModerationSettings();
-		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
+		$display_option = Functions::get_display_options();
 
-		$can_show_membership_badge = ! empty( $this->moderation_settings[ $display_option ] )
-		                             && in_array( 'membership_badge', $this->moderation_settings[ $display_option ] );
-
-		return $can_show_membership_badge;
+		return in_array( 'membership_badge', $display_option );
 	}
 
 	function can_show_store_owner_badge() {
-		$this->setModerationSettings();
-		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
+		$display_option = Functions::get_display_options();
 
-		$can_show_store_owner_badge = ! empty( $this->moderation_settings[ $display_option ] )
-		                              && in_array( 'store_owner_badge', $this->moderation_settings[ $display_option ] );
-
-		return $can_show_store_owner_badge;
+		return in_array( 'store_owner_badge', $display_option );
 	}
 
 	function can_show_excerpt() {
+		$display_option = Functions::get_display_options();
 
-		$this->setModerationSettings();
-
-		$can_show_excerpt = ! empty( $this->moderation_settings['display_options'] ) && in_array( 'excerpt', $this->moderation_settings['display_options'] );
+		$can_show_excerpt = in_array( 'excerpt', $display_option );
 
 		return apply_filters( 'rtcl_listing_can_show_excerpt', $can_show_excerpt, $this );
 	}
 
 	function can_show_price() {
+		$display_option = Functions::get_display_options();
 
-		$this->setModerationSettings();
-		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
-
-		$can_show_price = ! ( ( ( ! empty( $this->moderation_settings[ $display_option ] )
-		                          && ! in_array( 'price', $this->moderation_settings[ $display_option ] ) )
-		                        || Functions::is_price_disabled()
-		                        || $this->get_pricing_type() === 'disabled' ) );
+		$can_show_price = ! ( ! in_array( 'price', $display_option )
+		                      || Functions::is_price_disabled()
+		                      || $this->get_pricing_type() === 'disabled' );
 
 		return apply_filters( 'rtcl_listing_can_show_price', $can_show_price, $this );
 	}
 
 	public function can_show_ad_type() {
-		$display_option = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
+		$display_option = Functions::get_display_options();
 
-		$can_show_type = Functions::get_option_item( 'rtcl_moderation_settings', $display_option, 'ad_type', 'multi_checkbox' );
+		$can_show_type = in_array( 'ad_type', $display_option );
 
 		return apply_filters( 'rtcl_listing_can_show_ad_type', $can_show_type, $display_option, $this );
 	}
@@ -864,7 +846,7 @@ class Listing extends Data {
 				$images   = array_slice( $images, 0, 1 );
 				$thumb_id = $images[0]->ID;
 			} else {
-				$thumb_id = Functions::get_option_item( 'rtcl_misc_settings', 'placeholder_image', null, 'number' );
+				$thumb_id = Functions::get_option_item( 'rtcl_misc_media_settings', 'placeholder_image', null, 'number' );
 			}
 		}
 		if ( $thumb_id ) {
@@ -874,7 +856,7 @@ class Listing extends Data {
 			] );
 		} else {
 			$fallBackSizes = apply_filters( 'rtcl_default_placeholder_thumbnail_size',
-				Functions::get_option_item( 'rtcl_misc_settings', 'image_size_thumbnail' ) );
+				Functions::get_option_item( 'rtcl_misc_media_settings', 'image_size_thumbnail' ) );
 			$image         = sprintf(
 				'<img src="%s" class="rtcl-thumbnail rtcl-fallback-thumbnail" alt="%s" width="%d" height="%d">',
 				esc_url( Functions::get_default_placeholder_url() ),
@@ -900,7 +882,7 @@ class Listing extends Data {
 				$images   = array_slice( $images, 0, 1 );
 				$thumb_id = $images[0]->ID;
 			} else {
-				$thumb_id = Functions::get_option_item( 'rtcl_misc_settings', 'placeholder_image', null, 'number' );
+				$thumb_id = Functions::get_option_item( 'rtcl_misc_media_settings', 'placeholder_image', null, 'number' );
 			}
 		}
 
@@ -1573,8 +1555,8 @@ class Listing extends Data {
 
 	function the_actions() {
 		$the_actions = [
-			'can_add_favourites' => (bool) Functions::get_option_item( 'rtcl_moderation_settings', 'has_favourites', '', 'checkbox' ),
-			'can_report_abuse'   => (bool) Functions::get_option_item( 'rtcl_moderation_settings', 'has_report_abuse', '', 'checkbox' ),
+			'can_add_favourites' => (bool) Functions::get_option_item( 'rtcl_general_settings', 'has_favourites', '', 'checkbox' ),
+			'can_report_abuse'   => (bool) Functions::get_option_item( 'rtcl_single_listing_settings', 'has_report_abuse', '', 'checkbox' ),
 			'social'             => $this->the_social_share( false ),
 			'listing_id'         => $this->id
 		];
@@ -1587,11 +1569,11 @@ class Listing extends Data {
 	 * @return null|string
 	 */
 	function get_the_social_share() {
-		$this->setMiscSettings();
-		$html = '';
-		if ( ! empty( $this->misc_settings['social_services'] ) ) {
+		$social_share_options = Functions::get_social_share_options();
+		$html                 = '';
+		if ( ! empty( $social_share_options['social_services'] ) ) {
 			$social_share = apply_filters( 'rtcl_social_share_data', [
-				'misc_settings' => $this->misc_settings,
+				'misc_settings' => $social_share_options,
 				'title'         => $this->get_the_title(),
 				'url'           => rawurldecode( $this->get_the_permalink() ),
 				'thumbnail'     => $this->get_the_thumbnail_url()
@@ -1613,7 +1595,8 @@ class Listing extends Data {
 
 		$this->setMiscSettings();
 		$this->setPageSettings();
-		$page = 'none';
+		$social_share_settings = Functions::get_social_share_options();
+		$page                  = 'none';
 
 		if ( ! empty( $post ) ) {
 			$is_single_listing = rtcl()->post_type == $post->post_type;
@@ -1625,7 +1608,7 @@ class Listing extends Data {
 				$page = 'listings';
 			}
 
-			if ( ! empty( $this->misc_settings['social_pages'] ) && in_array( $page, $this->misc_settings['social_pages'] ) ) {
+			if ( ! empty( $social_share_settings['social_pages'] ) && in_array( $page, $social_share_settings['social_pages'] ) ) {
 
 				// Get current page URL
 				$url = get_permalink( $post ); // Link::get_current_url();
@@ -1656,7 +1639,7 @@ class Listing extends Data {
 				}
 				if ( ! empty( $this->misc_settings['social_services'] ) ) {
 					$html = Functions::get_template_html( "listing/social-share", [
-						'misc_settings' => $this->misc_settings,
+						'misc_settings' => $social_share_settings,
 						'title'         => $title,
 						'url'           => rawurldecode( $url ),
 						'thumbnail'     => $thumbnail
@@ -1681,7 +1664,7 @@ class Listing extends Data {
 
 		$category              = ! empty( $this->categories ) ? end( $this->categories )->term_id : 0;
 		$related_post_per_page = apply_filters( 'rtcl_listing_related_posts_per_page',
-			Functions::get_option_item( 'rtcl_general_settings', 'related_posts_per_page', 4, 'number' ) );
+			Functions::get_option_item( 'rtcl_single_listing_settings', 'related_posts_per_page', 4, 'number' ) );
 		if ( ! $related_post_per_page ) {
 			return;
 		}
@@ -1738,7 +1721,7 @@ class Listing extends Data {
 		$location_type = Functions::location_type();
 		if ( 'local' === $location_type ) {
 			$is_location = apply_filters( 'rtcl_display_location_details_page',
-				Functions::get_option_item( 'rtcl_moderation_settings', 'display_options_detail', 'location', 'multi_checkbox' ) ); // Hook Added by rashid
+				Functions::get_option_item( 'rtcl_single_listing_settings', 'display_options_detail', 'location', 'multi_checkbox' ) ); // Hook Added by rashid
 			if ( count( $this->locations ) && $is_location ) {
 				foreach ( $this->locations as $location ) {
 					$locations[] = $location->name;
@@ -1749,13 +1732,13 @@ class Listing extends Data {
 			$address    = esc_textarea( get_post_meta( $this->id, 'address', true ) );
 			$zipcode    = get_post_meta( $this->id, 'zipcode', true );
 			$is_address = apply_filters( 'rtcl_display_address_details_page',
-				Functions::get_option_item( 'rtcl_moderation_settings', 'display_options_detail', 'address', 'multi_checkbox' ) ); // Hook Added by rashid
+				Functions::get_option_item( 'rtcl_single_listing_settings', 'display_options_detail', 'address', 'multi_checkbox' ) ); // Hook Added by rashid
 
 			if ( $address && $is_address ) {
 				array_unshift( $locations, $address );
 			}
 			$is_zipcode = apply_filters( 'rtcl_display_zipcode_details_page',
-				Functions::get_option_item( 'rtcl_moderation_settings', 'display_options_detail', 'zipcode', 'multi_checkbox' ) ); // Hook Added by rashid
+				Functions::get_option_item( 'rtcl_single_listing_settings', 'display_options_detail', 'zipcode', 'multi_checkbox' ) ); // Hook Added by rashid
 
 			if ( $zipcode && $is_zipcode ) {
 				$locations[] = $zipcode;
@@ -1781,7 +1764,7 @@ class Listing extends Data {
 			'phone'                => $phone,
 			'whatsapp_number'      => $whatsapp_number,
 			'email'                => $email,
-			'has_contact_form'     => Functions::get_option_item( 'rtcl_moderation_settings', 'has_contact_form', false, 'checkbox' ),
+			'has_contact_form'     => Functions::get_option_item( 'rtcl_single_listing_settings', 'has_contact_form', false, 'checkbox' ),
 			'website'              => $website,
 			'listing_id'           => $this->id,
 			'email_to_seller_form' => $this->email_to_seller_form( false )
@@ -1813,6 +1796,18 @@ class Listing extends Data {
 	public function setModerationSettings() {
 		if ( empty( $this->moderation_settings ) ) {
 			$this->moderation_settings = Functions::get_option( 'rtcl_moderation_settings' );
+		}
+	}
+
+	public function setArchiveListingSettings() {
+		if ( empty( $this->archive_settings ) ) {
+			$this->archive_settings = Functions::get_option( 'rtcl_archive_listing_settings' );
+		}
+	}
+
+	public function setSingleListingSettings() {
+		if ( empty( $this->single_settings ) ) {
+			$this->single_settings = Functions::get_option( 'rtcl_single_listing_settings' );
 		}
 	}
 

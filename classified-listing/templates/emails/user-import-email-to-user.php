@@ -24,17 +24,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 do_action( 'rtcl_email_header', $email ); ?>
 <?php /* translators: %s: Customer billing full name */ ?>
-	<p><?php /* translators:  username */
+	<p style="margin: 0 0 16px;"><?php /* translators:  username */
 		printf( esc_html__( "Hi %s", "classified-listing" ), esc_html( $user->user_login ) ); ?></p>
-	<p><?php /* translators:  site url */
+	<p style="margin: 0 0 16px;"><?php /* translators:  site url */
 		printf( esc_html__( "Your account is migrated to site %s", 'classified-listing' ), esc_html( Functions::get_blogname() ) ) ?></p>
-	<p><?php /* translators:  username */
+	<p style="margin: 0 0 16px;"><?php /* translators:  username */
 		printf( esc_html__( "Username: %s", 'classified-listing' ), esc_html( $user->user_login ) ) ?></p>
-	<p><?php /* translators:  password */
+	<p style="margin: 0 0 16px;"><?php /* translators:  password */
 		printf( esc_html__( "Password: %s", 'classified-listing' ), esc_html( $data['user_pass'] ) ) ?></p>
 
 	<br>
-	<p><?php esc_html_e( 'Thanks for reading.', 'classified-listing' ); ?></p>
+	<p style="margin: 0 0 16px;"><?php esc_html_e( 'Thanks for reading.', 'classified-listing' ); ?></p>
 <?php
 /**
  * @hooked RtclEmails::email_footer() Output the email footer

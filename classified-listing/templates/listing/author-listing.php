@@ -17,20 +17,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 $author  = get_user_by( 'slug', get_query_var( 'author_name' ) );
 $user_id = $author->ID;
 
-$general_settings = Functions::get_option( 'rtcl_general_settings' );
+$archive_settings = Functions::get_option( 'rtcl_archive_listing_settings' );
 // Define the query
 $paged = Pagination::get_page_number();
 
 $args = [
 	'post_type'      => rtcl()->post_type,
-	'posts_per_page' => ! empty( $general_settings['listings_per_page'] ) ? absint( $general_settings['listings_per_page'] ) : 10,
+	'posts_per_page' => ! empty( $archive_settings['listings_per_page'] ) ? absint( $archive_settings['listings_per_page'] ) : 10,
 	'paged'          => $paged,
 	'author'         => $user_id,
 	'meta_query'     => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-		[
-			'key'     => '_rtcl_manager_id',
-			'compare' => 'NOT EXISTS'
-		]
+						  [
+							  'key'     => '_rtcl_manager_id',
+							  'compare' => 'NOT EXISTS'
+						  ]
 	]
 ];
 

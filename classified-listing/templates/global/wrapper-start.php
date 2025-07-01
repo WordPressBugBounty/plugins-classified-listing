@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $template               = Functions::get_theme_slug_for_templates();
-$sidebar_position       = Functions::get_option_item( 'rtcl_moderation_settings', 'detail_page_sidebar_position', 'right' );
+$sidebar_position       = Functions::get_option_item( 'rtcl_single_listing_settings', 'detail_page_sidebar_position', 'right' );
 $content_position_class = '';
 
 if ( Functions::is_listings() || ( 'left' === $sidebar_position && Functions::is_listing() ) || Functions::is_listing_taxonomy() ) {

@@ -20,11 +20,13 @@ class Listings extends WP_Widget {
 	protected $defaults;
 
 	protected $general_settings;
+	protected $archive_settings;
 
 	public function __construct() {
 
 		$this->widget_slug      = 'rtcl-widget-listing';
 		$this->general_settings = Functions::get_option( 'rtcl_general_settings' );
+		$this->archive_settings = Functions::get_option( 'rtcl_archive_listing_settings' );
 		$this->defaults         = [
 			'title'            => esc_html__( 'Listings', 'classified-listing' ),
 			'location'         => 0,
@@ -32,8 +34,8 @@ class Listings extends WP_Widget {
 			'related_listings' => 0,
 			'type'             => 'all',
 			'limit'            => 8,
-			'orderby'          => ! empty( $this->general_settings['orderby'] ) ? $this->general_settings['orderby'] : '',
-			'order'            => ! empty( $this->general_settings['order'] ) ? $this->general_settings['order'] : '',
+			'orderby'          => ! empty( $this->archive_settings['orderby'] ) ? $this->archive_settings['orderby'] : '',
+			'order'            => ! empty( $this->archive_settings['order'] ) ? $this->archive_settings['order'] : '',
 			'view'             => 'grid',
 			'columns'          => 4,
 			'tab_items'        => 3,
@@ -103,7 +105,8 @@ class Listings extends WP_Widget {
 				'taxonomy'         => rtcl()->location,
 				'field'            => 'term_id',
 				'terms'            => $location,
-				'include_children' => isset( $this->general_settings['include_results_from'] ) && in_array( 'child_locations',
+				'include_children' => isset( $this->general_settings['include_results_from'] )
+				                      && in_array( 'child_locations',
 						$this->general_settings['include_results_from'] ),
 			];
 
@@ -137,7 +140,8 @@ class Listings extends WP_Widget {
 				'taxonomy'         => rtcl()->category,
 				'field'            => 'term_id',
 				'terms'            => $category,
-				'include_children' => isset( $this->general_settings['include_results_from'] ) && in_array( 'child_categories',
+				'include_children' => isset( $this->general_settings['include_results_from'] )
+				                      && in_array( 'child_categories',
 						$this->general_settings['include_results_from'] ),
 			];
 

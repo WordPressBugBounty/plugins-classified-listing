@@ -114,11 +114,11 @@ class ActionHooks {
 	 */
 	public static function checkout_process_mail( $payment ) {
 		if ( $payment && $payment->exists() ) {
-			if ( Functions::get_option_item( 'rtcl_email_settings', 'notify_admin', 'order_created', 'multi_checkbox' ) ) {
+			if ( Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_admin', 'order_created', 'multi_checkbox' ) ) {
 				rtcl()->mailer()->emails['Order_Created_Email_To_Admin']->trigger( $payment->get_id(), $payment );
 			}
 
-			if ( Functions::get_option_item( 'rtcl_email_settings', 'notify_users', 'order_created', 'multi_checkbox' ) ) {
+			if ( Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_users', 'order_created', 'multi_checkbox' ) ) {
 				rtcl()->mailer()->emails['Order_Created_Email_To_Customer']->trigger( $payment->get_id(), $payment );
 			}
 		}

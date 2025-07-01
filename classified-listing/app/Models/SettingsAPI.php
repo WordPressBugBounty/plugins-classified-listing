@@ -634,6 +634,54 @@ abstract class SettingsAPI {
 		return ob_get_clean();
 	}
 
+	public function generate_responsive_number_html( $key, $data ) {
+		$field_key     = $this->get_field_key( $key );
+		$id            = $this->get_field_id( $key );
+		$defaults      = $this->get_placeholder_data();
+		$data          = wp_parse_args( $data, $defaults );
+		$wrapper_class = implode( ' ', [ $id, $data['wrapper_class'] ] );
+		$depends       = empty( $data['dependency'] ) ? '' : "data-rt-depends='" . wp_json_encode( $data['dependency'] ) . "'";
+		$size          = $this->get_option( $key );
+		ob_start(); ?>
+		<tr valign="top"
+			class="<?php echo esc_attr( $wrapper_class ); ?>" <?php
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $depends; ?>>
+			<th scope="row" class="title-desc">
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $this->get_tooltip_html( $data ); ?>
+				<label for="<?php echo esc_attr( $id ); ?>"><?php echo wp_kses_post( $data['title'] ); ?></label>
+			</th>
+			<td class="form-input rtcl-image-size-wrap">
+				<fieldset>
+					<legend class="screen-reader-text">
+						<span><?php echo wp_kses_post( $data['title'] ); ?></span>
+					</legend>
+					<?php foreach ( (array) $data['options'] as $option_key => $option_value ) : ?>
+						<div class='rtcl-image-size-item'>
+							<?php
+							$value = ! empty( $size[ $option_key ] ) ? absint( esc_attr( $size[ $option_key ] ) ) : null; ?>
+							<label
+								for='<?php echo esc_attr( $id . '-' . $option_key ); ?>'><?php echo wp_kses_post( $option_value ); ?></label>
+							<input type='number'
+								   name='<?php echo esc_attr( $field_key ); ?>[<?php echo esc_attr( $option_key ); ?>]'
+								   id="<?php echo esc_attr( $id . '-' . $option_key ); ?>"
+								   value="<?php echo esc_attr( $value ); ?>"
+							/>
+						</div>
+					<?php endforeach; ?>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo $this->get_description_html( $data ); ?>
+				</fieldset>
+			</td>
+		</tr>
+		<?php
+
+		return ob_get_clean();
+	}
+
 	public function generate_image_size_html( $key, $data ) {
 		$field_key     = $this->get_field_key( $key );
 		$id            = $this->get_field_id( $key );
@@ -1066,7 +1114,7 @@ abstract class SettingsAPI {
 	 *
 	 * @since  1.0.0
 	 */
-	public function generate_checkbox_html( $key, $data ) {
+	public function generate_checkbox_old_html( $key, $data ) {
 		$field_key = $this->get_field_key( $key );
 		$id        = $this->get_field_id( $key );
 		$defaults  = $this->get_placeholder_data();
@@ -1104,6 +1152,67 @@ abstract class SettingsAPI {
 						); ?> <?php
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						echo $this->get_custom_attribute_html( $data ); ?> /> <?php echo wp_kses_post( $data['label'] ); ?>
+					</label><br/>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo $this->get_description_html( $data ); ?>
+				</fieldset>
+			</td>
+		</tr>
+		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Generate Checkbox HTML.
+	 *
+	 * @param mixed $key
+	 * @param mixed $data
+	 *
+	 * @return string
+	 *
+	 * @since  1.0.0
+	 */
+	public function generate_checkbox_html( $key, $data ) {
+		$field_key = $this->get_field_key( $key );
+		$id        = $this->get_field_id( $key );
+		$defaults  = $this->get_placeholder_data();
+
+		$data          = wp_parse_args( $data, $defaults );
+		$wrapper_class = implode( ' ', [ $id, $data['wrapper_class'] ] );
+		$depends       = empty( $data['dependency'] ) ? '' : "data-rt-depends='" . wp_json_encode( $data['dependency'] ) . "'";
+		if ( ! $data['label'] ) {
+			$data['label'] = $data['title'];
+		}
+
+		ob_start(); ?>
+		<tr valign="top" class="<?php echo esc_attr( $wrapper_class ); ?>" <?php
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo $depends; ?>>
+			<th scope="row" class="title-desc">
+				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $this->get_tooltip_html( $data ); ?>
+				<label for="<?php echo esc_attr( $id ); ?>"><?php echo wp_kses_post( $data['title'] ); ?></label>
+			</th>
+			<td class="form-input">
+				<fieldset>
+					<legend class="screen-reader-text"><span><?php echo wp_kses_post( $data['title'] ); ?></span>
+					</legend>
+					<label class="rtcl-switch-field" for="<?php echo esc_attr( $id ); ?>">
+						<input <?php disabled( $data['disabled'], true ); ?>
+							class="<?php echo esc_attr( $data['class'] ); ?>" type="checkbox"
+							name="<?php echo esc_attr( $field_key ); ?>"
+							id="<?php echo esc_attr( $id ); ?>"
+							style="<?php echo esc_attr( $data['css'] ); ?>"
+							value="yes" <?php checked(
+							$this->get_option( $key ),
+							'yes'
+						); ?> <?php
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo $this->get_custom_attribute_html( $data ); ?> />
+						<span class="rtcl-switch-slider"></span>
 					</label><br/>
 					<?php
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -1387,6 +1496,44 @@ abstract class SettingsAPI {
 	}
 
 	/**
+	 * Generate Title HTML.
+	 *
+	 * @param mixed $key
+	 * @param mixed $data
+	 *
+	 * @return string
+	 *
+	 * @since  1.0.0
+	 */
+	public function generate_section_html( $key, $data ) {
+		$field_key = $this->get_field_key( $key );
+		$id        = $this->get_field_id( $key );
+		$defaults  = [
+			'title' => '',
+			'class' => '',
+		];
+
+		$data = wp_parse_args( $data, $defaults );
+
+		ob_start(); ?>
+		</table>
+		</span>
+		<span class="rtcl-settings-section">
+		<?php if ( ! empty( $data['title'] ) ): ?>
+			<h3 class="rtcl-settings-section-title <?php echo esc_attr( $data['class'] ); ?>" id="<?php echo esc_attr( $id ); ?>">
+				<?php echo wp_kses_post( $data['title'] ); ?>
+			</h3>
+		<?php endif; ?>
+		<?php if ( ! empty( $data['description'] ) ) : ?>
+			<p><?php echo wp_kses_post( $data['description'] ); ?></p>
+		<?php endif; ?>
+		<table class="form-table">
+		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
 	 * Validate Text Field.
 	 *
 	 * Make sure the data is escaped correctly, etc.
@@ -1534,6 +1681,13 @@ abstract class SettingsAPI {
 	}
 
 	public function validate_image_size_field( $key, $value ) {
+		return is_array( $value ) ? array_map(
+			[ Functions::class, 'clean' ],
+			array_map( 'stripslashes', $value )
+		) : '';
+	}
+
+	public function validate_responsive_number_field( $key, $value ) {
 		return is_array( $value ) ? array_map(
 			[ Functions::class, 'clean' ],
 			array_map( 'stripslashes', $value )

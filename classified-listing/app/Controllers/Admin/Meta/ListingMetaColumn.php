@@ -22,8 +22,8 @@ class ListingMetaColumn {
 	}
 
 	function listing_get_columns( $columns ) {
-		$featured_label = Functions::get_option_item( 'rtcl_moderation_settings', 'listing_featured_label' );
-		$top_label      = Functions::get_option_item( 'rtcl_moderation_settings', 'listing_top_label' );
+		$featured_label = Functions::get_option_item( 'rtcl_general_listing_label_settings', 'listing_featured_label' );
+		$top_label      = Functions::get_option_item( 'rtcl_general_listing_label_settings', 'listing_top_label' );
 
 		$new_columns = [
 			'views'       => esc_html__( 'Views', 'classified-listing' ),

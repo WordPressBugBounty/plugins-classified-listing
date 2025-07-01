@@ -12,6 +12,7 @@ use Rtcl\Services\MaxMindDatabaseService;
 class AdminSettings extends SettingsAPI {
 
 	protected $tabs = [];
+	protected $option_group = [];
 	protected $active_tab;
 	protected $current_section;
 	protected $gateway_temp_desc;
@@ -43,7 +44,7 @@ class AdminSettings extends SettingsAPI {
 		add_action( 'admin_init', [ $this, 'generate_rest_api_key' ] );
 		add_action( 'rtcl_admin_settings_groups', [ $this, 'setup_settings' ] );
 		add_action( 'rtcl_admin_external_settings', [ $this, 'setup_external_settings' ] );
-		if ( !rtcl()->has_pro() ) {
+		if ( ! rtcl()->has_pro() ) {
 			add_filter( 'plugin_action_links_' . plugin_basename( RTCL_PLUGIN_FILE ), [ $this, 'get_pro_action' ] );
 		}
 		if ( apply_filters( 'rtcl_settings_link_on_admin_bar', true ) ) {
@@ -57,8 +58,8 @@ class AdminSettings extends SettingsAPI {
 		add_action( 'in_admin_header',
 			function () {
 				$screen = get_current_screen();
-				if ( ( !empty( $screen->post_type )
-					&& in_array( $screen->post_type, [
+				if ( ( ! empty( $screen->post_type )
+					   && in_array( $screen->post_type, [
 						rtcl()->post_type,
 						rtcl()->post_type_pricing,
 						rtcl()->post_type_cfg,
@@ -76,12 +77,12 @@ class AdminSettings extends SettingsAPI {
 
 		if ( $current_screen->post_type == rtcl()->post_type_pricing ) {
 			$submenu_file = 'edit.php?post_type=' . rtcl()->post_type_pricing;
-			$parent_file = 'rtcl-admin';
+			$parent_file  = 'rtcl-admin';
 		}
 
 		if ( $current_screen->post_type == rtcl()->post_type_payment ) {
 			$submenu_file = 'edit.php?post_type=' . rtcl()->post_type_payment;
-			$parent_file = 'rtcl-admin';
+			$parent_file  = 'rtcl-admin';
 		}
 
 		return $parent_file;
@@ -132,18 +133,18 @@ class AdminSettings extends SettingsAPI {
 		$links[] = '<a target="_blank" href="' . esc_url( 'https://radiustheme.com/demo/wordpress/classified' ) . '">Demo</a>';
 		$links[] = '<a target="_blank" href="' . esc_url( 'https://www.radiustheme.com/docs/classified-listing/' ) . '">Documentation</a>';
 		$links[] = '<a target="_blank" style="color: #39b54a;font-weight: 700;" href="'
-			. esc_url( 'https://www.radiustheme.com/downloads/classified-listing-pro-wordpress/' ) . '">Get Pro</a>';
+				   . esc_url( 'https://www.radiustheme.com/downloads/classified-listing-pro-wordpress/' ) . '">Get Pro</a>';
 
 		return $links;
 	}
 
 	public function add_admin_bar() {
-		if ( !current_user_can( 'manage_rtcl_options' ) ) {
+		if ( ! current_user_can( 'manage_rtcl_options' ) ) {
 			return;
 		}
 
 		global $wp_admin_bar;
-		$url = add_query_arg( [ 'post_type' => rtcl()->post_type ], admin_url( 'edit.php' ) );
+		$url  = add_query_arg( [ 'post_type' => rtcl()->post_type ], admin_url( 'edit.php' ) );
 		$args = [
 			'id'    => rtcl()->post_type,
 			'title' => esc_html__( 'Classified Listing', 'classified-listing' ),
@@ -194,7 +195,7 @@ class AdminSettings extends SettingsAPI {
 		];
 
 		$wp_admin_bar->add_menu( $listing_types_args );
-		if ( !FBHelper::isEnabled() ) {
+		if ( ! FBHelper::isEnabled() ) {
 			$cfg_args = [
 				'id'     => rtcl()->post_type . "-custom-fields",
 				'title'  => esc_html__( 'Custom Fields', 'classified-listing' ),
@@ -400,7 +401,7 @@ class AdminSettings extends SettingsAPI {
 						<div class="rtcl-filter-list-wrap">
 							<?php
 							$filterForms = Functions::get_option( 'rtcl_filter_settings' );
-							if ( !empty( $filterForms ) ) {
+							if ( ! empty( $filterForms ) ) {
 								foreach ( $filterForms as $filterId => $filterForm ) {
 									echo sprintf( '<a data-id="%s" class="rtcl-filter-action-wrap"><span class="rtcl-filter-name">%s</span><span class="rtcl-filter-actions"><i class="rtcl-filter-edit dashicons dashicons-edit"></i><i class="rtcl-filter-remove dashicons dashicons-remove"></i></span></a>',
 										esc_attr( $filterId ), esc_html( $filterForm['name'] ) );
@@ -442,7 +443,7 @@ class AdminSettings extends SettingsAPI {
 			$gateway = Functions::get_payment_gateway( $this->current_section );
 			if ( $gateway ) {
 				$gateway->init_form_fields();
-				$gateway->option = $this->option;
+				$gateway->option   = $this->option;
 				$this->form_fields = $gateway->form_fields;
 			}
 		} else {
@@ -454,7 +455,7 @@ class AdminSettings extends SettingsAPI {
 
 	public function setup_external_settings() {
 		if ( $this->active_tab && $this->current_section && array_key_exists( $this->active_tab, $this->tabs )
-			&& array_key_exists( $this->current_section, $this->subtabs )
+			 && array_key_exists( $this->current_section, $this->subtabs )
 		) {
 			$file_name = RTCL_PATH . "views/settings/{$this->active_tab}-{$this->current_section}-settings.php";
 		} else {
@@ -470,7 +471,7 @@ class AdminSettings extends SettingsAPI {
 	function set_fields() {
 		$field = [];
 		if ( $this->active_tab && $this->current_section && array_key_exists( $this->active_tab, $this->tabs )
-			&& array_key_exists( $this->current_section, $this->subtabs )
+			 && array_key_exists( $this->current_section, $this->subtabs )
 		) {
 			$file_name = RTCL_PATH . "views/settings/{$this->active_tab}-{$this->current_section}-settings.php";
 		} else {
@@ -488,66 +489,99 @@ class AdminSettings extends SettingsAPI {
 	}
 
 	protected function add_subsections() {
-		if ( !$this->active_tab ) {
+		if ( ! $this->active_tab ) {
 			return;
 		}
 		if ( method_exists( $this, $this->active_tab . '_add_subsections' ) ) {
 			$this->{$this->active_tab . '_add_subsections'}();
 		} else {
 			$sub_sections = apply_filters( 'rtcl_' . $this->active_tab . '_sub_sections', [] );
-			if ( is_array( $sub_sections ) && !empty( $sub_sections ) ) {
+			if ( is_array( $sub_sections ) && ! empty( $sub_sections ) ) {
 				$this->subtabs = $sub_sections;
 			}
 		}
 	}
 
 	protected function general_add_subsections() {
-		$sub_sections = [
-			''          => esc_html__( "General", 'classified-listing' ),
-			'directory' => esc_html__( "Directory", 'classified-listing' )
+		$sub_sections  = [
+			''              => esc_html__( "Listing Settings", 'classified-listing' ),
+			'listing_label' => esc_html__( "Listing Labels", 'classified-listing' ),
+			'location'      => esc_html__( "Location", 'classified-listing' ),
+			'currency'      => esc_html__( "Currency", 'classified-listing' ),
+			'social_share'  => esc_html__( "Social Share", 'classified-listing' )
 		];
-		$sub_sections = apply_filters( 'rtcl_general_sub_sections', $sub_sections );
+		$sub_sections  = apply_filters( 'rtcl_general_sub_sections', $sub_sections );
 		$this->subtabs = $sub_sections;
+
+		return $sub_sections;
 	}
 
 	protected function tax_add_subsections() {
-		$sub_sections = [
+		$sub_sections  = [
 			''         => esc_html__( "General", 'classified-listing' ),
 			'tax_rate' => esc_html__( "Tax Rates", 'classified-listing' )
 		];
-		$sub_sections = apply_filters( 'rtcl_tax_sub_sections', $sub_sections );
+		$sub_sections  = apply_filters( 'rtcl_tax_sub_sections', $sub_sections );
 		$this->subtabs = $sub_sections;
+
+		return $sub_sections;
 	}
 
 	protected function payment_add_subsections() {
-		$sections = [ '' => esc_html__( "Checkout option", 'classified-listing' ) ];
+		$sections         = [ '' => esc_html__( "Checkout option", 'classified-listing' ) ];
 		$payment_gateways = rtcl()->payment_gateways();
 		foreach ( $payment_gateways as $gateway ) {
-			$title = empty( $gateway->method_title ) ? ucfirst( $gateway->id ) : $gateway->method_title;
-			$sections[strtolower( $gateway->id )] = esc_html( $title );
+			$title                                  = empty( $gateway->method_title ) ? ucfirst( $gateway->id ) : $gateway->method_title;
+			$sections[ strtolower( $gateway->id ) ] = esc_html( $title );
 		}
 		$this->subtabs = $sections;
+
+		return $sections;
 	}
 
 	public function payment_sub_section_section_callback() {
 		echo "<p>" . wp_kses( $this->gateway_temp_desc, [ 'a' => [ 'href' => [], 'title' => [] ] ] ) . "</p>";
 	}
 
+	protected function misc_add_subsections() {
+		$sub_sections  = [
+			''      => esc_html__( "Misc", 'classified-listing' ),
+			'media' => esc_html__( "Media", 'classified-listing' ),
+			'map'   => esc_html__( "Map", 'classified-listing' )
+		];
+		$sub_sections  = apply_filters( 'rtcl_misc_sub_sections', $sub_sections );
+		$this->subtabs = $sub_sections;
+
+		return $sub_sections;
+	}
+
+	protected function email_add_subsections() {
+		$sub_sections  = [
+			''              => esc_html__( "Sender Options", 'classified-listing' ),
+			'notifications' => esc_html__( "Email Notifications", 'classified-listing' ),
+			'templates'     => esc_html__( "Email Templates", 'classified-listing' )
+		];
+		$sub_sections  = apply_filters( 'rtcl_email_sub_sections', $sub_sections );
+		$this->subtabs = $sub_sections;
+
+		return $sub_sections;
+	}
+
 	public function save() {
 		if ( 'POST' !== $_SERVER['REQUEST_METHOD']
-			|| !isset( $_REQUEST['page'] )
-			|| ( isset( $_REQUEST['page'] ) && 'rtcl-settings' !== $_REQUEST['page'] )
+			 || ! isset( $_REQUEST['page'] )
+			 || ( isset( $_REQUEST['page'] ) && 'rtcl-settings' !== $_REQUEST['page'] )
 		) {
 			return;
 		}
-		if ( empty( $_REQUEST['_wpnonce'] ) || !wp_verify_nonce( $_REQUEST['_wpnonce'], 'rtcl-settings' ) ) {
+		if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'rtcl-settings' ) ) {
 			die( esc_html__( 'Action failed. Please refresh the page and retry.', 'classified-listing' ) );
 		}
 		if ( $this->active_tab === 'payment' && $this->current_section && array_key_exists( $this->current_section, $this->subtabs ) ) {
 			$gateway = Functions::get_payment_gateway( $this->current_section );
 			if ( $gateway ) {
 				$gateway->init_form_fields();
-				$gateway->option = $this->option;
+				$gateway->option   = $this->option;
 				$this->form_fields = $gateway->form_fields;
 			}
 		} else {
@@ -571,47 +605,106 @@ class AdminSettings extends SettingsAPI {
 
 	function setTabs() {
 		$this->tabs = [
-			'general'    => esc_html__( 'General', 'classified-listing' ),
-			'moderation' => esc_html__( 'Moderation', 'classified-listing' ),
-			'payment'    => esc_html__( 'Payment', 'classified-listing' ),
-			'tax'        => esc_html__( 'Tax', 'classified-listing' ),
-			'email'      => esc_html__( 'Email', 'classified-listing' ),
-			'account'    => esc_html__( 'Account & Policy', 'classified-listing' ),
-			'style'      => esc_html__( 'Style', 'classified-listing' ),
-			'misc'       => esc_html__( 'Misc', 'classified-listing' ),
-			'advanced'   => esc_html__( 'Advanced', 'classified-listing' ),
-			'tools'      => esc_html__( 'Tools', 'classified-listing' ),
-			'ai'         => esc_html__( 'AI Integration', 'classified-listing' ),
+			'general'         => esc_html__( 'General', 'classified-listing' ),
+			'moderation'      => esc_html__( 'Classic Form', 'classified-listing' ),
+			'archive_listing' => esc_html__( 'All Listings Page', 'classified-listing' ),
+			'single_listing'  => esc_html__( 'Listing Details Page', 'classified-listing' ),
+			'payment'         => esc_html__( 'Payment', 'classified-listing' ),
+			'tax'             => esc_html__( 'Tax', 'classified-listing' ),
+			'email'           => esc_html__( 'Email', 'classified-listing' ),
+			'account'         => esc_html__( 'Account & Policy', 'classified-listing' ),
+			'style'           => esc_html__( 'Style', 'classified-listing' ),
+			'misc'            => esc_html__( 'Misc', 'classified-listing' ),
+			'advanced'        => esc_html__( 'Page Setup & Permalink', 'classified-listing' ),
+			'tools'           => esc_html__( 'Tools', 'classified-listing' ),
+			'ai'              => esc_html__( 'AI Integration', 'classified-listing' ),
 		];
-		// Hook to register custom tabs
+
 		$this->tabs = apply_filters( 'rtcl_register_settings_tabs', $this->tabs );
+
+		$this->option_group = [
+			'general'         => [
+				'title'  => esc_html__( 'General', 'classified-listing' ),
+				'subtab' => $this->general_add_subsections()
+			],
+			'moderation'      => [
+				'title'  => esc_html__( 'Classic Form', 'classified-listing' ),
+				'subtab' => []
+			],
+			'archive_listing' => [
+				'title'  => esc_html__( 'All Listings Page', 'classified-listing' ),
+				'subtab' => []
+			],
+			'single_listing'  => [
+				'title'  => esc_html__( 'Listing Details Page', 'classified-listing' ),
+				'subtab' => []
+			],
+			'payment'         => [
+				'title'  => esc_html__( 'Payment', 'classified-listing' ),
+				'subtab' => $this->payment_add_subsections()
+			],
+			'tax'             => [
+				'title'  => esc_html__( 'Tax', 'classified-listing' ),
+				'subtab' => $this->tax_add_subsections()
+			],
+			'email'           => [
+				'title'  => esc_html__( 'Email', 'classified-listing' ),
+				'subtab' => $this->email_add_subsections()
+			],
+			'account'         => [
+				'title'  => esc_html__( 'Account & Policy', 'classified-listing' ),
+				'subtab' => []
+			],
+			'style'           => [
+				'title'  => esc_html__( 'Style', 'classified-listing' ),
+				'subtab' => []
+			],
+			'misc'            => [
+				'title'  => esc_html__( 'Misc', 'classified-listing' ),
+				'subtab' => $this->misc_add_subsections()
+			],
+			'advanced'        => [
+				'title'  => esc_html__( 'Page Setup & Permalink', 'classified-listing' ),
+				'subtab' => []
+			],
+			'tools'           => [
+				'title'  => esc_html__( 'Tools', 'classified-listing' ),
+				'subtab' => []
+			],
+			'ai'              => [
+				'title'  => esc_html__( 'AI Integration', 'classified-listing' ),
+				'subtab' => []
+			],
+		];
+		// Hook to register custom settings group
+		$this->option_group = apply_filters( 'rtcl_register_settings_group', $this->option_group );
 
 		// Find the active tab
 		$this->option
-			= $this->active_tab = !empty( $_GET['tab'] ) && array_key_exists( $_GET['tab'], $this->tabs ) ? trim( $_GET['tab'] )
+			= $this->active_tab = ! empty( $_GET['tab'] ) && array_key_exists( $_GET['tab'], $this->option_group ) ? trim( $_GET['tab'] )
 			: 'general'; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
 		$this->add_subsections();
 
-		if ( !empty( $this->subtabs ) ) {
-			$this->current_section = !empty( $_GET['section'] ) && array_key_exists( $_GET['section'], $this->subtabs ) ? trim( $_GET['section'] )
+		if ( ! empty( $this->subtabs ) ) {
+			$this->current_section = ! empty( $_GET['section'] ) && array_key_exists( $_GET['section'], $this->subtabs ) ? trim( $_GET['section'] )
 				: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-			$this->option = $this->current_section ? $this->option . '_' . $this->current_section : $this->active_tab;
-			$this->option .= "_settings";
+			$this->option          = $this->current_section ? $this->option . '_' . $this->current_section : $this->active_tab;
+			$this->option          .= "_settings";
 			if ( $this->active_tab === 'payment' && $this->current_section ) {
 				$this->option = str_replace( "_settings", "", $this->option );
 			}
 		} else {
 			$this->option = $this->option . "_settings";
 		}
-		if ( $this->active_tab && !empty( $this->classMap[$this->active_tab] ) ) {
-			new $this->classMap[$this->active_tab]( $this );
+		if ( $this->active_tab && ! empty( $this->classMap[ $this->active_tab ] ) ) {
+			new $this->classMap[ $this->active_tab ]( $this );
 		}
 
 	}
 
 	public function preview_emails() {
 		if ( isset( $_GET['preview_rtcl_mail'] ) ) {
-			if ( !( isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'preview-mail' ) ) ) {
+			if ( ! ( isset( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'preview-mail' ) ) ) {
 				die( 'Security check' );
 			}
 
@@ -631,7 +724,7 @@ class AdminSettings extends SettingsAPI {
 			$email->set_heading( $email_heading );
 
 			// wrap the content with the email template and then add styles.
-			$message = apply_filters( 'rtcl_mail_content', $email->style_inline( $mailer->wrap_message( $message, $email ) ) );
+			$message = apply_filters( 'rtcl_mail_content', $message );
 
 			// print the preview email.
 			// phpcs:ignore WordPress.Security.EscapeOutput
@@ -643,8 +736,8 @@ class AdminSettings extends SettingsAPI {
 
 	public static function generate_rest_api_key() {
 		if ( isset( $_GET['rtcl_generate_rest_api_key'] ) ) {
-			if ( !isset( $_REQUEST['_wpnonce'] )
-				|| !wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'rtcl_generate_rest_api_key' )
+			if ( ! isset( $_REQUEST['_wpnonce'] )
+				 || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'rtcl_generate_rest_api_key' )
 			) {
 				Functions::add_notice( __( "You are not allow to make this request.", "classified-listing" ), 'error' );
 			} else {
@@ -678,27 +771,27 @@ class AdminSettings extends SettingsAPI {
 	public static function save_tax_options() {
 		global $wpdb;
 
-		$countries = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_country'] ?? [] );
-		$states = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_state'] ?? [] );
-		$postcodes = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_postcode'] ?? [] );
-		$cities = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_city'] ?? [] );
-		$rates = array_map( 'floatval', $_POST['rtcl_tax_rate'] ?? [] );
-		$tax_name = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_name'] ?? [] );
+		$countries    = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_country'] ?? [] );
+		$states       = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_state'] ?? [] );
+		$postcodes    = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_postcode'] ?? [] );
+		$cities       = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_city'] ?? [] );
+		$rates        = array_map( 'floatval', $_POST['rtcl_tax_rate'] ?? [] );
+		$tax_name     = array_map( 'sanitize_text_field', $_POST['rtcl_tax_rate_name'] ?? [] );
 		$tax_priority = array_map( 'intval', $_POST['rtcl_tax_rate_priority'] ?? [] );
 
 		$rows_to_insert = [];
-		$param_types = '%s, %s, %s, %s, %f, %s, %d';
+		$param_types    = '%s, %s, %s, %s, %f, %s, %d';
 
-		if ( !empty( $countries ) ) {
-			for ( $i = 0; $i < count( $countries ); $i++ ) {
+		if ( ! empty( $countries ) ) {
+			for ( $i = 0; $i < count( $countries ); $i ++ ) {
 				$rows_to_insert[] = [
-					$countries[$i],
-					$states[$i] ?? '',
-					$cities[$i] ?? '',
-					$postcodes[$i] ?? '',
-					$rates[$i],
-					$tax_name[$i],
-					$tax_priority[$i] ?? '1'
+					$countries[ $i ],
+					$states[ $i ] ?? '',
+					$cities[ $i ] ?? '',
+					$postcodes[ $i ] ?? '',
+					$rates[ $i ],
+					$tax_name[ $i ],
+					$tax_priority[ $i ] ?? '1'
 				];
 			}
 		}
@@ -710,14 +803,14 @@ class AdminSettings extends SettingsAPI {
 
 
 		$placeholders = array_fill( 0, count( $rows_to_insert ), "($param_types)" );
-		$query .= implode( ', ', $placeholders );
+		$query        .= implode( ', ', $placeholders );
 
 		$values = [];
 		foreach ( $rows_to_insert as $row ) {
 			$values = array_merge( $values, $row );
 		}
 
-		if ( !empty( $rows_to_insert ) ) {
+		if ( ! empty( $rows_to_insert ) ) {
 			$wpdb->query( "TRUNCATE TABLE $table_name" );
 		}
 

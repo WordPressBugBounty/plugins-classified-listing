@@ -9,6 +9,7 @@ $states      = rtcl()->countries->get_states();
 $tax_options = \Rtcl\Helpers\Functions::get_tax_options();
 ?>
 <div class="rtcl-tax-rate-settings-wrap">
+	<h3 class="rtcl-settings-section-title"><?php esc_html_e( 'Tax Rate Settings', 'classified-listing' ); ?></h3>
 	<table class="rtcl-tax-rate-settings-table">
 		<thead>
 		<tr>

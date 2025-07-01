@@ -24,9 +24,9 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 do_action( 'rtcl_email_header', $email ); ?>
 
-	<p><?php printf( /* translators: customer name */ esc_html__( 'Hi %s,', 'classified-listing' ), esc_html( $order->get_customer_full_name() ) ); ?></p>
-	<p><?php esc_html_e( 'We have finished processing your order.', 'classified-listing' ); ?></p>
-	<p><?php
+	<p style="margin: 0 0 16px;"><?php printf( /* translators: customer name */ esc_html__( 'Hi %s,', 'classified-listing' ), esc_html( $order->get_customer_full_name() ) ); ?></p>
+	<p style="margin: 0 0 16px;"><?php esc_html_e( 'We have finished processing your order.', 'classified-listing' ); ?></p>
+	<p style="margin: 0 0 16px;"><?php
 		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 		printf(
 		/* translators: Order id */

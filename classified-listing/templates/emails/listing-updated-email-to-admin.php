@@ -23,8 +23,8 @@ if ( !defined( 'ABSPATH' ) ) {
  * @hooked RtclEmails::email_header() Output the email header
  */
 do_action( 'rtcl_email_header', $email ); ?>
-	<p><?php esc_html_e( 'Hi Administrator,', 'classified-listing' ); ?></p>
-	<p><?php
+	<p style="margin: 0 0 16px;"><?php esc_html_e( 'Hi Administrator,', 'classified-listing' ); ?></p>
+	<p style="margin: 0 0 16px;"><?php
 		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 		printf(
 		/* translators:  Listing update url */

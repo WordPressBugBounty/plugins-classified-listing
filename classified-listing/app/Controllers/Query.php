@@ -443,7 +443,7 @@ class Query {
 					$q->is_home = false;
 
 					// WP supporting themes show post type archive.
-					if ( current_theme_supports( 'rtcl' ) ) {
+					if ( Functions::is_enable_template_support() ) {
 						$q->set( 'post_type', rtcl()->post_type );
 					} else {
 						$q->is_singular = true;
@@ -462,7 +462,7 @@ class Query {
 			$q->is_comment_feed = false;
 		}
 		// Special check for shops with the PRODUCT POST TYPE ARCHIVE on front.
-		if ( current_theme_supports( 'rtcl' ) && $q->is_page() && 'page' === get_option( 'show_on_front' ) && $listings_page_id
+		if ( Functions::is_enable_template_support() && $q->is_page() && 'page' === get_option( 'show_on_front' ) && $listings_page_id
 		     && absint( $q->get( 'page_id' ) ) === $listings_page_id
 		) {
 			// This is a front-page shop.
@@ -590,8 +590,8 @@ class Query {
 				: ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 			if ( ! $orderby_value ) {
-				$order_by      = Functions::get_option_item( 'rtcl_general_settings', 'orderby', 'date' );
-				$order         = Functions::get_option_item( 'rtcl_general_settings', 'order', 'desc' );
+				$order_by      = Functions::get_option_item( 'rtcl_archive_listing_settings', 'orderby', 'date' );
+				$order         = Functions::get_option_item( 'rtcl_archive_listing_settings', 'order', 'desc' );
 				$orderby_value = apply_filters( 'rtcl_default_catalog_orderby', $order_by . '-' . $order, $order_by, $order );
 			}
 			// Get order + orderby args from string.
@@ -687,7 +687,7 @@ class Query {
 		$q->set( 'posts_per_page', $q->get( 'posts_per_page' )
 			? $q->get( 'posts_per_page' )
 			: apply_filters( 'rtcl_loop_listing_per_page',
-				Functions::get_option_item( 'rtcl_general_settings', 'listings_per_page' ) ) );
+				Functions::get_option_item( 'rtcl_archive_listing_settings', 'listings_per_page' ) ) );
 		// have combine query page
 		$paged = ! empty( $_GET['page'] ) ? absint( $_GET['page'] ) : absint( get_query_var( '__page' ) );
 		if ( ! empty( $paged ) ) {
@@ -1156,29 +1156,29 @@ class Query {
 				'relation' => 'AND',
 			];
 		}
-		$queriedObject = get_queried_object();
-		$filterCategories = !empty( $_GET['filter_category'] ) && is_string( $_GET['filter_category'] ) ? array_filter( array_map( 'absint',
+		$queriedObject    = get_queried_object();
+		$filterCategories = ! empty( $_GET['filter_category'] ) && is_string( $_GET['filter_category'] ) ? array_filter( array_map( 'absint',
 			explode( ',', $_GET['filter_category'] ) ) ) : [];
-		if ( !empty( $filterCategories ) ) {
+		if ( ! empty( $filterCategories ) ) {
 			$tax_query[] = [
 				'taxonomy' => rtcl()->category,
-				'terms'    => array_unique($filterCategories),
+				'terms'    => array_unique( $filterCategories ),
 				'field'    => 'term_id',
 			];
 		}
-		$filterLocations = !empty( $_GET['filter_location'] ) && is_string( $_GET['filter_location'] ) ? array_filter( array_map( 'absint',
+		$filterLocations = ! empty( $_GET['filter_location'] ) && is_string( $_GET['filter_location'] ) ? array_filter( array_map( 'absint',
 			explode( ',', $_GET['filter_location'] ) ) ) : [];
-		if ( !empty( $filterLocations ) ) {
+		if ( ! empty( $filterLocations ) ) {
 			$tax_query[] = [
 				'taxonomy' => rtcl()->location,
-				'terms'    => array_unique($filterLocations),
+				'terms'    => array_unique( $filterLocations ),
 				'field'    => 'term_id',
 			];
 		}
-		
-		$filterTags = !empty( $_GET['filter_tag'] ) && is_string( $_GET['filter_tag'] ) ? array_filter( array_map( 'absint',
+
+		$filterTags = ! empty( $_GET['filter_tag'] ) && is_string( $_GET['filter_tag'] ) ? array_filter( array_map( 'absint',
 			explode( ',', $_GET['filter_tag'] ) ) ) : [];
-		if ( !empty( $filterTags ) ) {
+		if ( ! empty( $filterTags ) ) {
 			$tax_query[] = [
 				'taxonomy' => rtcl()->tag,
 				'terms'    => $filterTags,
@@ -1267,7 +1267,7 @@ class Query {
 				];
 			}
 		}
-		
+
 		return array_filter( apply_filters( 'rtcl_listing_query_tax_query', $tax_query, $this ) );
 	}
 

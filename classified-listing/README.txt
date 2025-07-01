@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, classifieds a
 Requires at least: 5.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 4.2.1
+Stable tag: 5.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -332,10 +332,22 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 
 == Changelog ==
 
+= 5.0.0 ( July 01, 2025 ) =
+* Added: Form builder - image crop and manipulation for image size
+* Added: Form builder - Price unite depend on conditions
+* Updated: Reorganized admin settings
+* Fixed: Form builder - radio/checkbox default value rest and save and conditional default value rendering
+* Fixed: Email Submitted issue for admin and user end
+* Fixed: Password view (eye icon)
+* Fixed: Email styling issue
+* Removed: Composer package pelago/emogrifier
+* Removed: Bootstrap dependency
+
 = 4.2.1 ( Jun 13, 2025 ) =
 * Added: Form builder - include/exclude category for specific form
 * Added: Form builder: GEO auto suggestions at GEO location field
 * Added: Form builder - Bulk category condition apply
+* Added: Form builder - Price field add required validation
 * Updated: Ajax Filter builder - Directory default selection
 * Fixed: From builder - Conditional logic for check box field add includes and Not Includes operator
 * Fixed: Ajax filter sort custom field issue at builder
@@ -365,11 +377,5 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 * Fixed: Form Builder Date/Time picker field date time invalid formate issue
 * Fixed: Email notification for submit and publish issue
 * Fixed: Selection place at map issue
-
-= 4.1.1 ( Apr 07, 2025 ) =
-* Added: Form builder Search filter at select field
-* Fixed: Ajax filter initial load issue at taxonomy page
-* Fixed: Author bio html formatting issue
-* Fixed: Category icon and image warning issue
 
 [See changelog for all versions.](https://raw.githubusercontent.com/radiustheme/changelog/refs/heads/main/classified-listing.txt)

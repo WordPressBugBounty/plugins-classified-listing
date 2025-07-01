@@ -173,7 +173,7 @@ class RegisterPostType {
 
 		$permalinks = Functions::get_permalink_structure();
 
-		$labels              = [
+		$labels                  = [
 			'name'               => esc_html_x( 'Classified Listings', 'post type general name', 'classified-listing' ),
 			'singular_name'      => esc_html_x( 'Classified Listing', 'post type singular name', 'classified-listing' ),
 			'add_new'            => esc_html_x( 'Add New', 'post', 'classified-listing' ),
@@ -190,14 +190,14 @@ class RegisterPostType {
 			'parent_item_colon'  => '',
 			'menu_name'          => esc_html__( 'Listings', 'classified-listing' )
 		];
-		$listing_support     = [ 'title', 'editor', 'author' ];
-		$moderation_settings = Functions::get_option( 'rtcl_moderation_settings' );
-		if ( ! empty( $moderation_settings['has_comment_form'] ) ) {
+		$listing_support         = [ 'title', 'editor', 'author' ];
+		$single_listing_settings = Functions::get_option( 'rtcl_single_listing_settings' );
+		if ( ! empty( $single_listing_settings['has_comment_form'] ) ) {
 			array_push( $listing_support, 'comments' );
 		}
 		$listings_page_id = Functions::get_page_id( 'listings' );
 
-		if ( current_theme_supports( 'rtcl' ) ) {
+		if ( Functions::is_enable_template_support() ) {
 			$has_archive = $listings_page_id && get_post( $listings_page_id ) ? urldecode( get_page_uri( $listings_page_id ) ) : 'listings';
 		} else {
 			$has_archive = false;
@@ -205,7 +205,7 @@ class RegisterPostType {
 
 
 		// If theme support changes, we may need to flush permalinks since some are changed based on this flag.
-		$theme_support = current_theme_supports( 'rtcl' ) ? 'yes' : 'no';
+		$theme_support = Functions::is_enable_template_support() ? 'yes' : 'no';
 		if ( get_option( 'current_theme_supports_rtcl' ) !== $theme_support && update_option( 'current_theme_supports_rtcl', $theme_support ) ) {
 			update_option( 'rtcl_queue_flush_rewrite_rules', 'yes' );
 		}

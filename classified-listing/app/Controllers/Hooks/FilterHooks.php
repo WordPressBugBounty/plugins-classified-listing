@@ -5,6 +5,7 @@ namespace Rtcl\Controllers\Hooks;
 use Elementor\Controls_Manager;
 use Rtcl\Helpers\Functions;
 use Rtcl\Models\Form\Form;
+use Rtcl\Services\FormBuilder\FBHelper;
 use WP_Error;
 use WP_User;
 
@@ -49,6 +50,15 @@ class FilterHooks {
 		if ( absint( Functions::get_description_character_limit() ) ) {
 			add_filter( 'tiny_mce_before_init', [ __CLASS__, 'tiny_mce_add_past_restriction' ], 10, 2 );
 		}
+		add_filter( 'rtcl_register_settings_group', [ __CLASS__, 'remove_classic_form_settings' ] );
+	}
+
+	public static function remove_classic_form_settings( $group ) {
+		if ( FBHelper::isEnabled() && isset( $group['moderation'] ) ) {
+			unset( $group['moderation'] );
+		}
+
+		return $group;
 	}
 
 	public static function rss_posts_per_page( $query ) {
@@ -94,7 +104,8 @@ class FilterHooks {
 		if ( $editor_id === 'description' ) {
 			$maxLimit = absint( Functions::get_description_character_limit() );
 			/* translators:  maxLimit*/
-			$errorText              = sprintf( esc_html__( 'Pasting this exceeds the maximum allowed number of %s characters for the input.', 'classified-listing' ), $maxLimit );
+			$errorText              = sprintf( esc_html__( 'Pasting this exceeds the maximum allowed number of %s characters for the input.',
+				'classified-listing' ), $maxLimit );
 			$in['paste_preprocess'] = "function(plugin, args){
 													const editor = tinymce.get('description');
 													const length = editor.getContent({format: 'text'}).length;

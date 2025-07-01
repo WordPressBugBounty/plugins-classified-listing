@@ -9,7 +9,7 @@ use Rtcl\Helpers\Functions;
 
 global $listing;
 
-$sidebar_position = Functions::get_option_item( 'rtcl_moderation_settings', 'detail_page_sidebar_position', 'right' );
+$sidebar_position = Functions::get_option_item( 'rtcl_single_listing_settings', 'detail_page_sidebar_position', 'right' );
 
 if ( in_array( $sidebar_position, array( 'left', 'right' ) ) ) {
 	$listing_info_class = 'rtcl-listing-sidebar-info-wrap';

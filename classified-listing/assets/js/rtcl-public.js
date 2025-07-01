@@ -1233,6 +1233,20 @@ __webpack_require__.r(__webpack_exports__);
       default:
         pass_status_wrap.addClass("short").html(rtcl_validator.pwsL10n["short"]);
     }
+  }).on("click", ".rtcl-toggle-pass", function () {
+    var $_self = $(this);
+    var $_input = $_self.parent().find('input');
+    var isOff = $_self.hasClass('rtcl-icon-eye-off');
+    if (!$_input.length) {
+      return;
+    }
+    if (isOff) {
+      $_input.attr('type', 'text');
+      $_self.removeClass('rtcl-icon-eye-off').addClass('rtcl-icon-eye');
+    } else {
+      $_input.attr('type', 'password');
+      $_self.removeClass('rtcl-icon-eye').addClass('rtcl-icon-eye-off');
+    }
   }).on("input focusout", "#rtcl-reg-confirm-password", function () {
     var $confirm_input = $(this);
 
@@ -1371,7 +1385,7 @@ __webpack_require__.r(__webpack_exports__);
     e.preventDefault();
     var $this = $(this),
       $wrapper = $this.closest('.single-listing-custom-fields-action'),
-      $popupWrapper = $wrapper.find('.rtcl-popup-wrapper');
+      $popupWrapper = $wrapper.find('#rtcl-report-abuse-modal');
     if ($popupWrapper.length) {
       $("#rtcl-report-abuse-message").val("");
       $("#rtcl-report-abuse-message-display").html("");

@@ -8,11 +8,12 @@ use Rtcl\Models\Roles;
 
 class Installer {
 
-	const DB_VERSION = '4.0.0';
+	const DB_VERSION = '5.0.0';
 
-	private static array $db_updates = [
-//		'4.2.0' => [ 'migrate_settings_420' ],
-	];
+	private static array $db_updates
+		= [
+			'5.0.0' => [ 'migrate_settings_500' ],
+		];
 
 
 	public static function init() {
@@ -67,7 +68,7 @@ class Installer {
 
 
 	private static function doDBUpdate() {
-		$current_db_version = get_option( 'rtcl_pro_db_version' );
+		$current_db_version = get_option( 'rtcl_db_version' );
 		foreach ( self::get_db_update_callbacks() as $version => $update_callbacks ) {
 			if ( version_compare( $current_db_version, $version, '<' ) ) {
 				foreach ( $update_callbacks as $update_callback ) {
@@ -130,65 +131,79 @@ class Installer {
 	private static function create_options() {
 		// Insert plugin settings and default values for the first time
 		$options = [
-			'rtcl_general_settings'    => [
-				'load_bootstrap'               => [ 'css', 'js' ],
-				'include_results_from'         => [ 'child_categories', 'child_locations' ],
-				'listings_per_page'            => 20,
-				'related_posts_per_page'       => 4,
-				'orderby'                      => 'date',
-				'order'                        => 'desc',
-				'taxonomy_orderby'             => 'title',
-				'taxonomy_order'               => 'asc',
-				'text_editor'                  => 'wp_editor',
-				'location_type'                => 'local',
-				'location_level_first'         => esc_html__( "State", 'classified-listing' ),
-				'location_level_second'        => esc_html__( "City", 'classified-listing' ),
-				'location_level_third'         => esc_html__( "Town", 'classified-listing' ),
+			'rtcl_general_settings'               => [
+				'include_results_from'    => [ 'child_categories', 'child_locations' ],
+				'listing_duration'        => 15,
+				'delete_expired_listings' => 15,
+				'renew'                   => 'no',
+				'new_listing_status'      => 'pending',
+				'edited_listing_status'   => 'pending',
+				'redirect_new_listing'    => 'submission',
+				'redirect_update_listing' => 'submission',
+				'has_favourites'          => 'yes',
+			],
+			'rtcl_general_listing_label_settings' => [
+				'new_listing_label'         => esc_html__( "New", 'classified-listing' ),
+				'new_listing_threshold'     => 3,
+				'popular_listing_threshold' => 1000,
+				'popular_listing_label'     => esc_html__( "Popular", 'classified-listing' ),
+				'listing_featured_label'    => esc_html__( "Featured", 'classified-listing' ),
+			],
+			'rtcl_general_location_settings'      => [
+				'location_type'         => 'local',
+				'location_level_first'  => esc_html__( "State", 'classified-listing' ),
+				'location_level_second' => esc_html__( "City", 'classified-listing' ),
+				'location_level_third'  => esc_html__( "Town", 'classified-listing' ),
+			],
+			'rtcl_general_currency_settings'      => [
 				'currency'                     => 'USD',
 				'currency_position'            => 'right',
 				'currency_thousands_separator' => ',',
 				'currency_decimal_separator'   => '.',
 			],
-			'rtcl_moderation_settings' => [
-				'listing_duration'             => 15,
-				'new_listing_threshold'        => 3,
-				'new_listing_label'            => esc_html__( "New", 'classified-listing' ),
-				'popular_listing_threshold'    => 1000,
-				'popular_listing_label'        => esc_html__( "Popular", 'classified-listing' ),
-				'listing_featured_label'       => esc_html__( "Featured", 'classified-listing' ),
-				'display_options'              => [
-					'category',
-					'location',
+			'rtcl_general_social_share_settings'  => [
+				'social_services' => [ 'facebook', 'twitter' ],
+				'social_pages'    => [ 'listing' ],
+			],
+			'rtcl_archive_listing_settings'       => [
+				'listings_per_page' => 20,
+				'default_view'      => 'grid',
+				'orderby'           => 'date',
+				'order'             => 'desc',
+				'taxonomy_orderby'  => 'title',
+				'taxonomy_order'    => 'asc',
+				'display_options'   => [
 					'date',
 					'user',
-					'price',
 					'views',
-					'featured',
-					'new',
-					'popular'
-				],
-				'display_options_detail'       => [
 					'category',
 					'location',
-					'date',
-					'user',
 					'price',
-					'views',
-					'featured',
-					'new',
-					'popular'
+					'excerpt'
 				],
-				'detail_page_sidebar_position' => 'right',
-				'has_favourites'               => 'yes',
+			],
+			'rtcl_single_listing_settings'        => [
+				'related_posts_per_page'       => 4,
 				'has_report_abuse'             => 'yes',
 				'has_contact_form'             => 'yes',
-				'has_map'                      => 'yes',
-				'maximum_images_per_listing'   => 5,
-				'delete_expired_listings'      => 15,
-				'new_listing_status'           => 'pending',
-				'edited_listing_status'        => 'pending'
+				'detail_page_sidebar_position' => 'right',
+				'display_options_detail'       => [
+					'date',
+					'user',
+					'views',
+					'category',
+					'location',
+					'price',
+				],
 			],
-			'rtcl_payment_settings'    => [
+			'rtcl_moderation_settings'            => [
+				'text_editor'                => 'wp_editor',
+				'enable_business_hours'      => 'no',
+				'enable_social_profiles'     => 'no',
+				'maximum_images_per_listing' => 5,
+				'image_edit_cap'             => 'yes',
+			],
+			'rtcl_payment_settings'               => [
 				'payment'                      => 'yes',
 				'use_https'                    => 'no',
 				'currency'                     => 'USD',
@@ -196,7 +211,7 @@ class Installer {
 				'currency_thousands_separator' => ',',
 				'currency_decimal_separator'   => '.',
 			],
-			'rtcl_payment_offline'     => [
+			'rtcl_payment_offline'                => [
 				'enabled'      => 'yes',
 				'title'        => esc_html__( 'Direct Bank Transfer', 'classified-listing' ),
 				'description'  => esc_html__( "Make your payment directly in our bank account. Please use your Order ID as payment reference. Your order won't get approved until the funds have cleared in our account.",
@@ -210,18 +225,20 @@ Bank Name : YOUR BANK NAME
 		
 If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'classified-listing' ),
 			],
-			'rtcl_email_settings'      => [
-				'from_name'                  => get_option( 'blogname' ),
-				'from_email'                 => get_option( 'admin_email' ),
-				'admin_notice_emails'        => get_option( 'admin_email' ),
-				'email_type'                 => 'html',
-				'notify_admin'               => [
+			'rtcl_email_settings'                 => [
+				'from_name'           => get_option( 'blogname' ),
+				'from_email'          => get_option( 'admin_email' ),
+				'admin_notice_emails' => get_option( 'admin_email' ),
+				'email_type'          => 'html',
+			],
+			'rtcl_email_notifications_settings'   => [
+				'notify_admin' => [
 					'register_new_user',
 					'listing_submitted',
 					'order_created',
 					'payment_received'
 				],
-				'notify_users'               => [
+				'notify_users' => [
 					'listing_submitted',
 					'listing_published',
 					'listing_renewal',
@@ -230,6 +247,8 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 					'order_created',
 					'order_completed'
 				],
+			],
+			'rtcl_email_templates_settings'       => [
 				'listing_submitted_subject'  => esc_html__( '[{site_title}] {listing_title} - is received', 'classified-listing' ),
 				'listing_submitted_heading'  => esc_html__( 'Your listing is received', 'classified-listing' ),
 				'listing_published_subject'  => esc_html__( '[{site_title}] {listing_title} - is published', 'classified-listing' ),
@@ -249,10 +268,10 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 				'contact_subject'            => esc_html__( '[{site_title}] Contact via {listing_title}', 'classified-listing' ),
 				'contact_heading'            => esc_html__( 'Thank you for mail', 'classified-listing' )
 			],
-			'rtcl_account_settings'    => [
+			'rtcl_account_settings'               => [
 				'enable_myaccount_registration' => "yes"
 			],
-			'rtcl_style_settings'      => [
+			'rtcl_style_settings'                 => [
 				'primary'       => "#0066bf",
 				'link'          => "#111111",
 				'link_hover'    => "#0066bf",
@@ -264,29 +283,31 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 					'unit' => '%'
 				]
 			],
-			'rtcl_misc_settings'       => [
+			'rtcl_misc_settings'                  => [],
+			'rtcl_misc_media_settings'            => [
 				'image_size_gallery'           => [ 'width' => 924, 'height' => 462, 'crop' => 'yes' ],
 				'image_size_gallery_thumbnail' => [ 'width' => 150, 'height' => 105, 'crop' => 'yes' ],
 				'image_size_thumbnail'         => [ 'width' => 320, 'height' => 240, 'crop' => 'yes' ],
 				'image_allowed_type'           => [ 'png', 'jpg', 'jpeg', 'webp' ],
 				'image_allowed_memory'         => 2,
-				'image_edit_cap'               => 'yes',
-				'social_services'              => [ 'facebook', 'twitter' ],
-				'social_pages'                 => [ 'listing' ],
-				'map_type'                     => 'osm',
-				'map_zoom_level'               => 10,
-				'map_center'                   => [
+			],
+			'rtcl_misc_map_settings'              => [
+				'has_map'        => 'yes',
+				'map_type'       => 'osm',
+				'map_zoom_level' => 10,
+				'map_center'     => [
 					'address' => '',
 					'lat'     => 0,
 					'lng'     => 0,
 				]
 			],
-			'rtcl_chat_settings'       => [
+			'rtcl_chat_settings'                  => [
 				'enable'                                => 'yes',
 				'unread_message_email'                  => 'yes',
 				'remove_inactive_conversation_duration' => 30
 			],
-			'rtcl_advanced_settings'   => [
+			'rtcl_advanced_settings'              => [
+				'template_base'                     => 'rtcl_template',
 				'permalink'                         => 'rtcl_listing',
 				'category_base'                     => esc_html_x( 'listing-category', 'slug', 'classified-listing' ),
 				'location_base'                     => esc_html_x( 'listing-location', 'slug', 'classified-listing' ),
@@ -303,7 +324,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 				'checkout_payment_receipt_endpoint' => 'payment-receipt',
 				'checkout_payment_failure_endpoint' => 'payment-failure'
 			],
-			'rtcl_fb_options'          => [
+			'rtcl_fb_options'                     => [
 				'active' => 1
 			]
 		];
@@ -455,7 +476,175 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 		Roles::create_roles();
 	}
 
-	public static function migrate_settings_420(  ) {
-		// TODO: Migrate your settings
+	public static function migrate_settings_500() {
+		if ( get_option( 'rtcl_settings_migrated_500' ) ) {
+			return;
+		}
+
+		$migration_map = [
+			'rtcl_general_settings'           => [
+				'rtcl_general_location_settings' => [
+					'location_type',
+					'location_level_first',
+					'location_level_second',
+					'location_level_third'
+				],
+				'rtcl_general_currency_settings' => [
+					'currency',
+					'currency_position',
+					'currency_thousands_separator',
+					'currency_decimal_separator',
+				],
+				'rtcl_archive_listing_settings'  => [
+					'listings_per_page',
+					'orderby',
+					'order',
+					'taxonomy_orderby',
+					'taxonomy_order',
+					'default_view',
+				],
+				'rtcl_single_listing_settings'   => [
+					'related_posts_per_page'
+				],
+				'rtcl_moderation_settings'       => [
+					'text_editor'
+				],
+			],
+			'rtcl_general_directory_settings' => [
+				'rtcl_moderation_settings' => [
+					'enable_business_hours',
+					'enable_social_profiles'
+				]
+			],
+			'rtcl_moderation_settings'        => [
+				'rtcl_general_settings'               => [
+					'listing_duration',
+					'delete_expired_listings',
+					'renew',
+					'new_listing_status',
+					'edited_listing_status',
+					'redirect_new_listing',
+					'redirect_new_listing_custom',
+					'redirect_update_listing',
+					'redirect_update_listing_custom',
+					'pending_listing_status_after_promotion',
+					'has_favourites',
+				],
+				'rtcl_misc_map_settings'              => [
+					'has_map'
+				],
+				'rtcl_general_listing_label_settings' => [
+					'new_listing_label',
+					'new_listing_threshold',
+					'listing_featured_label',
+					'popular_listing_label',
+					'popular_listing_threshold',
+					'listing_top_label',
+					'listing_bump_up_label'
+				],
+				'rtcl_archive_listing_settings'       => [
+					'display_options',
+					'listing_enable_top_listing',
+					'listing_top_per_page',
+				],
+				'rtcl_single_listing_settings'        => [
+					'has_report_abuse',
+					'has_contact_form',
+					'has_comment_form',
+					'enable_review_rating',
+					'enable_update_rating',
+					'registered_only',
+					'detail_page_sidebar_position',
+					'display_options_detail',
+				],
+			],
+			'rtcl_email_settings'             => [
+				'rtcl_email_notifications_settings' => [
+					'notify_admin',
+					'notify_users'
+				],
+				'rtcl_email_templates_settings'     => [
+					'listing_submitted_subject',
+					'listing_submitted_heading',
+					'listing_published_subject',
+					'listing_published_heading',
+					'renewal_email_threshold',
+					'renewal_subject',
+					'renewal_heading',
+					'expired_subject',
+					'expired_heading',
+					'renewal_reminder_threshold',
+					'renewal_reminder_subject',
+					'renewal_reminder_heading',
+					'order_created_subject',
+					'order_created_heading',
+					'order_completed_subject',
+					'order_completed_heading',
+					'contact_subject',
+					'contact_heading',
+				],
+			],
+			'rtcl_misc_settings'              => [
+				'rtcl_general_social_share_settings' => [
+					'social_services',
+					'social_pages'
+				],
+				'rtcl_moderation_settings'           => [
+					'required_gallery_image',
+					'image_edit_cap',
+				],
+				'rtcl_single_listing_settings'       => [
+					'disable_gallery_slider',
+					'disable_gallery_video',
+					'disable_gallery_zoom',
+					'disable_gallery_photoswipe'
+				],
+				'rtcl_misc_media_settings'           => [
+					'image_size_gallery',
+					'image_size_gallery_thumbnail',
+					'image_size_thumbnail',
+					'store_banner_size',
+					'store_logo_size',
+					'image_allowed_type',
+					'image_allowed_memory',
+					'placeholder_image',
+				],
+				'rtcl_misc_map_settings'             => [
+					'map_type',
+					'map_api_key',
+					'map_zoom_level',
+					'map_center',
+					'maxmind_license_key',
+					'maxmind_database_path'
+				],
+			],
+		];
+
+		foreach ( $migration_map as $source_option => $targets ) {
+			$source_data = get_option( $source_option, [] );
+
+			if ( ! is_array( $source_data ) ) {
+				continue;
+			}
+
+			foreach ( $targets as $target_option => $keys ) {
+				$target_data = get_option( $target_option, [] );
+
+				if ( ! is_array( $target_data ) ) {
+					$target_data = [];
+				}
+
+				foreach ( $keys as $key ) {
+					if ( isset( $source_data[ $key ] ) ) {
+						$target_data[ $key ] = $source_data[ $key ];
+						//unset( $source_data[ $key ] );
+					}
+				}
+				update_option( $target_option, $target_data );
+			}
+			//update_option( $source_option, $source_data );
+		}
+
+		update_option( 'rtcl_settings_migrated_500', 1 );
 	}
 }

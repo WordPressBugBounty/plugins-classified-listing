@@ -35,7 +35,7 @@ class PaymentStatus {
 			$hasAnyPromotion = false;
 
 			// when enable pay per ad pending post to publish
-			if ( Functions::get_option_item( 'rtcl_moderation_settings', 'pending_listing_status_after_promotion', false, 'checkbox' ) ) {
+			if ( Functions::get_option_item( 'rtcl_general_settings', 'pending_listing_status_after_promotion', false, 'checkbox' ) ) {
 				$applied_status[] = 'pending';
 				$hasAnyPromotion  = true;
 			}
@@ -98,11 +98,11 @@ class PaymentStatus {
 
 			if ( $order ) {
 				// send emails
-				if ( Functions::get_option_item( 'rtcl_email_settings', 'notify_users', 'order_completed', 'multi_checkbox' ) ) {
+				if ( Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_users', 'order_completed', 'multi_checkbox' ) ) {
 					rtcl()->mailer()->emails['Order_Completed_Email_To_Customer']->trigger( $order->get_id(), $order );
 				}
 
-				if ( Functions::get_option_item( 'rtcl_email_settings', 'notify_admin', 'order_completed', 'multi_checkbox' ) ) {
+				if ( Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_admin', 'order_completed', 'multi_checkbox' ) ) {
 					rtcl()->mailer()->emails['Order_Completed_Email_To_Admin']->trigger( $order->get_id(), $order );
 				}
 			}

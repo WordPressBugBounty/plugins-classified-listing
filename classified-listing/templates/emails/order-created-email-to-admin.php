@@ -25,7 +25,7 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 do_action( 'rtcl_email_header', $email ); ?>
 <?php /* translators: %s: Customer billing full name */ ?>
-	<p><?php printf( esc_html__( 'You’ve received the following order from %s:', 'classified-listing' ), esc_html( $order->get_customer_full_name() ) ); ?></p>
+	<p style="margin: 0 0 16px;"><?php printf( esc_html__( 'You’ve received the following order from %s:', 'classified-listing' ), esc_html( $order->get_customer_full_name() ) ); ?></p>
 <?php
 
 /**

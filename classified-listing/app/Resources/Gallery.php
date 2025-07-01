@@ -47,7 +47,7 @@ class Gallery {
 				[
 					'title'      => __( 'Allowed Files', "classified-listing" ),
 					'extensions' => implode( ",",
-						apply_filters( 'rtcl_gallery_image_allowed_extensions', Functions::get_option_item( 'rtcl_misc_settings', 'image_allowed_type', [
+						apply_filters( 'rtcl_gallery_image_allowed_extensions', Functions::get_option_item( 'rtcl_misc_media_settings', 'image_allowed_type', [
 							'jpg',
 							'jpeg',
 							'png'
@@ -82,7 +82,7 @@ class Gallery {
 				<div class="rtcl-notices-wrapper">
 					<div class="description alert alert-danger">
 						<?php
-						$image_size = Functions::get_option_item( 'rtcl_misc_settings', 'image_size_gallery', [] );
+						$image_size = Functions::get_option_item( 'rtcl_misc_media_settings', 'image_size_gallery', [] );
 						if ( Functions::is_gallery_image_required() ) { ?>
 							<p><?php esc_html_e( "Image is required.", "classified-listing" ); ?></p>
 							<?php
@@ -101,7 +101,7 @@ class Gallery {
 						printf(
 						/* translators: Image allowed type */
 							'<p>' . esc_html__( "Allowed image type (%s).", "classified-listing" ) . '</p>',
-							esc_html( implode( ', ', (array) Functions::get_option_item( 'rtcl_misc_settings', 'image_allowed_type', [
+							esc_html( implode( ', ', (array) Functions::get_option_item( 'rtcl_misc_media_settings', 'image_allowed_type', [
 								'png',
 								'jpeg',
 								'jpg'
@@ -575,7 +575,8 @@ class Gallery {
 
 		foreach ( $e as $key => $s ) {
 			if ( isset( $sizes[ $key ] ) ) {
-				$e[ $key ]["desc_parsed"] = sprintf( $e[ $key ]["desc"], $sizes[ $key ]["width"], $sizes[ $key ]["height"] );
+				$e[ $key ]["desc_parsed"] = sprintf( $s["desc"], $sizes[$key ]["width"], $sizes[$key ]["height"] );
+				$e[ $key ] = $e[ $key ] +  $sizes[ $key ]; 
 			}
 		}
 

@@ -83,11 +83,11 @@ class MyAccount {
 		// Define the query
 		$paged            = Pagination::get_page_number();
 		$favourite_posts  = get_user_meta( get_current_user_id(), 'rtcl_favourites', true );
-		$general_settings = Functions::get_option( 'rtcl_general_settings' );
+		$archive_settings = Functions::get_option( 'rtcl_archive_listing_settings' );
 		$args             = [
 			'post_type'      => rtcl()->post_type,
 			'post_status'    => 'publish',
-			'posts_per_page' => isset( $general_settings['listings_per_page'] ) ? $general_settings['listings_per_page'] : 10,
+			'posts_per_page' => isset( $archive_settings['listings_per_page'] ) ? $archive_settings['listings_per_page'] : 10,
 			'paged'          => $paged,
 			'post__in'       => ! empty( $favourite_posts ) ? $favourite_posts : [ 0 ]
 		];
@@ -100,7 +100,7 @@ class MyAccount {
 	}
 
 	public static function payments_history() {
-		$general_settings = Functions::get_option( 'rtcl_general_settings' );
+		$archive_settings = Functions::get_option( 'rtcl_archive_listing_settings' );
 
 		// Define the query
 		$paged = Pagination::get_page_number();
@@ -108,7 +108,7 @@ class MyAccount {
 		$args       = [
 			'post_type'      => rtcl()->post_type_payment,
 			'post_status'    => array_keys( Options::get_payment_status_list() ),
-			'posts_per_page' => isset( $general_settings['listings_per_page'] ) ? $general_settings['listings_per_page'] : 10,
+			'posts_per_page' => isset( $archive_settings['listings_per_page'] ) ? $archive_settings['listings_per_page'] : 10,
 			'paged'          => $paged,
 			'meta_query'     => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 			                      [
@@ -126,7 +126,7 @@ class MyAccount {
 	}
 
 	public static function my_listings() {
-		$general_settings = Functions::get_option( 'rtcl_general_settings' );
+		$archive_settings = Functions::get_option( 'rtcl_archive_listing_settings' );
 
 		// Enqueue style dependencies
 		wp_enqueue_script( 'rtcl-public' );
@@ -137,7 +137,7 @@ class MyAccount {
 		$args = [
 			'post_type'      => rtcl()->post_type,
 			'post_status'    => 'any',
-			'posts_per_page' => ! empty( $general_settings['listings_per_page'] ) ? absint( $general_settings['listings_per_page'] ) : 10,
+			'posts_per_page' => ! empty( $archive_settings['listings_per_page'] ) ? absint( $archive_settings['listings_per_page'] ) : 10,
 			'paged'          => $paged,
 			'author'         => get_current_user_id()
 		];

@@ -153,28 +153,43 @@ class Export {
 		if ( in_array( 'settings', $export_types ) ) {
 			//TODO: all tab and subtab mention here
 			$tabs = [
-				'general'    => [
-					'directory_settings' => []
+				'general'         => [
+					'listing_label_settings' => [],
+					'location_settings'      => [],
+					'currency_settings'      => [],
+					'social_share_settings'  => []
 				],
-				'moderation' => [],
-				'payment'    => [
+				'archive_listing' => [],
+				'single_listing'  => [],
+				'moderation'      => [],
+				'payment'         => [
 					'offline'      => [],
 					'paypal'       => [],
 					'authorizenet' => [],
 					'stripe'       => []
 				],
-				'email'      => [],
-				'account'    => [],
-				'style'      => [
-					'subtab' => []
+				'tax'             => [
+					'tax_rate_settings' => []
 				],
-				'misc'       => [],
-				'chat'       => [],
-				'advanced'   => [],
-				'tools'      => [],
-				'app'        => [],
-				'membership' => [],
-				'addons'     => []
+				'email'           => [
+					'notifications_settings' => [],
+					'templates_settings'     => []
+				],
+				'account'         => [],
+				'style'           => [],
+				'misc'            => [
+					'media_settings' => [],
+					'map_settings'   => []
+				],
+				'chat'            => [],
+				'advanced'        => [],
+				'tools'           => [],
+				'ai'              => [],
+				'app'             => [],
+				'membership'      => [],
+				'booking'         => [],
+				'marketplace'     => [],
+				'addons'          => []
 			];
 
 			$settings_data = [];

@@ -645,12 +645,20 @@ trait UtilityTrait {
 	 * @since 1.5.4
 	 */
 	static function listing_loop_start_class( $classes = [] ) {
-		$classes[] = 'rtcl-listings';
-		$classes[] = 'rtcl-ajax-listings';
-		$classes[] = apply_filters( 'rtcl_listings_view_class', 'rtcl-list-view' );
-		$classes[] = apply_filters( 'rtcl_listings_grid_columns_class', 'columns-3 tab-columns-2' );
-		$classes   = apply_filters( 'rtcl_listing_loop_start_class', $classes );
-		$classes   = array_map( 'esc_attr', array_unique( array_filter( $classes ) ) );
+		$default_view = Functions::get_listings_default_view();
+		$per_row      = Functions::get_listings_per_row();
+		$col_class    = sprintf(
+			'columns-%d tab-columns-%d mobile-columns-%d',
+			intval( $per_row['desktop'] ?? 3 ),
+			intval( $per_row['tablet'] ?? 2 ),
+			intval( $per_row['mobile'] ?? 1 )
+		);
+		$classes[]    = 'rtcl-listings';
+		$classes[]    = 'rtcl-ajax-listings';
+		$classes[]    = apply_filters( 'rtcl_listings_view_class', 'grid' === $default_view ? 'rtcl-grid-view' : 'rtcl-list-view' );
+		$classes[]    = apply_filters( 'rtcl_listings_grid_columns_class', $col_class );
+		$classes      = apply_filters( 'rtcl_listing_loop_start_class', $classes );
+		$classes      = array_map( 'esc_attr', array_unique( array_filter( $classes ) ) );
 		if ( ! empty( $classes ) ) {
 			echo 'class="' . esc_attr( implode( ' ', $classes ) ) . '"';
 		}

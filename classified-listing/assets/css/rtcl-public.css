@@ -3791,6 +3791,14 @@ button.toast-close-button {
   box-sizing: border-box;
 }
 
+.rtcl-fb-input-select.ant-select-multiple .ant-select-selection-wrap:after,
+.rtcl-fb-input-select.ant-select-multiple .ant-select-selection-overflow-item-suffix {
+  margin-block: auto;
+}
+.rtcl-fb-input-select.ant-select-multiple input {
+  min-height: auto;
+}
+
 .rtcl-admin-btn {
   border-radius: 0.2rem;
   font-size: 0.875rem;
@@ -4704,6 +4712,20 @@ html [data-rt-depends], .rtcl .row[data-rt-depends], [data-rt-depends] {
   margin-bottom: 20px;
 }
 
+.rtcl .rtcl-form-checkbox-group {
+  margin-bottom: 15px;
+}
+.rtcl .rtcl-form-checkbox-group input {
+  margin: 0;
+  line-height: 1;
+}
+.rtcl .rtcl-form-checkbox-group label {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1;
+  margin: 0 0 0 5px;
+}
+
 .rtcl .rtcl-field-label,
 .rtcl-from-label {
   display: block;
@@ -4771,9 +4793,20 @@ span[class^=badge] {
 
 .rtcl .rtcl-btn-danger,
 .rtcl-btn-danger {
-  background-color: #dc3545;
+  background-color: #dc3545 !important;
   border-color: #dc3545;
-  color: #fff;
+  color: #fff !important;
+}
+
+.rtcl .rtcl-btn-warning {
+  color: #212529 !important;
+  background-color: #ffc107 !important;
+  border-color: #ffc107;
+}
+.rtcl .rtcl-btn-warning:hover {
+  color: #212529 !important;
+  background-color: #e0a800 !important;
+  border-color: #d39e00;
 }
 
 .rtcl-checkout-content {
@@ -6388,9 +6421,13 @@ body.modal-open .rtcl-bs-modal {
   color: var(--rtcl-primary-color);
   display: flex;
   flex-wrap: wrap;
+  word-break: break-word;
 }
 .rtcl-price.on_call .rtcl-price-meta {
   font-size: inherit;
+}
+.rtcl-price .rtcl-price-amount {
+  word-break: break-word;
 }
 
 .rtcl-price-range {
@@ -7366,6 +7403,7 @@ body.modal-open .rtcl-bs-modal {
   font-size: 16px;
   line-height: 26px;
   font-weight: 400;
+  word-break: break-word;
 }
 .rtcl .rtcl-listing-meta-data {
   font-size: 15px;
@@ -7381,6 +7419,7 @@ body.modal-open .rtcl-bs-modal {
   margin-bottom: 8px;
   margin-left: 0;
   color: #646464;
+  word-break: break-word;
 }
 .rtcl .rtcl-listing-meta-data li.rt-categories {
   font-size: 0;
@@ -7394,6 +7433,7 @@ body.modal-open .rtcl-bs-modal {
 .rtcl .rtcl-listing-meta-data li a {
   color: inherit;
   transition: color 0.3s ease-in-out;
+  word-break: break-word;
 }
 .rtcl .rtcl-listing-meta-data li a:hover {
   color: var(--rtcl-primary-color);
@@ -8092,6 +8132,7 @@ body.modal-open .rtcl-bs-modal {
 }
 
 .rtcl-form-page .rtcl-login-form-wrap,
+.rtcl-restricted-content .rtcl-login-form-wrap,
 .rtcl-checkout .rtcl-login-form-wrap {
   box-shadow: 0 0 20px #f0f0f0;
   background-color: #ffffff;
@@ -8099,6 +8140,7 @@ body.modal-open .rtcl-bs-modal {
   padding: 20px;
 }
 .rtcl-form-page .rtcl-login-form-wrap .rtcl-login-form-submit-wrap,
+.rtcl-restricted-content .rtcl-login-form-wrap .rtcl-login-form-submit-wrap,
 .rtcl-checkout .rtcl-login-form-wrap .rtcl-login-form-submit-wrap {
   display: flex;
   flex-wrap: wrap;
@@ -8106,6 +8148,7 @@ body.modal-open .rtcl-bs-modal {
   align-items: center;
 }
 .rtcl-form-page .rtcl-login-form-wrap .rtcl-btn,
+.rtcl-restricted-content .rtcl-login-form-wrap .rtcl-btn,
 .rtcl-checkout .rtcl-login-form-wrap .rtcl-btn {
   padding: 14px 25px;
   line-height: 1;
@@ -8118,14 +8161,17 @@ body.modal-open .rtcl-bs-modal {
   transition: all 0.3s ease-out;
 }
 .rtcl-form-page .rtcl-login-form-wrap .rtcl-field-label,
+.rtcl-restricted-content .rtcl-login-form-wrap .rtcl-field-label,
 .rtcl-checkout .rtcl-login-form-wrap .rtcl-field-label {
   font-weight: 500;
 }
 .rtcl-form-page .rtcl-login-form-wrap a,
+.rtcl-restricted-content .rtcl-login-form-wrap a,
 .rtcl-checkout .rtcl-login-form-wrap a {
   color: var(--rtcl-primary-color);
 }
 .rtcl-form-page .rtcl-login-form-wrap a:hover,
+.rtcl-restricted-content .rtcl-login-form-wrap a:hover,
 .rtcl-checkout .rtcl-login-form-wrap a:hover {
   color: var(--rtcl-secondary-color);
 }
@@ -10569,6 +10615,19 @@ body.rtcl-account > .rtcl {
 .rtcl-account .lost-password-confirmation .rtcl-form-control:focus,
 .rtcl-account #rtcl-lost-password-form .rtcl-form-control:focus {
   border-color: #111111;
+}
+
+.rtcl-user-pass-wrap {
+  position: relative;
+  z-index: 0;
+}
+.rtcl-user-pass-wrap .rtcl-toggle-pass {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  z-index: 1;
+  transform: translateY(-50%);
 }
 
 .rtcl {

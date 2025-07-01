@@ -279,10 +279,10 @@ class TemplateHooks {
 		if ( Functions::is_ad_type_disabled() ) {
 			return;
 		}
-		$ad_type           = ! empty( $_GET['filter_ad_type'] ) ? sanitize_text_field( wp_unslash( $_GET['filter_ad_type'] ) )
+		$ad_type        = ! empty( $_GET['filter_ad_type'] ) ? sanitize_text_field( wp_unslash( $_GET['filter_ad_type'] ) )
 			: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-		$selectedValues    = $ad_type ? explode( ',', $ad_type ) : [];
-		if ( empty( $selectedValues ) && !empty( $_GET['filters']['ad_type'] ) ) {
+		$selectedValues = $ad_type ? explode( ',', $ad_type ) : [];
+		if ( empty( $selectedValues ) && ! empty( $_GET['filters']['ad_type'] ) ) {
 			$selectedValues = [ sanitize_text_field( wp_unslash( $_GET['filters']['ad_type'] ) ) ];
 		}
 		$itemData['title'] = ! empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Ad Type', 'classified-listing' );
@@ -640,7 +640,7 @@ class TemplateHooks {
 	 */
 	public static function seller_email( $listing ) {
 
-		if ( is_a( $listing, Listing::class ) && Functions::get_option_item( 'rtcl_moderation_settings', 'has_contact_form', false, 'checkbox' )
+		if ( is_a( $listing, Listing::class ) && Functions::get_option_item( 'rtcl_single_listing_settings', 'has_contact_form', false, 'checkbox' )
 			 && $email = get_post_meta( $listing->get_id(), 'email', true )
 		) {
 			if ( is_user_logged_in() && get_current_user_id() === $listing->get_author_id() ) {
@@ -1154,16 +1154,16 @@ class TemplateHooks {
 		if ( ! $listing->is_featured() ) {
 			return;
 		}
-		$display_option    = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
+		$display_option    = Functions::get_display_options();
 		$can_show          = apply_filters( 'rtcl_listing_can_show_featured_badge', true, $listing );
-		$can_show_settings = Functions::get_option_item( 'rtcl_moderation_settings', $display_option, 'featured', 'multi_checkbox' );
+		$can_show_settings = in_array( 'featured', $display_option );
 
 		$can_show_settings = apply_filters( 'rtcl_listing_can_show_featured_badge_settings', $can_show_settings );
 
 		if ( ! $can_show || ! $can_show_settings ) {
 			return;
 		}
-		$label = Functions::get_option_item( 'rtcl_moderation_settings', 'listing_featured_label' );
+		$label = Functions::get_option_item( 'rtcl_general_listing_label_settings', 'listing_featured_label' );
 		$label = $label ?: esc_html__( "Featured", "classified-listing" );
 		echo '<span class="badge rtcl-badge-featured">' . esc_html( $label ) . '</span>';
 	}
@@ -1176,14 +1176,14 @@ class TemplateHooks {
 		if ( ! $can_show || ! $listing->is_new() ) {
 			return;
 		}
-		$display_option    = is_singular( rtcl()->post_type ) ? 'display_options_detail' : 'display_options';
-		$can_show_settings = Functions::get_option_item( 'rtcl_moderation_settings', $display_option, 'new', 'multi_checkbox' );
+		$display_option    = Functions::get_display_options();
+		$can_show_settings = in_array( 'new', $display_option );
 		$can_show_settings = apply_filters( 'rtcl_listing_can_show_new_badge_settings', $can_show_settings );
 		if ( ! $can_show_settings ) {
 			return;
 		}
 
-		$label = Functions::get_option_item( 'rtcl_moderation_settings', 'new_listing_label' );
+		$label = Functions::get_option_item( 'rtcl_general_listing_label_settings', 'new_listing_label' );
 		$label = $label ?: esc_html__( "New", "classified-listing" );
 		echo '<span class="badge rtcl-badge-new">' . esc_html( $label ) . '</span>';
 	}
@@ -1219,9 +1219,8 @@ class TemplateHooks {
 			$category_id   = isset( $_GET['category'] ) ? absint( $_GET['category'] ) : 0;
 			$selected_type = ( isset( $_GET['type'] ) && in_array( $_GET['type'], array_keys( Functions::get_listing_types() ) ) ) ? $_GET['type'] : '';
 		}
-		$general_settings    = Functions::get_option( 'rtcl_general_settings' );
 		$moderation_settings = Functions::get_option( 'rtcl_moderation_settings' );
-		$editor              = ! empty( $general_settings['text_editor'] ) ? $general_settings['text_editor'] : 'wp_editor';
+		$editor              = ! empty( $moderation_settings['text_editor'] ) ? $moderation_settings['text_editor'] : 'wp_editor';
 		$price               = $post_content = $listing_pricing = $price_type = $title = '';
 		$listing             = null;
 		$tags                = [];
@@ -1443,7 +1442,7 @@ class TemplateHooks {
 	}
 
 	public static function add_single_listing_review() {
-		if ( current_theme_supports( 'rtcl' ) && ( comments_open() || get_comments_number() ) ) {
+		if ( Functions::is_enable_template_support() && ( comments_open() || get_comments_number() ) ) {
 			comments_template();
 		}
 	}

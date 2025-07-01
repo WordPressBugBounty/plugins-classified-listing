@@ -10,7 +10,7 @@ class FieldSanitization {
 	public $fields = [];
 
 	public function __construct( $fields ) {
-		$this->fields = ! empty( $fields ) ? $fields : [];
+		$this->fields = !empty( $fields ) ? $fields : [];
 	}
 
 	public function validated() {
@@ -18,15 +18,15 @@ class FieldSanitization {
 	}
 
 	public function get(): array {
-		if ( ! empty( $this->fields ) ) {
+		if ( !empty( $this->fields ) ) {
 			$fields = [];
 			foreach ( $this->fields as $fieldId => $field ) {
 				if ( empty( $field['element'] ) ) {
 					continue;
 				}
 				$sanitizeField = $this->sanitizeField( $field );
-				if ( ! empty( $sanitizeField ) ) {
-					$fields[ $fieldId ] = $sanitizeField;
+				if ( !empty( $sanitizeField ) ) {
+					$fields[$fieldId] = $sanitizeField;
 				}
 			}
 			$this->fields = $fields;
@@ -38,23 +38,23 @@ class FieldSanitization {
 	private function sanitizeField( $rawField ): array {
 
 		$availableFields = AvailableFields::get();
-		$defaultValues   = ! empty( $availableFields[ $rawField['element'] ] ) ? $availableFields[ $rawField['element'] ] : null;
+		$defaultValues = !empty( $availableFields[$rawField['element']] ) ? $availableFields[$rawField['element']] : null;
 		if ( empty( $defaultValues ) ) {
 			return [];
 		}
 		$field = wp_parse_args( $rawField, $defaultValues );
 		if ( isset( $defaultValues['validation'] ) ) {
 			$tmpValidationRules = wp_parse_args( $field['validation'], $defaultValues['validation'] );
-			$validationRules    = [];
+			$validationRules = [];
 			foreach ( $tmpValidationRules as $ruleKey => $ruleValues ) {
 				if ( $ruleKey === 'required' ) {
 					$ruleValues['value'] = is_string( $ruleValues['value'] ) ? $ruleValues['value'] === 'true' : $ruleValues['value'];
 				} elseif ( $ruleKey === 'max_file_count' ) {
 					$ruleValues['value'] = isset( $ruleValues['value'] ) && $ruleValues['value'] !== '' ? absint( $ruleValues['value'] ) : '';
 				} elseif ( $ruleKey === 'max_file_size' ) {
-					$ruleValues['value'] = isset( $ruleValues['value'] ) && $ruleValues['value'] !== '' ? (int) $ruleValues['value'] : '';
+					$ruleValues['value'] = isset( $ruleValues['value'] ) && $ruleValues['value'] !== '' ? (int)$ruleValues['value'] : '';
 				}
-				$validationRules[ $ruleKey ] = $ruleValues;
+				$validationRules[$ruleKey] = $ruleValues;
 			}
 
 			$field['validation'] = $validationRules;
@@ -65,23 +65,38 @@ class FieldSanitization {
 		}
 
 		foreach ( $field as $fieldKey => $value ) {
-			if ( in_array( $fieldKey, [ 'label', 'id','class', 'container_class', 'default_value','placeholder', 'order', 'help_message', 'btn_text' ] ) ) {
-				$field[ $fieldKey ] = sanitize_text_field( wp_unslash( $value ) );
+			if ( in_array( $fieldKey, [ 'label', 'id', 'class', 'container_class', 'placeholder', 'order', 'help_message', 'btn_text' ] ) ) {
+				$field[$fieldKey] = sanitize_text_field( wp_unslash( $value ) );
 			} elseif ( $fieldKey === 'fields' ) {
-				if ( ! empty( $value ) && is_array( $value ) ) {
-					$fields = [];
-					foreach ( $value as $i => $_field ) {
-						$fields[ $i ] = $this->sanitizeField( $_field );
-					}
-					$field['fields'] = $fields;
+				if ( !empty( $value ) && is_array( $value ) ) {
+					$field['fields'] = array_map( function ( $_field ) {
+						return $this->sanitizeField( $_field );
+					}, $value );
 				}
 			} elseif ( $fieldKey === 'tnc_html' ) {
-				$field[ $fieldKey ] = stripslashes( wp_kses( $value, ElementCustomization::allowedHtml( $fieldKey ) ) );
+				$field[$fieldKey] = stripslashes( wp_kses( $value, ElementCustomization::allowedHtml( $fieldKey ) ) );
 			} elseif ( $fieldKey === 'html_codes' ) {
-				$field[ $fieldKey ] = stripslashes( wp_kses_post( $value ) );
+				$field[$fieldKey] = stripslashes( wp_kses_post( $value ) );
 			} elseif ( $fieldKey === 'top_level_ids' ) {
-				if ( ! empty( $value ) && is_array( $value ) ) {
-					$field[ $fieldKey ] = array_map( 'absint', $value );
+				if ( !empty( $value ) && is_array( $value ) ) {
+					$field[$fieldKey] = array_map( 'absint', $value );
+				}
+			} elseif ( $fieldKey === 'price_unit_catIds' ) {
+				if ( !empty( $value ) && is_array( $value ) ) {
+					$unitCatIds = [];
+					foreach ( $value as $unitKey => $catIds ) {
+						$catIds = array_filter( array_map( 'absint', $catIds ) );
+						if ( !empty( $catIds ) ) {
+							$unitCatIds[$unitKey] = $catIds;
+						}
+					}
+					if ( !empty( $unitCatIds ) ) {
+						$field[$fieldKey] = $unitCatIds;
+					} else {
+						unset( $field[$fieldKey] );
+					}
+				} else {
+					unset( $field[$fieldKey] );
 				}
 			} elseif ( $fieldKey === 'filter' ) {
 				if ( !empty( $value ) && is_array( $value ) ) {
@@ -101,10 +116,10 @@ class FieldSanitization {
 						$value = '';
 					}
 				}
-				if ( ! empty( $value['status'] ) && ! empty( $value['conditions'] ) ) {
+				if ( !empty( $value['status'] ) && !empty( $value['conditions'] ) ) {
 					$conditions = [];
 					foreach ( $value['conditions'] as $condition ) {
-						if ( ! empty( $condition['fieldId'] ) && ! empty( $condition['operator'] ) ) {
+						if ( !empty( $condition['fieldId'] ) && !empty( $condition['operator'] ) ) {
 							$conditions[] = $condition;
 						}
 					}
@@ -112,10 +127,42 @@ class FieldSanitization {
 						$value = '';
 					}
 				}
-				$field[ $fieldKey ] = $value;
+				$field[$fieldKey] = $value;
+			} else if ( $fieldKey === 'default_value' ) {
+				if ( in_array( $field['element'], [ 'checkbox', 'radio' ] ) ) {
+					$value = $field['default_value'];
+					$setDefaultValue = false;
+					if ( !empty( $field['options'] ) && is_array( $field['options'] ) && !empty( $value ) ) {
+						$optionValues = array_column( $field['options'], 'value' );
+						if ( $field['element'] === 'checkbox' ) {
+							if ( is_array( $value ) ) {
+								$_defaultValues = [];
+								foreach ( $value as $k => $v ) {
+									if ( in_array( $v, $optionValues ) ) {
+										$_defaultValues[] = sanitize_text_field( wp_unslash( $v ) );
+									}
+								}
+								if ( !empty( $_defaultValues ) ) {
+									$setDefaultValue = true;
+									$field['default_value'] = $_defaultValues;
+								}
+							}
+						} else {
+							if ( in_array( $value, $optionValues ) ) {
+								$setDefaultValue = true;
+								$field['default_value'] = sanitize_text_field( wp_unslash( $value ) );
+							}
+						}
+					}
+					if ( !$setDefaultValue ) {
+						unset( $field['default_value'] );
+					}
+				} else {
+					$field['default_value'] = sanitize_text_field( wp_unslash( $value ) );
+				}
 			} else {
 				if ( in_array( $value, [ 'true', 'false' ], true ) ) {
-					$field[ $fieldKey ] = $value === 'true';
+					$field[$fieldKey] = $value === 'true';
 				}
 			}
 		}

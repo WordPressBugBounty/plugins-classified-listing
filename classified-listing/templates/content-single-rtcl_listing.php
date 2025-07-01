@@ -21,7 +21,7 @@ if ( post_password_required() ) {
 	return;
 }
 
-$sidebar_position = Functions::get_option_item( 'rtcl_moderation_settings', 'detail_page_sidebar_position', 'right' );
+$sidebar_position = Functions::get_option_item( 'rtcl_single_listing_settings', 'detail_page_sidebar_position', 'right' );
 /**
  * Hook: rtcl_before_single_product.
  *
@@ -72,7 +72,7 @@ do_action( 'rtcl_before_single_listing' );
 		<!-- Review  -->
 		<?php do_action( 'rtcl_single_listing_review' ) ?>
 
-		<?php if ( ! current_theme_supports( 'rtcl' ) && in_array( $sidebar_position, [ 'left', 'right' ] ) ) : ?>
+		<?php if ( ! Functions::is_enable_template_support() && in_array( $sidebar_position, [ 'left', 'right' ] ) ) : ?>
 			<!-- Sidebar -->
 			<?php do_action( 'rtcl_single_listing_sidebar' ); ?>
 		<?php endif; ?>

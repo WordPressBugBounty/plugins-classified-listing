@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $options = array(
 	'tax_section'         => [
 		'title'       => esc_html__( 'Tax Settings', 'classified-listing' ),
-		'type'        => 'title',
+		'type'        => 'section',
 		'description' => '',
 	],
 	'enable_tax'          => [
@@ -19,9 +19,9 @@ $options = array(
 		'label' => esc_html__( 'Enable tax.', 'classified-listing' ),
 	],
 	'enable_multiple_tax' => [
-		'title' => esc_html__( 'Enable Multiple Tax', 'classified-listing' ),
-		'type'  => 'checkbox',
-		'label' => esc_html__( 'Apply multiple tax option for same area.', 'classified-listing' ),
+		'title'       => esc_html__( 'Enable Multiple Tax', 'classified-listing' ),
+		'type'        => 'checkbox',
+		'description' => esc_html__( 'Apply multiple tax option for same area.', 'classified-listing' ),
 	],
 );
 

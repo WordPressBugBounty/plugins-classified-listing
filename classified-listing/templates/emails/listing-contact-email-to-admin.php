@@ -24,10 +24,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @hooked RtclEmails::email_header() Output the email header
  */
 do_action( 'rtcl_email_header', $email ); ?>
-	<p><?php esc_html_e( 'Hi Administrator,', 'classified-listing' ); ?></p>
-	<p><?php /* translators: Site name */
+	<p style="margin: 0 0 16px;"><?php esc_html_e( 'Hi Administrator,', 'classified-listing' ); ?></p>
+	<p style="margin: 0 0 16px;"><?php /* translators: Site name */
 		printf( esc_html__( 'A listing on your website %s received a message.', 'classified-listing' ), esc_html( Functions::get_blogname() ) ) ?></p>
-	<p><?php printf( '<strong>%1$s</strong> <a href="%2$s">%3$s</a>',
+	<p style="margin: 0 0 16px;"><?php printf( '<strong>%1$s</strong> <a href="%2$s">%3$s</a>',
 			esc_html__( 'Listing :', 'classified-listing' ),
 			esc_url( $listing->get_the_permalink() ),
 			esc_html( $listing->get_the_title() ) ); ?></p>

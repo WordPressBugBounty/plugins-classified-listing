@@ -30,14 +30,16 @@ class FilterListings {
 	public static function output( $atts ) {
 
 		$general_settings = Functions::get_option( 'rtcl_general_settings' );
-		$atts             = shortcode_atts( [
+		$archive_settings = Functions::get_option( 'rtcl_archive_listing_settings' );
+
+		$atts = shortcode_atts( [
 			'title'            => __( 'Listings', 'classified-listing' ),
 			'location'         => '',
 			'category'         => '',
 			'authors'          => '',
 			'related_listings' => 0,
 			'type'             => 'all',
-			'limit'            => ! empty( $general_settings['listings_per_page'] ) ? absint( $general_settings['listings_per_page'] ) : 8,
+			'limit'            => ! empty( $archive_settings['listings_per_page'] ) ? absint( $archive_settings['listings_per_page'] ) : 8,
 			'orderby'          => $general_settings['orderby'] ?? 'date',
 			'order'            => $general_settings['order'] ?? 'DESC',
 			'view'             => 'grid',
@@ -98,7 +100,8 @@ class FilterListings {
 				'taxonomy'         => rtcl()->location,
 				'field'            => 'term_id',
 				'terms'            => $location,
-				'include_children' => isset( $general_settings['include_results_from'] ) && in_array( 'child_locations',
+				'include_children' => isset( $general_settings['include_results_from'] )
+				                      && in_array( 'child_locations',
 						$general_settings['include_results_from'] ),
 			];
 
@@ -134,7 +137,8 @@ class FilterListings {
 				'taxonomy'         => rtcl()->category,
 				'field'            => 'term_id',
 				'terms'            => $category,
-				'include_children' => isset( $general_settings['include_results_from'] ) && in_array( 'child_categories',
+				'include_children' => isset( $general_settings['include_results_from'] )
+				                      && in_array( 'child_categories',
 						$general_settings['include_results_from'] ),
 			];
 

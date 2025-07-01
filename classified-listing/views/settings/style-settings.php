@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $options = array(
 	'gs_section'        => array(
 		'title'       => esc_html__( 'Global Style', 'classified-listing' ),
-		'type'        => 'title',
+		'type'        => 'section',
 		'description' => '',
 	),
 	'primary'           => array(
@@ -18,52 +18,52 @@ $options = array(
 		'type'  => 'color',
 	),
 	'link'              => array(
-		'title' => esc_html__( 'Link color', 'classified-listing' ),
+		'title' => esc_html__( 'Link Color', 'classified-listing' ),
 		'type'  => 'color',
 	),
 	'link_hover'        => array(
-		'title' => esc_html__( 'Link color on hover', 'classified-listing' ),
+		'title' => esc_html__( 'Link Color on Hover', 'classified-listing' ),
 		'type'  => 'color',
 	),
 	'button'            => array(
-		'title' => esc_html__( 'Button background', 'classified-listing' ),
+		'title' => esc_html__( 'Button Background', 'classified-listing' ),
 		'type'  => 'color',
 	),
 	'button_hover'      => array(
-		'title' => esc_html__( 'Button hover background', 'classified-listing' ),
+		'title' => esc_html__( 'Button Hover Background', 'classified-listing' ),
 		'type'  => 'color',
 	),
 	'button_text'       => array(
-		'title' => esc_html__( 'Button text color', 'classified-listing' ),
+		'title' => esc_html__( 'Button Text Color', 'classified-listing' ),
 		'type'  => 'color',
 	),
 	'button_hover_text' => array(
-		'title' => esc_html__( 'Button text color on hover', 'classified-listing' ),
+		'title' => esc_html__( 'Button Text Color on Hover', 'classified-listing' ),
 		'type'  => 'color',
 	),
 	'lbl_section'       => array(
 		'title' => esc_html__( 'Label Style', 'classified-listing' ),
-		'type'  => 'title',
+		'type'  => 'section',
 	),
 	'new'               => [
-		'title' => esc_html__( 'New label background color', 'classified-listing' ),
+		'title' => esc_html__( 'New Label Background Color', 'classified-listing' ),
 		'type'  => 'color',
 	],
 	'new_text'          => [
-		'title' => esc_html__( 'New label text color', 'classified-listing' ),
+		'title' => esc_html__( 'New Label Text Color', 'classified-listing' ),
 		'type'  => 'color',
 	],
 	'feature'           => [
-		'title' => esc_html__( 'Feature label background color', 'classified-listing' ),
+		'title' => esc_html__( 'Feature Label Background Color', 'classified-listing' ),
 		'type'  => 'color',
 	],
 	'feature_text'      => [
-		'title' => esc_html__( 'Feature label text color', 'classified-listing' ),
+		'title' => esc_html__( 'Feature Label Text Color', 'classified-listing' ),
 		'type'  => 'color',
 	],
 	'misc_section'      => [
 		'title' => esc_html__( 'Others Style', 'classified-listing' ),
-		'type'  => 'title',
+		'type'  => 'section',
 	],
 	'container_class'   => [
 		'title'       => esc_html__( 'Container Class', 'classified-listing' ),

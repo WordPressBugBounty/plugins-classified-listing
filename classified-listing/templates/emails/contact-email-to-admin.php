@@ -24,8 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @hooked RtclEmails::email_header() Output the email header
  */
 do_action( 'rtcl_email_header', $email ); ?>
-	<p><?php esc_html_e( 'Hi Administrator,', 'classified-listing' ); ?></p>
-	<p><?php printf( '%1$s <a href="%2$s">%3$s.</a>', esc_html__( 'A contact request is received at your', 'classified-listing' ), esc_url( get_site_url() ), esc_html( Functions::get_blogname() ) ) ?><br>
+	<p style="margin: 0 0 16px;"><?php esc_html_e( 'Hi Administrator,', 'classified-listing' ); ?></p>
+	<p style="margin: 0 0 16px;"><?php printf( '%1$s <a href="%2$s">%3$s.</a>', esc_html__( 'A contact request is received at your', 'classified-listing' ), esc_url( get_site_url() ), esc_html( Functions::get_blogname() ) ) ?><br>
 	<?php printf( '<strong>%s</strong> %s', esc_html__( 'Name: ', 'classified-listing' ), esc_html( $data['name'] ) ); ?><br>
 	<?php printf( '<strong>%s</strong> %s', esc_html__( 'Email: ', 'classified-listing' ), esc_html( $data['email'] ) ); ?><br>
 <?php if ( ! empty( $data['phone'] ) ): ?>

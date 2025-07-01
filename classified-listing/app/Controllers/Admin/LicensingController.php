@@ -7,8 +7,8 @@ use Rtcl\Models\RtclLicense;
 
 class LicensingController {
 	function __construct() {
-		add_action('init',[&$this,'init_licensing']);
-	} 
+		add_action( 'init', [ &$this, 'init_licensing' ] );
+	}
 
 	public function init_licensing() {
 		$licenses = apply_filters( 'rtcl_licenses', array() );
@@ -16,7 +16,7 @@ class LicensingController {
 			return;
 		}
 		add_filter( 'rtcl_tools_settings_options', array( $this, 'tools_settings_add_licensing' ) );
-		foreach ( array_reverse($licenses) as $license ) {
+		foreach ( array_reverse( $licenses ) as $license ) {
 			$this->add_license( $license );
 		}
 	}
@@ -25,7 +25,7 @@ class LicensingController {
 		$license = array(
 			'licensing_section' => array(
 				'title' => esc_html__( 'Licensing', 'classified-listing' ),
-				'type'  => 'title',
+				'type'  => 'section',
 			),
 		);
 

@@ -24,14 +24,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 do_action( 'rtcl_email_header', $email ); ?>
 <?php /* translators: %s: Customer billing full name */ ?>
-	<p><?php /* translators:  username */ printf( esc_html__( "Hi %s", "classified-listing" ), esc_html( $user->user_login ) ); ?></p>
-	<p><?php /* translators:  site url */ printf( esc_html__( "You are successfully registered to this site %s", 'classified-listing' ), esc_html( Functions::get_blogname() ) ) ?></p>
-	<p><?php /* translators:  username */  printf( esc_html__( "Username: %s", 'classified-listing' ), esc_html( $user->user_login ) ) ?></p>
+	<p style="margin: 0 0 16px;"><?php /* translators:  username */ printf( esc_html__( "Hi %s", "classified-listing" ), esc_html( $user->user_login ) ); ?></p>
+	<p style="margin: 0 0 16px;"><?php /* translators:  site url */ printf( esc_html__( "You are successfully registered to this site %s", 'classified-listing' ), esc_html( Functions::get_blogname() ) ) ?></p>
+	<p style="margin: 0 0 16px;"><?php /* translators:  username */  printf( esc_html__( "Username: %s", 'classified-listing' ), esc_html( $user->user_login ) ) ?></p>
 <?php if ( ! empty( $data['password_generated'] ) ) { ?>
-	<p><?php /* translators:  password */  printf( esc_html__( "Password: %s", 'classified-listing' ), esc_html( $data['user_pass'] ) ) ?></p>
+	<p style="margin: 0 0 16px;"><?php /* translators:  password */  printf( esc_html__( "Password: %s", 'classified-listing' ), esc_html( $data['user_pass'] ) ) ?></p>
 <?php } ?>
 	<br>
-	<p><?php esc_html_e( 'Thanks for reading.', 'classified-listing' ); ?></p>
+	<p style="margin: 0 0 16px;"><?php esc_html_e( 'Thanks for reading.', 'classified-listing' ); ?></p>
 <?php
 /**
  * @hooked RtclEmails::email_footer() Output the email footer

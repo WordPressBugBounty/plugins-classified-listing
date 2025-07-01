@@ -17,6 +17,8 @@ class LocalizedString {
 			'submit'             => __( 'Submit', 'classified-listing' ),
 			'update'             => __( 'Update', 'classified-listing' ),
 			'change'             => __( 'Change', 'classified-listing' ),
+			'cancel'             => __( 'Cancel', 'classified-listing' ),
+			'restore'            => __( 'Restore', 'classified-listing' ),
 			'error_saving'       => __( 'Error while saving data', 'classified-listing' ),
 			'character_limit'    => __( 'Character limit', 'classified-listing' ),
 			'confirm'            => __( 'Are you sure to remove?', 'classified-listing' ),
@@ -27,6 +29,10 @@ class LocalizedString {
 			'upload'             => __( 'Upload', 'classified-listing' ),
 			'edit'               => __( 'Edit', 'classified-listing' ),
 			'delete'             => __( 'Delete', 'classified-listing' ),
+			'preview'            => __( 'Preview', 'classified-listing' ),
+			'undo'               => __( 'Undo', 'classified-listing' ),
+			'back'               => __( 'Back', 'classified-listing' ),
+			'scale'              => __( 'Scale', 'classified-listing' ),
 			'past_error'         => __( 'Pasting this exceeds the maximum allowed number of ___ characters for the input.', 'classified-listing' ),
 			'reCaptcha'          => [
 				'error' => __( 'reCaptcha site key is missing.', 'classified-listing' )
@@ -52,6 +58,25 @@ class LocalizedString {
 				'remove_error'       => __( 'Error while removing file.', 'classified-listing' ),
 				'updating_error'     => __( 'Error while updating file.', 'classified-listing' ),
 				'getting_error'      => __( 'Error while getting data', 'classified-listing' ),
+			],
+			'image'              => [
+				'edit_image'             => __( 'Edit Image', 'classified-listing' ),
+				'create_image'           => __( 'Create Image', 'classified-listing' ),
+				'crop_area_not_selected' => __( 'Crop Area not selected!!', 'classified-listing' ),
+				'apply_crop'             => __( 'Apply Crop', 'classified-listing' ),
+				'rotate_90'              => __( 'Rotate 90 degrees', 'classified-listing' ),
+				'rotate__90'             => __( 'Rotate -90 degrees', 'classified-listing' ),
+				'flip_v'                 => __( 'Flip Vertically', 'classified-listing' ),
+				'flip_h'                 => __( 'Flip Horizontally', 'classified-listing' ),
+				'selection'              => __( 'Selection', 'classified-listing' ),
+				'clear_selection'        => __( 'Clear Selection', 'classified-listing' ),
+				'apply_to_all_image'     => __( 'Apply changes to all generated image sizes', 'classified-listing' ),
+				'original_size'          => __( 'Original size', 'classified-listing' ),
+				'current_size'           => __( 'Current size', 'classified-listing' ),
+				'recommended_size'       => __( 'Recommended size', 'classified-listing' ),
+				'zoom'                   => __( 'Zoom', 'classified-listing' ),
+				'dimension'              => __( 'Dimension', 'classified-listing' ),
+				'position'               => __( 'Position', 'classified-listing' ),
 			],
 			'map'                => [
 				'enter_address'      => __( 'Enter address, please', 'classified-listing' ),
@@ -110,7 +135,7 @@ class LocalizedString {
 		];
 		$adminStrings = apply_filters( 'rtcl_fb_localized_admin_strings', $adminStrings );
 
-		$strings          = self::public();
+		$strings = self::public();
 		$strings['admin'] = $adminStrings;
 
 		return $strings;

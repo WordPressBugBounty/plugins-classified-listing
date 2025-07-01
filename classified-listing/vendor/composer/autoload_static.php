@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitdf2844756cf1af796653007047506569
+class ComposerStaticInit69d3decc9e0fe59a3c8c0bd3a05308c0
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -16,8 +16,6 @@ class ComposerStaticInitdf2844756cf1af796653007047506569
             'Symfony\\Contracts\\Service\\' => 26,
             'Symfony\\Contracts\\HttpClient\\' => 29,
             'Symfony\\Component\\HttpClient\\' => 29,
-            'Symfony\\Component\\CssSelector\\' => 30,
-            'Sabberworm\\CSS\\' => 15,
         ),
         'R' => 
         array (
@@ -28,7 +26,6 @@ class ComposerStaticInitdf2844756cf1af796653007047506569
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
-            'Pelago\\Emogrifier\\' => 18,
         ),
         'N' => 
         array (
@@ -53,14 +50,6 @@ class ComposerStaticInitdf2844756cf1af796653007047506569
         array (
             0 => __DIR__ . '/..' . '/symfony/http-client',
         ),
-        'Symfony\\Component\\CssSelector\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/css-selector',
-        ),
-        'Sabberworm\\CSS\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/src',
-        ),
         'Rtcl\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app',
@@ -77,10 +66,6 @@ class ComposerStaticInitdf2844756cf1af796653007047506569
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
-        ),
-        'Pelago\\Emogrifier\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/pelago/emogrifier/src',
         ),
         'Nyholm\\Psr7\\' => 
         array (
@@ -99,9 +84,9 @@ class ComposerStaticInitdf2844756cf1af796653007047506569
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitdf2844756cf1af796653007047506569::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitdf2844756cf1af796653007047506569::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitdf2844756cf1af796653007047506569::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit69d3decc9e0fe59a3c8c0bd3a05308c0::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit69d3decc9e0fe59a3c8c0bd3a05308c0::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit69d3decc9e0fe59a3c8c0bd3a05308c0::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -77,7 +77,9 @@ class RtclLicense {
 				'beta'        => false,
 			]
 		);
-		if ( ! Functions::check_license() || empty( $_api_data['product_id'] ) || empty( $_api_data['key_name'] ) || empty( $_api_data['status_name'] ) || empty( $_api_data['action_name'] ) ) {
+		if ( ! Functions::check_license() || empty( $_api_data['product_id'] ) || empty( $_api_data['key_name'] ) || empty( $_api_data['status_name'] )
+		     || empty( $_api_data['action_name'] )
+		) {
 			return;
 		}
 		$this->settings = wp_parse_args(
@@ -185,7 +187,8 @@ class RtclLicense {
 								break;
 							case 'item_name_mismatch':
 								/* translators: License key for item. */
-								$message = sprintf( esc_html__( "This appears to be an invalid license key for %s.", 'classified-listing' ), $this->settings['title'] );
+								$message = sprintf( esc_html__( "This appears to be an invalid license key for %s.", 'classified-listing' ),
+									$this->settings['title'] );
 								break;
 							case 'no_activations_left':
 								$message = esc_html__( 'Your license key has reached its activation limit.', 'classified-listing' );
@@ -260,7 +263,8 @@ class RtclLicense {
 							break;
 						case 'item_name_mismatch':
 							/* translators: License key for item. */
-							$message = sprintf( esc_html__( "This appears to be an invalid license key for %s.", 'classified-listing' ), $this->settings['title'] );
+							$message = sprintf( esc_html__( "This appears to be an invalid license key for %s.", 'classified-listing' ),
+								$this->settings['title'] );
 							break;
 						case 'no_activations_left':
 							$message = esc_html__( 'Your license key has reached its activation limit.', 'classified-listing' );
@@ -330,8 +334,11 @@ class RtclLicense {
 			$status         = ! empty( $settings[ $this->status_name ] ) && $settings[ $this->status_name ] === 'valid';
 			$license_status = ! empty( $settings[ $this->key_name ] ) ? sprintf(
 				"<span class='license-status'>%s</span>",
-				$status ? "<span data-action='" . $this->action_name . "' class='button-secondary rt-licensing-btn danger license_deactivate'>" . esc_html__( 'Deactivate License', 'classified-listing' ) . '</span>'
-					: "<span data-action='" . $this->action_name . "' class='button-secondary rt-licensing-btn button-primary license_activate'>" . esc_html__( 'Activate License', 'classified-listing' ) . '</span>'
+				$status
+					? "<span data-action='" . $this->action_name . "' class='button-secondary rt-licensing-btn danger license_deactivate'>"
+					  . esc_html__( 'Deactivate License', 'classified-listing' ) . '</span>'
+					: "<span data-action='" . $this->action_name . "' class='button-secondary rt-licensing-btn button-primary license_activate'>"
+					  . esc_html__( 'Activate License', 'classified-listing' ) . '</span>'
 			) : ' ';
 			$option         = [
 				$this->key_name => [
@@ -472,15 +479,24 @@ class RtclLicense {
 
 		$status = ! empty( $this->api_data['status'] );
 		if ( ! $this->api_data['license'] || ! $status ) {
-			echo '<tr class="plugin-update-tr" id="' . esc_attr( $this->slug ) . '-update" data-slug="' . esc_attr( $this->slug ) . '" data-plugin="' . esc_attr( $this->slug . '/' . $file ) . '">';
+			echo '<tr class="plugin-update-tr" id="' . esc_attr( $this->slug ) . '-update" data-slug="' . esc_attr( $this->slug ) . '" data-plugin="'
+			     . esc_attr( $this->slug . '/' . $file ) . '">';
 			echo '<td colspan="3" class="plugin-update colspanchange">';
-			echo '<div class="update-message notice inline notice-warning notice-alt"><p><strong>' . esc_html__( 'Please enter valid license key for automatic updates.', 'classified-listing' ) . '</strong> <a href="' . esc_url( admin_url( 'admin.php?page=rtcl-settings&tab=tools' ) ) . '">' . esc_html__( 'Click here', 'classified-listing' ) . '</a></p>';
+			echo '<div class="update-message notice inline notice-warning notice-alt"><p><strong>'
+			     . esc_html__( 'Please enter valid license key for automatic updates.', 'classified-listing' ) . '</strong> <a href="'
+			     . esc_url( admin_url( 'admin.php?page=rtcl-settings&tab=tools' ) ) . '">' . esc_html__( 'Click here', 'classified-listing' ) . '</a></p>';
 			echo '</div></td></tr>';
 		} else {
-			if ( empty( $version_info->new_version ) && empty( $version_info->stable_version ) && empty( $version_info->sections ) && empty( $version_info->license_check ) && isset( $version_info->msg ) ) {
-				echo '<tr class="plugin-update-tr" id="' . esc_attr( $this->slug ) . '-update" data-slug="' . esc_attr( $this->slug ) . '" data-plugin="' . esc_attr( $this->slug . '/' . $file ) . '">';
+			if ( empty( $version_info->new_version ) && empty( $version_info->stable_version ) && empty( $version_info->sections )
+			     && empty( $version_info->license_check )
+			     && isset( $version_info->msg )
+			) {
+				echo '<tr class="plugin-update-tr" id="' . esc_attr( $this->slug ) . '-update" data-slug="' . esc_attr( $this->slug ) . '" data-plugin="'
+				     . esc_attr( $this->slug . '/' . $file ) . '">';
 				echo '<td colspan="3" class="plugin-update colspanchange">';
-				echo '<div class="update-message notice inline notice-warning notice-alt"><p>' . esc_html( $version_info->msg ) . '. <strong>' . esc_html__( 'Please enter valid license key for automatic updates.', 'classified-listing' ) . '</strong><a href="' . esc_url( admin_url( 'admin.php?page=rtcl-settings&tab=tools' ) ) . '">' . esc_html__( 'Click here', 'classified-listing' ) . '</a></p>';
+				echo '<div class="update-message notice inline notice-warning notice-alt"><p>' . esc_html( $version_info->msg ) . '. <strong>'
+				     . esc_html__( 'Please enter valid license key for automatic updates.', 'classified-listing' ) . '</strong><a href="'
+				     . esc_url( admin_url( 'admin.php?page=rtcl-settings&tab=tools' ) ) . '">' . esc_html__( 'Click here', 'classified-listing' ) . '</a></p>';
 				echo '</div></td></tr>';
 			}
 		}
@@ -565,11 +581,13 @@ class RtclLicense {
 			// build a plugin list row, with update notification
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
 			// <tr class="plugin-update-tr"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange">
-			echo '<tr class="plugin-update-tr" id="' . esc_attr( $this->slug ) . '-update" data-slug="' . esc_attr( $this->slug ) . '" data-plugin="' . esc_attr( $this->slug . '/' . $file ) . '">';
+			echo '<tr class="plugin-update-tr" id="' . esc_attr( $this->slug ) . '-update" data-slug="' . esc_attr( $this->slug ) . '" data-plugin="'
+			     . esc_attr( $this->slug . '/' . $file ) . '">';
 			echo '<td colspan="3" class="plugin-update colspanchange">';
 			echo '<div class="update-message notice inline notice-warning notice-alt">';
 
-			$changelog_link = self_admin_url( 'index.php?edd_sl_action=view_plugin_changelog&plugin=' . esc_attr( $this->name ) . '&slug=' . esc_attr( $this->slug ) . '&TB_iframe=true&width=772&height=911' );
+			$changelog_link = self_admin_url( 'index.php?edd_sl_action=view_plugin_changelog&plugin=' . esc_attr( $this->name ) . '&slug='
+			                                  . esc_attr( $this->slug ) . '&TB_iframe=true&width=772&height=911' );
 
 			if ( empty( $version_info->download_link ) ) {
 				printf(
@@ -588,7 +606,8 @@ class RtclLicense {
 					'<a target="_blank" class="thickbox" href="' . esc_url( $changelog_link ) . '">',
 					esc_html( $version_info->new_version ),
 					'</a>',
-					'<a href="' . esc_url( wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $this->name, 'upgrade-plugin_' . $this->name ) ) . '">',
+					'<a href="' . esc_url( wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $this->name,
+						'upgrade-plugin_' . $this->name ) ) . '">',
 					'</a>'
 				);
 			}
@@ -780,7 +799,8 @@ class RtclLicense {
 		}
 
 		if ( ! current_user_can( 'update_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'classified-listing' ), esc_html__( 'Error', 'classified-listing' ), [ 'response' => 403 ] );
+			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'classified-listing' ), esc_html__( 'Error', 'classified-listing' ),
+				[ 'response' => 403 ] );
 		}
 
 		$data         = $edd_plugin_data[ $_REQUEST['slug'] ];

@@ -8,7 +8,6 @@ use Rtcl\Controllers\Admin\LicensingController;
 use Rtcl\Controllers\Admin\NoticeController;
 use Rtcl\Controllers\Ajax\Ajax;
 use Rtcl\Controllers\BlockController;
-use Rtcl\Controllers\ElementorController;
 use Rtcl\Controllers\GeoQuery;
 use Rtcl\Controllers\Hooks\ActionHooks;
 use Rtcl\Controllers\Hooks\AdminHooks;
@@ -40,7 +39,7 @@ use Rtcl\ThemeSupports\ThemeSupports;
 use Rtcl\Traits\SingletonTrait;
 use Rtcl\Widgets\Widget;
 
-if ( !class_exists( Rtcl::class ) ) {
+if ( ! class_exists( Rtcl::class ) ) {
 
 	/**
 	 * Classified listing main class.
@@ -204,14 +203,10 @@ if ( !class_exists( Rtcl::class ) ) {
 
 			ThemeSupports::init();
 			$this->query = new Query();
-			$api = new RtclApi();
+			$api         = new RtclApi();
 			$api->init();
 			$this->load_hooks();
 
-			// Init Elementor
-//			ElementorController::init();
-			// Gutenberg Block init
-//			new BlockController();
 			new LicensingController();
 		}
 
@@ -219,7 +214,7 @@ if ( !class_exists( Rtcl::class ) ) {
 			do_action( 'rtcl_before_init', $this );
 
 			$this->load_language();
-			$this->factory = new Factory();
+			$this->factory   = new Factory();
 			$this->countries = new Countries();
 
 			new AdminController();
@@ -249,7 +244,7 @@ if ( !class_exists( Rtcl::class ) ) {
 		 * Get a shared logger instance.
 		 *
 		 * @param string $logLevelThreshold
-		 * @param array $options
+		 * @param array  $options
 		 *
 		 * @return Logger
 		 *
@@ -326,7 +321,7 @@ if ( !class_exists( Rtcl::class ) ) {
 				case 'cron':
 					return defined( 'DOING_CRON' );
 				case 'frontend':
-					return ( !is_admin() || defined( 'DOING_AJAX' ) ) && !defined( 'DOING_CRON' );
+					return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
 				default:
 					return '';
 			}
@@ -335,11 +330,11 @@ if ( !class_exists( Rtcl::class ) ) {
 		/**
 		 * Define constant if not already set.
 		 *
-		 * @param string $name constant name
+		 * @param string      $name  constant name
 		 * @param bool|string $value constant value
 		 */
 		public function define( $name, $value ) {
-			if ( !defined( $name ) ) {
+			if ( ! defined( $name ) ) {
 				define( $name, $value );
 			}
 		}
@@ -374,8 +369,8 @@ if ( !class_exists( Rtcl::class ) ) {
 		/**
 		 * Return the RTCL API URL for a given request.
 		 *
-		 * @param string $request requested endpoint
-		 * @param bool|null $ssl If you should use SSL, null if should auto-detect. Default: null.
+		 * @param string    $request requested endpoint
+		 * @param bool|null $ssl     If you should use SSL, null if should auto-detect. Default: null.
 		 *
 		 * @return string
 		 */
@@ -444,13 +439,13 @@ if ( !class_exists( Rtcl::class ) ) {
 
 		/**
 		 * @param array|string $id
-		 * @param string $group
-		 * @param string $sub_group
+		 * @param string       $group
+		 * @param string       $sub_group
 		 *
 		 * @return string
 		 */
 		public function get_transient_name( $id, $group, $sub_group = '' ) {
-			$id = !empty( $id ) && is_array( $id ) ? md5( wp_json_encode( $id ) ) : $id;
+			$id = ! empty( $id ) && is_array( $id ) ? md5( wp_json_encode( $id ) ) : $id;
 			if ( rtcl()->location === $group ) {
 				$transient_name = sprintf( '%s_%s_%s_%s', $this->cache_prefix, rtcl()->location, $sub_group, $id );
 			} elseif ( rtcl()->category === $group ) {
@@ -491,7 +486,7 @@ if ( !class_exists( Rtcl::class ) ) {
 		 * @return string
 		 */
 		public function pro_tag() {
-			if ( !rtcl()->has_pro() ) {
+			if ( ! rtcl()->has_pro() ) {
 				return '<span class="rtcl-pro">[PRO]</span>';
 			}
 
@@ -518,14 +513,14 @@ if ( !class_exists( Rtcl::class ) ) {
 			register_activation_hook( RTCL_PLUGIN_FILE, [ Installer::class, 'install' ] );
 			register_deactivation_hook( RTCL_PLUGIN_FILE, [ Installer::class, 'deactivate' ] );
 
-			add_action( 'plugins_loaded', [ $this, 'on_plugins_loaded' ], -1 );
+			add_action( 'plugins_loaded', [ $this, 'on_plugins_loaded' ], - 1 );
 			add_action( 'after_setup_theme', [ AfterSetupTheme::class, 'template_functions' ], 11 );
 			add_action( 'init', [ $this, 'init_hooks' ], 0 );
 			add_action( 'init', [ Shortcodes::class, 'init_short_code' ] ); // Init ShortCode.
 		}
 
 		public function initialize_session() {
-			if ( !is_a( $this->session, SessionHandler::class ) ) {
+			if ( ! is_a( $this->session, SessionHandler::class ) ) {
 				$this->session = new SessionHandler();
 				$this->session->init();
 			}
@@ -534,7 +529,7 @@ if ( !class_exists( Rtcl::class ) ) {
 		public function initialize_cart() {
 			$cart_class = apply_filters( 'rtcl_cart_class', Cart::class );
 
-			if ( !is_a( $this->cart, $cart_class ) && class_exists( $cart_class ) ) {
+			if ( ! is_a( $this->cart, $cart_class ) && class_exists( $cart_class ) ) {
 				$this->cart = is_callable( [ $cart_class, 'instance' ] ) ? call_user_func(
 					[
 						$cart_class,
@@ -545,6 +540,7 @@ if ( !class_exists( Rtcl::class ) ) {
 		}
 
 		private function initialize_gallery() {
+			$ms            = Functions::get_option( 'rtcl_moderation_settings' );
 			$this->gallery = [
 				'option_name'    => 'rtcl_gallery',
 				'image_edit_cap' => isset( $ms['image_edit_cap'] ) && $ms['image_edit_cap'] == 'yes',
@@ -554,24 +550,27 @@ if ( !class_exists( Rtcl::class ) ) {
 
 		private function define_constants() {
 
-			if ( !defined( 'RTCL_SLUG' ) ) {
+			if ( ! defined( 'RTCL_SLUG' ) ) {
 				define( 'RTCL_SLUG', 'classified-listing' );
 			}
-			if ( !defined( 'RTCL_SESSION_CACHE_GROUP' ) ) {
+			if ( ! defined( 'RTCL_SESSION_CACHE_GROUP' ) ) {
 				define( 'RTCL_SESSION_CACHE_GROUP', 'rtcl_session_id' );
 			}
-			if ( !defined( 'RTCL_TEMPLATE_DEBUG_MODE' ) ) {
+			if ( ! defined( 'RTCL_TEMPLATE_DEBUG_MODE' ) ) {
 				define( 'RTCL_TEMPLATE_DEBUG_MODE', false );
 			}
-			if ( !defined( 'RTCL_ROUNDING_PRECISION' ) ) {
+			if ( ! defined( 'RTCL_ROUNDING_PRECISION' ) ) {
 				define( 'RTCL_ROUNDING_PRECISION', 6 );
 			}
 		}
 
 		private function load_url_message() {
 			/* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-			if ( isset( $_GET['rtcl-type'] ) && in_array( $_GET['rtcl-type'], [ 'success', 'error' ] ) && isset( $_GET['message'] ) ) { /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-				Functions::add_notice( trim( urldecode( sanitize_text_field( wp_unslash( $_GET['message'] ) ) ) ), trim( sanitize_text_field( wp_unslash( $_GET['rtcl-type'] ) ) ) ); /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
+			if ( isset( $_GET['rtcl-type'] ) && in_array( $_GET['rtcl-type'], [ 'success', 'error' ] )
+			     && isset( $_GET['message'] )
+			) { /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
+				Functions::add_notice( trim( urldecode( sanitize_text_field( wp_unslash( $_GET['message'] ) ) ) ),
+					trim( sanitize_text_field( wp_unslash( $_GET['rtcl-type'] ) ) ) ); /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
 			}
 		}
 	}

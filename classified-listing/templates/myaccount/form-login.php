@@ -38,8 +38,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php esc_html_e( 'Password', 'classified-listing' ); ?>
                     <strong class="rtcl-required">*</strong>
                 </label>
-                <input type="password" name="password" id="rtcl-user-pass" autocomplete="current-password"
-                       class="rtcl-form-control" required/>
+                <div class="rtcl-user-pass-wrap">
+					<input type="password" name="password" id="rtcl-user-pass" autocomplete="current-password"
+						   class="rtcl-form-control" required/>
+					<span class="rtcl-toggle-pass rtcl-icon-eye-off"></span>
+				</div>
             </div>
 
 			<?php do_action( 'rtcl_login_form' ); ?>

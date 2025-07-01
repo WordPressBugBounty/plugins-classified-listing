@@ -27,7 +27,8 @@ class GatewayPaypal extends PaymentGateway {
 		$this->order_button_text = __( 'Proceed to PayPal', 'classified-listing' );
 		$this->method_title      = __( 'PayPal', 'classified-listing' );
 		/* translators: System status link. */
-		$this->method_description = sprintf( __( 'PayPal Standard sends customers to PayPal to enter their payment information. PayPal IPN requires fsockopen/cURL support to update order statuses after payment. Check the <a href="%s">system status</a> page for more details.',
+		$this->method_description
+			= sprintf( __( 'PayPal Standard sends customers to PayPal to enter their payment information. PayPal IPN requires fsockopen/cURL support to update order statuses after payment. Check the <a href="%s">system status</a> page for more details.',
 			'classified-listing' ), '' );
 
 		// Load the settings.
@@ -79,7 +80,8 @@ class GatewayPaypal extends PaymentGateway {
 					'classified-listing' ) . '" />';
 		}
 
-		$icon_html .= sprintf( '<a href="%1$s" class="about_paypal" onclick="javascript:window.open(\'%1$s\',\'WIPaypal\',\'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700\'); return false;">' . esc_attr__( 'What is PayPal?',
+		$icon_html .= sprintf( '<a href="%1$s" class="about_paypal" onclick="javascript:window.open(\'%1$s\',\'WIPaypal\',\'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700\'); return false;">'
+							   . esc_attr__( 'What is PayPal?',
 				'classified-listing' ) . '</a>', esc_url( $this->get_icon_link_url() ) );
 
 		return apply_filters( 'rtcl_gateway_icon', $icon_html, $this->id );
@@ -273,7 +275,8 @@ class GatewayPaypal extends PaymentGateway {
 			?>
 			<div class="inline error">
 				<p>
-					<strong><?php esc_html_e( 'Gateway disabled', 'classified-listing' ); ?></strong>: <?php esc_html_e( 'PayPal does not support your store currency.', 'classified-listing' ); ?>
+					<strong><?php esc_html_e( 'Gateway disabled',
+							'classified-listing' ); ?></strong>: <?php esc_html_e( 'PayPal does not support your store currency.', 'classified-listing' ); ?>
 				</p>
 			</div>
 			<?php
@@ -285,8 +288,12 @@ class GatewayPaypal extends PaymentGateway {
 	 */
 	public function init_form_fields() {
 		$this->form_fields = [
+			'paypal_section'        => [
+				'title' => esc_html__( 'PayPal Settings', 'classified-listing' ),
+				'type'  => 'section'
+			],
 			'enabled'               => [
-				'title' => esc_html__( 'Enable/Disable', 'classified-listing' ),
+				'title' => esc_html__( 'Enable PayPal', 'classified-listing' ),
 				'type'  => 'checkbox',
 				'label' => esc_html__( 'Enable PayPal Standard', 'classified-listing' ),
 			],
@@ -305,7 +312,7 @@ class GatewayPaypal extends PaymentGateway {
 					'classified-listing' ),
 			],
 			'email'                 => [
-				'title'       => esc_html__( 'PayPal email', 'classified-listing' ),
+				'title'       => esc_html__( 'PayPal Email', 'classified-listing' ),
 				'type'        => 'email',
 				'description' => esc_html__( 'Please enter your PayPal email address; this is needed in order to take payment.',
 					'classified-listing' ),
@@ -313,41 +320,37 @@ class GatewayPaypal extends PaymentGateway {
 				'placeholder' => 'you@youremail.com',
 			],
 			'advanced'              => [
-				'title'       => esc_html__( 'Advanced options', 'classified-listing' ),
-				'type'        => 'title',
+				'title'       => esc_html__( 'Advanced Options', 'classified-listing' ),
+				'type'        => 'section',
 				'description' => '',
 			],
 			'testmode'              => [
-				'title'       => esc_html__( 'PayPal sandbox', 'classified-listing' ),
+				'title'       => esc_html__( 'PayPal Sandbox', 'classified-listing' ),
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Enable PayPal sandbox', 'classified-listing' ),
 				'default'     => 'no',
 				/* translators: Developer account link */
-				'description' => sprintf( __( 'PayPal sandbox can be used to test payments. Sign up for a <a href="%s">developer account</a>.', 'classified-listing' ), 'https://developer.paypal.com/' ),
+				'description' => sprintf( __( 'PayPal sandbox can be used to test payments. Sign up for a <a href="%s">developer account</a>.',
+					'classified-listing' ), 'https://developer.paypal.com/' ),
 			],
 			'ipn_notification'      => [
 				'title'       => esc_html__( 'IPN Email Notifications', 'classified-listing' ),
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Enable IPN email notifications', 'classified-listing' ),
 				'default'     => 'yes',
-				'description' => esc_html__( 'Send notifications when an IPN is received from PayPal indicating refunds, chargebacks and cancellations.', 'classified-listing' ),
+				'description' => esc_html__( 'Send notifications when an IPN is received from PayPal indicating refunds, chargebacks and cancellations.',
+					'classified-listing' ),
 			],
 			'receiver_email'        => [
-				'title'       => esc_html__( 'Receiver email', 'classified-listing' ),
+				'title'       => esc_html__( 'Receiver Email', 'classified-listing' ),
 				'type'        => 'email',
-				'description' => esc_html__( 'If your main PayPal email differs from the PayPal email entered above, input your main receiver email for your PayPal account here. This is used to validate IPN requests.', 'classified-listing' ),
+				'description' => esc_html__( 'If your main PayPal email differs from the PayPal email entered above, input your main receiver email for your PayPal account here. This is used to validate IPN requests.',
+					'classified-listing' ),
 				'default'     => '',
 				'placeholder' => 'you@youremail.com',
 			],
-			//			'identity_token'   => array(
-			//				'title'       => esc_html__( 'PayPal identity token', 'classified-listing' ),
-			//				'type'        => 'text',
-			//				'description' => esc_html__( 'Optionally enable "Payment Data Transfer" (Profile > Profile and Settings > My Selling Tools > Website Preferences) and then copy your identity token here. This will allow payments to be verified without the need for PayPal IPN.', 'classified-listing' ),
-			//				'default'     => '',
-			//				'placeholder' => '',
-			//			),
 			'paymentaction'         => [
-				'title'       => esc_html__( 'Payment action', 'classified-listing' ),
+				'title'       => esc_html__( 'Payment Action', 'classified-listing' ),
 				'type'        => 'select',
 				'class'       => 'rtcl-select2',
 				'description' => esc_html__( 'Choose whether you wish to capture funds immediately or authorize payment only.', 'classified-listing' ),
@@ -358,17 +361,19 @@ class GatewayPaypal extends PaymentGateway {
 				],
 			],
 			'page_style'            => [
-				'title'       => esc_html__( 'Page style', 'classified-listing' ),
+				'title'       => esc_html__( 'Page Style', 'classified-listing' ),
 				'type'        => 'text',
-				'description' => esc_html__( 'Optionally enter the name of the page style you wish to use. These are defined within your PayPal account. This affects classic PayPal checkout screens.', 'classified-listing' ),
+				'description' => esc_html__( 'Optionally enter the name of the page style you wish to use. These are defined within your PayPal account. This affects classic PayPal checkout screens.',
+					'classified-listing' ),
 				'default'     => '',
 				'placeholder' => esc_html__( 'Optional', 'classified-listing' ),
 			],
 			'image_url'             => [
-				'title'       => esc_html__( 'Image url', 'classified-listing' ),
+				'title'       => esc_html__( 'Image URL', 'classified-listing' ),
 				'type'        => 'text',
 				'description' => wp_kses(
-					__( 'Optionally enter the URL to a <span style="color:red">150x50px (Not more than this)</span> image displayed as your logo in the upper left corner of the PayPal checkout pages.', 'classified-listing' ), [
+					__( 'Optionally enter the URL to a <span style="color:red">150x50px (Not more than this)</span> image displayed as your logo in the upper left corner of the PayPal checkout pages.',
+						'classified-listing' ), [
 					'span' => [
 						'style' => []
 					]
@@ -377,48 +382,49 @@ class GatewayPaypal extends PaymentGateway {
 				'placeholder' => esc_html__( 'Optional', 'classified-listing' ),
 			],
 			'api_details'           => [
-				'title'       => esc_html__( 'API credentials', 'classified-listing' ),
-				'type'        => 'title',
+				'title'       => esc_html__( 'API Credentials', 'classified-listing' ),
+				'type'        => 'section',
 				/* translators: Api Credential link */
-				'description' => sprintf( __( 'Enter your PayPal API credentials to process refunds via PayPal. Learn how to access your <a href="%s">PayPal API Credentials</a>.', 'classified-listing' ), 'https://developer.paypal.com/webapps/developer/docs/classic/api/apiCredentials/#creating-an-api-signature' ),
+				'description' => sprintf( __( 'Enter your PayPal API credentials to process refunds via PayPal. Learn how to access your <a href="%s">PayPal API Credentials</a>.',
+					'classified-listing' ), 'https://developer.paypal.com/webapps/developer/docs/classic/api/apiCredentials/#creating-an-api-signature' ),
 			],
 			'api_username'          => [
-				'title'       => esc_html__( 'Live API username', 'classified-listing' ),
+				'title'       => esc_html__( 'Live API Username', 'classified-listing' ),
 				'type'        => 'text',
 				'description' => esc_html__( 'Get your API credentials from PayPal.', 'classified-listing' ),
 				'default'     => '',
 				'placeholder' => esc_html__( 'Optional', 'classified-listing' ),
 			],
 			'api_password'          => [
-				'title'       => esc_html__( 'Live API password', 'classified-listing' ),
+				'title'       => esc_html__( 'Live API Password', 'classified-listing' ),
 				'type'        => 'password',
 				'description' => esc_html__( 'Get your API credentials from PayPal.', 'classified-listing' ),
 				'default'     => '',
 				'placeholder' => esc_html__( 'Optional', 'classified-listing' ),
 			],
 			'api_signature'         => [
-				'title'       => esc_html__( 'Live API signature', 'classified-listing' ),
+				'title'       => esc_html__( 'Live API Signature', 'classified-listing' ),
 				'type'        => 'text',
 				'description' => esc_html__( 'Get your API credentials from PayPal.', 'classified-listing' ),
 				'default'     => '',
 				'placeholder' => esc_html__( 'Optional', 'classified-listing' ),
 			],
 			'sandbox_api_username'  => [
-				'title'       => esc_html__( 'Sandbox API username', 'classified-listing' ),
+				'title'       => esc_html__( 'Sandbox API Username', 'classified-listing' ),
 				'type'        => 'text',
 				'description' => esc_html__( 'Get your API credentials from PayPal.', 'classified-listing' ),
 				'default'     => '',
 				'placeholder' => esc_html__( 'Optional', 'classified-listing' ),
 			],
 			'sandbox_api_password'  => [
-				'title'       => esc_html__( 'Sandbox API password', 'classified-listing' ),
+				'title'       => esc_html__( 'Sandbox API Password', 'classified-listing' ),
 				'type'        => 'password',
 				'description' => esc_html__( 'Get your API credentials from PayPal.', 'classified-listing' ),
 				'default'     => '',
 				'placeholder' => esc_html__( 'Optional', 'classified-listing' ),
 			],
 			'sandbox_api_signature' => [
-				'title'       => esc_html__( 'Sandbox API signature', 'classified-listing' ),
+				'title'       => esc_html__( 'Sandbox API Signature', 'classified-listing' ),
 				'type'        => 'text',
 				'description' => esc_html__( 'Get your API credentials from PayPal.', 'classified-listing' ),
 				'default'     => '',
@@ -508,10 +514,13 @@ class GatewayPaypal extends PaymentGateway {
 		];
 
 		// Post back to get a response.
-		$response = wp_safe_remote_post( $this->testmode ? 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' : 'https://ipnpb.paypal.com/cgi-bin/webscr', $params );
+		$response = wp_safe_remote_post( $this->testmode ? 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr' : 'https://ipnpb.paypal.com/cgi-bin/webscr',
+			$params );
 
 		// Check to see if the request was valid.
-		if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 && strstr( $response['body'], 'VERIFIED' ) ) {
+		if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300
+			 && strstr( $response['body'], 'VERIFIED' )
+		) {
 			return true;
 		}
 		if ( is_wp_error( $response ) ) {
@@ -574,11 +583,13 @@ class GatewayPaypal extends PaymentGateway {
 				$this->payment_status_paid_cancelled_payment( $payment, $posted );
 			}
 			$log->info( 'Completed, Order #' . $payment->get_id() . ' is Authorization.' );
-			$this->payment_complete( $payment, ! empty( $posted['txn_id'] ) ? Functions::clean( $posted['txn_id'] ) : esc_html__( 'IPN payment completed', 'classified-listing' ) );
+			$this->payment_complete( $payment,
+				! empty( $posted['txn_id'] ) ? Functions::clean( $posted['txn_id'] ) : esc_html__( 'IPN payment completed', 'classified-listing' ) );
 		} else {
 			if ( 'authorization' === $posted['pending_reason'] ) {
 				$log->info( 'Aborting, Order #' . $payment->get_id() . ' is Authorization.' );
-				$this->payment_on_hold( $payment, esc_html__( 'Payment authorized. Change payment status to processing or complete to capture funds.', 'classified-listing' ) );
+				$this->payment_on_hold( $payment,
+					esc_html__( 'Payment authorized. Change payment status to processing or complete to capture funds.', 'classified-listing' ) );
 			} else {
 				$log->info( 'Aborting, Order #' . $payment->get_id() . ' is else Authorization.' );
 				/* translators: Pending reason */
@@ -650,9 +661,11 @@ class GatewayPaypal extends PaymentGateway {
 	protected function payment_status_paid_cancelled_payment( $payment, $posted ) {
 		$this->send_ipn_email_notification(
 		/* translators: %s: order link. */
-			sprintf( __( 'Payment for cancelled order %s received', 'classified-listing' ), '<a class="link" href="' . esc_url( $payment->get_edit_order_url() ) . '">' . $payment->get_order_number() . '</a>' ),
+			sprintf( __( 'Payment for cancelled order %s received', 'classified-listing' ),
+				'<a class="link" href="' . esc_url( $payment->get_edit_order_url() ) . '">' . $payment->get_order_number() . '</a>' ),
 			/* translators: %s: order ID. */
-			sprintf( __( 'Order #%s has been marked paid by PayPal IPN, but was previously cancelled. Admin handling required.', 'classified-listing' ), $payment->get_order_number() )
+			sprintf( __( 'Order #%s has been marked paid by PayPal IPN, but was previously cancelled. Admin handling required.', 'classified-listing' ),
+				$payment->get_order_number() )
 		);
 	}
 
@@ -756,7 +769,8 @@ class GatewayPaypal extends PaymentGateway {
 			/* translators: %s: email address . */
 			$order->update_status( 'on-hold' );
 			/* translators: Email address */
-			$order->add_note( sprintf( __( 'Validation error: PayPal IPN response from a different email address (%s).', 'classified-listing' ), $receiver_email ) );
+			$order->add_note( sprintf( __( 'Validation error: PayPal IPN response from a different email address (%s).', 'classified-listing' ),
+				$receiver_email ) );
 			exit;
 		}
 	}
@@ -796,8 +810,11 @@ class GatewayPaypal extends PaymentGateway {
 	public function capture_payment( $order_id ) {
 		$order = rtcl()->factory->get_order( $order_id );
 
-		if ( 'paypal' === $order->get_payment_method() && 'pending' === get_post_meta( $order->get_id(),
-				'_paypal_status', true ) && $order->get_transaction_id() ) {
+		if ( 'paypal' === $order->get_payment_method()
+			 && 'pending' === get_post_meta( $order->get_id(),
+				'_paypal_status', true )
+			 && $order->get_transaction_id()
+		) {
 
 			PayPalApiHandler::$api_username  = $this->testmode ? $this->get_option( 'sandbox_api_username' ) : $this->get_option( 'api_username' );
 			PayPalApiHandler::$api_password  = $this->testmode ? $this->get_option( 'sandbox_api_password' ) : $this->get_option( 'api_password' );
@@ -845,7 +862,9 @@ class GatewayPaypal extends PaymentGateway {
 	public function admin_scripts() {
 		$screen    = get_current_screen();
 		$screen_id = $screen ? $screen->id : '';
-		if ( ! isset( $_GET['tab'] ) || ! isset( $_GET['section'] ) || $_GET['tab'] !== 'payment' || $_GET['section'] !== $this->id || 'rtcl_listing_page_rtcl_settings' !== $screen_id ) { /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
+		if ( ! isset( $_GET['tab'] ) || ! isset( $_GET['section'] ) || $_GET['tab'] !== 'payment' || $_GET['section'] !== $this->id
+			 || 'rtcl_listing_page_rtcl_settings' !== $screen_id
+		) { /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
 			return;
 		}
 
@@ -870,6 +889,7 @@ class GatewayPaypal extends PaymentGateway {
 			return;
 		}
 
-		$mailer->send( ! empty( $new_order_settings['recipient'] ) ? $new_order_settings['recipient'] : get_option( 'admin_email' ), wp_strip_all_tags( $subject ), $message );
+		$mailer->send( ! empty( $new_order_settings['recipient'] ) ? $new_order_settings['recipient'] : get_option( 'admin_email' ),
+			wp_strip_all_tags( $subject ), $message );
 	}
 }

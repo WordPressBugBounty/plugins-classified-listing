@@ -159,14 +159,14 @@ class FormBuilderAjax {
 			'location' => []
 		];
 		$post_arg = [];
-		$new_listing_status = Functions::get_option_item( 'rtcl_moderation_settings', 'new_listing_status', 'pending' );
+		$new_listing_status = Functions::get_option_item( 'rtcl_general_settings', 'new_listing_status', 'pending' );
 		if ( $listing ) {
 			if ( ( $listing->get_listing()->post_author > 0 && $listing->get_listing()->post_author == apply_filters( 'rtcl_listing_post_user_id', get_current_user_id() ) ) || ( $listing->get_listing()->post_author == 0 && $post_for_unregister ) ) {
 				if ( 'rtcl-temp' === $listing->get_listing()->post_status ) {
 					$post_arg['post_status'] = $new_listing_status;
 				} else {
 					$postingType = 'update';
-					$status_after_edit = Functions::get_option_item( 'rtcl_moderation_settings', 'edited_listing_status' );
+					$status_after_edit = Functions::get_option_item( 'rtcl_general_settings', 'edited_listing_status' );
 					if ( 'publish' === $listing->get_listing()->post_status && $status_after_edit && $listing->get_listing()->post_status !== $status_after_edit ) {
 						$post_arg['post_status'] = $status_after_edit;
 					}
@@ -780,12 +780,9 @@ class FormBuilderAjax {
 			return;
 		}
 
-		$data = [
-			'sizes' => Gallery::rtcl_gallery_explain_size(),
-			'file'  => $attachment->to_array()
-		];
-		$data['file']['meta'] = wp_get_attachment_metadata( $attachment->ID );
-		wp_send_json_success( $data );
+		$file = $attachment->to_array();
+		$file['meta'] = wp_get_attachment_metadata( $attachment->ID );
+		wp_send_json_success( $file );
 	}
 
 	public function update_attachment_details() {

@@ -283,7 +283,6 @@ class BlockController {
 	}
 
 	public function frontend_assets() {
-		wp_enqueue_style( 'rtcl-bootstrap' );
 		wp_enqueue_style( 'rtcl-public' );
 		wp_enqueue_style( 'gb-frontend-block', rtcl()->get_assets_uri( 'css/gb-frontend-block.css' ), [], RTCL_VERSION );
 	}

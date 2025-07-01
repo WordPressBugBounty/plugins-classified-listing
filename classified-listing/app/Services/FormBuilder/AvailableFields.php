@@ -1140,8 +1140,8 @@ class AvailableFields {
 
 	private static function addAIFieldToElements( array $fields ): array {
 		$typesWithAI = [ 'text', 'title', 'textarea', 'description', 'excerpt' ];
-		$aiEnabled = Functions::is_ai_enabled();
-		$hasPro = rtcl()->has_pro();
+		$aiEnabled   = Functions::is_ai_enabled();
+		$hasPro      = rtcl()->has_pro();
 
 		return array_map( function ( $field ) use ( $aiEnabled, $typesWithAI, $hasPro ) {
 			if ( in_array( $field['element'], $typesWithAI ) ) {

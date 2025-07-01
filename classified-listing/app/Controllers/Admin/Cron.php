@@ -38,10 +38,10 @@ class Cron {
 			'fields'         => 'ids',
 			'post_status'    => 'any',
 			'meta_query'     => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				[
-					'key'     => '_rtcl_form_id',
-					'compare' => 'NOT EXISTS'
-				]
+			                      [
+				                      'key'     => '_rtcl_form_id',
+				                      'compare' => 'NOT EXISTS'
+			                      ]
 			]
 		];
 
@@ -137,8 +137,8 @@ class Cron {
 						add_post_meta( $meta->post_id, $fieldName, $meta->meta_value );
 					}
 				}
-				
-				do_action('rtcl_fb_cf_data_migration', $postId, $formId, $form);
+
+				do_action( 'rtcl_fb_cf_data_migration', $postId, $formId, $form );
 			}
 		}
 
@@ -204,8 +204,8 @@ class Cron {
 	}
 
 	function sent_renewal_email_to_published_listings() {
-		$email_settings  = Functions::get_option( 'rtcl_email_settings' );
-		$email_threshold = (int) $email_settings['renewal_email_threshold'];
+		$email_template_settings = Functions::get_option( 'rtcl_email_templates_settings' );
+		$email_threshold         = (int) $email_template_settings['renewal_email_threshold'];
 
 		if ( $email_threshold > 0 ) {
 
@@ -220,21 +220,21 @@ class Cron {
 				'ignore_sticky_posts' => true,
 				'no_found_rows'       => true,
 				'meta_query'          => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-					'relation' => 'AND',
-					[
-						'key'     => 'expiry_date',
-						'value'   => $email_threshold_date,
-						'compare' => '<',
-						'type'    => 'DATETIME'
-					],
-					[
-						'key'     => 'renewal_reminder_sent',
-						'compare' => 'NOT EXISTS'
-					],
-					[
-						'key'     => 'never_expires',
-						'compare' => 'NOT EXISTS',
-					]
+				                           'relation' => 'AND',
+				                           [
+					                           'key'     => 'expiry_date',
+					                           'value'   => $email_threshold_date,
+					                           'compare' => '<',
+					                           'type'    => 'DATETIME'
+				                           ],
+				                           [
+					                           'key'     => 'renewal_reminder_sent',
+					                           'compare' => 'NOT EXISTS'
+				                           ],
+				                           [
+					                           'key'     => 'never_expires',
+					                           'compare' => 'NOT EXISTS',
+				                           ]
 				]
 			];
 
@@ -244,7 +244,7 @@ class Cron {
 
 				foreach ( $rtcl_query->posts as $post_id ) {
 					// Send emails to user
-					if ( Functions::get_option_item( 'rtcl_email_settings', 'notify_users', 'listing_renewal', 'multi_checkbox' ) ) {
+					if ( Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_users', 'listing_renewal', 'multi_checkbox' ) ) {
 						if ( rtcl()->mailer()->emails['Listing_Renewal_Email_To_Owner']->trigger( $post_id ) ) {
 							update_post_meta( $post_id, 'renewal_reminder_sent', 1 );
 						}
@@ -257,10 +257,11 @@ class Cron {
 
 	function move_listings_publish_to_expired() {
 
-		$moderation_settings        = Functions::get_option( 'rtcl_moderation_settings' );
-		$email_settings             = Functions::get_option( 'rtcl_email_template_renewal_reminder' );
-		$renewal_reminder_threshold = isset( $email_settings['renewal_reminder_threshold'] ) ? absint( $email_settings['renewal_reminder_threshold'] ) : 0;
-		$delete_expired_listings    = isset( $moderation_settings['delete_expired_listings'] ) ? absint( $moderation_settings['delete_expired_listings'] ) : 0;
+		$general_settings           = Functions::get_option( 'rtcl_general_settings' );
+		$email_template_settings    = Functions::get_option( 'rtcl_email_templates_settings' );
+		$renewal_reminder_threshold = isset( $email_template_settings['renewal_reminder_threshold'] )
+			? absint( $email_template_settings['renewal_reminder_threshold'] ) : 0;
+		$delete_expired_listings    = isset( $general_settings['delete_expired_listings'] ) ? absint( $general_settings['delete_expired_listings'] ) : 0;
 		$delete_threshold           = $renewal_reminder_threshold + $delete_expired_listings;
 
 		// Define the query
@@ -272,17 +273,17 @@ class Cron {
 			'ignore_sticky_posts' => true,
 			'no_found_rows'       => true,
 			'meta_query'          => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				'relation' => 'AND',
-				[
-					'key'     => 'expiry_date',
-					'value'   => current_time( 'mysql' ),
-					'compare' => '<',
-					'type'    => 'DATETIME'
-				],
-				[
-					'key'     => 'never_expires',
-					'compare' => 'NOT EXISTS',
-				]
+			                           'relation' => 'AND',
+			                           [
+				                           'key'     => 'expiry_date',
+				                           'value'   => current_time( 'mysql' ),
+				                           'compare' => '<',
+				                           'type'    => 'DATETIME'
+			                           ],
+			                           [
+				                           'key'     => 'never_expires',
+				                           'compare' => 'NOT EXISTS',
+			                           ]
 			]
 		];
 
@@ -320,11 +321,11 @@ class Cron {
 					$syncData['update']['deletion_date'] = $deletion_date_time;
 				}
 				Functions::syncMLListingMeta( $post_id, $syncData );
-				if ( Functions::get_option_item( 'rtcl_email_settings', 'notify_users', 'listing_expired', 'multi_checkbox' ) ) {
+				if ( Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_users', 'listing_expired', 'multi_checkbox' ) ) {
 					rtcl()->mailer()->emails['Listing_Expired_Email_To_Owner']->trigger( $post_id );
 				}
 
-				if ( Functions::get_option_item( 'rtcl_email_settings', 'notify_admin', 'listing_expired', 'multi_checkbox' ) ) {
+				if ( Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_admin', 'listing_expired', 'multi_checkbox' ) ) {
 					rtcl()->mailer()->emails['Listing_Expired_Email_To_Admin']->trigger( $post_id );
 				}
 
@@ -336,12 +337,13 @@ class Cron {
 
 	function delete_expired_listings() {
 
-		$moderation_settings = Functions::get_option( 'rtcl_moderation_settings' );
-		$email_settings      = Functions::get_option( 'rtcl_email_template_renewal_reminder' );
+		$general_settings        = Functions::get_option( 'rtcl_general_settings' );
+		$email_template_settings = Functions::get_option( 'rtcl_email_templates_settings' );
 
-		$renewal_reminder_threshold = isset( $email_settings['renewal_reminder_threshold'] ) ? (int) $email_settings['renewal_reminder_threshold'] : 0;
-		$delete_expired_listings    = isset( $moderation_settings['delete_expired_listings'] ) ? (int) $moderation_settings['delete_expired_listings'] : 0;
-		$can_renew                  = Functions::get_option_item( 'rtcl_moderation_settings', 'has_listing_renewal', false, 'checkbox' );
+		$renewal_reminder_threshold = isset( $email_template_settings['renewal_reminder_threshold'] )
+			? (int) $email_template_settings['renewal_reminder_threshold'] : 0;
+		$delete_expired_listings    = isset( $general_settings['delete_expired_listings'] ) ? (int) $general_settings['delete_expired_listings'] : 0;
+		$can_renew                  = Functions::get_option_item( 'rtcl_general_settings', 'renew', false, 'checkbox' );
 
 		if ( $can_renew ) {
 			$delete_threshold = $renewal_reminder_threshold + $delete_expired_listings;
@@ -360,17 +362,17 @@ class Cron {
 				'ignore_sticky_posts' => true,
 				'no_found_rows'       => true,
 				'meta_query'          => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-					'relation' => 'AND',
-					[
-						'key'     => 'deletion_date',
-						'value'   => current_time( 'mysql' ),
-						'compare' => '<',
-						'type'    => 'DATETIME'
-					],
-					[
-						'key'     => 'never_expires',
-						'compare' => 'NOT EXISTS',
-					]
+				                           'relation' => 'AND',
+				                           [
+					                           'key'     => 'deletion_date',
+					                           'value'   => current_time( 'mysql' ),
+					                           'compare' => '<',
+					                           'type'    => 'DATETIME'
+				                           ],
+				                           [
+					                           'key'     => 'never_expires',
+					                           'compare' => 'NOT EXISTS',
+				                           ]
 				]
 			];
 
@@ -393,8 +395,9 @@ class Cron {
 	 * @return void
 	 */
 	function send_renewal_reminders() {
-		$email_settings     = Functions::get_option( 'rtcl_email_settings' );
-		$reminder_threshold = isset( $email_settings['renewal_reminder_threshold'] ) ? (int) $email_settings['renewal_reminder_threshold'] : 0;
+		$email_template_settings = Functions::get_option( 'rtcl_email_templates_settings' );
+		$reminder_threshold      = isset( $email_template_settings['renewal_reminder_threshold'] )
+			? (int) $email_template_settings['renewal_reminder_threshold'] : 0;
 
 		if ( $reminder_threshold > 0 ) {
 			// Define the query
@@ -406,16 +409,16 @@ class Cron {
 				'ignore_sticky_posts' => true,
 				'no_found_rows'       => true,
 				'meta_query'          => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-					'relation' => 'AND',
-					[
-						'key'     => 'renewal_reminder_sent',
-						'value'   => 0,
-						'compare' => '='
-					],
-					[
-						'key'     => 'never_expires',
-						'compare' => 'NOT EXISTS',
-					]
+				                           'relation' => 'AND',
+				                           [
+					                           'key'     => 'renewal_reminder_sent',
+					                           'value'   => 0,
+					                           'compare' => '='
+				                           ],
+				                           [
+					                           'key'     => 'never_expires',
+					                           'compare' => 'NOT EXISTS',
+				                           ]
 				]
 			];
 
@@ -433,7 +436,7 @@ class Cron {
 
 						// Send renewal reminder emails to listing owner
 						update_post_meta( $post_id, 'renewal_reminder_sent', 1 );
-						if ( Functions::get_option_item( 'rtcl_email_settings', 'notify_users', 'remind_renewal', 'multi_checkbox' ) ) {
+						if ( Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_users', 'remind_renewal', 'multi_checkbox' ) ) {
 							rtcl()->mailer()->emails['Listing_Renewal_Reminder_Email_To_Owner']->trigger( $post_id );
 						}
 
@@ -454,18 +457,18 @@ class Cron {
 			'ignore_sticky_posts' => true,
 			'no_found_rows'       => true,
 			'meta_query'          => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				'relation' => 'AND',
-				[
-					'key'     => 'feature_expiry_date',
-					'value'   => current_time( 'mysql' ),
-					'compare' => '<',
-					'type'    => 'DATETIME'
-				],
-				[
-					'key'     => 'featured',
-					'compare' => '=',
-					'value'   => 1,
-				]
+			                           'relation' => 'AND',
+			                           [
+				                           'key'     => 'feature_expiry_date',
+				                           'value'   => current_time( 'mysql' ),
+				                           'compare' => '<',
+				                           'type'    => 'DATETIME'
+			                           ],
+			                           [
+				                           'key'     => 'featured',
+				                           'compare' => '=',
+				                           'value'   => 1,
+			                           ]
 			]
 		];
 

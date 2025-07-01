@@ -25,9 +25,9 @@ if ( !defined( 'ABSPATH' ) ) {
  * @hooked RtclEmails::email_header() Output the email header
  */
 do_action( 'rtcl_email_header', $email ); ?>
-	<p><?php /* translators:  username */
+	<p style="margin: 0 0 16px;"><?php /* translators:  username */
 		printf( esc_html__( 'Hi %s,', 'classified-listing' ), esc_html( $order->get_customer_full_name() ) ); ?></p>
-	<p><?php
+	<p style="margin: 0 0 16px;"><?php
 		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 		printf(
 		/* translators:  order notification */
@@ -35,7 +35,7 @@ do_action( 'rtcl_email_header', $email ); ?>
 			sprintf( '<strong>%s</strong>', esc_html( $order->get_maybe_id() ) ),
 			sprintf( '<strong>%s</strong>', esc_url( $email->get_placeholders_item( '{site_link}' ) ) )
 		) ?></p>
-	<p><?php /* translators:  order url */
+	<p style="margin: 0 0 16px;"><?php /* translators:  order url */
 		printf( esc_html__( 'You can access the order details directly by clicking on the link below after logging in your account: %s', 'classified-listing' ), esc_url( Link::get_payment_receipt_page_link( $order->get_id() ) ) ) ?></p>
 <?php
 

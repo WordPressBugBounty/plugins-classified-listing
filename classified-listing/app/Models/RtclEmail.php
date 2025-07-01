@@ -69,6 +69,7 @@ class RtclEmail {
 	private $content;
 	private $attachments = [];
 	protected $settings;
+	protected $template_settings;
 	private $email_content_type;
 	private $replay_to_email;
 	private $replay_to_name;
@@ -97,27 +98,28 @@ class RtclEmail {
 	 * @var array $plain_search
 	 * @see $plain_replace
 	 */
-	public $plain_search = [
-		"/\r/",                                                  // Non-legal carriage return.
-		'/&(nbsp|#0*160);/i',                                    // Non-breaking space.
-		'/&(quot|rdquo|ldquo|#0*8220|#0*8221|#0*147|#0*148);/i', // Double quotes.
-		'/&(apos|rsquo|lsquo|#0*8216|#0*8217);/i',               // Single quotes.
-		'/&gt;/i',                                               // Greater-than.
-		'/&lt;/i',                                               // Less-than.
-		'/&#0*38;/i',                                            // Ampersand.
-		'/&amp;/i',                                              // Ampersand.
-		'/&(copy|#0*169);/i',                                    // Copyright.
-		'/&(trade|#0*8482|#0*153);/i',                           // Trademark.
-		'/&(reg|#0*174);/i',                                     // Registered.
-		'/&(mdash|#0*151|#0*8212);/i',                           // mdash.
-		'/&(ndash|minus|#0*8211|#0*8722);/i',                    // ndash.
-		'/&(bull|#0*149|#0*8226);/i',                            // Bullet.
-		'/&(pound|#0*163);/i',                                   // Pound sign.
-		'/&(euro|#0*8364);/i',                                   // Euro sign.
-		'/&(dollar|#0*36);/i',                                   // Dollar sign.
-		'/&[^&\s;]+;/i',                                         // Unknown/unhandled entities.
-		'/[ ]{2,}/',                                             // Runs of spaces, post-handling.
-	];
+	public $plain_search
+		= [
+			"/\r/",                                                  // Non-legal carriage return.
+			'/&(nbsp|#0*160);/i',                                    // Non-breaking space.
+			'/&(quot|rdquo|ldquo|#0*8220|#0*8221|#0*147|#0*148);/i', // Double quotes.
+			'/&(apos|rsquo|lsquo|#0*8216|#0*8217);/i',               // Single quotes.
+			'/&gt;/i',                                               // Greater-than.
+			'/&lt;/i',                                               // Less-than.
+			'/&#0*38;/i',                                            // Ampersand.
+			'/&amp;/i',                                              // Ampersand.
+			'/&(copy|#0*169);/i',                                    // Copyright.
+			'/&(trade|#0*8482|#0*153);/i',                           // Trademark.
+			'/&(reg|#0*174);/i',                                     // Registered.
+			'/&(mdash|#0*151|#0*8212);/i',                           // mdash.
+			'/&(ndash|minus|#0*8211|#0*8722);/i',                    // ndash.
+			'/&(bull|#0*149|#0*8226);/i',                            // Bullet.
+			'/&(pound|#0*163);/i',                                   // Pound sign.
+			'/&(euro|#0*8364);/i',                                   // Euro sign.
+			'/&(dollar|#0*36);/i',                                   // Dollar sign.
+			'/&[^&\s;]+;/i',                                         // Unknown/unhandled entities.
+			'/[ ]{2,}/',                                             // Runs of spaces, post-handling.
+		];
 
 	/**
 	 *  List of pattern replacements corresponding to patterns searched.
@@ -125,27 +127,28 @@ class RtclEmail {
 	 * @var array $plain_replace
 	 * @see $plain_search
 	 */
-	public $plain_replace = [
-		'',                                             // Non-legal carriage return.
-		' ',                                            // Non-breaking space.
-		'"',                                            // Double quotes.
-		"'",                                            // Single quotes.
-		'>',                                            // Greater-than.
-		'<',                                            // Less-than.
-		'&',                                            // Ampersand.
-		'&',                                            // Ampersand.
-		'(c)',                                          // Copyright.
-		'(tm)',                                         // Trademark.
-		'(R)',                                          // Registered.
-		'--',                                           // mdash.
-		'-',                                            // ndash.
-		'*',                                            // Bullet.
-		'£',                                            // Pound sign.
-		'EUR',                                          // Euro sign. € ?.
-		'$',                                            // Dollar sign.
-		'',                                             // Unknown/unhandled entities.
-		' ',                                             // Runs of spaces, post-handling.
-	];
+	public $plain_replace
+		= [
+			'',                                             // Non-legal carriage return.
+			' ',                                            // Non-breaking space.
+			'"',                                            // Double quotes.
+			"'",                                            // Single quotes.
+			'>',                                            // Greater-than.
+			'<',                                            // Less-than.
+			'&',                                            // Ampersand.
+			'&',                                            // Ampersand.
+			'(c)',                                          // Copyright.
+			'(tm)',                                         // Trademark.
+			'(R)',                                          // Registered.
+			'--',                                           // mdash.
+			'-',                                            // ndash.
+			'*',                                            // Bullet.
+			'£',                                            // Pound sign.
+			'EUR',                                          // Euro sign. € ?.
+			'$',                                            // Dollar sign.
+			'',                                             // Unknown/unhandled entities.
+			' ',                                             // Runs of spaces, post-handling.
+		];
 
 
 	/**
@@ -290,7 +293,8 @@ class RtclEmail {
 			return apply_filters( 'rtcl_email_heading', $this->format_string( $this->heading ), $this );
 		}
 
-		return apply_filters( 'rtcl_email_heading_' . $this->id, $this->format_string( $this->get_option( $this->id . '_heading', $this->get_default_heading() ) ), $this );
+		return apply_filters( 'rtcl_email_heading_' . $this->id,
+			$this->format_string( $this->get_template_option( $this->id . '_heading', $this->get_default_heading() ) ), $this );
 	}
 
 	public function set_heading( $heading ) {
@@ -428,7 +432,8 @@ class RtclEmail {
 			return apply_filters( 'rtcl_email_subject', $this->format_string( $this->subject ), $this->object );
 		}
 
-		return apply_filters( 'rtcl_email_subject_' . $this->id, $this->format_string( $this->get_option( $this->id . '_subject', $this->get_default_subject() ) ), $this->object );
+		return apply_filters( 'rtcl_email_subject_' . $this->id,
+			$this->format_string( $this->get_template_option( $this->id . '_subject', $this->get_default_subject() ) ), $this->object );
 	}
 
 
@@ -496,6 +501,30 @@ class RtclEmail {
 		}
 
 		return isset( $this->settings[ $id ] ) && ! empty( $this->settings[ $id ] ) ? $this->settings[ $id ] : $default;
+	}
+
+	/**
+	 * @param      $id
+	 * @param null $default
+	 * @param null $type
+	 *
+	 * @return bool|int|null
+	 */
+	public function get_template_option( $id, $default = null, $type = null ) {
+		if ( ! $this->template_settings ) {
+			$this->template_settings = Functions::get_option( 'rtcl_email_templates_settings' );
+		}
+
+		if ( $type == 'checkbox' ) {
+			return ( isset( $this->template_settings[ $id ] ) && $this->template_settings[ $id ] == 'yes' ) ? true : false;
+		} elseif ( $type == 'multi_checkbox' ) {
+			return ( isset( $this->template_settings[ $id ] ) && is_array( $this->template_settings[ $id ] )
+			         && in_array( $default, $this->template_settings[ $id ] ) ) ? true : false;
+		} elseif ( $type == 'number' ) {
+			return isset( $this->template_settings[ $id ] ) ? absint( $this->template_settings[ $id ] ) : absint( $default );
+		}
+
+		return isset( $this->template_settings[ $id ] ) && ! empty( $this->template_settings[ $id ] ) ? $this->template_settings[ $id ] : $default;
 	}
 
 
@@ -609,7 +638,8 @@ class RtclEmail {
 	 * @return string
 	 */
 	public function get_from_address() {
-		$from_address = apply_filters( 'rtcl_email_from_address', $this->format_string( $this->get_option( 'from_email', get_option( 'admin_email' ) ) ), $this );
+		$from_address = apply_filters( 'rtcl_email_from_address', $this->format_string( $this->get_option( 'from_email', get_option( 'admin_email' ) ) ),
+			$this );
 
 		return sanitize_email( $from_address );
 	}
@@ -658,43 +688,6 @@ class RtclEmail {
 	 */
 	public function get_description() {
 		return apply_filters( 'rtcl_email_description', $this->description, $this );
-	}
-
-
-	/**
-	 * Apply inline styles to dynamic content.
-	 * We only inline CSS for html emails, and to do so we use Emogrifier library (if supported).
-	 *
-	 * @param string|null $content Content that will receive inline styles.
-	 *
-	 * @return string
-	 */
-	public function style_inline( $content ) {
-		if ( in_array( $this->get_content_type(), [ 'text/html', 'multipart/alternative' ], true ) ) {
-			$style_html       = Functions::get_template_html( 'emails/email-styles', [ 'email' => $this ] );
-			$css              = apply_filters( 'rtcl_email_styles', $style_html, $this );
-			$emogrifier_class = 'Pelago\\Emogrifier';
-
-			if ( $this->supports_emogrifier() && class_exists( $emogrifier_class ) ) {
-				try {
-					$emogrifier = new $emogrifier_class( $content, $css );
-
-					do_action( 'rtcl_emogrifier', $emogrifier, $this );
-
-					$content    = $emogrifier->emogrify();
-					$html_prune = \Pelago\Emogrifier\HtmlProcessor\HtmlPruner::fromHtml( $content );
-					$html_prune->removeElementsWithDisplayNone();
-					$content = $html_prune->render();
-				} catch ( \Exception $e ) {
-					$logger = rtcl()->logger();
-					$logger->error( $e->getMessage(), [ 'source' => 'emogrifier' ] );
-				}
-			} else {
-				$content = '<style type="text/css">' . $css . '</style>' . $content;
-			}
-		}
-
-		return $content;
 	}
 
 
@@ -757,7 +750,7 @@ class RtclEmail {
 		$message              = $this->get_content();
 		$headers              = $this->get_headers();
 		$attachments          = $this->get_attachments();
-		$message              = apply_filters( 'rtcl_mail_content', $this->style_inline( $message ) );
+		$message              = apply_filters( 'rtcl_mail_content', $message );
 		$mail_callback        = apply_filters( 'rtcl_mail_callback', 'wp_mail', $this );
 		$mail_callback_params = apply_filters( 'rtcl_mail_callback_params', [
 			$to,

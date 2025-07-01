@@ -3,6 +3,7 @@
 namespace Rtcl\Services\FormBuilder;
 
 use Rtcl\Helpers\Helper;
+use Rtcl\Resources\Options;
 use Rtcl\Services\FormBuilder\Components\DateTime;
 
 class ElementCustomization {
@@ -112,11 +113,12 @@ class ElementCustomization {
 				'general' => [
 					'label',
 					'label_placement',
+					'price_label',
 					'pricing_options',
 					'pricing_type_label',
 					'price_type_label',
 					'price_unit_label',
-					'price_label',
+					'price_units',
 					'validation'
 				],
 				'advance' => [
@@ -132,6 +134,7 @@ class ElementCustomization {
 			'images'              => [
 				'general' => [
 					'validation',
+					'manipulation',
 					'admin_use_only',
 					'container_class',
 					'help_message',
@@ -647,9 +650,14 @@ class ElementCustomization {
 				'help_text' => __( 'This is the field placeholder, the user will see this if the input field is empty.', 'classified-listing' ),
 			],
 			'pricing_type_label'           => [
-				'template'  => 'inputText',
-				'label'     => __( 'Pricing Type Label', 'classified-listing' ),
-				'help_text' => __( 'This is the field title the user will see when filling out the form.', 'classified-listing' ),
+				'template'   => 'inputText',
+				'label'      => __( 'Pricing Type Label', 'classified-listing' ),
+				'help_text'  => __( 'This is the field title the user will see when filling out the form.', 'classified-listing' ),
+				'dependency' => [
+					'depends_on' => 'options',
+					'value'      => 'pricing_type',
+					'operator'   => 'includes',
+				]
 			],
 			'price_label'                  => [
 				'template'  => 'inputText',
@@ -657,14 +665,37 @@ class ElementCustomization {
 				'help_text' => __( 'This is the field title the user will see when filling out the form.', 'classified-listing' ),
 			],
 			'price_type_label'             => [
-				'template'  => 'inputText',
-				'label'     => __( 'Price Type Label', 'classified-listing' ),
-				'help_text' => __( 'This is the field title the user will see when filling out the form.', 'classified-listing' ),
+				'template'   => 'inputText',
+				'label'      => __( 'Price Type Label', 'classified-listing' ),
+				'help_text'  => __( 'This is the field title the user will see when filling out the form.', 'classified-listing' ),
+				'dependency' => [
+					'depends_on' => 'options',
+					'value'      => 'price_type',
+					'operator'   => 'includes',
+				]
 			],
 			'price_unit_label'             => [
-				'template'  => 'inputText',
-				'label'     => __( 'Price Unit Label', 'classified-listing' ),
-				'help_text' => __( 'This is the field title the user will see when filling out the form.', 'classified-listing' ),
+				'template'   => 'inputText',
+				'label'      => __( 'Price Unit Label', 'classified-listing' ),
+				'help_text'  => __( 'This is the field title the user will see when filling out the form.', 'classified-listing' ),
+				'dependency' => [
+					'depends_on' => 'options',
+					'value'      => 'price_unit',
+					'operator'   => 'includes',
+				]
+			],
+			'price_units'                  => [
+				'template'   => 'priceUnits',
+				'i18n'       => [
+					'available_units' => __( 'Available Units', 'classified-listing' )
+				],
+				'label'      => __( 'Price Units', 'classified-listing' ),
+				'help_text'  => __( 'Define your price units ', 'classified-listing' ),
+				'dependency' => [
+					'depends_on' => 'options',
+					'value'      => 'price_unit',
+					'operator'   => 'includes',
+				]
 			],
 			'pricing_options'              => [
 				'key'       => 'options',
@@ -789,6 +820,11 @@ class ElementCustomization {
 				'template'  => 'inputYesNoCheckBox',
 				'label'     => __( 'Admin use only', 'classified-listing' ),
 				'help_text' => __( 'If you enable this then filed will only display at admin end.', 'classified-listing' ),
+			],
+			'manipulation'           => [
+				'template'  => 'inputYesNoCheckBox',
+				'label'     => __( 'Allow user to update / manipulation image', 'classified-listing' ),
+				'help_text' => __( 'If you enable this then user can manipulation image.', 'classified-listing' ),
 			],
 			'filterable'                   => [
 				'template'  => 'inputYesNoCheckBox',

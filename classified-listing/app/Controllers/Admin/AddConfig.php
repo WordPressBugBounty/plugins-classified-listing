@@ -65,26 +65,27 @@ class AddConfig {
 
 
 	function addConfigurations() {
-		$ms = Functions::get_option( 'rtcl_misc_settings' );
+		$mms                 = Functions::get_option( 'rtcl_misc_media_settings' );
+		$moderation_settings = Functions::get_option( 'rtcl_moderation_settings' );
 
 		rtcl()->gallery = [
 			'option_name'    => 'rtcl_gallery',
-			'image_edit_cap' => isset( $ms['image_edit_cap'] ) && $ms['image_edit_cap'] == 'yes',
+			'image_edit_cap' => isset( $moderation_settings['image_edit_cap'] ) && $moderation_settings['image_edit_cap'] == 'yes',
 			'image_sizes'    => [
 				"rtcl-gallery"           => [
-					'width'  => isset( $ms['image_size_gallery']['width'] ) ? absint( $ms['image_size_gallery']['width'] ) : 924,
-					'height' => isset( $ms['image_size_gallery']['width'] ) ? absint( $ms['image_size_gallery']['height'] ) : 462,
-					'crop'   => isset( $ms['image_size_gallery']['crop'] ) && $ms['image_size_gallery']['crop'] === 'yes'
+					'width'  => isset( $mms['image_size_gallery']['width'] ) ? absint( $mms['image_size_gallery']['width'] ) : 924,
+					'height' => isset( $mms['image_size_gallery']['width'] ) ? absint( $mms['image_size_gallery']['height'] ) : 462,
+					'crop'   => isset( $mms['image_size_gallery']['crop'] ) && $mms['image_size_gallery']['crop'] === 'yes'
 				],
 				"rtcl-thumbnail"         => [
-					'width'  => isset( $ms['image_size_thumbnail']['width'] ) ? absint( $ms['image_size_thumbnail']['width'] ) : 320,
-					'height' => isset( $ms['image_size_thumbnail']['width'] ) ? absint( $ms['image_size_thumbnail']['height'] ) : 240,
-					'crop'   => isset( $ms['image_size_thumbnail']['crop'] ) && $ms['image_size_thumbnail']['crop'] === 'yes'
+					'width'  => isset( $mms['image_size_thumbnail']['width'] ) ? absint( $mms['image_size_thumbnail']['width'] ) : 320,
+					'height' => isset( $mms['image_size_thumbnail']['width'] ) ? absint( $mms['image_size_thumbnail']['height'] ) : 240,
+					'crop'   => isset( $mms['image_size_thumbnail']['crop'] ) && $mms['image_size_thumbnail']['crop'] === 'yes'
 				],
 				"rtcl-gallery-thumbnail" => [
-					'width'  => isset( $ms['image_size_gallery_thumbnail']['width'] ) ? absint( $ms['image_size_gallery_thumbnail']['width'] ) : 150,
-					'height' => isset( $ms['image_size_gallery_thumbnail']['width'] ) ? absint( $ms['image_size_gallery_thumbnail']['height'] ) : 105,
-					'crop'   => isset( $ms['image_size_gallery_thumbnail']['crop'] ) && $ms['image_size_gallery_thumbnail']['crop'] === 'yes'
+					'width'  => isset( $mms['image_size_gallery_thumbnail']['width'] ) ? absint( $mms['image_size_gallery_thumbnail']['width'] ) : 150,
+					'height' => isset( $mms['image_size_gallery_thumbnail']['width'] ) ? absint( $mms['image_size_gallery_thumbnail']['height'] ) : 105,
+					'crop'   => isset( $mms['image_size_gallery_thumbnail']['crop'] ) && $mms['image_size_gallery_thumbnail']['crop'] === 'yes'
 				],
 			]
 		];

@@ -22,9 +22,9 @@ if ( !defined( 'ABSPATH' ) ) {
  * @hooked RtclEmails::email_header() Output the email header
  */
 do_action( 'rtcl_email_header', $email ); ?>
-	<p><?php /* translators:  username */
+	<p style="margin: 0 0 16px;"><?php /* translators:  username */
 		printf( esc_html__( 'Hi %s,', 'classified-listing' ), esc_html( $listing->get_owner_name() ) ); ?></p>
-	<p><?php
+	<p style="margin: 0 0 16px;"><?php
 		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 		printf(
 			/* translators: details */

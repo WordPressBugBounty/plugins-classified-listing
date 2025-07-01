@@ -34,7 +34,7 @@ class PageController {
 			$page = 'listings';
 		}
 
-		if ( Functions::get_option_item( 'rtcl_misc_settings', 'social_pages', $page, 'multi_checkbox' ) ) {
+		if ( Functions::get_option_item( 'rtcl_general_social_share_settings', 'social_pages', $page, 'multi_checkbox' ) ) {
 
 			$title = get_the_title();
 

@@ -23,9 +23,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @hooked RtclEmails::email_header() Output the email header
  */
 do_action( 'rtcl_email_header', $email ); ?>
-	<p><?php /* translators:  owner */
+	<p style="margin: 0 0 16px;"><?php /* translators:  owner */
 		printf( esc_html__( 'Hi %s,', 'classified-listing' ), esc_html( $listing->get_owner_name() ) ); ?></p>
-	<p><?php printf( '%1$s <a href="%2$s">%3$s.</a>',
+	<p style="margin: 0 0 16px;"><?php printf( '%1$s <a href="%2$s">%3$s.</a>',
 			esc_html__( 'You have received a reply from your listing at', 'classified-listing' ),
 			esc_url( $listing->get_the_permalink() ),
 			esc_html( $listing->get_the_title() ) ) ?></p>

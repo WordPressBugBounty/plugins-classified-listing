@@ -159,8 +159,8 @@ $order = strtoupper(Functions::get_option_item('rtcl_general_settings', 'taxonom
 		<?php do_action('rtcl_widget_search_vertical_form', $can_search_by_location, $can_search_by_category) ?>
 		<!-- Action buttons -->
 		<button type="submit"
-				class="btn btn-primary"><?php esc_html_e('Search Listings', 'classified-listing'); ?></button>
+				class="rtcl-btn btn-primary"><?php esc_html_e('Search Listings', 'classified-listing'); ?></button>
 		<a href="<?php echo esc_url(get_permalink()); ?>"
-		   class="btn btn-danger my-3"><?php esc_html_e('Reset', 'classified-listing'); ?></a>
+		   class="rtcl-btn rtcl-btn-danger my-3"><?php esc_html_e('Reset', 'classified-listing'); ?></a>
 	</form>
 </div>

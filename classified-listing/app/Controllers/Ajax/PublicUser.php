@@ -751,10 +751,10 @@ class PublicUser {
 		}
 
 		// All good to go
-		if ( !Functions::get_option_item( 'rtcl_email_settings', 'notify_users', 'disable_contact_email', 'multi_checkbox' ) ) {
+		if ( !Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_users', 'disable_contact_email', 'multi_checkbox' ) ) {
 			rtcl()->mailer()->emails['Listing_Contact_Email_To_Owner']->trigger( $post_id, $data );
 		}
-		if ( Functions::get_option_item( 'rtcl_email_settings', 'notify_admin', 'listing_contact', 'multi_checkbox' ) ) {
+		if ( Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_admin', 'listing_contact', 'multi_checkbox' ) ) {
 			rtcl()->mailer()->emails['Listing_Contact_Email_To_Admin']->trigger( $post_id, $data );
 		}
 		$notification = absint( get_post_meta( $post_id, '_notification_by_visitor', true ) ) + 1;
@@ -1080,7 +1080,7 @@ class PublicUser {
 							}
 						}
 						if ( $user_id ) {
-							$new_listing_status = Functions::get_option_item( 'rtcl_moderation_settings', 'new_listing_status', 'pending' );
+							$new_listing_status = Functions::get_option_item( 'rtcl_general_settings', 'new_listing_status', 'pending' );
 							if ( $post_id && is_object( $post ) && $post->post_type == rtcl()->post_type ) {
 
 								if ( ( $post->post_author > 0
@@ -1095,7 +1095,7 @@ class PublicUser {
 										$post_arg['post_status'] = $new_listing_status;
 									} else {
 										$type = 'update';
-										$status_after_edit = Functions::get_option_item( 'rtcl_moderation_settings', 'edited_listing_status' );
+										$status_after_edit = Functions::get_option_item( 'rtcl_general_settings', 'edited_listing_status' );
 										if ( 'publish' === $post->post_status && $status_after_edit && $post->post_status !== $status_after_edit ) {
 											$post_arg['post_status'] = $status_after_edit;
 										}

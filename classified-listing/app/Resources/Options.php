@@ -570,7 +570,7 @@ class Options {
 	}
 
 	public static function get_listing_promotions() {
-		$featured_label = Functions::get_option_item( 'rtcl_moderation_settings', 'listing_featured_label' );
+		$featured_label = Functions::get_option_item( 'rtcl_general_listing_label_settings', 'listing_featured_label' );
 		$featured_label = $featured_label ?: esc_html__( 'Featured', 'classified-listing' );
 
 		$promotions = [ 'featured' => $featured_label ];
@@ -665,7 +665,7 @@ class Options {
 				'd/m/Y'  => 'DD/MM/YYYY',
 				'F j, Y' => 'MMMM D, YYYY',
 				'j F, Y' => 'D MMMM, YYYY',
-				'j F Y' => 'D MMMM YYYY',
+				'j F Y'  => 'D MMMM YYYY',
 				'h:i:s'  => 'hh:mm:ss',
 				'g:i a'  => 'h:mm a',
 				'g:i A'  => 'h:mm A',
@@ -3017,9 +3017,21 @@ class Options {
 
 
 	public static function get_listing_detail_page_display_options() {
-		$options            = self::get_listing_common_display_options();
-		$options['address'] = esc_html__( 'Address', 'classified-listing' );
-		$options['zipcode'] = esc_html__( 'Zip Code', 'classified-listing' );
+		$options = [
+			'date'       => esc_html__( 'Date added', 'classified-listing' ),
+			'user'       => esc_html__( 'Listing owner name', 'classified-listing' ),
+			'user_link'  => esc_html__( 'Listing owner link', 'classified-listing' ),
+			'views'      => esc_html__( 'Views count', 'classified-listing' ),
+			'featured'   => esc_html__( 'Feature Label', 'classified-listing' ),
+			'new'        => esc_html__( 'New Label', 'classified-listing' ),
+			'category'   => esc_html__( 'Category name', 'classified-listing' ),
+			'location'   => esc_html__( 'Location name', 'classified-listing' ),
+			'ad_type'    => esc_html__( 'Ad Type', 'classified-listing' ),
+			'price'      => esc_html__( 'Price', 'classified-listing' ),
+			'price_type' => esc_html__( 'Price type', 'classified-listing' ),
+			'address'    => esc_html__( 'Address', 'classified-listing' ),
+			'zipcode'    => esc_html__( 'Zip Code', 'classified-listing' )
+		];
 
 		return apply_filters( 'rtcl_get_listing_detail_page_display_options', $options );
 	}
@@ -3029,17 +3041,30 @@ class Options {
 			'category'   => esc_html__( 'Category name', 'classified-listing' ),
 			'location'   => esc_html__( 'Location name', 'classified-listing' ),
 			'ad_type'    => esc_html__( 'Ad Type', 'classified-listing' ),
+			'price'      => esc_html__( 'Price', 'classified-listing' ),
+			'price_type' => esc_html__( 'Price type', 'classified-listing' )
+		];
+
+		return apply_filters( 'rtcl_get_listing_common_display_options', $options );
+	}
+
+	public static function get_listing_display_options() {
+		$options = [
 			'date'       => esc_html__( 'Date added', 'classified-listing' ),
 			'user'       => esc_html__( 'Listing owner name', 'classified-listing' ),
 			'user_link'  => esc_html__( 'Listing owner link', 'classified-listing' ),
 			'views'      => esc_html__( 'Views count', 'classified-listing' ),
+			'featured'   => esc_html__( 'Feature Label', 'classified-listing' ),
+			'new'        => esc_html__( 'New Label', 'classified-listing' ),
+			'category'   => esc_html__( 'Category name', 'classified-listing' ),
+			'location'   => esc_html__( 'Location name', 'classified-listing' ),
+			'ad_type'    => esc_html__( 'Ad Type', 'classified-listing' ),
 			'price'      => esc_html__( 'Price', 'classified-listing' ),
 			'price_type' => esc_html__( 'Price type', 'classified-listing' ),
-			'featured'   => esc_html__( 'Feature Label', 'classified-listing' ),
-			'new'        => esc_html__( 'New Label', 'classified-listing' )
+			'excerpt'    => esc_html__( 'Short description', 'classified-listing' )
 		];
 
-		return apply_filters( 'rtcl_get_listing_common_display_options', $options );
+		return apply_filters( 'rtcl_get_listing_display_options', $options );
 	}
 
 	public static function get_listing_form_hide_fields() {
@@ -3063,13 +3088,6 @@ class Options {
 		];
 
 		return apply_filters( 'rtcl_get_listing_form_hide_fields', $options );
-	}
-
-	public static function get_listing_display_options() {
-		$options            = self::get_listing_common_display_options();
-		$options['excerpt'] = esc_html__( 'Short description', 'classified-listing' );
-
-		return apply_filters( 'rtcl_get_listing_display_options', $options );
 	}
 
 	public static function get_week_days() {

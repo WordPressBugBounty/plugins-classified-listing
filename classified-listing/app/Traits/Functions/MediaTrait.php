@@ -6,22 +6,23 @@ namespace Rtcl\Traits\Functions;
 trait MediaTrait {
 
 	public static function get_image_sizes() {
-		$ms = self::get_option( 'rtcl_misc_settings' );
+		$mms = self::get_option( 'rtcl_misc_media_settings' );
+
 		return apply_filters( 'rtcl_image_sizes', [
 			"rtcl-gallery"           => [
-				'width'  => isset( $ms['image_size_gallery']['width'] ) ? absint( $ms['image_size_gallery']['width'] ) : 924,
-				'height' => isset( $ms['image_size_gallery']['width'] ) ? absint( $ms['image_size_gallery']['height'] ) : 462,
-				'crop'   => isset( $ms['image_size_gallery']['crop'] ) && $ms['image_size_gallery']['crop'] === 'yes'
+				'width'  => isset( $mms['image_size_gallery']['width'] ) ? absint( $mms['image_size_gallery']['width'] ) : 924,
+				'height' => isset( $mms['image_size_gallery']['width'] ) ? absint( $mms['image_size_gallery']['height'] ) : 462,
+				'crop'   => isset( $mms['image_size_gallery']['crop'] ) && $mms['image_size_gallery']['crop'] === 'yes'
 			],
 			"rtcl-thumbnail"         => [
-				'width'  => isset( $ms['image_size_thumbnail']['width'] ) ? absint( $ms['image_size_thumbnail']['width'] ) : 320,
-				'height' => isset( $ms['image_size_thumbnail']['width'] ) ? absint( $ms['image_size_thumbnail']['height'] ) : 240,
-				'crop'   => isset( $ms['image_size_thumbnail']['crop'] ) && $ms['image_size_thumbnail']['crop'] === 'yes'
+				'width'  => isset( $mms['image_size_thumbnail']['width'] ) ? absint( $mms['image_size_thumbnail']['width'] ) : 320,
+				'height' => isset( $mms['image_size_thumbnail']['width'] ) ? absint( $mms['image_size_thumbnail']['height'] ) : 240,
+				'crop'   => isset( $mms['image_size_thumbnail']['crop'] ) && $mms['image_size_thumbnail']['crop'] === 'yes'
 			],
 			"rtcl-gallery-thumbnail" => [
-				'width'  => isset( $ms['image_size_gallery_thumbnail']['width'] ) ? absint( $ms['image_size_gallery_thumbnail']['width'] ) : 150,
-				'height' => isset( $ms['image_size_gallery_thumbnail']['width'] ) ? absint( $ms['image_size_gallery_thumbnail']['height'] ) : 105,
-				'crop'   => isset( $ms['image_size_gallery_thumbnail']['crop'] ) && $ms['image_size_gallery_thumbnail']['crop'] === 'yes'
+				'width'  => isset( $mms['image_size_gallery_thumbnail']['width'] ) ? absint( $mms['image_size_gallery_thumbnail']['width'] ) : 150,
+				'height' => isset( $mms['image_size_gallery_thumbnail']['width'] ) ? absint( $mms['image_size_gallery_thumbnail']['height'] ) : 105,
+				'crop'   => isset( $mms['image_size_gallery_thumbnail']['crop'] ) && $mms['image_size_gallery_thumbnail']['crop'] === 'yes'
 			],
 		] );
 	}
@@ -29,18 +30,18 @@ trait MediaTrait {
 	public static function get_default_image_sizes() {
 		return apply_filters( 'rtcl_default_image_sizes', [
 			'thumbnail' => [
-				'width'  => (int)get_option( "thumbnail_size_w", 150 ),
-				'height' => (int)get_option( "thumbnail_size_h", 150 ),
-				'crop'   => (int)get_option( "thumbnail_crop", 1 ),
+				'width'  => (int) get_option( "thumbnail_size_w", 150 ),
+				'height' => (int) get_option( "thumbnail_size_h", 150 ),
+				'crop'   => (int) get_option( "thumbnail_crop", 1 ),
 			],
 			'medium'    => [
-				'width'  => (int)get_option( "medium_size_w", 300 ),
-				'height' => (int)get_option( "medium_size_h", 300 ),
+				'width'  => (int) get_option( "medium_size_w", 300 ),
+				'height' => (int) get_option( "medium_size_h", 300 ),
 				'crop'   => false,
 			],
 			'large'     => [
-				'width'  => (int)get_option( "large_size_w", 1024 ),
-				'height' => (int)get_option( "large_size_h", 1024 ),
+				'width'  => (int) get_option( "large_size_w", 1024 ),
+				'height' => (int) get_option( "large_size_h", 1024 ),
 				'crop'   => false,
 			]
 		] );
@@ -49,9 +50,10 @@ trait MediaTrait {
 	/**
 	 * Generates attachment meta data and create image sub-sizes for images.
 	 *
-	 * @param int $attachment_id Attachment ID to process.
-	 * @param string $file Filepath of the attached image.
-	 * @param array $image_sizes Filepath of the attached image.
+	 * @param int    $attachment_id Attachment ID to process.
+	 * @param string $file          Filepath of the attached image.
+	 * @param array  $image_sizes   Filepath of the attached image.
+	 *
 	 * @return array Metadata for attachment.
 	 */
 	static function generate_attachment_metadata( $attachment_id, $file, $image_sizes ) {
@@ -60,7 +62,7 @@ trait MediaTrait {
 
 		$mime_type = get_post_mime_type( $attachment );
 
-		if ( !( 'image/heic' === $mime_type || ( preg_match( '!^image/!', $mime_type ) && file_is_displayable_image( $file ) ) ) ) {
+		if ( ! ( 'image/heic' === $mime_type || ( preg_match( '!^image/!', $mime_type ) && file_is_displayable_image( $file ) ) ) ) {
 			return wp_generate_attachment_metadata( $attachment_id, $file );
 		}
 
@@ -90,14 +92,14 @@ trait MediaTrait {
 		// Do not scale (large) PNG images. May result in sub-sizes that have greater file size than the original. See #48736.
 		if ( 'image/png' !== $imagesize['mime'] ) {
 
-			$threshold = (int)apply_filters( 'big_image_size_threshold', 2560, $imagesize, $file, $attachment_id );
+			$threshold = (int) apply_filters( 'big_image_size_threshold', 2560, $imagesize, $file, $attachment_id );
 
 			/*
 			 * If the original image's dimensions are over the threshold,
 			 * scale the image and use it as the "full" size.
 			 */
 			$scale_down = false;
-			$convert = false;
+			$convert    = false;
 
 			if ( $threshold && ( $image_meta['width'] > $threshold || $image_meta['height'] > $threshold ) ) {
 				// The image will be converted if needed on saving.
@@ -107,9 +109,9 @@ trait MediaTrait {
 				$output_format = wp_get_image_editor_output_format( $file, $imagesize['mime'] );
 
 				if (
-					is_array( $output_format ) &&
-					array_key_exists( $imagesize['mime'], $output_format ) &&
-					$output_format[$imagesize['mime']] !== $imagesize['mime']
+					is_array( $output_format )
+					&& array_key_exists( $imagesize['mime'], $output_format )
+					&& $output_format[ $imagesize['mime'] ] !== $imagesize['mime']
 				) {
 					$convert = true;
 				}
@@ -134,12 +136,12 @@ trait MediaTrait {
 				$rotated = null;
 
 				// If there is EXIF data, rotate according to EXIF Orientation.
-				if ( !is_wp_error( $resized ) && is_array( $exif_meta ) ) {
+				if ( ! is_wp_error( $resized ) && is_array( $exif_meta ) ) {
 					$resized = $editor->maybe_exif_rotate();
 					$rotated = $resized; // bool true or WP_Error
 				}
 
-				if ( !is_wp_error( $resized ) ) {
+				if ( ! is_wp_error( $resized ) ) {
 					/*
 					 * Append "-scaled" to the image file name. It will look like "my_image-scaled.jpg".
 					 * This doesn't affect the sub-sizes names as they are generated from the original image (for best quality).
@@ -157,16 +159,16 @@ trait MediaTrait {
 						 */
 						$converted_file_name = $editor->generate_filename( 'converted' );
 						$converted_file_name = preg_replace( '/(-converted\.)([a-z0-9]+)$/i', '.$2', $converted_file_name );
-						$saved = $editor->save( $converted_file_name );
+						$saved               = $editor->save( $converted_file_name );
 					} else {
 						$saved = $editor->save();
 					}
 
-					if ( !is_wp_error( $saved ) ) {
+					if ( ! is_wp_error( $saved ) ) {
 						$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
 
 						// If the image was rotated update the stored EXIF data.
-						if ( true === $rotated && !empty( $image_meta['image_meta']['orientation'] ) ) {
+						if ( true === $rotated && ! empty( $image_meta['image_meta']['orientation'] ) ) {
 							$image_meta['image_meta']['orientation'] = 1;
 						}
 					} else {
@@ -175,7 +177,7 @@ trait MediaTrait {
 				} else {
 					// TODO: Log errors.
 				}
-			} elseif ( !empty( $exif_meta['orientation'] ) && 1 !== (int)$exif_meta['orientation'] ) {
+			} elseif ( ! empty( $exif_meta['orientation'] ) && 1 !== (int) $exif_meta['orientation'] ) {
 				// Rotate the whole original image if there is EXIF data and "orientation" is not 1.
 
 				$editor = wp_get_image_editor( $file );
@@ -192,11 +194,11 @@ trait MediaTrait {
 					// Append `-rotated` to the image file name.
 					$saved = $editor->save( $editor->generate_filename( 'rotated' ) );
 
-					if ( !is_wp_error( $saved ) ) {
+					if ( ! is_wp_error( $saved ) ) {
 						$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
 
 						// Update the stored EXIF data.
-						if ( !empty( $image_meta['image_meta']['orientation'] ) ) {
+						if ( ! empty( $image_meta['image_meta']['orientation'] ) ) {
 							$image_meta['image_meta']['orientation'] = 1;
 						}
 					} else {
@@ -209,7 +211,7 @@ trait MediaTrait {
 		// Save initial data before generate others data
 		wp_update_attachment_metadata( $attachment_id, $image_meta );
 
-		$new_sizes = [];
+		$new_sizes           = [];
 		$default_image_sizes = [
 			'thumbnail' => self::get_default_image_sizes()['thumbnail'],
 		];
@@ -218,14 +220,14 @@ trait MediaTrait {
 		} else {
 			foreach ( $image_sizes as $size_name => $size ) {
 				if ( is_string( $size_name ) && isset( $size['width'] ) && isset( $size['height'] ) ) {
-					$new_sizes[$size_name] = [
-						'width'  => (int)$size['width'],
-						'height' => (int)$size['height'],
+					$new_sizes[ $size_name ] = [
+						'width'  => (int) $size['width'],
+						'height' => (int) $size['height'],
 						'crop'   => $size['crop'] ? 1 : 0,
 					];
 				}
 			}
-			$new_sizes = !empty( $new_sizes ) ? $new_sizes : $default_image_sizes;
+			$new_sizes = ! empty( $new_sizes ) ? $new_sizes : $default_image_sizes;
 		}
 
 
@@ -243,14 +245,14 @@ trait MediaTrait {
 					// TODO: Log errors.
 				} else {
 					// Save the size meta value.
-					$image_meta['sizes'][$size_name] = $new_size_meta;
+					$image_meta['sizes'][ $size_name ] = $new_size_meta;
 					wp_update_attachment_metadata( $attachment_id, $image_meta );
 				}
 			}
 		} else {
 			$created_sizes = $editor->multi_resize( $new_sizes );
 
-			if ( !empty( $created_sizes ) ) {
+			if ( ! empty( $created_sizes ) ) {
 				$image_meta['sizes'] = array_merge( $image_meta['sizes'], $created_sizes );
 				wp_update_attachment_metadata( $attachment_id, $image_meta );
 			}

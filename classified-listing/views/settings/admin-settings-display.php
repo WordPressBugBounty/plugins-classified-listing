@@ -26,14 +26,31 @@ use Rtcl\Helpers\Functions;
 			<div class="rtcl-settings-nav-wrap">
 				<ul class="nav-tab-wrapper">
 					<?php
-					foreach ( $this->tabs as $slug => $title ) {
-						$class = "nav-tab nav-" . $slug;
+					foreach ( $this->option_group as $slug => $group ) {
+						$li_class = "nav-list-" . $slug;
+						$class    = "nav-tab nav-" . $slug;
 						if ( $this->active_tab === $slug ) {
-							$class .= ' nav-tab-active';
+							$li_class .= ' nav-tab-active nav-open';
 						}
-						echo '<li>';
+						if ( ! empty( $group['subtab'] ) ) {
+							$li_class .= ' have-sub-item';
+						}
+						echo '<li class="' . esc_attr( $li_class ) . '">';
 						echo '<a href="?page=rtcl-settings&tab=' . esc_attr( $slug ) . '" class="' . esc_attr( $class )
-							 . '">' . esc_html( $title ) . '</a>';
+							 . '">' . esc_html( $group['title'] ) . '</a>';
+						if ( ! empty( $group['subtab'] ) ) {
+							echo '<ul class="sub-settings">';
+							foreach ( $group['subtab'] as $id => $label ) {
+								$current_section_class = $this->active_tab === $slug && $this->current_section === $id ? ' current' : '';
+								echo '<li><a href="' . esc_url( admin_url( 'admin.php?page=rtcl-settings&tab=' . $slug
+																		   . '&section=' . sanitize_title( $id ) ) ) . '" class="nav-sub-'
+									 . esc_attr( strtolower( $label ) )
+									 . esc_attr( $current_section_class ) . '">'
+									 . esc_html( $label )
+									 . '</a></li>';
+							}
+							echo '</ul>';
+						}
 						echo '</li>';
 					}
 					?>
@@ -41,18 +58,6 @@ use Rtcl\Helpers\Functions;
 			</div>
 			<div class="rtcl-settings-form-wrap">
 				<?php
-				if ( ! empty( $this->subtabs ) ) {
-					echo '<ul class="sub-settings">';
-					$array_keys = array_keys( $this->subtabs );
-					foreach ( $this->subtabs as $id => $label ) {
-						echo '<li><a href="' . esc_url( admin_url( 'admin.php?page=rtcl-settings&tab=' . $this->active_tab
-																   . '&section=' . sanitize_title( $id ) ) ) . '" class="nav-sub-' . esc_attr( strtolower( $label ) )
-							 . ( $this->current_section == $id ? ' current' : '' ) . '">'
-							 . esc_html( $label )
-							 . '</a></li>';
-					}
-					echo '</ul>';
-				}
 				if ( in_array( $this->active_tab, AdminSettings::EXTERNAL_IDS ) ) {
 					do_action( 'rtcl_admin_external_settings', $this->active_tab, $this->current_section );
 				} else {
