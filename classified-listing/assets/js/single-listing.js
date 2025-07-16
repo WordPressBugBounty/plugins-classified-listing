@@ -65,6 +65,7 @@
             nextEl: $sliderThumbs.find(".swiper-button-next").get(0),
             prevEl: $sliderThumbs.find(".swiper-button-prev").get(0)
           },
+          direction: $sliderThumbsGap.direction || 'horizontal',
           breakpoints: {
             0: {
               slidesPerView: 3
@@ -84,7 +85,6 @@
         // ✅ Add click event to thumbnail slides
         swiperThumbsSlider.slides.forEach(function (slide, index) {
           slide.addEventListener("click", function () {
-            console.log("Thumbnail clicked:", index);
             if (that.swiperSlider) {
               that.swiperSlider.slideTo(index);
             }

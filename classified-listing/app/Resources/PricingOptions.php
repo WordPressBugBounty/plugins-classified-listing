@@ -46,10 +46,14 @@ class PricingOptions {
 			'allowed'     => sprintf( '<div class="rtcl-row rtcl-form-group">
                             <label class="rtcl-col-2 rtcl-field-label"
                                    for="pricing-featured">%s</label>
-                            <div class="rtcl-col-10">%s</div>
+                            <div class="rtcl-col-10"><div class="form-check">
+                                    <input class="form-check-input" type="checkbox" checked disabled id="allowed_pay_per_ad">
+                                    <label class="rtcl-form-check-label" for="allowed_pay_per_ad">%s</label>
+                                </div>%s</div>
                         </div>',
 				__( "Allowed", 'classified-listing' ),
-				$promotion_html
+				__( "Pay per ad", 'classified-listing' ),
+				$promotion_html,
 			),
 			'description' => [
 				'id'          => 'pricing-description',

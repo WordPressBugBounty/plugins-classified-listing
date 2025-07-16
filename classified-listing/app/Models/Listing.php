@@ -120,6 +120,7 @@ class Listing extends Data {
 		$listing = get_post( $listing );
 		if ( is_object( $listing ) && $listing->post_type == rtcl()->post_type ) {
 			$this->listing      = $listing;
+			$this->listing->post_author = absint( $listing->post_author );
 			$this->id           = $listing->ID;
 			$this->status       = $listing->post_status;
 			$this->post_date    = $listing->post_date;
@@ -1637,7 +1638,7 @@ class Listing extends Data {
 					$image_attributes = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'full' );
 					$thumbnail        = is_array( $image_attributes ) ? $image_attributes[0] : '';
 				}
-				if ( ! empty( $this->misc_settings['social_services'] ) ) {
+				if ( ! empty( $social_share_settings['social_services'] ) ) {
 					$html = Functions::get_template_html( "listing/social-share", [
 						'misc_settings' => $social_share_settings,
 						'title'         => $title,

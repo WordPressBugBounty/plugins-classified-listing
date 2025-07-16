@@ -72,7 +72,7 @@ class BlockController {
 	public function save_block_css() {
 
 		try {
-			if ( ! current_user_can( 'edit_posts' ) ) {
+			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_send_json_error( [ 'message' => __( 'User permission error', 'classified-listing' ) ] );
 			}
 
@@ -192,7 +192,7 @@ class BlockController {
 	 * @since v.1.0.0
 	 */
 	public function appended( $server ) {
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( new WP_Error( 'rtcl_block_user_permission', __( 'User permission error', 'classified-listing' ) ) );
 		}
 

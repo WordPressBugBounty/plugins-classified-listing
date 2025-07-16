@@ -29,23 +29,27 @@ class FBField {
 	protected $_logics;
 
 	public function __construct( array $field ) {
-		$this->_field             = $field;
-		$this->_element           = ! empty( $field['element'] ) ? $field['element'] : '';
-		$this->_uuid              = ! empty( $field['uuid'] ) ? $field['uuid'] : '';
-		$this->_icon              = ! empty( $field['icon'] ) ? $field['icon'] : '';
-		$this->_options           = ! empty( $field['options'] ) ? $field['options'] : '';
-		$this->_is_custom         = empty( $field['preset'] );
-		$this->_name              = ! empty( $field['name'] ) ? $field['name'] : '';
-		$this->_value             = ! empty( $field['value'] ) ? $field['value'] : '';
-		$this->_label             = ! empty( $field['label'] ) ? $field['label'] : '';
-		$this->_isFilterable      = ! empty( $field['filterable'] );
-		$this->_isSingleViewAble  = ! empty( $field['single_view'] );
-		$this->_isArchiveViewAble = ! empty( $field['archive_view'] );
-		$this->_logics            = ! empty( $field['logics'] ) ? $field['logics'] : '';
+		$this->_field = $field;
+		$this->_element = !empty( $field['element'] ) ? $field['element'] : '';
+		$this->_uuid = !empty( $field['uuid'] ) ? $field['uuid'] : '';
+		$this->_icon = !empty( $field['icon'] ) ? $field['icon'] : '';
+		$this->_options = !empty( $field['options'] ) ? $field['options'] : '';
+		$this->_is_custom = empty( $field['preset'] );
+		$this->_name = !empty( $field['name'] ) ? $field['name'] : '';
+		$this->_value = !empty( $field['value'] ) ? $field['value'] : '';
+		$this->_label = !empty( $field['label'] ) ? $field['label'] : '';
+		$this->_isFilterable = !empty( $field['filterable'] );
+		$this->_isSingleViewAble = !empty( $field['single_view'] );
+		$this->_isArchiveViewAble = !empty( $field['archive_view'] );
+		$this->_logics = !empty( $field['logics'] ) ? $field['logics'] : '';
 	}
 
 	public function getField() {
 		return $this->_field;
+	}
+	
+	public function getLogics() {
+		return $this->_logics;
 	}
 
 	/**
@@ -67,9 +71,9 @@ class FBField {
 	 */
 	public function getIconHtml() {
 		$iconHtml = '';
-		$icon     = $this->getIconData();
-		if ( ! empty( $icon ) ) {
-			if ( ! empty( $icon['type'] ) && 'class' === $icon['type'] && ! empty( $icon['class'] ) ) {
+		$icon = $this->getIconData();
+		if ( !empty( $icon ) ) {
+			if ( !empty( $icon['type'] ) && 'class' === $icon['type'] && !empty( $icon['class'] ) ) {
 				$iconHtml .= sprintf( '<div class="rtcl-field-icon"><i class="%s"></i></div>', esc_attr( $icon['class'] ) );
 			}
 		}
@@ -90,7 +94,7 @@ class FBField {
 	 * @return mixed|array
 	 */
 	public function getData( $key, $default = null ) {
-		return $this->_field[ $key ] ?? $default;
+		return $this->_field[$key] ?? $default;
 	}
 
 	/**
@@ -99,6 +103,7 @@ class FBField {
 	public function getName() {
 		return $this->_name;
 	}
+
 	/**
 	 * @return mixed
 	 */
@@ -126,14 +131,14 @@ class FBField {
 	 * @return bool
 	 */
 	public function getNofollow() {
-		return ! empty( $field['nofollow'] );
+		return !empty( $field['nofollow'] );
 	}
 
 	/**
 	 * @return mixed
 	 */
 	public function getTarget() {
-		return ! empty( $field['target'] ) ? $field['target'] : '';
+		return !empty( $field['target'] ) ? $field['target'] : '';
 	}
 
 	/**
@@ -141,9 +146,9 @@ class FBField {
 	 */
 	public function getDefaultValue() {
 		if ( $this->_element == 'checkbox' ) {
-			return ! empty( $this->_value ) && is_array( $this->_value ) ? array_map( 'trim', $this->_value ) : [];
+			return !empty( $this->_value ) && is_array( $this->_value ) ? array_map( 'trim', $this->_value ) : [];
 		} else {
-			return ! empty( $this->_value ) ? trim( $this->_value ) : null;
+			return !empty( $this->_value ) ? trim( $this->_value ) : null;
 		}
 	}
 
@@ -156,7 +161,7 @@ class FBField {
 	public function getValue( $listing_id ) {
 		$element = $this->getElement();
 		$metaKey = $this->getMetaKey();
-		if ( ! Functions::meta_exist( $listing_id, $this->getMetaKey() ) && 'date' != $element ) {
+		if ( !Functions::meta_exist( $listing_id, $this->getMetaKey() ) && 'date' != $element ) {
 			$value = $this->getDefaultValue();
 		} else {
 			if ( 'checkbox' == $element ) {
@@ -164,7 +169,7 @@ class FBField {
 			} elseif ( 'url' == $this->getElement() ) {
 				$value = get_post_meta( $listing_id, $this->getMetaKey(), true );
 			} elseif ( 'date' == $element ) {
-				$dateType   = $this->getData( 'date_type', 'single' );
+				$dateType = $this->getData( 'date_type', 'single' );
 				$dateFormat = $this->getData( 'date_format', 'Y-d-m H:i' );
 				if ( 'range' === $dateType ) {
 					$value = [
@@ -172,11 +177,11 @@ class FBField {
 						'end'   => get_post_meta( $listing_id, $metaKey . '_end', true )
 					];
 
-					$value['start'] = ! empty( $value['start'] ) ? gmdate( $dateFormat, strtotime( $value['start'] ) ) : null;
-					$value['end']   = ! empty( $value['end'] ) ? gmdate( $dateFormat, strtotime( $value['end'] ) ) : null;
+					$value['start'] = !empty( $value['start'] ) ? gmdate( $dateFormat, strtotime( $value['start'] ) ) : null;
+					$value['end'] = !empty( $value['end'] ) ? gmdate( $dateFormat, strtotime( $value['end'] ) ) : null;
 				} else {
 					$value = get_post_meta( $listing_id, $metaKey, true );
-					$value = ! empty( $value ) ? gmdate( $dateFormat, strtotime( $value ) ) : '';
+					$value = !empty( $value ) ? gmdate( $dateFormat, strtotime( $value ) ) : '';
 				}
 			} elseif ( 'file' == $element ) {
 				$value = FBHelper::getFieldAttachmentFiles( $listing_id, $this->_field );
@@ -204,8 +209,8 @@ class FBField {
 			$value = esc_url( $value );
 		} elseif ( 'date' == $this->getElement() ) {
 			if ( 'range' === $this->getDateType() ) {
-				$start = ! empty( $value['start'] ) ? $value['start'] : null;
-				$end   = ! empty( $value['end'] ) ? $value['end'] : null;
+				$start = !empty( $value['start'] ) ? $value['start'] : null;
+				$end = !empty( $value['end'] ) ? $value['end'] : null;
 				$value = $end ? $start . " - " . $end : $start;
 			}
 		}
@@ -267,12 +272,12 @@ class FBField {
 
 
 	public function getDateFieldOptions( $data = [] ) {
-		$dateType   = $this->getData( 'date_type', 'single' );
+		$dateType = $this->getData( 'date_type', 'single' );
 		$dateFormat = $this->getData( 'date_format', 'Y-d-m H:i' );
 		$js_options = Options::get_date_js_format_placeholder();
-		$find       = array_keys( $js_options );
-		$replace    = array_values( $js_options );
-		$format     = str_replace( $find, $replace, $dateFormat );
+		$find = array_keys( $js_options );
+		$replace = array_values( $js_options );
+		$format = str_replace( $find, $replace, $dateFormat );
 
 		$options = wp_parse_args( $data, [
 			'singleDatePicker' => $dateType === 'single',
@@ -288,18 +293,18 @@ class FBField {
 	}
 
 	/**
-	 * @param array $currentTerm Current category
-	 * @param array $data        All from data fields
+	 * @param array $catIds Current category
+	 * @param array $data All from data fields
 	 *
 	 * @return boolean
 	 */
 	public function isValidCategoryCondition( $catIds, array &$data ) {
-		$catIds       = is_array( $catIds ) ? $catIds : [ $catIds ];
-		$presetFields = ! empty( $data[ FBField::PRESET ] ) ? $data[ FBField::PRESET ] : [];
+		$catIds = is_array( $catIds ) ? $catIds : [ $catIds ];
+		$presetFields = !empty( $data[FBField::PRESET] ) ? $data[FBField::PRESET] : [];
 
 		// check is validate for section condition
-		$sections = ! empty( $data[ FBField::SECTIONS ] ) ? $data[ FBField::SECTIONS ] : [];
-		if ( ! empty( $sections ) ) {
+		$sections = !empty( $data[FBField::SECTIONS] ) ? $data[FBField::SECTIONS] : [];
+		if ( !empty( $sections ) ) {
 			foreach ( $sections as $sectionIndex => $section ) {
 
 				if ( empty( $section['logics']['status'] ) || empty( $section['logics']['conditions'] ) ) {
@@ -307,117 +312,117 @@ class FBField {
 				}
 
 				// Casing loop
-				if ( isset( $data[ FBField::SECTIONS ][ $sectionIndex ]['fieldsIds'] ) ) {
-					$fieldsIds = $data[ FBField::SECTIONS ][ $sectionIndex ]['fieldsIds'];
+				if ( isset( $data[FBField::SECTIONS][$sectionIndex]['fieldsIds'] ) ) {
+					$fieldsIds = $data[FBField::SECTIONS][$sectionIndex]['fieldsIds'];
 				} else {
 					$fieldsIds = [];
-					if ( ! empty( $section['columns'] ) ) {
+					if ( !empty( $section['columns'] ) ) {
 						foreach ( $section['columns'] as $column ) {
-							if ( ! empty( $column['fields'] ) && is_array( $column['fields'] ) ) {
+							if ( !empty( $column['fields'] ) && is_array( $column['fields'] ) ) {
 								$fieldsIds = array_merge( $fieldsIds, $column['fields'] );
 							}
 						}
 					}
-					$data[ FBField::SECTIONS ][ $sectionIndex ]['fieldsIds'] = $fieldsIds;
+					$data[FBField::SECTIONS][$sectionIndex]['fieldsIds'] = $fieldsIds;
 				}
 
-				if ( ! in_array( $this->_uuid, $fieldsIds ) ) {
+				if ( !in_array( $this->_uuid, $fieldsIds ) ) {
 					continue;
 				}
 
 				// Casing loop
-				if ( isset( $data[ FBField::SECTIONS ][ $sectionIndex ]['catValidation'] ) ) {
-					if ( $data[ FBField::SECTIONS ][ $sectionIndex ]['catValidation'] === true ) {
+				if ( isset( $data[FBField::SECTIONS][$sectionIndex]['catValidation'] ) ) {
+					if ( $data[FBField::SECTIONS][$sectionIndex]['catValidation'] === true ) {
 						continue;
 					}
-					if ( $data[ FBField::SECTIONS ][ $sectionIndex ]['catValidation'] === false ) {
+					if ( $data[FBField::SECTIONS][$sectionIndex]['catValidation'] === false ) {
 						return false;
 					}
 
 				}
 
-				$relation  = ! empty( $section['logics']['relation'] ) && $section['logics']['relation'] === 'and' ? 'and' : 'or';
-				$validate  = [];
+				$relation = !empty( $section['logics']['relation'] ) && $section['logics']['relation'] === 'and' ? 'and' : 'or';
+				$validate = [];
 				$cacheCats = [];
 				foreach ( $section['logics']['conditions'] as $condition ) {
-					if ( empty( $condition['fieldId'] ) || empty( $condition['operator'] ) || empty( $presetFields[ $condition['fieldId'] ] ) || 'category' !== $presetFields[ $condition['fieldId'] ]['element'] ) {
+					if ( empty( $condition['fieldId'] ) || empty( $condition['operator'] ) || empty( $presetFields[$condition['fieldId']] ) || 'category' !== $presetFields[$condition['fieldId']]['element'] ) {
 						continue;
 					}
-					$value   = absint( $condition['value'] );
+					$value = absint( $condition['value'] );
 					$_catIds = [];
 					if ( $value ) {
-						if ( ! isset( $cacheCats[ $value ] ) ) {
-							$childTerms          = get_term_children( $value, rtcl()->category );
-							$_catIds             = ! is_wp_error( $childTerms ) ? $childTerms : [];
-							$_catIds[]           = $value;
-							$cacheCats[ $value ] = $_catIds;
+						if ( !isset( $cacheCats[$value] ) ) {
+							$childTerms = get_term_children( $value, rtcl()->category );
+							$_catIds = !is_wp_error( $childTerms ) ? $childTerms : [];
+							$_catIds[] = $value;
+							$cacheCats[$value] = $_catIds;
 						} else {
-							$_catIds = $cacheCats[ $value ];
+							$_catIds = $cacheCats[$value];
 						}
 					}
 					if ( $condition['operator'] === 'empty' ) {
 						$validate[] = empty( $catIds );
 					} else if ( $condition['operator'] === 'notEmpty' ) {
-						$validate[] = ! empty( $catIds );
+						$validate[] = !empty( $catIds );
 					} else if ( in_array( $condition['operator'], [ 'contains', '=' ] ) ) {
-						$common     = array_intersect( $catIds, $_catIds );
+						$common = array_intersect( $catIds, $_catIds );
 						$validate[] = empty( $value ) || count( $common ) > 0;
 					} else if ( in_array( $condition['operator'], [ 'doNotContains', '!=' ] ) ) {
-						$common     = array_intersect( $catIds, $_catIds );
+						$common = array_intersect( $catIds, $_catIds );
 						$validate[] = empty( $value ) || empty( $catIds ) || count( $common ) == 0;
 					}
 				}
 
 				if ( empty( $validate ) ) {
-					$data[ FBField::SECTIONS ][ $sectionIndex ]['catValidation'] = true;
+					$data[FBField::SECTIONS][$sectionIndex]['catValidation'] = true;
 					continue;
 				}
 
 				if ( $relation === 'and' && in_array( false, $validate, true ) ) {
-					$data[ FBField::SECTIONS ][ $sectionIndex ]['catValidation'] = false;
+					$data[FBField::SECTIONS][$sectionIndex]['catValidation'] = false;
 
 					return false;
 				}
-				if ( $relation === 'or' && ! in_array( true, $validate, true ) ) {
-					$data[ FBField::SECTIONS ][ $sectionIndex ]['catValidation'] = false;
+				if ( $relation === 'or' && !in_array( true, $validate, true ) ) {
+					$data[FBField::SECTIONS][$sectionIndex]['catValidation'] = false;
 
 					return false;
 				}
-				$data[ FBField::SECTIONS ][ $sectionIndex ]['catValidation'] = true;
+				$data[FBField::SECTIONS][$sectionIndex]['catValidation'] = true;
 			}
 		}
 
 
-		if ( ! empty( $this->_logics['status'] ) && ! empty( $this->_logics['conditions'] ) ) {
-			$relation  = ! empty( $this->_logics['relation'] ) && $this->_logics['relation'] === 'and' ? 'and' : 'or';
-			$validate  = [];
+		if ( !empty( $this->_logics['status'] ) && !empty( $this->_logics['conditions'] ) ) {
+			$relation = !empty( $this->_logics['relation'] ) && $this->_logics['relation'] === 'and' ? 'and' : 'or';
+			$validate = [];
 			$cacheCats = [];
 			foreach ( $this->_logics['conditions'] as $condition ) {
 
-				if ( empty( $condition['fieldId'] ) || empty( $condition['operator'] ) || empty( $presetFields[ $condition['fieldId'] ] ) || 'category' !== $presetFields[ $condition['fieldId'] ]['element'] ) {
+				if ( empty( $condition['fieldId'] ) || empty( $condition['operator'] ) || empty( $presetFields[$condition['fieldId']] ) || 'category' !== $presetFields[$condition['fieldId']]['element'] ) {
 					continue;
 				}
-				$value   = absint( $condition['value'] );
+				$value = absint( $condition['value'] );
 				$_catIds = [];
 				if ( $value ) {
-					if ( ! isset( $cacheCats[ $value ] ) ) {
-						$childTerms          = get_term_children( $value, rtcl()->category );
-						$_catIds             = ! is_wp_error( $childTerms ) ? $childTerms : [];
-						$_catIds[]           = $value;
-						$cacheCats[ $value ] = $_catIds;
+					if ( !isset( $cacheCats[$value] ) ) {
+						$childTerms = get_term_children( $value, rtcl()->category );
+						$_catIds = !is_wp_error( $childTerms ) ? $childTerms : [];
+						$_catIds[] = $value;
+						$cacheCats[$value] = $_catIds;
 					} else {
-						$_catIds = $cacheCats[ $value ];
+						$_catIds = $cacheCats[$value];
 					}
 				}
 				if ( $condition['operator'] === 'empty' ) {
 					$validate[] = empty( $catIds );
 				} else if ( $condition['operator'] === 'notEmpty' ) {
-					$validate[] = ! empty( $catIds );
+					$validate[] = !empty( $catIds );
 				} else if ( in_array( $condition['operator'], [ 'contains', '=' ] ) ) {
-					$common     = array_intersect( $catIds, $_catIds );
+					$common = array_intersect( $catIds, $_catIds );
 					$validate[] = empty( $value ) || count( $common ) > 0;
 				} else if ( in_array( $condition['operator'], [ 'doNotContains', '!=' ] ) ) {
-					$common     = array_intersect( $catIds, $_catIds );
+					$common = array_intersect( $catIds, $_catIds );
 					$validate[] = empty( $value ) || empty( $catIds ) || count( $common ) == 0;
 				}
 
@@ -428,7 +433,7 @@ class FBField {
 			}
 
 			if ( $relation === 'and' ) {
-				return ! in_array( false, $validate, true );
+				return !in_array( false, $validate, true );
 			} else {
 				return in_array( true, $validate, true );
 			}

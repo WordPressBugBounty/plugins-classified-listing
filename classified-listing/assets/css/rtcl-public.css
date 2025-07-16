@@ -3981,9 +3981,10 @@ button.toast-close-button {
 /* form */
 .rtcl-pro {
   color: red;
-  font-weight: bold;
+  font-weight: 500;
   margin: 0 5px;
   display: inline-block;
+  font-size: 14px;
 }
 
 .rtcl-checkbox-list {
@@ -4764,9 +4765,8 @@ span[class^=badge] {
 .rtcl .rtcl-btn,
 .rtcl-btn {
   background-color: var(--rtcl-button-bg-color) !important;
-  border: 1px solid transparent !important;
-  border-radius: 0.25rem;
   color: var(--rtcl-button-color) !important;
+  border-radius: 0.25rem;
   display: inline-block;
   font-size: 1rem;
   font-weight: 400;
@@ -5794,65 +5794,6 @@ span[class^=badge] {
   border-bottom-right-radius: calc(0.3rem - 1px);
   border-bottom-left-radius: calc(0.3rem - 1px);
 }
-.rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap {
-  position: relative;
-}
-.rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap h4 {
-  font-size: 17px;
-}
-.rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap h4 span:before {
-  font-family: "rtcl", serif;
-  content: "\f105";
-}
-.rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap .rtcl-select-action {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap .rtcl-select-action .go-back {
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-}
-.rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap .rtcl-select-action .go-back:before {
-  font-family: "rtcl", serif;
-  content: "\f104";
-  margin-right: 5px;
-}
-.rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li {
-  border-top: solid 1px #d4ded9;
-}
-.rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li a {
-  padding: 8px 0;
-  display: flex;
-  position: relative;
-  color: #444;
-  align-items: center;
-  text-decoration: none;
-}
-.rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li a .icon {
-  margin: 0 5px;
-}
-.rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li a .icon .tcl-cat-icon:before {
-  margin-left: 0;
-}
-.rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li a .icon img {
-  max-width: 15px;
-  max-height: 15px;
-  margin-right: 0.2rem;
-  display: inline-block;
-}
-.rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li.has-sub a:after {
-  display: inline-block;
-  font: normal normal normal 14px/1 "rtcl";
-  font-size: inherit;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  content: "\f105";
-  -moz-osx-font-smoothing: grayscale;
-  float: right;
-  margin-left: auto;
-}
 .rtcl-ui-modal .rtcl-modal-wrapper.no-heading .rtcl-modal-header {
   padding: 0;
   border: 0;
@@ -5879,6 +5820,82 @@ span[class^=badge] {
 .rtcl-ui-modal .rtcl-modal-wrapper.no-heading .rtcl-modal-close i {
   color: #fff;
 }
+.rtcl-ui-modal .rtcl-ui-select-list-wrap {
+  position: relative;
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap h4 {
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap h4 > span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap h4 > span:before {
+  font-family: "rtcl", serif;
+  content: "\f105";
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap h4 .icon img {
+  max-width: 15px;
+  max-height: 15px;
+  margin-right: 0.2rem;
+  display: inline-block;
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-select-action {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-select-action .go-back {
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-select-action .go-back:before {
+  font-family: "rtcl", serif;
+  content: "\f104";
+  margin-right: 5px;
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li {
+  border-top: solid 1px #d4ded9;
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li a {
+  padding: 8px 0;
+  display: flex;
+  position: relative;
+  color: #444;
+  align-items: center;
+  text-decoration: none;
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li a .icon {
+  margin: 0 5px;
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li a .icon .tcl-cat-icon:before {
+  margin-left: 0;
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li a .icon img {
+  max-width: 15px;
+  max-height: 15px;
+  margin-right: 0.2rem;
+  display: inline-block;
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li.has-sub a:after {
+  display: inline-block;
+  font: normal normal normal 14px/1 "rtcl";
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  content: "\f105";
+  -moz-osx-font-smoothing: grayscale;
+  float: right;
+  margin-left: auto;
+}
+.rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li.rtcl-ui-sl-all-of {
+  border-top: none;
+}
 .rtcl-ui-modal .rtcl-mask-wrapper {
   position: fixed;
   opacity: 0;
@@ -5891,7 +5908,7 @@ span[class^=badge] {
   transition: opacity 0.15s linear;
 }
 
-html[dir=rtl] .rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-modal-close {
+html[dir=rtl] .rtcl-ui-modal .rtcl-modal-close {
   margin-left: -1rem;
 }
 
@@ -5921,14 +5938,14 @@ body.wp-admin .rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-modal
 
 /* ============== Rtcl Modal END ================ */
 /************************** RTL START **************************/
-html[dir=rtl] .rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap h4 span:before {
+html[dir=rtl] .rtcl-ui-modal .rtcl-ui-select-list-wrap h4 > span:before {
   content: "\f104";
 }
-html[dir=rtl] .rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap .rtcl-select-action {
+html[dir=rtl] .rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-select-action {
   right: inherit;
   left: 0;
 }
-html[dir=rtl] .rtcl-ui-modal .rtcl-modal-wrapper .rtcl-modal-content .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li.has-sub a::after {
+html[dir=rtl] .rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul li.has-sub a::after {
   float: left;
   content: "\f104";
 }
@@ -10405,6 +10422,24 @@ nav.rtcl-pagination ul li .page-numbers.current,
   color: #0c5460;
 }
 
+.daterangepicker {
+  z-index: 99999;
+}
+
+@media (max-width: 767px) {
+  .rtcl-page .daterangepicker {
+    left: 0 !important;
+    right: 0 !important;
+    margin: auto !important;
+    top: 10px !important;
+    position: fixed !important;
+    width: 95% !important;
+  }
+  .rtcl-page .daterangepicker .calendar-table th,
+  .rtcl-page .daterangepicker .calendar-table td {
+    padding: 5px;
+  }
+}
 html,
 body.rtcl-account,
 body.rtcl-account > .rtcl {

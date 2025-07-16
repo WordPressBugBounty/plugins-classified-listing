@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, classifieds a
 Requires at least: 5.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.0.0
+Stable tag: 5.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -331,6 +331,25 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 5.0.1 ( July 16, 2025 ) =
+* Added: rtcl_listing_post_user_id hook to create TEMP post for file / image upload
+* Added: Form Builder - Add Field Disable Conditional Logic for Filterable
+* Added: Ajax filter custom field display depends on from builder conditional logic
+* Updated: Clean up console log from single-listing js file
+* Updated: Select location / category popup add All of item
+* Updated: Form Builder - Section open / close item saved
+* Fixed: Form Builder - Image upload error message not found JS error
+* Fixed: Form Builder - Gallery media CDN issue
+* Fixed: Form Builder - Category multi select filter issue
+* Fixed: Form builder category / location required issue
+* Fixed: Form Builder - Conditional logic selected category turn into category id while removing one logic 
+* Fixed: Form Builder - Price unite category selection while categories are includes or excludes from category field
+* Fixed: Elementor pro template load issue  
+* Fixed: Datetimepicker responsive issue
+* Fixed: Social Share display issue
+* Fixed: Admin settings responsive issue
+* Fixed: Vulnerability from Patchstack.
 
 = 5.0.0 ( July 01, 2025 ) =
 * Added: Form builder - image crop and manipulation for image size

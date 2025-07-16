@@ -333,7 +333,7 @@ class AdminAjaxController {
 				$icon_html = '';
 				if ( $data['icon_type'] == 'icon' ) {
 					$icon = get_term_meta( $term->term_id, '_rtcl_icon', true );
-					if ( $icon ) {
+					if ( $icon && ! is_array( $icon ) ) {
 						if ( ! str_contains( $icon, 'fa-' ) ) {
 							$icon = 'rtcl-icon-' . $icon;
 						}

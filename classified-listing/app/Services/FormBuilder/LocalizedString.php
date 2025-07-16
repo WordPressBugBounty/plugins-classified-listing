@@ -114,6 +114,8 @@ class LocalizedString {
 
 	public static function admin() {
 		$adminStrings = [
+			'pro'                            => __( 'Pro', 'classified-listing' ),
+			'bulk_category'                  => __( 'Bulk Category', 'classified-listing' ),
 			'deprecated'                     => __( 'Deprecated', 'classified-listing' ),
 			'bulk_category_logic_assignment' => __( 'Bulk Category Assignment', 'classified-listing' ),
 			'checked'                        => __( 'Checked', 'classified-listing' ),
@@ -135,7 +137,7 @@ class LocalizedString {
 		];
 		$adminStrings = apply_filters( 'rtcl_fb_localized_admin_strings', $adminStrings );
 
-		$strings = self::public();
+		$strings          = self::public();
 		$strings['admin'] = $adminStrings;
 
 		return $strings;

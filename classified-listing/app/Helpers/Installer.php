@@ -95,9 +95,15 @@ class Installer {
 		// If we made it till here nothing is running yet, lets set the transient now.
 		set_transient( 'rtcl_installing', 'yes', MINUTE_IN_SECONDS * 10 );
 
-
 		if ( ! get_option( 'rtcl_version' ) ) {
 			self::create_options();
+			if ( ! get_option( 'rtcl_installed_from' ) ) {
+				add_option( 'rtcl_installed_from', RTCL_VERSION );
+			}
+		} else {
+			if ( ! get_option( 'rtcl_installed_from' ) ) {
+				add_option( 'rtcl_installed_from', get_option( 'rtcl_version', RTCL_VERSION ) );
+			}
 		}
 
 		self::create_tables();

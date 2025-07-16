@@ -15,7 +15,7 @@ $options = array(
 		'type'  => 'section',
 	],
 	'social_services' => [
-		'title'   => esc_html__( 'Enable Services', 'classified-listing' ),
+		'title'   => esc_html__( 'Enable Social Share', 'classified-listing' ),
 		'type'    => 'multi_checkbox',
 		'default' => [ 'facebook', 'twitter' ],
 		'options' => Options::social_services_options()

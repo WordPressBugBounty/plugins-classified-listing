@@ -35,8 +35,8 @@ class TemplateLoader {
 		self::$theme_support    = Functions::is_enable_template_support();
 		self::$listings_page_id = Functions::get_page_id( 'listings' );
 		if ( self::$theme_support ) {
-			// For Divi theme need to add 99 priority to override template filter hook , when add_theme_support('rtcl) is added
-			if ( 'Divi' === wp_get_theme()->get( 'Name' ) || class_exists( 'ET_Builder_Plugin' ) ) {
+			// Elementor pro and Divi not loaded with higher priority
+			if ( defined( 'ELEMENTOR_PRO_VERSION' ) || 'Divi' === wp_get_theme()->get( 'Name' ) || class_exists( 'ET_Builder_Plugin' ) ) {
 				add_filter( 'template_include', [ __CLASS__, 'template_loader' ] );
 			} else {
 				add_filter( 'template_include', [ __CLASS__, 'template_loader' ], 99 );

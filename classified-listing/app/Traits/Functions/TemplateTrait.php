@@ -5,6 +5,7 @@ namespace Rtcl\Traits\Functions;
 use Rtcl\Helpers\Functions;
 
 trait TemplateTrait {
+	use SettingsTrait;
 
 	static function page_title( $echo = true ) {
 
@@ -87,7 +88,7 @@ trait TemplateTrait {
 	}
 
 	public static function is_enable_template_support() {
-		return current_theme_supports( 'rtcl' ) || ( 'rtcl_template' === SettingsTrait::get_base_template() );
+		return current_theme_supports( 'rtcl' ) || ( 'rtcl_template' === self::get_base_template() );
 	}
 
 }

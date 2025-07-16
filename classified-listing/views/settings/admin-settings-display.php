@@ -79,5 +79,36 @@ use Rtcl\Helpers\Functions;
 				<?php } ?>
 			</div>
 		</div>
+		<div class="rtcl-admin-settings-promo">
+			<div class="bundle-card">
+				<div class="image-container">
+					<div class="product-image">
+						<img alt="Classified Listing Plugins and Themes Bundled" src="https://radiustheme.com/demo/cl-extensions/bundle-extension.png">
+					</div>
+					<div class="bundle-badge">Bundle Deal</div>
+				</div>
+
+				<div class="content">
+					<h3 class="rtcl-promo-title">
+						<a href="https://www.radiustheme.com/downloads/classified-listing-pro-plugins-bundle/" target="_blank">Classified Listing Plugins and
+							Themes Bundle</a>
+					</h3>
+					<p class="rtcl-promo-subtitle">Everything you need in one package</p>
+
+					<ul class="rtcl-promo-features">
+						<li><a href="https://www.radiustheme.com/classified-listing-addons/" target="_blank">20+ Addons</a></li>
+						<li><a href="https://www.radiustheme.com/classified-listing-themes/" target="_blank">12+ Themes</a></li>
+						<li>All Future Addons and Themes</li>
+						<li>14 Days Money Back Guarantee</li>
+					</ul>
+
+					<div class="price-section">
+						<div class="savings">Save 20%</div>
+					</div>
+
+					<a class="cta-button" href="https://www.radiustheme.com/downloads/classified-listing-pro-plugins-bundle/" target="_blank">Get Bundle Now</a>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

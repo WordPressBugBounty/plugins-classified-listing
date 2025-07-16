@@ -172,6 +172,7 @@ class ElementCustomization {
 					'validation',
 					'advanced_options',
 					'filterable',
+					'filterable_disable_logic',
 					'single_view',
 					'archive_view',
 					'order'
@@ -209,6 +210,7 @@ class ElementCustomization {
 					'direction',
 					'validation',
 					'filterable',
+					'filterable_disable_logic',
 					'single_view',
 					'archive_view',
 					'order'
@@ -230,6 +232,7 @@ class ElementCustomization {
 					'direction',
 					'validation',
 					'filterable',
+					'filterable_disable_logic',
 					'single_view',
 					'archive_view',
 					'order'
@@ -248,8 +251,8 @@ class ElementCustomization {
 					'id',
 					'container_class',
 					'column',
+					'order',
 					'logics',
-					'order'
 				]
 			],
 			'text'                => [
@@ -261,6 +264,7 @@ class ElementCustomization {
 					'placeholder',
 					'validation',
 					'filterable',
+					'filterable_disable_logic',
 					'single_view',
 					'archive_view',
 					'order',
@@ -309,6 +313,7 @@ class ElementCustomization {
 					'validation',
 					'numeric_formatter',
 					'filterable',
+					'filterable_disable_logic',
 					'single_view',
 					'archive_view',
 					'order'
@@ -354,9 +359,10 @@ class ElementCustomization {
 					'date_type',
 					'validation',
 					'filterable',
+					'filterable_disable_logic',
+					'filterable_date_type',
 					'single_view',
 					'archive_view',
-					'filterable_date_type',
 					'order'
 				],
 				'advance' => [
@@ -821,17 +827,30 @@ class ElementCustomization {
 				'label'     => __( 'Admin use only', 'classified-listing' ),
 				'help_text' => __( 'If you enable this then filed will only display at admin end.', 'classified-listing' ),
 			],
-			'manipulation'           => [
+			'manipulation'                 => [
 				'template'  => 'inputYesNoCheckBox',
 				'label'     => __( 'Allow user to update / manipulation image', 'classified-listing' ),
 				'help_text' => __( 'If you enable this then user can manipulation image.', 'classified-listing' ),
 			],
 			'filterable'                   => [
+				'isPro'     => true,
 				'template'  => 'inputYesNoCheckBox',
 				'label'     => __( 'Filterable', 'classified-listing' ),
 				'help_text' => __( 'If you enable this then filed will allow to filter the listing.', 'classified-listing' ),
 			],
+			'filterable_disable_logic'       => [
+				'isPro'      => true,
+				'template'   => 'inputYesNoCheckBox',
+				'label'      => __( 'Disable Conditional Logic for Filterable', 'classified-listing' ),
+				'help_text'  => __( 'If you enable this field will not check the conditional logic.', 'classified-listing' ),
+				'dependency' => [
+					'depends_on' => 'filterable',
+					'value'      => true,
+					'operator'   => '==',
+				],
+			],
 			'archive_view'                 => [
+				'isPro'     => true,
 				'template'  => 'inputYesNoCheckBox',
 				'label'     => __( 'Display at archive page', 'classified-listing' ),
 				'help_text' => __( 'if enable then display this field at archive listing view.', 'classified-listing' ),
@@ -1419,6 +1438,7 @@ class ElementCustomization {
 				],
 			],
 			'ai'                           => [
+				'isPro'     => true,
 				'template'  => 'inputYesNoCheckBox',
 				'label'     => __( 'Enable AI Integration', 'classified-listing' ),
 				'help_text' => __( 'Toggle this option to enable or disable AI-powered features for this listing.', 'classified-listing' ),

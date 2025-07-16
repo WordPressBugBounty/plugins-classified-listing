@@ -1007,9 +1007,8 @@ class Functions {
 			$featured = 0;
 			$caption  = '';
 			$content  = '';
-
+			$post      = get_post( $attach_id );
 			if ( ! $is_new ) {
-				$post      = get_post( $attach_id );
 				$parent_id = wp_get_post_parent_id( $post->ID );
 				$caption   = $post->post_excerpt;
 				$content   = $post->post_content;
@@ -1021,18 +1020,18 @@ class Functions {
 					$featured = 0;
 				}
 			}
-
+			$attachmentUrl = wp_get_attachment_url( $post->ID );
 			$data = [
 				'post_id'   => $post->post_parent,
 				'attach_id' => $attach_id,
-				'guid'      => $post->guid,
+				'guid'      => $attachmentUrl,
 				'mime_type' => $post->post_mime_type,
 				'featured'  => $featured,
 				'caption'   => $caption,
 				'content'   => $content,
 				'sizes'     => $sizes,
 				'readable'  => [
-					'name'     => basename( $post->guid ),
+					'name'     => basename( $attachmentUrl ),
 					'type'     => $post->post_mime_type,
 					'uploaded' => date_i18n( get_option( 'date_format' ), strtotime( $post->post_date_gmt ) ),
 					'size'     => size_format( filesize( get_attached_file( $attach_id ) ) ),

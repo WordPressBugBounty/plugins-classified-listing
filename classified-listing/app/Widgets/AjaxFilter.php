@@ -139,8 +139,8 @@ class AjaxFilter extends WP_Widget {
 	}
 
 	/**
-	 * @param array       $itemData
-	 * @param array       $options
+	 * @param array $itemData
+	 * @param array $options
 	 * @param null|string $itemHtml
 	 *
 	 * @return string
@@ -154,7 +154,7 @@ class AjaxFilter extends WP_Widget {
 									</div>
 									<div class="rtcl-filter-content%s" data-options="%s">%s</div>
 					            </div>',
-			$options['name'],
+			apply_filters( 'rtcl_ajax_filter_item_class', $options['name'], $itemData ),
 			! empty( $itemData['active'] ) ? ' is-active' : '',
 			apply_filters( 'rtcl_widget_ajax_filter_' . $options['name'] . '_title', $itemData['title'] ),
 			! empty( $options['allow_rest'] ) ? ' <span class="rtcl-reset rtcl-icon rtcl-icon-cw">' : '',

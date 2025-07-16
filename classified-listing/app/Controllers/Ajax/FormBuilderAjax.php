@@ -161,9 +161,10 @@ class FormBuilderAjax {
 		$post_arg = [];
 		$new_listing_status = Functions::get_option_item( 'rtcl_general_settings', 'new_listing_status', 'pending' );
 		if ( $listing ) {
-			if ( ( $listing->get_listing()->post_author > 0 && $listing->get_listing()->post_author == apply_filters( 'rtcl_listing_post_user_id', get_current_user_id() ) ) || ( $listing->get_listing()->post_author == 0 && $post_for_unregister ) ) {
+			if ( ( $listing->get_listing()->post_author > 0 && ( ( 'rtcl-temp' === $listing->get_listing()->post_status && $listing->get_listing()->post_author === get_current_user_id() ) || $listing->get_listing()->post_author == absint( apply_filters( 'rtcl_listing_post_user_id', get_current_user_id() ) ) ) ) || ( $listing->get_listing()->post_author == 0 && $post_for_unregister ) ) {
 				if ( 'rtcl-temp' === $listing->get_listing()->post_status ) {
 					$post_arg['post_status'] = $new_listing_status;
+					$post_arg['post_author'] = $user_id;
 				} else {
 					$postingType = 'update';
 					$status_after_edit = Functions::get_option_item( 'rtcl_general_settings', 'edited_listing_status' );
@@ -780,7 +781,9 @@ class FormBuilderAjax {
 			return;
 		}
 
+		$attachmentUrl = wp_get_attachment_url( $attachment->ID );
 		$file = $attachment->to_array();
+		$file['guid'] = $attachmentUrl;
 		$file['meta'] = wp_get_attachment_metadata( $attachment->ID );
 		wp_send_json_success( $file );
 	}

@@ -589,7 +589,7 @@ class FBHelper {
 			return false;
 		}
 		$fieldName = $field['name'];
-		$currentValue = $formData[$fieldName];
+		$currentValue = $formData[$fieldName] ?? null;
 		if ( '=' === $condition['operator'] ) {
 			return $currentValue == $condition['value'];
 		} elseif ( '!=' === $condition['operator'] ) {
@@ -603,9 +603,9 @@ class FBHelper {
 		} elseif ( 'endsWith' === $condition['operator'] ) {
 			return $currentValue && str_ends_with( $currentValue, $condition['value'] );
 		} elseif ( 'empty' === $condition['operator'] ) {
-			return !isset( $currentValue );
+			return $currentValue === null || $currentValue === '';
 		} elseif ( 'notEmpty' === $condition['operator'] ) {
-			return isset( $currentValue );
+			return $currentValue !== null && $currentValue !== '';
 		}
 
 		return false;

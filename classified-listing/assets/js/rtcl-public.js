@@ -466,7 +466,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
             _this.removeParam(option_name);
           }
         } else {
-          if (options && options.field_type === 'checkbox') {
+          if (options && ['checkbox', 'radio'].includes(options.field_type)) {
             if (event.currentTarget.checked) {
               _this.addParam(option_name, inputValue, true);
             } else {
@@ -532,6 +532,12 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
         var $input = _this.$(_item);
         var options = $input.data("options") || {};
         options = rtclFilter.apply('dateRangePickerOptions', options);
+        if (window.innerWidth <= 767) {
+          var _options$autoApply;
+          options.opens = options.opens || 'center';
+          options.drops = options.drops || 'auto';
+          options.autoApply = (_options$autoApply = options.autoApply) !== null && _options$autoApply !== void 0 ? _options$autoApply : false;
+        }
         if (Array.isArray(options.invalidDateList) && options.invalidDateList.length) {
           options.isInvalidDate = function (param) {
             return options.invalidDateList.includes(param.format(options.locale.format));
@@ -2248,17 +2254,28 @@ __webpack_require__.r(__webpack_exports__);
       }
       if (selectedItem.hasOwnProperty("sub") && selectedItem.sub.length) {
         ul.remove();
-        list_wrap.html(get_list(selectedItem.sub));
-        var a = $('<a href="javascript:;" />');
-        a.append(selectedItem.name);
-        a.attr("data-item", JSON.stringify(get_safe_term_item(selectedItem)));
+        var updatedUl = get_list(selectedItem.sub);
+        var allOfText = rtcl.i18n.all_of_.replace('%s', selectedItem.name);
+        var allLink = $('<a href="javascript:;" />'),
+          allLi = $("<li class='rtcl-ui-sl-all-of' />");
+        if (selectedItem.hasOwnProperty("icon")) {
+          allLink.html(selectedItem.icon);
+        }
+        allLink.append(allOfText);
+        var newSelectedItem = JSON.parse(JSON.stringify(selectedItem));
+        delete newSelectedItem.sub;
+        allLink.attr("data-item", JSON.stringify(get_safe_term_item(newSelectedItem)));
+        var _allLink = allLink.clone();
+        allLi.append(allLink);
+        updatedUl.prepend(allLi);
+        list_wrap.html(updatedUl);
         if (title.find("span").length) {
-          title.find("span").html(a);
+          title.find("span").html(_allLink);
         } else {
-          var wrapItem = $('<span class="rtcl-icon-angle-right rtcl-selected-term-item" />').append(a);
+          var wrapItem = $('<span class="rtcl-icon-angle-right rtcl-selected-term-item" />').append(_allLink);
           title.append(wrapItem);
         }
-        action.html("<div class='go-back'>" + rtcl.go_back + "</div>");
+        action.html("<div class='go-back'>" + rtcl.i18n.go_back + "</div>");
       }
     }).on("click", ".rtcl-select-action .go-back", function (e) {
       e.preventDefault();
