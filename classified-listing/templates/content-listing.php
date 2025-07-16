@@ -8,7 +8,7 @@ use Rtcl\Helpers\Functions;
 
 global $listing;
 ?>
-<div <?php Functions::listing_class('', $listing) ?><?php Functions::listing_data_attr_options() ?>>
+<div <?php Functions::listing_class('rtcl-listing-card', $listing) ?><?php Functions::listing_data_attr_options() ?>>
     <?php
     /**
      * Hook: rtcl_before_listing_loop_item.
