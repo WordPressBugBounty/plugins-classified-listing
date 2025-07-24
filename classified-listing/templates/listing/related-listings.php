@@ -31,7 +31,7 @@ if ( ! $rtcl_related_query->have_posts() ) {
 						$rtcl_related_query->the_post();
 						$listing = rtcl()->factory->get_listing( get_the_ID() );
 						?>
-                        <div class="swiper-slide rtcl-related-slider-item listing-item rtcl-listing-item">
+                        <div class="swiper-slide rtcl-related-slider-item listing-item rtcl-listing-item rtcl-listing-card">
                             <div class="related-item-inner grid-item">
                                 <div class="listing-thumb">
                                     <a href="<?php the_permalink(); ?>"><?php $listing->the_thumbnail( 'rtcl-thumbnail' ); ?></a>

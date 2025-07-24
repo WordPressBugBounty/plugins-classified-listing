@@ -18,8 +18,8 @@ class Utility {
 	 * Format a time supplied as string to a format from a format.
 	 *
 	 * @param string $value
-	 * @param null   $to
-	 * @param null   $from
+	 * @param null $to
+	 * @param null $from
 	 *
 	 * @return string
 	 * @since 1.0
@@ -27,10 +27,10 @@ class Utility {
 	 */
 	public static function formatTime( $value, $to = null, $from = null ) {
 
-		$to   = is_null( $to ) ? Functions::time_format() : $to;
+		$to = is_null( $to ) ? Functions::time_format() : $to;
 		$from = is_null( $from ) ? Functions::time_format() : $from;
 
-		if ( strlen( $value ) > 0 ) {
+		if ( strlen( (string)$value ) > 0 ) {
 			try {
 				return self::createFromFormat( $from, $value )->format( $to );
 			} catch ( \Exception $e ) {
@@ -47,8 +47,8 @@ class Utility {
 	 * Format a time supplied as string to a format from a format.
 	 *
 	 * @param string $value
-	 * @param null   $to
-	 * @param null   $from
+	 * @param null $to
+	 * @param null $from
 	 *
 	 * @return string
 	 * @since 1.0
@@ -56,10 +56,10 @@ class Utility {
 	 */
 	public static function formatDate( $value, $to = null, $from = null ) {
 
-		$to   = is_null( $to ) ? Functions::date_format() : $to;
+		$to = is_null( $to ) ? Functions::date_format() : $to;
 		$from = is_null( $from ) ? Functions::date_format() : $from;
 
-		if ( strlen( $value ) > 0 ) {
+		if ( strlen( (string)$value ) > 0 ) {
 
 			return self::createFromFormat( $from, $value )->format( $to );
 
@@ -74,7 +74,7 @@ class Utility {
 	 * Format a time supplied as string to a format from a format.
 	 *
 	 * @param string $value
-	 * @param null| DateTimeZone  $timeZone
+	 * @param null| DateTimeZone $timeZone
 	 *
 	 * @return DateTimeImmutable
 	 * @since 1.0

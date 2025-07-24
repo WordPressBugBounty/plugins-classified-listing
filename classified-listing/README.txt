@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, classifieds a
 Requires at least: 5.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.0.2
+Stable tag: 5.0.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -332,6 +332,13 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 
 == Changelog ==
 
+= 5.0.3 ( July 24, 2025 ) =
+* Fixed: Shortcode map view pagination issue
+* Fixed: Form builder category, location field issue
+* Fixed: Gallery show / hide issue
+* Fixed: Video show / hide issue
+* Fixed: Category widget column issue
+
 = 5.0.2 ( July 16, 2025 ) =
 * Fixed: Form builder category, location field edit issue
 * Fixed: OpenStreetMap auto complete suggestion type issue
@@ -365,40 +372,5 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 * Fixed: Email styling issue
 * Removed: Composer package pelago/emogrifier
 * Removed: Bootstrap dependency
-
-= 4.2.1 ( Jun 13, 2025 ) =
-* Added: Form builder - include/exclude category for specific form
-* Added: Form builder: GEO auto suggestions at GEO location field
-* Added: Form builder - Bulk category condition apply
-* Added: Form builder - Price field add required validation
-* Updated: Ajax Filter builder - Directory default selection
-* Fixed: From builder - Conditional logic for check box field add includes and Not Includes operator
-* Fixed: Ajax filter sort custom field issue at builder
-* Fixed: Search form widget ad type compatibility
-* Fixed: Mark as sold listing hidden issue when active filter/search
-* Fixed: LFI vulnerability issue
-
-= 4.2.0 ( May 27, 2025 ) =
-* Added: Toolkit addon compatibility 
-* Fixed: AJAX Filter responsive issue
-
-= 4.1.4 ( May 14, 2025 ) =
-* Fixed: Gallery thumbnail image click issue
-* Fixed: Promotion pricing selection issue on mobile
-* Fixed: My-account Add listing button position issue
-* Fixed: My-account login/registration page broken issue
-
-= 4.1.3 ( May 09, 2025 ) =
-* Updated: Installer database migration functions
-* Fixed: Listing details sidebar issue 
-
-= 4.1.2 ( May 07, 2025 ) =
-* Updated: Page layout
-* Added: Listing status filter in my-listings
-* Fixed: Form Builder wordpress Editor load issue 
-* Fixed: OpenStreetMap marker icon link to category icon issue
-* Fixed: Form Builder Date/Time picker field date time invalid formate issue
-* Fixed: Email notification for submit and publish issue
-* Fixed: Selection place at map issue
 
 [See changelog for all versions.](https://raw.githubusercontent.com/radiustheme/changelog/refs/heads/main/classified-listing.txt)

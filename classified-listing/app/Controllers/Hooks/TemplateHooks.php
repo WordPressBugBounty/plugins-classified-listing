@@ -719,7 +719,7 @@ class TemplateHooks {
 	public static function author_information( $listing ) {
 		if ( is_a( $listing, Listing::class ) && $listing->can_show_user() ) {
 			?>
-			<div class='rtcl-list-group-item'>
+			<div class='rtcl-list-group-item rtcl-listing-author-info'>
 				<div class='media'>
 					<?php
 					$pp_id = absint( get_user_meta( $listing->get_owner_id(), '_rtcl_pp_id', true ) );

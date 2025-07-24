@@ -1026,13 +1026,13 @@ trait UtilityTrait {
 	 *
 	 * @return mixed|void
 	 */
-	static function get_embed_video_thumbnail_url( $media_link ) {
+	static function get_embed_video_thumbnail_url( $media_link, $default = 'default' ) {
 		$thumbnail_url = Functions::get_default_placeholder_url();
 		$media_type    = 'none';
 		if ( strpos( $media_link, 'youtube.com' ) !== false ) {
 			$media_type    = 'youtube';
 			$re            = '@https?://(www.)?youtube.com/watch\?v=([^&]+)@';
-			$subst         = 'https://i3.ytimg.com/vi/$2/default.jpg';
+			$subst         = "https://i3.ytimg.com/vi/$2/$default.jpg";
 			$thumbnail_url = preg_replace( $re, $subst, $media_link, 1 );
 		} elseif ( strpos( $media_link, 'vimeo.com' ) !== false ) {
 			$media_type = 'vimeo';

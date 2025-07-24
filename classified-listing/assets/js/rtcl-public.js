@@ -758,7 +758,9 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
       success: function success(res) {
         if (res.success) {
           _this.data.params.page = res.data.pagination.current_page;
-          _this.renderData(res.data);
+          _this.renderData(_objectSpread(_objectSpread({}, res.data), {}, {
+            actionData: _this.data
+          }));
           delete _this.data.filterData.initLoad;
         }
       },
@@ -1096,6 +1098,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
     listing_term: rtcl.listing_term,
     rtcl_store_id: this.store_id,
     activeTerms: rtcl.active_terms || [],
+    hasMap: this.$('.rtcl-listings-sc-wrapper.has-map').length ? 1 : '',
     action: 'rtcl_ajax_filter_load_data',
     __rtcl_wpnonce: rtcl.__rtcl_wpnonce
   };

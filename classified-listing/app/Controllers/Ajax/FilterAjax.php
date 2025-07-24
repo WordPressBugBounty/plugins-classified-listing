@@ -331,6 +331,7 @@ class FilterAjax {
 		$query    = new WP_Query( $args );
 		$listings = null;
 		if ( $query->have_posts() ) {
+			do_action( 'rtcl_ajax_filter_query_before_loop', $query, $params, $filterData );
 			ob_start();
 			while ( $query->have_posts() ) :
 				$query->the_post();
@@ -338,6 +339,7 @@ class FilterAjax {
 				Functions::get_template_part( 'content', 'listing' );
 			endwhile;
 			$listings = ob_get_clean();
+			do_action( 'rtcl_ajax_filter_query_after_loop', $query, $params, $filterData);
 		}
 
 		$response = [

@@ -9,6 +9,7 @@ use Rtcl\Database\Eloquent\Model;
 use Rtcl\Helpers\Functions;
 use Rtcl\Models\Form\Form;
 use Rtcl\Resources\Options;
+use Rtcl\Services\FormBuilder\FBHelper;
 use WP_Error;
 use WP_Post;
 use WP_Query;
@@ -119,16 +120,16 @@ class Listing extends Data {
 
 		$listing = get_post( $listing );
 		if ( is_object( $listing ) && $listing->post_type == rtcl()->post_type ) {
-			$this->listing      = $listing;
+			$this->listing              = $listing;
 			$this->listing->post_author = absint( $listing->post_author );
-			$this->id           = $listing->ID;
-			$this->status       = $listing->post_status;
-			$this->post_date    = $listing->post_date;
-			$this->post_content = $listing->post_content;
-			$this->user_id      = $listing->post_author;
-			$this->type         = get_post_meta( $this->id, 'ad_type', true );
-			$this->form_id      = absint( get_post_meta( $this->id, '_rtcl_form_id', true ) );
-			$this->categories   = wp_get_object_terms( $this->id, rtcl()->category );
+			$this->id                   = $listing->ID;
+			$this->status               = $listing->post_status;
+			$this->post_date            = $listing->post_date;
+			$this->post_content         = $listing->post_content;
+			$this->user_id              = $listing->post_author;
+			$this->type                 = get_post_meta( $this->id, 'ad_type', true );
+			$this->form_id              = absint( get_post_meta( $this->id, '_rtcl_form_id', true ) );
+			$this->categories           = wp_get_object_terms( $this->id, rtcl()->category );
 			$this->setTermsOrder();
 			if ( 'local' === Functions::location_type() ) {
 				$this->locations = wp_get_object_terms( $this->id, rtcl()->location );
@@ -1479,18 +1480,28 @@ class Listing extends Data {
 	}
 
 	public function the_gallery() {
-		if ( ! Functions::is_gallery_disabled() ) {
-			$video_urls = [];
-			if ( ! Functions::is_video_urls_disabled() && ! apply_filters( 'rtcl_disable_gallery_video', Functions::is_video_gallery_disabled() ) ) {
-				$video_urls = get_post_meta( $this->get_id(), '_rtcl_video_urls', true );
-				$video_urls = ! empty( $video_urls ) && is_array( $video_urls ) ? $video_urls : [];
-			}
-			Functions::get_template( "listing/gallery", [
-				'images'  => $this->get_images(),
-				'videos'  => $video_urls,
-				'listing' => $this
-			] );
+		if ( ! FBHelper::isEnabled() && Functions::is_gallery_disabled() ) {
+			return;
 		}
+
+		$video_urls = [];
+
+		$is_gallery_disabled    = apply_filters( 'rtcl_disable_gallery_video', Functions::is_video_gallery_disabled() );
+		$is_video_urls_disabled = Functions::is_video_urls_disabled();
+
+		if (
+			( FBHelper::isEnabled() && ! $is_gallery_disabled )
+			|| ( ! FBHelper::isEnabled() && ! $is_video_urls_disabled && ! $is_gallery_disabled )
+		) {
+			$video_urls = get_post_meta( $this->get_id(), '_rtcl_video_urls', true );
+			$video_urls = ( is_array( $video_urls ) && ! empty( $video_urls ) ) ? $video_urls : [];
+		}
+
+		Functions::get_template( "listing/gallery", [
+			'images'  => $this->get_images(),
+			'videos'  => $video_urls,
+			'listing' => $this
+		] );
 	}
 
 	public function get_video_urls() {

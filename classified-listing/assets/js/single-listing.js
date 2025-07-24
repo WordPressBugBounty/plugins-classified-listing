@@ -19,7 +19,8 @@
     this.$slider_images = $(".rtcl-slider-item", this.$slider);
     this.settings = Object.assign({}, rtcl_single_listing_localized_params || {}, this.$sliderWrapper.data("options") || {});
     this.args = args || {};
-    this.options = Object.assign({}, this.args, this.settings.slider_options);
+    this.options = Object.assign({}, this.args, this.settings.slider_options, this.$sliderWrapper.data("options") || {});
+
     //if rtl value was not passed and html is in rtl..enable it by default.
     if (this.options.rtl && $("html").attr("dir") === "rtl") {
       this.options.rtl = true;

@@ -343,6 +343,7 @@ class ScriptLoader {
 					'fields'     => AvailableFields::get(),
 					'isAdminEnd' => is_admin(),
 					'hasPro'     => rtcl()->has_pro(),
+					'postStatus' => is_admin() && $post ? $post->post_status : null,
 					'forms'      => $forms,
 					'form'       => is_a( $form, Form::class ) ? [ 'defaultValues' => FBHelper::getFormDefaultData( $form ) ] + $form->toArray() : null,
 					'listingId'  => $listing_id ? absint( $listing_id ) : '',
@@ -1238,15 +1239,6 @@ class ScriptLoader {
 		}
 
 		return apply_filters( 'rtcl_get_script_data', $params, $handle );
-	}
-
-
-	/**
-	 * @return mixed|void
-	 * @deprecated 3.1.9 Use Functions::get_map_localized_options()
-	 */
-	public function get_map_localized_options() {
-		return Functions::get_map_localized_options();
 	}
 
 	/**

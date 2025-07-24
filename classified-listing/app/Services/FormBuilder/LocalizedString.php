@@ -38,7 +38,12 @@ class LocalizedString {
 				'error' => __( 'reCaptcha site key is missing.', 'classified-listing' )
 			],
 			'location'           => [
-				'select' => __( 'Please select a location first', 'classified-listing' )
+				'select'  => __( 'Select a location', 'classified-listing' ),
+				'no_data' => __( 'No location found', 'classified-listing' )
+			],
+			'category'           => [
+				'select'  => __( 'Select a category', 'classified-listing' ),
+				'no_data' => __( 'No category found', 'classified-listing' )
 			],
 			'file'               => [
 				'description'        => __( 'Description', 'classified-listing' ),
@@ -137,7 +142,7 @@ class LocalizedString {
 		];
 		$adminStrings = apply_filters( 'rtcl_fb_localized_admin_strings', $adminStrings );
 
-		$strings          = self::public();
+		$strings = self::public();
 		$strings['admin'] = $adminStrings;
 
 		return $strings;
