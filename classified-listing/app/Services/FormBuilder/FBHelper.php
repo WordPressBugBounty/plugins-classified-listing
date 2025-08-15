@@ -968,10 +968,11 @@ class FBHelper {
 		switch ( $element ) {
 			case 'title':
 				$sanitize_value = sanitize_text_field( $rawValue );
-				if ($sanitize_value && !current_user_can( 'administrator' ) && !current_user_can( 'editor' ) ) {
+				if ( $sanitize_value && !current_user_can( 'administrator' ) && !current_user_can( 'editor' ) ) {
 					$sanitize_value = strip_shortcodes( $sanitize_value );
 				}
-				if ( !empty( $field['validation']['max'] ) && $title_limit = absint( $field['validation']['max'] ) ) {
+
+				if ( !empty( $field['validation']['max']['value'] ) && $title_limit = absint( $field['validation']['max']['value'] ) ) {
 					if ( strlen( $sanitize_value ) > $title_limit ) {
 						$sanitize_value = mb_substr( $sanitize_value, 0, $title_limit, 'utf-8' );
 					}
@@ -982,7 +983,7 @@ class FBHelper {
 				if ( !current_user_can( 'administrator' ) && !current_user_can( 'editor' ) ) {
 					$rawValue = strip_shortcodes( $rawValue );
 				}
-				if ( !empty( $field['validation']['max'] ) && $description_limit = absint( $field['validation']['max'] ) ) {
+				if ( !empty( $field['validation']['max']['value'] ) && $description_limit = absint( $field['validation']['max']['value'] ) ) {
 					if ( strlen( $rawValue ) > $description_limit ) {
 						$sanitize_value = wp_filter_nohtml_kses( $rawValue );
 						$sanitize_value = mb_substr( $sanitize_value, 0, $description_limit, 'utf-8' );
