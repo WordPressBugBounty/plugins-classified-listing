@@ -120,6 +120,12 @@ class LocalizedString {
 	public static function admin() {
 		$adminStrings = [
 			'pro'                            => __( 'Pro', 'classified-listing' ),
+			'clear_filter'                   => __( 'Clear Filter', 'classified-listing' ),
+			'search'                         => __( 'Search...', 'classified-listing' ),
+			'assigned'                       => __( 'Assigned', 'classified-listing' ),
+			'unassigned'                     => __( 'Unassigned', 'classified-listing' ),
+			'bulk_assignment'                => __( 'Bulk Assignment', 'classified-listing' ),
+			'bulk_dependency_assignment'     => __( 'Bulk Dependency Assignment ', 'classified-listing' ),
 			'bulk_category'                  => __( 'Bulk Category', 'classified-listing' ),
 			'deprecated'                     => __( 'Deprecated', 'classified-listing' ),
 			'bulk_category_logic_assignment' => __( 'Bulk Category Assignment', 'classified-listing' ),

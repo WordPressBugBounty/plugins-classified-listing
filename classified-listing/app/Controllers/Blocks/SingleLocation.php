@@ -7,326 +7,387 @@
  *
  * @package  Classifid-listing
  *
- * @since 1.0.0
+ * @since    1.0.0
  */
 
 namespace Rtcl\Controllers\Blocks;
 
 use Rtcl\Helpers\Functions;
 
-class SingleLocation
-{
+class SingleLocation {
 	protected $name = 'rtcl/single-location';
 
 	protected $attributes = [];
 
 
-	public function get_attributes($default = false)
-	{
+	public function get_attributes( $default = false ) {
 		$attributes = array(
-			'blockId'      => array(
+			'blockId'                => array(
 				'type'    => 'string',
 				'default' => '',
 			),
-			'preview'      => array(
+			'preview'                => array(
 				'type'    => 'boolean',
 				'default' => false,
 			),
-			"iconName" => array(
-				"type" => "string",
+			"iconName"               => array(
+				"type"    => "string",
 				"default" => "right-big"
 			),
-			'iconColorStyle' => array(
+			'iconColorStyle'         => array(
 				'type'    => 'string',
 				'default' => 'normal',
 			),
-			'iconColor' => array(
+			'iconColor'              => array(
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
-					(object)[
+					(object) [
 						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box.location-box-style-3 .rtcl-gb-content > a .rtcl-icon
 						{color:{{iconColor}};}'
 					]
 				]
 			),
-			'iconHoverColor' => array(
+			'iconHoverColor'         => array(
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
-					(object)[
+					(object) [
 						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box.location-box-style-3:hover .rtcl-gb-content > a .rtcl-icon
 						{color:{{iconHoverColor}};}'
 					]
 				]
 			),
-			'iconRotate' => array(
+			'iconRotate'             => array(
 				'type'    => 'number',
 				'default' => 0,
 				'style'   => [
-					(object)[
+					(object) [
 						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box.location-box-style-3 .rtcl-gb-content > a
 						{transform:rotate({{iconRotate}}deg);}'
 					]
 				]
 			),
-			'iconHoverRotate' => array(
+			'iconHoverRotate'        => array(
 				'type'    => 'number',
 				'default' => 0,
 				'style'   => [
-					(object)[
+					(object) [
 						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box.location-box-style-3:hover .rtcl-gb-content > a
 						{transform:rotate({{iconHoverRotate}}deg);}'
 					]
 				]
 			),
-			'iconBGColor' => array(
+			'iconBGColor'            => array(
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
-					(object)[
+					(object) [
 						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box.location-box-style-3 .rtcl-gb-content > a
 						{background-color:{{iconBGColor}};}'
 					]
 				]
 			),
-			'iconBGHoverColor' => array(
+			'iconBGHoverColor'       => array(
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
-					(object)[
+					(object) [
 						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box.location-box-style-3:hover .rtcl-gb-content > a
 						{background-color:{{iconBGHoverColor}};}'
 					]
 				]
 			),
-			'boxBGType' => array(
+			'boxBGType'              => array(
 				'type'    => 'string',
 				'default' => 'classic',
 			),
-			'boxBGImgID' => array(
+			'boxBGImgID'             => array(
 				'type'    => 'string',
 				'default' => '',
 			),
-			'boxBGColor' => array(
+			'boxBGColor'             => array(
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
-					(object)[
-						'depends' => [
-							(object)['key' => 'boxBGType', 'condition' => '==', 'value' => 'classic'],
+					(object) [
+						'depends'  => [
+							(object) [ 'key' => 'boxBGType', 'condition' => '==', 'value' => 'classic' ],
 						],
 						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-img
 						{background-color:{{boxBGColor}};}'
 					]
 				]
 			),
-			'boxBGImgURL' => array(
-				'type'    => 'string',
-				'default' => '',
-				'style'   => [(object)[
-					'depends' => [
-						(object)['key' => 'boxBGType', 'condition' => '==', 'value' => 'classic'],
-					],
-					'selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-img
-					{background-image:url({{boxBGImgURL}});}'
-				]]
-			),
-			'boxBGImgSize' => array(
-				'type'    => 'string',
-				'default' => '',
-				'style'   => [(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-img
-					{background-size:{{boxBGImgSize}};}']]
-			),
-			'boxBGImgRepeat' => array(
-				'type'    => 'string',
-				'default' => '',
-				'style'   => [(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-img
-					{background-repeat:{{boxBGImgRepeat}};}']]
-			),
-			'boxBGImgPosition' => array(
-				'type'    => 'string',
-				'default' => '',
-				'style'   => [(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-img
-					{background-position:{{boxBGImgPosition}};}']]
-			),
-			'boxBGImgAttachment' => array(
-				'type'    => 'string',
-				'default' => '',
-				'style'   => [(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-img
-					{background-attachment:{{boxBGImgAttachment}};}']]
-			),
-			'boxBGWith' => array(
-				'type'    => 'number',
-				'default' => 0,
-				'style'   => [(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box
-					{width:{{boxBGWith}}px;}']]
-			),
-			'boxBGHeight' => array(
-				'type'    => 'number',
-				'default' => 290,
-				'style'   => [(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box
-					{height:{{boxBGHeight}}px;}']]
-			),
-			'boxBGGradient' => array(
-				'type'    => 'string',
-				'default' => '',
-				'style'   => [(object)[
-					'depends' => [
-						(object)['key' => 'boxBGType', 'condition' => '==', 'value' => 'gradient'],
-					],
-					'selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-img
-					{background:{{boxBGGradient}};}'
-				]]
-			),
-			'overlayBGColorStyle' => array(
-				'type'    => 'string',
-				'default' => 'normal',
-			),
-			'overlayBGGradient' => array(
+			'boxBGImgURL'            => array(
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
-					(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box:not(.location-box-style-3).rtcl-gb-has-count .rtcl-gb-content
-					{background:{{overlayBGGradient}};}'],
-					(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box.location-box-style-3 .rtcl-image-wrapper .rtcl-gb-img::before
-					{background:{{overlayBGGradient}};}']
+					(object) [
+						'depends'  => [
+							(object) [ 'key' => 'boxBGType', 'condition' => '==', 'value' => 'classic' ],
+						],
+						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-img
+					{background-image:url({{boxBGImgURL}});}'
+					]
+				]
+			),
+			'boxBGImgSize'           => array(
+				'type'    => 'string',
+				'default' => '',
+				'style'   => [
+					(object) [
+						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-img
+					{background-size:{{boxBGImgSize}};}'
+					]
+				]
+			),
+			'boxBGImgRepeat'         => array(
+				'type'    => 'string',
+				'default' => '',
+				'style'   => [
+					(object) [
+						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-img
+					{background-repeat:{{boxBGImgRepeat}};}'
+					]
+				]
+			),
+			'boxBGImgPosition'       => array(
+				'type'    => 'string',
+				'default' => '',
+				'style'   => [
+					(object) [
+						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-img
+					{background-position:{{boxBGImgPosition}};}'
+					]
+				]
+			),
+			'boxBGImgAttachment'     => array(
+				'type'    => 'string',
+				'default' => '',
+				'style'   => [
+					(object) [
+						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-img
+					{background-attachment:{{boxBGImgAttachment}};}'
+					]
+				]
+			),
+			'boxBGWith'              => array(
+				'type'    => 'number',
+				'default' => 0,
+				'style'   => [
+					(object) [
+						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box
+					{width:{{boxBGWith}}px;}'
+					]
+				]
+			),
+			'boxBGHeight'            => array(
+				'type'    => 'number',
+				'default' => 290,
+				'style'   => [
+					(object) [
+						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box
+					{height:{{boxBGHeight}}px;}'
+					]
+				]
+			),
+			'boxBGGradient'          => array(
+				'type'    => 'string',
+				'default' => '',
+				'style'   => [
+					(object) [
+						'depends'  => [
+							(object) [ 'key' => 'boxBGType', 'condition' => '==', 'value' => 'gradient' ],
+						],
+						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-img
+					{background:{{boxBGGradient}};}'
+					]
+				]
+			),
+			'overlayBGColorStyle'    => array(
+				'type'    => 'string',
+				'default' => 'normal',
+			),
+			'overlayBGGradient'      => array(
+				'type'    => 'string',
+				'default' => '',
+				'style'   => [
+					(object) [
+						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box:not(.location-box-style-3).rtcl-gb-has-count .rtcl-gb-content
+					{background:{{overlayBGGradient}};}'
+					],
+					(object) [
+						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box.location-box-style-3 .rtcl-image-wrapper .rtcl-gb-img::before
+					{background:{{overlayBGGradient}};}'
+					]
 				]
 			),
 			'overlayHoverBGGradient' => array(
 				'type'    => 'string',
 				'default' => '',
 				'style'   => [
-					(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box:not(.location-box-style-3).rtcl-gb-has-count:hover .rtcl-gb-content
-					{background:{{overlayHoverBGGradient}};}'],
-					(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box.location-box-style-3 .rtcl-image-wrapper .rtcl-gb-img::after
-					{background:{{overlayHoverBGGradient}};}']
+					(object) [
+						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box:not(.location-box-style-3).rtcl-gb-has-count:hover .rtcl-gb-content
+					{background:{{overlayHoverBGGradient}};}'
+					],
+					(object) [
+						'selector' => '{{RTCL}} .rtcl-gb-listing-location-box.location-box-style-3 .rtcl-image-wrapper .rtcl-gb-img::after
+					{background:{{overlayHoverBGGradient}};}'
+					]
 				]
 			),
-			"col_style" => array(
-				"type" => "object",
+			"col_style"              => array(
+				"type"    => "object",
 				"default" => array(
 					"style" => "1",
 				),
 			),
-			"titleColor" => array(
-				"type" => "string",
+			"titleColor"             => array(
+				"type"    => "string",
 				"default" => "",
-				'style' => [
-					(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-content .rtcl-gb-title {color:{{titleColor}} !important;}']
+				'style'   => [
+					(object) [ 'selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-content .rtcl-gb-title {color:{{titleColor}} !important;}' ]
 				]
 			),
-			"titleHoverColor" => array(
-				"type" => "string",
+			"titleHoverColor"        => array(
+				"type"    => "string",
 				"default" => "",
-				'style' => [
-					(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box:hover .rtcl-gb-content .rtcl-gb-title a {color:{{titleHoverColor}} !important;}']
+				'style'   => [
+					(object) [ 'selector' => '{{RTCL}} .rtcl-gb-listing-location-box:hover .rtcl-gb-content .rtcl-gb-title a {color:{{titleHoverColor}} !important;}' ]
 				],
 			),
-			'titleTypo' => [
-				'type' => 'object',
-				'default' => (object)['openTypography' => 1, 'size' => (object)['lg' => '20', 'unit' => 'px !important'], 'spacing' => (object)['lg' => '0', 'unit' => 'px'], 'height' => (object)['lg' => '26', 'unit' => 'px'], 'transform' => 'capitalize', 'weight' => '700'],
-				'style' => [
-					(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-content .rtcl-gb-title']
+			'titleTypo'              => [
+				'type'    => 'object',
+				'default' => (object) [
+					'openTypography' => 1,
+					'size'           => (object) [ 'lg' => '20', 'unit' => 'px !important' ],
+					'spacing'        => (object) [ 'lg' => '0', 'unit' => 'px' ],
+					'height'         => (object) [ 'lg' => '26', 'unit' => 'px' ],
+					'transform'      => 'capitalize',
+					'weight'         => '700'
+				],
+				'style'   => [
+					(object) [ 'selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-content .rtcl-gb-title' ]
 				],
 			],
-			"counterColor" => array(
-				"type" => "string",
+			"counterColor"           => array(
+				"type"    => "string",
 				"default" => "",
-				'style' => [
-					(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-counter{color:{{counterColor}};}']
+				'style'   => [
+					(object) [ 'selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-counter{color:{{counterColor}};}' ]
 				]
 			),
-			'counterTypo' => [
-				'type' => 'object',
-				'default' => (object)['openTypography' => 1, 'size' => (object)['lg' => '15', 'unit' => 'px !important'], 'spacing' => (object)['lg' => '0', 'unit' => 'px'], 'height' => (object)['lg' => '15', 'unit' => 'px'], 'transform' => 'capitalize', 'weight' => '400'],
-				'style' => [
-					(object)['selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-counter']
+			'counterTypo'            => [
+				'type'    => 'object',
+				'default' => (object) [
+					'openTypography' => 1,
+					'size'           => (object) [ 'lg' => '15', 'unit' => 'px !important' ],
+					'spacing'        => (object) [ 'lg' => '0', 'unit' => 'px' ],
+					'height'         => (object) [ 'lg' => '15', 'unit' => 'px' ],
+					'transform'      => 'capitalize',
+					'weight'         => '400'
+				],
+				'style'   => [
+					(object) [ 'selector' => '{{RTCL}} .rtcl-gb-listing-location-box .rtcl-gb-counter' ]
 				],
 			],
-			"container_padding" => array(
-				"type" => "object",
+			"container_padding"      => array(
+				"type"    => "object",
 				"default" => array(
 					"unit" => "px",
 				),
-				'style'   => [(object)['selector' => '{{RTCL}}.rtcl-block-editor,
-				{{RTCL}}.rtcl-block-frontend {padding:{{container_padding}};}']]
+				'style'   => [
+					(object) [
+						'selector' => '{{RTCL}}.rtcl-block-editor,
+				{{RTCL}}.rtcl-block-frontend {padding:{{container_padding}};}'
+					]
+				]
 			),
-			"container_margin" => array(
-				"type" => "object",
+			"container_margin"       => array(
+				"type"    => "object",
 				"default" => array(
 					"unit" => "px",
 				),
-				'style'   => [(object)['selector' => '{{RTCL}}.rtcl-block-editor,
-				{{RTCL}}.rtcl-block-frontend {margin:{{container_margin}};}']]
+				'style'   => [
+					(object) [
+						'selector' => '{{RTCL}}.rtcl-block-editor,
+				{{RTCL}}.rtcl-block-frontend {margin:{{container_margin}};}'
+					]
+				]
 			),
-			"containerBGColor" => array(
-				"type" => "string",
+			"containerBGColor"       => array(
+				"type"    => "string",
 				"default" => "",
-				'style'   => [(object)['selector' => '{{RTCL}}.rtcl-block-editor,
-				{{RTCL}}.rtcl-block-frontend {background-color:{{containerBGColor}};}']]
+				'style'   => [
+					(object) [
+						'selector' => '{{RTCL}}.rtcl-block-editor,
+				{{RTCL}}.rtcl-block-frontend {background-color:{{containerBGColor}};}'
+					]
+				]
 			),
-			"location" => array(
+			"location"               => array(
 				"type" => "string",
 			),
-			"show_count" => array(
-				"type" => "boolean",
+			"show_count"             => array(
+				"type"    => "boolean",
 				"default" => true,
 			),
-			"enable_link" => array(
-				"type" => "boolean",
+			"enable_link"            => array(
+				"type"    => "boolean",
 				"default" => true,
 			),
 		);
 
-		if ($default) {
+		if ( $default ) {
 			$temp = [];
-			foreach ($attributes as $key => $value) {
-				if (isset($value['default'])) {
-					$temp[$key] = $value['default'];
+			foreach ( $attributes as $key => $value ) {
+				if ( isset( $value['default'] ) ) {
+					$temp[ $key ] = $value['default'];
 				}
 			}
+
 			return $temp;
 		} else {
 			return $attributes;
 		}
 	}
 
-	public function __construct()
-	{
-		add_action('init', [$this, 'register_listing_serch_form']);
+	public function __construct() {
+		add_action( 'init', [ $this, 'register_listing_serch_form' ] );
 	}
 
-	public function register_listing_serch_form()
-	{
-		if (!function_exists('register_block_type')) {
+	public function register_listing_serch_form() {
+		if ( ! function_exists( 'register_block_type' ) ) {
 			return;
 		}
 		register_block_type(
 			RTCL_PATH . 'block-metadata/single-location',
 			[
-				'render_callback' => [$this, 'render_callback_listings'],
-				'attributes' => $this->get_attributes(),
+				'render_callback' => [ $this, 'render_callback_listings' ],
+				'attributes'      => $this->get_attributes(),
 			]
 		);
 	}
 
-	public function render_callback_listings($attributes)
-	{
+	public function render_callback_listings( $attributes ) {
+		wp_enqueue_style( 'fontawesome' );
 		$settings = $attributes;
-		$style = !empty( $settings['col_style']['style'] ) && in_array( $settings['col_style']['style'], [ '1', '2' ] ) ? $settings['col_style']['style'] : '1';
+		$style    = ! empty( $settings['col_style']['style'] ) && in_array( $settings['col_style']['style'], [ '1', '2' ] ) ? $settings['col_style']['style']
+			: '1';
 
 		$data = array(
-			'template' => 'block/single-location/style-' . $style,
-			'style' => $style,
-			'settings' => $settings,
-			'term' => AdminAjaxController::rtcl_gb_single_location_query($settings),
+			'template'              => 'block/single-location/style-' . $style,
+			'style'                 => $style,
+			'settings'              => $settings,
+			'term'                  => AdminAjaxController::rtcl_gb_single_location_query( $settings ),
 			'default_template_path' => null,
 		);
 
-		$data = apply_filters('rtcl_gb_single_location_box_data', $data);
+		$data = apply_filters( 'rtcl_gb_single_location_box_data', $data );
 		ob_start();
-		Functions::get_template($data['template'], $data, '', $data['default_template_path']);
+		Functions::get_template( $data['template'], $data, '', $data['default_template_path'] );
+
 		return ob_get_clean();
 	}
 }

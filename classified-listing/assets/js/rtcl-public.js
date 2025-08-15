@@ -466,11 +466,11 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
             _this.removeParam(option_name);
           }
         } else {
-          if (options && ['checkbox', 'radio'].includes(options.field_type)) {
+          if (options && ['checkbox', 'radio', 'select'].includes(options.field_type)) {
             if (event.currentTarget.checked) {
-              _this.addParam(option_name, inputValue, true);
+              _this.addParam(option_name, inputValue, event.currentTarget.type === 'checkbox');
             } else {
-              _this.removeParam(option_name, inputValue, true);
+              _this.removeParam(option_name, inputValue, event.currentTarget.type === 'checkbox');
             }
           } else {
             _this.addParam(option_name, inputValue);
@@ -2982,8 +2982,11 @@ __webpack_require__.r(__webpack_exports__);
         var options = input.data("options") || {};
         options = rtclFilter.apply('dateRangePickerOptions', options);
         if (Array.isArray(options.invalidDateList) && options.invalidDateList.length) {
+          var formattedDates = options.invalidDateList.map(function (dateStr) {
+            return moment(dateStr).format(options.locale.format);
+          });
           options.isInvalidDate = function (param) {
-            return options.invalidDateList.includes(param.format(options.locale.format));
+            return formattedDates.includes(param.format(options.locale.format));
           };
         }
         $(this).daterangepicker(options);

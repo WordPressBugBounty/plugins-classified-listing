@@ -1,11 +1,11 @@
-=== Classified Listing – Classified ads & Business Directory Plugin ===
+=== Classified Listing – AI-Powered Classified ads & Business Directory Plugin ===
 Contributors: techlabpro1
 Donate link:
 Tags: business directory, classifieds, directory plugin, listings, classifieds ads
 Requires at least: 5.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.0.3
+Stable tag: 5.0.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -331,6 +331,19 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 5.0.4 ( Aug 15, 2025 ) =
+* Added: Form builder: Smart dependency for checkbox, select and radio field
+* Added: Form builder: Add Bulk options for checkbox, select and radio field
+* Added: To retrieve phone or whatsApp number rtcl_allow_number_reveal_on_click
+* Fixed: Email sanitize error
+* Fixed: Fontawesome global load issue on frontend
+* Fixed: Date range Picker unavailable date issue
+* Fixed: Form builder: Number field max value issue at require mode
+* Fixed: Form builder: Repeater field add item ad defined index / also update design
+* Fixed: Ajax filter Radio button check selection issue
+* Fixed: Admin end description field is required by removing uuid from preset field name while filed generate from AI
+* Fixed: Form builder category selection issue for update listing if Type is dependent
 
 = 5.0.3 ( July 24, 2025 ) =
 * Fixed: Shortcode map view pagination issue

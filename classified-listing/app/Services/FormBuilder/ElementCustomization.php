@@ -170,6 +170,7 @@ class ElementCustomization {
 					'name',
 					'placeholder',
 					'validation',
+					'option_depends_on',
 					'advanced_options',
 					'filterable',
 					'filterable_disable_logic',
@@ -206,6 +207,7 @@ class ElementCustomization {
 					'label_placement',
 					'icon',
 					'name',
+					'option_depends_on',
 					'advanced_options',
 					'direction',
 					'validation',
@@ -228,6 +230,7 @@ class ElementCustomization {
 					'label_placement',
 					'icon',
 					'name',
+					'option_depends_on',
 					'advanced_options',
 					'direction',
 					'validation',
@@ -787,10 +790,29 @@ class ElementCustomization {
 				'label'     => __( 'Options', 'classified-listing' ),
 				'help_text' => __( 'Create options for the field and checkmark them for default selection.', 'classified-listing' ),
 			],
+			'option_depends_on'            => [
+				'template'    => 'optionDependsOn',
+				'isPro'       => true,
+				'label'       => __( 'Enable Smart Dependency', 'classified-listing' ),
+				'placeholder' => __( 'Select a depends on field', 'classified-listing' ),
+			],
 			'advanced_options'             => [
 				'template'  => 'advancedOptions',
 				'label'     => __( 'Options', 'classified-listing' ),
 				'help_text' => __( 'Create visual options for the field and checkmark them for default selection.', 'classified-listing' ),
+				'i18n'      => [
+					'label'           => __( 'Label', 'classified-listing' ),
+					'value'           => __( 'value', 'classified-listing' ),
+					'assign'          => __( 'Assign', 'classified-listing' ),
+					'dependsOn'       => __( 'Depends on', 'classified-listing' ),
+					'bulk_add'        => __( 'Bulk Add', 'classified-listing' ),
+					'hide_bulk_add'   => __( 'Hide Bulk Add', 'classified-listing' ),
+					'clear_selection' => __( 'Clear Selection', 'classified-listing' ),
+				],
+				'bulk_add'  => [
+					'label'   => __( 'Add Options (one per line)', 'classified-listing' ),
+					'add_btn' => __( 'Add New Options', 'classified-listing' ),
+				],
 				'config'    => [
 					[
 						'label' => __( 'Show Values', 'classified-listing' ),
@@ -838,7 +860,7 @@ class ElementCustomization {
 				'label'     => __( 'Filterable', 'classified-listing' ),
 				'help_text' => __( 'If you enable this then filed will allow to filter the listing.', 'classified-listing' ),
 			],
-			'filterable_disable_logic'       => [
+			'filterable_disable_logic'     => [
 				'isPro'      => true,
 				'template'   => 'inputYesNoCheckBox',
 				'label'      => __( 'Disable Conditional Logic for Filterable', 'classified-listing' ),

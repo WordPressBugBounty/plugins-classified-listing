@@ -688,13 +688,16 @@ class FBHelper {
 						}
 					}
 				} elseif ( 'max' === $ruleKey ) {
-					if ( "number" === $field['element'] ) {
-						if ( $value && $value > $rule['value'] ) {
-							$hasError = true;
-						}
-					} else {
-						if ( $rule['value'] && $value && strlen( $value ) > $rule['value'] ) {
-							$hasError = true;
+					$ruleValue = Functions::convertToNumber( $rule['value'] );
+					if ( $ruleValue !== null ) {
+						if ( "number" === $field['element'] ) {
+							if ( $value && $value > $ruleValue ) {
+								$hasError = true;
+							}
+						} else {
+							if ( $ruleValue && $value && strlen( $value ) > $ruleValue ) {
+								$hasError = true;
+							}
 						}
 					}
 
@@ -965,13 +968,20 @@ class FBHelper {
 		switch ( $element ) {
 			case 'title':
 				$sanitize_value = sanitize_text_field( $rawValue );
-				$title_limit = Functions::get_title_character_limit();
-				if ( $title_limit ) {
-					$sanitize_value = mb_substr( $sanitize_value, 0, $title_limit, 'utf-8' );
+				if ($sanitize_value && !current_user_can( 'administrator' ) && !current_user_can( 'editor' ) ) {
+					$sanitize_value = strip_shortcodes( $sanitize_value );
+				}
+				if ( !empty( $field['validation']['max'] ) && $title_limit = absint( $field['validation']['max'] ) ) {
+					if ( strlen( $sanitize_value ) > $title_limit ) {
+						$sanitize_value = mb_substr( $sanitize_value, 0, $title_limit, 'utf-8' );
+					}
 				}
 				break;
 			case 'description':
 			case 'excerpt':
+				if ( !current_user_can( 'administrator' ) && !current_user_can( 'editor' ) ) {
+					$rawValue = strip_shortcodes( $rawValue );
+				}
 				if ( !empty( $field['validation']['max'] ) && $description_limit = absint( $field['validation']['max'] ) ) {
 					if ( strlen( $rawValue ) > $description_limit ) {
 						$sanitize_value = wp_filter_nohtml_kses( $rawValue );
@@ -1372,12 +1382,56 @@ class FBHelper {
 	 *
 	 * @return mixed|null
 	 */
-	public function getFieldBy( string $type, string $value, $directory = 'all' ) {
+	public static function getFieldBy( string $type, string $value, $directory = 'all' ) {
 		$type = in_array( $type, [ 'name', 'uuid', 'element', 'id' ] ) ? $type : 'uuid';
 		if ( empty( $value ) ) {
 			return null;
 		}
 		$data = self::getDirectoryData( $directory );
+		if ( empty( $data[FBField::PRESET] ) && empty( $data[FBField::CUSTOM] ) ) {
+			return null;
+		}
+
+		if ( 'uuid' === $type ) {
+			if ( !empty( $data[FBField::PRESET][$value] ) ) {
+				return $data[FBField::PRESET][$value];
+			}
+			if ( !empty( $data[FBField::CUSTOM][$value] ) ) {
+				return $data[FBField::CUSTOM][$value];
+			}
+		}
+
+		if ( !empty( $data[FBField::PRESET] ) ) {
+			foreach ( $data[FBField::PRESET] as $field ) {
+				if ( !empty( $field[$type] ) && $field[$type] === $value ) {
+					return $field;
+				}
+			}
+		}
+
+		if ( !empty( $data[FBField::CUSTOM] ) ) {
+			foreach ( $data[FBField::CUSTOM] as $field ) {
+				if ( !empty( $field[$type] ) && $field[$type] === $value ) {
+					return $field;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param string $type enum[ 'name', 'uuid', 'element','id']
+	 * @param string $value
+	 * @param array $data
+	 * @return mixed|null
+	 */
+	public static function getFieldByFromGivenDirectoryData( string $type, string $value, $data = [] ) {
+		$type = in_array( $type, [ 'name', 'uuid', 'element', 'id' ] ) ? $type : 'uuid';
+		if ( empty( $value ) ) {
+			return null;
+		}
+
 		if ( empty( $data[FBField::PRESET] ) && empty( $data[FBField::CUSTOM] ) ) {
 			return null;
 		}

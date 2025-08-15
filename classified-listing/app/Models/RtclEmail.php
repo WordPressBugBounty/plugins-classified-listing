@@ -217,7 +217,7 @@ class RtclEmail {
 	public function get_replay_to_email_address() {
 		$replay_to_email_address = apply_filters( 'rtcl_email_replay_to_email_address', $this->replay_to_email, $this );
 
-		return sanitize_email( $replay_to_email_address );
+		return ! empty( $replay_to_email_address ) ? sanitize_email( $replay_to_email_address ) : $replay_to_email_address;
 	}
 
 	/**

@@ -3051,6 +3051,9 @@ class Functions {
 				if ( $title_limit = self::get_title_character_limit() ) {
 					$sanitize_value = mb_substr( $sanitize_value, 0, $title_limit, 'utf-8' );
 				}
+				if(!current_user_can( 'administrator' ) && current_user_can( 'editor' ) ){
+					$sanitize_value = strip_shortcodes( $sanitize_value );
+				}
 				break;
 			case 'content':
 				if ( $description_limit = self::get_description_character_limit() ) {
@@ -3063,7 +3066,9 @@ class Functions {
 				} else {
 					$sanitize_value = wp_kses_post( $value );
 				}
-
+				if(!current_user_can( 'administrator' ) && current_user_can( 'editor' ) ){
+					$sanitize_value = strip_shortcodes( $sanitize_value );
+				}
 				break;
 			case 'textarea':
 				$sanitize_value = sanitize_textarea_field( wp_unslash( $value ) );
@@ -5861,5 +5866,15 @@ class Functions {
 		}
 
 		return array_unique( $all_ids );
+	}
+
+	public static function convertToNumber(string $value) {
+		if (!is_numeric($value)) {
+			return null; // or throw error, or fallback
+		}
+
+		return (str_contains($value, '.') || str_contains($value, 'e'))
+			? (float)$value
+			: (int)$value;
 	}
 }

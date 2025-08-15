@@ -63,7 +63,7 @@ class FieldSanitization {
 		if ( isset( $field['editor'] ) ) {
 			unset( $field['editor'] );
 		}
-
+		$depensOnField = null;
 		foreach ( $field as $fieldKey => $value ) {
 			if ( in_array( $fieldKey, [ 'label', 'id', 'class', 'container_class', 'placeholder', 'order', 'help_message', 'btn_text' ] ) ) {
 				$field[$fieldKey] = sanitize_text_field( wp_unslash( $value ) );
@@ -160,10 +160,44 @@ class FieldSanitization {
 				} else {
 					$field['default_value'] = sanitize_text_field( wp_unslash( $value ) );
 				}
+			} elseif ( 'option_depends_on' === $fieldKey ) { // Sanitize option_depends_on
+				if ( $value && $this->fields[$value] && in_array( $field['element'], [ 'checkbox', 'radio', 'select' ] ) ) {
+					$field[$fieldKey] = $value;
+					$depensOnField = $this->fields[$field['option_depends_on']];
+				} else {
+					unset( $field['option_depends_on'] );
+				}
 			} else {
 				if ( in_array( $value, [ 'true', 'false' ], true ) ) {
 					$field[$fieldKey] = $value === 'true';
 				}
+			}
+		}
+
+		// options field refine for option_depends_on field
+		if ( in_array( $field['element'], [ 'checkbox', 'radio', 'select' ] ) ) {
+			if ( !empty( $field['options'] ) && is_array( $field['options'] ) ) {
+				$dependsOnFieldOptionKeys = [];
+
+				if ( !empty( $field['option_depends_on'] ) && $depensOnField && !empty( $depensOnField['options'] ) && is_array( $depensOnField['options'] ) ) {
+					$dependsOnFieldOptionKeys = array_column( $depensOnField['options'], 'value' );
+				}
+
+				$field['options'] = array_map( function ( $option ) use ( $dependsOnFieldOptionKeys ) {
+					if ( isset( $option['depends_on'] ) ) {
+						if ( empty( $dependsOnFieldOptionKeys ) || !is_array($option['depends_on']) ) {
+							unset( $option['depends_on'] );
+						}else{
+							$matched = array_intersect($option['depends_on'], $dependsOnFieldOptionKeys); 
+							if( !empty( $matched ) ) {
+								$option['depends_on'] = $matched;
+							}else{
+								unset( $option['depends_on'] );
+							}
+						}
+					}
+					return $option;
+				}, $field['options'] );
 			}
 		}
 

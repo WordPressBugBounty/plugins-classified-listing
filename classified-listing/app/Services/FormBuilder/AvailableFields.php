@@ -27,8 +27,7 @@ class AvailableFields {
 				'editor'          => [
 					'title'      => __( 'Listing type', 'classified-listing' ),
 					'icon_class' => 'rtcl-icon-header',
-					'template'   => 'inputText',
-					'deprecated' => true,
+					'template'   => 'inputText'
 				]
 			],
 			'title'               => [
@@ -675,7 +674,7 @@ class AvailableFields {
 					],
 					'max'      => [
 						'value'   => '',
-						'message' => __( 'Maximum value is  {value}', 'classified-listing' ),
+						'message' => __( 'Maximum value is {value}', 'classified-listing' ),
 					],
 					'digits'   => [
 						'value'   => '',

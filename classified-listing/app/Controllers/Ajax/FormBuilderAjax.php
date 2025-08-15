@@ -185,7 +185,7 @@ class FormBuilderAjax {
 				'post_type'   => rtcl()->post_type
 			];
 		}
-
+		
 		foreach ( $fields as $fieldId => $field ) {
 			$name = !empty( $field['name'] ) ? $field['name'] : '';
 			$element = $field['element'];
@@ -193,11 +193,11 @@ class FormBuilderAjax {
 			if ( isset( $field['preset'] ) && 1 == $field['preset'] ) {
 				if ( 'title' === $element ) {
 					if ( !$isAdminEnd ) {
-						$post_arg['post_title'] = $rawValue;
+						$post_arg['post_title'] = FBHelper::sanitizeFieldValue( $rawValue, $field );
 					}
 				} elseif ( 'description' === $element ) {
 					if ( !$isAdminEnd ) {
-						$post_arg['post_content'] = $rawValue;
+						$post_arg['post_content'] = FBHelper::sanitizeFieldValue( $rawValue, $field );;
 					}
 				} elseif ( 'listing_type' === $element ) {
 					$metaData[] = [
@@ -206,7 +206,7 @@ class FormBuilderAjax {
 						'value' => $rawValue
 					];
 				} elseif ( 'excerpt' === $element ) {
-					$post_arg['post_excerpt'] = $rawValue;
+					$post_arg['post_excerpt'] = FBHelper::sanitizeFieldValue( $rawValue, $field );;
 				} elseif ( 'category' === $element ) {
 					$taxonomy['category'] = is_array( $rawValue ) ? array_filter( array_map( function ( $tag ) {
 						return !empty( $tag['term_id'] ) ? absint( $tag['term_id'] ) : '';
@@ -235,7 +235,7 @@ class FormBuilderAjax {
 					$metaData[] = [
 						'name'  => 'address',
 						'field' => $field,
-						'value' => Functions::sanitize( $rawValue, 'textarea' )
+						'value' => FBHelper::sanitizeFieldValue( $rawValue, $field )
 					];
 				} elseif ( 'geo_location' === $element ) {
 					$metaData[] = [
@@ -265,7 +265,7 @@ class FormBuilderAjax {
 					$metaData[] = [
 						'name'  => 'website',
 						'field' => $field,
-						'value' => Functions::sanitize( $rawValue, 'url' )
+						'value' => FBHelper::sanitizeFieldValue( $rawValue, $field )
 					];
 				} elseif ( 'social_profiles' === $element ) {
 					$metaData[] = [
