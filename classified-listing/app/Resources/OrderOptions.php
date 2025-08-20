@@ -114,13 +114,13 @@ class OrderOptions {
 							}
 							if ( $order->get_billing_phone() ) {
 								echo '<p>';
-								echo '<strong>' . __( 'Phone: ', 'classified-listing' ) . '</strong><br/>';
+								echo '<strong>' . esc_html__( 'Phone: ', 'classified-listing' ) . '</strong><br/>';
 								echo '<a href="tel:' . esc_url( $order->get_billing_phone() ) . '">' . esc_html( $order->get_billing_phone() ) . '</a>';
 								echo '</p>';
 							}
 							if ( $order->get_billing_email() ) {
 								echo '<p>';
-								echo '<strong>' . __( 'Email: ', 'classified-listing' ) . '</strong><br/>';
+								echo '<strong>' . esc_html__( 'Email: ', 'classified-listing' ) . '</strong><br/>';
 								echo '<a href="mailto:' . esc_url( $order->get_billing_email() ) . '">' . esc_html( $order->get_billing_email() ) . '</a>';
 								echo '</p>';
 							}

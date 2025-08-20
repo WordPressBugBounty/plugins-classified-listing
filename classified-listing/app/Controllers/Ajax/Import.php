@@ -341,6 +341,7 @@ class Import {
 
 		if ( ! empty( $inserted_posts ) ) {
 			$return['success'] = true;
+			/* translators: %s: Number of posts. */
 			$return['message'] = sprintf( __( 'Added %d listings.', 'classified-listing' ), count( $inserted_posts ) );
 		}
 
@@ -463,12 +464,14 @@ class Import {
 		if ( is_array( $get_option ) && array_key_exists( $data['key'], $get_option ) ) {
 			$return['success'] = 'exist';
 			$return['data']    = '';
+			/* translators: %s: Title. */
 			$return['message'] = sprintf( __( '%s is already exist!', 'classified-listing' ), $title );
 		} else {
 			$get_option[ $data['key'] ] = $title;
 			$update                     = update_option( 'rtcl_listing_types', $get_option );
 			if ( $update ) {
 				$return['success'] = true;
+				/* translators: %s: Title. */
 				$return['message'] = sprintf( __( '%s Successfully Created', 'classified-listing' ), $title );
 			} else {
 				$return['message'] = __( 'Error!!! in ', 'classified-listing' ) . $title;
@@ -555,6 +558,7 @@ class Import {
 				$args = wp_parse_args( $data['value'], $defaults );
 				update_option( $key, $args );
 				$return['success'] = true;
+				/* translators: %s: Key. */
 				$return['message'] = sprintf( __( '%s Successfully Created', 'classified-listing' ), $key );
 			}
 		}
@@ -619,6 +623,7 @@ class Import {
 
 					if ( $row_count > apply_filters( 'rtcl_import_listings_limit', 101 ) ) {
 						$results['message'] = sprintf(
+						/* translators: %s: $row_count. */
 							esc_html__(
 								'Please, add maximum 100 listings in one file. You added %s listings!!',
 								'classified-listing'
@@ -663,8 +668,7 @@ class Import {
 												<td>
 													<select class="rtcl_map_to"
 															name="map_to[<?php echo esc_attr( $index ); ?>]">
-														<option
-															value=""><?php _e( 'Do not import', 'classified-listing' ); ?></option>
+														<option value=""><?php esc_html_e( 'Do not import', 'classified-listing' ); ?></option>
 														<?php
 														$fields = $this->get_listing_import_fields();
 														foreach ( $fields as $key => $field ) {
@@ -683,12 +687,7 @@ class Import {
 										</tbody>
 									</table>
 									<button type="submit" id="rtcl_listings_import_submit" class="btn btn-primary">
-										<?php
-										_e(
-											'Continue',
-											'classified-listing'
-										);
-										?>
+										<?php esc_html_e( 'Continue', 'classified-listing' ); ?>
 									</button>
 								</div>
 							</form>

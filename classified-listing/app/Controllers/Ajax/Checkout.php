@@ -221,29 +221,44 @@ class Checkout {
 		$table_name = $wpdb->prefix . 'rtcl_tax_rates';
 
 		$tax_amount = 0.00;
+		$where = [];
+		$params = [];
 
-		$sql = "SELECT * FROM $table_name";
+		// Only add conditions if values exist
+		if (!empty($country)) {
+			$where[]  = 'country = %s';
+			$params[] = $country;
 
-		if ( $country && $state ) {
-			$sql .= " WHERE country='{$country}' AND country_state='{$state}'";
-		} else if ( $country ) {
-			$sql .= " WHERE country='{$country}'";
+			if (!empty($state)) {
+				$where[]  = 'country_state = %s';
+				$params[] = $state;
+			}
+		}
+
+		$sql = "SELECT * FROM `{$table_name}`";
+
+		if ($where) {
+			$sql .= ' WHERE ' . implode(' AND ', $where);
 		}
 
 		$sql .= " ORDER BY tax_rate_priority DESC";
 
-		$results = $wpdb->get_results( $sql );
+		$results = $where
+			? $wpdb->get_results( $wpdb->prepare($sql, $params) )
+			: $wpdb->get_results( $sql );
 
 		if ( empty( $results ) ) {
-
-			$sql = "SELECT * FROM $table_name WHERE country = '{$country}' AND country_state = '' ORDER BY tax_rate_priority DESC";
-
-			$results = $wpdb->get_results( $sql );
+			// First fallback: same country, blank state
+			$results = $wpdb->get_results( $wpdb->prepare(
+				"SELECT * FROM `{$table_name}`
+					 WHERE country = %s
+					 AND country_state = ''
+					 ORDER BY tax_rate_priority DESC",
+				$country
+			) );
 
 			if ( empty( $results ) ) {
-				$sql = "SELECT * FROM $table_name WHERE country = '' AND country_state = '' ORDER BY tax_rate_priority DESC";
-
-				$results = $wpdb->get_results( $sql );
+				$results = $wpdb->get_results( "SELECT * FROM $table_name WHERE country = '' AND country_state = '' ORDER BY tax_rate_priority DESC" );
 			}
 		}
 

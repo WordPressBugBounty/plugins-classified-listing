@@ -11,7 +11,7 @@ use Rtcl\Helpers\Functions;
 <div class="rtcl-admin-wrap">
 	<div class="rtcl-admin-header">
 		<h4 class="rtcl-header-title">
-			<?php _e( 'Settings', 'classified-listing' ); ?>
+			<?php esc_html_e( 'Settings', 'classified-listing' ); ?>
 		</h4>
 	</div>
 	<div class="rtcl-admin-settings-wrap">
@@ -84,7 +84,7 @@ use Rtcl\Helpers\Functions;
 				<div class="bundle-card">
 					<div class="image-container">
 						<div class="product-image">
-							<img alt="Classified Listing Plugins and Themes Bundled" src="https://radiustheme.com/demo/cl-extensions/bundle-extension.png">
+							<img alt="Classified Listing Plugins and Themes Bundled" src="<?php esc_url(rtcl()->get_assets_uri( "images/bundle-extension.png" )) ?>">
 						</div>
 						<div class="bundle-badge">Bundle Deal</div>
 					</div>

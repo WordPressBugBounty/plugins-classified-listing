@@ -126,7 +126,7 @@ class Link {
 			}
 			$url = trailingslashit( $permalink );
 			if ( $endpoint ) {
-				// Translate Wp endpoints for url 
+				// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText, WordPress.WP.I18n.TextDomainMismatch
 				$endpoint = __($endpoint, 'WP Endpoints');
 				$url .= trailingslashit( $endpoint );
 			}

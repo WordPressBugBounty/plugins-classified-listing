@@ -33,7 +33,7 @@ global $post;
 					'rtcl-expired' => esc_html__( "Expired", 'classified-listing' ),
 				];
 
-				$active_status = ! empty( $_REQUEST['status'] ) ? sanitize_text_field( $_REQUEST['status'] ) : 'any';
+				$active_status = !empty( $_REQUEST['status'] ) ? sanitize_text_field( $_REQUEST['status'] ) : 'any';
 
 				foreach ( $status_filter as $status => $title ) {
 					?>
@@ -81,10 +81,10 @@ global $post;
 				</thead>
 				<tbody>
 				<?php while ( $rtcl_query->have_posts() ) : $rtcl_query->the_post();
-					$post_meta  = get_post_meta( $post->ID );
-					$listing    = rtcl()->factory->get_listing( $post->ID );
-					$is_top     = (bool) get_post_meta( $listing->get_id(), '_top', true );
-					$is_bump_up = (bool) get_post_meta( $listing->get_id(), '_bump_up', true );
+					$post_meta = get_post_meta( $post->ID );
+					$listing = rtcl()->factory->get_listing( $post->ID );
+					$is_top = (bool)get_post_meta( $listing->get_id(), '_top', true );
+					$is_bump_up = (bool)get_post_meta( $listing->get_id(), '_bump_up', true );
 					?>
 					<tr>
 						<td>
@@ -138,12 +138,18 @@ global $post;
 										</svg>
 										<?php
 										$views = $listing->get_view_counts();
-										/* translators:  views count */
-										echo sprintf( _n( '%1$s View', '%1$s Views', $views, 'classified-listing' ),
-											esc_html( number_format_i18n( $views ) ) ); ?>
+										printf(
+											esc_html(
+											/* translators: views count */
+												_n( '%1$s View', '%1$s Views', $views, 'classified-listing' )
+											),
+											esc_html( number_format_i18n( $views ) )
+										);
+										?>
 									</li>
 									<li>
-										<svg width="17" height="24" viewBox="0 0 17 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<svg width="17" height="24" viewBox="0 0 17 24" fill="none"
+											 xmlns="http://www.w3.org/2000/svg">
 											<path
 												d="M10.7895 6.89375C10.7581 6.9499 10.7057 6.99128 10.6438 7.00878C10.5819 7.02628 10.5156 7.01848 10.4595 6.98708C10.4033 6.95569 10.3619 6.90328 10.3444 6.84138C10.3269 6.77948 10.3347 6.71316 10.3661 6.65701C10.8051 5.87839 11.0255 4.99555 11.0038 4.10195C10.9822 3.20835 10.7194 2.33722 10.2432 1.58075C10.2262 1.55385 10.2146 1.52385 10.2091 1.49247C10.2037 1.4611 10.2045 1.42895 10.2115 1.39788C10.2184 1.36681 10.2315 1.33742 10.2498 1.31138C10.2681 1.28534 10.2914 1.26317 10.3183 1.24613C10.3452 1.22909 10.3752 1.21752 10.4066 1.21207C10.438 1.20662 10.4701 1.20741 10.5012 1.21439C10.5323 1.22136 10.5617 1.23439 10.5877 1.25272C10.6137 1.27106 10.6359 1.29434 10.6529 1.32125C11.1785 2.15055 11.4688 3.10707 11.4929 4.08859C11.5169 5.0701 11.2738 6.0397 10.7895 6.89375Z"
 												fill="#797979"/>
@@ -162,24 +168,35 @@ global $post;
 										</svg>
 										<?php
 										$reveals = $listing->get_phone_whatsapp_reveal_counts();
-										/* translators:  reveal count */
-										echo sprintf( _n( '%1$s Reveal', '%1$s Reveals', $reveals, 'classified-listing' ),
-											esc_html( number_format_i18n( $reveals ) ) ); ?>
+										printf(
+											esc_html(
+											/* translators:  reveal count */
+												_n( '%1$s Reveal', '%1$s Reveals', $reveals, 'classified-listing' )
+											),
+											esc_html( number_format_i18n( $reveals ))
+										);
+										?>
 									</li>
 									<li>
-										<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<svg width="17" height="17" viewBox="0 0 17 17" fill="none"
+											 xmlns="http://www.w3.org/2000/svg">
 											<path
 												d="M4.20961 10.676C5.79371 12.5696 7.70062 14.0606 9.8771 15.1155C10.7058 15.5082 11.814 15.9741 13.0486 16.054C13.1252 16.0573 13.1984 16.0607 13.2749 16.0607C14.1036 16.0607 14.7692 15.7744 15.3116 15.1854C15.315 15.1821 15.3216 15.1754 15.3249 15.1688C15.518 14.9358 15.7376 14.7261 15.9672 14.5032C16.1236 14.3534 16.2834 14.197 16.4365 14.0373C17.1453 13.2985 17.1453 12.36 16.4298 11.6445L14.4297 9.64438C14.0903 9.29162 13.6843 9.10525 13.2583 9.10525C12.8323 9.10525 12.423 9.29162 12.0735 9.64105L10.8821 10.8325C10.7723 10.7692 10.6592 10.7126 10.5527 10.6594C10.4196 10.5928 10.2964 10.5296 10.1866 10.4597C9.10169 9.77084 8.11662 8.87229 7.17481 7.7175C6.69891 7.11514 6.37943 6.60929 6.15646 6.09346C6.46929 5.81059 6.76215 5.5144 7.04502 5.22487C7.14486 5.1217 7.24802 5.01854 7.35119 4.91537C7.71061 4.55595 7.90363 4.13996 7.90363 3.71731C7.90363 3.29466 7.71394 2.87867 7.35119 2.51925L6.35946 1.52753C6.24299 1.41105 6.13316 1.2979 6.02001 1.18142C5.80037 0.95512 5.57074 0.722164 5.34444 0.512503C5.00166 0.176381 4.59898 0 4.17301 0C3.75036 0 3.34435 0.176381 2.98826 0.515831L1.74361 1.76048C1.29101 2.21308 1.03476 2.76219 0.981508 3.39783C0.918278 4.19321 1.06471 5.03851 1.44409 6.06018C2.02648 7.64096 2.90506 9.10858 4.20961 10.676ZM1.79353 3.46772C1.83346 3.0251 2.00319 2.6557 2.32267 2.33622L3.56066 1.09822C3.75368 0.911856 3.96667 0.815346 4.17301 0.815346C4.37601 0.815346 4.58234 0.911856 4.77204 1.10488C4.99501 1.31121 5.20467 1.52753 5.43097 1.75715C5.54412 1.87363 5.6606 1.99011 5.77707 2.10992L6.7688 3.10164C6.97513 3.30797 7.08163 3.51764 7.08163 3.72397C7.08163 3.9303 6.97513 4.13996 6.7688 4.34629C6.66563 4.44946 6.56247 4.55595 6.4593 4.65912C6.1498 4.97195 5.86027 5.26813 5.54079 5.55101L5.52415 5.56765C5.24793 5.84387 5.29119 6.10677 5.35775 6.30645C5.36108 6.31644 5.36441 6.32309 5.36774 6.33307C5.62399 6.94874 5.98008 7.53446 6.53584 8.23333C7.53423 9.46467 8.58586 10.4198 9.74398 11.1553C9.88708 11.2484 10.0402 11.3217 10.1833 11.3949C10.3164 11.4614 10.4395 11.5247 10.5493 11.5946C10.5627 11.6012 10.5726 11.6079 10.586 11.6145C10.6958 11.6711 10.8023 11.6977 10.9088 11.6977C11.175 11.6977 11.348 11.528 11.4046 11.4714L12.6493 10.2268C12.8423 10.0337 13.052 9.93058 13.2583 9.93058C13.5112 9.93058 13.7175 10.087 13.8473 10.2268L15.8541 12.2302C16.2534 12.6295 16.2501 13.0622 15.8441 13.4848C15.7043 13.6346 15.5579 13.7777 15.4015 13.9274C15.1685 14.1537 14.9256 14.3867 14.7059 14.6496C14.3232 15.0623 13.8673 15.2553 13.2783 15.2553C13.2217 15.2553 13.1618 15.252 13.1052 15.2486C12.0136 15.1787 10.9986 14.7528 10.2365 14.39C8.16654 13.3883 6.34948 11.9673 4.84192 10.1635C3.6006 8.66929 2.76529 7.27821 2.21285 5.78729C1.87007 4.87211 1.74028 4.13663 1.79353 3.46772Z"
 												fill="#797979"/>
 										</svg>
 										<?php
 										$phone_clicks = $listing->get_phone_click_counts();
-										/* translators:  click count */
-										echo sprintf( _n( '%1$s Click', '%1$s Clicks', $phone_clicks, 'classified-listing' ),
-											esc_html( number_format_i18n( $phone_clicks ) ) ); ?>
+										printf(
+											esc_html(
+											/* translators:  click count */
+												_n( '%1$s Click', '%1$s Clicks', $phone_clicks, 'classified-listing' )
+											),
+											esc_html( number_format_i18n( $phone_clicks ))
+										); ?>
 									</li>
 									<li>
-										<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+											 xmlns="http://www.w3.org/2000/svg">
 											<g clip-path="url(#clip0_3475_1884)">
 												<path
 													d="M8 0C3.58862 0 0 3.58862 0 8C0 9.50492 0.418154 10.9658 1.21138 12.2345C0.895385 13.3415 0.324615 15.4357 0.318462 15.4575C0.303898 15.5107 0.303928 15.5668 0.318548 15.6199C0.333168 15.673 0.361837 15.7212 0.401538 15.7594C0.482462 15.8372 0.599385 15.8649 0.705846 15.8323L3.87692 14.8569C5.12162 15.6061 6.54722 16.0014 8 16C12.4114 16 16 12.4114 16 8C16 3.58862 12.4114 0 8 0ZM8 15.3846C6.6146 15.386 5.25689 14.9966 4.08277 14.2612C4.04532 14.2378 4.00327 14.2227 3.95947 14.217C3.91566 14.2112 3.87114 14.215 3.82892 14.228L1.06 15.0803C1.31583 14.1427 1.57614 13.2062 1.84092 12.2711C1.86554 12.1855 1.85169 12.0932 1.80338 12.0185C1.02617 10.8225 0.613417 9.42634 0.615385 8C0.615385 3.92831 3.92831 0.615385 8 0.615385C12.0717 0.615385 15.3846 3.92831 15.3846 8C15.3846 12.0717 12.0717 15.3846 8 15.3846Z"
@@ -196,13 +213,18 @@ global $post;
 										</svg>
 										<?php
 										$wa_clicks = $listing->get_whatsapp_click_counts();
-										/* translators:  click count */
-										echo sprintf( _n( '%1$s Click', '%1$s Clicks', $wa_clicks, 'classified-listing' ),
-											esc_html( number_format_i18n( $wa_clicks ) ) ); ?>
+										printf(
+											esc_html(
+												/* translators: click count */
+												_n( '%1$s Click', '%1$s Clicks', $wa_clicks, 'classified-listing' )
+											),
+											esc_html( number_format_i18n( $wa_clicks ) )
+										); ?>
 									</li>
 									<?php do_action( 'rtcl_my_listings_meta_lists', $listing ); ?>
 								</ul>
-								<div class="listing-status-mobile <?php echo esc_attr( strtolower( $post->post_status ) ); ?>">
+								<div
+									class="listing-status-mobile <?php echo esc_attr( strtolower( $post->post_status ) ); ?>">
 									<span><?php esc_html_e( 'Status:', 'classified-listing' ); ?></span>
 									<span><?php echo esc_html( Functions::get_status_i18n( $post->post_status ) ); ?></span>
 								</div>

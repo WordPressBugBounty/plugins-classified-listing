@@ -696,7 +696,7 @@ class TemplateHooks {
 					 data-options="<?php
 					 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					 echo htmlspecialchars( wp_json_encode( $phone_options ) ); ?>"
-					 data-id="<?php echo $listing->get_id(); ?>">
+					 data-id="<?php echo esc_attr($listing->get_id()); ?>">
 					<div class='media'>
 						<span class='rtcl-icon rtcl-icon-phone mr-2'></span>
 						<div class='media-body'>

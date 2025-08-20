@@ -24,12 +24,12 @@ $options = array(
 			'classified-listing' )
 	],
 	'default_view'      => [
-		'title'   => esc_html__( 'Default Listing View', 'classified-listing-pro' ),
+		'title'   => esc_html__( 'Default Listing View', 'classified-listing' ),
 		'type'    => 'select',
 		'default' => 'grid',
 		'options' => [
-			'list' => esc_html__( 'List view', 'classified-listing-pro' ),
-			'grid' => esc_html__( 'Grid view', 'classified-listing-pro' ),
+			'list' => esc_html__( 'List view', 'classified-listing' ),
+			'grid' => esc_html__( 'Grid view', 'classified-listing' ),
 		],
 	],
 	'listings_per_row'  => [

@@ -73,7 +73,7 @@ class AdminHooks {
 			</div></div>',
 				esc_html( $plugin_name ),
 				$is_installed ? 'is installed but not active' : 'is not installed',
-				( $plugin_description ),
+				esc_html( $plugin_description ),
 				esc_url( $action_url ),
 				esc_html( $button_label )
 			);
@@ -87,7 +87,7 @@ class AdminHooks {
 		?>
 		<script type="text/javascript">
 			jQuery(function($) {
-				var ajaxurl = '<?php echo admin_url( 'admin-ajax.php' ); ?>'; // fallback definition
+				var ajaxurl = '<?php echo esc_url(admin_url( 'admin-ajax.php' )); ?>'; // fallback definition
 
 				$(document).on('click', '.cl-toolkits-addon-notice .notice-dismiss', function () {
 					$.post(ajaxurl, {
@@ -120,17 +120,14 @@ class AdminHooks {
 		global $wpdb;
 
 		$error      = true;
-		$rows       = array();
 		$table_name = $wpdb->prefix . 'rtcl_tax_rates';
-		$record_ids = isset( $_POST['data'] ) && is_array( $_POST['data'] ) ? $_POST['data'] : [];
+		$ids = isset($_POST['data']) && is_array($_POST['data']) ? $_POST['data'] : [];
+		$ids = array_values(array_unique(array_map('absint', $ids)));
+		$ids = array_filter($ids);
 
-		if ( ! empty( $record_ids ) ) {
-			foreach ( $record_ids as $id ) {
-				$rows[] = absint( $id );
-			}
-			$rows = implode( ',', $rows );
-			$sql  = "DELETE FROM $table_name WHERE tax_rate_id IN ($rows)";
-			if ( $wpdb->query( $sql ) ) {
+		if ( ! empty( $ids ) ) {
+			$placeholders = implode(',', array_fill(0, count($ids), '%d'));
+			if ( $wpdb->query( $wpdb->prepare("DELETE FROM `{$table_name}` WHERE tax_rate_id IN ($placeholders)", ...$ids) ) ) {
 				$error = false;
 			}
 		}

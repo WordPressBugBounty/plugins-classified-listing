@@ -176,7 +176,7 @@ class Cron {
 			'fields'         => 'ids',
 			'date_query'     => [
 				[
-					'before'    => date( 'Y-m-d H:i:s', $time_ago ),
+					'before'    => gmdate( 'Y-m-d H:i:s', $time_ago ),
 					'inclusive' => true,
 				]
 			]

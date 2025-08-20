@@ -6,6 +6,7 @@ class LocalizedString {
 
 	public static function public() {
 		$strings = [
+			'no_options_found'               => __( 'No options found', 'classified-listing' ),
 			'close'              => __( 'Close', 'classified-listing' ),
 			'loading'            => __( 'Loading ....', 'classified-listing' ),
 			'unload_message'     => __( 'Changes that you made may not be saved.', 'classified-listing' ),
@@ -119,6 +120,7 @@ class LocalizedString {
 
 	public static function admin() {
 		$adminStrings = [
+			'check_all'                      => __( 'Check All', 'classified-listing' ),
 			'pro'                            => __( 'Pro', 'classified-listing' ),
 			'clear_filter'                   => __( 'Clear Filter', 'classified-listing' ),
 			'search'                         => __( 'Search...', 'classified-listing' ),

@@ -260,7 +260,7 @@ class Factory
 			return rtcl()->factory->createAIService($ai_tools, $client);
 			// You might want to return or use $aiService here
 		} catch (Exception $e) {
-			wp_send_json_error(esc_html__($e->getMessage(), 'classified-listing'));
+			wp_send_json_error(esc_html( $e->getMessage() ));
 		}
 	}
 

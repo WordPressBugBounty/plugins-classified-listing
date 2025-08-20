@@ -66,7 +66,7 @@ class NoticeController {
 			jQuery(document).on('click', '.rtcl-ramadan-notice .notice-dismiss', function () {
 				jQuery.post(ajaxurl, {
 					action: 'rtcl_dismiss_eid_notice',
-					security: '<?php echo wp_create_nonce( "dismiss_eid_notice" ); ?>',
+					security: '<?php echo esc_attr(wp_create_nonce( "dismiss_eid_notice" )); ?>',
 				})
 			})
 		</script>
@@ -309,7 +309,7 @@ class NoticeController {
 
 	public function black_friday_notice() {
 		delete_option( 'rtcl_dismiss_admin_notice' );
-		$currentYear = date( 'Y' );
+		$currentYear = gmdate( 'Y' );
 		if ( get_option( 'rtcl_dismiss_admin_notice_' . $currentYear ) != '1' && ! isset( $GLOBALS['rtcl_dismiss_admin_notice_notice'] ) ) {
 			$GLOBALS['rtcl_dismiss_admin_notice_notice'] = 'rtcl_dismiss_admin_notice';
 			$this->bfNoticeActions();
@@ -329,7 +329,7 @@ class NoticeController {
 		add_action(
 			'admin_notices',
 			function () {
-				$currentYear   = date( 'Y' );
+				$currentYear   = gmdate( 'Y' );
 				$plugin_name   = 'Classified Listing';
 				$download_link = 'https://www.radiustheme.com/downloads/classified-listing-pro-plugins-bundle/'; ?>
 				<div class="notice notice-info is-dismissible" data-rtcl-bf-dismiss-able="rtcl_dismiss_admin_notice"
@@ -339,7 +339,7 @@ class NoticeController {
 						 width="90px"
 						 height="90px" style="grid-row: 1 / 4; align-self: center;justify-self: center"/>
 					<h3 style="margin:0;display: flex;align-items: center"><?php echo sprintf( '%s - End of Year 2024 <img style="width: 45px;position: relative;margin-left: 6px" src="%s" />',
-							esc_html( $plugin_name ), rtcl()->get_assets_uri( 'images/deal.gif' ) ); ?></h3>
+							esc_html( $plugin_name ), esc_url(rtcl()->get_assets_uri( 'images/deal.gif' )) ); ?></h3>
 
 					<p style="margin:3px 0 5px; font-size: 14px">
 						Year-end sale is live now! Get the <strong>plugin bundle</strong> or
@@ -385,7 +385,7 @@ class NoticeController {
 		add_action(
 			'wp_ajax_rtcl_bf_dismiss_admin_notice',
 			function () {
-				$currentYear = date( 'Y' );
+				$currentYear = gmdate( 'Y' );
 				check_ajax_referer( 'rtcl-bf-dismissible-notice', 'nonce' );
 
 				update_option( 'rtcl_dismiss_admin_notice_' . $currentYear, '1' );

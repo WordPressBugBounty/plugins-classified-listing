@@ -23,14 +23,14 @@ trait TemplateTrait {
 
 		} else {
 			$listings_page_id = self::get_page_id( 'listings' );
-			$page_title       = get_the_title( $listings_page_id );
+			$page_title = get_the_title( $listings_page_id );
 
 			$category = get_query_var( '__cat' )
 				? get_query_var( '__cat' )
 				: ( isset( $_GET['rtcl_category'] ) ? sanitize_text_field( $_GET['rtcl_category'] )
 					: '' ); /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-			if ( ! empty( $category ) ) {
-				$cat_term   = get_term_by( 'slug', $category, rtcl()->category );
+			if ( !empty( $category ) ) {
+				$cat_term = get_term_by( 'slug', $category, rtcl()->category );
 				$page_title = $cat_term->name ?? '';
 			}
 
@@ -38,9 +38,9 @@ trait TemplateTrait {
 				? get_query_var( '__loc' )
 				: ( isset( $_GET['rtcl_location'] ) ? sanitize_text_field( $_GET['rtcl_location'] )
 					: '' ); /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
-			if ( ! empty( $location ) ) {
-				$loc_term   = get_term_by( 'slug', $location, rtcl()->location );
-				$page_title .= isset( $loc_term->name ) ? __( ' in ' ) . $loc_term->name : '';
+			if ( !empty( $location ) ) {
+				$loc_term = get_term_by( 'slug', $location, rtcl()->location );
+				$page_title .= isset( $loc_term->name ) ? __( ' in ', 'classified-listing' ) . $loc_term->name : '';
 			}
 		}
 
@@ -63,11 +63,11 @@ trait TemplateTrait {
 		if ( Functions::is_listings() ) {
 			$display_type = get_option( 'rtcl_listings_page_display', '' );
 		} elseif ( Functions::is_listing_taxonomy() ) {
-			$term         = get_queried_object();
+			$term = get_queried_object();
 			$display_type = get_term_meta( $term->term_id, 'display_type', true ); //TODO : Need to add in future
 			$display_type = '' === $display_type ? apply_filters( 'rtcl_taxonomy_archive_display', 'sub_taxonomy' ) : $display_type;
 
-			if ( in_array( $display_type, array( 'sub_taxonomy', 'both' ), true ) ) {
+			if ( in_array( $display_type, [ 'sub_taxonomy', 'both' ], true ) ) {
 				if ( empty( self::get_sub_terms( $term->taxonomy, $term->term_id ) ) ) {
 					$display_type = 'listings';
 				}
@@ -80,7 +80,7 @@ trait TemplateTrait {
 		}
 
 		// Ensure valid value.
-		if ( '' === $display_type || ! in_array( $display_type, array( 'listings', 'sub_taxonomy', 'both' ), true ) ) {
+		if ( '' === $display_type || !in_array( $display_type, [ 'listings', 'sub_taxonomy', 'both' ], true ) ) {
 			$display_type = 'listings';
 		}
 

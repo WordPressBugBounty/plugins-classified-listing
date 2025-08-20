@@ -61,22 +61,22 @@ class Text {
 	}
 
 	public static function get_default_registration_privacy_policy_text() {
-		/* translators:  registration privacy_policy */
 		return apply_filters( 'rtcl_default_registration_privacy_policy_text',
+			/* translators:  registration privacy_policy */
 			sprintf( esc_html__( 'Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our %s.',
 				'classified-listing' ), '[privacy_policy]' ) );
 	}
 
 	public static function get_default_checkout_privacy_policy_text() {
-		/* translators: checkout privacy_policy */
 		return apply_filters( 'rtcl_default_checkout_privacy_policy_text',
+			/* translators: checkout privacy_policy */
 			sprintf( esc_html__( 'Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our %s.',
 				'classified-listing' ), '[privacy_policy]' ) );
 	}
 
 	public static function get_default_terms_and_conditions_checkbox_text() {
-		/* translators: terms_and_conditions privacy_policy */
 		return apply_filters( 'rtcl_default_terms_and_conditions_checkbox_text',
+			/* translators: terms_and_conditions privacy_policy */
 			sprintf( esc_html__( 'I have read and agree to the website %s.', 'classified-listing' ), '[terms]' ) );
 	}
 

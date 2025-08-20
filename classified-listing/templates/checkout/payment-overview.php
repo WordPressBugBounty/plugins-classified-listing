@@ -18,7 +18,7 @@ use Rtcl\Helpers\Functions;
 			<th><?php esc_html_e( 'Subtotal', 'classified-listing' ); ?></th>
 			<td data-title="<?php esc_html_e( 'Subtotal', 'classified-listing' ); ?>">
 				<span class="price-amount">
-					<span class="checkout-price-currency-symbol"><?php echo Functions::get_order_currency_symbol(); ?></span>
+					<span class="checkout-price-currency-symbol"><?php echo Functions::get_order_currency_symbol(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 					<span class="checkout-price">0.00</span>
 				</span>
 			</td>
@@ -27,7 +27,7 @@ use Rtcl\Helpers\Functions;
 			<th><?php esc_html_e( 'Tax', 'classified-listing' ); ?></th>
 			<td data-title="<?php esc_html_e( 'Tax', 'classified-listing' ); ?>">
 				<span class="price-amount">
-					<span class="checkout-price-currency-symbol"><?php echo Functions::get_order_currency_symbol(); ?></span>
+					<span class="checkout-price-currency-symbol"><?php echo Functions::get_order_currency_symbol(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 					<span class="checkout-price">0.00</span>
 				</span>
 			</td>
@@ -36,7 +36,7 @@ use Rtcl\Helpers\Functions;
 			<th><?php esc_html_e( 'Total', 'classified-listing' ); ?></th>
 			<td data-title="<?php esc_html_e( 'Total', 'classified-listing' ); ?>">
 				<strong>
-					<span class="checkout-price-currency-symbol"><?php echo Functions::get_order_currency_symbol(); ?></span>
+					<span class="checkout-price-currency-symbol"><?php echo Functions::get_order_currency_symbol(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 					<span class="checkout-price">0.00</span>
 				</strong>
 			</td>

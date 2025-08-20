@@ -2,10 +2,10 @@
 Contributors: techlabpro1
 Donate link:
 Tags: business directory, classifieds, directory plugin, listings, classifieds ads
-Requires at least: 5.6
+Requires at least: 6.7
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.0.5
+Stable tag: 5.0.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -331,6 +331,12 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 5.0.6 ( Aug 20, 2025 ) =
+* Updated: Security check updated 
+* Fixed: Repeater field - text area field placeholder
+* Fixed: Form builder - Smart dependency options load
+* Improved: Form builder - Smart dependency options selections
 
 = 5.0.5 ( Aug 15, 2025 ) =
 * Fixed: Title and description field data not updated

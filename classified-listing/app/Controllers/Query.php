@@ -628,7 +628,7 @@ class Query {
 				$args['meta_key']   = 'price'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key	
 				$args['orderby']    = 'meta_value_num';
 				$args['order']      = ( 'DESC' === $order ) ? 'DESC' : 'ASC';
-				$args['meta_query'] = [
+				$args['meta_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query	
 					'relation' => 'OR',
 					[
 						'key'     => 'price',

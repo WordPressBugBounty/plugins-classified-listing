@@ -1,15 +1,15 @@
 # Copyright (C) 2025 Business Directory Team by RadiusTheme
-# This file is distributed under the same license as the Classified Listing – AI-Powered Classified ads & Business Directory Plugin plugin.
+# This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory Plugin 5.0.5\n"
+"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory Plugin 5.0.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-15T10:55:12+00:00\n"
+"POT-Creation-Date: 2025-08-20T11:35:51+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: classified-listing\n"
@@ -131,7 +131,7 @@ msgid "All Categories"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:134
-#: app/Services/FormBuilder/LocalizedString.php:142
+#: app/Services/FormBuilder/LocalizedString.php:144
 msgid "Fields"
 msgstr ""
 
@@ -216,7 +216,7 @@ msgstr ""
 #: app/Resources/Gallery.php:204
 #: app/Resources/Gallery.php:286
 #: app/Resources/Options.php:574
-#: app/Services/FormBuilder/LocalizedString.php:51
+#: app/Services/FormBuilder/LocalizedString.php:52
 #: views/settings/general-listing_label-settings.php:31
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:35
 msgid "Featured"
@@ -259,7 +259,7 @@ msgstr ""
 #: app/Emails/ListingExpiredEmailToOwner.php:66
 #: app/Emails/ListingRenewalEmailToOwner.php:70
 #: app/Emails/ListingRenewalReminderEmailToOwner.php:66
-#: templates/myaccount/my-listings.php:227
+#: templates/myaccount/my-listings.php:249
 msgid "Never Expires"
 msgstr ""
 
@@ -296,7 +296,7 @@ msgstr ""
 
 #: app/Controllers/Admin/Meta/ListingSubmitBoxMice.php:111
 #: app/Resources/Gallery.php:463
-#: app/Services/FormBuilder/LocalizedString.php:15
+#: app/Services/FormBuilder/LocalizedString.php:16
 #: src/form-builder/backend/components/FormTranslationModal.jsx:367
 #: src/form-builder/backend/components/TranslationModal.jsx:622
 msgid "Save"
@@ -309,7 +309,7 @@ msgstr ""
 #: app/Services/FormBuilder/AvailableFields.php:1036
 #: app/Services/FormBuilder/FormPreDefined.php:34
 #: app/Services/FormBuilder/FormPreDefined.php:274
-#: app/Services/FormBuilder/LocalizedString.php:18
+#: app/Services/FormBuilder/LocalizedString.php:19
 #: templates/listing-form/form-builder.php:26
 #: views/settings/listing-type.php:57
 msgid "Update"
@@ -321,7 +321,7 @@ msgstr ""
 
 #: app/Controllers/Admin/Meta/OrderMetaColumn.php:75
 #: app/Resources/Options.php:778
-#: app/Services/FormBuilder/LocalizedString.php:13
+#: app/Services/FormBuilder/LocalizedString.php:14
 #: app/Widgets/Filter.php:353
 #: templates/block/listing-search/search.php:205
 #: views/settings/listing-type.php:50
@@ -717,7 +717,7 @@ msgstr ""
 #: app/Controllers/Admin/RegisterPostType.php:243
 #: app/Controllers/Admin/RegisterPostType.php:312
 #: app/Controllers/Admin/RegisterPostType.php:349
-#: app/Services/FormBuilder/LocalizedString.php:27
+#: app/Services/FormBuilder/LocalizedString.php:28
 msgid "Add New"
 msgstr ""
 
@@ -1030,7 +1030,7 @@ msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:185
 #: app/Resources/Gallery.php:341
-#: app/Services/FormBuilder/LocalizedString.php:68
+#: app/Services/FormBuilder/LocalizedString.php:69
 msgid "Edit Image"
 msgstr ""
 
@@ -1072,11 +1072,11 @@ msgstr ""
 #: app/Controllers/Ajax/Export.php:52
 #: app/Controllers/Ajax/Export.php:251
 #: app/Controllers/Ajax/Import.php:37
-#: app/Controllers/Ajax/Import.php:365
-#: app/Controllers/Ajax/Import.php:392
-#: app/Controllers/Ajax/Import.php:419
-#: app/Controllers/Ajax/Import.php:444
-#: app/Controllers/Ajax/Import.php:580
+#: app/Controllers/Ajax/Import.php:366
+#: app/Controllers/Ajax/Import.php:393
+#: app/Controllers/Ajax/Import.php:420
+#: app/Controllers/Ajax/Import.php:445
+#: app/Controllers/Ajax/Import.php:584
 #: app/Controllers/Ajax/PublicUser.php:425
 #: app/Controllers/Ajax/PublicUser.php:497
 #: app/Controllers/Ajax/PublicUser.php:552
@@ -1697,13 +1697,13 @@ msgstr ""
 msgid "Session error"
 msgstr ""
 
-#: app/Controllers/Ajax/Checkout.php:251
+#: app/Controllers/Ajax/Checkout.php:266
 #: app/Controllers/Settings/AdminSettings.php:613
 #: app/Controllers/Settings/AdminSettings.php:647
 #: app/Models/Countries.php:617
 #: templates/checkout/payment-overview.php:27
 #: templates/checkout/payment-overview.php:28
-#: views/settings/tax-rate-settings.php:48
+#: views/settings/tax-rate-settings.php:52
 msgid "Tax"
 msgstr ""
 
@@ -1711,11 +1711,11 @@ msgstr ""
 #: app/Controllers/Ajax/Export.php:48
 #: app/Controllers/Ajax/Export.php:247
 #: app/Controllers/Ajax/Import.php:28
-#: app/Controllers/Ajax/Import.php:355
-#: app/Controllers/Ajax/Import.php:382
-#: app/Controllers/Ajax/Import.php:409
-#: app/Controllers/Ajax/Import.php:434
-#: app/Controllers/Ajax/Import.php:570
+#: app/Controllers/Ajax/Import.php:356
+#: app/Controllers/Ajax/Import.php:383
+#: app/Controllers/Ajax/Import.php:410
+#: app/Controllers/Ajax/Import.php:435
+#: app/Controllers/Ajax/Import.php:574
 msgid "Unauthorized access!!!"
 msgstr ""
 
@@ -2084,84 +2084,89 @@ msgstr ""
 msgid "Please, assign data field for listings!"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:344
+#. translators: %s: Number of posts.
+#: app/Controllers/Ajax/Import.php:345
 #, php-format
 msgid "Added %d listings."
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:466
+#. translators: %s: Title.
+#: app/Controllers/Ajax/Import.php:468
 #, php-format
 msgid "%s is already exist!"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:472
-#: app/Controllers/Ajax/Import.php:558
+#. translators: %s: Title.
+#. translators: %s: Key.
+#: app/Controllers/Ajax/Import.php:475
+#: app/Controllers/Ajax/Import.php:562
 #, php-format
 msgid "%s Successfully Created"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:474
+#: app/Controllers/Ajax/Import.php:477
 msgid "Error!!! in "
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:499
+#: app/Controllers/Ajax/Import.php:502
 msgid "Item is empty."
 msgstr ""
 
 #. translators:  name
-#: app/Controllers/Ajax/Import.php:525
+#: app/Controllers/Ajax/Import.php:528
 #, php-format
 msgid "%s Successfully created"
 msgstr ""
 
 #. translators:  Name
-#: app/Controllers/Ajax/Import.php:533
+#: app/Controllers/Ajax/Import.php:536
 #, php-format
 msgid "%s is already exist"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:622
+#. translators: %s: $row_count.
+#: app/Controllers/Ajax/Import.php:627
 #, php-format
 msgid "Please, add maximum 100 listings in one file. You added %s listings!!"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:639
+#: app/Controllers/Ajax/Import.php:644
 msgid "Map CSV fields to listings"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:642
+#: app/Controllers/Ajax/Import.php:647
 msgid "Select fields from your CSV file to map against listings fields, or to ignore during import."
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:653
+#: app/Controllers/Ajax/Import.php:658
 msgid "Column name"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:654
+#: app/Controllers/Ajax/Import.php:659
 msgid "Map to field"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:667
+#: app/Controllers/Ajax/Import.php:671
 msgid "Do not import"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:687
+#: app/Controllers/Ajax/Import.php:690
 msgid "Continue"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:698
+#: app/Controllers/Ajax/Import.php:697
 msgid "Please, add at least one listings!!"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:704
+#: app/Controllers/Ajax/Import.php:703
 msgid "File does not exist!!"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:707
+#: app/Controllers/Ajax/Import.php:706
 msgid "Error in file upload!!"
 msgstr ""
 
-#: app/Controllers/Ajax/Import.php:710
+#: app/Controllers/Ajax/Import.php:709
 msgid "File not found!!"
 msgstr ""
 
@@ -2190,7 +2195,7 @@ msgid "Error!!"
 msgstr ""
 
 #: app/Controllers/Ajax/ListingAdminAjax.php:61
-#: app/Services/FormBuilder/LocalizedString.php:135
+#: app/Services/FormBuilder/LocalizedString.php:137
 msgid "Please select all field"
 msgstr ""
 
@@ -2236,6 +2241,11 @@ msgstr ""
 
 #: app/Controllers/Ajax/PublicUser.php:171
 msgid "Order not found."
+msgstr ""
+
+#: app/Controllers/Ajax/PublicUser.php:203
+msgctxt "tag delimiter"
+msgid ","
 msgstr ""
 
 #: app/Controllers/Ajax/PublicUser.php:291
@@ -2479,7 +2489,7 @@ msgid "Clear"
 msgstr ""
 
 #: app/Controllers/BusinessHoursController.php:547
-#: app/Services/FormBuilder/LocalizedString.php:14
+#: app/Services/FormBuilder/LocalizedString.php:15
 #: templates/listing-form/business-hours.php:44
 #: templates/listing-form/business-hours.php:138
 #: templates/listing-form/business-hours.php:214
@@ -2491,8 +2501,8 @@ msgstr ""
 
 #: app/Controllers/BusinessHoursController.php:548
 #: app/Resources/Gallery.php:539
-#: app/Services/FormBuilder/LocalizedString.php:9
-#: app/Services/FormBuilder/LocalizedString.php:16
+#: app/Services/FormBuilder/LocalizedString.php:10
+#: app/Services/FormBuilder/LocalizedString.php:17
 #: templates/listing/business-hours.php:38
 #: templates/listing/business-hours.php:51
 msgid "Close"
@@ -2571,12 +2581,12 @@ msgid "Need to fill all the required field."
 msgstr ""
 
 #: app/Controllers/Hooks/ActionHooks.php:91
-#: app/Services/FormBuilder/LocalizedString.php:91
+#: app/Services/FormBuilder/LocalizedString.php:92
 #: src/form-builder/backend/components/editor/elements/GoogleMapElement.jsx:103
 msgid "Don't show the Map"
 msgstr ""
 
-#: app/Controllers/Hooks/AdminHooks.php:157
+#: app/Controllers/Hooks/AdminHooks.php:154
 msgid "Country states not found!"
 msgstr ""
 
@@ -2717,7 +2727,7 @@ msgstr ""
 #: app/Controllers/Hooks/TemplateHooks.php:536
 #: app/Controllers/Hooks/TemplateHooks.php:1130
 #: app/Helpers/Text.php:107
-#: app/Services/FormBuilder/LocalizedString.php:41
+#: app/Services/FormBuilder/LocalizedString.php:42
 #: app/Widgets/Filter.php:426
 #: templates/block/listing-search/search.php:57
 #: templates/listing-form/contact.php:144
@@ -2789,7 +2799,7 @@ msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:896
 #: app/Helpers/Functions.php:4895
-#: app/Services/FormBuilder/LocalizedString.php:30
+#: app/Services/FormBuilder/LocalizedString.php:31
 #: views/settings/listing-type.php:38
 #: src/form-builder/backend/components/pages/FormList.jsx:457
 #: src/form-builder/backend/components/pages/FormList.jsx:460
@@ -2800,7 +2810,7 @@ msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:910
 #: app/Controllers/Hooks/TemplateHooks.php:916
-#: app/Services/FormBuilder/LocalizedString.php:31
+#: app/Services/FormBuilder/LocalizedString.php:32
 #: templates/myaccount/favourite-listings.php:118
 #: views/settings/listing-type.php:39
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:50
@@ -2865,7 +2875,7 @@ msgstr ""
 #: app/Services/FormBuilder/AvailableFields.php:1031
 #: app/Services/FormBuilder/FormPreDefined.php:33
 #: app/Services/FormBuilder/FormPreDefined.php:273
-#: app/Services/FormBuilder/LocalizedString.php:17
+#: app/Services/FormBuilder/LocalizedString.php:18
 #: templates/listing-form/form-builder.php:28
 #: templates/listing/actions.php:73
 #: templates/listing/email-to-seller-form.php:36
@@ -2953,6 +2963,14 @@ msgstr ""
 msgid "Lost password"
 msgstr ""
 
+#. translators: Hidden accessibility text. %s: Number of posts.
+#: app/Controllers/Settings/AdminSettings.php:108
+#, php-format
+msgid "%s listing by this author"
+msgid_plural "%s posts by this author"
+msgstr[0] ""
+msgstr[1] ""
+
 #: app/Controllers/Settings/AdminSettings.php:186
 #: app/Controllers/Settings/AdminSettings.php:337
 #: app/Controllers/Settings/AdminSettings.php:338
@@ -2963,7 +2981,7 @@ msgstr ""
 #: app/Controllers/Settings/AdminSettings.php:244
 #: app/Controllers/Settings/AdminSettings.php:374
 #: app/Controllers/Settings/AdminSettings.php:375
-#: app/Services/FormBuilder/LocalizedString.php:141
+#: app/Services/FormBuilder/LocalizedString.php:143
 #: views/settings/admin-settings-display.php:14
 #: src/form-builder/backend/components/TopNavMenu.jsx:14
 msgid "Settings"
@@ -3024,7 +3042,7 @@ msgid "Listing Labels"
 msgstr ""
 
 #: app/Controllers/Settings/AdminSettings.php:510
-#: app/Services/FormBuilder/LocalizedString.php:98
+#: app/Services/FormBuilder/LocalizedString.php:99
 #: views/settings/general-currency-settings.php:20
 #: views/settings/payment-settings.php:40
 #: src/form-builder/backend/components/editor/elements/PricingElement.jsx:92
@@ -3403,7 +3421,7 @@ msgstr ""
 #: app/Services/FormBuilder/AvailableFields.php:74
 #: app/Services/FormBuilder/AvailableFields.php:94
 #: app/Services/FormBuilder/ElementCustomization.php:945
-#: app/Services/FormBuilder/LocalizedString.php:49
+#: app/Services/FormBuilder/LocalizedString.php:50
 #: templates/listing-form/information.php:145
 #: src/blocks/listing-ads/inspector.js:1883
 #: src/blocks/listing-cat-box/inspector.js:1212
@@ -3451,6 +3469,7 @@ msgstr ""
 msgid "PayPal"
 msgstr ""
 
+#. translators: System status link.
 #: app/Gateways/Paypal/GatewayPaypal.php:31
 #, php-format
 msgid "PayPal Standard sends customers to PayPal to enter their payment information. PayPal IPN requires fsockopen/cURL support to update order statuses after payment. Check the <a href=\"%s\">system status</a> page for more details."
@@ -3743,7 +3762,7 @@ msgstr ""
 
 #: app/Helpers/Functions.php:1711
 #: app/Helpers/Text.php:111
-#: app/Services/FormBuilder/LocalizedString.php:45
+#: app/Services/FormBuilder/LocalizedString.php:46
 #: templates/listing-form/category.php:56
 #: templates/widgets/search/vertical.php:96
 #: templates/widgets/search/vertical.php:106
@@ -3909,7 +3928,7 @@ msgstr ""
 
 #: app/Helpers/Functions.php:4927
 #: app/Resources/Gallery.php:466
-#: app/Services/FormBuilder/LocalizedString.php:20
+#: app/Services/FormBuilder/LocalizedString.php:21
 msgid "Cancel"
 msgstr ""
 
@@ -4030,16 +4049,19 @@ msgstr ""
 msgid "Report Abuse"
 msgstr ""
 
+#. translators:  registration privacy_policy
 #: app/Helpers/Text.php:66
 #, php-format
 msgid "Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our %s."
 msgstr ""
 
+#. translators: checkout privacy_policy
 #: app/Helpers/Text.php:73
 #, php-format
 msgid "Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our %s."
 msgstr ""
 
+#. translators: terms_and_conditions privacy_policy
 #: app/Helpers/Text.php:80
 #, php-format
 msgid "I have read and agree to the website %s."
@@ -4615,7 +4637,7 @@ msgstr ""
 #. translators: Image size. 1: Width, 2: Height.
 #: app/Resources/Gallery.php:92
 #, php-format
-msgid "Recommended image size to (%s, %s)px"
+msgid "Recommended image size to (%1$s, %2$s)px"
 msgstr ""
 
 #. translators: Image max size
@@ -4645,7 +4667,7 @@ msgid "Delete File"
 msgstr ""
 
 #: app/Resources/Gallery.php:230
-#: app/Services/FormBuilder/LocalizedString.php:59
+#: app/Services/FormBuilder/LocalizedString.php:60
 msgid "Attachment Details"
 msgstr ""
 
@@ -4662,7 +4684,7 @@ msgid "Update Options"
 msgstr ""
 
 #: app/Resources/Gallery.php:322
-#: app/Services/FormBuilder/LocalizedString.php:32
+#: app/Services/FormBuilder/LocalizedString.php:33
 msgid "Preview"
 msgstr ""
 
@@ -4671,7 +4693,7 @@ msgid "Create thumbnail from full size image."
 msgstr ""
 
 #: app/Resources/Gallery.php:345
-#: app/Services/FormBuilder/LocalizedString.php:69
+#: app/Services/FormBuilder/LocalizedString.php:70
 msgid "Create Image"
 msgstr ""
 
@@ -4708,27 +4730,27 @@ msgid "Crop"
 msgstr ""
 
 #: app/Resources/Gallery.php:424
-#: app/Services/FormBuilder/LocalizedString.php:72
+#: app/Services/FormBuilder/LocalizedString.php:73
 msgid "Rotate 90 degrees"
 msgstr ""
 
 #: app/Resources/Gallery.php:428
-#: app/Services/FormBuilder/LocalizedString.php:73
+#: app/Services/FormBuilder/LocalizedString.php:74
 msgid "Rotate -90 degrees"
 msgstr ""
 
 #: app/Resources/Gallery.php:432
-#: app/Services/FormBuilder/LocalizedString.php:74
+#: app/Services/FormBuilder/LocalizedString.php:75
 msgid "Flip Vertically"
 msgstr ""
 
 #: app/Resources/Gallery.php:436
-#: app/Services/FormBuilder/LocalizedString.php:75
+#: app/Services/FormBuilder/LocalizedString.php:76
 msgid "Flip Horizontally"
 msgstr ""
 
 #: app/Resources/Gallery.php:440
-#: app/Services/FormBuilder/LocalizedString.php:33
+#: app/Services/FormBuilder/LocalizedString.php:34
 msgid "Undo"
 msgstr ""
 
@@ -4739,7 +4761,7 @@ msgid "Image Size"
 msgstr ""
 
 #: app/Resources/Gallery.php:454
-#: app/Services/FormBuilder/LocalizedString.php:35
+#: app/Services/FormBuilder/LocalizedString.php:36
 msgid "Scale"
 msgstr ""
 
@@ -4756,7 +4778,7 @@ msgid "Restore original image"
 msgstr ""
 
 #: app/Resources/Gallery.php:470
-#: app/Services/FormBuilder/LocalizedString.php:21
+#: app/Services/FormBuilder/LocalizedString.php:22
 msgid "Restore"
 msgstr ""
 
@@ -4799,7 +4821,7 @@ msgstr ""
 #. translators: Image Width and height
 #: app/Resources/Gallery.php:560
 #, php-format
-msgid "Image resized to %s x %s - used in the images slider on classified details page."
+msgid "Image resized to %1$s x %2$s - used in the images slider on classified details page."
 msgstr ""
 
 #: app/Resources/Gallery.php:563
@@ -4809,7 +4831,7 @@ msgstr ""
 #. translators: Image Width and height
 #: app/Resources/Gallery.php:565
 #, php-format
-msgid "Image resized to %s x %s - used on the classifieds list."
+msgid "Image resized to  %1$s x %2$s - used on the classifieds list."
 msgstr ""
 
 #: app/Resources/Gallery.php:568
@@ -4820,7 +4842,7 @@ msgstr ""
 #. translators: Image Width and height
 #: app/Resources/Gallery.php:570
 #, php-format
-msgid "Image resized to %s x %s - the image visible in upload preview."
+msgid "Image resized to %1$s x %2$s - the image visible in upload preview."
 msgstr ""
 
 #: app/Resources/ListingDetails.php:22
@@ -5242,7 +5264,7 @@ msgid "Pending"
 msgstr ""
 
 #: app/Resources/Options.php:585
-#: app/Services/FormBuilder/LocalizedString.php:146
+#: app/Services/FormBuilder/LocalizedString.php:148
 msgid "Draft"
 msgstr ""
 
@@ -6374,6 +6396,14 @@ msgstr ""
 msgid "Website URL"
 msgstr ""
 
+#: app/Resources/Options.php:3196
+msgid "UTC"
+msgstr ""
+
+#: app/Resources/Options.php:3276
+msgid "Manual Offsets"
+msgstr ""
+
 #: app/Resources/Options.php:3287
 msgid "Linkedin"
 msgstr ""
@@ -6415,8 +6445,8 @@ msgid "Customer IP: %s"
 msgstr ""
 
 #: app/Resources/OrderOptions.php:86
-#: templates/myaccount/my-listings.php:206
-#: templates/myaccount/my-listings.php:236
+#: templates/myaccount/my-listings.php:228
+#: templates/myaccount/my-listings.php:258
 #: templates/myaccount/payment-history.php:62
 msgid "Status:"
 msgstr ""
@@ -6690,7 +6720,7 @@ msgid "Color Picker"
 msgstr ""
 
 #: app/Services/FormBuilder/AvailableFields.php:787
-#: app/Services/FormBuilder/LocalizedString.php:133
+#: app/Services/FormBuilder/LocalizedString.php:135
 msgid "- Select -"
 msgstr ""
 
@@ -7140,7 +7170,7 @@ msgid "Hide Bulk Add"
 msgstr ""
 
 #: app/Services/FormBuilder/ElementCustomization.php:810
-#: app/Services/FormBuilder/LocalizedString.php:77
+#: app/Services/FormBuilder/LocalizedString.php:78
 msgid "Clear Selection"
 msgstr ""
 
@@ -7352,7 +7382,7 @@ msgid "If you enable this then on page transition automatic scrolling will be di
 msgstr ""
 
 #: app/Services/FormBuilder/ElementCustomization.php:1009
-#: app/Services/FormBuilder/LocalizedString.php:12
+#: app/Services/FormBuilder/LocalizedString.php:13
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:189
 msgid "Enable"
 msgstr ""
@@ -7918,164 +7948,168 @@ msgstr ""
 msgid "Sample Form"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:10
-msgid "Loading ...."
+#: app/Services/FormBuilder/LocalizedString.php:9
+msgid "No options found"
 msgstr ""
 
 #: app/Services/FormBuilder/LocalizedString.php:11
+msgid "Loading ...."
+msgstr ""
+
+#: app/Services/FormBuilder/LocalizedString.php:12
 msgid "Changes that you made may not be saved."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:19
+#: app/Services/FormBuilder/LocalizedString.php:20
 msgid "Change"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:22
+#: app/Services/FormBuilder/LocalizedString.php:23
 msgid "Error while saving data"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:23
+#: app/Services/FormBuilder/LocalizedString.php:24
 #: templates/listing-form/information.php:49
 msgid "Character limit"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:24
+#: app/Services/FormBuilder/LocalizedString.php:25
 msgid "Are you sure to remove?"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:25
+#: app/Services/FormBuilder/LocalizedString.php:26
 msgid "Please select an item"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:26
+#: app/Services/FormBuilder/LocalizedString.php:27
 msgid "Type to search"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:28
+#: app/Services/FormBuilder/LocalizedString.php:29
 msgid "Field is required"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:29
+#: app/Services/FormBuilder/LocalizedString.php:30
 msgid "Upload"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:34
+#: app/Services/FormBuilder/LocalizedString.php:35
 msgid "Back"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:36
+#: app/Services/FormBuilder/LocalizedString.php:37
 msgid "Pasting this exceeds the maximum allowed number of ___ characters for the input."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:38
+#: app/Services/FormBuilder/LocalizedString.php:39
 #: src/form-builder/backend/components/editor/elements/ReCaptchaElement.jsx:24
 msgid "reCaptcha site key is missing."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:42
+#: app/Services/FormBuilder/LocalizedString.php:43
 msgid "No location found"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:46
+#: app/Services/FormBuilder/LocalizedString.php:47
 msgid "No category found"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:50
+#: app/Services/FormBuilder/LocalizedString.php:51
 msgid "Caption"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:52
+#: app/Services/FormBuilder/LocalizedString.php:53
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:41
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:43
 msgid "Add to feature"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:53
+#: app/Services/FormBuilder/LocalizedString.php:54
 msgid "File name"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:54
+#: app/Services/FormBuilder/LocalizedString.php:55
 msgid "File type"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:55
+#: app/Services/FormBuilder/LocalizedString.php:56
 msgid "File size"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:56
+#: app/Services/FormBuilder/LocalizedString.php:57
 msgid "Dimensions"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:57
+#: app/Services/FormBuilder/LocalizedString.php:58
 msgid "Uploaded on"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:58
+#: app/Services/FormBuilder/LocalizedString.php:59
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:114
 msgid "Click or drag file to this area to upload"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:60
+#: app/Services/FormBuilder/LocalizedString.php:61
 msgid "File successfully uploaded"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:61
+#: app/Services/FormBuilder/LocalizedString.php:62
 msgid "File successfully removed"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:62
+#: app/Services/FormBuilder/LocalizedString.php:63
 msgid "Error while uploading file"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:63
+#: app/Services/FormBuilder/LocalizedString.php:64
 msgid "Error while removing file."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:64
+#: app/Services/FormBuilder/LocalizedString.php:65
 msgid "Error while updating file."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:65
+#: app/Services/FormBuilder/LocalizedString.php:66
 msgid "Error while getting data"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:70
+#: app/Services/FormBuilder/LocalizedString.php:71
 msgid "Crop Area not selected!!"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:71
+#: app/Services/FormBuilder/LocalizedString.php:72
 msgid "Apply Crop"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:76
+#: app/Services/FormBuilder/LocalizedString.php:77
 msgid "Selection"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:78
+#: app/Services/FormBuilder/LocalizedString.php:79
 msgid "Apply changes to all generated image sizes"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:79
+#: app/Services/FormBuilder/LocalizedString.php:80
 msgid "Original size"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:80
+#: app/Services/FormBuilder/LocalizedString.php:81
 msgid "Current size"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:81
+#: app/Services/FormBuilder/LocalizedString.php:82
 msgid "Recommended size"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:82
+#: app/Services/FormBuilder/LocalizedString.php:83
 msgid "Zoom"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:83
+#: app/Services/FormBuilder/LocalizedString.php:84
 msgid "Dimension"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:84
+#: app/Services/FormBuilder/LocalizedString.php:85
 #: src/blocks/listing-ads/inspector.js:881
 #: src/blocks/listing-ads/inspector.js:942
 #: src/blocks/listing-cat-box/inspector.js:719
@@ -8083,166 +8117,170 @@ msgstr ""
 msgid "Position"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:87
+#: app/Services/FormBuilder/LocalizedString.php:88
 #: src/form-builder/backend/components/editor/elements/OsmMapElement.jsx:79
 msgid "Enter address, please"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:88
+#: app/Services/FormBuilder/LocalizedString.php:89
 msgid "A marker with a popup."
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:89
+#: app/Services/FormBuilder/LocalizedString.php:90
 #: src/form-builder/backend/components/editor/elements/GoogleMapElement.jsx:109
 #: src/form-builder/backend/components/editor/elements/OsmMapElement.jsx:91
 msgid "Latitude"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:90
+#: app/Services/FormBuilder/LocalizedString.php:91
 #: src/form-builder/backend/components/editor/elements/GoogleMapElement.jsx:115
 #: src/form-builder/backend/components/editor/elements/OsmMapElement.jsx:97
 msgid "Longitude"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:94
+#: app/Services/FormBuilder/LocalizedString.php:95
 msgid "Maximum repeater field applied"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:97
+#: app/Services/FormBuilder/LocalizedString.php:98
 msgid "Select a currency"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:99
+#: app/Services/FormBuilder/LocalizedString.php:100
 #: templates/listing-form/price-unit.php:23
 msgid "No unit"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:100
+#: app/Services/FormBuilder/LocalizedString.php:101
 #: templates/block/listing-search/search.php:243
 #: src/blocks/listing-search/layout/style-1.js:96
 #: src/form-builder/backend/components/editor/elements/PricingElement.jsx:138
 msgid "Max"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:103
+#: app/Services/FormBuilder/LocalizedString.php:104
 #: src/form-builder/backend/components/editor/elements/BookingElement.jsx:197
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:24
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:219
 msgid "Open 24 hours"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:104
+#: app/Services/FormBuilder/LocalizedString.php:105
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:19
 msgid "Open 24 hours 7 days"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:105
+#: app/Services/FormBuilder/LocalizedString.php:106
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:20
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:25
 msgid "Open for Selected Hours"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:106
+#: app/Services/FormBuilder/LocalizedString.php:107
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:245
 msgid "Special Hours - Overrides"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:107
+#: app/Services/FormBuilder/LocalizedString.php:108
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:273
 msgid "Once"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:108
+#: app/Services/FormBuilder/LocalizedString.php:109
 #: src/form-builder/backend/components/editor/elements/BusinessHoursElement.jsx:274
 msgid "Repeat"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:109
+#: app/Services/FormBuilder/LocalizedString.php:110
 msgid "Timezone"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:110
+#: app/Services/FormBuilder/LocalizedString.php:111
 msgid "Select a timezone"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:113
+#: app/Services/FormBuilder/LocalizedString.php:114
 msgid "Select Color"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:122
-msgid "Pro"
-msgstr ""
-
 #: app/Services/FormBuilder/LocalizedString.php:123
-msgid "Clear Filter"
+msgid "Check All"
 msgstr ""
 
 #: app/Services/FormBuilder/LocalizedString.php:124
-msgid "Search..."
+msgid "Pro"
 msgstr ""
 
 #: app/Services/FormBuilder/LocalizedString.php:125
-msgid "Assigned"
+msgid "Clear Filter"
 msgstr ""
 
 #: app/Services/FormBuilder/LocalizedString.php:126
-msgid "Unassigned"
+msgid "Search..."
 msgstr ""
 
 #: app/Services/FormBuilder/LocalizedString.php:127
-msgid "Bulk Assignment"
+msgid "Assigned"
 msgstr ""
 
 #: app/Services/FormBuilder/LocalizedString.php:128
-msgid "Bulk Dependency Assignment "
+msgid "Unassigned"
 msgstr ""
 
 #: app/Services/FormBuilder/LocalizedString.php:129
-msgid "Bulk Category"
+msgid "Bulk Assignment"
 msgstr ""
 
 #: app/Services/FormBuilder/LocalizedString.php:130
-msgid "Deprecated"
+msgid "Bulk Dependency Assignment "
 msgstr ""
 
 #: app/Services/FormBuilder/LocalizedString.php:131
-msgid "Bulk Category Assignment"
+msgid "Bulk Category"
 msgstr ""
 
 #: app/Services/FormBuilder/LocalizedString.php:132
-msgid "Checked"
+msgid "Deprecated"
+msgstr ""
+
+#: app/Services/FormBuilder/LocalizedString.php:133
+msgid "Bulk Category Assignment"
 msgstr ""
 
 #: app/Services/FormBuilder/LocalizedString.php:134
+msgid "Checked"
+msgstr ""
+
+#: app/Services/FormBuilder/LocalizedString.php:136
 #: src/form-builder/backend/components/TopNavMenu.jsx:11
 msgid "Form List"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:136
+#: app/Services/FormBuilder/LocalizedString.php:138
 msgid "Update From"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:137
+#: app/Services/FormBuilder/LocalizedString.php:139
 msgid "Save Form"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:138
+#: app/Services/FormBuilder/LocalizedString.php:140
 msgid "From name"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:139
+#: app/Services/FormBuilder/LocalizedString.php:141
 msgid "Rename from"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:140
+#: app/Services/FormBuilder/LocalizedString.php:142
 msgid "Input Fields"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:143
+#: app/Services/FormBuilder/LocalizedString.php:145
 msgid "Input Customization"
 msgstr ""
 
-#: app/Services/FormBuilder/LocalizedString.php:145
+#: app/Services/FormBuilder/LocalizedString.php:147
 msgid "Publish"
 msgstr ""
 
@@ -8449,6 +8487,10 @@ msgstr ""
 msgid "&nbsp;&ndash; Page %s"
 msgstr ""
 
+#: app/Traits/Functions/TemplateTrait.php:43
+msgid " in "
+msgstr ""
+
 #: app/Traits/Functions/UtilityTrait.php:166
 msgctxt "breadcrumb"
 msgid "Home"
@@ -8568,6 +8610,17 @@ msgstr ""
 #: app/Widgets/Widget.php:38
 msgid "Add widgets on listing single page"
 msgstr ""
+
+#. translators: Ads count
+#. translators: ads count
+#: templates/block/all-location/grid/style-1.php:41
+#: templates/block/all-location/grid/style-2.php:37
+#: templates/block/all-location/list/style-1.php:30
+#, php-format
+msgid "(%s Ad)"
+msgid_plural "(%s Ads)"
+msgstr[0] ""
+msgstr[1] ""
 
 #. translators: Ads count
 #: templates/block/category-box/style-1.php:34
@@ -8701,6 +8754,10 @@ msgstr ""
 #: templates/checkout/pricing-info.php:35
 #: templates/myaccount/popup-pricing-info.php:28
 msgid "Pricing Option "
+msgstr ""
+
+#: templates/checkout/promotions.php:72
+msgid "Select This Package"
 msgstr ""
 
 #: templates/checkout/promotions.php:81
@@ -9183,7 +9240,7 @@ msgid "by "
 msgstr ""
 
 #. translators: View count
-#: templates/listing/meta.php:80
+#: templates/listing/meta.php:81
 #: templates/widgets/listings.php:69
 #, php-format
 msgid "%s view"
@@ -9223,17 +9280,17 @@ msgid "%1$s Views"
 msgstr ""
 
 #: templates/myaccount/favourite-listings.php:102
-#: templates/myaccount/my-listings.php:216
+#: templates/myaccount/my-listings.php:238
 msgid "Price:"
 msgstr ""
 
 #: templates/myaccount/favourite-listings.php:106
-#: templates/myaccount/my-listings.php:242
+#: templates/myaccount/my-listings.php:264
 msgid "Action:"
 msgstr ""
 
 #: templates/myaccount/favourite-listings.php:132
-#: templates/myaccount/my-listings.php:268
+#: templates/myaccount/my-listings.php:290
 msgid "No listing found."
 msgstr ""
 
@@ -9340,8 +9397,8 @@ msgstr ""
 msgid "Expires On"
 msgstr ""
 
-#. translators:  views count
-#: templates/myaccount/my-listings.php:142
+#. translators: views count
+#: templates/myaccount/my-listings.php:144
 #, php-format
 msgid "%1$s View"
 msgid_plural "%1$s Views"
@@ -9349,7 +9406,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators:  reveal count
-#: templates/myaccount/my-listings.php:166
+#: templates/myaccount/my-listings.php:174
 #, php-format
 msgid "%1$s Reveal"
 msgid_plural "%1$s Reveals"
@@ -9357,15 +9414,16 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators:  click count
-#: templates/myaccount/my-listings.php:178
-#: templates/myaccount/my-listings.php:200
+#. translators: click count
+#: templates/myaccount/my-listings.php:192
+#: templates/myaccount/my-listings.php:219
 #, php-format
 msgid "%1$s Click"
 msgid_plural "%1$s Clicks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/myaccount/my-listings.php:223
+#: templates/myaccount/my-listings.php:245
 msgid "Expires On:"
 msgstr ""
 
@@ -9834,6 +9892,18 @@ msgstr ""
 msgid "Number of listings to show per page. Use a value of \"0\" to show all listings."
 msgstr ""
 
+#: views/settings/archive_listing-settings.php:27
+msgid "Default Listing View"
+msgstr ""
+
+#: views/settings/archive_listing-settings.php:31
+msgid "List view"
+msgstr ""
+
+#: views/settings/archive_listing-settings.php:32
+msgid "Grid view"
+msgstr ""
+
 #: views/settings/archive_listing-settings.php:36
 msgid "Listings Per Row"
 msgstr ""
@@ -10175,7 +10245,6 @@ msgid "Export categories, location & settings as json file."
 msgstr ""
 
 #: views/settings/export.php:10
-#: views/settings/export.php:17
 #: views/settings/import-export.php:11
 #: src/form-builder/backend/components/pages/FormList.jsx:466
 msgid "Export"
@@ -10908,11 +10977,11 @@ msgstr ""
 msgid "Priority"
 msgstr ""
 
-#: views/settings/tax-rate-settings.php:85
+#: views/settings/tax-rate-settings.php:94
 msgid "Insert row"
 msgstr ""
 
-#: views/settings/tax-rate-settings.php:86
+#: views/settings/tax-rate-settings.php:96
 msgid "Remove selected row(s)"
 msgstr ""
 

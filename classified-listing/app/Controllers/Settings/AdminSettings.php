@@ -105,7 +105,7 @@ class AdminSettings extends SettingsAPI {
 					$value,
 					sprintf(
 					/* translators: Hidden accessibility text. %s: Number of posts. */
-						_n( '%s listing by this author', '%s posts by this author', $value ),
+						_n( '%s listing by this author', '%s posts by this author', $value, 'classified-listing' ),
 						number_format_i18n( $value )
 					)
 				);
@@ -814,9 +814,7 @@ class AdminSettings extends SettingsAPI {
 			$wpdb->query( "TRUNCATE TABLE $table_name" );
 		}
 
-		$prepared_query = $wpdb->prepare( $query, $values );
-
-		$result = $wpdb->query( $prepared_query );
+		$result = $wpdb->query( $wpdb->prepare( $query, $values ) );
 
 		if ( false === $result ) {
 			$wpdb_error = $wpdb->last_error;

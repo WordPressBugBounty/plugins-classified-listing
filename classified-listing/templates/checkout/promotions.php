@@ -33,7 +33,7 @@ $currency_symbol = Functions::get_currency_symbol( $currency );
 							<?php if ( $description ): ?>
 								<p class="rtcl-pricing-description"><?php echo wp_kses_post( $description ); ?></p>
 							<?php endif; ?>
-							<span class="rtcl-pricing-price"><?php echo Functions::get_payment_formatted_price_html( $price ); ?> </span>
+							<span class="rtcl-pricing-price"><?php echo Functions::get_payment_formatted_price_html( $price ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped  ?> </span>
 							<div class="rtcl-pricing-features">
 								<?php
 								$promotions = Options::get_listing_promotions();
@@ -69,7 +69,7 @@ $currency_symbol = Functions::get_currency_symbol( $currency );
 								<?php
 								printf( '<input type="radio" name="%s" id="pricing_id_%s" value="%s" class="rtcl-checkout-pricing" required data-price="%s"/><label for="pricing_id_%s">%s</label>',
 									'pricing_id', esc_attr( $pricing->ID ), esc_attr( $pricing->ID ), esc_attr( $price ), esc_attr( $pricing->ID ),
-									esc_html__( 'Select This Package', 'classified-listing-store' ) );
+									esc_html__( 'Select This Package', 'classified-listing' ) );
 								?>
 							</div>
 						</div>

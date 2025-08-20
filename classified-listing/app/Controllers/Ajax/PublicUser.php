@@ -200,7 +200,7 @@ class PublicUser {
 
 		$search = wp_unslash( $_GET['q'] );
 
-		$comma = _x( ',', 'tag delimiter' );
+		$comma = _x( ',', 'tag delimiter', 'classified-listing' );
 		if ( ',' !== $comma ) {
 			$search = str_replace( $comma, ',', $search );
 		}

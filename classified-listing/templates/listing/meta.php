@@ -57,8 +57,9 @@ if ( ! $listing->can_show_date() && ! $listing->can_show_user() && ! $listing->c
 		<li class="rt-categories">
 			<i class="rtcl-icon rtcl-icon-tags"></i>
 			<?php
+			$glue = null;
 			foreach ( $categories as $category ) {
-				echo $glue ?? '';
+				echo $glue ? wp_kses( $glue, [ 'span' => [ 'class' => [] ] ] ) : '';
 				?>
 				<a href="<?php echo esc_url( get_term_link( $category ) ); ?>"><?php echo esc_html( $category->name ); ?></a>
 				<?php

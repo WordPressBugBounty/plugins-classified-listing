@@ -26,8 +26,8 @@ class GatewayPaypal extends PaymentGateway {
 		$this->option            = $this->option . $this->id;
 		$this->order_button_text = __( 'Proceed to PayPal', 'classified-listing' );
 		$this->method_title      = __( 'PayPal', 'classified-listing' );
-		/* translators: System status link. */
 		$this->method_description
+			/* translators: System status link. */
 			= sprintf( __( 'PayPal Standard sends customers to PayPal to enter their payment information. PayPal IPN requires fsockopen/cURL support to update order statuses after payment. Check the <a href="%s">system status</a> page for more details.',
 			'classified-listing' ), '' );
 

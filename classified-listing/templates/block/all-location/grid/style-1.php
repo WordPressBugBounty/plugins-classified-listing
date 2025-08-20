@@ -38,7 +38,7 @@ if ( isset( $settings['className'] ) ) {
 					$count_html = null;
 					if ( $settings['show_count'] && !empty( $trm['count'] ) ) {
 						ob_start();
-						$count_data = sprintf( /* translators: Ads count */ _n( '(%s Ad)', '(%s Ads)', $trm["count"], 'classified-listing-toolkits' ), $trm['count'] ); ?>
+						$count_data = sprintf( /* translators: Ads count */ _n( '(%s Ad)', '(%s Ads)', $trm["count"], 'classified-listing' ), $trm['count'] ); ?>
 						<span class="rtcl-counter">
 							<?php if ( !empty( $settings['count_after_text'] ) ) { ?>
 								<span><?php echo esc_html( $trm['count'] ); ?></span>
