@@ -4,6 +4,7 @@ namespace Rtcl\Controllers\Hooks;
 
 
 use Rtcl\Helpers\Cache;
+use Rtcl\Helpers\Functions;
 
 class AdminHooks {
 
@@ -117,6 +118,15 @@ class AdminHooks {
 	
 
 	public static function remove_tax_record() {
+
+
+		if ( !current_user_can( 'manage_options' ) || !Functions::verify_nonce() ) {
+			wp_send_json( [
+				'error' => true,
+				'msg'   => __( 'Unauthorized access!!', 'classified-listing' )
+			] );
+		}
+		
 		global $wpdb;
 
 		$error      = true;
@@ -138,6 +148,14 @@ class AdminHooks {
 	}
 
 	public static function load_country_state() {
+
+		if ( !current_user_can( 'manage_options' ) || !Functions::verify_nonce() ) {
+			wp_send_json( [
+				'error' => true,
+				'msg'   => __( 'Unauthorized access!!', 'classified-listing' )
+			] );
+		}
+		
 		$country_code = isset( $_POST['country_code'] ) ? sanitize_text_field( $_POST['country_code'] ) : '';
 
 		if ( ! empty( $country_code ) ) {

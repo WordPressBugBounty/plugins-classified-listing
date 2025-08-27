@@ -1115,6 +1115,7 @@
 @charset "UTF-8";
 :root {
   --rtcl-primary-color: #3232ff;
+  --rtcl-link-color: #3232ff;
   --rtcl-secondary-color: #0202c9;
   --rtcl-gutter-x: 1.5rem;
   --rtcl-gutter-y: 0;

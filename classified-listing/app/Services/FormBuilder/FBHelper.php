@@ -28,6 +28,22 @@ class FBHelper {
 
 		return null;
 	}
+	
+	/**
+	 * @param $slug
+	 * @return mixed|Form|null
+	 */
+	public static function getFormBySlug( $slug ) {
+		$form = $slug ? Form::query()->find( $slug, 'slug') : null;
+
+		$_form = apply_filters( 'rtcl_fb_form', $form );
+
+		if ( is_a( $_form, Form::class ) ) {
+			return $_form;
+		}
+
+		return null;
+	}
 
 
 	/**

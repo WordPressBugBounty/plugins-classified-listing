@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory Plugin 5.0.6\n"
+"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory Plugin 5.0.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-20T11:35:51+00:00\n"
+"POT-Creation-Date: 2025-08-27T10:07:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: classified-listing\n"
@@ -2586,7 +2586,12 @@ msgstr ""
 msgid "Don't show the Map"
 msgstr ""
 
-#: app/Controllers/Hooks/AdminHooks.php:154
+#: app/Controllers/Hooks/AdminHooks.php:126
+#: app/Controllers/Hooks/AdminHooks.php:155
+msgid "Unauthorized access!!"
+msgstr ""
+
+#: app/Controllers/Hooks/AdminHooks.php:172
 msgid "Country states not found!"
 msgstr ""
 
@@ -7874,53 +7879,53 @@ msgstr ""
 msgid "The minimum column width is 10%, Maximum column number 4"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:721
+#: app/Services/FormBuilder/FBHelper.php:737
 msgid "Listing type is not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:728
-#: app/Services/FormBuilder/FBHelper.php:734
+#: app/Services/FormBuilder/FBHelper.php:744
+#: app/Services/FormBuilder/FBHelper.php:750
 msgid "Tag is not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:742
-#: app/Services/FormBuilder/FBHelper.php:748
+#: app/Services/FormBuilder/FBHelper.php:758
+#: app/Services/FormBuilder/FBHelper.php:764
 msgid "Category is not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:771
-#: app/Services/FormBuilder/FBHelper.php:777
+#: app/Services/FormBuilder/FBHelper.php:787
+#: app/Services/FormBuilder/FBHelper.php:793
 msgid "Location is not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:782
+#: app/Services/FormBuilder/FBHelper.php:798
 msgid "Invalid email"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:786
+#: app/Services/FormBuilder/FBHelper.php:802
 msgid "Invalid url"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:793
-#: app/Services/FormBuilder/FBHelper.php:799
+#: app/Services/FormBuilder/FBHelper.php:809
+#: app/Services/FormBuilder/FBHelper.php:815
 msgid "Invalid video url"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:812
-#: app/Services/FormBuilder/FBHelper.php:827
-#: app/Services/FormBuilder/FBHelper.php:832
+#: app/Services/FormBuilder/FBHelper.php:828
+#: app/Services/FormBuilder/FBHelper.php:843
+#: app/Services/FormBuilder/FBHelper.php:848
 msgid "Option not exist"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:835
+#: app/Services/FormBuilder/FBHelper.php:851
 msgid "Value should ne an array"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:840
+#: app/Services/FormBuilder/FBHelper.php:856
 msgid "Invalid Google reCAPTACHA secret key"
 msgstr ""
 
-#: app/Services/FormBuilder/FBHelper.php:846
+#: app/Services/FormBuilder/FBHelper.php:862
 msgid "Error in Google reCAPTACHA"
 msgstr ""
 
@@ -10245,6 +10250,7 @@ msgid "Export categories, location & settings as json file."
 msgstr ""
 
 #: views/settings/export.php:10
+#: views/settings/export.php:17
 #: views/settings/import-export.php:11
 #: src/form-builder/backend/components/pages/FormList.jsx:466
 msgid "Export"

@@ -14,7 +14,7 @@ $nonce = wp_create_nonce( 'rtcl_nonce_secret' );
 				<p><?php esc_html_e( "Export listings as CSV file.", "classified-listing" ); ?></p>
 				<a id="rtcl-export-listings-csv"
 				   href="<?php echo esc_url(admin_url( 'admin-ajax.php' )) ?>?action=rtcl_listings_export&__rtcl_wpnonce=<?php echo esc_attr( $nonce ); ?>"
-				   class="rtcl-btn rtcl-btn-primary"><?php admin_url( 'admin-ajax.php' )( "Export", "classified-listing" ); ?></a>
+				   class="rtcl-btn rtcl-btn-primary"><?php esc_html_e( "Export", "classified-listing" ); ?></a>
 			</div>
 		</div>
 	</div>

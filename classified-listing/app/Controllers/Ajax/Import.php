@@ -686,7 +686,7 @@ class Import {
 										?>
 										</tbody>
 									</table>
-									<button type="submit" id="rtcl_listings_import_submit" class="btn btn-primary">
+									<button type="submit" id="rtcl_listings_import_submit" class="rtcl-btn rtcl-btn-primary">
 										<?php esc_html_e( 'Continue', 'classified-listing' ); ?>
 									</button>
 								</div>

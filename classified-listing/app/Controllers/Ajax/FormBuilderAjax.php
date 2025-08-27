@@ -197,7 +197,7 @@ class FormBuilderAjax {
 					}
 				} elseif ( 'description' === $element ) {
 					if ( !$isAdminEnd ) {
-						$post_arg['post_content'] = FBHelper::sanitizeFieldValue( $rawValue, $field );;
+						$post_arg['post_content'] = FBHelper::sanitizeFieldValue( $rawValue, $field );
 					}
 				} elseif ( 'listing_type' === $element ) {
 					$metaData[] = [
@@ -206,7 +206,7 @@ class FormBuilderAjax {
 						'value' => $rawValue
 					];
 				} elseif ( 'excerpt' === $element ) {
-					$post_arg['post_excerpt'] = FBHelper::sanitizeFieldValue( $rawValue, $field );;
+					$post_arg['post_excerpt'] = FBHelper::sanitizeFieldValue( $rawValue, $field );
 				} elseif ( 'category' === $element ) {
 					$taxonomy['category'] = is_array( $rawValue ) ? array_filter( array_map( function ( $tag ) {
 						return !empty( $tag['term_id'] ) ? absint( $tag['term_id'] ) : '';

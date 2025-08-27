@@ -5868,8 +5868,8 @@ class Functions {
 		return array_unique( $all_ids );
 	}
 
-	public static function convertToNumber(string $value) {
-		if (!is_numeric($value)) {
+	public static function convertToNumber($value) {
+		if (!isset($value) || !is_numeric($value)) {
 			return null; // or throw error, or fallback
 		}
 

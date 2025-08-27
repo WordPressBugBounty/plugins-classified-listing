@@ -84,7 +84,7 @@ use Rtcl\Helpers\Functions;
 				<div class="bundle-card">
 					<div class="image-container">
 						<div class="product-image">
-							<img alt="Classified Listing Plugins and Themes Bundled" src="<?php esc_url(rtcl()->get_assets_uri( "images/bundle-extension.png" )) ?>">
+							<img alt="Classified Listing Plugins and Themes Bundled" src="<?php echo esc_url(rtcl()->get_assets_uri( "images/bundle-extension.png" )) ?>">
 						</div>
 						<div class="bundle-badge">Bundle Deal</div>
 					</div>

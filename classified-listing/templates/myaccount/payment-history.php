@@ -74,7 +74,7 @@ global $post;
 		Pagination::pagination( $rtcl_query, true );
 
 	} else {
-		echo '<span>' . esc_html__( 'No Results Found.', 'classified-listing' ) . '</span>';
+		echo '<p class="rtcl-no-data-found">' . esc_html__( 'No Results Found.', 'classified-listing' ) . '</p>';
 	} ?>
 
 	<div class="rtcl-popup-wrapper">
