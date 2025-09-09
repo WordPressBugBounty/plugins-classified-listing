@@ -114,6 +114,8 @@ class Installer {
 		self::maybe_update_db_version();
 
 		delete_transient( 'rtcl_installing' );
+		
+		set_transient( 'rtcl_activation_setup_wizard_redirect', 1, 30 );
 
 		do_action( 'rtcl_flush_rewrite_rules' );
 		do_action( 'rtcl_installed' );

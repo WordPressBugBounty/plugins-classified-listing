@@ -13,8 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-$author   = get_user_by( 'slug', get_query_var( 'author_name' ) );
-$user_id  = $author->ID;
+$author  = get_user_by( 'slug', get_query_var( 'author_name' ) );
+$user_id = $author ?? null;
+if ( ! $user_id ) {
+	return;
+}
 $store_id = get_user_meta( $user_id, '_rtcl_store_id', true );
 $phone    = get_user_meta( $user_id, '_rtcl_phone', true );
 $whatsApp = get_user_meta( $user_id, '_rtcl_whatsapp_number', true );

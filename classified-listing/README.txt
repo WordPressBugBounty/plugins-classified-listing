@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, classifieds a
 Requires at least: 6.7
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 5.0.7
+Stable tag: 5.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -331,6 +331,11 @@ If you like The Post Grid Plugin, then consider checking out our other WordPress
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 5.1.0 ( Sep 09, 2025 ) =
+* Fixed: Currency position issue
+* Fixed: Number field sanitization issue
+* Added: Setup wizard
 
 = 5.0.7 ( Aug 27, 2025 ) =
 * Fixed: Style issue

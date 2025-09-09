@@ -1032,6 +1032,9 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
       return;
     }
     var $resultCount = $listingResultWrap.find('.rtcl-result-count');
+    $resultCount.attr("data-options", JSON.stringify({
+      items: data.items
+    }));
     if (!data.current_items || data.items <= data.per_page) {
       $resultCount.text(rtclAjaxFilterObj.result_count.all.replace("%", data.items));
     } else {

@@ -50,6 +50,7 @@ class ScriptLoader {
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_payment' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_pricing' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_setting_page' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'load_setup_wizard_script' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_report_page' ], 99 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_export_import_page' ], 99 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_extension_page' ] );
@@ -418,7 +419,9 @@ class ScriptLoader {
 		wp_enqueue_style( 'rtcl-public' );
 
 		$validator_script = false;
+
 		global $wp;
+
 		if ( Functions::is_account_page() ) {
 			wp_enqueue_style( 'fontawesome' );
 			if ( ! is_user_logged_in() || isset( $wp->query_vars['lost-password'] ) ) {
@@ -472,7 +475,9 @@ class ScriptLoader {
 
 		if ( Functions::is_checkout_page() ) {
 			$validator_script = true;
+
 			wp_enqueue_style( 'fontawesome' );
+
 			if ( ! is_user_logged_in() && Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'login', 'multi_checkbox' ) ) {
 				wp_enqueue_script( 'rtcl-recaptcha' );
 			}
@@ -711,7 +716,7 @@ class ScriptLoader {
 		}
 		if ( is_author() ) {
 			$author              = get_user_by( 'slug', get_query_var( 'author_name' ) );
-			$localize['user_id'] = $author->ID;
+			$localize['user_id'] = $author->ID ?? null;
 			wp_enqueue_style( 'fontawesome' );
 		}
 		if ( isset( $wp->query_vars['edit-account'] ) || isset( $wp->query_vars['rtcl_edit_account'] ) ) {
@@ -961,6 +966,22 @@ class ScriptLoader {
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'rtcl-admin-settings' );
 			wp_localize_script( 'rtcl-admin-settings', 'rtclObj', $rtclObj );
+		}
+	}
+
+	public function load_setup_wizard_script() {
+		wp_register_script( 'rtcl-admin-setup-wizard', rtcl()->get_assets_uri( "js/setup-wizard.js" ), [ 'rtcl-admin' ], $this->version, true );
+		if ( ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-setup-wizard' ) {
+			wp_enqueue_style( 'rtcl-admin' );
+			wp_enqueue_style( 'rtcl-fb-admin' );
+			wp_enqueue_script( 'rtcl-admin' );
+			wp_enqueue_script( 'rtcl-admin-setup-wizard' );
+			wp_localize_script( 'rtcl-admin-setup-wizard', 'rtclSetupWizardData', [
+				'plugin_dashboard_url' => admin_url( 'admin.php?page=rtcl-admin' ),
+				'all_listings_url'     => Link::get_listings_page_link(),
+				'logo_url'             => rtcl()->get_assets_uri( 'images/cl-logo-dark.png' ),
+				'logo_icon_url'        => rtcl()->get_assets_uri( 'images/icon-64x64.png' ),
+			] );
 		}
 	}
 

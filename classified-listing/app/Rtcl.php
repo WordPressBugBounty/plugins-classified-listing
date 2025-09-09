@@ -6,6 +6,7 @@ use Rtcl\Controllers\Admin\AdminController;
 use Rtcl\Controllers\Admin\FormBuilderController;
 use Rtcl\Controllers\Admin\LicensingController;
 use Rtcl\Controllers\Admin\NoticeController;
+use Rtcl\Controllers\Admin\SetupWizard;
 use Rtcl\Controllers\Ajax\Ajax;
 use Rtcl\Controllers\BlockController;
 use Rtcl\Controllers\GeoQuery;
@@ -192,6 +193,8 @@ if ( ! class_exists( Rtcl::class ) ) {
 				Comments::init();
 				new NoticeController();
 			}
+			
+			new SetupWizard();
 
 			// add hook for both
 			AppliedBothEndHooks::init();

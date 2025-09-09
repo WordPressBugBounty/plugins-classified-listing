@@ -12149,7 +12149,7 @@ table.rtcl-table-striped-border tr:hover td {
   flex: 0 0 50%;
   padding: 0 10px;
 }
-.rtcl-MyAccount-wrap .rtcl-MyAccount-content .rtcl-EditAccountForm .rtcl-form-group-wrap .rtcl-form-group.rtcl-no-field-group {
+.rtcl-MyAccount-wrap .rtcl-MyAccount-content .rtcl-EditAccountForm .rtcl-form-group-wrap .rtcl-form-group.rtcl-full-width-field, .rtcl-MyAccount-wrap .rtcl-MyAccount-content .rtcl-EditAccountForm .rtcl-form-group-wrap .rtcl-form-group.rtcl-no-field-group {
   flex: 0 0 100%;
 }
 @media screen and (max-width: 600px) {

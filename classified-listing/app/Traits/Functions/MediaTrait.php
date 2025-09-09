@@ -3,6 +3,8 @@
 
 namespace Rtcl\Traits\Functions;
 
+use Rtcl\Controllers\Hooks\Filters;
+
 trait MediaTrait {
 
 	public static function get_image_sizes() {
@@ -259,6 +261,47 @@ trait MediaTrait {
 		}
 
 		return apply_filters( 'wp_generate_attachment_metadata', $image_meta, $attachment_id, 'create' );
+	}
+
+	public static function process_listing_image( $data, $post_id = 0 ) {
+		//$images  = explode( ',', $data );
+		$images      = array_map( 'trim', explode( ',', $data ) );
+		$gallery_ids = [];
+
+		foreach ( $images as $image_url ) {
+			$image_title   = preg_replace( '/\.[^.]+$/', '', basename( $image_url ) );
+			$attachment_id = self::upload_image( $image_url, $image_title, $post_id );
+			if ( ! is_wp_error( $attachment_id ) ) {
+				$gallery_ids[] = $attachment_id;
+			}
+		}
+
+		return $gallery_ids;
+	}
+
+	public static function upload_image( $image_url, $image_title, $post_id = 0 ) {
+		set_time_limit( 150 );
+		wp_raise_memory_limit( 'image' );
+		Filters::beforeUpload();
+		$attachment_id = media_sideload_image( $image_url, $post_id, $image_title, 'id' );
+		Filters::afterUpload();
+
+		return $attachment_id;
+	}
+
+	public static function set_listing_images( $listing_id, $attachment_ids = [] ) {
+		$attachment_ids = array_map( 'intval', $attachment_ids );
+		$attachment_ids = array_filter( $attachment_ids );
+		set_post_thumbnail( $listing_id, $attachment_ids[0] );
+		foreach ( $attachment_ids as $attachment_id ) {
+			wp_update_post(
+				[
+					'ID'          => $attachment_id,
+					'post_parent' => $listing_id,
+				]
+			);
+		}
+		update_post_meta( $listing_id, '_rtcl_attachments_order', $attachment_ids );
 	}
 
 }

@@ -778,7 +778,7 @@ class Functions {
 	}
 
 	public static function get_price_format( $payment = false ) {
-		$currency_settings = self::get_option_item( 'rtcl_general_settings', 'currency_position' );
+		$currency_settings = self::get_option_item( 'rtcl_general_currency_settings', 'currency_position' );
 		if ( $payment ) {
 			$currency_settings = self::get_option_item( 'rtcl_payment_settings', 'currency_position' );
 		}
@@ -1007,7 +1007,7 @@ class Functions {
 			$featured = 0;
 			$caption  = '';
 			$content  = '';
-			$post      = get_post( $attach_id );
+			$post     = get_post( $attach_id );
 			if ( ! $is_new ) {
 				$parent_id = wp_get_post_parent_id( $post->ID );
 				$caption   = $post->post_excerpt;
@@ -1021,7 +1021,7 @@ class Functions {
 				}
 			}
 			$attachmentUrl = wp_get_attachment_url( $post->ID );
-			$data = [
+			$data          = [
 				'post_id'   => $post->post_parent,
 				'attach_id' => $attach_id,
 				'guid'      => $attachmentUrl,
@@ -1250,7 +1250,7 @@ class Functions {
 						$image_id = get_term_meta( $term->term_id, '_rtcl_image', true );
 						if ( ! empty( $image_id ) && ! is_array( $image_id ) ) {
 							$image_attributes = wp_get_attachment_image_src( (int) $image_id, 'medium' );
-							$image            = $image_attributes[0];
+							$image            = $image_attributes[0] ?? '';
 							if ( '' !== $image ) {
 								$cat_img = sprintf( '<img src="%s" alt="%s" class="rtcl-cat-img" />', esc_url( $image ), esc_attr( $term->name ) );
 							}
@@ -3051,7 +3051,7 @@ class Functions {
 				if ( $title_limit = self::get_title_character_limit() ) {
 					$sanitize_value = mb_substr( $sanitize_value, 0, $title_limit, 'utf-8' );
 				}
-				if(!current_user_can( 'administrator' ) && current_user_can( 'editor' ) ){
+				if ( ! current_user_can( 'administrator' ) && current_user_can( 'editor' ) ) {
 					$sanitize_value = strip_shortcodes( $sanitize_value );
 				}
 				break;
@@ -3066,7 +3066,7 @@ class Functions {
 				} else {
 					$sanitize_value = wp_kses_post( $value );
 				}
-				if(!current_user_can( 'administrator' ) && current_user_can( 'editor' ) ){
+				if ( ! current_user_can( 'administrator' ) && current_user_can( 'editor' ) ) {
 					$sanitize_value = strip_shortcodes( $sanitize_value );
 				}
 				break;
@@ -5713,7 +5713,7 @@ class Functions {
 		);
 
 		$custom_fields      = [];
-		$supported_elements = [ 'text', 'textarea', 'number', 'radio', 'dropdown', 'url' ];
+		$supported_elements = [ 'text', 'textarea', 'number', 'radio', 'dropdown', 'select', 'url' ];
 		foreach ( $posts as $p ) {
 			$listing = rtcl()->factory->get_listing( $p );
 			$form    = $listing->getForm();
@@ -5868,13 +5868,13 @@ class Functions {
 		return array_unique( $all_ids );
 	}
 
-	public static function convertToNumber($value) {
-		if (!isset($value) || !is_numeric($value)) {
+	public static function convertToNumber( $value ) {
+		if ( ! isset( $value ) || ! is_numeric( $value ) ) {
 			return null; // or throw error, or fallback
 		}
 
-		return (str_contains($value, '.') || str_contains($value, 'e'))
-			? (float)$value
-			: (int)$value;
+		return ( str_contains( $value, '.' ) || str_contains( $value, 'e' ) )
+			? (float) $value
+			: (int) $value;
 	}
 }
