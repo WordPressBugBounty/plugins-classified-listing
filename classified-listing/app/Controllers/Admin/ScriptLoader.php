@@ -49,7 +49,7 @@ class ScriptLoader {
 		add_action( 'admin_init', [ $this, 'register_admin_script' ], 1 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_payment' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_pricing' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_setting_page' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_setting_page' ], 99999 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_setup_wizard_script' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_report_page' ], 99 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_export_import_page' ], 99 );
@@ -57,6 +57,7 @@ class ScriptLoader {
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_post_type_listing' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_listing_types_page' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_page_custom_fields' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_page_user_profile' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_script_taxonomy' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_script_at_widget_settings' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_script_at_filter_builder' ] );
@@ -73,7 +74,7 @@ class ScriptLoader {
 				'rtcl-common',
 			],
 			$this->version,
-			true
+			true,
 		);
 		wp_localize_script(
 			'rtcl-verify-js',
@@ -82,7 +83,7 @@ class ScriptLoader {
 				'ajaxurl'              => $this->ajaxurl,
 				're_send_confirm_text' => esc_html__( 'Are you sure you want to re-send verification link?', 'classified-listing' ),
 				rtcl()->nonceId        => wp_create_nonce( rtcl()->nonceText ),
-			]
+			],
 		);
 		wp_enqueue_script( 'rtcl-verify-js' );
 	}
@@ -98,26 +99,26 @@ class ScriptLoader {
 				'jquery',
 				'rtcl-country-select',
 			],
-			$this->version
+			$this->version,
 		);
 		wp_register_script( 'select2', rtcl()->get_assets_uri( 'vendor/select2/select2.full.min.js' ), [ 'jquery' ], '4.1.0-rc.0' );
 		wp_register_script(
 			'daterangepicker',
 			rtcl()->get_assets_uri( 'vendor/daterangepicker/daterangepicker.js' ),
 			[ 'jquery', 'moment' ],
-			'3.0.5'
+			'3.0.5',
 		);
 		wp_register_script(
 			'jquery-validator',
 			rtcl()->get_assets_uri( 'vendor/jquery.validate.min.js' ),
 			[ 'jquery' ],
-			'1.19.1'
+			'1.19.1',
 		);
 		wp_register_script(
 			'rtcl-validator',
 			rtcl()->get_assets_uri( "js/rtcl-validator{$this->suffix}.js" ),
 			[ 'jquery-validator' ],
-			$this->version
+			$this->version,
 		);
 		wp_register_script( 'rtcl-sortablejs', rtcl()->get_assets_uri( 'vendor/sortable.min.js' ), '', '1.15.0' );
 		wp_register_script(
@@ -134,7 +135,7 @@ class ScriptLoader {
 				'rtcl-sortablejs',
 			],
 			$this->version,
-			true
+			true,
 		);
 
 		wp_register_script(
@@ -142,18 +143,21 @@ class ScriptLoader {
 			rtcl()->get_assets_uri( 'form-builder/form-builder.js' ),
 			[
 				'jquery',
+				is_admin() ? 'rtcl-admin' : 'rtcl-public',
 				'wp-tinymce',
 			],
 			$this->version,
 			[
 				'strategy'  => 'async',
 				'in_footer' => true,
-			]
+			],
 		);
 		wp_register_style( 'rtcl-form-builder', rtcl()->get_assets_uri( 'form-builder/public.css' ), '', $this->version );
 		wp_register_style(
 			'fontawesome',
-			apply_filters( 'rtcl_fontawesome_css_source', rtcl()->get_assets_uri( 'vendor/fontawesome/css/all.min.css' ) ), '', '6.7.1'
+			apply_filters( 'rtcl_fontawesome_css_source', rtcl()->get_assets_uri( 'vendor/fontawesome/css/all.min.css' ) ),
+			'',
+			'6.7.1',
 		);
 
 		if ( Functions::has_map() ) {
@@ -170,7 +174,7 @@ class ScriptLoader {
 						'rtcl-google-map',
 					],
 					$this->version,
-					true
+					true,
 				);
 			} elseif ( 'osm' === $map_type ) {
 				wp_register_script( 'rtcl-map', rtcl()->get_assets_uri( 'js/osm-map.js' ), [ 'jquery' ], $this->version, true );
@@ -193,7 +197,7 @@ class ScriptLoader {
 					Functions::formatBytes( Functions::get_max_upload() ) ),
 				'error_image_limit'     => esc_html__( 'Image limit is over.', 'classified-listing' ),
 				'error_image_extension' => esc_html__( 'File extension not supported.', 'classified-listing' ),
-			]
+			],
 		);
 
 		wp_localize_script(
@@ -253,8 +257,8 @@ class ScriptLoader {
 					],
 					'scroll_top'    => 200,
 					'pw_min_length' => Functions::password_min_length(),
-				]
-			)
+				],
+			),
 		);
 
 		wp_localize_script(
@@ -273,7 +277,7 @@ class ScriptLoader {
 				'i18n_selection_too_long_n' => _x( 'You can only select %qty% items', 'enhanced select', 'classified-listing' ),
 				'i18n_load_more'            => _x( 'Loading more results&hellip;', 'enhanced select', 'classified-listing' ),
 				'i18n_searching'            => _x( 'Searching&hellip;', 'enhanced select', 'classified-listing' ),
-			]
+			],
 		);
 
 		$params = [
@@ -295,7 +299,7 @@ class ScriptLoader {
 			          [
 				          'post.php',
 				          'post-new.php',
-			          ]
+			          ],
 		          )
 		          && rtcl()->post_type === $post_type )
 		) {
@@ -341,20 +345,23 @@ class ScriptLoader {
 			$fromBuilderParams = apply_filters(
 				'rtcl_localize_fb_params',
 				[
-					'fields'     => AvailableFields::get(),
-					'isAdminEnd' => is_admin(),
-					'hasPro'     => rtcl()->has_pro(),
-					'postStatus' => is_admin() && $post ? $post->post_status : null,
-					'forms'      => $forms,
-					'form'       => is_a( $form, Form::class ) ? [ 'defaultValues' => FBHelper::getFormDefaultData( $form ) ] + $form->toArray() : null,
-					'listingId'  => $listing_id ? absint( $listing_id ) : '',
-					'formData'   => FBHelper::getFormData( $listing_id, $form ),
-					'options'    => $this->get_fb_settings_options(),
-					'ajaxurl'    => $this->ajaxurl,
-					'nonceId'    => rtcl()->nonceId,
-					'nonce'      => wp_create_nonce( rtcl()->nonceText ),
-					'i18n'       => LocalizedString::public(),
-				]
+					'fields'                       => AvailableFields::get(),
+					'isAdminEnd'                   => is_admin(),
+					'hasPro'                       => rtcl()->has_pro(),
+					'postStatus'                   => is_admin() && $post ? $post->post_status : null,
+					'forms'                        => $forms,
+					'form'                         => is_a( $form, Form::class ) ? [ 'defaultValues' => FBHelper::getFormDefaultData( $form ) ] + $form->toArray() : null,
+					'listingId'                    => $listing_id ? absint( $listing_id ) : '',
+					'formData'                     => FBHelper::getFormData( $listing_id, $form ),
+					'options'                      => $this->get_fb_settings_options(),
+					'ajaxurl'                      => $this->ajaxurl,
+					'apiurl'                       => rest_url(),
+					'restNonce'                    => wp_create_nonce( 'wp_rest' ),
+					'nonceId'                      => rtcl()->nonceId,
+					'nonce'                        => wp_create_nonce( rtcl()->nonceText ),
+					'i18n'                         => LocalizedString::public(),
+					'enabled_ai_image_enhancement' => Functions::is_image_enhancement_enabled(),
+				],
 			);
 			wp_enqueue_editor();
 			wp_localize_script( 'rtcl-form-builder', 'rtclFB', $fromBuilderParams );
@@ -362,7 +369,6 @@ class ScriptLoader {
 	}
 
 	function register_script() {
-
 		global $post;
 
 		$this->register_script_both_end();
@@ -380,10 +386,13 @@ class ScriptLoader {
 				'jquery',
 				'imagesloaded',
 			],
-			'7.4.1'
+			'7.4.1',
 		);
-		wp_register_script( 'rtcl-single-listing', rtcl()->get_assets_uri( "js/single-listing{$this->suffix}.js" ),
-			apply_filters( 'rtcl_single_listing_script_dependencies', [ 'swiper' ] ), $this->version, true );
+		wp_register_script( 'rtcl-single-listing',
+			rtcl()->get_assets_uri( "js/single-listing{$this->suffix}.js" ),
+			apply_filters( 'rtcl_single_listing_script_dependencies', [ 'swiper' ] ),
+			$this->version,
+			true );
 		self::localize_script( 'rtcl-single-listing' );
 		if ( is_singular( rtcl()->post_type ) ) {
 			wp_enqueue_script( 'rtcl-single-listing' );
@@ -397,15 +406,20 @@ class ScriptLoader {
 				'daterangepicker',
 			],
 			$this->version,
-			true
+			true,
 		);
 
 		$recaptcha_version = ! empty( $misc_settings['recaptcha_version'] ) ? $misc_settings['recaptcha_version'] : 2;
 		if ( $recaptcha_version == 3 ) {
-			wp_register_script( 'rtcl-recaptcha', 'https://www.google.com/recaptcha/api.js?render=' . esc_attr( $misc_settings['recaptcha_site_key'] ), '',
+			wp_register_script( 'rtcl-recaptcha',
+				'https://www.google.com/recaptcha/api.js?render=' . esc_attr( $misc_settings['recaptcha_site_key'] ),
+				'',
 				RTCL_VERSION );
 		} else {
-			wp_register_script( 'rtcl-recaptcha', 'https://www.google.com/recaptcha/api.js?onload=rtcl_on_recaptcha_load&render=explicit', '', $this->version,
+			wp_register_script( 'rtcl-recaptcha',
+				'https://www.google.com/recaptcha/api.js?onload=rtcl_on_recaptcha_load&render=explicit',
+				'',
+				$this->version,
 				true );
 		}
 		$rtclPublicDepsScript = apply_filters( 'rtcl_public_script_dependencies', $rtclPublicDepsScript, $this );
@@ -644,10 +658,12 @@ class ScriptLoader {
 			'i18n_required_rating_text'                => esc_attr__( 'Please select a rating', 'classified-listing' ),
 			/* translators: %s: decimal */
 			'i18n_decimal_error'                       => sprintf( __( 'Please enter in decimal (%s) format without thousand separators.',
-				'classified-listing' ), $decimal_separator ),
+				'classified-listing' ),
+				$decimal_separator ),
 			/* translators: %s: price decimal separator */
 			'i18n_mon_decimal_error'                   => sprintf( __( 'Please enter in monetary decimal (%s) format without thousand separators and currency symbols.',
-				'classified-listing' ), $decimal_separator ),
+				'classified-listing' ),
+				$decimal_separator ),
 			'is_rtl'                                   => is_rtl(),
 			'is_admin'                                 => is_admin(),
 			'ajaxurl'                                  => $this->ajaxurl,
@@ -662,6 +678,7 @@ class ScriptLoader {
 			'rtcl_location'                            => get_query_var( 'rtcl_location' ),
 			'rtcl_location_base'                       => $location_base,
 			'user_login_alert_message'                 => esc_html__( 'Sorry, you need to login first.', 'classified-listing' ),
+			'is_user_logged_in'                        => is_user_logged_in(),
 			/* translators: Image pending count */
 			'upload_limit_alert_message'               => esc_html__( 'Sorry, you have only %d images pending.', 'classified-listing' ),
 			'delete_label'                             => esc_html__( 'Delete Permanently', 'classified-listing' ),
@@ -682,9 +699,11 @@ class ScriptLoader {
 			'prompt_max_limit'                         => Functions::get_max_prompt_input_limit(),
 			'i18n'                                     => [
 				/* translators: All of item*/
-				'all_of_' => esc_html__( 'All of %s', 'classified-listing' ),
-				'go_back' => esc_html__( 'Go back', 'classified-listing' ),
-			]
+				'all_of_'                 => esc_html__( 'All of %s', 'classified-listing' ),
+				'go_back'                 => esc_html__( 'Go back', 'classified-listing' ),
+				'ai_quick_search_loading' => esc_html__( 'Analyzing through AI', 'classified-listing' ),
+				'ai_quick_search_heading' => esc_html__( 'Search Results for: ', 'classified-listing' ),
+			],
 		];
 
 		if ( ! empty( $misc_settings['recaptcha_site_key'] ) && ! empty( $misc_settings['recaptcha_forms'] ) ) {
@@ -710,7 +729,8 @@ class ScriptLoader {
 			$localize['post_id']    = $post->ID;
 			$localize['post_title'] = $post->post_title;
 			/* translators: 1: related to , 2: Related form */
-			$message                = sprintf( esc_html__( "Need to discuss something related to '%1\$s' from %2\$s", 'classified-listing' ), $post->post_title,
+			$message                = sprintf( esc_html__( "Need to discuss something related to '%1\$s' from %2\$s", 'classified-listing' ),
+				$post->post_title,
 				get_permalink( $post->ID ) );
 			$localize['wa_message'] = apply_filters( 'rtcl_default_wa_message', $message );
 		}
@@ -741,9 +761,9 @@ class ScriptLoader {
 			'listings_archive_url' => Link::get_listings_page_link(),
 			'result_count'         => [
 				'all'  => __( 'Showing all % results', 'classified-listing' ),
-				'part' => __( 'Showing _ of % results', 'classified-listing' )
+				'part' => __( 'Showing _ of % results', 'classified-listing' ),
 			],
-			'filter_scroll_offset' => 50
+			'filter_scroll_offset' => 50,
 		];
 		wp_localize_script( 'rtcl-public', 'rtclAjaxFilterObj', apply_filters( 'rtcl_ajax_filter_localize', $ajaxFilerLocalize ) );
 		wp_localize_script(
@@ -762,8 +782,8 @@ class ScriptLoader {
 						'ad_type'    => esc_html__( 'Please select ad type first', 'classified-listing' ),
 						'parent_cat' => esc_html__( 'Please select parent category first', 'classified-listing' ),
 					],
-				]
-			)
+				],
+			),
 		);
 	}
 
@@ -781,31 +801,30 @@ class ScriptLoader {
 		wp_register_script( 'rtcl-admin-widget', rtcl()->get_assets_uri( "js/admin-widget.min.js" ), [ 'jquery' ], $this->version );
 		wp_register_script( 'rtcl-timepicker', rtcl()->get_assets_uri( "vendor/jquery-ui-timepicker-addon.js" ), [ 'jquery' ], $this->version, true );
 		wp_register_script( 'rtcl-chart', rtcl()->get_assets_uri( "vendor/chart/chart.min.js" ), [], $this->version, true );
-		wp_register_script( 'rtcl-chart-config', rtcl()->get_assets_uri( "js/rtcl-admin-chart-config.min.js" ), [
-			'jquery',
-			'rtcl-chart'
-		], $this->version,
+		wp_register_script( 'rtcl-chart-config',
+			rtcl()->get_assets_uri( "js/rtcl-admin-chart-config.min.js" ),
+			[
+				'jquery',
+				'rtcl-chart',
+			],
+			$this->version,
 			true );
-		wp_register_script( 'rtcl-admin', rtcl()->get_assets_uri( "js/rtcl-admin.min.js" ), [
-			'jquery',
-			'rtcl-common'
-		], $this->version, true );
-		wp_register_script( 'rtcl-admin-settings', rtcl()->get_assets_uri( "js/rtcl-admin-settings.min.js" ), [
-			'jquery',
-			'rtcl-common',
-			'wp-color-picker'
-		],
-			$this->version, true );
+		wp_register_script( 'rtcl-admin', rtcl()->get_assets_uri( "js/rtcl-admin.min.js" ), [ 'jquery', 'rtcl-common' ], $this->version, true );
+		wp_register_style( 'rtcl-admin-settings', rtcl()->get_assets_uri( 'css/rtcl-admin-settings.min.css' ), $this->version );
+		wp_register_script( 'rtcl-admin-settings', rtcl()->get_assets_uri( "js/rtcl-admin-settings.min.js" ), [ 'jquery' ], $this->version, true );
 		wp_register_script( 'rtcl-admin-ie', rtcl()->get_assets_uri( "js/rtcl-admin-ie.min.js" ), [
 			'jquery',
-			'rtcl-validator'
+			'rtcl-validator',
 		], $this->version, true );
 		wp_register_script( 'rtcl-admin-listing-type', rtcl()->get_assets_uri( "js/rtcl-admin-listing-type.min.js" ), [
 			'jquery',
 			'jquery-ui-sortable',
 		], $this->version, true );
-		wp_register_script( 'rtcl-admin-taxonomy', rtcl()->get_assets_uri( "js/rtcl-admin-taxonomy.min.js" ), [ 'jquery' ],
-			$this->version, true );
+		wp_register_script( 'rtcl-admin-taxonomy',
+			rtcl()->get_assets_uri( "js/rtcl-admin-taxonomy.min.js" ),
+			[ 'jquery' ],
+			$this->version,
+			true );
 		wp_register_script( 'rtcl-admin-custom-fields', rtcl()->get_assets_uri( "js/rtcl-admin-custom-fields.min.js" ), [
 			'jquery',
 			'rtcl-common',
@@ -826,19 +845,7 @@ class ScriptLoader {
 				'rtcl-common',
 			],
 			$this->version,
-			true
-		);
-		wp_register_script(
-			'rtcl-admin-settings',
-			rtcl()->get_assets_uri( 'js/rtcl-admin-settings.min.js' ),
-			[
-				'jquery',
-				'rtcl-common',
-				'wp-color-picker',
-				'wp-i18n'
-			],
-			$this->version,
-			true
+			true,
 		);
 		wp_register_script(
 			'rtcl-admin-ie',
@@ -848,7 +855,7 @@ class ScriptLoader {
 				'rtcl-validator',
 			],
 			$this->version,
-			true
+			true,
 		);
 		wp_register_script(
 			'rtcl-admin-listing-type',
@@ -858,14 +865,14 @@ class ScriptLoader {
 				'jquery-ui-sortable',
 			],
 			$this->version,
-			true
+			true,
 		);
 		wp_register_script(
 			'rtcl-admin-taxonomy',
 			rtcl()->get_assets_uri( 'js/rtcl-admin-taxonomy.min.js' ),
 			[ 'jquery' ],
 			$this->version,
-			true
+			true,
 		);
 		wp_register_script(
 			'rtcl-admin-custom-fields',
@@ -879,13 +886,13 @@ class ScriptLoader {
 				'jquery-ui-tabs',
 			],
 			$this->version,
-			true
+			true,
 		);
 		wp_register_script( 'rtcl-ajax-filter-admin', rtcl()->get_assets_uri( 'js/admin-filter-setting.min.js' ), [
 			'jquery',
 			'jquery-ui-sortable',
 			'rtcl-common',
-			'wp-i18n'
+			'wp-i18n',
 		], $this->version, true );
 
 		$decimal_separator         = Functions::get_decimal_separator();
@@ -902,10 +909,12 @@ class ScriptLoader {
 				$pricing_decimal_separator ),
 			/* translators: decimal_separator */
 			'i18n_mon_decimal_error'         => sprintf( __( 'Please enter in monetary decimal (%s) format without thousand separators and currency symbols.',
-				'classified-listing' ), $decimal_separator ),
+				'classified-listing' ),
+				$decimal_separator ),
 			/* translators: pricing_decimal_separator */
 			'i18n_mon_pricing_decimal_error' => sprintf( __( 'Please enter in monetary decimal (%s) format without thousand separators and currency symbols.',
-				'classified-listing' ), $pricing_decimal_separator ),
+				'classified-listing' ),
+				$pricing_decimal_separator ),
 			'is_admin'                       => is_admin(),
 			rtcl()->nonceId                  => wp_create_nonce( rtcl()->nonceText ),
 			'expiredOn'                      => esc_html__( 'Expired on:', 'classified-listing' ),
@@ -917,7 +926,7 @@ class ScriptLoader {
 			'ai_enabled'                     => Functions::is_ai_enabled(),
 			'current_user'                   => wp_get_current_user(),
 			'admin_url'                      => admin_url(),
-			'prompt_max_limit'               => Functions::get_max_prompt_input_limit()
+			'prompt_max_limit'               => Functions::get_max_prompt_input_limit(),
 		];
 		wp_localize_script( 'rtcl-admin', 'rtcl', apply_filters( 'rtcl_localize_params_admin', $localize ) );
 
@@ -925,6 +934,14 @@ class ScriptLoader {
 			'last_week_order_price' => Functions::get_last_week_order_price(),
 		];
 		wp_localize_script( 'rtcl-chart-config', 'rtcl_chart_vars', apply_filters( 'rtcl_chart_localize_params_admin', $chart_localize ) );
+	}
+
+	public function load_admin_script_page_user_profile() {
+		$screen = get_current_screen();
+
+		if ( $screen && in_array( $screen->id, [ 'profile', 'user-edit' ] ) ) {
+			wp_enqueue_style( 'rtcl-admin' );
+		}
 	}
 
 	function load_admin_script_page_custom_fields() {
@@ -945,25 +962,35 @@ class ScriptLoader {
 			[
 				'ajaxurl'       => $this->ajaxurl,
 				rtcl()->nonceId => wp_create_nonce( rtcl()->nonceText ),
-			]
+			],
 		);
 	}
 
 	function load_admin_script_setting_page() {
 		if ( ! empty( $_GET['page'] ) && $_GET['page'] == 'rtcl-settings' ) {
 			wp_enqueue_media();
-			wp_enqueue_style( 'rtcl-admin' );
-			wp_enqueue_script( 'rt-field-dependency' );
-			wp_enqueue_script( 'select2' );
-			if ( Functions::has_map() && isset( $_GET['tab'] ) && 'misc' === $_GET['tab'] ) {
-				wp_enqueue_script( 'rtcl-map' );
-			}
+			//wp_enqueue_style( 'rtcl-admin' );
+			//wp_enqueue_script( 'rt-field-dependency' );
+			//wp_enqueue_script( 'select2' );
+			//if ( Functions::has_map() && isset( $_GET['tab'] ) && 'misc' === $_GET['tab'] ) {
+			//	wp_enqueue_script( 'rtcl-map' );
+			//}
+			$notices = Functions::get_notices();
+			Functions::clear_notices();
 			$rtclObj = [
-				'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-				'rtcl_nonce' => wp_create_nonce( rtcl()->nonceText )
+				'plugin_url'  => RTCL_URL,
+				'ajaxurl'     => admin_url( 'admin-ajax.php' ),
+				'optionsData' => Functions::getOptionsData(),
+				'items'       => Options::option_items(),
+				'countryList' => rtcl()->countries->get_countries(),
+				'stateList'   => rtcl()->countries->get_states(),
+				'notices'     => $notices,
+				'rtcl_nonce'  => wp_create_nonce( rtcl()->nonceText ),
 			];
 			// Add the color picker css file
-			wp_enqueue_style( 'wp-color-picker' );
+//			wp_enqueue_style( 'wp-color-picker' );
+			wp_dequeue_style( 'astra-theme-builder-style' );
+			wp_enqueue_style( 'rtcl-admin-settings' );
 			wp_enqueue_script( 'rtcl-admin-settings' );
 			wp_localize_script( 'rtcl-admin-settings', 'rtclObj', $rtclObj );
 		}
@@ -1017,7 +1044,7 @@ class ScriptLoader {
 					'ajaxurl' => $this->ajaxurl,
 					'nonceId' => rtcl()->nonceId,
 					'nonce'   => wp_create_nonce( rtcl()->nonceText ),
-				]
+				],
 			);
 		}
 	}
@@ -1130,7 +1157,7 @@ class ScriptLoader {
 	/**
 	 * Script load
 	 *
-	 * @param string $hook
+	 * @param  string  $hook
 	 */
 	public function load_script_at_widget_settings( $hook ) {
 		if ( 'widgets.php' !== $hook ) {
@@ -1142,33 +1169,34 @@ class ScriptLoader {
 	}
 
 	/**
-	 * @param String $hook
+	 * @param  String  $hook
 	 */
 	public function load_script_at_form_builder( $hook ) {
-
 		if ( ! preg_match( "#_page_rtcl-fb$#", $hook ) || ! empty( $_GET['page'] ) && $_GET['page'] !== 'rtcl-fb' ) {
 			return;
 		}
 
 		$formBuilderLocalize = [
-			'ajaxurl'       => $this->ajaxurl,
-			'pluginUrl'     => RTCL_URL,
-			rtcl()->nonceId => wp_create_nonce( rtcl()->nonceText ),
-			'hasPro'        => rtcl()->has_pro(),
-			'theme'         => wp_get_theme()->get_stylesheet(),
-			'forms'         => Form::query()->get(),
-			'settingFields' => AvailableFields::settings(),
-			'optionFields'  => AvailableFields::optionFields(),
-			'editor'        => [
+			'ajaxurl'          => $this->ajaxurl,
+			'pluginUrl'        => RTCL_URL,
+			rtcl()->nonceId    => wp_create_nonce( rtcl()->nonceText ),
+			'hasPro'           => rtcl()->has_pro(),
+			'theme'            => wp_get_theme()->get_stylesheet(),
+			'forms'            => Form::query()->get(),
+			'settingFields'    => AvailableFields::settings(),
+			'optionFields'     => AvailableFields::optionFields(),
+			'slSettingsFields' => AvailableFields::singleLayoutSettingsFields(),
+			'slFields'         => AvailableFields::singleLayoutFields(),
+			'editor'           => [
 				'settingsFields'    => ElementCustomization::settingsFields(),
 				'settings'          => [],
 				'settingsPlacement' => ElementCustomization::getSettingsPlacement(),
 				'shortcode'         => EditorShortCode::getGeneralShortCodes(),
 			],
-			'options'       => $this->get_fb_settings_options( true ),
-			'validation'    => ValidationRuleSettings::get(),
-			'fields'        => AvailableFields::get(),
-			'i18n'          => LocalizedString::admin(),
+			'options'          => $this->get_fb_settings_options( true ),
+			'validation'       => ValidationRuleSettings::get(),
+			'fields'           => AvailableFields::get(),
+			'i18n'             => LocalizedString::admin(),
 		];
 
 		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
@@ -1181,10 +1209,9 @@ class ScriptLoader {
 	}
 
 	/**
-	 * @param String $hook
+	 * @param  String  $hook
 	 */
 	public function load_script_at_filter_builder( $hook ) {
-
 		if ( ! preg_match( "#_page_rtcl-ajax-filter$#", $hook ) || ! empty( $_GET['page'] ) && $_GET['page'] !== 'rtcl-ajax-filter' ) {
 			return;
 		}
@@ -1210,7 +1237,7 @@ class ScriptLoader {
 			'filters' => Functions::get_option( 'rtcl_filter_settings' ),
 			'items'   => Options::filterFormItems(),
 			'forms'   => $forms,
-			'nonce'   => wp_create_nonce( rtcl()->nonceText )
+			'nonce'   => wp_create_nonce( rtcl()->nonceText ),
 		];
 		wp_enqueue_script( 'rtcl-ajax-filter-admin' );
 		wp_localize_script( 'rtcl-ajax-filter-admin', 'rtclFilterObj', apply_filters( 'rtcl_ajax_filter_admin_localize', $rtclObj ) );
@@ -1234,12 +1261,11 @@ class ScriptLoader {
 	/**
 	 * Return data for script handles.
 	 *
-	 * @param string $handle Script handle the data will be attached to.
+	 * @param  string  $handle  Script handle the data will be attached to.
 	 *
 	 * @return array|bool
 	 */
 	private static function get_script_data( $handle ) {
-
 		switch ( $handle ) {
 			case 'rtcl-public':
 				$params = [];
@@ -1254,9 +1280,9 @@ class ScriptLoader {
 							'nav'        => [
 								'allowTouchMove' => [
 									'l' => true,
-								]
-							]
-						]
+								],
+							],
+						],
 					),
 					'slider_enabled' => Functions::is_gallery_slider_enabled(),
 				];
@@ -1269,7 +1295,7 @@ class ScriptLoader {
 	}
 
 	/**
-	 * @param boolean $admin
+	 * @param  boolean  $admin
 	 *
 	 * @return array
 	 */
@@ -1285,8 +1311,8 @@ class ScriptLoader {
 				'price_units'   => Options::get_price_unit_list(),
 				'currency'      => [
 					'id'     => $currency,
-					'symbol' => Functions::get_currency_symbol( $currency )
-				]
+					'symbol' => Functions::get_currency_symbol( $currency ),
+				],
 			],
 			'social_profiles' => Options::get_social_profiles_list(),
 			'recaptcha'       => [
@@ -1294,7 +1320,7 @@ class ScriptLoader {
 				'site_key' => Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_site_key' ),
 			],
 			'image'           => [
-				'sizes' => Gallery::rtcl_gallery_explain_size()
+				'sizes' => Gallery::rtcl_gallery_explain_size(),
 			],
 			'map'             => Functions::get_map_localized_options(),
 		];

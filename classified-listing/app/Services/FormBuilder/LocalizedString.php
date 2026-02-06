@@ -6,7 +6,7 @@ class LocalizedString {
 
 	public static function public() {
 		$strings = [
-			'no_options_found'               => __( 'No options found', 'classified-listing' ),
+			'no_options_found'   => __( 'No options found', 'classified-listing' ),
 			'close'              => __( 'Close', 'classified-listing' ),
 			'loading'            => __( 'Loading ....', 'classified-listing' ),
 			'unload_message'     => __( 'Changes that you made may not be saved.', 'classified-listing' ),
@@ -36,15 +36,15 @@ class LocalizedString {
 			'scale'              => __( 'Scale', 'classified-listing' ),
 			'past_error'         => __( 'Pasting this exceeds the maximum allowed number of ___ characters for the input.', 'classified-listing' ),
 			'reCaptcha'          => [
-				'error' => __( 'reCaptcha site key is missing.', 'classified-listing' )
+				'error' => __( 'reCaptcha site key is missing.', 'classified-listing' ),
 			],
 			'location'           => [
 				'select'  => __( 'Select a location', 'classified-listing' ),
-				'no_data' => __( 'No location found', 'classified-listing' )
+				'no_data' => __( 'No location found', 'classified-listing' ),
 			],
 			'category'           => [
 				'select'  => __( 'Select a category', 'classified-listing' ),
-				'no_data' => __( 'No category found', 'classified-listing' )
+				'no_data' => __( 'No category found', 'classified-listing' ),
 			],
 			'file'               => [
 				'description'        => __( 'Description', 'classified-listing' ),
@@ -67,6 +67,8 @@ class LocalizedString {
 			],
 			'image'              => [
 				'edit_image'             => __( 'Edit Image', 'classified-listing' ),
+				'edit_image_ai'          => __( 'Edit with AI', 'classified-listing' ),
+				'edit_image_ai_title'    => __( 'Enhance Image with AI', 'classified-listing' ),
 				'create_image'           => __( 'Create Image', 'classified-listing' ),
 				'crop_area_not_selected' => __( 'Crop Area not selected!!', 'classified-listing' ),
 				'apply_crop'             => __( 'Apply Crop', 'classified-listing' ),
@@ -83,6 +85,14 @@ class LocalizedString {
 				'zoom'                   => __( 'Zoom', 'classified-listing' ),
 				'dimension'              => __( 'Dimension', 'classified-listing' ),
 				'position'               => __( 'Position', 'classified-listing' ),
+				'upscale'                => __( 'Enhance Resolution', 'classified-listing' ),
+				'brightness'             => __( 'Adjust Brightness', 'classified-listing' ),
+				'crop'                   => __( 'Crop Image', 'classified-listing' ),
+				'resize'                 => __( 'Resize Resolution', 'classified-listing' ),
+				'remove_bg'              => __( 'Remove Background', 'classified-listing' ),
+				'others'                 => __( 'Custom Prompt', 'classified-listing' ),
+				'prompt'                 => __( 'Prompt', 'classified-listing' ),
+				'ai_request'             => __( 'Send to AI', 'classified-listing' ),
 			],
 			'map'                => [
 				'enter_address'      => __( 'Enter address, please', 'classified-listing' ),
@@ -111,8 +121,8 @@ class LocalizedString {
 				'select_timezone'     => __( 'Select a timezone', 'classified-listing' ),
 			],
 			'color_picker'       => [
-				'select_color' => __( 'Select Color', 'classified-listing' )
-			]
+				'select_color' => __( 'Select Color', 'classified-listing' ),
+			],
 		];
 
 		return apply_filters( 'rtcl_fb_localized_public_strings', $strings );
@@ -120,6 +130,8 @@ class LocalizedString {
 
 	public static function admin() {
 		$adminStrings = [
+			'step'                           => __( 'Step', 'classified-listing' ),
+			'section'                        => __( 'Section', 'classified-listing' ),
 			'check_all'                      => __( 'Check All', 'classified-listing' ),
 			'pro'                            => __( 'Pro', 'classified-listing' ),
 			'clear_filter'                   => __( 'Clear Filter', 'classified-listing' ),
@@ -134,23 +146,30 @@ class LocalizedString {
 			'checked'                        => __( 'Checked', 'classified-listing' ),
 			'_select_'                       => __( '- Select -', 'classified-listing' ),
 			'form_list'                      => __( 'Form List', 'classified-listing' ),
+			'form'                           => __( 'Form', 'classified-listing' ),
+			'single_layout'                  => __( 'Single Listing Layout', 'classified-listing' ),
 			'select_all_fields'              => __( 'Please select all field', 'classified-listing' ),
 			'update_form'                    => __( 'Update From', 'classified-listing' ),
 			'save_form'                      => __( 'Save Form', 'classified-listing' ),
 			'form_name'                      => __( "From name", 'classified-listing' ),
 			'rename_form'                    => __( "Rename from", 'classified-listing' ),
 			'input_fields'                   => __( "Input Fields", 'classified-listing' ),
+			'customization'                  => __( 'Customization', 'classified-listing' ),
 			'settings'                       => __( 'Settings', 'classified-listing' ),
 			'fields'                         => __( 'Fields', 'classified-listing' ),
 			'input_customization'            => __( 'Input Customization', 'classified-listing' ),
+			'add_new_section'                => __( 'Add New Section', 'classified-listing' ),
+			'add_new_container'              => __( 'Add New Container', 'classified-listing' ),
+			'drag_drop_your_field'           => __( 'Drag & Drop your field', 'classified-listing' ),
+			'are_u_sure_to_remove'           => __( 'Are you sure you want to delete?', 'classified-listing' ),
 			'status'                         => [
 				'publish' => __( 'Publish', 'classified-listing' ),
 				'draft'   => __( 'Draft', 'classified-listing' ),
-			]
+			],
 		];
 		$adminStrings = apply_filters( 'rtcl_fb_localized_admin_strings', $adminStrings );
 
-		$strings = self::public();
+		$strings          = self::public();
 		$strings['admin'] = $adminStrings;
 
 		return $strings;

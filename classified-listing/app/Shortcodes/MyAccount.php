@@ -15,7 +15,7 @@ class MyAccount {
 	/**
 	 * Get the shortcode content.
 	 *
-	 * @param array $atts Shortcode attributes.
+	 * @param  array  $atts  Shortcode attributes.
 	 *
 	 * @return string
 	 */
@@ -27,7 +27,7 @@ class MyAccount {
 	/**
 	 * Output the shortcode.
 	 *
-	 * @param array $atts Shortcode attributes.
+	 * @param  array  $atts  Shortcode attributes.
 	 */
 	public static function output( $atts ) {
 		global $wp;
@@ -71,7 +71,7 @@ class MyAccount {
 			ob_start();
 
 			Functions::get_template( 'myaccount/my-account', [
-				'user' => get_user_by( 'id', get_current_user_id() )
+				'user' => get_user_by( 'id', get_current_user_id() ),
 			] );
 
 			// Send output buffer
@@ -89,13 +89,13 @@ class MyAccount {
 			'post_status'    => 'publish',
 			'posts_per_page' => isset( $archive_settings['listings_per_page'] ) ? $archive_settings['listings_per_page'] : 10,
 			'paged'          => $paged,
-			'post__in'       => ! empty( $favourite_posts ) ? $favourite_posts : [ 0 ]
+			'post__in'       => ! empty( $favourite_posts ) ? $favourite_posts : [ 0 ],
 		];
 		$args             = apply_filters( 'rtcl_favourite_listings_args', $args );
 		$rtcl_query       = new \WP_Query( $args );
 		Functions::get_template( "myaccount/favourite-listings", [
 			'rtcl_query' => $rtcl_query,
-			'paged'      => $paged
+			'paged'      => $paged,
 		] );
 	}
 
@@ -116,13 +116,23 @@ class MyAccount {
 				                      'value'   => get_current_user_id(),
 				                      'compare' => '=',
 			                      ],
-			]
+			],
 		];
 		$rtcl_query = new \WP_Query( apply_filters( 'rtcl_payment_history_args', $args ) );
 		Functions::get_template( "myaccount/payment-history", [
 			'rtcl_query' => $rtcl_query,
-			'paged'      => $paged
+			'paged'      => $paged,
 		] );
+	}
+
+	public static function profile_settings() {
+		$user_id               = get_current_user_id();
+		$user                  = get_userdata( $user_id );
+		$data['user']          = $user;
+		$data['show_phone']    = get_user_meta( $user_id, '_rtcl_display_phone_public', true );
+		$data['show_email']    = get_user_meta( $user_id, '_rtcl_display_email_public', true );
+		$data['show_whatsapp'] = get_user_meta( $user_id, '_rtcl_display_whatsapp_public', true );
+		Functions::get_template( 'myaccount/profile-settings', apply_filters( 'rtcl_myaccount_profile_settings_template_data', $data, $user_id, $user ) );
 	}
 
 	public static function my_listings() {
@@ -139,23 +149,39 @@ class MyAccount {
 			'post_status'    => 'any',
 			'posts_per_page' => ! empty( $archive_settings['listings_per_page'] ) ? absint( $archive_settings['listings_per_page'] ) : 10,
 			'paged'          => $paged,
-			'author'         => get_current_user_id()
+			'author'         => get_current_user_id(),
 		];
+
+		// keyword filter
 		if ( ! empty( $_REQUEST['u'] ) && $s = sanitize_text_field( $_REQUEST['u'] ) ) { /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
 			$args['s'] = $s;
 		}
+
+		// status filter
 		if ( ! empty( $_REQUEST['status'] )
 		     && $status = sanitize_text_field( $_REQUEST['status'] )
 		) { /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
 			$args['post_status'] = $status;
 		}
+
+		// directory filter
+		if ( ! empty( $_REQUEST['directory'] )
+		     && $form_id = absint( $_REQUEST['directory'] )
+		) { /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
+			$args['meta_query'] = [
+				[
+					'key'   => '_rtcl_form_id',
+					'value' => $form_id,
+				],
+			];
+		}
+
 		$args       = apply_filters( 'rtcl_my_listings_args', $args );
 		$rtcl_query = new \WP_Query( $args );
 		Functions::get_template( "myaccount/my-listings", compact( 'rtcl_query' ) );
 	}
 
 	public static function edit_account() {
-
 		$user_id                 = get_current_user_id();
 		$user                    = get_userdata( $user_id );
 		$data['user']            = $user;
@@ -197,7 +223,7 @@ class MyAccount {
 			if ( isset( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ) && 0 < strpos( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ], ':' ) ) {
 				[ $rp_id, $rp_key ] = array_map( [
 					Functions::class,
-					'clean'
+					'clean',
 				], explode( ':', wp_unslash( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ), 2 ) );
 				$userdata = get_userdata( absint( $rp_id ) );
 				$rp_login = $userdata ? $userdata->user_login : '';
@@ -229,8 +255,8 @@ class MyAccount {
 	/**
 	 * Retrieves a user row based on password reset key and login.
 	 *
-	 * @param string $key   Hash to validate sending user's password
-	 * @param string $login The user login
+	 * @param  string  $key  Hash to validate sending user's password
+	 * @param  string  $login  The user login
 	 *
 	 * @return WP_User|bool User's database row on success, false for invalid keys
 	 * @uses $wpdb WordPress Database object
@@ -242,7 +268,8 @@ class MyAccount {
 
 		if ( is_wp_error( $user ) ) {
 			Functions::add_notice( esc_html__( 'This key is invalid or has already been used. Please reset your password again if needed.',
-				'classified-listing' ), 'error' );
+				'classified-listing' ),
+				'error' );
 
 			return false;
 		}
@@ -254,7 +281,7 @@ class MyAccount {
 	/**
 	 * Set or unset the cookie.
 	 *
-	 * @param string $value
+	 * @param  string  $value
 	 */
 	public static function set_reset_password_cookie( $value = '' ) {
 		$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
@@ -271,7 +298,7 @@ class MyAccount {
 	 * Handles sending password retrieval email to customer.
 	 * Based on retrieve_password() in core wp-login.php.
 	 *
-	 * @param null $login
+	 * @param  null  $login
 	 *
 	 * @return bool True: when finish. False: on error
 	 * @uses $wpdb WordPress Database object
@@ -281,11 +308,9 @@ class MyAccount {
 		$login = $login ?: ( isset( $_POST['user_login'] ) ? sanitize_user( wp_unslash( $_POST['user_login'] ) ) : '' );
 
 		if ( empty( $login ) ) {
-
 			Functions::add_notice( esc_html__( 'Enter a username or email address.', 'classified-listing' ), 'error' );
 
 			return false;
-
 		} else {
 			// Check on username first, as customers can use emails as usernames.
 			$user_data = get_user_by( 'login', $login );
@@ -326,13 +351,10 @@ class MyAccount {
 		$allow = apply_filters( 'rtcl_allow_password_reset', true, $user_data->ID );
 
 		if ( ! $allow ) {
-
 			Functions::add_notice( esc_html__( 'Password reset is not allowed for this user', 'classified-listing' ), 'error' );
 
 			return false;
-
 		} elseif ( is_wp_error( $allow ) ) {
-
 			Functions::add_notice( $allow->get_error_message(), 'error' );
 
 			return false;
@@ -353,8 +375,8 @@ class MyAccount {
 	/**
 	 * Handles resetting the user's password.
 	 *
-	 * @param object $user     The user
-	 * @param string $new_pass New password for the user in plaintext
+	 * @param  object  $user  The user
+	 * @param  string  $new_pass  New password for the user in plaintext
 	 */
 	public static function reset_password( $user, $new_pass ) {
 		do_action( 'password_reset', $user, $new_pass );

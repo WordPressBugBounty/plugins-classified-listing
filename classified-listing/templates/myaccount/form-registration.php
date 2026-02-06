@@ -11,7 +11,7 @@
 use Rtcl\Helpers\Functions;
 use Rtcl\Helpers\Link;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 ?>
@@ -35,33 +35,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<strong class="rtcl-required">*</strong>
 					</label>
 					<input type="text" name="username"
-						   value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>"
+						   value="<?php echo ( !empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>"
 						   autocomplete="username" id="rtcl-reg-username" class="rtcl-form-control" required/>
 					<span
 						class="help-block"><?php esc_html_e( 'Username cannot be changed.', 'classified-listing' ); ?></span>
 				</div>
-				
+
 				<?php do_action( 'rtcl_register_form_before_email' ); ?>
-				
+
 				<div class="rtcl-form-group">
 					<label for="rtcl-reg-email" class="rtcl-field-label">
 						<?php esc_html_e( 'Email address', 'classified-listing' ); ?>
 						<strong class="rtcl-required">*</strong>
 					</label>
 					<input type="email" name="email"
-						   value="<?php echo ( ! empty( $_POST['email'] ) ) ? esc_attr( wp_unslash( $_POST['email'] ) ) : ''; ?>"
+						   value="<?php echo ( !empty( $_POST['email'] ) ) ? esc_attr( wp_unslash( $_POST['email'] ) ) : ''; ?>"
 						   autocomplete="email" id="rtcl-reg-email" class="rtcl-form-control" required/>
 				</div>
-				
+
 				<?php do_action( 'rtcl_register_form_after_email' ); ?>
-				
+
 				<div class="rtcl-form-group">
 					<label for="rtcl-reg-password" class="rtcl-field-label">
 						<?php esc_html_e( 'Password', 'classified-listing' ); ?>
 						<strong class="rtcl-required">*</strong>
 					</label>
-					<input type="password" name="password" id="rtcl-reg-password" autocomplete="new-password"
-						   class="rtcl-form-control rtcl-password" required/>
+					<div class="rtcl-user-pass-wrap">
+						<input type="password" name="password" id="rtcl-reg-password" autocomplete="new-password"
+							   class="rtcl-form-control rtcl-password" required/>
+						<span class="rtcl-toggle-pass rtcl-icon-eye-off"></span>
+					</div>
 				</div>
 
 				<div class="rtcl-form-group">
@@ -70,11 +73,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<strong class="rtcl-required">*</strong>
 					</label>
 					<div class="confirm-password-wrap">
-						<input type="password" name="pass2" id="rtcl-reg-confirm-password" class="rtcl-form-control"
-							   autocomplete="off"
-							   data-rule-equalTo="#rtcl-reg-password"
-							   data-msg-equalTo="<?php esc_attr_e( 'Password does not match.', 'classified-listing' ); ?>"
-							   required/>
+						<div class="rtcl-user-pass-wrap">
+							<input type="password" name="pass2" id="rtcl-reg-confirm-password" class="rtcl-form-control"
+								   autocomplete="off"
+								   data-rule-equalTo="#rtcl-reg-password"
+								   data-msg-equalTo="<?php esc_attr_e( 'Password does not match.', 'classified-listing' ); ?>"
+								   required/>
+							<span class="rtcl-toggle-pass rtcl-icon-eye-off"></span>
+						</div>
 						<span class="rtcl-checkmark"></span>
 					</div>
 				</div>

@@ -310,10 +310,7 @@ class AppliedBothEndHooks {
 	 * * @param WP_Post $post
 	 */
 	static public function new_post_notification_email_user_published( $new_status, $old_status, WP_Post $post ) {
-		if ( 'publish' === $new_status
-		     && Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_users', 'listing_published', 'multi_checkbox' )
-		     && $listing = rtcl()->factory->get_listing( $post->ID )
-		) {
+		if ( 'publish' === $new_status && $old_status !== $new_status && Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_users', 'listing_published', 'multi_checkbox' ) && $listing = rtcl()->factory->get_listing( $post->ID ) ) {
 			rtcl()->mailer()->emails['Listing_Published_Email_To_Owner']->trigger( $listing->get_id() );
 		}
 	}

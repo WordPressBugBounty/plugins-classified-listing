@@ -6,7 +6,7 @@ class NoticeController {
 	public function __construct() {
 		$current      = time();
 		$currentYear  = gmdate( 'Y' );
-		$black_friday = mktime( 0, 0, 0, 11, 19, $currentYear ) <= $current && $current <= mktime( 0, 0, 0, 1, 5, $currentYear + 1 );
+		$black_friday = mktime( 0, 0, 0, 11, 10, $currentYear ) <= $current && $current <= mktime( 0, 0, 0, 1, 10, $currentYear + 1 );
 
 		if ( $black_friday ) {
 			add_action( 'admin_init', [ $this, 'black_friday_notice' ] );
@@ -41,22 +41,28 @@ class NoticeController {
 
 		<div class="notice notice-info is-dismissible rtcl-ramadan-notice" data-rtcl-dismissable="rtcl_dismiss_ramadan_notice"
 			 style="display:grid !important;grid-template-columns: 100px auto;padding-top: 25px; padding-bottom: 22px;">
-			<img alt="<?php echo esc_attr( $plugin_name ); ?>"
-				 src="<?php echo esc_url( rtcl()->get_assets_uri( 'images/classified-listing-promo.gif' ) ); ?>"
+			<img alt="<?php
+			echo esc_attr( $plugin_name ); ?>"
+				 src="<?php
+				 echo esc_url( rtcl()->get_assets_uri( 'images/classified-listing-promo.gif' ) ); ?>"
 				 width="74px" height="74px" style="grid-row: 1 / 4; align-self: center;justify-self: center"/>
 			<h3 style="margin:0;display: inline-flex;align-items: center;gap: 4px;">
-				<?php echo sprintf( ' %s – 🌙 Eid Special Offer', esc_html( $plugin_name ) ); ?>
-				<img alt="Deal" style="width: 60px;position: static" src="<?php echo esc_url( rtcl()->get_assets_uri( 'images/deal.gif' ) ); ?>">
+				<?php
+				echo sprintf( ' %s – 🌙 Eid Special Offer', esc_html( $plugin_name ) ); ?>
+				<img alt="Deal" style="width: 60px;position: static" src="<?php
+				echo esc_url( rtcl()->get_assets_uri( 'images/deal.gif' ) ); ?>">
 			</h3>
 			<p style="margin-top: 0; font-size: 14px;">
 				<strong>Eid Special:</strong>
 				Celebrate Eid with exclusive discounts on
-				<b><a href="<?php echo esc_url( $download_link ); ?>" style="text-decoration: none;color: inherit">Classified Listing Bundle</a></b>. Save
+				<b><a href="<?php
+					echo esc_url( $download_link ); ?>" style="text-decoration: none;color: inherit">Classified Listing Bundle</a></b>. Save
 				<b style="display:inline-block;color: white;background:red;padding: 0 8px;border-radius:3px; transform: skewX(-10deg);">UP TO 40%</b>
 				for a limited time! 🎁🌙✨
 			</p>
 			<p style="margin:0;">
-				<a class="button button-primary" href="<?php echo esc_url( $download_link ); ?>"
+				<a class="button button-primary" href="<?php
+				echo esc_url( $download_link ); ?>"
 				   style="background: #3232FF;"
 				   target="_blank">Buy Now</a>
 			</p>
@@ -66,7 +72,7 @@ class NoticeController {
 			jQuery(document).on('click', '.rtcl-ramadan-notice .notice-dismiss', function () {
 				jQuery.post(ajaxurl, {
 					action: 'rtcl_dismiss_eid_notice',
-					security: '<?php echo esc_attr(wp_create_nonce( "dismiss_eid_notice" )); ?>',
+					security: '<?php echo esc_attr( wp_create_nonce( "dismiss_eid_notice" ) ); ?>',
 				})
 			})
 		</script>
@@ -105,7 +111,7 @@ class NoticeController {
 			'export.php',
 			'site-health.php',
 			'export-personal-data.php',
-			'erase-personal-data.php'
+			'erase-personal-data.php',
 		];
 
 		if ( ! in_array( $pagenow, $exclude ) ) {
@@ -126,7 +132,11 @@ class NoticeController {
                         <a href="%s" class="rtcl-review-button rtcl-review-button--cta rtcl-review-button--error rtcl-review-button--outline"><span>😐 No Thanks</span></a>
                     </div>
                 </div>
-            </div>', esc_url( $reviewUrl ), esc_url( $rated ), esc_url( $remind_me ), esc_url( $dont_disturb ) );
+            </div>',
+				esc_url( $reviewUrl ),
+				esc_url( $rated ),
+				esc_url( $remind_me ),
+				esc_url( $dont_disturb ) );
 
 			echo '<style> 
             .rtcl-review-button--cta {
@@ -154,7 +164,7 @@ class NoticeController {
                 left: -4px;
                 display: block;
                 width: 4px;
-                background: -webkit-linear-gradient(bottom, #4C6FFF 0%, #6939c6 100%);
+                background: -webkit-linear-gradient(0deg, #4C6FFF 0%, #6939c6 100%);
                 background: linear-gradient(0deg, #4C6FFF 0%, #6939c6 100%);
                 content: "";
             } 
@@ -251,7 +261,7 @@ class NoticeController {
 			'rtcl_rating_status_clear',
 			'rtcl_reminder',
 			'rtcl_skip',
-			'rtcl_rated'
+			'rtcl_rated',
 		], admin_url( $uri ) );
 	}
 
@@ -333,28 +343,33 @@ class NoticeController {
 				$plugin_name   = 'Classified Listing';
 				$download_link = 'https://www.radiustheme.com/downloads/classified-listing-pro-plugins-bundle/'; ?>
 				<div class="notice notice-info is-dismissible" data-rtcl-bf-dismiss-able="rtcl_dismiss_admin_notice"
-					 style="display:grid;grid-template-columns: 100px auto;column-gap:10px;padding-top: 15px; padding-bottom: 12px;">
-					<img alt="<?php echo esc_attr( $plugin_name ); ?>"
-						 src="<?php echo esc_url( rtcl()->get_assets_uri( 'images/classified-listing-promo.gif' ) ) ?>"
+					 style="display:grid;grid-template-columns: 100px auto;column-gap:10px;padding-top: 15px; padding-bottom: 12px; background: #f1f2fe; border-color: #cfd2ff; border-left-color: #3232ff;">
+					<img alt="<?php
+					echo esc_attr( $plugin_name ); ?>"
+						 src="<?php
+						 echo esc_url( rtcl()->get_assets_uri( 'images/classified-listing-promo.gif' ) ) ?>"
 						 width="90px"
 						 height="90px" style="grid-row: 1 / 4; align-self: center;justify-self: center"/>
-					<h3 style="margin:0;display: flex;align-items: center"><?php echo sprintf( '%s - End of Year 2024 <img style="width: 45px;position: relative;margin-left: 6px" src="%s" />',
-							esc_html( $plugin_name ), esc_url(rtcl()->get_assets_uri( 'images/deal.gif' )) ); ?></h3>
+					<h3 style="margin:0;display: flex;align-items: center"><?php
+						echo sprintf( '%s - Holiday Special <img style="width: 45px;position: relative;margin-left: 6px" src="%s" />',
+							esc_html( $plugin_name ),
+							esc_url( rtcl()->get_assets_uri( 'images/deal.gif' ) ) ); ?></h3>
 
 					<p style="margin:3px 0 5px; font-size: 14px">
-						Year-end sale is live now! Get the <strong>plugin bundle</strong> or
+						Holiday special sale is live now! Get the <strong>plugin bundle</strong> or
 						<strong>individual addon</strong> and enjoy discounts <span style="color: #fe0100; font-weight: 600">up to 50%</span>. Limited time
 						offer!!
 					</p>
 
 					<p style="margin:0;">
-						<a class="button button-primary" href="<?php echo esc_url( $download_link ); ?>"
-						   target="_blank">Buy Now</a>
-						<a class="button button-dismiss" href="#">Dismiss</a>
+						<a class="button button-primary" href="<?php
+						echo esc_url( $download_link ); ?>"
+						   target="_blank" style="background: #3232FF;">Buy Now</a>
+						<a class="button button-dismiss" href="#" style="color: #3232FF; border-color: #3232FF; background: none">Dismiss</a>
 					</p>
 				</div>
 				<?php
-			}
+			},
 		);
 
 		add_action(
@@ -379,7 +394,7 @@ class NoticeController {
 					})(jQuery);
 				</script>
 				<?php
-			}
+			},
 		);
 
 		add_action(
@@ -390,7 +405,7 @@ class NoticeController {
 
 				update_option( 'rtcl_dismiss_admin_notice_' . $currentYear, '1' );
 				wp_die();
-			}
+			},
 		);
 	}
 

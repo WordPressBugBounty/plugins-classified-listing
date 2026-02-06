@@ -254,6 +254,7 @@
     };
     this.start = function () {
       var that = this;
+      this.init();
       this.$sliderWrapper.on("rtcl_gallery_loaded", this.init.bind(this));
       setTimeout(function () {
         that.imagesLoaded();
@@ -270,7 +271,85 @@
     new RtclListingGallery(this, args);
     return this;
   };
-  $(".rtcl-slider-wrapper").each(function () {
-    $(this).rtcl_listing_gallery();
+  $(document).ready(function () {
+    $(".rtcl-slider-wrapper").each(function () {
+      $(this).rtcl_listing_gallery();
+    });
+    $('.rtcl-sl-section-columns').each(function () {
+      var hasContent = false;
+      $(this).find('.rtcl-sl-element-wrap').each(function () {
+        if ($(this).text().trim() !== '' || $(this).children().length > 0) {
+          hasContent = true;
+          return false; // break loop
+        }
+      });
+      if (!hasContent) {
+        $(this).closest('.rtcl-sl-section').hide();
+      }
+    });
+    $('.rtcl-slf-repeater-item').each(function () {
+      var $items = $(this).children().length;
+      if (1 == $items) {
+        $(this).addClass('has-one-item');
+      } else {
+        $(this).addClass('has-multiple-items');
+      }
+    });
+    $('.rtcl-sl-section').each(function () {
+      var $section = $(this);
+      var $columns = $section.find('.rtcl-sl-section-columns > .rtcl-sl-section-column');
+
+      // Check if every column is empty or has only .has-no-value
+      var allEmpty = true;
+      $columns.each(function () {
+        var $col = $(this);
+        var hasText = $col.text().trim().length > 0;
+        var hasMedia = $col.find('img, video, iframe').length > 0;
+        var onlyEmptyValue = $col.find('.has-no-value').length > 0;
+        if (hasText || hasMedia || !onlyEmptyValue) {
+          allEmpty = false;
+          return false; // Stop loop
+        }
+      });
+      if (allEmpty) {
+        $section.hide();
+      }
+    });
+  });
+  jQuery(document).ready(function ($) {
+    var $repeater = $('.rtcl-is-collapsable');
+    if (!$repeater.length) return;
+    $repeater.each(function () {
+      $(this).find('.rtcl-slf-repeater-item').each(function (index) {
+        var $item = $(this);
+        var $fields = $item.find('> .rtcl-slf-repeater-field'); // direct children only
+        if (!$fields.length) return;
+        var $title = $fields.first(); // first div = heading
+        var $contents = $fields.slice(1); // rest = collapsible
+
+        // Wrap all content fields in one container
+        var $contentWrapper = $('<div class="rtcl-repeater-content"></div>');
+        $contents.appendTo($contentWrapper);
+        $item.append($contentWrapper);
+
+        // Make title clickable
+        $title.css('cursor', 'pointer');
+        $title.addClass('item-heading item-' + index);
+
+        // Show first item by default
+        if (index === 0) {
+          $contentWrapper.show();
+          $item.addClass('open');
+        } else {
+          $contentWrapper.hide();
+        }
+
+        // Toggle on click
+        $title.on('click', function () {
+          $contentWrapper.slideToggle(200);
+          $item.toggleClass('open');
+        });
+      });
+    });
   });
 })(jQuery);

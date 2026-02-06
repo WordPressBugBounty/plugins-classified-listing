@@ -4,6 +4,7 @@
 namespace Rtcl\Controllers;
 
 use Rtcl\Helpers\Functions;
+use Rtcl\Services\EmbeddingService;
 use Rtcl\Services\FormBuilder\FBField;
 use Rtcl\Services\FormBuilder\FBHelper;
 use WP_Query;
@@ -44,7 +45,7 @@ class Query {
 	}
 
 	/**
-	 * @param WP_Query $query
+	 * @param  WP_Query  $query
 	 *
 	 * @return void
 	 */
@@ -68,7 +69,7 @@ class Query {
 	}
 
 	/**
-	 * @param WP_Query $q WordPress query.
+	 * @param  WP_Query  $q  WordPress query.
 	 *
 	 * @return WP_Query
 	 */
@@ -163,78 +164,78 @@ class Query {
 			add_rewrite_rule(
 				"$cLink/$category_base/([^/]*)/?$",
 				'index.php?page_id=' . $id . '&__cat=$matches[1]',
-				'top'
+				'top',
 			);
 			add_rewrite_rule(
 				"$cLink/$category_base/([^/]*)/page/([^/]*)",
 				'index.php?page_id=' . $id . '&__cat=$matches[1]&__page=$matches[2]',
-				'top'
+				'top',
 			);
 			// Location only
 			add_rewrite_rule(
 				"$cLink/$location_base/([^/]*)/?$",
 				'index.php?page_id=' . $id . '&__loc=$matches[1]',
-				'top'
+				'top',
 			);
 			add_rewrite_rule(
 				"$cLink/$location_base/([^/]*)/page/([^/]*)",
 				'index.php?page_id=' . $id . '&__loc=$matches[1]&__page=$matches[2]',
-				'top'
+				'top',
 			);
 			// Tag only
 			add_rewrite_rule(
 				"$cLink/tag/([^/]*)/?$",
 				'index.php?page_id=' . $id . '&__tag=$matches[1]',
-				'top'
+				'top',
 			);
 			add_rewrite_rule(
 				"$cLink/tag/([^/]*)/page/([^/]*)",
 				'index.php?page_id=' . $id . '&__tag=$matches[1]&__page=$matches[2]',
-				'top'
+				'top',
 			);
 			// Category with tag
 			add_rewrite_rule(
 				"$cLink/$category_base/([^/]*)/tag/([^/]*)",
 				'index.php?page_id=' . $id . '&__cat=$matches[1]&__tag=$matches[2]',
-				'top'
+				'top',
 			);
 			add_rewrite_rule(
 				"$cLink/$category_base/([^/]*)/tag/([^/]*)/page/([^/]*)",
 				'index.php?page_id=' . $id . '&__cat=$matches[1]&__tag=$matches[2]&__page=$matches[3]',
-				'top'
+				'top',
 			);
 			// Location with tag
 			add_rewrite_rule(
 				"$cLink/$location_base/([^/]*)/tag/([^/]*)",
 				'index.php?page_id=' . $id . '&__loc=$matches[1]&__tag=$matches[2]',
-				'top'
+				'top',
 			);
 			add_rewrite_rule(
 				"$cLink/$location_base/([^/]*)/tag/([^/]*)/page/([^/]*)",
 				'index.php?page_id=' . $id . '&__loc=$matches[1]&__tag=$matches[2]&__page=$matches[3]',
-				'top'
+				'top',
 			);
 			// Category with location and tag
 			add_rewrite_rule(
 				"$cLink/$category_base/([^/]+)/$location_base/([^/]+)/tag/([^/]*)",
 				'index.php?page_id=' . $id . '&__cat=$matches[1]&__loc=$matches[2]&__tag=$matches[3]',
-				'top'
+				'top',
 			);
 			add_rewrite_rule(
 				"$cLink/$category_base/([^/]+)/$location_base/([^/]+)/tag/([^/]*)/page/([^/]*)",
 				'index.php?page_id=' . $id . '&__cat=$matches[1]&__loc=$matches[2]&__tag=$matches[3]&__page=$matches[4]',
-				'top'
+				'top',
 			);
 			// Category with location
 			add_rewrite_rule(
 				"$cLink/$category_base/([^/]*)/$location_base/([^/]*)/page/([^/]*)",
 				'index.php?page_id=' . $id . '&__cat=$matches[1]&__loc=$matches[2]&__page=$matches[3]',
-				'top'
+				'top',
 			);
 			add_rewrite_rule(
 				"$cLink/$category_base/([^/]*)/$location_base/([^/]*)",
 				'index.php?page_id=' . $id . '&__cat=$matches[1]&__loc=$matches[2]',
-				'top'
+				'top',
 			);
 
 			// WPML Support
@@ -250,78 +251,78 @@ class Query {
 					add_rewrite_rule(
 						"$cLink/$category_base/([^/]*)/?$",
 						'index.php?page_id=' . $id . '&__cat=$matches[1]',
-						'top'
+						'top',
 					);
 					add_rewrite_rule(
 						"$cLink/$category_base/([^/]*)/page/([^/]*)",
 						'index.php?page_id=' . $id . '&__cat=$matches[1]&__page=$matches[2]',
-						'top'
+						'top',
 					);
 					// Location only
 					add_rewrite_rule(
 						"$cLink/$location_base/([^/]*)/?$",
 						'index.php?page_id=' . $id . '&__loc=$matches[1]',
-						'top'
+						'top',
 					);
 					add_rewrite_rule(
 						"$cLink/$location_base/([^/]*)/page/([^/]*)",
 						'index.php?page_id=' . $id . '&__loc=$matches[1]&__page=$matches[2]',
-						'top'
+						'top',
 					);
 					// Tag only
 					add_rewrite_rule(
 						"$cLink/tag/([^/]*)/?$",
 						'index.php?page_id=' . $id . '&__tag=$matches[1]',
-						'top'
+						'top',
 					);
 					add_rewrite_rule(
 						"$cLink/tag/([^/]*)/page/([^/]*)",
 						'index.php?page_id=' . $id . '&__tag=$matches[1]&__page=$matches[2]',
-						'top'
+						'top',
 					);
 					// Category with tag
 					add_rewrite_rule(
 						"$cLink/$category_base/([^/]*)/tag/([^/]*)",
 						'index.php?page_id=' . $id . '&__cat=$matches[1]&__tag=$matches[2]',
-						'top'
+						'top',
 					);
 					add_rewrite_rule(
 						"$cLink/$category_base/([^/]*)/tag/([^/]*)/page/([^/]*)",
 						'index.php?page_id=' . $id . '&__cat=$matches[1]&__tag=$matches[2]&__page=$matches[3]',
-						'top'
+						'top',
 					);
 					// Location with tag
 					add_rewrite_rule(
 						"$cLink/$location_base/([^/]*)/tag/([^/]*)",
 						'index.php?page_id=' . $id . '&__loc=$matches[1]&__tag=$matches[2]',
-						'top'
+						'top',
 					);
 					add_rewrite_rule(
 						"$cLink/$location_base/([^/]*)/tag/([^/]*)/page/([^/]*)",
 						'index.php?page_id=' . $id . '&__loc=$matches[1]&__tag=$matches[2]&__page=$matches[3]',
-						'top'
+						'top',
 					);
 					// Category with location and tag
 					add_rewrite_rule(
 						"$cLink/$category_base/([^/]+)/$location_base/([^/]+)/tag/([^/]*)",
 						'index.php?page_id=' . $id . '&__cat=$matches[1]&__loc=$matches[2]&__tag=$matches[3]',
-						'top'
+						'top',
 					);
 					add_rewrite_rule(
 						"$cLink/$category_base/([^/]+)/$location_base/([^/]+)/tag/([^/]*)/page/([^/]*)",
 						'index.php?page_id=' . $id . '&__cat=$matches[1]&__loc=$matches[2]&__tag=$matches[3]&__page=$matches[4]',
-						'top'
+						'top',
 					);
 					// Category with location
 					add_rewrite_rule(
 						"$cLink/$category_base/([^/]*)/$location_base/([^/]*)/page/([^/]*)",
 						'index.php?page_id=' . $id . '&__cat=$matches[1]&__loc=$matches[2]&__page=$matches[3]',
-						'top'
+						'top',
 					);
 					add_rewrite_rule(
 						"$cLink/$category_base/([^/]*)/$location_base/([^/]*)",
 						'index.php?page_id=' . $id . '&__cat=$matches[1]&__loc=$matches[2]',
-						'top'
+						'top',
 					);
 				}
 			}
@@ -358,7 +359,7 @@ class Query {
 	 *
 	 * @access public
 	 *
-	 * @param array $vars Query vars.
+	 * @param  array  $vars  Query vars.
 	 *
 	 * @return array
 	 */
@@ -374,11 +375,10 @@ class Query {
 	 * Init query vars by loading options.
 	 */
 	public function init_query_vars() {
-
 		// Query vars to add to WP.
 		$this->query_vars = array_merge(
 			Functions::get_my_account_page_endpoints(),
-			Functions::get_checkout_page_endpoints()
+			Functions::get_checkout_page_endpoints(),
 		);
 	}
 
@@ -399,7 +399,6 @@ class Query {
 		$front_page_id    = absint( get_option( 'page_on_front' ) );
 		// Fixes for queries on static homepages.
 		if ( $this->is_showing_page_on_front( $q ) ) {
-
 			// Fix for endpoints on the homepage.
 			if ( ! $this->page_on_front_is( $q->get( 'page_id' ) ) ) {
 				$_query = wp_parse_args( $q->query );
@@ -411,8 +410,8 @@ class Query {
 						     [
 							     'rtcl_location',
 							     'rtcl_category',
-						     ]
-					     )
+						     ],
+					     ),
 				     )
 				) {
 					$q->is_page     = true;
@@ -435,7 +434,7 @@ class Query {
 							'paged',
 							'cpage',
 							'orderby',
-						]
+						],
 					)
 				) {
 					$q->set( 'page_id', $front_page_id );
@@ -515,7 +514,7 @@ class Query {
 	/**
 	 * Are we currently on the front page?
 	 *
-	 * @param WP_Query $q Query instance.
+	 * @param  WP_Query  $q  Query instance.
 	 *
 	 * @return bool
 	 */
@@ -526,7 +525,7 @@ class Query {
 	/**
 	 * Is the front page a page we define?
 	 *
-	 * @param int $page_id Page ID.
+	 * @param  int  $page_id  Page ID.
 	 *
 	 * @return bool
 	 */
@@ -577,8 +576,8 @@ class Query {
 	/**
 	 * Returns an array of arguments for ordering products based on the selected values.
 	 *
-	 * @param string $orderby Order by param.
-	 * @param string $order   Order param.
+	 * @param  string  $orderby  Order by param.
+	 * @param  string  $order  Order param.
 	 *
 	 * @return array
 	 */
@@ -629,15 +628,15 @@ class Query {
 				$args['orderby']    = 'meta_value_num';
 				$args['order']      = ( 'DESC' === $order ) ? 'DESC' : 'ASC';
 				$args['meta_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query	
-					'relation' => 'OR',
-					[
-						'key'     => 'price',
-						'compare' => 'EXISTS',
-					],
-					[
-						'key'     => 'price',
-						'compare' => 'NOT EXISTS',
-					],
+				                        'relation' => 'OR',
+				                        [
+					                        'key'     => 'price',
+					                        'compare' => 'EXISTS',
+				                        ],
+				                        [
+					                        'key'     => 'price',
+					                        'compare' => 'NOT EXISTS',
+				                        ],
 				];
 				break;
 			case 'views':
@@ -658,7 +657,7 @@ class Query {
 	 * Query the listings, applying sorting/ordering etc.
 	 * This applies to the main WordPress loop.
 	 *
-	 * @param WP_Query $q Query instance.
+	 * @param  WP_Query  $q  Query instance.
 	 */
 	public function listing_query( $q ) {
 		if ( ! is_feed() ) {
@@ -672,21 +671,26 @@ class Query {
 				$q->set( 'meta_key', $ordering['meta_key'] );
 			}
 		}
-
+		$similar_posts = [];
 		if ( isset( $_GET['q'] ) && ( rtcl()->post_type === $q->get( 'post_type' ) || $q->is_tax( get_object_taxonomies( rtcl()->post_type ) ) ) ) {
-			$q->set( 's', (string) Functions::clean( wp_unslash( $_GET['q'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			if ( Functions::is_semantic_search_enabled() ) {
+				$service       = new EmbeddingService();
+				$similar_posts = $service->search( Functions::clean( wp_unslash( $_GET['q'] ) ) );
+			} else {
+				$q->set( 's', (string) Functions::clean( wp_unslash( $_GET['q'] ) ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			}
 		}
 
 		// Meta query for listing
 		$q->set( 'meta_query', $this->get_meta_query( $q->get( 'meta_query' ), true ) );
 		$q->set( 'tax_query', $this->get_tax_query( $q->get( 'tax_query' ), true ) );
 		$q->set( 'rtcl_query', 'rtcl_listing_query' );
-		$q->set( 'post__in', array_unique( (array) apply_filters( 'rtcl_loop_listing_post_in', [] ) ) );
-
+		$q->set( 'post__in', array_unique( (array) apply_filters( 'rtcl_loop_listing_post_in', $similar_posts ) ) );
 		// Listings per page.
-		$q->set( 'posts_per_page', $q->get( 'posts_per_page' )
-			? $q->get( 'posts_per_page' )
-			: apply_filters( 'rtcl_loop_listing_per_page',
+		$q->set( 'posts_per_page',
+			$q->get( 'posts_per_page' )
+				? $q->get( 'posts_per_page' )
+				: apply_filters( 'rtcl_loop_listing_per_page',
 				Functions::get_option_item( 'rtcl_archive_listing_settings', 'listings_per_page' ) ) );
 		// have combine query page
 		$paged = ! empty( $_GET['page'] ) ? absint( $_GET['page'] ) : absint( get_query_var( '__page' ) );
@@ -702,8 +706,8 @@ class Query {
 	/**
 	 * Appends meta queries to an array.
 	 *
-	 * @param array $meta_query Meta query.
-	 * @param bool  $main_query If is main query.
+	 * @param  array  $meta_query  Meta query.
+	 * @param  bool  $main_query  If is main query.
 	 *
 	 * @return array
 	 */
@@ -745,14 +749,11 @@ class Query {
 		$filters = apply_filters( 'rtcl_filter_widget_default_filter_item', $filters );
 
 		if ( ! empty( $filters ) ) {
-
 			// Price filter
 			if ( ! empty( $filters['price'] ) ) {
-
 				$price = array_filter( $filters['price'] );
 
 				if ( $n = count( $price ) ) {
-
 					if ( 2 == $n ) {
 						$meta_query[] = [
 							'relation' => 'OR',
@@ -776,9 +777,7 @@ class Query {
 								],
 							],
 						];
-
 					} else {
-
 						if ( ! empty( $price['max'] ) ) {
 							$meta_query[] = [
 								'relation' => 'OR',
@@ -809,7 +808,7 @@ class Query {
 									],
 								],
 							];
-						} else if ( isset( $price['min'] ) ) {
+						} elseif ( isset( $price['min'] ) ) {
 							$meta_query[] = [
 								'key'     => 'price',
 								'value'   => (int) $price['min'],
@@ -887,7 +886,6 @@ class Query {
 										}
 									} elseif ( in_array( $field->getElement(), [ 'checkbox', 'select', 'radio' ] ) ) {
 										if ( count( $values ) > 1 ) {
-
 											$sub_meta_queries = [ 'relation' => 'AND' ];
 
 											foreach ( $values as $value ) {
@@ -899,7 +897,6 @@ class Query {
 											}
 
 											$cf_meta_query[] = apply_filters( 'rtcl_cf_sub_meta_queries', $sub_meta_queries, $field );
-
 										} else {
 											$cf_meta_query[] = [
 												'key'     => $fieldName,
@@ -955,7 +952,7 @@ class Query {
 															],
 														],
 														$field,
-														$values
+														$values,
 													);
 												}
 											} else {
@@ -986,7 +983,7 @@ class Query {
 													'text',
 													'textarea',
 													'url',
-												]
+												],
 											) ) ? 'LIKE' : '=';
 											$cf_meta_query[] = [
 												'key'     => $fieldName,
@@ -1035,7 +1032,6 @@ class Query {
 									}
 								} elseif ( in_array( $field->getType(), [ 'checkbox', 'select', 'radio' ] ) ) {
 									if ( count( $values ) > 1 ) {
-
 										$sub_meta_queries = [
 											'relation' => 'AND',
 										];
@@ -1049,7 +1045,6 @@ class Query {
 										}
 
 										$cf_meta_query[] = apply_filters( 'rtcl_cf_sub_meta_queries', $sub_meta_queries, $field );
-
 									} else {
 										$cf_meta_query[] = [
 											'key'     => $key,
@@ -1120,7 +1115,7 @@ class Query {
 											'text',
 											'textarea',
 											'url',
-										]
+										],
 									) ) ? 'LIKE' : '=';
 									$cf_meta_query[] = [
 										'key'     => $key,
@@ -1145,8 +1140,8 @@ class Query {
 	/**
 	 * Appends tax queries to an array.
 	 *
-	 * @param array $tax_query  Tax query.
-	 * @param bool  $main_query If is main query.
+	 * @param  array  $tax_query  Tax query.
+	 * @param  bool  $main_query  If is main query.
 	 *
 	 * @return array
 	 */
@@ -1274,7 +1269,7 @@ class Query {
 	/**
 	 * Appends excluded author user ids.
 	 *
-	 * @param WP_Query $q
+	 * @param  WP_Query  $q
 	 *
 	 * @return array
 	 */
@@ -1295,7 +1290,7 @@ class Query {
 	/**
 	 * Appends excluded listings ids.
 	 *
-	 * @param WP_Query $q
+	 * @param  WP_Query  $q
 	 *
 	 * @return array
 	 */
@@ -1342,12 +1337,11 @@ class Query {
 	/**
 	 * Get page title for an endpoint.
 	 *
-	 * @param string $endpoint Endpoint key.
+	 * @param  string  $endpoint  Endpoint key.
 	 *
 	 * @return string
 	 */
 	public static function get_endpoint_title( $endpoint ) {
-
 		switch ( $endpoint ) {
 			case 'submission':
 			case 'promote':

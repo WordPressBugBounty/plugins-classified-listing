@@ -110,14 +110,13 @@ class TemplateHooks {
 		add_action( 'rtcl_account_favourites_endpoint', [ __CLASS__, 'account_favourites_endpoint' ] );
 		add_action( 'rtcl_account_edit-account_endpoint', [ __CLASS__, 'account_edit_account_endpoint' ] );
 		add_action( 'rtcl_account_rtcl_edit_account_endpoint', [ __CLASS__, 'account_edit_account_endpoint' ] );
-
 		add_action( 'rtcl_account_payments_endpoint', [ __CLASS__, 'account_payments_endpoint' ] );
-
+		add_action( 'rtcl_account_profile-settings_endpoint', [ __CLASS__, 'account_profile_settings_endpoint' ] );
 		add_action( 'rtcl_checkout_content', [ __CLASS__, 'checkout_content' ] );
 		add_action( 'rtcl_checkout_submission_endpoint', [ __CLASS__, 'checkout_submission_endpoint' ], 10, 2 );
 		add_action( 'rtcl_checkout_payment-receipt_endpoint', [
 			__CLASS__,
-			'checkout_payment_receipt_endpoint'
+			'checkout_payment_receipt_endpoint',
 		], 10, 2 );
 
 		add_action( 'rtcl_account_dashboard', [ __CLASS__, 'user_information' ] );
@@ -131,7 +130,7 @@ class TemplateHooks {
 		add_action( 'rtcl_single_listing_sidebar', [ __CLASS__, 'add_single_listing_sidebar' ], 10 );
 		add_action( 'rtcl_single_listing_inner_sidebar', [
 			__CLASS__,
-			'add_single_listing_inner_sidebar_custom_field'
+			'add_single_listing_inner_sidebar_custom_field',
 		], 10 );
 		add_action( 'rtcl_single_listing_inner_sidebar', [ __CLASS__, 'add_single_listing_inner_sidebar_action' ], 20 );
 
@@ -147,6 +146,9 @@ class TemplateHooks {
 			add_action( 'rtcl_register_form_start', [ __CLASS__, 'add_phone_at_registration_form' ], 20 );
 		}
 
+		if ( Functions::is_user_type_enabled() ) {
+			add_action( 'rtcl_register_form_start', [ __CLASS__, 'add_user_type_at_registration_form' ], 30 );
+		}
 
 		/**
 		 * Check out form
@@ -166,7 +168,7 @@ class TemplateHooks {
 		add_action( 'rtcl_checkout_terms_and_conditions', [ __CLASS__, 'checkout_privacy_policy_text' ], 20 );
 		add_action( 'rtcl_checkout_terms_and_conditions', [
 			__CLASS__,
-			'checkout_terms_and_conditions_page_content'
+			'checkout_terms_and_conditions_page_content',
 		], 30 );
 
 		/**
@@ -178,6 +180,7 @@ class TemplateHooks {
 		add_action( 'rtcl_register_form', [ __CLASS__, 'registration_privacy_policy' ], 20 );
 		add_action( 'rtcl_register_form', [ __CLASS__, 'registration_terms_and_conditions' ], 30 );
 		add_action( 'rtcl_register_form_end', [ __CLASS__, 'registration_hidden_fields' ], 100 );
+		add_action( 'rtcl_after_login_form', [ __CLASS__, 'login_form_necessary_link' ], 10 );
 
 		add_action( 'rtcl_listing_badges', [ __CLASS__, 'listing_new_badge' ], 10 );
 		add_action( 'rtcl_listing_badges', [ __CLASS__, 'listing_featured_badge' ], 20 );
@@ -231,46 +234,57 @@ class TemplateHooks {
 		add_action( 'rtcl_widget_ajax_filter_render_tag', [ __CLASS__, 'ajax_filter_render_tag' ], 10, 3 );
 		add_action( 'rtcl_widget_ajax_filter_render_price_range', [
 			__CLASS__,
-			'ajax_filter_render_price_range'
+			'ajax_filter_render_price_range',
 		], 10, 3 );
 		add_action( 'rtcl_widget_ajax_filter_render_radius_filter', [
 			__CLASS__,
-			'ajax_filter_render_radius_filter'
+			'ajax_filter_render_radius_filter',
 		], 10, 3 );
 	}
 
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
-	 * @param AjaxFilter $object
+	 * @param  array  $itemData
+	 * @param  array  $filterData
+	 * @param  AjaxFilter  $object
 	 *
 	 * @return void
 	 */
 	public static function ajax_filter_render_search( $itemData, $filterData, $object ) {
-
 		$q                  = ! empty( $_GET['q'] ) ? trim( sanitize_text_field( wp_unslash( $_GET['q'] ) ) )
 			: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
 		$itemData['title']  = ! empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Search', 'classified-listing' );
 		$placeholder        = ! empty( $itemData['placeholder'] ) ? $itemData['placeholder'] : esc_html__( 'Search ...', 'classified-listing' );
 		$itemData['active'] = ! empty( $q );
 		$field_html         = '';
-		$field_html         = sprintf( '<div class="rtcl-ajax-filter-text">
-											<input name="q" type="text"  role="presentation" autocomplete="off" value="%1$s" class="rtcl-form-control rtcl-filter-text-field" placeholder="%2$s">
+		$filed_class        = Functions::is_semantic_quick_search_enabled() ? 'rtcl-ajax-filter-text rtcl-ai-search-field' : 'rtcl-ajax-filter-text';
+		$field_html         = sprintf( '<div class="%1$s">
+											<input name="q" type="text"  aria-label="Keyword" autocomplete="off" value="%2$s" class="rtcl-form-control rtcl-filter-text-field" placeholder="%3$s">
 											<i class="rtcl-clear-text rtcl-icon-trash"></i>
+											<span class="rtcl-ai-quick-search">
+												<span class="rtcl-ai-quick-search-inner">
+    												<span class="rtcl-ai-quick-search-text">%4$s</span>
+												</span>
+											</span>
 										</div>',
+			$filed_class,
 			$q,
-			$placeholder
+			$placeholder,
+			esc_html__( 'AI Best Matches', 'classified-listing' ),
 		);
+
+		if ( Functions::is_semantic_quick_search_enabled() ) {
+			$field_html .= '<div class="rtcl-ai-search-result-container"><div class="rtcl-ai-search-result-header"><h4>Analyzing through AI<span class="dots"></span></h4></div><div class="rtcl-ai-search-result-content"></div></div>';
+		}
 
 		$options = [ 'name' => 'filter_search', 'filter_key' => 'q', 'field_type' => 'text' ];
 		Functions::print_html( $object->render_filter_item( $itemData, $options, $field_html ), true );
 	}
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
-	 * @param AjaxFilter $object
+	 * @param  array  $itemData
+	 * @param  array  $filterData
+	 * @param  AjaxFilter  $object
 	 *
 	 * @return void
 	 */
@@ -290,12 +304,12 @@ class TemplateHooks {
 			[
 				'checkbox',
 				'radio',
-				'select'
+				'select',
 			] ) ? $itemData['type'] : 'checkbox';
 		$options           = [
 			'name'       => 'filter_ad_type',
 			'field_type' => $fieldType,
-			'values'     => $selectedValues
+			'values'     => $selectedValues,
 		];
 
 		$field_html = '<div class="rtcl-ajax-filter-data">';
@@ -308,7 +322,7 @@ class TemplateHooks {
 					$field_html .= sprintf( '<div class="rtcl-ajax-filter-data-item rtcl-filter-checkbox-item rtcl-filter-ad_type-%1$s%6$s">
 															<div class="rtcl-ajax-filter-diiWrap">
 																<input id="filters-ad-type-value-%1$s" name="%2$s" value="%1$s" type="%3$s" class="rtcl-filter-checkbox"%4$s />
-																<label for="filters-ad-type-value-%1$s" class="rtcl-filter-checkbox-label">
+																<label for="filters-ad-type-value-%1$s" class="rtcl-filter-checkbox-label" tabindex="0">
 																	<span class="rtcl-filter-checkbox-text">%5$s</span>
 																</label>
 															</div>
@@ -318,17 +332,17 @@ class TemplateHooks {
 						$fieldType,
 						in_array( $optKey, $selectedValues ) ? ' checked' : '',
 						esc_html( $optValue ),
-						$count >= 6 ? ' hideAble' : ''
+						$count >= 6 ? ' hideAble' : '',
 					);
 				}
 			} elseif ( $fieldType == 'select' ) {
-				$field_html .= '<select class="rtcl-filter-select-item rtcl-form-control" name="' . esc_attr( $options['name'] ) . '">';
+				$field_html .= '<select aria-label="' . esc_attr( $options['name'] ) . '" class="rtcl-filter-select-item rtcl-form-control" name="' . esc_attr( $options['name'] ) . '">';
 				$field_html .= '<option value="">' . __( 'Select', 'classified-listing' ) . '</option>';
 				foreach ( $ad_types as $optKey => $optValue ) {
 					$field_html .= sprintf( '<option value="%1$s"%2$s>%3$s</option>',
 						esc_attr( $optKey ),
 						in_array( $optKey, $selectedValues ) ? ' selected' : '',
-						esc_html( $optValue )
+						esc_html( $optValue ),
 					);
 				}
 				$field_html .= '</select>';
@@ -336,8 +350,8 @@ class TemplateHooks {
 		}
 		if ( $fieldType !== 'select' && $count >= 6 ) {
 			$field_html .= '<div class="rtcl-more-less-btn">
-										<div class="text more-text"><i class="rtcl-icon rtcl-icon-plus-1"></i>' . __( 'More', 'classified-listing' ) . '</div>
-										<div class="text less-text"><i class="rtcl-icon rtcl-icon-minus-1"></i>' . __( 'Less', 'classified-listing' ) . '</div>
+										<div class="text more-text" tabindex="0"><i class="rtcl-icon rtcl-icon-plus-1"></i>' . __( 'More', 'classified-listing' ) . '</div>
+										<div class="text less-text" tabindex="0"><i class="rtcl-icon rtcl-icon-minus-1"></i>' . __( 'Less', 'classified-listing' ) . '</div>
 								</div>';
 		}
 		$field_html .= '</div>';
@@ -346,9 +360,9 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
-	 * @param AjaxFilter $object
+	 * @param  array  $itemData
+	 * @param  array  $filterData
+	 * @param  AjaxFilter  $object
 	 *
 	 * @return void
 	 */
@@ -376,7 +390,7 @@ class TemplateHooks {
 				'taxonomy'   => rtcl()->category,
 				'field_type' => $fieldType,
 				'values'     => $selectedValues,
-				'ajax_load'  => 1
+				'ajax_load'  => 1,
 			] );
 
 		if ( class_exists( 'RtclStore' ) && \RtclStore\Helpers\Functions::is_single_store() ) {
@@ -388,9 +402,9 @@ class TemplateHooks {
 
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
-	 * @param AjaxFilter $object
+	 * @param  array  $itemData
+	 * @param  array  $filterData
+	 * @param  AjaxFilter  $object
 	 *
 	 * @return string|void
 	 */
@@ -422,16 +436,16 @@ class TemplateHooks {
 				'taxonomy'   => rtcl()->location,
 				'field_type' => $fieldType,
 				'values'     => $selectedValues,
-				'ajax_load'  => 1
+				'ajax_load'  => 1,
 			] );
 		Functions::print_html( $object->render_filter_item( $itemData, $options ), true );
 	}
 
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
-	 * @param AjaxFilter $object
+	 * @param  array  $itemData
+	 * @param  array  $filterData
+	 * @param  AjaxFilter  $object
 	 *
 	 * @return void
 	 */
@@ -459,15 +473,15 @@ class TemplateHooks {
 				'taxonomy'   => rtcl()->tag,
 				'field_type' => $fieldType,
 				'values'     => $selectedValues,
-				'ajax_load'  => 1
+				'ajax_load'  => 1,
 			] );
 		Functions::print_html( $object->render_filter_item( $itemData, $options ), true );
 	}
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
-	 * @param AjaxFilter $object
+	 * @param  array  $itemData
+	 * @param  array  $filterData
+	 * @param  AjaxFilter  $object
 	 *
 	 * @return void
 	 */
@@ -483,8 +497,8 @@ class TemplateHooks {
 		$field_html         = sprintf( '<div class="rtcl-price-range-wrap">
 												<div class="rtcl-price-range-slider rtcl-noUiSlider" data-min="%1$d" data-max="%2$d" data-step="%3$d"></div>
 												<div class="rtcl-range-slider-input-wrap">
-													<input type="number" name="filter_min_price" class="rtcl-form-control rtcl-range-slider-input min" placeholder="%6$s" value="%4$d" min="%1$d" max="%2$d" step="%3$d">
-													<input type="number" name="filter_max_price" class="rtcl-form-control rtcl-range-slider-input max" placeholder="%7$s" value="%5$d" min="%1$d" max="%2$d" step="%3$d">
+													<input type="number" name="filter_min_price" class="rtcl-form-control rtcl-range-slider-input min" placeholder="%6$s" value="%4$d" min="%1$d" max="%2$d" step="%3$d" aria-label="min-price">
+													<input type="number" name="filter_max_price" class="rtcl-form-control rtcl-range-slider-input max" placeholder="%7$s" value="%5$d" min="%1$d" max="%2$d" step="%3$d" aria-label="max-price">
 												</div>
 											</div>',
 			absint( $minPrice ),
@@ -502,9 +516,9 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param array      $itemData
-	 * @param array      $filterData
-	 * @param AjaxFilter $object
+	 * @param  array  $itemData
+	 * @param  array  $filterData
+	 * @param  AjaxFilter  $object
 	 *
 	 * @return void
 	 */
@@ -539,11 +553,11 @@ class TemplateHooks {
 			in_array( $rs_data['units'],
 				[
 					'km',
-					'kilometers'
+					'kilometers',
 				] ) ? esc_html__( 'km', 'classified-listing' ) : esc_html__( 'Miles', 'classified-listing' ),
 			$distance,
 			$rs_data['default_distance'],
-			$rs_data['max_distance']
+			$rs_data['max_distance'],
 		);
 		$itemData['title'] = ! empty( $settings['title'] ) ? $settings['title'] : esc_html__( 'Radius Search', 'classified-listing' );
 
@@ -561,16 +575,16 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param int     $paymentId
-	 * @param Payment $payment
+	 * @param  int  $paymentId
+	 * @param  Payment  $payment
 	 */
 	public static function payment_receipt_pricing_info( $paymentId, $payment ) {
 		Functions::get_template( "checkout/pricing-info", compact( 'payment' ) );
 	}
 
 	/**
-	 * @param int     $paymentId
-	 * @param Payment $payment
+	 * @param  int  $paymentId
+	 * @param  Payment  $payment
 	 */
 	public static function payment_receipt_billing_info( $paymentId, $payment ) {
 		Functions::get_template( "checkout/billing-info", compact( 'payment' ) );
@@ -581,8 +595,8 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param int     $paymentId
-	 * @param Payment $payment
+	 * @param  int  $paymentId
+	 * @param  Payment  $payment
 	 */
 	public static function payment_receipt_payment_info( $paymentId, $payment ) {
 		Functions::get_template( "checkout/payment-info", compact( 'payment' ) );
@@ -591,8 +605,10 @@ class TemplateHooks {
 	public static function payment_receipt_actions() {
 		?>
 		<div class="action-btn">
-			<a href="<?php echo esc_url( Link::get_account_endpoint_url( "listings" ) ); ?>"
-			   class="rtcl-btn"><?php esc_html_e( 'View all my listings', 'classified-listing' ); ?></a>
+			<a href="<?php
+			echo esc_url( Link::get_account_endpoint_url( "listings" ) ); ?>"
+			   class="rtcl-btn"><?php
+				esc_html_e( 'View all my listings', 'classified-listing' ); ?></a>
 		</div>
 		<?php
 	}
@@ -600,17 +616,19 @@ class TemplateHooks {
 	public static function payment_receipt_popup_actions( $order_id ) {
 		?>
 		<div class="action-btn">
-			<a href="<?php echo esc_url( Link::get_checkout_endpoint_url( "payment-receipt", $order_id ) ); ?>"
+			<a href="<?php
+			echo esc_url( Link::get_checkout_endpoint_url( "payment-receipt", $order_id ) ); ?>"
 			   class="rtcl-btn">
-				<?php esc_html_e( 'View details', 'classified-listing' ); ?>
+				<?php
+				esc_html_e( 'View details', 'classified-listing' ); ?>
 			</a>
 		</div>
 		<?php
 	}
 
 	/**
-	 * @param int     $paymentId
-	 * @param Payment $payment
+	 * @param  int  $paymentId
+	 * @param  Payment  $payment
 	 */
 	public static function offline_payment_instruction( $paymentId, $payment ) {
 		if ( $payment->get_status() === "rtcl-pending" ) {
@@ -619,15 +637,18 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 */
 	public static function seller_website( $listing ) {
 		if ( is_a( $listing, Listing::class ) && $website = get_post_meta( $listing->get_id(), 'website', true ) ) {
 			?>
 			<div class='rtcl-website rtcl-list-group-item'>
-				<a class="rtcl-website-link rtcl-btn rtcl-btn-primary" href="<?php echo esc_url( $website ); ?>"
-				   target="_blank"<?php echo Functions::is_external( $website ) ? ' rel="nofollow"' : ''; ?>><span
-						class='rtcl-icon rtcl-icon-globe text-white'></span><?php esc_html_e( "Visit Website", "classified-listing" ) ?>
+				<a class="rtcl-website-link rtcl-btn rtcl-btn-primary" href="<?php
+				echo esc_url( $website ); ?>"
+				   target="_blank"<?php
+				echo Functions::is_external( $website ) ? ' rel="nofollow"' : ''; ?>><span
+						class='rtcl-icon rtcl-icon-globe text-white'></span><?php
+					esc_html_e( "Visit Website", "classified-listing" ) ?>
 				</a>
 			</div>
 			<?php
@@ -635,10 +656,9 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 */
 	public static function seller_email( $listing ) {
-
 		if ( is_a( $listing, Listing::class ) && Functions::get_option_item( 'rtcl_single_listing_settings', 'has_contact_form', false, 'checkbox' )
 			 && $email = get_post_meta( $listing->get_id(), 'email', true )
 		) {
@@ -651,76 +671,65 @@ class TemplateHooks {
 					<span class='rtcl-icon rtcl-icon-mail mr-2'></span>
 					<div class='media-body'>
 						<a class="rtcl-do-email-link" href='#'>
-							<span><?php echo esc_html( Text::get_single_listing_email_button_text() ); ?></span>
+							<span><?php
+								echo esc_html( Text::get_single_listing_email_button_text() ); ?></span>
 						</a>
 					</div>
 				</div>
-				<?php $listing->email_to_seller_form(); ?>
+				<?php
+				$listing->email_to_seller_form(); ?>
 			</div>
 			<?php
 		}
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 */
 	public static function seller_phone_whatsapp_number( $listing ) {
 		if ( is_a( $listing, Listing::class ) ) {
-			$phone              = get_post_meta( $listing->get_id(), 'phone', true );
-			$whatsapp_number    = get_post_meta( $listing->get_id(), '_rtcl_whatsapp_number', true );
-			$revealPhoneOnClick = apply_filters( 'rtcl_allow_number_reveal_on_click', true );
+			$phone           = get_post_meta( $listing->get_id(), 'phone', true );
+			$whatsapp_number = get_post_meta( $listing->get_id(), '_rtcl_whatsapp_number', true );
 			if ( $phone || ( $whatsapp_number && ! Functions::is_field_disabled( 'whatsapp_number' ) ) ) {
-				$mobileClass = wp_is_mobile() ? " rtcl-mobile" : null;
-				if ( ! $revealPhoneOnClick ) {
-					$mobileClass = " revealed";
-				}
+				$mobileClass   = wp_is_mobile() ? " rtcl-mobile" : null;
 				$phone_options = [];
-				if ( $phone ) {
+				if ( $phone && Functions::check_visibility( $listing->get_author_id(), 'phone' ) ) {
 					$phone_options = [
 						'safe_phone'   => mb_substr( $phone, 0, mb_strlen( $phone ) - 3 ) . apply_filters( 'rtcl_phone_number_placeholder', 'XXX' ),
-						'phone_hidden' => mb_substr( $phone, - 3 )
+						'phone_hidden' => mb_substr( $phone, - 3 ),
 					];
 				}
-				if ( $whatsapp_number && ! Functions::is_field_disabled( 'whatsapp_number' ) ) {
+				if ( $whatsapp_number && Functions::check_visibility( $listing->get_author_id(), 'whatsapp' ) && ! Functions::is_field_disabled( 'whatsapp_number' ) ) {
 					$phone_options['safe_whatsapp_number'] = mb_substr( $whatsapp_number, 0, mb_strlen( $whatsapp_number ) - 3 )
 															 . apply_filters( 'rtcl_phone_number_placeholder', 'XXX' );
 					$phone_options['whatsapp_hidden']      = mb_substr( $whatsapp_number, - 3 );
 				}
 				$phone_options = apply_filters( 'rtcl_phone_number_options', $phone_options, [
 					'phone'           => $phone,
-					'whatsapp_number' => $whatsapp_number
-				] );
+					'whatsapp_number' => $whatsapp_number,
+				] )
 				?>
-				<div class='rtcl-list-group-item reveal-phone<?php echo esc_attr( $mobileClass ); ?>'
+				<div tabindex="0" class='rtcl-list-group-item reveal-phone<?php
+				echo esc_attr( $mobileClass ); ?>'
 					 data-options="<?php
 					 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					 echo htmlspecialchars( wp_json_encode( $phone_options ) ); ?>"
-					 data-id="<?php echo esc_attr( $listing->get_id() ); ?>">
+					 data-id="<?php
+					 echo $listing->get_id(); ?>">
 					<div class='media'>
 						<span class='rtcl-icon rtcl-icon-phone mr-2'></span>
 						<div class='media-body'>
-							<span><?php esc_html_e( "Contact Number", "classified-listing" ); ?></span>
+							<span><?php
+								esc_html_e( "Contact Number", "classified-listing" ); ?></span>
 							<div class='numbers'><?php
-								if ( $phone ) {
-									if ( $revealPhoneOnClick ) {
-										echo ! empty( $phone_options['safe_phone'] ) ? esc_html( $phone_options['safe_phone'] ) : '';
-									} else {
-										echo sprintf( '<a href="tel:%s"><i class="rtcl-icon rtcl-icon-phone"></i> %s</a>', esc_attr( $phone ),
-											esc_html( $phone ) );
-									}
-								}
-								if ( $whatsapp_number ) {
-									if ( $revealPhoneOnClick ) {
-										echo ! empty( $phone_options['safe_whatsapp_number'] ) ? esc_html( $phone_options['safe_whatsapp_number'] ) : '';
-									} else {
-										$url = sprintf( "https://wa.me/6735568743/?text=Need to discuss something related to '%s' from %s",
-											esc_url( $listing->get_the_title() ), esc_url( $listing->get_the_permalink() ) );
-										echo sprintf( '<a href="%s"><i class="rtcl-icon rtcl-icon-whatsapp"></i> %s</a>', esc_url( $url ),
-											esc_html( $whatsapp_number ) );
-									}
+								if ( $phone && Functions::check_visibility( $listing->get_author_id(), 'phone' ) ) {
+									echo esc_html( $phone_options['safe_phone'] );
+								} elseif ( $whatsapp_number && Functions::check_visibility( $listing->get_author_id(), 'whatsapp' ) ) {
+									echo esc_html( $phone_options['safe_whatsapp_number'] );
 								} ?></div>
 							<small
-								class='text-muted'><?php esc_html_e( "Click to reveal phone number", "classified-listing" ) ?></small>
+								class='text-muted'><?php
+								esc_html_e( "Click to reveal phone number", "classified-listing" ) ?></small>
 						</div>
 					</div>
 				</div>
@@ -730,7 +739,7 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 */
 	public static function author_information( $listing ) {
 		if ( is_a( $listing, Listing::class ) && $listing->can_show_user() ) {
@@ -740,23 +749,29 @@ class TemplateHooks {
 					<?php
 					$pp_id = absint( get_user_meta( $listing->get_owner_id(), '_rtcl_pp_id', true ) );
 					if ( $listing->can_add_user_link() ): ?>
-						<a href="<?php echo esc_url( $listing->get_the_author_url() ); ?>"><?php echo( $pp_id ? wp_get_attachment_image( $pp_id, [
+						<a href="<?php
+						echo esc_url( $listing->get_the_author_url() ); ?>" aria-label="Post Author"><?php
+							echo( $pp_id ? wp_get_attachment_image( $pp_id, [
 								40,
-								40
+								40,
 							] )
 								: get_avatar( $listing->get_author_id(), 40 ) ); ?></a>
-					<?php else:
+					<?php
+					else:
 						echo( $pp_id ? wp_get_attachment_image( $pp_id, [
 							40,
-							40
+							40,
 						] ) : get_avatar( $listing->get_author_id(), 40 ) );
 					endif;
 					?>
 					<div class='media-body'>
 						<a class="rtcl-listing-author"
-						   href="<?php echo esc_url( $listing->get_the_author_url() ); ?>"><?php $listing->the_author(); ?></a>
+						   href="<?php
+						   echo esc_url( $listing->get_the_author_url() ); ?>"><?php
+							$listing->the_author(); ?></a>
 						<div class="rtcl-author-badge">
-							<?php do_action( 'rtcl_listing_author_badges', $listing ); ?>
+							<?php
+							do_action( 'rtcl_listing_author_badges', $listing ); ?>
 						</div>
 					</div>
 				</div>
@@ -766,7 +781,7 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 */
 	public static function seller_location( $listing ) {
 		if ( is_a( $listing, Listing::class ) && $location = $listing->user_contact_location_at_single() ) {
@@ -774,9 +789,11 @@ class TemplateHooks {
 			<div class='rtcl-list-group-item'>
 				<div class='media'>
 					<span class='rtcl-icon rtcl-icon-location mr-2'></span>
-					<div class='media-body'><span><?php esc_html_e( "Location", "classified-listing" ) ?></span>
+					<div class='media-body'><span><?php
+							esc_html_e( "Location", "classified-listing" ) ?></span>
 						<div
-							class='locations'><?php echo implode( '<span class="rtcl-delimiter">,</span> ',
+							class='locations'><?php
+							echo implode( '<span class="rtcl-delimiter">,</span> ',
 								$location ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 					</div>
 				</div>
@@ -786,13 +803,14 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 */
 	public static function seller_telegram( $listing ) {
 		if ( is_a( $listing, Listing::class ) ) {
 			$telegram = get_post_meta( $listing->get_id(), '_rtcl_telegram', true );
 			/* translators: related something */
-			$message = sprintf( esc_html__( "Need to discuss something related to '%1\$s' from %2\$s", "classified-listing" ), $listing->get_the_title(),
+			$message = sprintf( esc_html__( "Need to discuss something related to '%1\$s' from %2\$s", "classified-listing" ),
+				$listing->get_the_title(),
 				get_permalink( $listing->get_id() ) );
 			if ( ! empty( $telegram ) ) {
 				?>
@@ -801,8 +819,11 @@ class TemplateHooks {
 						<span class='rtcl-icon rtcl-icon-telegram mr-2'></span>
 						<div class='media-body'>
 							<a class="rtcl-telegram-message" target="_blank"
-							   href="https://t.me/<?php echo esc_attr( $telegram ); ?>/?text=<?php echo esc_attr( $message ); ?>">
-								<span><?php esc_html_e( "Message to Telegram", "classified-listing" ) ?></span>
+							   href="https://t.me/<?php
+							   echo esc_attr( $telegram ); ?>/?text=<?php
+							   echo esc_attr( $message ); ?>">
+								<span><?php
+									esc_html_e( "Message to Telegram", "classified-listing" ) ?></span>
 							</a>
 						</div>
 					</div>
@@ -813,12 +834,13 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 */
 	public static function my_listing_promotion_button( $listing ) {
 		if ( is_a( $listing, Listing::class ) && ! Functions::is_payment_disabled() ) {
 			?>
-			<a href="<?php echo esc_url( Link::get_checkout_endpoint_url( "submission", $listing->get_id() ) ); ?>"
+			<a href="<?php
+			echo esc_url( Link::get_checkout_endpoint_url( "submission", $listing->get_id() ) ); ?>"
 			   class="rtcl-promote-btn">
 				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path
@@ -834,7 +856,8 @@ class TemplateHooks {
 						d="M15.1998 3.6875L14.4771 4.41028C14.294 4.59338 14.294 4.89014 14.4771 5.07324C14.5686 5.16479 14.6885 5.21045 14.8085 5.21045C14.9285 5.21045 15.0485 5.16467 15.14 5.07324L15.8627 4.35046C16.0458 4.16736 16.0458 3.87061 15.8627 3.6875C15.6795 3.50452 15.3828 3.50452 15.1998 3.6875Z"
 						fill="#646464"/>
 				</svg>
-				<span class="rtcl-tooltip"><?php esc_html_e( 'Promote', 'classified-listing' ) ?></span>
+				<span class="rtcl-tooltip"><?php
+					esc_html_e( 'Promote', 'classified-listing' ) ?></span>
 			</a>
 			<?php
 		}
@@ -842,7 +865,7 @@ class TemplateHooks {
 
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 */
 	public static function my_listing_renew_button( Listing $listing ) {
 		if ( ! $listing->isExpired() ) {
@@ -854,7 +877,8 @@ class TemplateHooks {
 		}
 
 		?>
-		<a href="#" data-id="<?php echo absint( $listing->get_id() ) ?>" class="rtcl-renew-btn">
+		<a href="#" data-id="<?php
+		echo absint( $listing->get_id() ) ?>" class="rtcl-renew-btn">
 			<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<g clip-path="url(#clip0_1407_118)">
 					<path
@@ -870,20 +894,22 @@ class TemplateHooks {
 					</clipPath>
 				</defs>
 			</svg>
-			<span class="rtcl-tooltip"><?php esc_html_e( 'Renew', 'classified-listing' ); ?></span>
+			<span class="rtcl-tooltip"><?php
+				esc_html_e( 'Renew', 'classified-listing' ); ?></span>
 		</a>
 		<?php
-
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 */
 	public static function my_listing_edit_button( $listing ) {
 		if ( is_a( $listing, Listing::class ) && Functions::current_user_can( 'edit_' . rtcl()->post_type, $listing->get_id() ) ) {
 			?>
-			<a href="<?php echo esc_url( Link::get_listing_edit_page_link( $listing->get_id() ) ); ?>" class=""
-			   data-id="<?php echo esc_attr( $listing->get_id() ) ?>">
+			<a href="<?php
+			echo esc_url( Link::get_listing_edit_page_link( $listing->get_id() ) ); ?>" class=""
+			   data-id="<?php
+			   echo esc_attr( $listing->get_id() ) ?>">
 				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path
 						d="M11.5 16H1.83337C0.822021 16 0 15.1779 0 14.1665V4.49906C0 3.48762 0.822021 2.66553 1.83337 2.66553H7.5C7.776 2.66553 8 2.88955 8 3.16557C8 3.4416 7.776 3.66561 7.5 3.66561H1.83337C1.37402 3.66561 1 4.03967 1 4.49906V14.1665C1 14.6259 1.37402 14.9999 1.83337 14.9999H11.5C11.9594 14.9999 12.3334 14.6259 12.3334 14.1665V8.49938C12.3334 8.22336 12.5574 7.99934 12.8334 7.99934C13.1094 7.99934 13.3334 8.22275 13.3334 8.49938V14.1665C13.3334 15.1779 12.5114 16 11.5 16Z"
@@ -895,83 +921,89 @@ class TemplateHooks {
 						d="M14.1666 4.21839C14.0387 4.21839 13.9106 4.16968 13.8134 4.07165L11.928 2.18551C11.7327 1.99018 11.7327 1.67351 11.928 1.47818C12.1233 1.28285 12.4399 1.28285 12.6354 1.47818L14.5206 3.36432C14.7159 3.55965 14.7159 3.87633 14.5206 4.07165C14.4226 4.16907 14.2947 4.21839 14.1666 4.21839Z"
 						fill="#646464"/>
 				</svg>
-				<span class="rtcl-tooltip"><?php esc_html_e( 'Edit', 'classified-listing' ); ?></span>
+				<span class="rtcl-tooltip"><?php
+					esc_html_e( 'Edit', 'classified-listing' ); ?></span>
 			</a>
 			<?php
 		}
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 */
 	public static function my_listing_delete_button( $listing ) {
 		if ( is_a( $listing, Listing::class ) && Functions::current_user_can( 'delete_' . rtcl()->post_type, $listing->get_id() ) ) {
 			?>
 			<a href="#" class="rtcl-delete-listing"
-			   data-id="<?php echo esc_attr( $listing->get_id() ) ?>"
-			   title="<?php esc_attr_e( 'Delete', 'classified-listing' ) ?>">
+			   data-id="<?php
+			   echo esc_attr( $listing->get_id() ) ?>"
+			   title="<?php
+			   esc_attr_e( 'Delete', 'classified-listing' ) ?>">
 				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path
 						d="M6.4 2.73171H9.6C9.6 2.31771 9.43143 1.92067 9.13137 1.62793C8.83131 1.33519 8.42435 1.17073 8 1.17073C7.57565 1.17073 7.16869 1.33519 6.86863 1.62793C6.56857 1.92067 6.4 2.31771 6.4 2.73171ZM5.2 2.73171C5.2 2.37297 5.27242 2.01775 5.41314 1.68633C5.55385 1.3549 5.7601 1.05376 6.0201 0.800099C6.28011 0.546436 6.58878 0.34522 6.92849 0.207939C7.2682 0.0706577 7.6323 0 8 0C8.3677 0 8.7318 0.0706577 9.07151 0.207939C9.41123 0.34522 9.7199 0.546436 9.9799 0.800099C10.2399 1.05376 10.4461 1.3549 10.5869 1.68633C10.7276 2.01775 10.8 2.37297 10.8 2.73171H15.4C15.5591 2.73171 15.7117 2.79338 15.8243 2.90316C15.9368 3.01293 16 3.16182 16 3.31707C16 3.47232 15.9368 3.62121 15.8243 3.73099C15.7117 3.84077 15.5591 3.90244 15.4 3.90244H14.344L13.408 13.3549C13.3362 14.0792 12.9904 14.7514 12.4381 15.2404C11.8859 15.7295 11.1666 16.0003 10.4208 16H5.5792C4.83349 16.0001 4.11448 15.7292 3.56236 15.2402C3.01024 14.7512 2.66459 14.0791 2.5928 13.3549L1.656 3.90244H0.6C0.44087 3.90244 0.288258 3.84077 0.175736 3.73099C0.063214 3.62121 0 3.47232 0 3.31707C0 3.16182 0.063214 3.01293 0.175736 2.90316C0.288258 2.79338 0.44087 2.73171 0.6 2.73171H5.2ZM6.8 6.43902C6.8 6.28378 6.73679 6.13489 6.62426 6.02511C6.51174 5.91533 6.35913 5.85366 6.2 5.85366C6.04087 5.85366 5.88826 5.91533 5.77574 6.02511C5.66321 6.13489 5.6 6.28378 5.6 6.43902V12.2927C5.6 12.4479 5.66321 12.5968 5.77574 12.7066C5.88826 12.8164 6.04087 12.878 6.2 12.878C6.35913 12.878 6.51174 12.8164 6.62426 12.7066C6.73679 12.5968 6.8 12.4479 6.8 12.2927V6.43902ZM9.8 5.85366C9.95913 5.85366 10.1117 5.91533 10.2243 6.02511C10.3368 6.13489 10.4 6.28378 10.4 6.43902V12.2927C10.4 12.4479 10.3368 12.5968 10.2243 12.7066C10.1117 12.8164 9.95913 12.878 9.8 12.878C9.64087 12.878 9.48826 12.8164 9.37574 12.7066C9.26321 12.5968 9.2 12.4479 9.2 12.2927V6.43902C9.2 6.28378 9.26321 6.13489 9.37574 6.02511C9.48826 5.91533 9.64087 5.85366 9.8 5.85366ZM3.7872 13.2425C3.83035 13.677 4.0378 14.0802 4.36909 14.3735C4.70039 14.6669 5.1318 14.8294 5.5792 14.8293H10.4208C10.8682 14.8294 11.2996 14.6669 11.6309 14.3735C11.9622 14.0802 12.1697 13.677 12.2128 13.2425L13.1392 3.90244H2.8608L3.7872 13.2425Z"
 						fill="#646464"/>
 				</svg>
-				<span class="rtcl-tooltip"><?php esc_html_e( 'Delete', 'classified-listing' ) ?></span>
+				<span class="rtcl-tooltip"><?php
+					esc_html_e( 'Delete', 'classified-listing' ) ?></span>
 			</a>
 			<?php
 		}
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 */
 	public static function add_favourite_button( $listing ) {
 		if ( Functions::is_enable_favourite() ) { ?>
 			<div class="rtcl-tooltip-wrapper rtcl-btn"
-				 data-listing_id="<?php echo absint( $listing->get_id() ) ?>">
+				 data-listing_id="<?php
+				 echo absint( $listing->get_id() ) ?>">
 				<?php
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo Functions::get_favourites_link( $listing->get_id() ) ?>
 			</div>
-		<?php }
+			<?php
+		}
 	}
 
 	/**
-	 * @param Filter $object
+	 * @param  Filter  $object
 	 */
 	public static function widget_filter_form_category_item( $object ) {
 		Functions::print_html( $object->get_category_filter(), true );
 	}
 
 	/**
-	 * @param Filter $object
+	 * @param  Filter  $object
 	 */
 	public static function widget_filter_form_tag_item( $object ) {
 		Functions::print_html( $object->get_tag_filter(), true );
 	}
 
 	/**
-	 * @param Filter $object
+	 * @param  Filter  $object
 	 */
 	public static function widget_filter_form_location_item( $object ) {
 		Functions::print_html( $object->get_location_filter(), true );
 	}
 
 	/**
-	 * @param Filter $object
+	 * @param  Filter  $object
 	 */
 	public static function widget_filter_form_radius_item( $object ) {
 		Functions::print_html( $object->get_radius_search(), true );
 	}
 
 	/**
-	 * @param Filter $object
+	 * @param  Filter  $object
 	 */
 	public static function widget_filter_form_price_item( $object ) {
 		Functions::print_html( $object->get_price_filter(), true );
 	}
 
 	/**
-	 * @param Filter $object
+	 * @param  Filter  $object
 	 */
 	public static function widget_filter_form_ad_type_item( $object ) {
 		Functions::print_html( $object->get_ad_type_filter(), true );
@@ -982,7 +1014,8 @@ class TemplateHooks {
 		<div class="rtcl-form-group">
 			<div class="rtcl-field-col">
 				<input type="submit" name="submit" class="rtcl-btn"
-					   value="<?php esc_attr_e( 'Update Account', 'classified-listing' ); ?>"/>
+					   value="<?php
+					   esc_attr_e( 'Update Account', 'classified-listing' ); ?>"/>
 			</div>
 		</div>
 		<?php
@@ -992,7 +1025,8 @@ class TemplateHooks {
 		?>
 		<div class="rtcl-form-group rtcl-social-wrap-row">
 			<label for="rtcl-social" class="rtcl-field-label">
-				<?php esc_html_e( 'Social Profile', 'classified-listing' ); ?>
+				<?php
+				esc_html_e( 'Social Profile', 'classified-listing' ); ?>
 			</label>
 			<div class="rtcl-field-col">
 				<?php
@@ -1003,7 +1037,7 @@ class TemplateHooks {
 						'<input type="url" name="social_media[%1$s]" id="rtcl-account-social-%1$s" value="%2$s" placeholder="%3$s" class="rtcl-form-control"/>',
 						esc_attr( $key ),
 						esc_url( isset( $social_media[ $key ] ) ? $social_media[ $key ] : '' ),
-						esc_html( $social_option )
+						esc_html( $social_option ),
 					);
 				} ?>
 			</div>
@@ -1023,12 +1057,15 @@ class TemplateHooks {
 		<div class="rtcl-form-group">
 			<div class="rtcl-field-col" id="rtcl-location-row">
 				<label for="rtcl-location" class="rtcl-field-label">
-					<?php echo esc_html( $state_text ); ?>
+					<?php
+					echo esc_html( $state_text ); ?>
 					<span class="require-star">*</span>
 				</label>
 				<select id="rtcl-location" name="location"
 						class="rtcl-select2 rtcl-select rtcl-form-control rtcl-map-field" required>
-					<option value="">--<?php esc_html_e( 'Select state', 'classified-listing' ) ?>--</option>
+					<option value="">--<?php
+						esc_html_e( 'Select state', 'classified-listing' ) ?>--
+					</option>
 					<?php
 					$locations = Functions::get_one_level_locations();
 					if ( ! empty( $locations ) ) {
@@ -1050,13 +1087,17 @@ class TemplateHooks {
 			if ( $location_id ) {
 				$sub_locations = Functions::get_one_level_locations( $location_id );
 			} ?>
-			<div class="rtcl-field-col<?php echo empty( $sub_locations ) ? ' rtcl-hide' : ''; ?>" id="sub-location-row">
-				<label class="rtcl-field-label" for='rtcl-sub-location'><?php echo esc_html( $city_text ); ?>
+			<div class="rtcl-field-col<?php
+			echo empty( $sub_locations ) ? ' rtcl-hide' : ''; ?>" id="sub-location-row">
+				<label class="rtcl-field-label" for='rtcl-sub-location'><?php
+					echo esc_html( $city_text ); ?>
 					<span class="require-star">*</span>
 				</label>
 				<select id="rtcl-sub-location" name="sub_location"
 						class="rtcl-select2 rtcl-select rtcl-form-control rtcl-map-field" required>
-					<option value="">--<?php esc_html_e( 'Select location', 'classified-listing' ) ?>--</option>
+					<option value="">--<?php
+						esc_html_e( 'Select location', 'classified-listing' ) ?>--
+					</option>
 					<?php
 					if ( ! empty( $sub_locations ) ) {
 						foreach ( $sub_locations as $location ) {
@@ -1077,15 +1118,19 @@ class TemplateHooks {
 			if ( $sub_location_id ) {
 				$sub_sub_locations = Functions::get_one_level_locations( $sub_location_id );
 			} ?>
-			<div class="rtcl-field-col<?php echo empty( $sub_sub_locations ) ? ' rtcl-hide' : ''; ?>"
+			<div class="rtcl-field-col<?php
+			echo empty( $sub_sub_locations ) ? ' rtcl-hide' : ''; ?>"
 				 id="sub-sub-location-row">
 				<label for='rtcl-sub-sub-location' class="rtcl-field-label">
-					<?php echo esc_html( $town_text ); ?>
+					<?php
+					echo esc_html( $town_text ); ?>
 					<span class="require-star">*</span>
 				</label>
 				<select id="rtcl-sub-sub-location" name="sub_sub_location"
 						class="rtcl-select2 rtcl-select rtcl-form-control rtcl-map-field" required>
-					<option value="">--<?php esc_html_e( 'Select location', 'classified-listing' ) ?>--</option>
+					<option value="">--<?php
+						esc_html_e( 'Select location', 'classified-listing' ) ?>--
+					</option>
 					<?php
 					if ( ! empty( $sub_sub_locations ) ) {
 						foreach ( $sub_sub_locations as $location ) {
@@ -1102,15 +1147,19 @@ class TemplateHooks {
 			</div>
 			<div class="rtcl-field-col">
 				<label for="rtcl-zipcode"
-					   class="rtcl-field-label"><?php esc_html_e( "Zip Code", "classified-listing" ) ?></label>
-				<input type="text" name="zipcode" value="<?php echo esc_attr( $zipcode ); ?>"
+					   class="rtcl-field-label"><?php
+					esc_html_e( "Zip Code", "classified-listing" ) ?></label>
+				<input type="text" name="zipcode" value="<?php
+				echo esc_attr( $zipcode ); ?>"
 					   class="rtcl-map-field rtcl-form-control" id="rtcl-zipcode"/>
 			</div>
 			<div class="rtcl-field-col">
 				<label for="rtcl-address"
-					   class="rtcl-field-label"><?php esc_html_e( "Address", "classified-listing" ) ?></label>
+					   class="rtcl-field-label"><?php
+					esc_html_e( "Address", "classified-listing" ) ?></label>
 				<textarea name="address" rows="3" class="rtcl-map-field rtcl-form-control"
-						  id="rtcl-address"><?php echo esc_textarea( $address ); ?></textarea>
+						  id="rtcl-address"><?php
+					echo esc_textarea( $address ); ?></textarea>
 			</div>
 		</div>
 		<?php
@@ -1122,14 +1171,17 @@ class TemplateHooks {
 		$geo_address = get_user_meta( $user_id, '_rtcl_geo_address', true ); ?>
 		<div class="rtcl-form-group">
 			<label class="rtcl-field-label" for="rtcl-geo-address">
-				<?php esc_html_e( "Location", "classified-listing" ) ?>
+				<?php
+				esc_html_e( "Location", "classified-listing" ) ?>
 			</label>
 			<div class="rtcl-field-col">
 				<div class="rtcl-geo-address-field">
 					<input type="text" name="rtcl_geo_address" autocomplete="off"
-						   value="<?php echo esc_attr( $geo_address ) ?>"
+						   value="<?php
+						   echo esc_attr( $geo_address ) ?>"
 						   id="rtcl-geo-address"
-						   placeholder="<?php esc_attr_e( "Select a location", "classified-listing" ) ?>"
+						   placeholder="<?php
+						   esc_attr_e( "Select a location", "classified-listing" ) ?>"
 						   class="rtcl-form-control rtcl-geo-address-input rtcl_geo_address_input"/>
 					<i class="rtcl-get-location rtcl-icon rtcl-icon-target" id="rtcl-geo-loc-form"></i>
 				</div>
@@ -1145,26 +1197,33 @@ class TemplateHooks {
 		$longitude = get_user_meta( $user_id, '_rtcl_longitude', true ); ?>
 		<div class="rtcl-form-group">
 			<label for="rtcl-map" class="rtcl-field-label">
-				<?php esc_html_e( 'Map', 'classified-listing' ); ?>
+				<?php
+				esc_html_e( 'Map', 'classified-listing' ); ?>
 			</label>
 			<div class="rtcl-field-col">
 				<div class="rtcl-map-wrap">
 					<div class="rtcl-map" data-type="input">
-						<div class="marker" data-latitude="<?php echo esc_attr( $latitude ); ?>"
-							 data-longitude="<?php echo esc_attr( $longitude ); ?>"
-							 data-address="<?php echo esc_attr( $address ); ?>"><?php echo esc_html( $address ); ?></div>
+						<div class="marker" data-latitude="<?php
+						echo esc_attr( $latitude ); ?>"
+							 data-longitude="<?php
+							 echo esc_attr( $longitude ); ?>"
+							 data-address="<?php
+							 echo esc_attr( $address ); ?>"><?php
+							echo esc_html( $address ); ?></div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- Map Hidden field-->
-		<input type="hidden" name="latitude" value="<?php echo esc_attr( $latitude ); ?>" id="rtcl-latitude"/>
-		<input type="hidden" name="longitude" value="<?php echo esc_attr( $longitude ); ?>" id="rtcl-longitude"/>
+		<input type="hidden" name="latitude" value="<?php
+		echo esc_attr( $latitude ); ?>" id="rtcl-latitude"/>
+		<input type="hidden" name="longitude" value="<?php
+		echo esc_attr( $longitude ); ?>" id="rtcl-longitude"/>
 		<?php
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 */
 	public static function listing_featured_badge( $listing ) {
 		if ( ! $listing->is_featured() ) {
@@ -1185,7 +1244,7 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 */
 	public static function listing_new_badge( $listing ) {
 		$can_show = apply_filters( 'rtcl_listing_can_show_new_badge', true, $listing );
@@ -1205,7 +1264,7 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param int $post_id
+	 * @param  int  $post_id
 	 *
 	 * @throws \Exception
 	 */
@@ -1222,7 +1281,7 @@ class TemplateHooks {
 	}
 
 	/**
-	 * @param int $post_id
+	 * @param  int  $post_id
 	 *
 	 * @throws \Exception
 	 */
@@ -1272,7 +1331,7 @@ class TemplateHooks {
 			'description_limit' => Functions::get_description_character_limit(),
 			'parent_cat_id'     => 0,
 			'child_cat_id'      => 0,
-			'hidden_fields'     => ( ! empty( $moderation_settings['hide_form_fields'] ) ) ? $moderation_settings['hide_form_fields'] : []
+			'hidden_fields'     => ( ! empty( $moderation_settings['hide_form_fields'] ) ) ? $moderation_settings['hide_form_fields'] : [],
 		] );
 	}
 
@@ -1356,7 +1415,7 @@ class TemplateHooks {
 			'sub_location_id'            => $sub_location_id,
 			'sub_sub_location_id'        => $sub_sub_location_id,
 			'hidden_fields'              => ( ! empty( $moderation_settings['hide_form_fields'] ) ) ? $moderation_settings['hide_form_fields'] : [],
-			'enable_post_for_unregister' => ! is_user_logged_in() && Functions::is_enable_post_for_unregister()
+			'enable_post_for_unregister' => ! is_user_logged_in() && Functions::is_enable_post_for_unregister(),
 		];
 		Functions::get_template( "listing-form/contact", apply_filters( 'rtcl_listing_form_contact_tpl_attributes', $data, $post_id ) );
 	}
@@ -1365,14 +1424,19 @@ class TemplateHooks {
 		?>
 		<div class="ui-buttons has-expanded">
 			<button class="rtcl-btn rtcl-btn-primary rtcl-filter-btn">
-				<?php echo esc_html__( "Apply filters", 'classified-listing' ); ?>
+				<?php
+				echo esc_html__( "Apply filters", 'classified-listing' ); ?>
 			</button>
-			<?php if ( isset( $_GET['filters'] ) ): ?>
+			<?php
+			if ( isset( $_GET['filters'] ) ): ?>
 				<a class="rtcl-btn rtcl-btn-primary rtcl-filter-clear-btn"
-				   href="<?php echo esc_url( Link::get_listings_page_link() ) ?>">
-					<?php echo esc_html__( "Clear filters", 'classified-listing' ); ?>
+				   href="<?php
+				   echo esc_url( Link::get_listings_page_link() ) ?>">
+					<?php
+					echo esc_html__( "Clear filters", 'classified-listing' ); ?>
 				</a>
-			<?php endif; ?>
+			<?php
+			endif; ?>
 		</div>
 		<?php
 	}
@@ -1412,25 +1476,62 @@ class TemplateHooks {
 		<div class="rtcl-form-group name-row">
 			<div class="first-name-column">
 				<label for="rtcl-reg-first-name" class="rtcl-field-label">
-					<?php esc_html_e( 'First Name', 'classified-listing' ); ?>
+					<?php
+					esc_html_e( 'First Name', 'classified-listing' ); ?>
 					<strong class="rtcl-required">*</strong>
 				</label>
 				<input type="text" name="first_name" id="rtcl-reg-first-name"
-					   value="<?php if ( ! empty( $_POST['first_name'] ) ) {
+					   value="<?php
+					   if ( ! empty( $_POST['first_name'] ) ) {
 						   echo esc_attr( $_POST['first_name'] );
 					   } ?>"
 					   class="rtcl-form-control" required/>
 			</div>
 			<div class="second-name-column">
 				<label for="rtcl-reg-last-name" class="rtcl-field-label">
-					<?php esc_html_e( 'Last Name', 'classified-listing' ); ?>
+					<?php
+					esc_html_e( 'Last Name', 'classified-listing' ); ?>
 					<strong class="rtcl-required">*</strong>
 				</label>
 				<input type="text" name="last_name"
-					   value="<?php if ( ! empty( $_POST['last_name'] ) ) {
+					   value="<?php
+					   if ( ! empty( $_POST['last_name'] ) ) {
 						   echo esc_attr( $_POST['last_name'] );
 					   } ?>"
 					   id="rtcl-reg-last-name" class="rtcl-form-control" required/>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * @return void
+	 */
+	public static function add_user_type_at_registration_form() {
+		$seller_label = Functions::get_user_type_seller_label();
+		$buyer_label  = Functions::get_user_type_buyer_label();
+		?>
+		<div class="rtcl-form-group user-type-row">
+			<p class="rtcl-field-label">
+				<?php
+				esc_html_e( 'Account Type', 'classified-listing' ); ?>
+				<strong class="rtcl-required">*</strong>
+			</p>
+			<div class="rtcl-form-radio-group rtcl-radio-group-inline">
+				<label for="user_type_seller">
+					<input type="radio" id="user_type_seller" name="rtcl_user_type" value="seller"
+						<?php
+						checked( $_POST['rtcl_user_type'] ?? '', 'seller' ); ?> required>
+					<?php
+					echo esc_html( $seller_label ); ?>
+				</label>
+				<label for="user_type_buyer">
+					<input type="radio" id="user_type_buyer" name="rtcl_user_type" value="buyer"
+						<?php
+						checked( $_POST['rtcl_user_type'] ?? '', 'buyer' ); ?> required>
+					<?php
+					echo esc_html( $buyer_label ); ?>
+				</label>
 			</div>
 		</div>
 		<?php
@@ -1440,18 +1541,27 @@ class TemplateHooks {
 		$is_required = (boolean) apply_filters( 'rtcl_registration_phone_validation', false, '' );
 		?>
 		<div class="rtcl-form-group phone-row">
-			<?php do_action( 'rtcl_register_form_phone_start' ); ?>
+			<?php
+			do_action( 'rtcl_register_form_phone_start' ); ?>
 			<label for="rtcl-reg-phone" class="rtcl-field-label phone-label">
-				<?php esc_html_e( 'Phone Number', 'classified-listing' ); ?>
-				<?php if ( $is_required ): ?>
+				<?php
+				esc_html_e( 'Phone Number', 'classified-listing' ); ?>
+				<?php
+				if ( $is_required ): ?>
 					<strong class="rtcl-required">*</strong>
-				<?php endif; ?>
+				<?php
+				endif; ?>
 			</label>
-			<input type="text" name="phone"
-				   value="<?php if ( ! empty( $_POST['phone'] ) ) {
-					   echo esc_attr( $_POST['phone'] );
-				   } ?>"
-				   id="rtcl-reg-phone" class="rtcl-form-control"<?php echo $is_required ? ' required' : '' ?>/>
+			<div class="rtcl-phone-field-button">
+				<input type="text" name="phone"
+					   value="<?php
+					   if ( ! empty( $_POST['phone'] ) ) {
+						   echo esc_attr( $_POST['phone'] );
+					   } ?>"
+					   id="rtcl-reg-phone" class="rtcl-form-control"<?php
+				echo $is_required ? ' required' : '' ?>/>
+				<?php do_action( 'rtcl_register_form_phone_inner' ); ?>
+			</div>
 			<?php do_action( 'rtcl_register_form_phone_end' ); ?>
 		</div>
 		<?php
@@ -1527,7 +1637,7 @@ class TemplateHooks {
 				'latitude'    => $latitude,
 				'longitude'   => $longitude,
 				'address'     => $address,
-				'map_options' => $map_options
+				'map_options' => $map_options,
 			];
 			$map_settings = apply_filters( 'rtcl_single_listing_map_settings', $map_settings ); // Filter Added By Rashid
 			Functions::get_template( "listing/map", $map_settings );
@@ -1539,8 +1649,10 @@ class TemplateHooks {
 		global $listing; ?>
 		<!-- Meta data -->
 		<div class="rtcl-listing-meta">
-			<?php $listing->the_badges(); ?>
-			<?php $listing->the_meta(); ?>
+			<?php
+			$listing->the_badges(); ?>
+			<?php
+			$listing->the_meta(); ?>
 		</div>
 		<?php
 	}
@@ -1548,7 +1660,8 @@ class TemplateHooks {
 	public static function add_single_listing_title() {
 		/** @var Listing $listing */
 		global $listing; ?>
-		<div class="rtcl-listing-title"><h2 class="entry-title"><?php $listing->the_title(); ?></h2></div>
+		<div class="rtcl-listing-title"><h2 class="entry-title"><?php
+				$listing->the_title(); ?></h2></div>
 		<?php
 	}
 
@@ -1592,8 +1705,8 @@ class TemplateHooks {
 			'listing/loop/orderby',
 			[
 				'catalog_orderby_options' => $catalog_orderby_options,
-				'orderby'                 => $orderby
-			]
+				'orderby'                 => $orderby,
+			],
 		);
 	}
 
@@ -1608,7 +1721,7 @@ class TemplateHooks {
 		$args = [
 			'total'    => Functions::get_loop_prop( 'total' ),
 			'per_page' => Functions::get_loop_prop( 'per_page' ),
-			'current'  => Functions::get_loop_prop( 'current_page' )
+			'current'  => Functions::get_loop_prop( 'current_page' ),
 		];
 
 		Functions::get_template( 'listing/loop/result-count', $args );
@@ -1624,7 +1737,8 @@ class TemplateHooks {
 		if ( ! empty( $all_notices ) ) {
 			?>
 			<div class="rtcl-notices-wrapper">
-				<?php Functions::print_notices(); ?>
+				<?php
+				Functions::print_notices(); ?>
 			</div>
 			<?php
 		}
@@ -1638,7 +1752,8 @@ class TemplateHooks {
 		}
 		if ( $listing->can_show_excerpt() ) {
 			?>
-			<p class="rtcl-excerpt"><?php $listing->the_excerpt(); ?></p>
+			<p class="rtcl-excerpt"><?php
+				$listing->the_excerpt(); ?></p>
 			<?php
 		}
 	}
@@ -1703,7 +1818,8 @@ class TemplateHooks {
 
 public static function container_start() {
 	?>
-	<div class="<?php echo esc_attr( Functions::add_theme_container_class() ); ?>">
+	<div class="<?php
+	echo esc_attr( Functions::add_theme_container_class() ); ?>">
 		<?php
 		}
 
@@ -1769,7 +1885,7 @@ public static function output_main_wrapper_start() {
 		if ( is_post_type_archive( rtcl()->post_type )
 			 && in_array( absint( get_query_var( 'paged' ) ), [
 				0,
-				1
+				1,
 			], true )
 		) {
 			$listings_page = get_post( Functions::get_page_id( 'listings' ) );
@@ -1791,7 +1907,7 @@ public static function output_main_wrapper_start() {
 	/**
 	 * Add body classes for Rtcl pages.
 	 *
-	 * @param array $classes Body Classes.
+	 * @param  array  $classes  Body Classes.
 	 *
 	 * @return array
 	 */
@@ -1837,9 +1953,9 @@ public static function output_main_wrapper_start() {
 	 *
 	 * Note: For performance reasons we instead recommend using listing_class/get_listing_class instead.
 	 *
-	 * @param array        $classes Current classes.
-	 * @param string|array $class   Additional class.
-	 * @param int          $post_id Post ID.
+	 * @param  array  $classes  Current classes.
+	 * @param  string|array  $class  Additional class.
+	 * @param  int  $post_id  Post ID.
 	 *
 	 * @return array
 	 * @since 1.5.4
@@ -1956,6 +2072,9 @@ public static function output_main_wrapper_start() {
 		MyAccount::payments_history();
 	}
 
+	public static function account_profile_settings_endpoint() {
+		MyAccount::profile_settings();
+	}
 
 	public static function social_login_shortcode() {
 		if ( ! apply_filters( 'rtcl_social_login_shortcode_disabled', false ) ) {
@@ -1986,6 +2105,27 @@ public static function output_main_wrapper_start() {
 		echo sprintf( '<input type="hidden" name="redirect_to" value="%s" />', esc_url( $redirect_to ) );
 	}
 
+	public static function login_form_necessary_link() {
+		?>
+		<div class="rtcl-form-group-no-margin-bottom">
+			<p class="rtcl-forgot-password">
+				<?php if ( Functions::is_registration_enabled() ):
+					$register_link = Link::get_my_account_page_link();
+					if ( Functions::is_registration_page_separate() ) {
+						$register_link = Link::get_registration_page_link();
+					}
+					?>
+					<a class="register-link" href="<?php echo esc_url( $register_link ); ?>"><?php esc_html_e( 'Register',
+							'classified-listing' ); ?></a><span>|</span>
+				<?php endif; ?>
+				<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Forgot your password?',
+						'classified-listing' ); ?></a>
+
+			</p>
+		</div>
+		<?php
+	}
+
 	/**
 	 * Render privacy policy text on the register forms.
 	 */
@@ -1996,7 +2136,8 @@ public static function output_main_wrapper_start() {
 
 	public static function add_checkout_form_instruction() {
 		?>
-		<p><?php esc_html_e( 'Please review your order, and click purchase once you are ready to proceed.', 'classified-listing' ); ?></p>
+		<p><?php
+			esc_html_e( 'Please review your order, and click purchase once you are ready to proceed.', 'classified-listing' ); ?></p>
 		<?php
 	}
 
@@ -2007,7 +2148,7 @@ public static function output_main_wrapper_start() {
 				$pricing_options = Functions::get_regular_pricing_options();
 				Functions::get_template( "checkout/promotions", [
 					'pricing_options' => $pricing_options,
-					'listing_id'      => $listing_id
+					'listing_id'      => $listing_id,
 				] );
 			} else {
 				Functions::add_notice( __( "Given Listing Id is not a valid listing", "classified-listing" ), "error" );
@@ -2030,8 +2171,10 @@ public static function output_main_wrapper_start() {
 		$gateway = new GatewayStore();
 		?>
 		<div class="rtcl-store-gateway-info">
-			<?php echo esc_html( $gateway->get_method_title() ); ?>
-			(<small><?php echo esc_html( $gateway->get_method_description() ); ?></small>)
+			<?php
+			echo esc_html( $gateway->get_method_title() ); ?>
+			(<small><?php
+				echo esc_html( $gateway->get_method_description() ); ?></small>)
 		</div>
 		<?php
 	}
@@ -2055,7 +2198,8 @@ public static function output_main_wrapper_start() {
 	public static function checkout_form_submit_button() {
 		?>
 		<div class="rtcl-submit-btn-wrap">
-			<a class="rtcl-btn rtcl-btn-primary" href="<?php echo esc_url( Link::get_my_account_page_link() ) ?>">
+			<a class="rtcl-btn rtcl-btn-primary" href="<?php
+			echo esc_url( Link::get_my_account_page_link() ) ?>">
 				<?php
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo apply_filters( 'rtcl_checkout_myaccount_btn_text', esc_html__( 'Go to My Account', 'classified-listing' ) ); ?>
@@ -2116,16 +2260,19 @@ public static function output_main_wrapper_start() {
 
 
 	/**
-	 * @param Filter $object
+	 * @param  Filter  $object
 	 */
 	public static function add_hidden_field_filter_form( $object ) {
 		$args             = $object->get_instance();
 		$current_category = ! empty( $args['current_taxonomy'][ rtcl()->category ] ) ? $args['current_taxonomy'][ rtcl()->category ]->slug : '';
 		$current_tag      = ! empty( $args['current_taxonomy'][ rtcl()->tag ] ) ? $args['current_taxonomy'][ rtcl()->tag ]->slug : '';
 		$current_location = ! empty( $args['current_taxonomy'][ rtcl()->location ] ) ? $args['current_taxonomy'][ rtcl()->location ]->slug : ''; ?>
-		<input type="hidden" name="rtcl_category" value="<?php echo esc_attr( $current_category ) ?>">
-		<input type="hidden" name="rtcl_tag" value="<?php echo esc_attr( $current_tag ) ?>">
-		<input type="hidden" name="rtcl_location" value="<?php echo esc_attr( $current_location ) ?>">
+		<input type="hidden" name="rtcl_category" value="<?php
+		echo esc_attr( $current_category ) ?>">
+		<input type="hidden" name="rtcl_tag" value="<?php
+		echo esc_attr( $current_tag ) ?>">
+		<input type="hidden" name="rtcl_location" value="<?php
+		echo esc_attr( $current_location ) ?>">
 		<?php
 	}
 }

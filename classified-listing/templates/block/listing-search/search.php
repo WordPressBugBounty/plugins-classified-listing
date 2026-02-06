@@ -1,20 +1,20 @@
 <?php
 
 /**
- * @var number  $id    Random id
+ * @var number $id Random id
  * @var         $orientation
  * @var         $style [classic , modern]
- * @var array   $classes
- * @var int     $active_count
+ * @var array $classes
+ * @var int $active_count
  * @var WP_Term $selected_location
  * @var WP_Term $selected_category
- * @var bool    $radius_search
- * @var bool    $can_search_by_location
- * @var bool    $can_search_by_category
- * @var array   $data
- * @var bool    $can_search_by_listing_types
- * @var bool    $can_search_by_price
- * @var array   $classes
+ * @var bool $radius_search
+ * @var bool $can_search_by_location
+ * @var bool $can_search_by_category
+ * @var array $data
+ * @var bool $can_search_by_listing_types
+ * @var bool $can_search_by_price
+ * @var array $classes
  */
 
 /* phpcs:disable WordPress.Security.NonceVerification.Recommended */
@@ -23,8 +23,8 @@ use Rtcl\Helpers\Functions;
 use Rtcl\Helpers\Text;
 use Rtcl\Resources\Options;
 
-$orderby   = strtolower( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_orderby', 'name' ) );
-$order     = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_order', 'DESC' ) );
+$orderby   = strtolower( Functions::get_option_item( 'rtcl_archive_listing_settings', 'taxonomy_orderby', 'name' ) );
+$order     = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_settings', 'taxonomy_order', 'DESC' ) );
 $classes[] = 'rtcl-gb-widget-search';
 
 $wrap_class = '';
@@ -40,8 +40,7 @@ if ( isset( $settings['className'] ) ) {
 <div class="<?php echo esc_attr( $wrap_class ); ?>">
 	<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 		<form action="<?php echo esc_url( Functions::get_filter_form_url() ); ?>" class=" rtcl-widget-search-form">
-			<div
-				class="rtcl-row rtcl-no-margin active-field-<?php echo esc_attr( $active_count ); ?>  <?php echo ! empty( $settings['fields_label'] ) ? 'show-field-label' : ''; ?>">
+			<div class="rtcl-row rtcl-no-margin active-field-<?php echo esc_attr( $active_count ); ?>  <?php echo ! empty( $settings['fields_label'] ) ? 'show-field-label' : ''; ?>">
 				<?php
 				$geo_location = ( $settings['location_field'] && 'geo' === Functions::location_type() );
 				if ( $geo_location ) :
@@ -50,6 +49,8 @@ if ( isset( $settings['className'] ) ) {
 					<div class="rtcl-form-group ws-item ws-location rtcl-geo-address-field rtcl-col-sm-6 ">
 						<?php if ( $settings['fields_label'] ) { ?>
 							<label for="rtc-geo-search"><?php esc_html_e( 'Location', 'classified-listing' ); ?></label>
+						<?php } else { ?>
+							<label class="screen-reader-text" for="rtc-geo-search"><?php esc_html_e( 'Location', 'classified-listing' ); ?></label>
 						<?php } ?>
 						<div class="rtc-geo-search-wrapper">
 							<input id='rtc-geo-search' type="text" name="geo_address" autocomplete="off"
@@ -68,11 +69,13 @@ if ( isset( $settings['className'] ) ) {
 						<?php
 						$radius_placeholder = sprintf(
 						/* translators: Radius unit */ __( 'Radius (%1$s)', 'classified-listing' ),
-							isset( $rs_data['units'] ) ? $rs_data['units'] : ''
+							isset( $rs_data['units'] ) ? $rs_data['units'] : '',
 						);
 						?>
 						<?php if ( $settings['fields_label'] ) { ?>
 							<label for="rtc-geo-search"><?php echo esc_html( $radius_placeholder ); ?></label>
+						<?php } else { ?>
+							<label class="screen-reader-text" for="rtc-geo-search"><?php echo esc_html( $radius_placeholder ); ?></label>
 						<?php } ?>
 
 						<input type="number" class="rtcl-form-control-range rtcl-range-slider-input rtcl-form-control"
@@ -87,13 +90,14 @@ if ( isset( $settings['className'] ) ) {
 					?>
 					<div class="rtcl-form-group ws-item ws-location rtcl-col-sm-6 rtcl-col-12">
 						<?php if ( $settings['fields_label'] ) { ?>
-							<label
-								for="rtcl-location-search-<?php echo esc_attr( $id ); ?>"> <?php esc_html_e( 'Location', 'classified-listing' ); ?> </label>
+							<label for="rtcl-location-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Location', 'classified-listing' ); ?></label>
+						<?php } else { ?>
+							<label class="screen-reader-text" for="rtcl-location-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Location', 'classified-listing' ); ?></label>
 						<?php } ?>
 						<?php if ( $style === 'suggestion' ) { ?>
 							<div class="location-field-wrapper">
 								<input type="text" data-type="location"
-									   class="rtcl-autocomplete rtcl-location rtcl-form-control"
+									   class="rtcl-autocomplete rtcl-location rtcl-form-control" id="rtcl-location-search-<?php echo esc_attr( $id ); ?>"
 									   placeholder="<?php echo esc_html( Text::get_select_location_text() ); ?>"
 									   value="<?php echo $selected_location ? esc_attr( $selected_location->name ) : ''; ?>">
 								<input type="hidden" name="rtcl_location"
@@ -128,9 +132,10 @@ if ( isset( $settings['className'] ) ) {
 									'show_option_none' => Text::get_select_location_text(),
 									'taxonomy'         => rtcl()->location,
 									'name'             => 'l',
+									'id'               => 'rtcl-location-search-' . $id,
 									'class'            => 'rtcl-form-control',
 									'selected'         => $selected_location ? $selected_location->term_id : 0,
-								]
+								],
 							);
 						} elseif ( $style == 'popup' ) {
 							?>
@@ -138,7 +143,7 @@ if ( isset( $settings['className'] ) ) {
 								<span class="search-input-label location-name">
 									<?php echo $selected_location ? esc_html( $selected_location->name ) : esc_html( Text::get_select_location_text() ); ?>
 								</span>
-								<input type="hidden" class="rtcl-term-field" name="rtcl_location"
+								<input type="hidden" id="rtcl-location-search-<?php echo esc_attr( $id ); ?>" class="rtcl-term-field" name="rtcl_location"
 									   value="<?php echo $selected_location ? esc_attr( $selected_location->slug ) : ''; ?>">
 							</div>
 						<?php } ?>
@@ -149,7 +154,9 @@ if ( isset( $settings['className'] ) ) {
 					<div
 						class="rtcl-form-group ws-item ws-category ws-category-<?php echo esc_attr( $style ); ?> rtcl-col-sm-6 rtcl-col-12">
 						<?php if ( $settings['fields_label'] ) { ?>
-							<label><?php esc_html_e( 'Category', 'classified-listing' ); ?></label>
+							<label for="rtcl-category-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Category', 'classified-listing' ); ?></label>
+						<?php } else { ?>
+							<label class="screen-reader-text" for="rtcl-category-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Category', 'classified-listing' ); ?></label>
 						<?php } ?>
 						<?php
 						if ( $style === 'standard' || $style === 'suggestion' ) {
@@ -181,9 +188,10 @@ if ( isset( $settings['className'] ) ) {
 									'option_none_value' => - 1,
 									'taxonomy'          => rtcl()->category,
 									'name'              => 'c',
+									'id'                => 'rtcl-category-search-' . $id,
 									'class'             => 'rtcl-form-control rtcl-category-search',
 									'selected'          => $selected_category ? $selected_category->term_id : 0,
-								]
+								],
 							);
 						} elseif ( $style == 'popup' ) {
 							?>
@@ -191,7 +199,7 @@ if ( isset( $settings['className'] ) ) {
 								<span class="search-input-label category-name">
 									<?php echo $selected_category ? esc_html( $selected_category->name ) : esc_html( Text::get_select_category_text() ); ?>
 								</span>
-								<input type="hidden" name="rtcl_category" class="rtcl-term-field"
+								<input type="hidden" id="rtcl-category-search-<?php echo esc_attr( $id ); ?>" name="rtcl_category" class="rtcl-term-field"
 									   value="<?php echo $selected_category ? esc_attr( $selected_category->slug ) : ''; ?>">
 							</div>
 						<?php } ?>
@@ -201,8 +209,9 @@ if ( isset( $settings['className'] ) ) {
 				<?php if ( $settings['types_field'] ) : ?>
 					<div class="rtcl-form-group ws-item ws-type rtcl-col-sm-6 rtcl-col-12">
 						<?php if ( $settings['fields_label'] ) { ?>
-							<label
-								for="rtcl-search-type-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Type', 'classified-listing' ); ?></label>
+							<label for="rtcl-search-type-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Type', 'classified-listing' ); ?></label>
+						<?php } else { ?>
+							<label class="screen-reader-text" for="rtcl-search-type-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Type', 'classified-listing' ); ?></label>
 						<?php } ?>
 						<select class="rtcl-form-control" id="rtcl-search-type-<?php echo esc_attr( $id ); ?>"
 								name="filters[ad_type]">
@@ -225,8 +234,9 @@ if ( isset( $settings['className'] ) ) {
 				<?php if ( $settings['price_field'] ) : ?>
 					<div class="rtcl-form-group  ws-item ws-price  price-field rtcl-col-md-6 rtcl-col-xs-6">
 						<?php if ( $settings['fields_label'] ) { ?>
-							<label
-								for="rtcl-search-price-min"><?php esc_html_e( 'Min Price', 'classified-listing' ); ?></label>
+							<label for="rtcl-search-price-min"><?php esc_html_e( 'Min Price', 'classified-listing' ); ?></label>
+						<?php } else { ?>
+							<label class="screen-reader-text" for="rtcl-search-price-min"><?php esc_html_e( 'Min Price', 'classified-listing' ); ?></label>
 						<?php } ?>
 						<?php $min_price = isset( $_GET['filters']['price']['min'] ) ? $_GET['filters']['price']['min'] : ''; ?>
 						<input id='rtcl-search-price-min' type="text" name="filters[price][min]" class="rtcl-form-control"
@@ -235,8 +245,9 @@ if ( isset( $settings['className'] ) ) {
 					</div>
 					<div class="rtcl-form-group ws-item ws-price  price-field rtcl-col-md-6 rtcl-col-xs-6">
 						<?php if ( $settings['fields_label'] ) { ?>
-							<label
-								for="rtcl-search-price-max"><?php esc_html_e( 'Max Price', 'classified-listing' ); ?></label>
+							<label for="rtcl-search-price-max"><?php esc_html_e( 'Max Price', 'classified-listing' ); ?></label>
+						<?php } else { ?>
+							<label class="screen-reader-text" for="rtcl-search-price-max"><?php esc_html_e( 'Max Price', 'classified-listing' ); ?></label>
 						<?php } ?>
 						<?php $max_price = isset( $_GET['filters']['price']['max'] ) ? $_GET['filters']['price']['max'] : ''; ?>
 						<input id='rtcl-search-price-max' type="text" name="filters[price][max]" class="rtcl-form-control"
@@ -251,10 +262,18 @@ if ( isset( $settings['className'] ) ) {
 							$keywords = isset( $_GET['q'] ) ? Functions::clean( wp_unslash( ( $_GET['q'] ) ) ) : '';
 							?>
 							<?php if ( $settings['fields_label'] ) { ?>
-								<label> <?php esc_html_e( 'Keyword', 'classified-listing' ); ?></label>
+								<label for="rtcl-keyword-search-field"> <?php esc_html_e( 'Keyword', 'classified-listing' ); ?></label>
+							<?php } else { ?>
+								<label class="screen-reader-text" for="rtcl-keyword-search-field"> <?php esc_html_e( 'Keyword', 'classified-listing' ); ?></label>
 							<?php } ?>
-							<div class="keywords-field-wrapper">
-								<input type="text" name="q" data-type="listing" class="rtcl-autocomplete rtcl-form-control"
+							<?php
+							$search_class = 'keywords-field-wrapper';
+							if ( Functions::is_semantic_search_enabled() ) {
+								$search_class .= ' rtcl-ai-search-field';
+							}
+							?>
+							<div class="<?php echo esc_attr( $search_class ); ?>">
+								<input type="text" id="rtcl-keyword-search-field" name="q" data-type="listing" class="rtcl-autocomplete rtcl-form-control"
 									   placeholder="<?php esc_attr_e( 'Enter your keyword here ...', 'classified-listing' ); ?>"
 									   value="<?php echo esc_html( $keywords ); ?>">
 							</div>

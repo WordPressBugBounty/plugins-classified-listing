@@ -17,5 +17,6 @@ class Ajax {
 		FormBuilderAjax::getInstance()->init();
 		FormBuilderAdminAjax::getInstance()->init();
 		FilterFormAdminAjax::getInstance()->init();
+		AjaxSettings::init();
 	}
 }

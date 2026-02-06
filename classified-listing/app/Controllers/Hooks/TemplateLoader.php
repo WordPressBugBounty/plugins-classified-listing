@@ -3,6 +3,7 @@
 namespace Rtcl\Controllers\Hooks;
 
 
+use Rtcl\Controllers\BlockTemplateController;
 use Rtcl\Helpers\Functions;
 use Rtcl\Shortcodes\Listings;
 use WP_Post;
@@ -34,6 +35,12 @@ class TemplateLoader {
 	static function init() {
 		self::$theme_support    = Functions::is_enable_template_support();
 		self::$listings_page_id = Functions::get_page_id( 'listings' );
+
+		if ( Functions::is_block_theme() ) {
+			BlockTemplateController::init();
+			return;
+		}
+		
 		if ( self::$theme_support ) {
 			// Elementor pro and Divi not loaded with higher priority
 			if ( defined( 'ELEMENTOR_PRO_VERSION' ) || 'Divi' === wp_get_theme()->get( 'Name' ) || class_exists( 'ET_Builder_Plugin' ) ) {

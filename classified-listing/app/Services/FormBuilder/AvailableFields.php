@@ -1074,7 +1074,6 @@ class AvailableFields {
 			'id'              => '',
 			'container_class' => '',
 			'icon'            => '',
-			'column'          => '',
 			'logics'          => '',
 			'columns'         => [
 				[
@@ -1135,6 +1134,144 @@ class AvailableFields {
 		];
 
 		return apply_filters( 'rtcl/fb/option_fields', $fields );
+	}
+
+	public static function singleLayoutSettingsFields() {
+		$fields = [
+			[
+				'label' => __( 'Active Single Layout builder', 'classified-listing' ),
+				'type'  => 'switch',
+				'name'  => 'active',
+			]
+		];
+
+		return apply_filters( 'rtcl/fb/single_layout/settings', $fields );
+	}
+
+	public static function singleLayoutFields() {
+		$fields = [
+			'listing_meta'      => [
+				'element' => 'listing_meta',
+				'items'   => [
+					[ 'type' => 'date', 'icon' => [ 'class' => 'rtcl-icon-calendar' ] ],
+					[ 'type' => 'time', 'icon' => [ 'class' => 'rtcl-icon-clock' ] ],
+					[ 'type' => 'author', 'icon' => [ 'class' => 'rtcl-icon-user-o' ] ],
+					[ 'type' => 'location', 'icon' => [ 'class' => 'rtcl-icon-map-pin' ] ],
+					[ 'type' => 'category', 'icon' => [ 'class' => 'rtcl-icon-folder-empty' ] ],
+					[ 'type' => 'comments', 'icon' => [ 'class' => 'rtcl-icon-comment-empty' ] ],
+					[ 'type' => 'view', 'icon' => [ 'class' => 'rtcl-icon-eye' ] ],
+					[ 'type' => 'type', 'icon' => [ 'class' => 'rtcl-icon-tag' ] ],
+				],
+				'editor'  => [
+					'title'      => __( 'Listing Meta', 'classified-listing' ),
+					'icon_class' => 'rtcl-icon-doc-text',
+					'template'   => 'listable',
+					'types'      => [ 'date', 'author', 'location', 'category', 'comments', 'view', 'type' ]
+				],
+			],
+			'listing_actions'   => [
+				'element' => 'listing_actions',
+				'items'   => [
+					[ 'type' => 'compare', 'icon' => [ 'class' => 'rtcl-icon-retweet' ] ],
+					[ 'type' => 'favourite', 'icon' => [ 'class' => 'rtcl-icon-heart' ] ],
+					[ 'type' => 'share', 'icon' => [ 'class' => 'rtcl-icon-share' ] ],
+					[ 'type' => 'report_abuse', 'icon' => [ 'class' => 'rtcl-icon-trash-1' ] ],
+					[ 'type' => 'print', 'icon' => [ 'class' => 'rtcl-icon-print' ] ]
+				],
+				'editor'  => [
+					'title'      => __( 'Listing Actions', 'classified-listing' ),
+					'icon_class' => 'rtcl-icon-cog-2',
+					'template'   => 'listable',
+					'types'      => [ 'compare', 'favourite', 'share', 'report_abuse', 'print' ]
+				],
+			],
+			'chat'              => [
+				'element' => 'chat',
+				'text'    => 'Chat',
+				'icon'    => [
+					'type'  => 'class',
+					'class' => 'rtcl-icon-chat-empty'
+				],
+				'editor'  => [
+					'title'      => __( 'Chat', 'classified-listing' ),
+					'icon_class' => 'rtcl-icon-chat-empty',
+					'template'   => 'action_button',
+				]
+			],
+			'contact_to_seller' => [
+				'element' => 'contact_to_seller',
+				'text'    => 'Message to Seller',
+				'icon'    => [
+					'type'  => 'class',
+					'class' => 'rtcl-icon-envelope-open-o'
+				],
+				'editor'  => [
+					'title'      => __( 'Contact to Seller', 'classified-listing' ),
+					'icon_class' => 'rtcl-icon-envelope-open-o',
+					'template'   => 'action_button',
+				]
+			],
+			'author_info'       => [
+				'element' => 'author_info',
+				'items'   => [ 'avatar', 'name', 'online_status' ],
+				'editor'  => [
+					'title'      => __( 'Author Info', 'classified-listing' ),
+					'icon_class' => 'rtcl-icon-user-o',
+					'template'   => 'item_info',
+					'direction'  => 'vertical',
+					'items'      => [
+						'avatar'        => __( 'Avatar', 'classified-listing' ),
+						'name'          => __( 'Name', 'classified-listing' ),
+						'author_badges' => __( 'Author Badges', 'classified-listing' ),
+						'location'      => __( 'Location', 'classified-listing' ),
+						'phone'         => __( 'Phone', 'classified-listing' ),
+						'email'         => __( 'Email', 'classified-listing' ),
+						'website'       => __( 'Website', 'classified-listing' ),
+						'contact_form'  => __( 'Contact Form', 'classified-listing' ),
+					]
+				]
+			],
+			'store_info'        => [
+				'element' => 'store_info',
+				'items'   => [ 'logo', 'name' ],
+				'editor'  => [
+					'title'      => __( 'Store Info', 'classified-listing' ),
+					'icon_class' => 'dashicons dashicons-store',
+					'template'   => 'item_info',
+					'items'      => [
+						'logo' => __( 'Logo', 'classified-listing' ),
+						'name' => __( 'Name', 'classified-listing' )
+					]
+				]
+			],
+			'shortcode'         => [
+				'element' => 'shortcode',
+				'editor'  => [
+					'title'      => __( 'Shortcode', 'classified-listing' ),
+					'icon_class' => 'rtcl-icon-code',
+					'template'   => 'shortcode',
+				]
+			],
+			'spacer'            => [
+				'element' => 'spacer',
+				'value'   => 25,
+				'editor'  => [
+					'title'      => __( 'Spacer', 'classified-listing' ),
+					'icon_class' => 'rtcl-icon-i-cursor',
+					'template'   => 'spacer',
+				]
+			],
+			'html'              => [
+				'element' => 'html',
+				'editor'  => [
+					'title'      => __( 'HTML', 'classified-listing' ),
+					'icon_class' => 'rtcl-icon-code',
+					'template'   => 'html',
+				]
+			],
+		];
+
+		return apply_filters( 'rtcl/fb/single_layout/fields', $fields );
 	}
 
 	private static function addAIFieldToElements( array $fields ): array {

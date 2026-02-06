@@ -15,7 +15,7 @@ use WP_Comment;
 trait UtilityTrait {
 
 	/**
-	 * @param \WP_User $user
+	 * @param  \WP_User  $user
 	 *
 	 * @return string
 	 */
@@ -29,7 +29,7 @@ trait UtilityTrait {
 				's' => 80,
 				'd' => 'mm',
 			],
-			$url
+			$url,
 		);
 
 		return esc_url_raw( $url );
@@ -38,7 +38,7 @@ trait UtilityTrait {
 	static function get_filter_form_url() {
 		if ( self::is_listing_taxonomy() && $obj = get_queried_object() ) {
 			$url = get_term_link( $obj );
-		} else if ( Functions::is_listings() ) {
+		} elseif ( Functions::is_listings() ) {
 			$url = '#';
 		} else {
 			$url = get_permalink( Functions::get_page_id( 'listings' ) );
@@ -50,7 +50,7 @@ trait UtilityTrait {
 	/**
 	 * Check if an endpoint is showing.
 	 *
-	 * @param string|false $endpoint Whether endpoint.
+	 * @param  string|false  $endpoint  Whether endpoint.
 	 *
 	 * @return bool
 	 */
@@ -164,8 +164,8 @@ trait UtilityTrait {
 					'before'      => '',
 					'after'       => '',
 					'home'        => esc_html_x( 'Home', 'breadcrumb', 'classified-listing' ),
-				]
-			)
+				],
+			),
 		);
 
 		$breadcrumbs = new Breadcrumb();
@@ -208,8 +208,8 @@ trait UtilityTrait {
 	/**
 	 * Gets a property from the rtcl_loop global.
 	 *
-	 * @param string $prop    Prop to get.
-	 * @param string $default Default if the prop does not exist.
+	 * @param  string  $prop  Prop to get.
+	 * @param  string  $default  Default if the prop does not exist.
 	 *
 	 * @return mixed
 	 * @since 1.5.5
@@ -223,8 +223,8 @@ trait UtilityTrait {
 	/**
 	 * Sets a property in the rtcl_loop global.
 	 *
-	 * @param string $prop  Prop to set.
-	 * @param string $value Value to set.
+	 * @param  string  $prop  Prop to set.
+	 * @param  string  $value  Value to set.
 	 *
 	 * @since 1.5.5
 	 */
@@ -247,7 +247,7 @@ trait UtilityTrait {
 	/**
 	 * Sets up the rtcl_loop global from the passed args or from the main query.
 	 *
-	 * @param array $args Args to pass into the global.
+	 * @param  array  $args  Args to pass into the global.
 	 *
 	 * @since 1.5.5
 	 */
@@ -274,7 +274,7 @@ trait UtilityTrait {
 					'total_pages'  => $GLOBALS['wp_query']->max_num_pages,
 					'per_page'     => $GLOBALS['wp_query']->get( 'posts_per_page' ),
 					'current_page' => max( 1, $GLOBALS['wp_query']->get( 'paged', 1 ) ),
-				]
+				],
 			);
 		}
 
@@ -287,7 +287,6 @@ trait UtilityTrait {
 	}
 
 	static function get_permalink_structure() {
-
 		$saved_permalinks = [];
 		if ( $listing_base = Functions::get_option_item( 'rtcl_advanced_settings', 'permalink' ) ) {
 			$saved_permalinks['listing_base'] = untrailingslashit( $listing_base );
@@ -309,7 +308,7 @@ trait UtilityTrait {
 				'category_base' => _x( 'listing-category', 'slug', 'classified-listing' ),
 				'location_base' => _x( 'listing-location', 'slug', 'classified-listing' ),
 				'tag_base'      => _x( 'listing-tag', 'slug', 'classified-listing' ),
-			]
+			],
 		);
 
 		return apply_filters( 'rtcl_permalink_structure', $permalinks );
@@ -327,7 +326,7 @@ trait UtilityTrait {
 			'rtcl_listing_item_type',
 			[
 				rtcl()->post_type,
-			]
+			],
 		);
 	}
 
@@ -345,7 +344,7 @@ trait UtilityTrait {
 	}
 
 	/**
-	 * @param \WP_User $user
+	 * @param  \WP_User  $user
 	 *
 	 * @return string
 	 */
@@ -379,8 +378,8 @@ trait UtilityTrait {
 					$content,
 					[
 						'unslash' => false,
-					]
-				)
+					],
+				),
 			);
 		}
 
@@ -410,15 +409,19 @@ trait UtilityTrait {
 
 		$updated_text = str_replace( array_keys( $find_replace ), array_values( $find_replace ), $text );
 
-		return apply_filters( 'rtcl_replace_policy_and_terms_page_link_placeholders', $updated_text, $text, $privacy_page_id, $privacy_link, $terms_page_id,
+		return apply_filters( 'rtcl_replace_policy_and_terms_page_link_placeholders',
+			$updated_text,
+			$text,
+			$privacy_page_id,
+			$privacy_link,
+			$terms_page_id,
 			$terms_link );
 	}
 
 	/**
-	 * @param string $type
+	 * @param  string  $type
 	 */
 	static function privacy_policy_text( $type = 'checkout' ) {
-
 		if ( ! Functions::get_privacy_policy_page_id() ) {
 			return;
 		}
@@ -586,8 +589,8 @@ trait UtilityTrait {
 					$content,
 					[
 						'unslash' => false,
-					]
-				)
+					],
+				),
 			);
 		}
 
@@ -609,12 +612,12 @@ trait UtilityTrait {
 				[
 					'date' => 'Y-m-d',
 					'time' => 'H:i:s',
-				]
+				],
 			),
 			[
 				'date' => 'Y-m-d',
 				'time' => 'H:i:s',
-			]
+			],
 		);
 	}
 
@@ -625,8 +628,8 @@ trait UtilityTrait {
 	/**
 	 * Display the classes for the listing div.
 	 *
-	 * @param string|array         $class      One or more classes to add to the class list.
-	 * @param int|\WP_Post|Listing $listing_id Listing ID or product object.
+	 * @param  string|array  $class  One or more classes to add to the class list.
+	 * @param  int|\WP_Post|Listing  $listing_id  Listing ID or product object.
 	 *
 	 * @since 1.5.4
 	 */
@@ -640,7 +643,7 @@ trait UtilityTrait {
 	/**
 	 * Display the classes for the listing div
 	 *
-	 * @param string|array $classes One or more classes to add to the class list.
+	 * @param  string|array  $classes  One or more classes to add to the class list.
 	 *
 	 * @since 1.5.4
 	 */
@@ -651,7 +654,7 @@ trait UtilityTrait {
 			'columns-%d tab-columns-%d mobile-columns-%d',
 			intval( $per_row['desktop'] ?? 3 ),
 			intval( $per_row['tablet'] ?? 2 ),
-			intval( $per_row['mobile'] ?? 1 )
+			intval( $per_row['mobile'] ?? 1 ),
 		);
 		$classes[]    = 'rtcl-listings';
 		$classes[]    = 'rtcl-ajax-listings';
@@ -668,8 +671,8 @@ trait UtilityTrait {
 	/**
 	 * Get listing taxonomy HTML classes.
 	 *
-	 * @param array  $term_ids Array of terms IDs or objects.
-	 * @param string $taxonomy Taxonomy.
+	 * @param  array  $term_ids  Array of terms IDs or objects.
+	 * @param  string  $taxonomy  Taxonomy.
 	 *
 	 * @return array
 	 * @since 1.5.4
@@ -699,8 +702,8 @@ trait UtilityTrait {
 	/**
 	 * Retrieves the classes for the post div as an array.
 	 *
-	 * @param string|array         $class   One or more classes to add to the class list.
-	 * @param int|\WP_Post|Listing $listing Listing ID or listing object.
+	 * @param  string|array  $class  One or more classes to add to the class list.
+	 * @param  int|\WP_Post|Listing  $listing  Listing ID or listing object.
 	 *
 	 * @return array
 	 * @since 1.5.4
@@ -740,7 +743,7 @@ trait UtilityTrait {
 			$listing->get_label_class(),
 			self::get_listing_taxonomy_class( $listing->get_category_ids(), rtcl()->category ),
 			self::get_listing_taxonomy_class( $listing->get_location_ids(), rtcl()->location ),
-			is_array( $extra_class ) ? $extra_class : []
+			is_array( $extra_class ) ? $extra_class : [],
 		);
 
 		return array_map( 'esc_attr', array_unique( array_filter( $classes ) ) );
@@ -767,7 +770,6 @@ trait UtilityTrait {
 	}
 
 	public static function listing_loop_end( $echo = true ) {
-
 		$loop_end = apply_filters( 'rtcl_listing_loop_end', Functions::get_template_html( 'listing/loop/loop-end' ) );
 
 		if ( $echo ) {
@@ -781,7 +783,7 @@ trait UtilityTrait {
 	/**
 	 * Get an order note.
 	 *
-	 * @param int|WP_Comment $data Note ID (or WP_Comment instance for internal use only).
+	 * @param  int|WP_Comment  $data  Note ID (or WP_Comment instance for internal use only).
 	 *
 	 * @return stdClass|null        Object with order note details or null when does not exists.
 	 * @since  1.4.0
@@ -804,31 +806,31 @@ trait UtilityTrait {
 				'customer_note' => (bool) get_comment_meta( $data->comment_ID, 'is_customer_note', true ),
 				'added_by'      => __( 'RtclListing', 'classified-listing' ) === $data->comment_author ? 'system' : $data->comment_author,
 			],
-			$data
+			$data,
 		);
 	}
 
 	/**
 	 * Get order notes.
 	 *
-	 * @param array $args              Query arguments {
+	 * @param  array  $args  Query arguments {
 	 *                                 Array of query parameters.
 	 *
-	 * @type string $limit             Maximum number of notes to retrieve.
+	 * @type string $limit Maximum number of notes to retrieve.
 	 *                                 Default empty (no limit).
-	 * @type int    $order_id          Limit results to those affiliated with a given order ID.
+	 * @type int $order_id Limit results to those affiliated with a given order ID.
 	 *                                 Default 0.
-	 * @type array  $order__in         Array of order IDs to include affiliated notes for.
+	 * @type array $order__in Array of order IDs to include affiliated notes for.
 	 *                                 Default empty.
-	 * @type array  $order__not_in     Array of order IDs to exclude affiliated notes for.
+	 * @type array $order__not_in Array of order IDs to exclude affiliated notes for.
 	 *                                 Default empty.
-	 * @type string $orderby           Define how should sort notes.
+	 * @type string $orderby Define how should sort notes.
 	 *                                 Accepts 'date_created', 'date_created_gmt' or 'id'.
 	 *                                 Default: 'id'.
-	 * @type string $order             How to order retrieved notes.
+	 * @type string $order How to order retrieved notes.
 	 *                                 Accepts 'ASC' or 'DESC'.
 	 *                                 Default: 'DESC'.
-	 * @type string $type              Define what type of note should retrieve.
+	 * @type string $type Define what type of note should retrieve.
 	 *                                 Accepts 'customer', 'internal' or empty for both.
 	 *                                 Default empty.
 	 *                                 }
@@ -865,7 +867,7 @@ trait UtilityTrait {
 								   'date_created_gmt',
 								   'id',
 							   ],
-							   true
+							   true,
 						   ) ? $orderby_mapping[ $args['orderby'] ] : 'comment_ID';
 
 		// Set Classified Listing payment note type.
@@ -908,7 +910,7 @@ trait UtilityTrait {
 	/**
 	 * Sanitize a string destined to be a tooltip.
 	 *
-	 * @param string $var Data to sanitize.
+	 * @param  string  $var  Data to sanitize.
 	 *
 	 * @return string
 	 * @since  1.4.0 Tooltips are encoded with htmlspecialchars to prevent XSS. Should not be used in conjunction with esc_attr()
@@ -927,16 +929,16 @@ trait UtilityTrait {
 					'li'     => [],
 					'ol'     => [],
 					'p'      => [],
-				]
-			)
+				],
+			),
 		);
 	}
 
 	/**
 	 * Display a classified Listing help tip.
 	 *
-	 * @param string $tip        Help tip text.
-	 * @param bool   $allow_html Allow sanitized HTML if true or escape.
+	 * @param  string  $tip  Help tip text.
+	 * @param  bool  $allow_html  Allow sanitized HTML if true or escape.
 	 *
 	 * @return string
 	 * @since  2.5.0
@@ -951,9 +953,7 @@ trait UtilityTrait {
 		return '<span class="rtcl-help-tip" data-tip="' . $tip . '"></span>';
 	}
 
-	public static function get_wp_dropdown_categories( $taxonomy, $args = [] ) {
-
-	}
+	public static function get_wp_dropdown_categories( $taxonomy, $args = [] ) {}
 
 	public static function is_active_elementor_widget( $id_base ) {
 		global $wp_registered_widgets;
@@ -978,15 +978,12 @@ trait UtilityTrait {
 
 		// Loop over attrs and validate data types.
 		foreach ( $attrs as $k => $v ) {
-
 			// String (but don't trim value).
 			if ( is_string( $v ) && ( $k !== 'value' ) ) {
 				$v = trim( $v );
-
 				// Boolean
 			} elseif ( is_bool( $v ) ) {
 				$v = $v ? 1 : 0;
-
 				// Object
 			} elseif ( is_array( $v ) || is_object( $v ) ) {
 				$v = wp_json_encode( $v );
@@ -1012,6 +1009,14 @@ trait UtilityTrait {
 
 		$link = preg_replace( $re, $subst, $media_link, 1 );
 
+		// YouTube Shorts URL
+		$link = preg_replace(
+			'@https?://(www\.)?youtube.com/shorts/([^?&/]+)@',
+			'https://www.youtube.com/embed/$2?feature=oembed',
+			$link,
+			1,
+		);
+
 		// Vimeo
 		$re    = '@https?://(www.)?vimeo.com/([^/]+)@';
 		$subst = 'https://player.vimeo.com/video/$2';
@@ -1029,14 +1034,44 @@ trait UtilityTrait {
 	static function get_embed_video_thumbnail_url( $media_link, $default = 'default' ) {
 		$thumbnail_url = Functions::get_default_placeholder_url();
 		$media_type    = 'none';
+
 		if ( strpos( $media_link, 'youtube.com' ) !== false ) {
-			$media_type    = 'youtube';
-			$re            = '@https?://(www.)?youtube.com/watch\?v=([^&]+)@';
-			$subst         = "https://i3.ytimg.com/vi/$2/$default.jpg";
-			$thumbnail_url = preg_replace( $re, $subst, $media_link, 1 );
+			$media_type = 'youtube';
+			$video_id   = '';
+
+			if ( preg_match( '@youtube\.com/watch\?v=([^&]+)@', $media_link, $m ) ) {
+				$video_id = $m[1];
+			} elseif ( preg_match( '@youtube\.com/shorts/([^?&/]+)@', $media_link, $m ) ) {
+				$video_id = $m[1];
+			}
+
+			if ( $video_id ) {
+				$thumbnail_url = sprintf(
+					'https://i3.ytimg.com/vi/%s/%s.jpg',
+					esc_attr( $video_id ),
+					esc_attr( $default ),
+				);
+			}
 		} elseif ( strpos( $media_link, 'vimeo.com' ) !== false ) {
 			$media_type = 'vimeo';
-			// $thumbnail_url = Functions::get_default_placeholder_url();
+			$response   = wp_remote_get(
+				add_query_arg(
+					[
+						'url'   => rawurlencode( $media_link ),
+						'width' => 200,
+					],
+					'https://vimeo.com/api/oembed.json',
+				),
+				[ 'timeout' => 5 ],
+			);
+
+			if ( ! is_wp_error( $response ) ) {
+				$data = json_decode( wp_remote_retrieve_body( $response ), true );
+
+				if ( ! empty( $data['thumbnail_url'] ) ) {
+					$thumbnail_url = esc_url_raw( $data['thumbnail_url'] );
+				}
+			}
 		}
 
 		return apply_filters( 'rtcl_get_embed_video_thumbnail_url', $thumbnail_url, $media_link, $media_type );

@@ -28,9 +28,9 @@ do_action( 'rtcl_email_header', $email ); ?>
 		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 		printf(
 			/* translators: details */
-			__( 'Your listing %1$s is about to expire at %2$s. You can renew it here: %3$s', 'classified-listing' ),
+			__( 'Your listing %1$s is about to expire on %2$s. You can renew it here: %3$s', 'classified-listing' ),
 			sprintf( '<strong>%s</strong>', esc_html( $listing->get_the_title() ) ),
-			esc_url( $email->get_placeholders_item( '{site_link}' ) ),
+			sprintf('<strong>%s</strong>',esc_html( $email->get_placeholders_item( '{expiration_date}' ) )),
 			esc_url( $email->get_placeholders_item( '{renewal_link}' ) ) 
 		) ?></p>
 <?php

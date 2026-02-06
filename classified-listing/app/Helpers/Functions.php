@@ -16,6 +16,7 @@ use Rtcl\Models\RtclDateTime;
 use Rtcl\Resources\Options;
 use Rtcl\Services\FormBuilder\FBField;
 use Rtcl\Services\FormBuilder\FBHelper;
+use Rtcl\Services\MaxMindDatabaseService;
 use Rtcl\Traits\Functions\CoreTrait;
 use Rtcl\Traits\Functions\EmailTrait;
 use Rtcl\Traits\Functions\FormatTrait;
@@ -25,8 +26,10 @@ use Rtcl\Traits\Functions\SettingsTrait;
 use Rtcl\Traits\Functions\TemplateTrait;
 use Rtcl\Traits\Functions\UtilityTrait;
 use RtclPro\Helpers\Fns;
+use stdClass;
 use WP_Error;
 use WP_Query;
+use WP_User;
 
 /**
  * Class Functions
@@ -44,10 +47,55 @@ class Functions {
 	use EmailTrait;
 
 	/**
+	 * Get all options data
+	 *
+	 * @return array
+	 */
+	public static function getOptionsData(): array {
+		$optionsData = [];
+		$optionItems = Options::option_items();
+		foreach ( $optionItems as $optionKey => $optionItem ) {
+			if ( ! empty( $optionItem['children'] ) ) {
+				foreach ( $optionItem['children'] as $childId => $child ) {
+					if ( isset( $child['is_external'] ) && isset( $child['get_data_fn'] ) ) {
+						$optionsData[ $childId ] = FnCall::call( $child['get_data_fn'] );
+					} else {
+						$opt                     = get_option( $childId, [] );
+						$optionsData[ $childId ] = is_array( $opt ) && ! empty( $opt ) ? $opt : [];
+						if ( ! empty( $child['fields'] ) && is_array( $child['fields'] ) ) {
+							foreach ( $child['fields'] as $fieldKey => $field ) {
+								if ( isset( $field['is_external'] ) && isset( $field['get_data_fn'] ) ) {
+									$optionsData[ $childId ][ $fieldKey ] = FnCall::call( $field['get_data_fn'] );
+								}
+							}
+						}
+					}
+				}
+			} else {
+				if ( isset( $optionsData['is_external'] ) && isset( $optionsData['get_data_fn'] ) ) {
+					$optionsData[ $optionKey ] = FnCall::call( $optionsData['get_data_fn'] );
+				} else {
+					$opt                       = get_option( $optionKey, [] );
+					$optionsData[ $optionKey ] = is_array( $opt ) && ! empty( $opt ) ? $opt : [];
+					if ( ! empty( $optionItem['fields'] ) && is_array( $optionItem['fields'] ) ) {
+						foreach ( $optionItem['fields'] as $fieldKey => $field ) {
+							if ( isset( $field['is_external'] ) && isset( $field['get_data_fn'] ) ) {
+								$optionsData[ $optionKey ][ $fieldKey ] = FnCall::call( $field['get_data_fn'] );
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return $optionsData;
+	}
+
+	/**
 	 * Define a constant if it is not already defined.
 	 *
-	 * @param string $name  Constant name.
-	 * @param mixed  $value Value.
+	 * @param  string  $name  Constant name.
+	 * @param  mixed  $value  Value.
 	 *
 	 * @since 2.0.5
 	 */
@@ -71,7 +119,7 @@ class Functions {
 	 * Get data if set, otherwise return a default value or null. Prevents notices when data is not set.
 	 *
 	 * @param      $var
-	 * @param null $default
+	 * @param  null  $default
 	 *
 	 * @return null
 	 */
@@ -80,10 +128,10 @@ class Functions {
 	}
 
 	/**
-	 * @param int   $field_id
-	 * @param int   $post_id
+	 * @param  int  $field_id
+	 * @param  int  $post_id
 	 *
-	 * @param array $args
+	 * @param  array  $args
 	 *
 	 * @return array|void|null
 	 */
@@ -99,7 +147,7 @@ class Functions {
 		$data = [
 			'type'  => $cf->getType(),
 			'label' => $cf->getLabel(),
-			'value' => $cf->getValue( $post_id )
+			'value' => $cf->getValue( $post_id ),
 		];
 
 		if ( isset( $args['formatted_value'] ) ) {
@@ -168,9 +216,9 @@ class Functions {
 	}
 
 	/**
-	 * @param null   $post_id
+	 * @param  null  $post_id
 	 * @param        $meta_key
-	 * @param string $type
+	 * @param  string  $type
 	 *
 	 * @return bool
 	 */
@@ -205,7 +253,7 @@ class Functions {
 	}
 
 	/**
-	 * @param string $tag
+	 * @param  string  $tag
 	 *
 	 * @return bool
 	 */
@@ -278,7 +326,7 @@ class Functions {
 	/**
 	 * Check is Listing Category archive page
 	 *
-	 * @param string $term
+	 * @param  string  $term
 	 *
 	 * @return bool
 	 */
@@ -290,7 +338,7 @@ class Functions {
 	/**
 	 * Check is Listing Category archive page
 	 *
-	 * @param string $term
+	 * @param  string  $term
 	 *
 	 * @return bool
 	 */
@@ -301,7 +349,7 @@ class Functions {
 	/**
 	 * Check is Listing Location archive page
 	 *
-	 * @param string $term
+	 * @param  string  $term
 	 *
 	 * @return bool
 	 */
@@ -348,7 +396,7 @@ class Functions {
 	}
 
 	/**
-	 * @param null $endpoint
+	 * @param  null  $endpoint
 	 *
 	 * @return bool
 	 */
@@ -371,13 +419,14 @@ class Functions {
 	public static function get_my_account_page_endpoints() {
 		$endpoints = [
 			// My account actions.
-			'listings'      => self::get_option_item( 'rtcl_advanced_settings', 'myaccount_listings_endpoint' ),
-			'favourites'    => self::get_option_item( 'rtcl_advanced_settings', 'myaccount_favourites_endpoint' ),
-			'payments'      => self::get_option_item( 'rtcl_advanced_settings', 'myaccount_payments_endpoint' ),
-			'edit-account'  => self::get_option_item( 'rtcl_advanced_settings', 'myaccount_edit_account_endpoint' ),
-			'lost-password' => self::get_option_item( 'rtcl_advanced_settings', 'myaccount_lost_password_endpoint' ),
-			'add-listing'   => Link::get_listing_form_page_link(),
-			'logout'        => self::get_option_item( 'rtcl_advanced_settings', 'myaccount_logout_endpoint' )
+			'listings'         => self::get_option_item( 'rtcl_advanced_settings', 'myaccount_listings_endpoint' ),
+			'favourites'       => self::get_option_item( 'rtcl_advanced_settings', 'myaccount_favourites_endpoint' ),
+			'payments'         => self::get_option_item( 'rtcl_advanced_settings', 'myaccount_payments_endpoint' ),
+			'profile-settings' => self::get_option_item( 'rtcl_advanced_settings', 'myaccount_profile_settings_endpoint', 'privacy-settings' ),
+			'edit-account'     => self::get_option_item( 'rtcl_advanced_settings', 'myaccount_edit_account_endpoint' ),
+			'lost-password'    => self::get_option_item( 'rtcl_advanced_settings', 'myaccount_lost_password_endpoint' ),
+			'add-listing'      => Link::get_listing_form_page_link(),
+			'logout'           => self::get_option_item( 'rtcl_advanced_settings', 'myaccount_logout_endpoint' ),
 		];
 
 		return apply_filters( 'rtcl_my_account_endpoint', $endpoints );
@@ -388,7 +437,7 @@ class Functions {
 			'submission'      => self::get_option_item( 'rtcl_advanced_settings', 'checkout_submission_endpoint', 'submission' ),
 			'promote'         => self::get_option_item( 'rtcl_advanced_settings', 'checkout_promote_endpoint', 'promote' ),
 			'payment-receipt' => self::get_option_item( 'rtcl_advanced_settings', 'checkout_payment_receipt_endpoint', 'payment-receipt' ),
-			'payment-failure' => self::get_option_item( 'rtcl_advanced_settings', 'checkout_payment_failure_endpoint', 'payment-failure' )
+			'payment-failure' => self::get_option_item( 'rtcl_advanced_settings', 'checkout_payment_failure_endpoint', 'payment-failure' ),
 		];
 
 		return apply_filters( 'rtcl_checkout_endpoints', $endpoints );
@@ -411,7 +460,6 @@ class Functions {
 			$response = isset( $_POST['g-recaptcha-response'] ) ? esc_attr( $_POST['g-recaptcha-response'] ) : '';
 
 			if ( '' !== $response ) {
-
 				// make a GET request to the Google reCAPTCHA Server
 				$request = wp_remote_get( 'https://www.google.com/recaptcha/api/siteverify?secret=' . $misc_settings['recaptcha_secret_key'] . '&response='
 										  . $response . '&remoteip=' . $_SERVER['REMOTE_ADDR'] );
@@ -465,16 +513,16 @@ class Functions {
 										[
 											[
 												'key'   => 'pricing_type',
-												'value' => 'regular'
+												'value' => 'regular',
 											],
 											[
 												'key'     => 'pricing_type',
 												'compare' => 'NOT EXISTS',
 											],
-											'relation' => 'OR'
-										]
+											'relation' => 'OR',
+										],
 				],
-				'suppress_filters' => false
+				'suppress_filters' => false,
 			] ) );
 
 		return apply_filters( 'rtcl_get_regular_pricing_options', $regular_pricing );
@@ -608,7 +656,7 @@ class Functions {
 
 
 	/**
-	 * @param string $type
+	 * @param  string  $type
 	 *
 	 * @return bool
 	 */
@@ -635,9 +683,9 @@ class Functions {
 	/**
 	 * Format a price range for display.
 	 *
-	 * @param string $from Price from.
-	 * @param string $to   Price to.
-	 * @param array  $args
+	 * @param  string  $from  Price from.
+	 * @param  string  $to  Price to.
+	 * @param  array  $args
 	 *
 	 * @return string
 	 */
@@ -654,24 +702,24 @@ class Functions {
 	/**
 	 * Format the price with a currency symbol.
 	 *
-	 * @param float $price                  Raw price.
-	 * @param bool  $only_formatted_price
-	 * @param array $args                   Arguments to format a price {
+	 * @param  float  $price  Raw price.
+	 * @param  bool  $only_formatted_price
+	 * @param  array  $args  Arguments to format a price {
 	 *                                      Array of arguments.
 	 *                                      Defaults to empty array.
 	 *                                      }
 	 *
-	 * @type bool   $meta_label             Adds exclude tax label.
+	 * @type bool $meta_label Adds exclude tax label.
 	 *                                      Defaults to false.
-	 * @type string $currency               Currency code.
+	 * @type string $currency Currency code.
 	 *                                      Defaults to empty string (Use the result from get_woocommerce_currency()).
-	 * @type string $decimal_separator      Decimal separator.
+	 * @type string $decimal_separator Decimal separator.
 	 *                                      Defaults the result of self::get_decimal_separator().
-	 * @type string $thousand_separator     A Thousand separator.
+	 * @type string $thousand_separator A Thousand separator.
 	 *                                      Defaults the result of self::get_thousands_separator().
-	 * @type string $decimals               Number of decimals.
+	 * @type string $decimals Number of decimals.
 	 *                                      Defaults the result of self::get_price_decimals().
-	 * @type string $price_format           Price format depending on the currency position.
+	 * @type string $price_format Price format depending on the currency position.
 	 *                                      Defaults the result of self::get_price_format().
 	 *                                      }
 	 * @return string
@@ -690,11 +738,11 @@ class Functions {
 					'thousand_separator' => self::get_thousands_separator(),
 					'decimals'           => self::get_price_decimals(),
 					'price_format'       => self::get_price_format(),
-				]
+				],
 			),
 			$price,
 			$only_formatted_price,
-			$args
+			$args,
 		);
 
 		$original_price = $price;
@@ -710,20 +758,20 @@ class Functions {
 		/**
 		 * Filter raw price.
 		 *
-		 * @param float        $raw_price      Raw price.
-		 * @param float|string $original_price Original price as float, or empty string. Since 5.0.0.
+		 * @param  float  $raw_price  Raw price.
+		 * @param  float|string  $original_price  Original price as float, or empty string. Since 5.0.0.
 		 */
 		$price = apply_filters( 'rtcl_raw_price', $negative ? $price * - 1 : $price, $original_price, $args );
 
 		/**
 		 * Filter formatted price.
 		 *
-		 * @param float        $formatted_price    Formatted price.
-		 * @param float        $price              Unformulated price.
-		 * @param int          $decimals           Number of decimals.
-		 * @param string       $decimal_separator  Decimal separator.
-		 * @param string       $thousand_separator A Thousand separator.
-		 * @param float|string $original_price     Original price as float, or empty string. Since 5.0.0.
+		 * @param  float  $formatted_price  Formatted price.
+		 * @param  float  $price  Unformulated price.
+		 * @param  int  $decimals  Number of decimals.
+		 * @param  string  $decimal_separator  Decimal separator.
+		 * @param  string  $thousand_separator  A Thousand separator.
+		 * @param  float|string  $original_price  Original price as float, or empty string. Since 5.0.0.
 		 */
 		$price = apply_filters( 'formatted_rtcl_price',
 			number_format( $price, $args['decimals'], $args['decimal_separator'], $args['thousand_separator'] ),
@@ -754,11 +802,11 @@ class Functions {
 		/**
 		 * Filters the string of price markup.
 		 *
-		 * @param string       $return            Price HTML markup.
-		 * @param string       $price             Formatted price.
-		 * @param array        $args              Pass on the args.
-		 * @param float        $unformatted_price Price as float to allow plugins custom formatting. Since 3.2.0.
-		 * @param float|string $original_price    Original price as float, or empty string. Since 5.0.0.
+		 * @param  string  $return  Price HTML markup.
+		 * @param  string  $price  Formatted price.
+		 * @param  array  $args  Pass on the args.
+		 * @param  float  $unformatted_price  Price as float to allow plugins custom formatting. Since 3.2.0.
+		 * @param  float|string  $original_price  Original price as float, or empty string. Since 5.0.0.
 		 */
 		return apply_filters( 'rtcl_price', $return, $price, $args, $unformatted_price, $original_price );
 	}
@@ -767,7 +815,7 @@ class Functions {
 	/**
 	 * Format a price with WC Currency Locale settings.
 	 *
-	 * @param string $value Price to localize.
+	 * @param  string  $value  Price to localize.
 	 *
 	 * @return string
 	 */
@@ -819,20 +867,20 @@ class Functions {
 		/**
 		 * Filter raw price.
 		 *
-		 * @param float        $raw_price      Raw price.
-		 * @param float|string $original_price Original price as float, or empty string. Since 5.0.0.
+		 * @param  float  $raw_price  Raw price.
+		 * @param  float|string  $original_price  Original price as float, or empty string. Since 5.0.0.
 		 */
 		$price = apply_filters( 'raw_rtcl_payment_price', $negative ? $price * - 1 : $price, $original_price );
 
 		/**
 		 * Filter formatted price.
 		 *
-		 * @param float        $formatted_price    Formatted price.
-		 * @param float        $price              Unformatted price.
-		 * @param int          $decimals           Number of decimals.
-		 * @param string       $decimal_separator  Decimal separator.
-		 * @param string       $thousand_separator Thousand separator.
-		 * @param float|string $original_price     Original price as float, or empty string. Since 5.0.0.
+		 * @param  float  $formatted_price  Formatted price.
+		 * @param  float  $price  Unformatted price.
+		 * @param  int  $decimals  Number of decimals.
+		 * @param  string  $decimal_separator  Decimal separator.
+		 * @param  string  $thousand_separator  Thousand separator.
+		 * @param  float|string  $original_price  Original price as float, or empty string. Since 5.0.0.
 		 */
 		$price = apply_filters( 'formatted_rtcl_payment_price',
 			number_format( $price, $decimals, $decimal_sep, $thousands_sep ),
@@ -861,7 +909,7 @@ class Functions {
 			$price_format,
 			$currency_symbol,
 			$formatted_price,
-			$original_price
+			$original_price,
 		);
 		$payment_price_meta_html      = apply_filters( 'rtcl_payment_price_meta_html', '', $price_format, $currency_symbol, $formatted_price, $original_price );
 		$payment_price_meta_html      = $payment_price_meta_html ? apply_filters( 'rtcl_payment_price_meta_wrap_html',
@@ -881,8 +929,8 @@ class Functions {
 	/**
 	 * Trim trailing zeros off prices.
 	 *
-	 * @param string|float|int $price Price.
-	 * @param bool             $payment
+	 * @param  string|float|int  $price  Price.
+	 * @param  bool  $payment
 	 *
 	 * @return string
 	 */
@@ -913,7 +961,6 @@ class Functions {
 	}
 
 	public static function request( $key, $default = null ) {
-
 		if ( isset( $_POST[ $key ] ) ) {/* phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended */
 			return sanitize_text_field( wp_unslash( $_POST[ $key ] ) ); /* phpcs:ignore WordPress.Security.NonceVerification.Missing */
 		} elseif ( isset( $_GET[ $key ] ) ) { /* phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended */
@@ -953,8 +1000,8 @@ class Functions {
 	/**
 	 * Formats information about specific attachment
 	 *
-	 * @param int     $attach_id WP_Post ID
-	 * @param boolean $is_new
+	 * @param  int  $attach_id  WP_Post ID
+	 * @param  boolean  $is_new
 	 *
 	 * @return array
 	 */
@@ -972,8 +1019,8 @@ class Functions {
 					'enabled' => 1,
 					'width'   => null,
 					'height'  => null,
-					'crop'    => false
-				]
+					'crop'    => false,
+				],
 			];
 
 			$image_sizes = array_merge( $image_defaults, rtcl()->gallery['image_sizes'] );
@@ -995,7 +1042,7 @@ class Functions {
 						'url'    => null,
 						'width'  => $image_size['width'],
 						'height' => $image_size['height'],
-						'crop'   => $image_size['crop']
+						'crop'   => $image_size['crop'],
 					];
 				} else {
 					$src = array_combine( $image_keys, $src );
@@ -1035,8 +1082,8 @@ class Functions {
 					'type'     => $post->post_mime_type,
 					'uploaded' => date_i18n( get_option( 'date_format' ), strtotime( $post->post_date_gmt ) ),
 					'size'     => size_format( filesize( get_attached_file( $attach_id ) ) ),
-					'length'   => null
-				]
+					'length'   => null,
+				],
 			];
 
 			$meta = wp_get_attachment_metadata( $attach_id );
@@ -1063,7 +1110,7 @@ class Functions {
 			'post_status'      => 'any',
 			'orderby'          => 'menu_order',
 			'order'            => 'asc',
-			'suppress_filters' => false
+			'suppress_filters' => false,
 		] );
 
 		return $fields;
@@ -1074,7 +1121,7 @@ class Functions {
 	}
 
 	/**
-	 * @param int $parent_id
+	 * @param  int  $parent_id
 	 *
 	 * @return array
 	 */
@@ -1092,7 +1139,7 @@ class Functions {
 					'name'   => $term->name,
 					'slug'   => $term->slug,
 					'parent' => $term->parent,
-					'link'   => get_term_link( $term )
+					'link'   => get_term_link( $term ),
 				];
 				if ( $term->taxonomy === rtcl()->category ) {
 					$icon = null;
@@ -1126,8 +1173,8 @@ class Functions {
 	}
 
 	/**
-	 * @param array $args
-	 * @param array $terms
+	 * @param  array  $args
+	 * @param  array  $terms
 	 *
 	 * @return string
 	 */
@@ -1151,9 +1198,9 @@ class Functions {
 			if ( ! empty( $location_base ) ) {
 				$location_base = trim( $location_base, '/' );
 			}
-			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText	
+			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			$category_base = _x( $category_base, 'slug', 'classified-listing' );
-			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText	
+			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			$location_base = _x( $location_base, 'slug', 'classified-listing' );
 
 			if ( class_exists( 'SitePress' ) ) {
@@ -1214,7 +1261,7 @@ class Functions {
 				$allTaxonomyLinkHtml = sprintf(
 					'<li class="all-taxonomy"><a href="%s">%s</a></li>',
 					$allTaxonomyLink,
-					apply_filters( 'rtcl_widget_filter_taxonomy_reset_text', $allTaxonomyLink_text, $args['taxonomy'] )
+					apply_filters( 'rtcl_widget_filter_taxonomy_reset_text', $allTaxonomyLink_text, $args['taxonomy'] ),
 				);
 			}
 			foreach ( $terms as $term ) {
@@ -1359,17 +1406,17 @@ class Functions {
 						$term_link,
 						$cat_img_icon,
 						$term->name,
-						! empty( $args['instance']['show_count'] ) ? ' (' . $count . ')' : ''
+						! empty( $args['instance']['show_count'] ) ? ' (' . $count . ')' : '',
 					),
 					$has_arrow,
 					! empty( $args['instance']['ajax_load'] ) ? ( $cls_open ? self::get_sub_terms_filter_html( $args, $children ) : '' )
-						: self::get_sub_terms_filter_html( $args, $children )
+						: self::get_sub_terms_filter_html( $args, $children ),
 				);
 			}
 			if ( $html && rtcl()->location === $args['taxonomy'] ) {
 				$html .= '<li class="is-opener"><span class="rtcl-more"><i class="rtcl-icon rtcl-icon-plus-circled"></i><span class="text">' . esc_html__(
 						'Show More',
-						'classified-listing'
+						'classified-listing',
 					) . '</span></span></li>';
 			}
 
@@ -1381,8 +1428,8 @@ class Functions {
 
 
 	/**
-	 * @param array $args
-	 * @param array $terms
+	 * @param  array  $args
+	 * @param  array  $terms
 	 *
 	 * @return string
 	 */
@@ -1393,7 +1440,7 @@ class Functions {
 				'taxonomy'   => rtcl()->category,
 				'field_type' => 'checkbox',
 				'ajax_load'  => 0,
-				'more_less'  => 0
+				'more_less'  => 0,
 			] );
 
 		$terms = empty( $terms ) ? self::get_sub_terms( $args['taxonomy'], $args['parent'] ) : $terms;
@@ -1427,7 +1474,7 @@ class Functions {
 				$cls            = $has_arrow = $sub_term_html = $cls_open = null;
 				if ( ! empty( $children ) ) {
 					$cls       = ' is-parent has-sub';
-					$has_arrow = "<span class='rtcl-load-sub-list'><i class='rtcl-icon rtcl-icon-plus-1'></i></span>";
+					$has_arrow = "<span class='rtcl-load-sub-list' tabindex='0'><i class='rtcl-icon rtcl-icon-plus-1'></i></span>";
 					$cls_open  = '';
 					if ( ! empty( $ancestorsIds ) && in_array( $term->term_id, $ancestorsIds ) ) {
 						$cls_open = ' is-open is-loaded';
@@ -1442,7 +1489,8 @@ class Functions {
 						if ( $image_id ) {
 							$imageAttributes = wp_get_attachment_image_src( (int) $image_id, 'medium' );
 							if ( ! empty( $imageAttributes[0] ) ) {
-								$cat_img_icon = sprintf( '<img src="%s" alt="%s" class="rtcl-cat-img" />', esc_url( $imageAttributes[0] ),
+								$cat_img_icon = sprintf( '<img src="%s" alt="%s" class="rtcl-cat-img" />',
+									esc_url( $imageAttributes[0] ),
 									esc_attr( $term->name ) );
 							}
 						}
@@ -1468,7 +1516,7 @@ class Functions {
 				$html      .= sprintf( '<div class="rtcl-ajax-filter-data-item rtcl-filter-checkbox-item rtcl-filter-%1$s%2$s" data-id="%4$d">
 													<div class="rtcl-ajax-filter-diiWrap">
 														<input id="filters-ad-type-value-%1$s" name="%3$s" value="%4$d" type="%5$s" class="rtcl-filter-checkbox"%6$s />
-														<label for="filters-ad-type-value-%1$s" class="rtcl-filter-checkbox-label">
+														<label for="filters-ad-type-value-%1$s" class="rtcl-filter-checkbox-label" tabindex="0">
 															%7$s
 															<span class="rtcl-filter-checkbox-text">%8$s%9$s</span>
 														</label>
@@ -1487,13 +1535,13 @@ class Functions {
 					! empty( $args['show_count'] ) ? ' (' . $count . ')' : '',
 					$has_arrow,
 					! empty( $args['ajax_load'] ) ? ( $cls_open ? self::get_ajax_filter_sub_terms_html( $args, $children ) : '' )
-						: self::get_ajax_filter_sub_terms_html( $args, $children )
+						: self::get_ajax_filter_sub_terms_html( $args, $children ),
 				);
 			}
 			if ( ! empty( $args['more_less'] ) && $html && $hideAble ) {
 				$html .= '<div class="rtcl-more-less-btn">
-									<div class="text more-text"><i class="rtcl-icon rtcl-icon-plus-1"></i>' . __( 'More', 'classified-listing' ) . '</div>
-									<div class="text less-text"><i class="rtcl-icon rtcl-icon-minus-1"></i>' . __( 'Less', 'classified-listing' ) . '</div>
+									<div class="text more-text" tabindex="0"><i class="rtcl-icon rtcl-icon-plus-1"></i>' . __( 'More', 'classified-listing' ) . '</div>
+									<div class="text less-text" tabindex="0"><i class="rtcl-icon rtcl-icon-minus-1"></i>' . __( 'Less', 'classified-listing' ) . '</div>
 							</div>';
 			}
 
@@ -1505,9 +1553,9 @@ class Functions {
 
 
 	/**
-	 * @param String $taxonomy
-	 * @param array  $data
-	 * @param Int    $parent_id
+	 * @param  String  $taxonomy
+	 * @param  array  $data
+	 * @param  Int  $parent_id
 	 *
 	 * @return array
 	 */
@@ -1518,8 +1566,8 @@ class Functions {
 			$meta_query = [
 				[
 					'key'   => '_rtcl_types',
-					'value' => $data['type']
-				]
+					'value' => $data['type'],
+				],
 			];
 		}
 		$transient_name = rtcl()->get_transient_name( $transient_id, $taxonomy, 'hierarchy_' . $parent_id );
@@ -1554,7 +1602,7 @@ class Functions {
 				$args,
 				$taxonomy,
 				$parent_id,
-				$data
+				$data,
 			);
 
 			self::set_time_limit();
@@ -1599,7 +1647,6 @@ class Functions {
 	}
 
 	public static function get_store_listings_terms() {
-
 		if ( ! isset( $_REQUEST['name'] ) || $_REQUEST['name'] !== 'filter_category' ) {
 			return [];
 		}
@@ -1618,7 +1665,7 @@ class Functions {
 			'post_type'      => rtcl()->post_type,
 			'post_status'    => 'publish',
 			'posts_per_page' => - 1,
-			'author'         => $store_owner_user_id
+			'author'         => $store_owner_user_id,
 		];
 
 		$parent_id = ! empty( $_REQUEST['parent'] ) ? absint( $_REQUEST['parent'] ) : 0;
@@ -1629,7 +1676,7 @@ class Functions {
 					'taxonomy' => rtcl()->category,
 					'terms'    => [ $parent_id ],
 					'field'    => 'term_id',
-				]
+				],
 			];
 		}
 
@@ -1668,8 +1715,8 @@ class Functions {
 	}
 
 	/**
-	 * @param int  $parent_id
-	 * @param null $type
+	 * @param  int  $parent_id
+	 * @param  null  $type
 	 *
 	 * @return array
 	 */
@@ -1681,7 +1728,7 @@ class Functions {
 
 	/**
 	 * @param     $capability
-	 * @param int $post_id
+	 * @param  int  $post_id
 	 *
 	 * @return bool
 	 */
@@ -1694,7 +1741,7 @@ class Functions {
 			 && in_array( $capability,
 				[
 					'edit_rtcl_listing',
-					'delete_rtcl_listing'
+					'delete_rtcl_listing',
 				] )
 		) {
 			$user_can = true;
@@ -1704,8 +1751,9 @@ class Functions {
 	}
 
 	public static function dropdown_terms( $args = [], $echo = true ) {
-		$orderby = strtolower( self::get_option_item( 'rtcl_archive_listing_settings', 'taxonomy_orderby', 'name' ) );
-		$order   = strtoupper( self::get_option_item( 'rtcl_archive_listing_settings', 'taxonomy_order', 'DESC' ) );
+		$location_id = ! empty( $args['id'] ) ? $args['id'] : 'rtcl-location-search-' . rand();
+		$orderby     = strtolower( self::get_option_item( 'rtcl_archive_listing_settings', 'taxonomy_orderby', 'name' ) );
+		$order       = strtoupper( self::get_option_item( 'rtcl_archive_listing_settings', 'taxonomy_order', 'DESC' ) );
 		// Vars
 		$args = array_merge( [
 			'show_option_none'  => '-- ' . esc_html__( 'Select a category', 'classified-listing' ) . ' --',
@@ -1719,9 +1767,9 @@ class Functions {
 			'orderby'           => $orderby,
 			'order'             => ( 'DESC' === $order ) ? 'DESC' : 'ASC',
 			'value_field'       => 'id',
-			'selected'          => 0
-		],
-			$args );
+			'selected'          => 0,
+		], $args );
+
 		if ( '_rtcl_order' === $orderby ) {
 			$args['orderby']  = 'meta_value_num';
 			$args['meta_key'] = '_rtcl_order'; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
@@ -1743,7 +1791,7 @@ class Functions {
 			$html .= sprintf(
 				'<input type="hidden" name="%s" class="rtcl-term-hidden" value="%d" />',
 				$args['name'],
-				$selected
+				$selected,
 			);
 
 			$term_args = [
@@ -1759,7 +1807,8 @@ class Functions {
 				'show_count'        => false,
 				'hide_empty'        => false,
 				'walker'            => $args['walker'],
-				'echo'              => 0
+				'echo'              => 0,
+				'id'                => $location_id,
 			];
 
 			unset( $args['walker'] );
@@ -1767,11 +1816,12 @@ class Functions {
 			$select   = wp_dropdown_categories( $term_args );
 			$required = $args['required'] ? ' required' : '';
 			$replace  = sprintf(
-				'<select class="%s" data-taxonomy="%s" data-parent="%d"%s>',
+				'<select id="%s" class="%s" data-taxonomy="%s" data-parent="%d"%s>',
+				$location_id,
 				$args['class'],
 				$args['taxonomy'],
 				$args['parent'],
-				$required
+				$required,
 			);
 
 			$html .= preg_replace( '#<select([^>]*)>#', $replace, $select );
@@ -1792,7 +1842,7 @@ class Functions {
 				'orderby'      => $orderby,
 				'order'        => ( 'DESC' === $order ) ? 'DESC' : 'ASC',
 				'hide_empty'   => false,
-				'hierarchical' => false
+				'hierarchical' => false,
 			];
 			if ( '_rtcl_order' === $orderby ) {
 				$term_args['orderby']  = 'meta_value_num';
@@ -1813,33 +1863,34 @@ class Functions {
 						'<input type="hidden" class="rtcl-term-hidden rtcl-term-%s" data-slug="%s" value="%d" />',
 						$args['taxonomy'],
 						$sSlug,
-						$args['selected']
+						$args['selected'],
 					);
 					$html .= sprintf(
 						'<input type="hidden" name="%s" class="rtcl-term-hidden-value rtcl-term-%s" value="%s" />',
 						$args['taxonomy'],
 						$args['taxonomy'],
-						$sSlug
+						$sSlug,
 					);
 					$html .= sprintf(
-						'<select class="%s" data-taxonomy="%s" data-parent="%d"%s>',
+						'<select id="%s" class="%s" data-taxonomy="%s" data-parent="%d"%s>',
+						$location_id,
 						$args['class'],
 						$args['taxonomy'],
 						$args['parent'],
-						$required
+						$required,
 					);
 					$html .= sprintf(
 						'<option value="%s">%s</option>',
 						$args['option_none_value'],
-						$args['show_option_none']
+						$args['show_option_none'],
 					);
 				} else {
 					$html .= sprintf( '<div class="rtcl-child-terms rtcl-child-terms-%d">', $args['parent'] );
 					$html .= sprintf(
-						'<select class="%s" data-taxonomy="%s" data-parent="%d">',
+						'<select class="%s" data-taxonomy="%s" data-parent="%d" aria-label="sub-terms">',
 						$args['class'],
 						$args['taxonomy'],
-						$args['parent']
+						$args['parent'],
 					);
 					$html .= sprintf( '<option value="%d">%s</option>', $args['parent'], '---' );
 				}
@@ -1858,7 +1909,7 @@ class Functions {
 						$term->slug,
 						( $args['value_field'] == 'slug' ) ? $term->slug : $term->term_id,
 						$selected,
-						$term->name
+						$term->name,
 					);
 				}
 
@@ -1876,19 +1927,19 @@ class Functions {
 					$html .= sprintf(
 						'<input type="hidden" name="%s" class="rtcl-term-hidden" value="%d" />',
 						$args['name'],
-						$args['selected']
+						$args['selected'],
 					);
 					$html .= sprintf(
 						'<select class="%s" data-taxonomy="%s" data-parent="%d"%s>',
 						$args['class'],
 						$args['taxonomy'],
 						$args['parent'],
-						$required
+						$required,
 					);
 					$html .= sprintf(
 						'<option value="%s">%s</option>',
 						$args['option_none_value'],
-						$args['show_option_none']
+						$args['show_option_none'],
 					);
 					$html .= '</select>';
 					$html .= '</div>';
@@ -1908,8 +1959,8 @@ class Functions {
 	}
 
 	/**
-	 * @param null $days
-	 * @param null $start_date
+	 * @param  null  $days
+	 * @param  null  $start_date
 	 *
 	 * @return string
 	 * @throws \Exception
@@ -1945,7 +1996,7 @@ class Functions {
 
 		return [
 			isset( $payment_currency_settings['currency_decimal_separator'] ) ? stripslashes( $payment_currency_settings['currency_decimal_separator'] ) : '.',
-			isset( $currency_settings['currency_decimal_separator'] ) ? stripslashes( $currency_settings['currency_decimal_separator'] ) : '.'
+			isset( $currency_settings['currency_decimal_separator'] ) ? stripslashes( $currency_settings['currency_decimal_separator'] ) : '.',
 		];
 	}
 
@@ -2000,7 +2051,7 @@ class Functions {
 	}
 
 	/**
-	 * @param array $attr is_searchable, is_listable, group_ids int[],
+	 * @param  array  $attr  is_searchable, is_listable, group_ids int[],
 	 *
 	 * @return int[]
 	 */
@@ -2010,7 +2061,7 @@ class Functions {
 				'is_searchable'     => false,
 				'is_listable'       => false,
 				'group_ids'         => [],
-				'exclude_group_ids' => []
+				'exclude_group_ids' => [],
 			] );
 
 		$args = [
@@ -2054,7 +2105,7 @@ class Functions {
 	}
 
 	/**
-	 * @param array $attr category_ids, exclude_category_ids
+	 * @param  array  $attr  category_ids, exclude_category_ids
 	 *
 	 * @return int[]
 	 */
@@ -2072,13 +2123,13 @@ class Functions {
 			'post_status'      => 'publish',
 			'posts_per_page'   => - 1,
 			'fields'           => 'ids',
-			'suppress_filters' => false
+			'suppress_filters' => false,
 		];
 		if ( $category_id === 'global' ) {
 			$args['meta_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 									[
 										'key'   => 'associate',
-										'value' => 'all'
+										'value' => 'all',
 									],
 			];
 		} elseif ( $category_id ) {
@@ -2088,12 +2139,12 @@ class Functions {
 										'field'            => 'term_id',
 										'terms'            => $category_id,
 										'include_children' => false,
-									]
+									],
 			];
 			$args['meta_query'] = [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 									[
 										'key'   => 'associate',
-										'value' => 'categories'
+										'value' => 'categories',
 									],
 			];
 		}
@@ -2115,7 +2166,7 @@ class Functions {
 			'post_parent'      => $group_id,
 			'orderby'          => 'menu_order',
 			'order'            => 'ASC',
-			'suppress_filters' => false
+			'suppress_filters' => false,
 		];
 
 		return get_posts( $args );
@@ -2165,7 +2216,7 @@ class Functions {
 						absint( $field->getFieldId() ),
 						esc_attr( $field->getPlaceholder() ),
 						esc_attr( $value ),
-						$required_attr
+						$required_attr,
 					);
 					break;
 				case 'textarea':
@@ -2176,7 +2227,7 @@ class Functions {
 						absint( $field->getRows() ),
 						esc_attr( $field->getPlaceholder() ),
 						$required_attr,
-						esc_textarea( html_entity_decode( $value ) )
+						esc_textarea( html_entity_decode( $value ) ),
 					);
 					break;
 				case 'select':
@@ -2186,7 +2237,7 @@ class Functions {
 					if ( true ) {
 						$options_html .= sprintf(
 							'<option value="">%s</option>',
-							'- ' . esc_html__( 'Select an Option', 'classified-listing' ) . ' -'
+							'- ' . esc_html__( 'Select an Option', 'classified-listing' ) . ' -',
 						);
 					}
 					if ( ! empty( $choices ) ) {
@@ -2204,7 +2255,7 @@ class Functions {
 						absint( $field->getFieldId() ),
 						$id,
 						$required_attr,
-						$options_html
+						$options_html,
 					);
 					break;
 				case 'checkbox':
@@ -2228,7 +2279,7 @@ class Functions {
 								$key,
 								$_attr,
 								$id . $key,
-								$choice
+								$choice,
 							);
 						}
 					}
@@ -2254,7 +2305,7 @@ class Functions {
 								$key,
 								$_attr,
 								$id . $key,
-								$choice
+								$choice,
 							);
 						}
 					}
@@ -2270,7 +2321,7 @@ class Functions {
 						$field->getStepSize() ? esc_attr( $field->getStepSize() ) : 'any',
 						$field->getMin() !== '' ? absint( $field->getMin() ) : '',
 						! empty( $field->getMax() ) ? sprintf( 'max="%s"', absint( $field->getMax() ) ) : '',
-						$required_attr
+						$required_attr,
 					);
 					break;
 				case 'url':
@@ -2280,7 +2331,7 @@ class Functions {
 						absint( $field->getFieldId() ),
 						esc_attr( $field->getPlaceholder() ),
 						esc_url( $value ),
-						$required_attr
+						$required_attr,
 					);
 					break;
 				case 'date':
@@ -2292,7 +2343,7 @@ class Functions {
 							'date_range',
 							'date_time',
 							'multiple_date_ranges',
-							'date_time_range'
+							'date_time_range',
 						] ) ? $date_type : 'date';
 					$date_format = $field->getDateFullFormat();
 					if ( ( $date_type == 'date_range' || $date_type == 'date_time_range' ) && is_array( $value ) ) {
@@ -2323,7 +2374,7 @@ class Functions {
 									esc_attr( $field->getPlaceholder() ),
 									htmlspecialchars( wp_json_encode( $field->getDateFieldOptions() ) ),
 									esc_html( $value ),
-									$required_attr
+									$required_attr,
 								);
 							}
 						} else {
@@ -2335,7 +2386,7 @@ class Functions {
 								esc_attr( $field->getPlaceholder() ),
 								htmlspecialchars( wp_json_encode( $field->getDateFieldOptions() ) ),
 								esc_html( $value ),
-								$required_attr
+								$required_attr,
 							);
 						}
 					} else {
@@ -2347,7 +2398,7 @@ class Functions {
 							esc_attr( $field->getPlaceholder() ),
 							htmlspecialchars( wp_json_encode( $field->getDateFieldOptions() ) ),
 							esc_html( $value ),
-							$required_attr
+							$required_attr,
 						);
 					}
 					break;
@@ -2371,7 +2422,7 @@ class Functions {
 					$field->getLabel(),
 					$required_label,
 					$field_html,
-					$description ? '<small class="help-block">' . esc_html( $description ) . '</small>' : null
+					$description ? '<small class="help-block">' . esc_html( $description ) . '</small>' : null,
 				);
 			} else {
 				$html .= self::get_template_html( 'listing-form/custom-field',
@@ -2381,7 +2432,7 @@ class Functions {
 						'label'          => $field->getLabel(),
 						'required_label' => $required_label,
 						'description'    => $field->getDescription(),
-						'field'          => $field_html
+						'field'          => $field_html,
 					] );
 			}
 		}
@@ -2426,7 +2477,7 @@ class Functions {
 		}
 		$images = [];
 
-		$attachments = get_children( [
+		$attachmentArgs = [
 			'rtcl_query'     => 'attachment',
 			'post_parent'    => $post_id,
 			'post_type'      => 'attachment',
@@ -2439,14 +2490,16 @@ class Functions {
 								  [
 									  'key'     => '_rtcl_attachment_type',
 									  'value'   => 'image',
-									  'compare' => '='
+									  'compare' => '=',
 								  ],
 								  [
 									  'key'     => '_rtcl_attachment_type',
-									  'compare' => 'NOT EXISTS'
-								  ]
-			]
-		] );
+									  'compare' => 'NOT EXISTS',
+								  ],
+			],
+		];
+
+		$attachments = get_children( apply_filters( 'rtcl_listing_get_images_args', $attachmentArgs, $post_id ) );
 
 		if ( self::isEnableFb() ) {
 			if ( ! empty( $attachments ) ) {
@@ -2499,8 +2552,8 @@ class Functions {
 	/**
 	 * Gets data about an attachment, such as alt text and captions.
 	 *
-	 * @param int|null     $attachment_id Attachment ID.
-	 * @param Listing|bool $listing       Listing object.
+	 * @param  int|null  $attachment_id  Attachment ID.
+	 * @param  Listing|bool  $listing  Listing object.
 	 *
 	 * @return object
 	 * @since 1.3.0
@@ -2529,7 +2582,7 @@ class Functions {
 			$alt_text = [
 				wp_strip_all_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ),
 				$props['caption'],
-				wp_strip_all_tags( $attachment->post_title )
+				wp_strip_all_tags( $attachment->post_title ),
 			];
 
 			if ( $listing instanceof Listing ) {
@@ -2599,7 +2652,7 @@ class Functions {
 				'sort_column'  => 'menu_order',
 				'sort_order'   => 'ASC',
 				'hierarchical' => 0,
-			]
+			],
 		);
 		foreach ( $pages as $page ) {
 			$page_list[ $page->ID ] = ! empty( $page->post_title ) ? $page->post_title : '#' . $page->ID;
@@ -2609,7 +2662,7 @@ class Functions {
 	}
 
 	/**
-	 * @param integer $post_id Listing ID
+	 * @param  integer  $post_id  Listing ID
 	 */
 	public static function update_listing_views_count( $post_id ) {
 		if ( ! $post_id || rtcl()->post_type !== get_post_type( $post_id ) ) {
@@ -2655,10 +2708,10 @@ class Functions {
 	}
 
 	/**
-	 * @param string $id      Setting option id
-	 * @param string $item    settings option item id
-	 * @param null   $default EXCEPT multi_checkbox you can provide default value if given option does not set any value
-	 * @param null   $type    checkbox, multi_checkbox, number
+	 * @param  string  $id  Setting option id
+	 * @param  string  $item  settings option item id
+	 * @param  null  $default  EXCEPT multi_checkbox you can provide default value if given option does not set any value
+	 * @param  null  $type  checkbox, multi_checkbox, number
 	 *
 	 * @return bool|int|mixed|null
 	 */
@@ -2702,7 +2755,7 @@ class Functions {
 	 * Make a string lowercase.
 	 * Try to use mb_strtolower() when available.
 	 *
-	 * @param string $string String to format.
+	 * @param  string  $string  String to format.
 	 *
 	 * @return string
 	 * @since  1.0.0
@@ -2714,7 +2767,7 @@ class Functions {
 	/**
 	 * Convert a date string to a Rtcl_DateTime.
 	 *
-	 * @param string $time_string Time string.
+	 * @param  string  $time_string  Time string.
 	 *
 	 * @return RtclDateTime
 	 * @since  3.1.0
@@ -2743,8 +2796,8 @@ class Functions {
 	 * Convert mysql datetime to PHP timestamp, forcing UTC. Wrapper for strtotime.
 	 * Based on wcs_strtotime_dark_knight() from WC Subscriptions by Prospress.
 	 *
-	 * @param string   $time_string    Time string.
-	 * @param int|null $from_timestamp Timestamp to convert from.
+	 * @param  string  $time_string  Time string.
+	 * @param  int|null  $from_timestamp  Timestamp to convert from.
 	 *
 	 * @return int
 	 * @since  1.0.0
@@ -2772,7 +2825,7 @@ class Functions {
 	/**
 	 * Converts a string (e.g. 'yes' or 'no') to a bool.
 	 *
-	 * @param string $string String to convert.
+	 * @param  string  $string  String to convert.
 	 *
 	 * @return bool
 	 * @since 1.5.56
@@ -2880,7 +2933,7 @@ class Functions {
 			case 'rtcl':
 				return date_i18n(
 						   get_option( 'date_format' ),
-						   $timestamp
+						   $timestamp,
 					   ) . ' @ ' . date_i18n( get_option( 'time_format' ), $timestamp );
 			case 'rtcl-date':
 				return date_i18n( get_option( 'date_format' ), $timestamp );
@@ -2920,7 +2973,7 @@ class Functions {
 	/**
 	 * Wrapper for set_time_limit to see if it is enabled.
 	 *
-	 * @param int $limit Time limit.
+	 * @param  int  $limit  Time limit.
 	 *
 	 * @since 1.5.58
 	 */
@@ -2940,7 +2993,6 @@ class Functions {
 	 * @since 2.2.4
 	 */
 	public static function add_theme_container_class() {
-
 		$rtcl_style_opt = self::get_option( 'rtcl_style_settings' );
 
 		if ( is_array( $rtcl_style_opt ) && ! empty( $rtcl_style_opt ) ) {
@@ -2967,7 +3019,7 @@ class Functions {
 	}
 
 	/**
-	 * @param string $page
+	 * @param  string  $page
 	 *
 	 * @return int|void
 	 */
@@ -3010,7 +3062,6 @@ class Functions {
 	}
 
 	public static function insert_custom_pages() {
-
 		// Vars
 		$page_settings    = self::get_page_ids();
 		$page_definitions = AddConfig::get_custom_page_list();
@@ -3029,13 +3080,11 @@ class Functions {
 						'post_status'    => 'publish',
 						'post_author'    => 1,
 						'post_type'      => 'page',
-						'comment_status' => 'closed'
-					]
+						'comment_status' => 'closed',
+					],
 				);
 			}
-			if ( 'myaccount' === $slug ) {
-				update_post_meta( $id, '_wp_page_template', 'rtcl-canvas_template' );
-			}
+
 			$pages[ $slug ] = $id;
 		}
 
@@ -3113,7 +3162,7 @@ class Functions {
 	 * Clean variables using sanitize_text_field. Arrays are cleaned recursively.
 	 * Non-scalar values are ignored.
 	 *
-	 * @param string|array $var Data to sanitize.
+	 * @param  string|array  $var  Data to sanitize.
 	 *
 	 * @return string|array
 	 */
@@ -3134,7 +3183,7 @@ class Functions {
 	}
 
 	/**
-	 * @param array $args
+	 * @param  array  $args
 	 */
 	public static function login_form( $args = [] ) {
 		$defaults = [
@@ -3155,13 +3204,14 @@ class Functions {
 		$menu_items         = [];
 		$default_menu_items = apply_filters( 'rtcl_account_default_menu_items',
 			[
-				'dashboard'    => esc_html__( 'Dashboard', 'classified-listing' ),
-				'listings'     => esc_html__( 'My Listings', 'classified-listing' ),
-				'favourites'   => esc_html__( 'Favourites', 'classified-listing' ),
-				'payments'     => esc_html__( 'Payments', 'classified-listing' ),
-				'edit-account' => esc_html__( 'Account Details', 'classified-listing' ),
-				'logout'       => esc_html__( 'Logout', 'classified-listing' ),
-				'add-listing'  => esc_html__( 'Add Listing', 'classified-listing' ),
+				'dashboard'        => esc_html__( 'Dashboard', 'classified-listing' ),
+				'listings'         => esc_html__( 'My Listings', 'classified-listing' ),
+				'favourites'       => esc_html__( 'Favourites', 'classified-listing' ),
+				'payments'         => esc_html__( 'Payments', 'classified-listing' ),
+				'edit-account'     => esc_html__( 'Account Details', 'classified-listing' ),
+				'profile-settings' => esc_html__( 'Privacy Settings', 'classified-listing' ),
+				'logout'           => esc_html__( 'Logout', 'classified-listing' ),
+				'add-listing'      => esc_html__( 'Add Listing', 'classified-listing' ),
 			],
 			$endpoints );
 
@@ -3220,8 +3270,8 @@ class Functions {
 
 	/**
 	 * @param        $template_name
-	 * @param string $template_path
-	 * @param string $default_path
+	 * @param  string  $template_path
+	 * @param  string  $default_path
 	 *
 	 * @return mixed|void
 	 */
@@ -3242,7 +3292,7 @@ class Functions {
 			$template_name    = str_replace( [ 'listings/single/', 'listings/' ],
 				[
 					'listing/',
-					'listing/'
+					'listing/',
 				],
 				$template_name );
 			$template_files[] = trailingslashit( $template_path ) . $legacy_name;
@@ -3265,8 +3315,8 @@ class Functions {
 	 *
 	 * RTCL_TEMPLATE_DEBUG_MODE will prevent overrides in themes from taking priority.
 	 *
-	 * @param mixed  $slug Template slug.
-	 * @param string $name Template name (default: '').
+	 * @param  mixed  $slug  Template slug.
+	 * @param  string  $name  Template name (default: '').
 	 */
 	public static function get_template_part( $slug, $name = '' ) {
 		$cache_key = sanitize_key( implode( '-', [ 'template-part', $slug, $name, RTCL_VERSION ] ) );
@@ -3279,8 +3329,8 @@ class Functions {
 					: locate_template(
 						[
 							"{$slug}-{$name}.php",
-							rtcl()->get_template_path() . "{$slug}-{$name}.php"
-						]
+							rtcl()->get_template_path() . "{$slug}-{$name}.php",
+						],
 					);
 
 				if ( ! $template ) {
@@ -3297,7 +3347,7 @@ class Functions {
 						[
 							"{$slug}.php",
 							rtcl()->get_template_path() . "{$slug}.php",
-						]
+						],
 					);
 			}
 			wp_cache_set( $cache_key, $template, 'rtcl' );
@@ -3314,10 +3364,10 @@ class Functions {
 	/**
 	 * Template Content
 	 *
-	 * @param string $template_name Template name.
-	 * @param array  $args          Arguments. (default: array).
-	 * @param string $template_path Template path. (default: '').
-	 * @param string $default_path  Default path. (default: '').
+	 * @param  string  $template_name  Template name.
+	 * @param  array  $args  Arguments. (default: array).
+	 * @param  string  $template_path  Template path. (default: '').
+	 * @param  string  $default_path  Default path. (default: '').
 	 */
 	public static function get_template( $template_name, $args = null, $template_path = '', $default_path = '' ) {
 		if ( ! empty( $args ) && is_array( $args ) ) {
@@ -3346,10 +3396,10 @@ class Functions {
 	/**
 	 * Get template content and return
 	 *
-	 * @param string $template_name Template name.
-	 * @param array  $args          Arguments. (default: array).
-	 * @param string $template_path Template path. (default: '').
-	 * @param string $default_path  Default path. (default: '').
+	 * @param  string  $template_name  Template name.
+	 * @param  array  $args  Arguments. (default: array).
+	 * @param  string  $template_path  Template path. (default: '').
+	 * @param  string  $default_path  Default path. (default: '').
 	 *
 	 * @return string
 	 */
@@ -3394,13 +3444,12 @@ class Functions {
 
 	/**
 	 * @param       $order Payment
-	 * @param array $data
+	 * @param  array  $data
 	 *
 	 * @throws \Exception
 	 */
 	public static function rtcl_payment_completed( $order, $data = [] ) {
 		if ( $order instanceof Payment ) {
-
 			// update order details
 			wp_update_post( [
 				'ID'                => $order->get_id(),
@@ -3436,7 +3485,7 @@ class Functions {
 					if ( $feature_expiry_date ) {
 						$feature_expiry_date = new \DateTime( self::datetime(
 							'mysql',
-							trim( ( $feature_expiry_date ) )
+							trim( ( $feature_expiry_date ) ),
 						) );
 						if ( $current_date > $feature_expiry_date ) {
 							delete_post_meta( $order->get_listing_id(), 'feature_expiry_date' );
@@ -3472,7 +3521,7 @@ class Functions {
 			// Make sure we always only send through the first IP in the list which should always be the client IP.
 			return (string) rest_is_ip_address( trim( current( preg_split(
 				'/[,:]/',
-				sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
+				sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ),
 			) ) ) ); // WPCS: input var ok, CSRF ok.
 		} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) { // @codingStandardsIgnoreLine
 			return sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ); // @codingStandardsIgnoreLine
@@ -3489,8 +3538,8 @@ class Functions {
 
 	/**
 	 * @param        $term_id
-	 * @param string $taxonomy
-	 * @param bool   $pad_counts
+	 * @param  string  $taxonomy
+	 * @param  bool  $pad_counts
 	 *
 	 * @return int
 	 */
@@ -3508,9 +3557,9 @@ class Functions {
 					'taxonomy'         => $taxonomy,
 					'field'            => 'term_id',
 					'terms'            => $term_id,
-					'include_children' => $pad_counts
-				]
-			]
+					'include_children' => $pad_counts,
+				],
+			],
 		];
 		$q    = new WP_Query( apply_filters( 'rtcl_listings_count_by_taxonomy_query_args', $args ) );
 
@@ -3532,7 +3581,7 @@ class Functions {
 		foreach ( $notice_types as $notice_type ) {
 			if ( self::notice_count( $notice_type ) > 0 ) {
 				Functions::get_template( "notices/{$notice_type}", [
-					'messages' => array_filter( $all_notices[ $notice_type ] )
+					'messages' => array_filter( $all_notices[ $notice_type ] ),
 				] );
 			}
 		}
@@ -3610,7 +3659,7 @@ class Functions {
 	/**
 	 * Returns all queued notices, optionally filtered by a notice type.
 	 *
-	 * @param string $notice_type Optional. The singular name of the notice type - either error, success or notice.
+	 * @param  string  $notice_type  Optional. The singular name of the notice type - either error, success or notice.
 	 *
 	 * @return array|mixed
 	 * @since  1.0
@@ -3647,7 +3696,12 @@ class Functions {
 
 	public static function setcookie( $name, $value, $expire = 0, $secure = false ) {
 		if ( ! headers_sent() ) {
-			setcookie( $name, $value, $expire, COOKIEPATH ? COOKIEPATH : '/', COOKIE_DOMAIN, $secure,
+			setcookie( $name,
+				$value,
+				$expire,
+				COOKIEPATH ? COOKIEPATH : '/',
+				COOKIE_DOMAIN,
+				$secure,
 				apply_filters( 'rtcl_cookie_httponly', false, $name, $value, $expire, $secure ) );
 		} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			headers_sent( $file, $line );
@@ -3665,7 +3719,7 @@ class Functions {
 			$userData = wp_parse_args( $userData, [
 				'email'    => '',
 				'username' => '',
-				'password' => wp_generate_password()
+				'password' => wp_generate_password(),
 			] );
 			extract( $userData );
 			$validation_error = new WP_Error();
@@ -3682,12 +3736,12 @@ class Functions {
 
 			add_filter( 'rtcl_registration_name_validation', [
 				FilterHooks::class,
-				'remove_registration_name_validation'
+				'remove_registration_name_validation',
 			] );
 			$new_user_id = Functions::create_new_user( sanitize_email( $email ) );
 			remove_filter( 'rtcl_registration_name_validation', [
 				FilterHooks::class,
-				'remove_registration_name_validation'
+				'remove_registration_name_validation',
 			] );
 
 			if ( is_wp_error( $new_user_id ) ) {
@@ -3713,7 +3767,7 @@ class Functions {
 	/**
 	 * Determines whether the given Phone exists.
 	 *
-	 * @param string $phone Phone number.
+	 * @param  string  $phone  Phone number.
 	 *
 	 * @return int|false The user's ID on success, and false on failure.
 	 */
@@ -3722,7 +3776,7 @@ class Functions {
 			'meta_key'    => '_rtcl_phone',
 			'meta_value'  => $phone,
 			'number'      => 1,
-			'count_total' => false
+			'count_total' => false,
 		] );
 		if ( ! empty( $users ) ) {
 			return $users[0]->ID;
@@ -3739,16 +3793,15 @@ class Functions {
 	}
 
 	/**
-	 * @param string      $email
-	 * @param string      $username
-	 * @param string      $password
-	 * @param array       $args List of arguments to pass to `wp_insert_user()`.
-	 * @param null|string $source
+	 * @param  string  $email
+	 * @param  string  $username
+	 * @param  string  $password
+	 * @param  array  $args  List of arguments to pass to `wp_insert_user()`.
+	 * @param  null|string  $source
 	 *
 	 * @return int|\WP_Error Returns WP_Error on failure, Int (user ID) on success.
 	 */
 	public static function create_new_user( $email, $username = '', $password = '', $args = [], $source = null ) {
-
 		// Check the email address.
 		if ( empty( $email ) || ! is_email( $email ) ) {
 			return new WP_Error( 'registration-error-invalid-email', esc_html__( 'Please provide a valid email address.', 'classified-listing' ) );
@@ -3756,7 +3809,8 @@ class Functions {
 
 		if ( email_exists( $email ) ) {
 			return new WP_Error( 'registration-error-email-exists', apply_filters( 'rtcl_registration_error_email_exists',
-				esc_html__( 'An account is already registered with your email address. Please log in.', 'classified-listing' ), $email ) );
+				esc_html__( 'An account is already registered with your email address. Please log in.', 'classified-listing' ),
+				$email ) );
 		}
 
 		// Handle username creation.
@@ -3788,8 +3842,12 @@ class Functions {
 			}
 			if ( self::phone_exists( $args['phone'] ) ) {
 				return new WP_Error( 'registration-error-email-exists', apply_filters( 'rtcl_registration_error_phone_exists',
-					esc_html__( 'An account is already registered with your phone number. Please log in.', 'classified-listing' ), $args['phone'] ) );
+					esc_html__( 'An account is already registered with your phone number. Please log in.', 'classified-listing' ),
+					$args['phone'] ) );
 			}
+		}
+		if ( isset( $_POST['rtcl-register'] ) && Functions::is_user_type_enabled() && empty( $_POST['rtcl_user_type'] ) ) {
+			return new WP_Error( 'registration-error-invalid-user-type', esc_html__( 'Please select user type option.', 'classified-listing' ) );
 		}
 
 		// Handle password creation.
@@ -3824,10 +3882,10 @@ class Functions {
 					'user_login' => $username,
 					'user_pass'  => $password,
 					'user_email' => $email,
-					'role'       => $role
-				]
+					'role'       => $role,
+				],
 			),
-			$source
+			$source,
 		);
 
 		$user_id = wp_insert_user( $new_user_data );
@@ -3842,6 +3900,10 @@ class Functions {
 			update_user_meta( $user_id, '_rtcl_phone', esc_attr( $args['phone'] ) );
 		}
 
+		if ( ! empty( $_REQUEST['rtcl_user_type'] ) ) {
+			update_user_meta( $user_id, '_rtcl_user_type', sanitize_text_field( wp_unslash( $_REQUEST['rtcl_user_type'] ) ) );
+		}
+
 		do_action( 'rtcl_new_user_created', $user_id, $new_user_data, $password_generated, $source );
 
 		return $user_id;
@@ -3851,9 +3913,9 @@ class Functions {
 	/**
 	 * Create a unique username for a new User.
 	 *
-	 * @param string $email         New customer email address.
-	 * @param array  $new_user_args Array of new user args, maybe including first and last names.
-	 * @param string $suffix        Append string to username to make it unique.
+	 * @param  string  $email  New customer email address.
+	 * @param  array  $new_user_args  Array of new user args, maybe including first and last names.
+	 * @param  string  $suffix  Append string to username to make it unique.
 	 *
 	 * @return string Generated username.
 	 * @since 1.5.55
@@ -3887,7 +3949,7 @@ class Functions {
 					'contact',
 					'info',
 				],
-				true
+				true,
 			)
 			) {
 				// Get the domain part.
@@ -3906,7 +3968,7 @@ class Functions {
 		/**
 		 * WordPress 4.4 - filters the list of blacklisted usernames.
 		 *
-		 * @param array $usernames Array of blacklisted usernames.
+		 * @param  array  $usernames  Array of blacklisted usernames.
 		 *
 		 * @since 3.7.0
 		 */
@@ -3919,10 +3981,10 @@ class Functions {
 			/**
 			 * Filter generated customer username.
 			 *
-			 * @param string $username      Generated username.
-			 * @param string $email         New customer email address.
-			 * @param array  $new_user_args Array of new user args, maybe including first and last names.
-			 * @param string $suffix        Append string to username to make it unique.
+			 * @param  string  $username  Generated username.
+			 * @param  string  $email  New customer email address.
+			 * @param  array  $new_user_args  Array of new user args, maybe including first and last names.
+			 * @param  string  $suffix  Append string to username to make it unique.
 			 *
 			 * @since 3.7.0
 			 */
@@ -3931,7 +3993,7 @@ class Functions {
 				'rtcl_user_' . zeroise( wp_rand( 0, 9999 ), 4 ),
 				$email,
 				$new_user_args,
-				$suffix
+				$suffix,
 			);
 
 			return self::create_new_user_username( $email, $new_args, $suffix );
@@ -3947,10 +4009,10 @@ class Functions {
 		/**
 		 * Filter new customer username.
 		 *
-		 * @param string $username      Customer username.
-		 * @param string $email         New customer email address.
-		 * @param array  $new_user_args Array of new user args, maybe including first and last names.
-		 * @param string $suffix        Append string to username to make it unique.
+		 * @param  string  $username  Customer username.
+		 * @param  string  $email  New customer email address.
+		 * @param  array  $new_user_args  Array of new user args, maybe including first and last names.
+		 * @param  string  $suffix  Append string to username to make it unique.
 		 *
 		 * @since 3.7.0
 		 */
@@ -4022,9 +4084,9 @@ class Functions {
 				[
 					'key'     => 'listing_id',
 					'value'   => $listing_id,
-					'compare' => '='
-				]
-			]
+					'compare' => '=',
+				],
+			],
 		];
 		$publish_count = absint( get_post_meta( $listing_id, '_rtcl_publish_count', true ) );
 		$order_ids     = get_posts( apply_filters( 'rtcl_get_all_unapplied_orders_query_args', $args, $listing_id ) );
@@ -4066,8 +4128,8 @@ class Functions {
 					update_post_meta( $listing_id, 'expiry_date', $expDate );
 					$syncData = [
 						'update' => [
-							'expiry_date' => $expDate
-						]
+							'expiry_date' => $expDate,
+						],
 					];
 					Functions::syncMLListingMeta( $listing_id, $syncData );
 				}
@@ -4081,8 +4143,8 @@ class Functions {
 
 
 	/**
-	 * @param int   $listing_id Listing id
-	 * @param array $promotions ['promotion_key' => $duration]
+	 * @param  int  $listing_id  Listing id
+	 * @param  array  $promotions  ['promotion_key' => $duration]
 	 *
 	 * @return bool | array
 	 */
@@ -4161,7 +4223,7 @@ class Functions {
 				$post_date_gmt = current_time( 'mysql', 1 );
 				$date_update   = $wpdb->update( $wpdb->posts, [
 					'post_date'     => $post_date,
-					'post_date_gmt' => $post_date_gmt
+					'post_date_gmt' => $post_date_gmt,
 				], [ 'ID' => $listing_id ] );
 				if ( $date_update ) {
 					$bumpUpExpDate = $bump_up_expiry_date->format( 'Y-m-d H:i:s' );
@@ -4169,7 +4231,7 @@ class Functions {
 					update_post_meta( $listing_id, '_bump_up_expiry_date', $bumpUpExpDate );
 					$syncData['post_date_update']               = [
 						'post_date'     => $post_date,
-						'post_date_gmt' => $post_date_gmt
+						'post_date_gmt' => $post_date_gmt,
 					];
 					$syncData['update']['_bump_up']             = 1;
 					$syncData['update']['_bump_up_expiry_date'] = $bumpUpExpDate;
@@ -4194,7 +4256,7 @@ class Functions {
 			Functions::syncMLListingMeta( $listing_id, $syncData );
 
 			return [
-				'expiry_date' => $expiry_date
+				'expiry_date' => $expiry_date,
 			];
 		} catch ( \Exception $e ) {
 			return false;
@@ -4202,7 +4264,7 @@ class Functions {
 	}
 
 	/**
-	 * @param integer $listing_id
+	 * @param  integer  $listing_id
 	 *
 	 * @return void
 	 */
@@ -4265,7 +4327,7 @@ class Functions {
 			'post_status'      => 'any',
 			'posts_per_page'   => - 1,
 			'fields'           => 'ids',
-			'suppress_filters' => false
+			'suppress_filters' => false,
 		] );
 
 		$excluded_ids = apply_filters( 'rtcl_all_ids_for_remove_attachment', $excluded_ids );
@@ -4373,7 +4435,7 @@ class Functions {
 	}
 
 	/**
-	 * @param array $terms
+	 * @param  array  $terms
 	 *
 	 * @return array|int|mixed
 	 */
@@ -4407,8 +4469,8 @@ class Functions {
 	/**
 	 * Get HTML for star rating.
 	 *
-	 * @param float $rating Rating being shown.
-	 * @param int   $count  Total number of ratings.
+	 * @param  float  $rating  Rating being shown.
+	 * @param  int  $count  Total number of ratings.
 	 *
 	 * @return string
 	 * @since  1.0.0
@@ -4418,8 +4480,11 @@ class Functions {
 
 		if ( 0 < $count ) {
 			// translators: 1: rating 2: rating count
-			$html .= sprintf( _n( 'Rated %1$s out of 5 based on %2$s customer rating', 'Rated %1$s out of 5 based on %2$s customer ratings', $count,
-				'classified-listing' ), '<strong class="rating">' . esc_html( $rating ) . '</strong>',
+			$html .= sprintf( _n( 'Rated %1$s out of 5 based on %2$s customer rating',
+				'Rated %1$s out of 5 based on %2$s customer ratings',
+				$count,
+				'classified-listing' ),
+				'<strong class="rating">' . esc_html( $rating ) . '</strong>',
 				'<span class="rating">' . esc_html( $count ) . '</span>' );
 		} else {
 			// translators: %s: rating
@@ -4435,16 +4500,20 @@ class Functions {
 	 * Get HTML for ratings.
 	 * s     *
 	 *
-	 * @param float $rating Rating being shown.
-	 * @param int   $count  Total number of ratings.
+	 * @param  float  $rating  Rating being shown.
+	 * @param  int  $count  Total number of ratings.
 	 *
 	 * @return string
 	 * @since  1.0.0
 	 */
 	public static function get_rating_html( $rating, $count = 0 ) {
 		if ( 0 < $rating ) {
-			$title = sprintf( _n( 'Rated %1$s out of 5 based on %2$s customer rating', 'Rated %1$s out of 5 based on %2$s customer ratings', $count,
-				'classified-listing' ), esc_html( $rating ), esc_html( $count ) );
+			$title = sprintf( _n( 'Rated %1$s out of 5 based on %2$s customer rating',
+				'Rated %1$s out of 5 based on %2$s customer ratings',
+				$count,
+				'classified-listing' ),
+				esc_html( $rating ),
+				esc_html( $count ) );
 			$html  = '<div class="star-rating" title="' . $title . '">';
 			$html  .= self::get_star_rating_html( $rating, $count );
 			$html  .= '</div>';
@@ -4477,11 +4546,11 @@ class Functions {
 	 * Sanitize, remove decimals, and optionally round + trim off zeros.
 	 * This function does not remove thousands - this should be done before passing a value to the function.
 	 *
-	 * @param float|string $number      Expects either a float or a string with a decimal separator only (no
+	 * @param  float|string  $number  Expects either a float or a string with a decimal separator only (no
 	 *                                  thousands).
-	 * @param mixed        $dp          number  Number of decimal points to use, blank to use rtcl_currency_decimal_count,
+	 * @param  mixed  $dp  number  Number of decimal points to use, blank to use rtcl_currency_decimal_count,
 	 *                                  or false to avoid all rounding.
-	 * @param bool         $trim_zeros  From end of string.
+	 * @param  bool  $trim_zeros  From end of string.
 	 *
 	 * @return string
 	 */
@@ -4559,7 +4628,7 @@ class Functions {
 	public static function get_base_location() {
 		$default = apply_filters( 'rtcl_get_base_location', [
 			'country' => 'US',
-			'state'   => 'CA'
+			'state'   => 'CA',
 		] );
 
 		return [
@@ -4582,9 +4651,9 @@ class Functions {
 
 
 	/**
-	 * @param bool  $type
+	 * @param  bool  $type
 	 *
-	 * @param array $exclude exclude
+	 * @param  array  $exclude  exclude
 	 *
 	 * @return array
 	 */
@@ -4618,7 +4687,7 @@ class Functions {
 		$tags = [
 			'a'      => [
 				'href'  => [],
-				'title' => []
+				'title' => [],
 			],
 			'br'     => [],
 			'em'     => [],
@@ -4642,10 +4711,6 @@ class Functions {
 	public static function debug() {
 		$args  = func_get_args();
 		$debug = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 3 );
-
-		echo '<pre>';
-		print_r( $debug[1] );
-		$arg = false;
 
 		if ( $args ) {
 			foreach ( $args as $arg ) {
@@ -4679,7 +4744,7 @@ class Functions {
 	}
 
 	/**
-	 * @param integer $listing_id
+	 * @param  integer  $listing_id
 	 *
 	 * @return bool
 	 */
@@ -4724,8 +4789,8 @@ class Functions {
 	}
 
 	/**
-	 * @param Listing $listing
-	 * @param array   $exclude
+	 * @param  Listing  $listing
+	 * @param  array  $exclude
 	 *
 	 * @return array
 	 */
@@ -4733,7 +4798,7 @@ class Functions {
 		$item = [
 			'id'        => $listing->get_id(),
 			'latitude'  => get_post_meta( $listing->get_id(), 'latitude', true ),
-			'longitude' => get_post_meta( $listing->get_id(), 'longitude', true )
+			'longitude' => get_post_meta( $listing->get_id(), 'longitude', true ),
 		];
 		if ( ! isset( $exclude['icon'] ) ) {
 			$item['icon'] = self::get_map_icon_url( $listing );
@@ -4746,7 +4811,7 @@ class Functions {
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 *
 	 * @return string
 	 */
@@ -4755,7 +4820,7 @@ class Functions {
 	}
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 *
 	 * @return mixed|string|void
 	 */
@@ -4775,7 +4840,7 @@ class Functions {
 
 
 	/**
-	 * @param Listing $listing
+	 * @param  Listing  $listing
 	 *
 	 * @return string
 	 */
@@ -4838,7 +4903,7 @@ class Functions {
 			$redirect_url ? $redirect_url : $account_listings_url,
 			$type,
 			$post_id,
-			$success
+			$success,
 		);
 	}
 
@@ -4893,7 +4958,7 @@ class Functions {
 			'<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" role="button"><span
                             aria-hidden="true">%s</span> <span class="screen-reader-text">%s</span></a>',
 			esc_html__( 'Edit', 'classified-listing' ),
-			esc_html__( 'Edit date and time', 'classified-listing' )
+			esc_html__( 'Edit date and time', 'classified-listing' ),
 		);
 		echo '<fieldset class="rtcl-timestamp-div hide-if-js">';
 		echo sprintf( '<legend class="screen-reader-text">%s</legend>', esc_html__( 'Date and time', 'classified-listing' ) );
@@ -4922,9 +4987,11 @@ class Functions {
 
 		<p>
 			<a href="#edit_timestamp"
-			   class="save-timestamp hide-if-no-js button"><?php _e( 'OK', 'classified-listing' ); ?></a>
+			   class="save-timestamp hide-if-no-js button"><?php
+				_e( 'OK', 'classified-listing' ); ?></a>
 			<a href="#edit_timestamp"
-			   class="cancel-timestamp hide-if-no-js button-cancel"><?php _e( 'Cancel', 'classified-listing' ); ?></a>
+			   class="cancel-timestamp hide-if-no-js button-cancel"><?php
+				_e( 'Cancel', 'classified-listing' ); ?></a>
 		</p>
 		</fieldset>
 		</div>
@@ -4935,9 +5002,9 @@ class Functions {
 	/**
 	 * Outputs a checkout/address form field.
 	 *
-	 * @param string $key   Key.
-	 * @param mixed  $args  Arguments.
-	 * @param string $value (default: null).
+	 * @param  string  $key  Key.
+	 * @param  mixed  $args  Arguments.
+	 * @param  string  $value  (default: null).
 	 *
 	 * @return string
 	 */
@@ -5024,13 +5091,11 @@ class Functions {
 				$countries = rtcl()->countries->get_all_countries();
 
 				if ( 1 === count( $countries ) ) {
-
 					$field .= '<strong>' . current( array_values( $countries ) ) . '</strong>';
 
 					$field .= '<input type="hidden" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" value="'
 							  . current( array_keys( $countries ) ) . '" ' . implode( ' ', $custom_attributes )
 							  . ' class="country_to_state" readonly="readonly" />';
-
 				} else {
 					$data_label = ! empty( $args['label'] ) ? 'data-label="' . esc_attr( $args['label'] ) . '"' : '';
 
@@ -5049,7 +5114,6 @@ class Functions {
 
 					$field .= '<noscript><button type="submit" name="rtcl_checkout_update_totals" value="' . esc_attr__( 'Update country / region',
 							'classified-listing' ) . '">' . esc_html__( 'Update country / region', 'classified-listing' ) . '</button></noscript>';
-
 				}
 
 				break;
@@ -5059,13 +5123,11 @@ class Functions {
 				$states      = rtcl()->countries->get_states( $for_country );
 
 				if ( is_array( $states ) && empty( $states ) ) {
-
 					$field_container = '<div class="rtcl-form-group rtcl-form-row %1$s" id="%2$s" style="display: none">%3$s</div>';
 
 					$field .= '<input type="hidden" class="hidden" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" value="" '
 							  . implode( ' ', $custom_attributes ) . ' placeholder="' . esc_attr( $args['placeholder'] )
 							  . '" readonly="readonly" data-input-classes="' . esc_attr( implode( ' ', $args['input_class'] ) ) . '"/>';
-
 				} elseif ( ! is_null( $for_country ) && is_array( $states ) ) {
 					$data_label = ! empty( $args['label'] ) ? 'data-label="' . esc_attr( $args['label'] ) . '"' : '';
 
@@ -5080,14 +5142,11 @@ class Functions {
 					}
 
 					$field .= '</select>';
-
 				} else {
-
 					$field .= '<input type="text" class="rtcl-form-control input-text ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" value="'
 							  . esc_attr( $value ) . '"  placeholder="' . esc_attr( $args['placeholder'] ) . '" name="' . esc_attr( $key ) . '" id="'
 							  . esc_attr( $args['id'] ) . '" ' . implode( ' ', $custom_attributes ) . ' data-input-classes="' . esc_attr( implode( ' ',
 							$args['input_class'] ) ) . '"/>';
-
 				}
 
 				break;
@@ -5215,8 +5274,8 @@ class Functions {
 
 
 	/**
-	 * @param int   $user_id
-	 * @param array $blockedUserIds
+	 * @param  int  $user_id
+	 * @param  array  $blockedUserIds
 	 *
 	 * @return array
 	 */
@@ -5247,7 +5306,7 @@ class Functions {
 	}
 
 	/**
-	 * @param int $user_id
+	 * @param  int  $user_id
 	 *
 	 * @return array
 	 */
@@ -5273,8 +5332,8 @@ class Functions {
 	}
 
 	/**
-	 * @param int   $user_id
-	 * @param array $blockedListingIds
+	 * @param  int  $user_id
+	 * @param  array  $blockedListingIds
 	 *
 	 * @return array
 	 */
@@ -5304,7 +5363,7 @@ class Functions {
 	}
 
 	/**
-	 * @param int $user_id
+	 * @param  int  $user_id
 	 *
 	 * @return array
 	 */
@@ -5330,13 +5389,12 @@ class Functions {
 
 
 	/**
-	 * @param int   $main_listing_id
-	 * @param array $data
+	 * @param  int  $main_listing_id
+	 * @param  array  $data
 	 *
 	 * @return void
 	 */
 	public static function syncMLListingMeta( $main_listing_id, $args = [] ) {
-
 		if ( ! $main_listing_id || empty( $args ) ) {
 			return;
 		}
@@ -5362,13 +5420,13 @@ class Functions {
 								'delete',
 								'post_status_update',
 								'post_delete',
-								'post_date_update'
+								'post_date_update',
 							] )
 						) {
 							if ( $type === 'post_status_update' ) {
 								wp_update_post( [
 									'ID'          => $translatedId,
-									'post_status' => $data
+									'post_status' => $data,
 								] );
 								continue;
 							}
@@ -5398,7 +5456,7 @@ class Functions {
 	}
 
 	/**
-	 * @param int $listing_id
+	 * @param  int  $listing_id
 	 *
 	 * @return string $data
 	 */
@@ -5413,7 +5471,7 @@ class Functions {
 	}
 
 	/**
-	 * @param int $listing_id
+	 * @param  int  $listing_id
 	 *
 	 * @return string $data
 	 */
@@ -5450,12 +5508,20 @@ class Functions {
 		$default_logo = rtcl()->get_assets_uri( "images/cl-logo.png" );
 		?>
 		<div class="rtcl-myaccount-logo">
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-				<?php if ( has_custom_logo() ) { ?>
-					<img src="<?php echo esc_url( $logo[0] ) ?>" alt="<?php echo esc_html( get_bloginfo() ); ?>">
-				<?php } else { ?>
-					<img src="<?php echo esc_url( $default_logo ) ?>" alt="<?php echo esc_html( get_bloginfo() ); ?>">
-				<?php } ?>
+			<a href="<?php
+			echo esc_url( home_url( '/' ) ); ?>">
+				<?php
+				if ( has_custom_logo() ) { ?>
+					<img src="<?php
+					echo esc_url( $logo[0] ) ?>" alt="<?php
+					echo esc_html( get_bloginfo() ); ?>">
+					<?php
+				} else { ?>
+					<img src="<?php
+					echo esc_url( $default_logo ) ?>" alt="<?php
+					echo esc_html( get_bloginfo() ); ?>">
+					<?php
+				} ?>
 			</a>
 		</div>
 		<?php
@@ -5484,7 +5550,6 @@ class Functions {
 	}
 
 	public static function get_last_week_order_price() {
-
 		$week_days = self::get_last_week_days( 14, 'd-m-Y' );
 
 		$args = [
@@ -5498,7 +5563,7 @@ class Functions {
 					'before'    => date( "d-m-Y", strtotime( '+24 hours', strtotime( end( $week_days ) ) ) ),
 					'inclusive' => true,
 				],
-			]
+			],
 		];
 
 		$rtcl_payment = new \WP_Query( apply_filters( 'rtcl_chart_payment_args', $args ) );
@@ -5517,7 +5582,6 @@ class Functions {
 					'order_id' => $order->get_id(),
 					'price'    => $order->get_total(),
 				];
-
 			}
 		}
 
@@ -5540,11 +5604,9 @@ class Functions {
 		}
 
 		return $last_week_order_price;
-
 	}
 
 	public static function get_order_total_by_date_range( $start_date = '', $end_date = '' ) {
-
 		$args = [
 			'post_type'      => rtcl()->post_type_payment,
 			'post_status'    => 'rtcl-completed',
@@ -5557,7 +5619,7 @@ class Functions {
 					'before'    => date( "d-m-Y", strtotime( '+24 hours', strtotime( $end_date ) ) ),
 					'inclusive' => true,
 				],
-			]
+			],
 		];
 
 		$rtcl_payment = new \WP_Query( apply_filters( 'rtcl_chart_payment_search_args', $args ) );
@@ -5576,7 +5638,6 @@ class Functions {
 					'order_id' => $order->get_id(),
 					'price'    => $order->get_total(),
 				];
-
 			}
 		}
 
@@ -5595,16 +5656,14 @@ class Functions {
 		}
 
 		return $last_week_order_price;
-
 	}
 
 	public static function my_listings_count_as_status( $admin = false ) {
-
 		$args = [
 			'post_type'      => rtcl()->post_type,
 			'post_status'    => [ 'publish', 'pending', 'rtcl-expired' ],
 			'posts_per_page' => - 1,
-			'fields'         => 'ids'
+			'fields'         => 'ids',
 		];
 
 		if ( ! $admin ) {
@@ -5619,7 +5678,7 @@ class Functions {
 			'total'   => 0,
 			'publish' => 0,
 			'pending' => 0,
-			'expired' => 0
+			'expired' => 0,
 		];
 
 		if ( $rtcl_query->have_posts() ) {
@@ -5648,11 +5707,10 @@ class Functions {
 		$post_count = (object) $post_count;
 
 		return apply_filters( 'rtcl_count_user_posts', $post_count );
-
 	}
 
 	/**
-	 * @return void
+	 * @return array|object|stdClass[]|null
 	 */
 	public static function get_tax_options() {
 		global $wpdb;
@@ -5697,23 +5755,22 @@ class Functions {
 			'never_expires'         => 'Never Expire', // meta
 			'expiry_date'           => 'Expiry Date', // meta
 			'_views'                => 'Views', // meta
-			'rtcl_listing_status'   => 'Status'
+			'rtcl_listing_status'   => 'Status',
 		];
 
 		return apply_filters( 'rtcl_listings_export_import_default_fields', $fields );
 	}
 
 	public static function get_listings_custom_fields() {
-
 		$posts = get_posts( [
-				'post_type'      => rtcl()->post_type,
-				'posts_per_page' => - 1,
-				'fields'         => 'ids'
-			]
+			'post_type'      => rtcl()->post_type,
+			'posts_per_page' => - 1,
+			'fields'         => 'ids',
+		],
 		);
 
 		$custom_fields      = [];
-		$supported_elements = [ 'text', 'textarea', 'number', 'radio', 'dropdown', 'select', 'url' ];
+		$supported_elements = [ 'text', 'textarea', 'number', 'radio', 'dropdown', 'select', 'url', 'repeater' ];
 		foreach ( $posts as $p ) {
 			$listing = rtcl()->factory->get_listing( $p );
 			$form    = $listing->getForm();
@@ -5746,7 +5803,7 @@ class Functions {
 					'address' => '',
 					'lat'     => 0,
 					'lng'     => 0,
-				]
+				],
 			)
 			: [
 				'address' => '',
@@ -5756,6 +5813,7 @@ class Functions {
 
 		return apply_filters( 'rtcl_map_localized_options',
 			[
+				'gmap_options'    => Options::google_map_script_options(),
 				'plugin_url'      => RTCL_URL,
 				'enable'          => Functions::is_enable_map(),
 				'type'            => Functions::get_map_type(),
@@ -5767,16 +5825,17 @@ class Functions {
 					'search'  => 17,
 				],
 				'cluster_options' => [
-					'center'       => [
+					'center'              => [
 						'lat' => 0,
 						'lng' => 0,
 					],
-					'max_zoom'     => 18,
-					'zoom'         => 3,
-					'scroll_wheel' => false,
-					'fit_bound'    => true,
+					'map_center_position' => self::get_map_view_center_position(),
+					'max_zoom'            => 18,
+					'zoom'                => 3,
+					'scroll_wheel'        => false,
+					'fit_bound'           => true,
 				],
-			]
+			],
 		);
 	}
 
@@ -5836,14 +5895,13 @@ class Functions {
 		}
 
 		return self::get_option_item( 'rtcl_ai_settings', "{$key_suffix}_max_token" );
-
 	}
 
 	public static function getKeySuffix( string $type ): string {
 		$suffixes = [
 			'OpenAI'   => 'gpt',
 			'Gemini'   => 'gemini',
-			'DeepSeek' => 'deepseek'
+			'DeepSeek' => 'deepseek',
 		];
 
 		return $suffixes[ $type ] ?? '';
@@ -5876,5 +5934,169 @@ class Functions {
 		return ( str_contains( $value, '.' ) || str_contains( $value, 'e' ) )
 			? (float) $value
 			: (int) $value;
+	}
+
+	public static function maxMindDatabaseService() {
+		$maxMindDatabaseService = apply_filters( 'rtcl_maxmind_geolocation_database_service', null );
+		if ( null === $maxMindDatabaseService ) {
+			$prefix = get_option( 'maxmind_database_prefix' );
+			if ( empty( $prefix ) ) {
+				$prefix = wp_generate_password( 32, false );
+				update_option( 'maxmind_database_prefix', $prefix );
+			}
+			$maxMindDatabaseService = new MaxMindDatabaseService( $prefix );
+		}
+
+		return $maxMindDatabaseService;
+	}
+
+	public static function get_wpml_original_post_id( $post_id ) {
+		// If no post_id provided, return false
+		if ( empty( $post_id ) ) {
+			return false;
+		}
+
+		$post_type = get_post_type( $post_id );
+		if ( ! $post_type ) {
+			return $post_id;
+		}
+
+		// Method 1: Try WPML filter
+		if ( has_filter( 'wpml_original_element_id' ) ) {
+			$original_id = apply_filters( 'wpml_original_element_id', $post_id, 'post_' . $post_type );
+			if ( ! empty( $original_id ) && $original_id > 0 ) {
+				return $original_id;
+			}
+		}
+
+		// Method 2: Try global $sitepress
+		global $sitepress;
+		if ( $sitepress && method_exists( $sitepress, 'get_element_trid' ) ) {
+			$trid = $sitepress->get_element_trid( $post_id, 'post_' . $post_type );
+			if ( $trid ) {
+				$original_id = $sitepress->get_original_element_id( $trid, 'post_' . $post_type );
+				if ( ! empty( $original_id ) && $original_id > 0 ) {
+					return $original_id;
+				}
+			}
+		}
+
+		// Method 3: Try database query
+		global $wpdb;
+		$table = $wpdb->prefix . 'icl_translations';
+
+		// Check if table exists
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) == $table ) {
+			$original_id = $wpdb->get_var( $wpdb->prepare(
+				"SELECT t1.element_id 
+            FROM $table t1
+            INNER JOIN $table t2 
+                ON t1.trid = t2.trid 
+                AND t1.source_language_code IS NULL
+            WHERE t2.element_id = %d 
+                AND t2.element_type = %s",
+				$post_id,
+				'post_' . $post_type,
+			) );
+
+			if ( ! empty( $original_id ) && $original_id > 0 ) {
+				return $original_id;
+			}
+		}
+
+		// Fallback: return current post_id
+		return $post_id;
+	}
+
+	public static function is_block_theme() {
+		return function_exists( 'wp_is_block_theme' ) && wp_is_block_theme();
+	}
+
+	/**
+	 * Get public display name options for a user.
+	 *
+	 * @param  WP_User|int  $user  WP_User object or user ID.
+	 *
+	 * @return array List of public display names.
+	 */
+	public static function get_public_display_names( $user ) {
+		// Get WP_User object if ID is provided
+		if ( is_numeric( $user ) ) {
+			$user = get_userdata( $user );
+		}
+
+		if ( ! $user instanceof \WP_User ) {
+			return [];
+		}
+
+		$public_display = [
+			'display_nickname' => $user->nickname,
+			'display_username' => $user->user_login,
+		];
+
+		if ( ! empty( $user->first_name ) ) {
+			$public_display['display_firstname'] = $user->first_name;
+		}
+
+		if ( ! empty( $user->last_name ) ) {
+			$public_display['display_lastname'] = $user->last_name;
+		}
+
+		if ( ! empty( $user->first_name ) && ! empty( $user->last_name ) ) {
+			$public_display['display_firstlast'] = $user->first_name . ' ' . $user->last_name;
+			$public_display['display_lastfirst'] = $user->last_name . ' ' . $user->first_name;
+		}
+
+		// Only add display_name if it's not a duplicate of the other options
+		if ( ! in_array( $user->display_name, $public_display, true ) ) {
+			$public_display = [ 'display_displayname' => $user->display_name ] + $public_display;
+		}
+
+		// Clean up: trim and remove duplicates
+		$public_display = array_map( 'trim', $public_display );
+		$public_display = array_unique( $public_display );
+
+		return $public_display;
+	}
+
+	/**
+	 * Check if a user's field is visible based on settings.
+	 *
+	 * @param  int|WP_User  $user  User ID or WP_User object.
+	 * @param  string  $field  Field to check: 'phone' or 'email'.
+	 *
+	 * @return bool True if visible, false otherwise.
+	 */
+	public static function check_visibility( $user, $field ): bool {
+		if ( is_numeric( $user ) ) {
+			$user = get_userdata( $user );
+		}
+
+		if ( ! $user instanceof WP_User ) {
+			return false;
+		}
+
+		$fields = [ 'phone', 'email', 'whatsapp' ];
+		if ( ! in_array( $field, $fields, true ) ) {
+			return false;
+		}
+
+		if ( $field === 'phone' ) {
+			$status = get_user_meta( $user->ID, '_rtcl_display_phone_public', true );
+		} elseif ( $field === 'whatsapp' ) {
+			$status = get_user_meta( $user->ID, '_rtcl_display_whatsapp_public', true );
+		} else {
+			$status = get_user_meta( $user->ID, '_rtcl_display_email_public', true );
+		}
+
+		if ( $status === 'yes' ) {
+			return true;
+		} elseif ( $status === 'no' ) {
+			return false;
+		} elseif ( $status === 'logged_in' ) {
+			return is_user_logged_in();
+		}
+
+		return true;
 	}
 }

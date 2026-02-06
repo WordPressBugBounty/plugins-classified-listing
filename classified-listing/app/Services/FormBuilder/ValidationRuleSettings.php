@@ -8,8 +8,8 @@ class ValidationRuleSettings {
 
 		$fileTypeOptions = [
 			[
-				'label' => __( 'Images (jpg, jpeg, webp, png, gif, bmp)', 'classified-listing' ),
-				'value' => 'jpg|jpeg|webp|png|gif|bmp',
+				'label' => __( 'Images (jpg, jpeg, webp, png, gif, bmp, heic, heif)', 'classified-listing' ),
+				'value' => 'jpg|jpeg|webp|png|gif|bmp|heic|heif',
 			],
 			[
 				'label' => __( 'Audio (mp3, wav, ogg, oga, wma, mka, m4a, ra, mid, midi)', 'classified-listing' ),
@@ -137,7 +137,7 @@ class ValidationRuleSettings {
 				'fileTypes'   => [
 					[
 						'title' => __( 'Images', 'classified-listing' ),
-						'types' => [ 'jpg', 'jpeg', 'png', 'webp', 'gif','bmp' ],
+						'types' => [ 'jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'heic', 'heif' ],
 					],
 					[
 						'title' => __( 'Audio', 'classified-listing' ),
@@ -222,6 +222,14 @@ class ValidationRuleSettings {
 						'label' => __( 'GIF', 'classified-listing' ),
 						'value' => 'gif',
 					],
+					[
+						'label' => __( 'HEIC', 'classified-listing' ),
+						'value' => 'heic',
+					],
+					[
+						'label' => __( 'HEIF', 'classified-listing' ),
+						'value' => 'heif',
+					]
 				],
 			],
 		];

@@ -6,6 +6,7 @@ namespace Rtcl\Controllers\Admin\Meta;
 
 use Rtcl\Helpers\Functions;
 use Rtcl\Resources\Options;
+use Rtcl\Services\FormBuilder\FBHelper;
 
 class ListingMetaColumn {
 
@@ -23,7 +24,7 @@ class ListingMetaColumn {
 
 	function listing_get_columns( $columns ) {
 		$featured_label = Functions::get_option_item( 'rtcl_general_listing_label_settings', 'listing_featured_label' );
-		$top_label      = Functions::get_option_item( 'rtcl_general_listing_label_settings', 'listing_top_label' );
+		$top_label = Functions::get_option_item( 'rtcl_general_listing_label_settings', 'listing_top_label' );
 
 		$new_columns = [
 			'views'       => esc_html__( 'Views', 'classified-listing' ),
@@ -34,10 +35,14 @@ class ListingMetaColumn {
 			'status'      => esc_html__( 'Status', 'classified-listing' )
 		];
 
+		if ( FBHelper::isEnabled() ) {
+			$new_columns = [ 'rtcl_form' => esc_html__( 'Form', 'classified-listing' ) ] + $new_columns;
+		}
+
 		unset( $columns['date'] );
 
 		$taxonomy_column = 'taxonomy-' . rtcl()->location;
-		if ( ! array_key_exists( $taxonomy_column, $columns ) ) {
+		if ( !array_key_exists( $taxonomy_column, $columns ) ) {
 			$taxonomy_column = 'taxonomy-' . rtcl()->category;
 		}
 
@@ -47,6 +52,14 @@ class ListingMetaColumn {
 	function listing_column_content( $column, $post_id ) {
 
 		switch ( $column ) {
+			case 'rtcl_form' :
+				$listing = rtcl()->factory->get_listing( $post_id );
+				if ( $form = $listing->getForm() ) {
+					echo esc_html( $form->title );
+					break;
+				}
+				echo '--';
+				break;
 			case 'views' :
 				echo absint( get_post_meta( $post_id, '_views', true ) );
 				break;
@@ -65,12 +78,12 @@ class ListingMetaColumn {
 			case 'expiry_date' :
 				$never_expires = get_post_meta( $post_id, 'never_expires', true );
 
-				if ( ! empty( $never_expires ) ) {
+				if ( !empty( $never_expires ) ) {
 					esc_html_e( 'Never Expires', 'classified-listing' );
 				} else {
 					$expiry_date = get_post_meta( $post_id, 'expiry_date', true );
 
-					if ( ! empty( $expiry_date ) ) {
+					if ( !empty( $expiry_date ) ) {
 						echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $expiry_date ) ) );
 					} else {
 						echo '-';
@@ -80,8 +93,8 @@ class ListingMetaColumn {
 			case 'status' :
 				$listing_status = get_post_meta( $post_id, 'listing_status', true );
 				$listing_status = ( empty( $listing_status ) || 'post_status' == $listing_status ) ? get_post_status( $post_id ) : $listing_status;
-				$status_list    = Options::get_status_list();
-				echo ! empty( $status_list[ $listing_status ] ) ? esc_html( $status_list[ $listing_status ] ) : "-";
+				$status_list = Options::get_status_list();
+				echo !empty( $status_list[$listing_status] ) ? esc_html( $status_list[$listing_status] ) : "-";
 				break;
 		}
 	}
@@ -92,18 +105,18 @@ class ListingMetaColumn {
 
 		if ( rtcl()->post_type == $typenow ) {
 			$location_name = '';
-			$location_id   = '';
+			$location_id = '';
 			$category_name = '';
-			$category_id   = '';
+			$category_id = '';
 
-			if ( ! empty( $_GET['_rtcl_location'] ) ) {
-				$location_id   = absint( $_GET['_rtcl_location'] );
-				$location      = get_term_by( 'id', $location_id, rtcl()->location );
+			if ( !empty( $_GET['_rtcl_location'] ) ) {
+				$location_id = absint( $_GET['_rtcl_location'] );
+				$location = get_term_by( 'id', $location_id, rtcl()->location );
 				$location_name = $location ? $location->name : '';
 			}
-			if ( ! empty( $_GET['_rtcl_category'] ) ) {
-				$category_id   = absint( $_GET['_rtcl_category'] );
-				$category      = get_term_by( 'id', $category_id, rtcl()->category );
+			if ( !empty( $_GET['_rtcl_category'] ) ) {
+				$category_id = absint( $_GET['_rtcl_category'] );
+				$category = get_term_by( 'id', $category_id, rtcl()->category );
 				$category_name = $category ? $category->name : '';
 			}
 
@@ -126,7 +139,7 @@ class ListingMetaColumn {
 			</select>
 			<?php
 			// Restrict by featured
-			if ( ! Functions::is_payment_disabled() ) {
+			if ( !Functions::is_payment_disabled() ) {
 				$promotions = Options::get_listing_promotions();
 				$_promotion = isset( $_GET['promotion'] ) ? sanitize_key( $_GET['promotion'] ) : null;
 				echo '<select name="promotion">';
@@ -173,11 +186,11 @@ class ListingMetaColumn {
 		$children = get_children( apply_filters( 'rtcl_before_delete_listing_attachment_query_args', [
 			'post_parent'    => $post_id,
 			'post_type'      => 'attachment',
-			'posts_per_page' => - 1,
+			'posts_per_page' => -1,
 			'post_status'    => 'inherit',
 		], $post_id ) );
 
-		if ( ! empty( $children ) ) {
+		if ( !empty( $children ) ) {
 			foreach ( $children as $child ) {
 				wp_delete_attachment( $child->ID, true );
 			}
@@ -193,11 +206,11 @@ class ListingMetaColumn {
                							  AND meta_value LIKE %s", '%' . $wpdb->esc_like( $post_id ) . '%' )
 			);
 
-			if ( ! empty( $results ) ) {
+			if ( !empty( $results ) ) {
 				foreach ( $results as $favUser ) {
 					$favIds = get_user_meta( $favUser->user_id, 'rtcl_favourites', true );
-					if ( ! empty( $favIds ) && is_array( $favIds ) && ( $key = array_search( $post_id, $favIds ) ) !== false ) {
-						unset( $favIds[ $key ] );
+					if ( !empty( $favIds ) && is_array( $favIds ) && ( $key = array_search( $post_id, $favIds ) ) !== false ) {
+						unset( $favIds[$key] );
 						if ( empty( $favIds ) ) {
 							delete_user_meta( $favUser->user_id, 'rtcl_favourites' );
 						} else {
@@ -236,9 +249,9 @@ class ListingMetaColumn {
 					'terms'    => [ $category_id ]
 				];
 			}
-			if ( ! empty( $tax_query ) ) {
-				$query_tax_query             = $query->get( 'tax_query' );
-				$query_tax_query             = is_array( $query_tax_query ) ? $query_tax_query : [];
+			if ( !empty( $tax_query ) ) {
+				$query_tax_query = $query->get( 'tax_query' );
+				$query_tax_query = is_array( $query_tax_query ) ? $query_tax_query : [];
 				$query_tax_query['relation'] = 'AND';
 				$query->set( 'tax_query', array_merge( $query_tax_query, $tax_query ) );
 			}
@@ -246,7 +259,7 @@ class ListingMetaColumn {
 
 			// Set featured meta in query
 			if ( isset( $_GET['promotion'] ) && in_array( $_GET['promotion'], array_keys( Options::get_listing_promotions() ), true ) ) {
-				$query->query_vars['meta_key']   = sanitize_key( $_GET['promotion'] ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				$query->query_vars['meta_key'] = sanitize_key( $_GET['promotion'] ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				$query->query_vars['meta_value'] = 1; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 			}
 

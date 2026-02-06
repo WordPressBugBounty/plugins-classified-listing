@@ -4,6 +4,7 @@
 namespace Rtcl\Controllers\Ajax;
 
 use Rtcl\Helpers\Functions;
+use Rtcl\Services\EmbeddingService;
 use WP_Query;
 use WP_User_Query;
 
@@ -13,22 +14,22 @@ class InlineSearchAjax {
 		add_action( 'wp_ajax_rtcl_get_all_cat_list_for_modal', [ __CLASS__, 'rtcl_get_all_cat_list_for_modal' ] );
 		add_action( 'wp_ajax_nopriv_rtcl_get_all_cat_list_for_modal', [
 			__CLASS__,
-			'rtcl_get_all_cat_list_for_modal'
+			'rtcl_get_all_cat_list_for_modal',
 		] );
 
 		add_action( 'wp_ajax_rtcl_get_all_location_list_for_modal', [
 			__CLASS__,
-			'rtcl_get_all_location_list_for_modal'
+			'rtcl_get_all_location_list_for_modal',
 		] );
 		add_action( 'wp_ajax_nopriv_rtcl_get_all_location_list_for_modal', [
 			__CLASS__,
-			'rtcl_get_all_location_list_for_modal'
+			'rtcl_get_all_location_list_for_modal',
 		] );
 
 		add_action( 'wp_ajax_rtcl_inline_search_autocomplete', [ __CLASS__, 'rtcl_inline_search_autocomplete' ] );
 		add_action( 'wp_ajax_nopriv_rtcl_inline_search_autocomplete', [
 			__CLASS__,
-			'rtcl_inline_search_autocomplete'
+			'rtcl_inline_search_autocomplete',
 		] );
 
 		add_action( 'wp_ajax_rtcl_json_search_taxonomy', [ __CLASS__, 'rtcl_inline_search_autocomplete' ] );
@@ -36,11 +37,11 @@ class InlineSearchAjax {
 		add_action( 'wp_ajax_nopriv_rtcl_json_search_taxonomy', [ __CLASS__, 'rtcl_inline_search_autocomplete' ] );
 		add_action( 'wp_ajax_rtcl_ajax_taxonomy_filter_get_sub_level_html', [
 			__CLASS__,
-			'rtcl_ajax_taxonomy_filter_get_sub_level_html'
+			'rtcl_ajax_taxonomy_filter_get_sub_level_html',
 		] );
 		add_action( 'wp_ajax_nopriv_rtcl_ajax_taxonomy_filter_get_sub_level_html', [
 			__CLASS__,
-			'rtcl_ajax_taxonomy_filter_get_sub_level_html'
+			'rtcl_ajax_taxonomy_filter_get_sub_level_html',
 		] );
 	}
 
@@ -50,7 +51,10 @@ class InlineSearchAjax {
 	public static function rtcl_json_search_users() {
 		$suggestions = [];
 		if ( ! Functions::verify_nonce() ) {
-			wp_send_json_error( esc_html__( "Session error !!", "classified-listing" ) );
+			wp_send_json_error( esc_html__( "Unauthorized access!", "classified-listing" ) );
+		}
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( "You have no permission!", "classified-listing" ) );
 		}
 		$search_term = isset( $_REQUEST['term'] ) ? (string) Functions::clean( wp_unslash( $_REQUEST['term'] ) ) : '';
 		if ( ! $search_term ) {
@@ -62,7 +66,7 @@ class InlineSearchAjax {
 			'orderby'        => 'display_name',
 			'number'         => 20,
 			'search'         => '*' . esc_attr( $search_term ) . '*',
-			'search_columns' => [ 'user_login', 'user_email', 'user_nicename' ]
+			'search_columns' => [ 'user_login', 'user_email', 'user_nicename' ],
 		];
 
 		$wp_user_query = new WP_User_Query( apply_filters( 'rtcl_json_search_users_query_args', $args ) );
@@ -79,15 +83,16 @@ class InlineSearchAjax {
 						esc_html__( '%1$s (#%2$s &ndash; %3$s)', 'classified-listing' ),
 						$user_name,
 						$author->ID,
-						$author_info->user_email
+						$author_info->user_email,
 					),
-					'target' => ''
+					'target' => '',
 				];
 			}
 		}
 
 
 		wp_send_json( apply_filters( 'rtcl_json_search_found_users', $suggestions ) );
+		wp_die();
 	}
 
 
@@ -99,8 +104,8 @@ class InlineSearchAjax {
 			[
 				'taxonomy' => rtcl()->category,
 				'parent'   => - 1,
-				'instance' => []
-			]
+				'instance' => [],
+			],
 		);
 
 		$current_location_id = ! empty( $_REQUEST['current_location_id'] ) ? absint( $_REQUEST['current_location_id'] ) : 0;
@@ -116,9 +121,9 @@ class InlineSearchAjax {
 		$query_var_location = ! empty( $_REQUEST['query_var_location'] ) ? sanitize_text_field( $_REQUEST['query_var_location'] ) : '';
 		$query_var_category = ! empty( $_REQUEST['query_var_category'] ) ? sanitize_text_field( $_REQUEST['query_var_category'] ) : '';
 		$query_var_tag      = ! empty( $_REQUEST['query_var_tag'] ) ? sanitize_text_field( $_REQUEST['query_var_tag'] ) : '';
-		
-		if(!empty($_REQUEST['filters'])){
-			$_GET = array_merge($_GET, ['filters' => $_REQUEST['filters']]);
+
+		if ( ! empty( $_REQUEST['filters'] ) ) {
+			$_GET = array_merge( $_GET, [ 'filters' => $_REQUEST['filters'] ] );
 		}
 
 		wp_send_json_success( Functions::get_sub_terms_filter_html( $args, [], $query_var_location, $query_var_category, $query_var_tag ) );
@@ -133,7 +138,7 @@ class InlineSearchAjax {
 		}
 		if ( $type === 'listing' ) {
 			// Query for suggestions
-			$args             = [
+			$args = [
 				'post_type'        => rtcl()->post_type,
 				'posts_per_page'   => 20,
 				'post_status'      => 'publish',
@@ -141,8 +146,20 @@ class InlineSearchAjax {
 				'order'            => 'asc',
 				'suppress_filters' => false,
 				'fields'           => 'ids',
-				's'                => $q,
 			];
+
+			if ( Functions::is_semantic_search_enabled() ) {
+				$service       = new EmbeddingService();
+				$similar_posts = $service->search( $q );
+				if ( ! empty( $similar_posts ) ) {
+					$args['post__in'] = $similar_posts;
+				} else {
+					$args['s'] = $q;
+				}
+			} else {
+				$args['s'] = $q;
+			}
+
 			$tax_queries      = [];
 			$general_settings = Functions::get_option( 'rtcl_general_settings' );
 			if ( isset( $_REQUEST['location_slug'] ) && ! empty( $_REQUEST['location_slug'] ) && $location = get_term_by( 'slug', $_REQUEST['location_slug'], rtcl()->location ) ) {
@@ -150,7 +167,8 @@ class InlineSearchAjax {
 					'taxonomy'         => rtcl()->location,
 					'field'            => 'term_id',
 					'terms'            => $location->term_id,
-					'include_children' => isset( $general_settings['include_results_from'] ) && in_array( 'child_categories',
+					'include_children' => isset( $general_settings['include_results_from'] )
+					                      && in_array( 'child_categories',
 							$general_settings['include_results_from'] ),
 				];
 			}
@@ -160,7 +178,8 @@ class InlineSearchAjax {
 					'taxonomy'         => rtcl()->category,
 					'field'            => 'term_id',
 					'terms'            => $category->term_id,
-					'include_children' => isset( $general_settings['include_results_from'] ) && in_array( 'child_locations',
+					'include_children' => isset( $general_settings['include_results_from'] )
+					                      && in_array( 'child_locations',
 							$general_settings['include_results_from'] ),
 				];
 			}
@@ -179,18 +198,18 @@ class InlineSearchAjax {
 					$suggestions[] = [
 						'id'     => $post_id,
 						'label'  => ! empty( $post->post_title ) ? $post->post_title : esc_html__( "Empty listing title", 'classified-listing' ),
-						'target' => get_the_permalink( $post_id )
+						'target' => get_the_permalink( $post_id ),
 					];
 				}
 			}
-		} else if ( in_array( $type, [ 'location', 'category' ] ) ) {
+		} elseif ( in_array( $type, [ 'location', 'category' ] ) ) {
 			$args  = [
 				'taxonomy'   => $type === 'location' ? rtcl()->location : rtcl()->category,
 				'hide_empty' => false,
 				'orderby'    => 'name',
 				'order'      => 'ASC',
 				'number'     => 20,
-				'name__like' => $q
+				'name__like' => $q,
 			];
 			$terms = get_terms( apply_filters( 'rtcl_inline_search_autocomplete_args', $args, $type, $_REQUEST ) );
 			if ( ! empty( $terms ) ) {
@@ -198,7 +217,7 @@ class InlineSearchAjax {
 					$suggestions[] = [
 						'id'     => $term->term_id,
 						'label'  => $term->name,
-						'target' => $term->slug
+						'target' => $term->slug,
 					];
 				}
 			}
@@ -217,7 +236,7 @@ class InlineSearchAjax {
 		}
 		$response = [
 			'success'    => true,
-			'categories' => $terms
+			'categories' => $terms,
 		];
 		wp_send_json( $response );
 	}
@@ -232,7 +251,7 @@ class InlineSearchAjax {
 		}
 		$response = [
 			'success'   => true,
-			'locations' => $terms
+			'locations' => $terms,
 		];
 		wp_send_json( $response );
 	}

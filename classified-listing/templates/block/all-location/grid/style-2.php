@@ -50,6 +50,17 @@ if ( isset( $settings['className'] ) ) {
 					<div class="location-boxes-wrapper <?php echo esc_attr( $classes ); ?>">
 						<div class="location-boxes">
 							<div class="location-boxes-header">
+								<?php
+								if ( $settings['show_image'] && ! empty( $trm['image'] ) ) { ?>
+									<div class="rtcl-location-image">
+										<a href="<?php
+										echo esc_url( $trm['permalink'] ); ?>">
+											<?php
+											echo wp_kses_post( $trm['image'] ); ?>
+										</a>
+									</div>
+									<?php
+								} ?>
 								<div class="title-wrap">
 									<h3 class="rtcl-title">
 										<?php if ( $settings['enable_link'] ) { ?>

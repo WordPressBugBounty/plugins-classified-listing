@@ -60,6 +60,12 @@ class AdminAjaxController {
 				$results['title']     = $term->name;
 				$results['count']     = $term->count;
 				$results['permalink'] = get_term_link( $term );
+				$results['term_id']   = $term->term_id;
+				$image                = get_term_meta( $term->term_id, '_rtcl_image', true );
+				if ( $image ) {
+					$image_src            = wp_get_attachment_image_src( $image, 'full' );
+					$results['image_src'] = ! empty( $image_src[0] ) ? $image_src[0] : '';
+				}
 			}
 		} else {
 			$results['title']     = __( 'Please Select a Location and Background', 'classified-listing' );
@@ -86,14 +92,12 @@ class AdminAjaxController {
 	}
 
 	public static function rtcl_gb_all_location_query( $data ) {
-
 		$results                = [];
 		$data['location_limit'] = isset( $data['location_limit'] ) ? $data['location_limit'] : 5;
 
 		$args = [
 			'taxonomy'   => 'rtcl_location',
 			'hide_empty' => $data['hide_empty'] == 'true' ? true : false,
-			'order'      => 'asc',
 		];
 
 		if ( $data['orderby'] == 'custom' ) {
@@ -123,13 +127,28 @@ class AdminAjaxController {
 		}
 
 		if ( ! is_wp_error( $terms ) ) :
+			//image size
+			$image_size = $data['image_size'] ?? 'rtcl-thumbnail';
+			if ( 'custom' == $image_size ) {
+				if ( isset( $data['custom_image_width'] ) && isset( $data['custom_image_height'] ) ) {
+					$image_size = [
+						$data['custom_image_width'],
+						$data['custom_image_height'],
+					];
+				}
+			}
 			foreach ( $terms as $term ) {
-				$order = get_term_meta( $term->term_id, '_rtcl_order', true );
-				$count = $term->count;
-				// if (!empty($count)):
-				//     $count = sprintf(_n('%s Ad', '%s Ads', $count, 'classified-listing'), $count);
-				// endif;
-				//location children list
+				$image_html = '';
+				$image      = get_term_meta( $term->term_id, '_rtcl_image', true );
+				if ( $image ) {
+					$image      = wp_get_attachment_image_src( $image, $image_size );
+					$width      = $image[1];
+					$height     = $image[2];
+					$image      = $image[0];
+					$image_html = sprintf( '<img src="%s" alt="%s" width="%s" height="%s" />', $image, $term->name, $width, $height );
+				}
+				$order       = get_term_meta( $term->term_id, '_rtcl_order', true );
+				$count       = $term->count;
 				$child_html  = '';
 				$child_args  = [
 					'taxonomy'   => 'rtcl_location',
@@ -146,7 +165,7 @@ class AdminAjaxController {
 							'<li><i class="rtcl-icon rtcl-icon-angle-right"></i><a href="%s">%s (%s)</a></li>',
 							get_term_link( $child_trm ),
 							$child_trm->name,
-							$child_trm->count
+							$child_trm->count,
 						);
 					}
 				}
@@ -154,6 +173,7 @@ class AdminAjaxController {
 				$results[] = [
 					'name'        => $term->name,
 					'description' => $term->description,
+					'image'       => $image_html,
 					'order'       => (int) $order,
 					'permalink'   => get_term_link( $term ),
 					'count'       => $count,
@@ -260,7 +280,6 @@ class AdminAjaxController {
 	}
 
 	public function rtcl_gb_location_ajax() {
-
 		$rtcl_nonce = $_POST['rtcl_nonce']; /* phpcs:ignore WordPress.Security.NonceVerification.Missing */
 		if ( ! wp_verify_nonce( $rtcl_nonce, 'rtcl-nonce' ) ) {
 			wp_send_json_error( esc_html__( 'Session Expired!!', 'classified-listing' ) );
@@ -328,7 +347,6 @@ class AdminAjaxController {
 
 		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) :
 			foreach ( $terms as $term ) {
-
 				$order     = get_term_meta( $term->term_id, '_rtcl_order', true );
 				$icon_html = '';
 				if ( $data['icon_type'] == 'icon' ) {
@@ -382,14 +400,14 @@ class AdminAjaxController {
 							'<li><i class="rtcl-icon rtcl-icon-angle-right"></i><a href="%s">%s (%s)</a></li>',
 							get_term_link( $child_trm ),
 							$child_trm->name,
-							$child_trm->count
+							$child_trm->count,
 						);
 					}
 				}
 				$count      = Functions::get_listings_count_by_taxonomy(
 					$term->term_id,
 					rtcl()->category,
-					$data['count_child']
+					$data['count_child'],
 				);
 				$results[]  = [
 					'name'        => $term->name,

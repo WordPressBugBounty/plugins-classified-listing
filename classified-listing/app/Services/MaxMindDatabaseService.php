@@ -18,8 +18,7 @@ use WP_Error;
  *
  * @since 2.0.11
  */
-class MaxMindDatabaseService
-{
+class MaxMindDatabaseService {
 	/**
 	 * The name of the MaxMind database to utilize.
 	 */
@@ -42,7 +41,7 @@ class MaxMindDatabaseService
 	 *
 	 * @param string|null $database_prefix A prefix for the MaxMind database filename.
 	 */
-	public function __construct($database_prefix) {
+	public function __construct( $database_prefix ) {
 		$this->database_prefix = $database_prefix;
 	}
 
@@ -54,13 +53,13 @@ class MaxMindDatabaseService
 	public function get_database_path() {
 		$uploads_dir = wp_upload_dir();
 
-		$database_path = trailingslashit($uploads_dir['basedir']) . 'rtcl-uploads/';
-		if (!empty($this->database_prefix)) {
+		$database_path = trailingslashit( $uploads_dir['basedir'] ) . 'rtcl-uploads/';
+		if ( ! empty( $this->database_prefix ) ) {
 			$database_path .= $this->database_prefix . '-';
 		}
 		$database_path .= self::DATABASE . self::DATABASE_EXTENSION;
 
-		return apply_filters('rtcl_maxmind_geolocation_database_path', $database_path);
+		return apply_filters( 'rtcl_maxmind_geolocation_database_path', $database_path );
 	}
 
 	/**
@@ -70,11 +69,11 @@ class MaxMindDatabaseService
 	 *
 	 * @return string|WP_Error The path to the database file or an error if invalid.
 	 */
-	public function download_database($license_key) {
+	public function download_database( $license_key ) {
 		$download_uri = add_query_arg(
 			array(
 				'edition_id'  => self::DATABASE,
-				'license_key' => urlencode(Functions::clean($license_key)),
+				'license_key' => urlencode( Functions::clean( $license_key ) ),
 				'suffix'      => 'tar.gz',
 			),
 			'https://download.maxmind.com/app/geoip_download'
@@ -83,39 +82,41 @@ class MaxMindDatabaseService
 		// Needed for the download_url call right below.
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 
-		$tmp_archive_path = download_url(esc_url_raw($download_uri));
-		if (is_wp_error($tmp_archive_path)) {
+		$tmp_archive_path = download_url( esc_url_raw( $download_uri ) );
+		if ( is_wp_error( $tmp_archive_path ) ) {
 			// Transform the error into something more informative.
 			$error_data = $tmp_archive_path->get_error_data();
-			if (isset($error_data['code'])) {
-				switch ($error_data['code']) {
+			if ( isset( $error_data['code'] ) ) {
+				switch ( $error_data['code'] ) {
 					case 401:
 						return new WP_Error(
 							'rtcl_maxmind_geolocation_database_license_key',
-							__('The MaxMind license key is invalid. If you have recently created this key, you may need to wait for it to become active.', 'classified-listing')
+							__( 'The MaxMind license key is invalid. If you have recently created this key, you may need to wait for it to become active.',
+								'classified-listing' )
 						);
 				}
 			}
 
-			return new WP_Error('rtcl_maxmind_geolocation_database_download', __('Failed to download the MaxMind database.', 'classified-listing'));
+			return new WP_Error( 'rtcl_maxmind_geolocation_database_download', __( 'Failed to download the MaxMind database.', 'classified-listing' ) );
 		}
 
 		// Extract the database from the archive.
 		try {
-			$file = new PharData($tmp_archive_path);
+			$file = new PharData( $tmp_archive_path );
 
-			$tmp_database_path = trailingslashit(dirname($tmp_archive_path)) . trailingslashit($file->current()->getFilename()) . self::DATABASE . self::DATABASE_EXTENSION;
+			$tmp_database_path = trailingslashit( dirname( $tmp_archive_path ) ) . trailingslashit( $file->current()->getFilename() ) . self::DATABASE
+			                     . self::DATABASE_EXTENSION;
 
 			$file->extractTo(
-				dirname($tmp_archive_path),
-				trailingslashit($file->current()->getFilename()) . self::DATABASE . self::DATABASE_EXTENSION,
+				dirname( $tmp_archive_path ),
+				trailingslashit( $file->current()->getFilename() ) . self::DATABASE . self::DATABASE_EXTENSION,
 				true
 			);
-		} catch (Exception $exception) {
-			return new WP_Error('rtcl_maxmind_geolocation_database_archive', $exception->getMessage());
+		} catch ( Exception $exception ) {
+			return new WP_Error( 'rtcl_maxmind_geolocation_database_archive', $exception->getMessage() );
 		} finally {
 			// Remove the archive since we only care about a single file in it.
-			wp_delete_file($tmp_archive_path);
+			wp_delete_file( $tmp_archive_path );
 		}
 
 		return $tmp_database_path;
@@ -128,30 +129,31 @@ class MaxMindDatabaseService
 	 *
 	 * @return string The country code for the IP address, or empty if not found.
 	 */
-	public function get_iso_country_code_for_ip($ip_address) {
+	public function get_iso_country_code_for_ip( $ip_address ) {
 		$country_code = '';
 
-		if (!class_exists('MaxMind\Db\Reader')) {
-			rtcl()->logger()->notice(__('Missing MaxMind Reader library!', 'classified-listing'), array('source' => 'maxmind-geolocation'));
+		if ( ! class_exists( 'MaxMind\Db\Reader' ) ) {
+			rtcl()->logger()->notice( __( 'Missing MaxMind Reader library!', 'classified-listing' ), array( 'source' => 'maxmind-geolocation' ) );
+
 			return $country_code;
 		}
 
 		$database_path = $this->get_database_path();
-		if (!file_exists($database_path)) {
+		if ( ! file_exists( $database_path ) ) {
 			return $country_code;
 		}
 
 		try {
-			$reader = new MaxMind\Db\Reader($database_path);
-			$data = $reader->get($ip_address);
+			$reader = new MaxMind\Db\Reader( $database_path );
+			$data   = $reader->get( $ip_address );
 
-			if (isset($data['country']['iso_code'])) {
+			if ( isset( $data['country']['iso_code'] ) ) {
 				$country_code = $data['country']['iso_code'];
 			}
 
 			$reader->close();
-		} catch (Exception $e) {
-			rtcl()->logger()->notice($e->getMessage(), array('source' => 'maxmind-geolocation'));
+		} catch ( Exception $e ) {
+			rtcl()->logger()->notice( $e->getMessage(), array( 'source' => 'maxmind-geolocation' ) );
 		}
 
 		return $country_code;

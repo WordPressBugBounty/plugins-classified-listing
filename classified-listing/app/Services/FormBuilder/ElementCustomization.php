@@ -12,7 +12,7 @@ class ElementCustomization {
 	public static function getSettingsPlacement(): array {
 		$placement = [
 			'listing_type'        => [
-				'general' => [ 'label', 'label_placement', 'icon', 'placeholder' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
 				'advance' => [ 'default_value', 'container_class', 'help_message' ]
 			],
 			'title'               => [
@@ -210,6 +210,7 @@ class ElementCustomization {
 					'option_depends_on',
 					'advanced_options',
 					'direction',
+					'vertical_cols',
 					'validation',
 					'filterable',
 					'filterable_disable_logic',
@@ -233,6 +234,7 @@ class ElementCustomization {
 					'option_depends_on',
 					'advanced_options',
 					'direction',
+					'vertical_cols',
 					'validation',
 					'filterable',
 					'filterable_disable_logic',
@@ -433,7 +435,9 @@ class ElementCustomization {
 					'help_message',
 					'order',
 					'logics',
-					'max_repeat_field'
+					'max_repeat_field',
+					'repeater_collapsable',
+					'repeater_layout',
 				],
 			],
 			'input_hidden'        => [
@@ -453,8 +457,8 @@ class ElementCustomization {
 	}
 
 	public static function settingsFields() {
-		$dateTime = new DateTime();
-		$dateFormats = $dateTime->getAvailableDateFormats();
+		$dateTime           = new DateTime();
+		$dateFormats        = $dateTime->getAvailableDateFormats();
 		$dateConfigSettings = [
 			'template'         => 'inputTextarea',
 			'label'            => __( 'Advanced Date Configuration', 'classified-listing' ),
@@ -466,7 +470,7 @@ class ElementCustomization {
 			'inline_help_text' => '',
 			'help_text'        => __( 'You can write your own date configuration as JS object. Please write valid configuration as per flatpickr config.', 'classified-listing' ),
 		];
-		$settingsFields = [
+		$settingsFields     = [
 
 			'name'                         => [
 				'template'  => 'nameAttr',
@@ -527,6 +531,10 @@ class ElementCustomization {
 			'icon'                         => [
 				'template' => 'icon',
 				'label'    => __( 'Icon Type', 'classified-listing' ),
+				'i18n'     => [
+					'icon'           => __( 'Icon', 'classified-listing' ),
+					'select_an_icon' => __( 'Select an icon', 'classified-listing' ),
+				],
 				'options'  => [
 					[
 						'value' => '',
@@ -650,7 +658,35 @@ class ElementCustomization {
 					[
 						'value' => 'vertical',
 						'label' => __( 'Vertical', 'classified-listing' ),
-					]
+					],
+				],
+			],
+			'vertical_cols'                => [
+				'template'   => 'radio',
+				'label'      => __( 'Column Count', 'classified-listing' ),
+				'default'    => 1,
+				'options'    => [
+					[
+						'value' => 1,
+						'label' => __( '1 Columns', 'classified-listing' ),
+					],
+					[
+						'value' => 2,
+						'label' => __( '2 Columns', 'classified-listing' ),
+					],
+					[
+						'value' => 3,
+						'label' => __( '3 Columns', 'classified-listing' ),
+					],
+					[
+						'value' => 4,
+						'label' => __( '4 Columns', 'classified-listing' ),
+					],
+				],
+				'dependency' => [
+					'depends_on' => 'direction',
+					'value'      => 'vertical',
+					'operator'   => '==',
 				],
 			],
 			'placeholder'                  => [
@@ -1079,6 +1115,29 @@ class ElementCustomization {
 			'multi_column'                 => [
 				'template' => 'inputYesNoCheckBox',
 				'label'    => __( 'Enable Multiple Columns', 'classified-listing' )
+			],
+			'repeater_collapsable'         => [
+				'key'         => 'collapsable',
+				'template'    => 'switch',
+				'label'       => __( 'Enable Accordion?', 'classified-listing' ),
+				'description' => __( 'The first repeater item will serve as the accordion title. Please add a text field for this item.', 'classified-listing' )
+			],
+			'repeater_layout'              => [
+				'template'    => 'select',
+				'key'         => 'layout',
+				'label'       => __( 'Choose Layout', 'classified-listing' ),
+				'placeholder' => __( '- Select -', 'classified-listing' ),
+				'description' => __( 'Ue this filter to extend layout add_filter("rtcl_form_repeater_layout_options")', 'classified-listing' ),
+				'options'     => apply_filters( 'rtcl_form_repeater_layout_options', [
+					[
+						'value' => 'default',
+						'label' => __( 'Default', 'classified-listing' ),
+					],
+					[
+						'value' => 'image_box',
+						'label' => __( 'Image Box', 'classified-listing' ),
+					],
+				] ),
 			],
 			'repeat_fields'                => [
 				'template'  => 'repeater',

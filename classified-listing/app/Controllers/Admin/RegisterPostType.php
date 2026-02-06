@@ -60,13 +60,13 @@ class RegisterPostType {
 				'manage_terms' => 'manage_rtcl_options',
 				'edit_terms'   => 'manage_rtcl_options',
 				'delete_terms' => 'manage_rtcl_options',
-				'assign_terms' => 'edit_' . rtcl()->post_type . 's'
+				'assign_terms' => 'edit_' . rtcl()->post_type . 's',
 			],
 			'rewrite'           => [
 				'slug'         => $permalinks['category_base'],
 				'with_front'   => false,
 				'hierarchical' => true,
-			]
+			],
 		];
 
 		register_taxonomy( rtcl()->category, rtcl()->post_type, apply_filters( 'rtcl_register_listing_category_args', $cat_args ) );
@@ -105,13 +105,13 @@ class RegisterPostType {
 					'manage_terms' => 'manage_rtcl_options',
 					'edit_terms'   => 'manage_rtcl_options',
 					'delete_terms' => 'manage_rtcl_options',
-					'assign_terms' => 'edit_' . rtcl()->post_type . 's'
+					'assign_terms' => 'edit_' . rtcl()->post_type . 's',
 				],
 				'rewrite'           => [
 					'slug'         => $permalinks['location_base'],
 					'with_front'   => false,
 					'hierarchical' => true,
-				]
+				],
 			];
 			register_taxonomy( rtcl()->location, rtcl()->post_type, apply_filters( 'rtcl_register_listing_location_args', $location_args ) );
 		}
@@ -149,13 +149,13 @@ class RegisterPostType {
 				'manage_terms' => 'manage_rtcl_options',
 				'edit_terms'   => 'manage_rtcl_options',
 				'delete_terms' => 'manage_rtcl_options',
-				'assign_terms' => 'edit_' . rtcl()->post_type . 's'
+				'assign_terms' => 'edit_' . rtcl()->post_type . 's',
 			],
 			'rewrite'           => [
 				'slug'         => $permalinks['tag_base'],
 				'with_front'   => false,
 				'hierarchical' => false,
-			]
+			],
 		];
 
 		register_taxonomy( rtcl()->tag, rtcl()->post_type, apply_filters( 'rtcl_register_listing_tag_args', $tag_args ) );
@@ -164,7 +164,6 @@ class RegisterPostType {
 	}
 
 	public static function register_post_types() {
-
 		if ( ! is_blog_installed() || post_type_exists( rtcl()->post_type ) ) {
 			return;
 		}
@@ -188,7 +187,7 @@ class RegisterPostType {
 			'name_admin_bar'     => esc_html__( 'Listing', 'classified-listing' ),
 			'update_item'        => esc_html__( 'Update Listing', 'classified-listing' ),
 			'parent_item_colon'  => '',
-			'menu_name'          => esc_html__( 'Listings', 'classified-listing' )
+			'menu_name'          => esc_html__( 'Listings', 'classified-listing' ),
 		];
 		$listing_support         = [ 'title', 'editor', 'author' ];
 		$single_listing_settings = Functions::get_option( 'rtcl_single_listing_settings' );
@@ -232,7 +231,7 @@ class RegisterPostType {
 			'exclude_from_search' => false,
 			'publicly_queryable'  => true,
 			'capability_type'     => rtcl()->post_type,
-			'map_meta_cap'        => true
+			'map_meta_cap'        => true,
 		];
 
 		register_post_type( rtcl()->post_type, apply_filters( 'rtcl_register_listing_post_type_args', $args ) );
@@ -263,7 +262,7 @@ class RegisterPostType {
 					'query_var'    => 'rtcl_cfg',
 					'supports'     => [
 						'title',
-						'page-attributes'
+						'page-attributes',
 					],
 					'show_in_menu' => 'edit.php?post_type=' . rtcl()->post_type,
 					'capabilities' => [
@@ -274,10 +273,10 @@ class RegisterPostType {
 						'edit_others_posts'  => 'manage_rtcl_options',
 						'delete_posts'       => 'manage_rtcl_options',
 						'publish_posts'      => 'manage_rtcl_options',
-						'read_private_posts' => 'manage_rtcl_options'
-					]
-				]
-			)
+						'read_private_posts' => 'manage_rtcl_options',
+					],
+				],
+			),
 		);
 
 		register_post_type( rtcl()->post_type_cf,
@@ -296,10 +295,10 @@ class RegisterPostType {
 						'edit_others_posts'  => 'manage_rtcl_options',
 						'delete_posts'       => 'manage_rtcl_options',
 						'publish_posts'      => 'manage_rtcl_options',
-						'read_private_posts' => 'manage_rtcl_options'
+						'read_private_posts' => 'manage_rtcl_options',
 					],
-				]
-			)
+				],
+			),
 		);
 
 		$payment_labels = [
@@ -336,7 +335,7 @@ class RegisterPostType {
 			'exclude_from_search' => true,
 			'publicly_queryable'  => false,
 			'capability_type'     => rtcl()->post_type_payment,
-			'map_meta_cap'        => true
+			'map_meta_cap'        => true,
 		];
 
 		$pricing_labels = [
@@ -356,7 +355,7 @@ class RegisterPostType {
 			'not_found_in_trash' => esc_html__( 'No Pricing found in Trash', 'classified-listing' ),
 		];
 
-		$pricing_args     = [
+		$pricing_args = [
 			'labels'            => $pricing_labels,
 			'public'            => false,
 			'show_ui'           => true,
@@ -365,14 +364,11 @@ class RegisterPostType {
 			'show_in_admin_bar' => true,
 			'has_archive'       => false,
 			'capability_type'   => rtcl()->post_type_pricing,
-			'map_meta_cap'      => true
+			'map_meta_cap'      => true,
 		];
-		$payment_settings = Functions::get_option( 'rtcl_payment_settings' );
-
-		if ( ! empty( $payment_settings['payment'] ) && $payment_settings['payment'] == 'yes' ) {
-			register_post_type( rtcl()->post_type_payment, apply_filters( 'rtcl_register_payment_post_type_args', $payment_args ) );
-			register_post_type( rtcl()->post_type_pricing, apply_filters( 'rtcl_register_pricing_post_type_args', $pricing_args ) );
-		}
+		
+		register_post_type( rtcl()->post_type_payment, apply_filters( 'rtcl_register_payment_post_type_args', $payment_args ) );
+		register_post_type( rtcl()->post_type_pricing, apply_filters( 'rtcl_register_pricing_post_type_args', $pricing_args ) );
 
 		do_action( 'rtcl_after_register_post_type' );
 	}
@@ -383,7 +379,7 @@ class RegisterPostType {
 			'public'      => is_admin(),
 			'internal'    => false,
 			/* translators: Review Count */
-			'label_count' => _n_noop( 'Review <span class="count">(%s)</span>', 'Review <span class="count">(%s)</span>', 'classified-listing' )
+			'label_count' => _n_noop( 'Review <span class="count">(%s)</span>', 'Review <span class="count">(%s)</span>', 'classified-listing' ),
 		] );
 
 		register_post_status( 'rtcl-expired', [
@@ -391,7 +387,7 @@ class RegisterPostType {
 			'public'      => is_admin(),
 			'internal'    => false,
 			/* translators: Expired Count */
-			'label_count' => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'classified-listing' )
+			'label_count' => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'classified-listing' ),
 		] );
 
 		register_post_status( 'rtcl-temp', [
@@ -400,8 +396,9 @@ class RegisterPostType {
 			'internal'               => false,
 			'show_in_admin_all_list' => false,
 			/* translators: Temporary Count */
-			'label_count'            => _n_noop( 'Temporary <span class="count">(%s)</span>', 'Temporary <span class="count">(%s)</span>',
-				'classified-listing' )
+			'label_count'            => _n_noop( 'Temporary <span class="count">(%s)</span>',
+				'Temporary <span class="count">(%s)</span>',
+				'classified-listing' ),
 		] );
 
 		register_post_status( 'rtcl-pending', [
@@ -411,7 +408,8 @@ class RegisterPostType {
 			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
 			/* translators: Pending payment Count */
-			'label_count'               => _n_noop( 'Pending payment <span class="count">(%s)</span>', 'Pending payment <span class="count">(%s)</span>',
+			'label_count'               => _n_noop( 'Pending payment <span class="count">(%s)</span>',
+				'Pending payment <span class="count">(%s)</span>',
 				'classified-listing' ),
 		] );
 
@@ -422,7 +420,8 @@ class RegisterPostType {
 			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
 			/* translators: Created Count */
-			'label_count'               => _n_noop( 'Created <span class="count">(%s)</span>', 'Created <span class="count">(%s)</span>',
+			'label_count'               => _n_noop( 'Created <span class="count">(%s)</span>',
+				'Created <span class="count">(%s)</span>',
 				'classified-listing' ),
 		] );
 
@@ -433,7 +432,8 @@ class RegisterPostType {
 			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
 			/* translators: Completed Count */
-			'label_count'               => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>',
+			'label_count'               => _n_noop( 'Completed <span class="count">(%s)</span>',
+				'Completed <span class="count">(%s)</span>',
 				'classified-listing' ),
 		] );
 
@@ -454,7 +454,8 @@ class RegisterPostType {
 			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
 			/* translators: Cancelled Count */
-			'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>',
+			'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>',
+				'Cancelled <span class="count">(%s)</span>',
 				'classified-listing' ),
 		] );
 
@@ -465,7 +466,8 @@ class RegisterPostType {
 			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
 			/* translators: Refunded Count */
-			'label_count'               => _n_noop( 'Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>',
+			'label_count'               => _n_noop( 'Refunded <span class="count">(%s)</span>',
+				'Refunded <span class="count">(%s)</span>',
 				'classified-listing' ),
 		] );
 
@@ -476,7 +478,8 @@ class RegisterPostType {
 			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
 			/* translators: On hold Count */
-			'label_count'               => _n_noop( 'On hold <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>',
+			'label_count'               => _n_noop( 'On hold <span class="count">(%s)</span>',
+				'Refunded <span class="count">(%s)</span>',
 				'classified-listing' ),
 		] );
 		register_post_status( 'rtcl-processing', [
@@ -486,7 +489,8 @@ class RegisterPostType {
 			'show_in_admin_all_list'    => true,
 			'show_in_admin_status_list' => true,
 			/* translators: Processing Count */
-			'label_count'               => _n_noop( 'Processing <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>',
+			'label_count'               => _n_noop( 'Processing <span class="count">(%s)</span>',
+				'Refunded <span class="count">(%s)</span>',
 				'classified-listing' ),
 		] );
 	}
@@ -504,7 +508,7 @@ class RegisterPostType {
 	/**
 	 * Added product for Jetpack related posts.
 	 *
-	 * @param array $post_types Post types.
+	 * @param  array  $post_types  Post types.
 	 *
 	 * @return array
 	 */
@@ -535,8 +539,8 @@ class RegisterPostType {
 	/**
 	 * Disable Gutenberg for products.
 	 *
-	 * @param bool   $can_edit  Whether the post type can be edited or not.
-	 * @param string $post_type The post type being checked.
+	 * @param  bool  $can_edit  Whether the post type can be edited or not.
+	 * @param  string  $post_type  The post type being checked.
 	 *
 	 * @return bool
 	 */

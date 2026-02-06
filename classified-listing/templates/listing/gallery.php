@@ -32,12 +32,12 @@ if ( $total_gallery_item ) :
 		<div class="rtcl-slider<?php echo esc_attr( $isSliderEnable ? '' : ' off' ) ?>">
 			<div class="swiper-wrapper">
 				<?php
-				if ( $total_gallery_videos ) {
+				if ( $total_gallery_videos && apply_filters( 'rtcl_gallery_video_enable', true ) ) {
 					foreach ( $videos as $index => $video_url ) { ?>
 						<div class="swiper-slide rtcl-slider-item rtcl-slider-video-item">
 							<iframe class="rtcl-lightbox-iframe"
-									data-src="<?php echo esc_url(Functions::get_sanitized_embed_url( $video_url )) ?>"
-									src="<?php echo esc_url(Functions::get_sanitized_embed_url( $video_url )) ?>"
+									data-src="<?php echo esc_url( Functions::get_sanitized_embed_url( $video_url ) ) ?>"
+									src="<?php echo esc_url( Functions::get_sanitized_embed_url( $video_url ) ) ?>"
 									style="width: 100%; height: 400px; margin: 0;padding: 0; background-color: #000"
 									frameborder="0" webkitAllowFullScreen
 									mozallowfullscreen allowFullScreen></iframe>
@@ -70,10 +70,10 @@ if ( $total_gallery_item ) :
 			<div class="rtcl-slider-nav">
 				<div class="swiper-wrapper">
 					<?php
-					if ( $total_gallery_videos ) {
+					if ( $total_gallery_videos && apply_filters( 'rtcl_gallery_video_enable', true ) ) {
 						foreach ( $videos as $index => $video_url ) { ?>
 							<div class="swiper-slide rtcl-slider-thumb-item rtcl-slider-video-thumb">
-								<img src="<?php echo esc_url(Functions::get_embed_video_thumbnail_url( $video_url )) ?>"
+								<img src="<?php echo esc_url( Functions::get_embed_video_thumbnail_url( $video_url ) ) ?>"
 									 class="rtcl-gallery-thumbnail"
 									 alt="<?php echo esc_attr__( 'Preview Thumbnail', 'classified-listing' ); ?>"/>
 							</div>

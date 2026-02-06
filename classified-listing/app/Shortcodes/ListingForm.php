@@ -24,8 +24,15 @@ class ListingForm {
 		$has_permission = true;
 		if ( $post_id && ! Functions::current_user_can( 'edit_' . rtcl()->post_type, $post_id ) ) {
 			$has_permission = false;
-		} else if ( ! is_user_logged_in() && ! Functions::is_enable_post_for_unregister() ) {
+		} elseif ( ! is_user_logged_in() && ! Functions::is_enable_post_for_unregister() ) {
 			$has_permission = false;
+		}
+		if ( is_user_logged_in() && Functions::is_user_type_enabled() ) {
+			$user_type = get_user_meta( get_current_user_id(), '_rtcl_user_type', true );
+
+			if ( $user_type === 'buyer' ) {
+				$has_permission = false;
+			}
 		}
 		if ( ! $has_permission ) {
 			Functions::add_notice( __( 'You do not have sufficient permissions to access this page.', 'classified-listing' ), 'error' );
@@ -69,7 +76,7 @@ class ListingForm {
 				if ( Functions::notice_count( 'error' ) ) {
 					Functions::get_template( "listing-form/category", [
 						'parent_cat_id' => Functions::get_term_top_most_parent_id( $category_id, rtcl()->category ),
-						'selected_type' => $selected_type
+						'selected_type' => $selected_type,
 					] );
 
 					return;
@@ -77,7 +84,7 @@ class ListingForm {
 			} else {
 				Functions::get_template( "listing-form/category", [
 					'parent_cat_id' => 0,
-					'selected_type' => $selected_type
+					'selected_type' => $selected_type,
 				] );
 
 				return;
@@ -93,7 +100,6 @@ class ListingForm {
 		}
 
 		Functions::get_template( "listing-form/form", compact( 'post_id' ) );
-
 	}
 
 }

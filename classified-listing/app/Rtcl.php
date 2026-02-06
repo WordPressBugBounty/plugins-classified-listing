@@ -7,8 +7,10 @@ use Rtcl\Controllers\Admin\FormBuilderController;
 use Rtcl\Controllers\Admin\LicensingController;
 use Rtcl\Controllers\Admin\NoticeController;
 use Rtcl\Controllers\Admin\SetupWizard;
+use Rtcl\Controllers\AIImageController;
 use Rtcl\Controllers\Ajax\Ajax;
 use Rtcl\Controllers\BlockController;
+use Rtcl\Controllers\EmbeddingController;
 use Rtcl\Controllers\GeoQuery;
 use Rtcl\Controllers\Hooks\ActionHooks;
 use Rtcl\Controllers\Hooks\AdminHooks;
@@ -41,7 +43,6 @@ use Rtcl\Traits\SingletonTrait;
 use Rtcl\Widgets\Widget;
 
 if ( ! class_exists( Rtcl::class ) ) {
-
 	/**
 	 * Classified listing main class.
 	 */
@@ -163,7 +164,7 @@ if ( ! class_exists( Rtcl::class ) ) {
 		/**
 		 * Auto-load in-accessible properties on demand.
 		 *
-		 * @param mixed $key key name.
+		 * @param  mixed  $key  key name.
 		 *
 		 * @return mixed
 		 */
@@ -193,7 +194,7 @@ if ( ! class_exists( Rtcl::class ) ) {
 				Comments::init();
 				new NoticeController();
 			}
-			
+
 			new SetupWizard();
 
 			// add hook for both
@@ -203,6 +204,10 @@ if ( ! class_exists( Rtcl::class ) ) {
 			if ( $this->is_request( 'frontend' ) ) {
 				$this->frontend_hook();
 			}
+
+			// AI Controller
+			new EmbeddingController();
+			new AIImageController();
 
 			ThemeSupports::init();
 			$this->query = new Query();
@@ -246,8 +251,8 @@ if ( ! class_exists( Rtcl::class ) ) {
 		/**
 		 * Get a shared logger instance.
 		 *
-		 * @param string $logLevelThreshold
-		 * @param array  $options
+		 * @param  string  $logLevelThreshold
+		 * @param  array  $options
 		 *
 		 * @return Logger
 		 *
@@ -311,7 +316,7 @@ if ( ! class_exists( Rtcl::class ) ) {
 		/**
 		 * What type of request is this?
 		 *
-		 * @param string $type admin, ajax, cron or frontend
+		 * @param  string  $type  admin, ajax, cron or frontend
 		 *
 		 * @return bool
 		 */
@@ -333,8 +338,8 @@ if ( ! class_exists( Rtcl::class ) ) {
 		/**
 		 * Define constant if not already set.
 		 *
-		 * @param string      $name  constant name
-		 * @param bool|string $value constant value
+		 * @param  string  $name  constant name
+		 * @param  bool|string  $value  constant value
 		 */
 		public function define( $name, $value ) {
 			if ( ! defined( $name ) ) {
@@ -372,8 +377,8 @@ if ( ! class_exists( Rtcl::class ) ) {
 		/**
 		 * Return the RTCL API URL for a given request.
 		 *
-		 * @param string    $request requested endpoint
-		 * @param bool|null $ssl     If you should use SSL, null if should auto-detect. Default: null.
+		 * @param  string  $request  requested endpoint
+		 * @param  bool|null  $ssl  If you should use SSL, null if should auto-detect. Default: null.
 		 *
 		 * @return string
 		 */
@@ -413,7 +418,7 @@ if ( ! class_exists( Rtcl::class ) ) {
 		}
 
 		/**
-		 * @param string $api_version
+		 * @param  string  $api_version
 		 *
 		 * @return string
 		 */
@@ -424,7 +429,7 @@ if ( ! class_exists( Rtcl::class ) ) {
 		}
 
 		/**
-		 * @param string $file
+		 * @param  string  $file
 		 *
 		 * @return string
 		 */
@@ -441,9 +446,9 @@ if ( ! class_exists( Rtcl::class ) ) {
 		}
 
 		/**
-		 * @param array|string $id
-		 * @param string       $group
-		 * @param string       $sub_group
+		 * @param  array|string  $id
+		 * @param  string  $group
+		 * @param  string  $sub_group
 		 *
 		 * @return string
 		 */
@@ -536,8 +541,8 @@ if ( ! class_exists( Rtcl::class ) ) {
 				$this->cart = is_callable( [ $cart_class, 'instance' ] ) ? call_user_func(
 					[
 						$cart_class,
-						'instance'
-					]
+						'instance',
+					],
 				) : new $cart_class();
 			}
 		}
@@ -552,7 +557,6 @@ if ( ! class_exists( Rtcl::class ) ) {
 		}
 
 		private function define_constants() {
-
 			if ( ! defined( 'RTCL_SLUG' ) ) {
 				define( 'RTCL_SLUG', 'classified-listing' );
 			}

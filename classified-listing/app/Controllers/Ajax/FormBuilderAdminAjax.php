@@ -6,14 +6,17 @@ use Exception;
 use Rtcl\Controllers\AIServiceFactory;
 use Rtcl\Helpers\Functions;
 use Rtcl\Models\Form\Form;
+use Rtcl\Services\FormBuilder\AvailableFields;
 use Rtcl\Services\FormBuilder\Components\FieldSanitization;
 use Rtcl\Services\FormBuilder\Components\SectionSanitization;
 use Rtcl\Services\FormBuilder\Components\SettingsFieldSanitization;
 use Rtcl\Services\FormBuilder\Components\TranslationSanitization;
+use Rtcl\Services\FormBuilder\ElementCustomization;
 use Rtcl\Services\FormBuilder\FBHelper;
 use Rtcl\Services\FormBuilder\FormPreDefined;
 use Rtcl\Traits\SingletonTrait;
 use RuntimeException;
+use stdClass;
 
 class FormBuilderAdminAjax {
 
@@ -83,22 +86,23 @@ class FormBuilderAdminAjax {
 			foreach ( $forms as $formItem ) {
 				$title = !empty( $formItem['title'] ) ? sanitize_text_field( $formItem['title'] ) : __( 'Imported Form', 'classified-listing' );
 				$formData = [
-					'title'        => $title,
-					'slug'         => FBHelper::getUniqueSlug( $title ),
-					'status'       => !empty( $formItem['status'] ) && in_array( $formItem['status'], [
+					'title'         => $title,
+					'slug'          => FBHelper::getUniqueSlug( $title ),
+					'status'        => !empty( $formItem['status'] ) && in_array( $formItem['status'], [
 						'publish',
 						'draft'
 					] ) ? $formItem['status'] : 'publish',
-					'default'      => 0,
-					'settings'     => !empty( $formItem['settings'] ) ? $formItem['settings'] : null,
-					'fields'       => !empty( $formItem['fields'] ) ? $formItem['fields'] : null,
-					'sections'     => !empty( $formItem['sections'] ) ? $formItem['sections'] : [],
-					'translations' => !empty( $formItem['translations'] ) ? $formItem['translations'] : null,
-					'created_by'   => !empty( $formItem['created_by'] ) ? absint( $formItem['created_by'] ) : get_current_user_id(),
+					'default'       => 0,
+					'settings'      => !empty( $formItem['settings'] ) ? $formItem['settings'] : null,
+					'fields'        => !empty( $formItem['fields'] ) ? $formItem['fields'] : null,
+					'sections'      => !empty( $formItem['sections'] ) ? $formItem['sections'] : [],
+					'single_layout' => !empty( $formItem['single_layout'] ) ? $formItem['single_layout'] : null,
+					'translations'  => !empty( $formItem['translations'] ) ? $formItem['translations'] : null,
+					'created_by'    => !empty( $formItem['created_by'] ) ? absint( $formItem['created_by'] ) : get_current_user_id(),
 				];
 
 				if ( empty( $formData['fields'] ) || empty( $formData['sections'] ) ) {
-					throw new Exception( __( 'You have a faulty JSON file, please export the Fluent Forms again.', 'classified-listing' ) );
+					throw new Exception( __( 'You have a faulty JSON file, please export the classified listing directory forms again.', 'classified-listing' ) );
 				}
 
 				$form = Form::query()->insert( $formData );
@@ -210,7 +214,7 @@ class FormBuilderAdminAjax {
 			$parentId = isset( $_POST['parentId'] ) ? ( $_POST['parentId'] == 0 ? 0 : absint( $_POST['parentId'] ) ) : '';
 			$excludeIds = !empty( $_POST['excludeIds'] ) && is_array( $_POST['excludeIds'] ) ? array_map( 'absint', $_POST['excludeIds'] ) : [];
 			$includeIds = !empty( $_POST['includeIds'] ) && is_array( $_POST['includeIds'] ) ? array_map( 'absint', $_POST['includeIds'] ) : [];
-			if($parentId === '' && $keyword) {
+			if ( $parentId === '' && $keyword ) {
 				if ( !empty( $excludeIds ) ) {
 					$excludeIds = Functions::get_all_term_descendants( $excludeIds, $taxonomy === 'location' ? rtcl()->location : rtcl()->category );
 				}
@@ -466,7 +470,8 @@ class FormBuilderAdminAjax {
 		} else {
 			$formData = FormPreDefined::blank();
 		};
-
+		$title = sanitize_text_field( !empty( $formData['title'] ) ? $formData['title'] : 'Empty Directory' );
+		$formData['slug'] = FBHelper::getUniqueSlug( sanitize_title( !empty($formData['slug']) ? $formData['slug'] : $title ) );
 		$form = Form::query()->insert( $formData );
 		if ( !$form ) {
 			wp_send_json_error( esc_html__( 'Error while creating new form!', 'classified-listing' ) );
@@ -552,6 +557,7 @@ class FormBuilderAdminAjax {
 		$sections = !empty( $_POST['sections'] ) ? json_decode( wp_unslash( $_POST['sections'] ), true ) : [];
 		$fields = !empty( $_POST['fields'] ) ? json_decode( wp_unslash( $_POST['fields'] ), true ) : (object)[];
 		$settings = empty( $_POST['settings'] ) ? (object)[] : json_decode( wp_unslash( $_POST['settings'] ), true );
+		$raw_single_layout = empty( $_POST['single_layout'] ) ? [] : json_decode( wp_unslash( $_POST['single_layout'] ), true );
 
 		if ( json_last_error() !== JSON_ERROR_NONE ) {
 			wp_send_json_error( sprintf( '%s %s', __( 'Invalid JSON data: ', 'classified-listing' ), json_last_error_msg() ) );
@@ -562,7 +568,144 @@ class FormBuilderAdminAjax {
 		$fields = ( new FieldSanitization( $fields ) )->get();
 		$sections = ( new SectionSanitization( $sections, $fields ) )->get();
 		$settings = ( new SettingsFieldSanitization( $settings ) )->get();
+		$single_layout = [];
+		if ( !empty( $raw_single_layout ) ) {
+			$slSettingsFields = AvailableFields::singleLayoutSettingsFields();
+			$slSettingsFields = !empty( $slSettingsFields ) ? array_column( $slSettingsFields, null, 'name' ) : [];
+			foreach ( $raw_single_layout as $slKey => $_slValue ) {
 
+				if ( $slKey === 'containers' ) {
+					if ( is_array( $_slValue ) ) {
+						$containers = [];
+						foreach ( $_slValue as $containerIndex => $_container ) {
+							if ( is_array( $_container ) ) {
+								$container = [];
+								foreach ( $_container as $_containerKey => $_containerValue ) {
+									if ( in_array( $_containerKey, [ 'title', 'uuid', 'id', 'container_class' ] ) ) {
+										$container[$_containerKey] = sanitize_text_field( wp_unslash( $_containerValue ) );
+									} else if ( $_containerKey === 'columns' && is_array( $_containerValue ) && !empty( $_containerValue ) ) {
+										$columns = [];
+										foreach ( $_containerValue as $_columnIndex => $_columnData ) {
+											if ( !empty( $_columnData ) && is_array( $_columnData ) ) {
+												$column = [];
+												foreach ( $_columnData as $_columnKey => $_columnValue ) {
+													if ( $_columnKey === 'width' ) {
+														$column['width'] = absint( $_columnValue );
+													} elseif ( $_columnKey === 'sections' && is_array( $_columnValue ) ) {
+														$slSections = ( new SectionSanitization( $_columnValue, $fields ) )->get();
+														if ( !empty( $slSections ) ) {
+															$column['sections'] = array_map( function ( $section ) {
+																if ( isset( $section['logics'] ) ) {
+																	unset( $section['logics'] );
+																}
+																if ( isset( $section['column'] ) ) {
+																	unset( $section['column'] );
+																}
+																return $section;
+															}, $slSections );
+														}
+													}
+												}
+												if ( !empty( $column ) ) {
+													$columns[] = $column;
+												}
+											}
+										}
+										if ( !empty( $columns ) ) {
+											$container['columns'] = $columns;
+										}
+									}
+								}
+								if ( !empty( $container ) ) {
+									if ( !isset( $container['columns'] ) ) {
+										$container['columns'] = [ 'width' => 100, 'sections' => [] ];
+									}
+									$containers[] = $container;
+								}
+							}
+						}
+						if ( !empty( $containers ) ) {
+							$single_layout['containers'] = $containers;
+						}
+					}
+				} else if ( $slKey === 'fields' ) {
+					if ( is_array( $_slValue ) ) {
+						$allSettingsFields = ElementCustomization::settingsFields();
+						$labelPlacementOptions = array_filter( array_column( $allSettingsFields['label_placement']['options'], 'value' ) );
+						$singleFieldElements = array_keys( AvailableFields::singleLayoutFields() );
+
+						$slFields = [];
+						foreach ( $_slValue as $fieldUuid => $fieldData ) {
+							if ( is_array( $fieldData ) ) {
+								$slField = [];
+								if ( !empty( $fieldData['element'] ) && in_array( $fieldData['element'], $singleFieldElements ) ) {
+									foreach ( $fieldData as $_optionKey => $_optionValue ) {
+										if ( $_optionKey === 'value' && $fieldData['element'] === 'space' ) {
+											$slField[$_optionKey] = absint( $_optionValue );
+										} else if ( $_optionKey === 'value' && $fieldData['element'] === 'html' ) {
+											$slField[$_optionKey] = wp_kses_post( $_optionValue );
+										} else if ( $_optionKey === 'icon' ) {
+											if ( !empty( $_optionValue['type'] ) && !empty( $_optionValue['class'] ) ) {
+												$slField[$_optionKey] = [
+													'type'  => 'class',
+													'class' => sanitize_text_field( wp_unslash( $_optionValue['class'] ) ),
+												];
+											}
+										} else if ( $_optionKey === 'items' ) {
+											if ( is_array( $_optionValue ) ) {
+												$slField[$_optionKey] = map_deep( $_optionValue, function ( $value ) {
+													return sanitize_text_field( wp_unslash( $value ) );
+												} );
+											}
+										} else {
+											$slField[$_optionKey] = sanitize_text_field( wp_unslash( $_optionValue ) );
+										}
+									}
+								} else {
+									foreach ( $fieldData as $_optionKey => $_optionValue ) {
+										if ( $_optionKey === 'label_placement' && !empty( $allSettingsFields['label_placement'] ) ) {
+											if ( in_array( $_optionValue, $labelPlacementOptions ) ) {
+												$slField[$_optionKey] = $_optionValue;
+											}
+										} else if ( $_optionKey === 'hide_video' ) {
+											$slField[$_optionKey] = (bool)$_optionValue;
+										}
+									}
+								}
+
+								if ( !empty( $slField ) ) {
+									$slFields[$fieldUuid] = $slField;
+								}
+							}
+						}
+						if ( !empty( $slFields ) ) {
+							$single_layout['fields'] = $slFields;
+						} else {
+							$single_layout['fields'] = null;
+						}
+					}
+				} else if ( $slKey === 'settings' ) {
+					if ( is_array( $_slValue ) ) {
+						$slSettings = [];
+						foreach ( $_slValue as $fieldUuid => $fieldData ) {
+							if ( !empty( $slSettingsFields[$fieldUuid] ) ) {
+								$slsField = $slSettingsFields[$fieldUuid];
+								if ( !empty( $slsField['type'] ) && $slsField['type'] === 'switch' ) {
+									$slSettings[$fieldUuid] = !empty( $fieldData ) ? 1 : 0;
+								}
+							}
+						}
+						if ( !empty( $slSettings ) ) {
+							$single_layout[$slKey] = $slSettings;
+						} else {
+							$single_layout[$slKey] = null;
+						}
+					}
+				}
+			}
+		}
+
+		$form->single_layout = !empty( $single_layout ) ? $single_layout : null;
 		$form->sections = $sections;
 		$form->fields = $fields;
 		$form->settings = $settings;

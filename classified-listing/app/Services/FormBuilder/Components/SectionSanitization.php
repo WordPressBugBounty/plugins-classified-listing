@@ -49,6 +49,9 @@ class SectionSanitization {
 		}
 		if ( ! empty( $section['columns'] ) ) {
 			foreach ( $section['columns'] as $columnIndex => $column ) {
+				if($column['width']){
+					$section['columns'][ $columnIndex ]['width'] = absint( $column['width'] );
+				}
 				if ( ! empty( $column['fields'] ) ) {
 					foreach ( $column['fields'] as $fieldIndex => $fieldId ) {
 						$_fieldId = sanitize_text_field( $fieldId );
@@ -83,7 +86,7 @@ class SectionSanitization {
 					}
 				}
 				$section[ $sectionKey ] = $value;
-			} if ( in_array( $sectionKey, [ 'title', 'id', 'container_class' ] ) ) {
+			} if ( in_array( $sectionKey, [ 'title', 'uuid', 'id', 'container_class' ] ) ) {
 				$section[ $sectionKey ] = sanitize_text_field( wp_unslash( $value ) );
 			} else {
 

@@ -39,6 +39,8 @@ class Pagination {
 			$paged = get_query_var( 'page' );
 		} else if ( isset( $_GET['listing-page'] ) ) {
 			$paged = absint( empty( $_GET['listing-page'] ) ? 1 : $_GET['listing-page'] );
+		} else if ( isset( $_REQUEST['rtcl_my_listing_page'] ) ) {
+			$paged = absint( empty( $_REQUEST['rtcl_my_listing_page'] ) ? 1 : $_REQUEST['rtcl_my_listing_page'] );
 		} else if ( isset( $_GET['store-page'] ) ) {
 			$paged = absint( empty( $_GET['store-page'] ) ? 1 : $_GET['store-page'] );
 		} else {

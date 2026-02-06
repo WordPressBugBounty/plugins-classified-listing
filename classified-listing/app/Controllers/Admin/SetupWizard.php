@@ -2,6 +2,8 @@
 
 namespace Rtcl\Controllers\Admin;
 
+use Automatic_Upgrader_Skin;
+use Plugin_Upgrader;
 use Rtcl\Helpers\Functions;
 use Rtcl\Models\Form\Form;
 use Rtcl\Services\FormBuilder\FBHelper;
@@ -21,14 +23,13 @@ class SetupWizard {
 	}
 
 	public static function add_setup_wizard_menu() {
-
 		add_submenu_page(
 			'rtcl-admin',
 			__( 'Setup Wizard', 'classified-listing' ),
 			__( 'Setup', 'classified-listing' ),
 			'manage_rtcl_options',
 			'rtcl-setup-wizard',
-			[ __CLASS__, 'display_setup_wizard' ]
+			[ __CLASS__, 'display_setup_wizard' ],
 		);
 
 		if ( 'yes' === get_option( 'rtcl_setup_wizard_completed' ) || ! self::disallow_to_run_for_theme() ) {
@@ -122,11 +123,13 @@ class SetupWizard {
 				Classified Listing - Let’s Get Your Site Ready!
 			</h3>
 			<p style="margin-top: 8px; font-size: 14px;">
-				<?php esc_html_e( 'To make sure everything works perfectly, please run the setup wizard to configure your basic settings. It only takes a minute.',
+				<?php
+				esc_html_e( 'To make sure everything works perfectly, please run the setup wizard to configure your basic settings. It only takes a minute.',
 					'classified-listing' ); ?>
 			</p>
 			<p style="margin:0;">
-				<a class="button button-primary" href="<?php echo esc_url( admin_url( 'admin.php?page=rtcl-setup-wizard' ) ); ?>"
+				<a class="button button-primary" href="<?php
+				echo esc_url( admin_url( 'admin.php?page=rtcl-setup-wizard' ) ); ?>"
 				   style="background: #3232FF;">Run Setup Wizard</a>
 				<a class="button button-primary" id="rtcl-close-setup-wizard" href="#"
 				   style="border-color: #3232FF; background: transparent; color: #3232FF;">Dismiss this notice</a>
@@ -207,6 +210,41 @@ class SetupWizard {
 			update_option( 'rtcl_data_sharing_enabled', 'yes' );
 		}
 
+		// Install Toolkits addon
+		$install_toolkit_addon = $wizard_data['preferences']['installToolkits'] ?? false;
+		$install_toolkit_addon = filter_var( $install_toolkit_addon, FILTER_VALIDATE_BOOLEAN );
+
+		if ( $install_toolkit_addon ) {
+			include_once ABSPATH . 'wp-admin/includes/plugin.php';
+			include_once ABSPATH . 'wp-admin/includes/file.php';
+			include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
+			$plugin_slug = 'classified-listing-toolkits';
+			$plugin_file = 'classified-listing-toolkits/classified-listing-toolkits.php';
+
+			$installed_plugins = get_plugins();
+			$is_installed      = isset( $installed_plugins[ $plugin_file ] );
+			$is_active         = is_plugin_active( $plugin_file );
+
+			if ( ! $is_installed ) {
+				$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
+				$result   = $upgrader->install( "https://downloads.wordpress.org/plugin/{$plugin_slug}.latest-stable.zip" );
+
+				if ( ! is_wp_error( $result ) ) {
+					$installed_plugins = get_plugins();
+					$is_installed      = isset( $installed_plugins[ $plugin_file ] );
+				}
+			}
+
+			if ( $is_installed && ! $is_active ) {
+				$activation = activate_plugin( $plugin_file );
+
+				if ( is_wp_error( $activation ) ) {
+					$error_in_activation = $activation->get_error_message();
+				}
+			}
+		}
+
 		// Update location type
 		$location_type = $wizard_data['location']['locationType'] ?? null;
 		if ( $location_type ) {
@@ -250,23 +288,23 @@ class SetupWizard {
 				[
 					'option'  => 'rtcl_payment_settings',
 					'feature' => 'payment',
-					'key'     => 'payment'
+					'key'     => 'payment',
 				],
 				[
 					'option'  => 'rtcl_payment_offline',
 					'feature' => 'offline',
-					'key'     => 'enabled'
+					'key'     => 'enabled',
 				],
 				[
 					'option'  => 'rtcl_payment_paypal',
 					'feature' => 'paypal',
-					'key'     => 'enabled'
-				]
+					'key'     => 'enabled',
+				],
 			] as $payment
 		) {
 			$options = (array) Functions::get_option( $payment['option'] );
 			if ( 'rtcl_payment_settings' === $payment['option'] ) {
-				$options['billing_address_disabled'] = "yes";
+				$options['billing_address_disabled'] = "no";
 			}
 			$enabled                    = isset( $wizard_data['features'][ $payment['feature'] ] )
 										  && filter_var( $wizard_data['features'][ $payment['feature'] ], FILTER_VALIDATE_BOOLEAN );
@@ -314,7 +352,7 @@ class SetupWizard {
 						'title'     => 'Price Range',
 						'max_price' => 50000,
 						'step'      => 1000,
-					]
+					],
 				],
 			],
 		];
@@ -329,8 +367,8 @@ class SetupWizard {
 		$widgets = [
 			[
 				'title'     => 'Filter',
-				'filter_id' => 'archive-filter'
-			]
+				'filter_id' => 'archive-filter',
+			],
 		];
 
 		// Save updated widget option
@@ -377,7 +415,7 @@ class SetupWizard {
 				$results[] = [
 					'type'    => $slug,
 					'status'  => 'error',
-					'message' => sprintf( esc_html__( '%s: Form File Not Found', 'classified-listing' ), $name )
+					'message' => sprintf( esc_html__( '%s: Form File Not Found', 'classified-listing' ), $name ),
 				];
 				continue;
 			}
@@ -389,14 +427,13 @@ class SetupWizard {
 				$results[] = [
 					'type'    => $slug,
 					'status'  => 'error',
-					'message' => sprintf( esc_html__( '%s: Invalid JSON in Form', 'classified-listing' ), $name )
+					'message' => sprintf( esc_html__( '%s: Invalid JSON in Form', 'classified-listing' ), $name ),
 				];
 				continue;
 			}
 
 			if ( $form_json && is_array( $form_json ) ) {
 				foreach ( $form_json as $formItem ) {
-
 					$title    = ! empty( $formItem['title'] ) ? sanitize_text_field( $formItem['title'] )
 						: esc_html__( 'Imported Form', 'classified-listing' );
 					$formData = [
@@ -405,7 +442,7 @@ class SetupWizard {
 						'status'       => ! empty( $formItem['status'] )
 										  && in_array( $formItem['status'], [
 							'publish',
-							'draft'
+							'draft',
 						] ) ? $formItem['status'] : 'publish',
 						'default'      => 0,
 						'settings'     => ! empty( $formItem['settings'] ) ? $formItem['settings'] : null,
@@ -419,7 +456,7 @@ class SetupWizard {
 						$results[] = [
 							'type'    => $slug,
 							'status'  => 'error',
-							'message' => sprintf( esc_html__( '%s: You have a faulty JSON file', 'classified-listing' ), $name )
+							'message' => sprintf( esc_html__( '%s: You have a faulty JSON file', 'classified-listing' ), $name ),
 						];
 						continue;
 					}
@@ -431,13 +468,13 @@ class SetupWizard {
 						$results[]         = [
 							'type'    => $slug,
 							'status'  => 'success',
-							'message' => sprintf( esc_html__( '%s: Form Imported', 'classified-listing' ), $name )
+							'message' => sprintf( esc_html__( '%s: Form Imported', 'classified-listing' ), $name ),
 						];
 					} else {
 						$results[] = [
 							'type'    => $slug,
 							'status'  => 'error',
-							'message' => sprintf( esc_html__( '%s: Error while Importing Form', 'classified-listing' ), $name )
+							'message' => sprintf( esc_html__( '%s: Error while Importing Form', 'classified-listing' ), $name ),
 						];
 					}
 				}
@@ -447,7 +484,7 @@ class SetupWizard {
 		wp_send_json_success( [
 			'message'  => esc_html__( 'Form Import Process Completed.', 'classified-listing' ),
 			'results'  => $results,
-			'form_ids' => $form_ids
+			'form_ids' => $form_ids,
 		] );
 	}
 
@@ -486,7 +523,7 @@ class SetupWizard {
 				$results[] = [
 					'type'    => $type,
 					'status'  => 'error',
-					'message' => sprintf( esc_html__( '%s: No Categories Found', 'classified-listing' ), $name )
+					'message' => sprintf( esc_html__( '%s: No Categories Found', 'classified-listing' ), $name ),
 				];
 				continue;
 			}
@@ -510,13 +547,13 @@ class SetupWizard {
 			$results[] = [
 				'type'    => $type,
 				'status'  => 'success',
-				'message' => sprintf( esc_html__( '%s: %d Categories Imported', 'classified-listing' ), $name, $inserted_count )
+				'message' => sprintf( esc_html__( '%s: %d Categories Imported', 'classified-listing' ), $name, $inserted_count ),
 			];
 		}
 
 		wp_send_json_success( [
 			'message' => esc_html__( 'Categories Import Process Completed.', 'classified-listing' ),
-			'results' => $results
+			'results' => $results,
 		] );
 	}
 
@@ -611,7 +648,7 @@ class SetupWizard {
 				$results[] = [
 					'type'    => $slug,
 					'status'  => 'error',
-					'message' => sprintf( esc_html__( '%s: Listings File Not Found', 'classified-listing' ), $name )
+					'message' => sprintf( esc_html__( '%s: Listings File Not Found', 'classified-listing' ), $name ),
 				];
 				continue;
 			}
@@ -621,7 +658,7 @@ class SetupWizard {
 				$results[] = [
 					'type'    => $slug,
 					'status'  => 'error',
-					'message' => sprintf( esc_html__( '%s: Error Opening File', 'classified-listing' ), $name )
+					'message' => sprintf( esc_html__( '%s: Error Opening File', 'classified-listing' ), $name ),
 				];
 				continue;
 			}
@@ -633,7 +670,7 @@ class SetupWizard {
 				$results[] = [
 					'type'    => $slug,
 					'status'  => 'error',
-					'message' => sprintf( esc_html__( '%s: Invalid CSV Header', 'classified-listing' ), $name )
+					'message' => sprintf( esc_html__( '%s: Invalid CSV Header', 'classified-listing' ), $name ),
 				];
 				continue;
 			}
@@ -807,7 +844,7 @@ class SetupWizard {
 						break;
 				}
 
-				$listing_data = array(
+				$listing_data = [
 					'post_type'    => rtcl()->post_type,
 					'post_title'   => sanitize_text_field( $data['title'] ?? '' ),
 					'post_content' => wp_kses_post( $data['content'] ?? '' ),
@@ -815,8 +852,8 @@ class SetupWizard {
 					'post_date'    => sanitize_text_field( $data['post_date'] ?? '' ),
 					'post_author'  => absint( $data['post_author_id'] ?? 1 ),
 					'post_status'  => sanitize_text_field( $data['status'] ?? 'publish' ),
-					'meta_input'   => $meta_data
-				);
+					'meta_input'   => $meta_data,
+				];
 
 				if ( empty( $listing_data['post_title'] ) ) {
 					continue;
@@ -864,7 +901,6 @@ class SetupWizard {
 						if ( $term_id ) {
 							wp_set_object_terms( $post_id, $term_id, rtcl()->location );
 						}
-
 					}
 					if ( ! empty( $data['tags'] ) ) {
 						$name = trim( $data['tags'] );
@@ -891,15 +927,14 @@ class SetupWizard {
 				'message' => sprintf(
 					esc_html__( '%s: %d Listings Imported', 'classified-listing' ),
 					$name,
-					$imported
-				)
+					$imported,
+				),
 			];
-
 		}
 
 		wp_send_json_success( [
 			'message' => esc_html__( 'Listings Import Process Completed.', 'classified-listing' ),
-			'results' => $results
+			'results' => $results,
 		] );
 	}
 

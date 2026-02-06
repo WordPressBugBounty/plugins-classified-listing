@@ -14,6 +14,7 @@ use Rtcl\Services\FormBuilder\FBField;
  * @property string|null $title
  * @property string|null $status
  * @property string|null $appearance_settings
+ * @property array|null $single_layout
  * @property array|null $sections
  * @property array|null $settings
  * @property object|null $fields
@@ -31,12 +32,13 @@ class Form extends Model {
 	protected $table = 'rtcl_forms';
 
 	protected $casts = [
-		'id'           => 'absint',
-		'default'      => 'boolean',
-		'settings'     => 'array',
-		'sections'     => 'array',
-		'fields'       => 'array',
-		'translations' => 'array'
+		'id'            => 'absint',
+		'default'       => 'boolean',
+		'settings'      => 'array',
+		'single_layout' => 'array',
+		'sections'      => 'array',
+		'fields'        => 'array',
+		'translations'  => 'array'
 	];
 
 	/**
@@ -107,6 +109,17 @@ class Form extends Model {
 
 	public function getFields() {
 		return $this->fields;
+	}
+
+	public function getSingleLayout() {
+		return  $this->single_layout;
+	}
+
+	/**
+	 * @return array|mixed
+	 */
+	public function getSingleLayoutFields() {
+		return  !empty( $this->single_layout['fields'] ) ? $this->single_layout['fields'] : [];
 	}
 
 	public function getSections() {
@@ -231,12 +244,12 @@ class Form extends Model {
 
 			$formSettingFields = AvailableFields::settings();
 			if ( !empty( $formSettingFields ) && is_array( $formSettingFields ) ) {
-				$buttonKeys = ['submit_btn_text', 'update_btn_text'];
+				$buttonKeys = [ 'submit_btn_text', 'update_btn_text' ];
 				$settings = $this->settings;
 				foreach ( $formSettingFields as $key => $formSettingField ) {
 					if ( !empty( $translations['settings'][$key] ) ) {
 						$settings[$key] = $translations['settings'][$key];
-					}else if(in_array($key, $buttonKeys)){
+					} else if ( in_array( $key, $buttonKeys ) ) {
 						$settings[$key] = '';
 					}
 				}
@@ -262,7 +275,7 @@ class Form extends Model {
 					if ( !empty( $formFields[$uuid] ) ) {
 						$formFields[$uuid] = $this->getTranslatedField( $trValues, $formFields[$uuid] );
 					}
-					if(!empty($formFields[$uuid]['logics'])) {
+					if ( !empty( $formFields[$uuid]['logics'] ) ) {
 						$formFields[$uuid]['logics'] = $this->getTranslatedConditionFieldValueForTaxonomy( $formFields[$uuid]['logics'], $formFields );
 					}
 				}

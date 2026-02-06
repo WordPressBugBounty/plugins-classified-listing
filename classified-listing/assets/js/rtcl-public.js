@@ -186,9 +186,15 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
     if (_this.$(_this.filterContainerClass).hasClass('no-scroll-mode')) {
       return false;
     }
+    var scrollTarget = _this.$('body .rtclScrollTarget');
     var dataScrollOffset = parseInt(rtclAjaxFilterObj.filter_scroll_offset, 10);
     var scrollOffset = isNaN(dataScrollOffset) ? 50 : dataScrollOffset;
-    var targetPosition = _this.$(_this.filterContainerClass).parent().offset().top - scrollOffset;
+    var targetPosition;
+    if (scrollTarget.length) {
+      targetPosition = scrollTarget.offset().top - scrollOffset;
+    } else {
+      targetPosition = _this.$(_this.filterContainerClass).parent().offset().top - scrollOffset;
+    }
     _this.smoothScrollTo(targetPosition, 1200);
   });
   _defineProperty(this, "handleEvents", function () {
@@ -218,7 +224,10 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
         $content.find('input.rtcl-filter-number-field, input.rtcl-filter-date-field, input.rtcl-filter-text-field').val('');
         _this.$(document).trigger('rtcl_ajax_filter_update_params');
       }
-    }).on('click', '.rtcl-more-less-btn', function (e) {
+    }).on('click keydown', '.rtcl-more-less-btn', function (e) {
+      if (e.type === 'keydown' && e.key !== 'Enter') {
+        return;
+      }
       var $self = _this.$(e.currentTarget);
       var $wrap = $self.closest('.rtcl-ajax-filter-data');
       if ($self.hasClass('active')) {
@@ -228,7 +237,20 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
         $wrap.find('.rtcl-ajax-filter-data-item.hideAble').addClass('active');
         $self.addClass('active');
       }
-    }).on('change', 'input.rtcl-filter-checkbox, select.rtcl-filter-select-item', _this.handleFilter).on('click', '.rtcl-filter-ratings-item', _this.handleFilter).on('click', '.rtcl-ajax-filter-data.filter-list .is-parent.has-sub .rtcl-load-sub-list', _this.loadSubListData);
+    }).on('keydown', '.rtcl-ajax-filter-data .rtcl-filter-checkbox-label', function (e) {
+      if (e.key === 'Enter') {
+        var inputId = this.getAttribute('for');
+        var $input = jQuery('#' + inputId);
+        if ($input.length) {
+          $input.trigger('click').trigger('change');
+        }
+      }
+    }).on('change', 'input.rtcl-filter-checkbox, select.rtcl-filter-select-item', _this.handleFilter).on('click', '.rtcl-filter-ratings-item', _this.handleFilter).on('click keydown', '.rtcl-ajax-filter-data.filter-list .is-parent.has-sub .rtcl-load-sub-list', function (e) {
+      if (e.type === 'keydown' && e.key !== 'Enter') {
+        return;
+      }
+      _this.loadSubListData(e);
+    });
     _this.$('.rtcl-listings-actions .rtcl-view-switcher a.rtcl-view-trigger', document).on('click', function (event) {
       event.preventDefault();
       var $self = _this.$(event.currentTarget);
@@ -251,6 +273,11 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
       }
       _this.$(document).trigger('rtcl_ajax_filter_update_params');
     });
+    _this.$(document).on('keydown', '.rtcl-ajax-pagination-container .rtcl-ajax-pagination-item.page-item:not(.active)', function (e) {
+      if (e.key === 'Enter') {
+        jQuery(this).trigger('click');
+      }
+    });
     _this.$(document).on('keyup', '.rtcl-ajax-filter-item .rtcl-ajax-filter-text input[type=text]', _this.handleFilter).on('keyup', '.rtcl-ajax-filter-item .rtcl-filter-number-field-wrap input[type=number]', _this.handleFilter).on('click', '.rtcl-ajax-filter-text .rtcl-clear-text', function (e) {
       var $self = _this.$(e.currentTarget),
         $wrap = $self.closest('.rtcl-ajax-filter-item'),
@@ -264,7 +291,17 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
         delete _this.data.params[filterName];
         _this.$(document).trigger('rtcl_ajax_filter_update_params');
       }
-    }).on('click', '.rtcl-ajax-pagination-container .rtcl-ajax-pagination-item.page-item:not(.active)', _this.handlePagination).on('click', '.rtcl-active-filters-container .rtcl-clear-filters', _this.resetFilter).on('click', '.rtcl-active-filters-container .af-items .afi', _this.removeFilterItem).on('click', _this.filterTitleWrapClass, function (e) {
+    }).on('click', '.rtcl-ajax-pagination-container .rtcl-ajax-pagination-item.page-item:not(.active)', _this.handlePagination).on('click keydown', '.rtcl-active-filters-container .rtcl-clear-filters', function (e) {
+      if (e.type === 'keydown' && e.key !== 'Enter') {
+        return;
+      }
+      _this.resetFilter(e);
+    }).on('click keydown', '.rtcl-active-filters-container .af-items .afi', function (e) {
+      if (e.type === 'keydown' && e.key !== 'Enter') {
+        return;
+      }
+      _this.removeFilterItem(e);
+    }).on('click', _this.filterTitleWrapClass, function (e) {
       var $self = _this.$(e.currentTarget),
         $wrap = $self.closest('.rtcl-ajax-filter-item'),
         $content = $wrap.find('.rtcl-filter-content');
@@ -469,6 +506,8 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
           if (options && ['checkbox', 'radio', 'select'].includes(options.field_type)) {
             if (event.currentTarget.checked) {
               _this.addParam(option_name, inputValue, event.currentTarget.type === 'checkbox');
+            } else if ('select' === options.field_type && inputValue) {
+              _this.addParam(option_name, inputValue);
             } else {
               _this.removeParam(option_name, inputValue, event.currentTarget.type === 'checkbox');
             }
@@ -926,12 +965,12 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
       filters.map(function (_filter) {
         var $filter = _this.$('<div class="rtcl-active-filter"><div class="af-name">' + _filter.label + '</div><div class="af-items"></div></div>');
         Object.keys(_filter.selected).map(function (_id) {
-          var $item = _this.$('<div class="afi" data-item-id="' + _filter.itemId + '" data-filter-name="' + _filter.id + '"  data-filter-value="' + _id + '">' + _filter.selected[_id] + '<span class="rtcl-remove-filter"><i class="remove-icon"></i></span></div>');
+          var $item = _this.$('<div class="afi" tabindex="0" data-item-id="' + _filter.itemId + '" data-filter-name="' + _filter.id + '"  data-filter-value="' + _id + '">' + _filter.selected[_id] + '<span class="rtcl-remove-filter"><i class="remove-icon"></i></span></div>');
           $filter.find('.af-items').append($item);
         });
         $filters.append($filter);
       });
-      var $restBtn = _this.$('<div class="rtcl-clear-filters"><span class="icon-wrap"><i class="rtcl-icon rtcl-icon-trash"></i></span><span>' + rtclAjaxFilterObj.clear_all_filter + '</span></div>');
+      var $restBtn = _this.$('<div class="rtcl-clear-filters" tabindex="0"><span class="icon-wrap"><i class="rtcl-icon rtcl-icon-trash"></i></span><span>' + rtclAjaxFilterObj.clear_all_filter + '</span></div>');
       $filterWrap.append($filters, $restBtn);
       $filterContainer.append($filterWrap);
     }
@@ -1007,7 +1046,9 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
         } else {
           $pageItem = _this.$('<li class="rtcl-ajax-pagination-item page-item" data-id="' + i + '"><span>' + i + '</span></li>');
           if (i === data.current_page) {
-            $pageItem.addClass('active');
+            $pageItem.addClass('active').attr('aria-current', 'page');
+          } else {
+            $pageItem.attr('tabindex', '0');
           }
         }
         $pagination.append($pageItem);
@@ -1180,6 +1221,49 @@ __webpack_require__.r(__webpack_exports__);
 (function ($) {
   "use strict";
 
+  // user settings form
+  $(document).on('submit', '#rtcl-user-profile-settings', function (e) {
+    e.preventDefault();
+    var $form = $(this),
+      targetBtn = $form.find("button[type=submit]"),
+      responseHolder = $form.find(".rtcl-response"),
+      msgHolder = $("<div class='alert'></div>"),
+      fromData = new FormData(this);
+    fromData.append("action", "rtcl_update_profile_settings");
+    fromData.append("__rtcl_wpnonce", rtcl.__rtcl_wpnonce);
+    $.ajax({
+      url: rtcl.ajaxurl,
+      data: fromData,
+      dataType: "json",
+      cache: false,
+      processData: false,
+      contentType: false,
+      type: "POST",
+      beforeSend: function beforeSend() {
+        $form.addClass("rtcl-loading");
+        targetBtn.prop("disabled", true);
+        responseHolder.html("");
+        $('<span class="rtcl-icon-spinner animate-spin"></span>').insertAfter(targetBtn);
+      },
+      success: function success(response) {
+        targetBtn.prop("disabled", false).next(".rtcl-icon-spinner").remove();
+        $form.removeClass("rtcl-loading");
+        if (response.success) {
+          msgHolder.removeClass("alert-danger").addClass("alert-success").html(response.data.message).appendTo(responseHolder);
+          setTimeout(function () {
+            responseHolder.html("");
+          }, 1000);
+        } else {
+          msgHolder.removeClass("alert-success").addClass("alert-danger").html(response.data.error).appendTo(responseHolder);
+        }
+      },
+      error: function error(e) {
+        msgHolder.removeClass("alert-success").addClass("alert-danger").html(e.responseText).appendTo(responseHolder);
+        targetBtn.prop("disabled", false).next(".rtcl-icon-spinner").remove();
+        $form.removeClass("rtcl-loading");
+      }
+    });
+  });
   // Single listing Comment form
   $("body")
   // Star ratings for comments
@@ -1358,6 +1442,58 @@ __webpack_require__.r(__webpack_exports__);
     }
     return false;
   });
+  $(document).on("click", function (e) {
+    var $container = $(".rtcl-ai-search-result-container");
+    if (!$container.is(e.target) && $container.has(e.target).length === 0 && !$(e.target).closest(".rtcl-ai-quick-search").length) {
+      $container.slideUp(300);
+    }
+  });
+  $(document).on('click', '.rtcl-tab-nav li a', function (e) {
+    e.preventDefault();
+    var tabId = $(this).data('target'),
+      $li = $(this).closest('li');
+    $li.addClass('active').siblings().removeClass('active');
+    $('#' + tabId).addClass('active').siblings('.rtcl-tab-pane').removeClass('active');
+  });
+  $(document).on("click", ".rtcl-ai-quick-search-inner", function () {
+    var $this = $(this),
+      $wrapper = $this.closest('.rtcl-ai-search-field'),
+      $resultWrap = $wrapper.next('.rtcl-ai-search-result-container'),
+      keyword = $wrapper.find("input[name='q']").val();
+    var data = {
+      action: 'rtcl_ai_quick_search',
+      __rtcl_wpnonce: rtcl.__rtcl_wpnonce,
+      keyword: keyword
+    };
+    $.ajax({
+      url: rtcl.ajaxurl,
+      data: data,
+      type: "POST",
+      dataType: "JSON",
+      beforeSend: function beforeSend() {
+        $resultWrap.addClass('loading');
+        $resultWrap.find('.rtcl-ai-search-result-header h4').text(rtcl.i18n.ai_quick_search_loading);
+        $resultWrap.find('.rtcl-ai-search-result-content').html("");
+        $resultWrap.slideDown(250);
+        $this.css("cursor", "wait");
+      },
+      success: function success(res) {
+        $this.css("cursor", "pointer");
+        if (res.success) {
+          $resultWrap.find('.rtcl-ai-search-result-header h4').text(rtcl.i18n.ai_quick_search_heading + keyword);
+          $resultWrap.find('.rtcl-ai-search-result-content').html(res.data.html);
+        } else {
+          $resultWrap.find('.rtcl-ai-search-result-header h4').text(res.data.message);
+        }
+        $resultWrap.removeClass('loading');
+      },
+      error: function error(e) {
+        $this.css("cursor", "pointer");
+        $resultWrap.removeClass('loading');
+        $resultWrap.find('.rtcl-ai-search-result-header h4').text(e.errorText);
+      }
+    });
+  });
   $(document).on('click', '.rtcl-payment-table-wrap .rtcl-payment-popup-link', function (e) {
     e.preventDefault();
     var $this = $(this),
@@ -1458,6 +1594,17 @@ __webpack_require__.r(__webpack_exports__);
     $filterWrapper.css('left', '-265px');
     $(this).remove();
     $wrapper.removeClass('sidebar-filter-open');
+  }).on("submit", ".rtcl-my-listings-search-form form", function (e) {
+    e.preventDefault();
+    my_account_listings_ajax();
+  }).on("change", "#rtcl-my-listings-directory", function () {
+    my_account_listings_ajax();
+  }).on("change", "#rtcl-my-listings-status", function () {
+    my_account_listings_ajax();
+  }).on("click", ".rtcl-my-listings-content .rtcl-pagination a", function (e) {
+    e.preventDefault();
+    var page = $(this).html() || 1;
+    my_account_listings_ajax(page);
   }).on('click', '.rtcl-my-listing-table .rtcl-actions-wrap .actions-dot', function (e) {
     $('.rtcl-my-listing-table').find('.rtcl-actions').removeClass('opened').addClass('closed');
     $(this).closest('.rtcl-actions-wrap').find('.rtcl-actions').removeClass('closed').addClass('opened');
@@ -1620,6 +1767,37 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   }
+  function my_account_listings_ajax() {
+    var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+    var $wrapper = $(".rtcl-my-listings-content"),
+      $form = $(".rtcl-my-listings-search-form form"),
+      q = $form.find('input[name="u"]').val(),
+      directory = $("#rtcl-my-listings-directory").val(),
+      status = $("#rtcl-my-listings-status").val();
+    $.ajax({
+      url: rtcl.ajaxurl,
+      type: "POST",
+      data: {
+        action: "rtcl_my_listings_search",
+        search: q,
+        directory: directory,
+        status: status,
+        rtcl_my_listing_page: page,
+        __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+      },
+      beforeSend: function beforeSend() {
+        $wrapper.rtclBlock();
+      },
+      success: function success(response) {
+        if (response.success) {
+          $wrapper.html(response.data.html);
+        }
+      },
+      complete: function complete() {
+        $wrapper.rtclUnblock();
+      }
+    });
+  }
   function equalHeight() {
     $(".rtcl-equal-height").each(function () {
       var $equalItemWrap = $(this),
@@ -1710,6 +1888,9 @@ __webpack_require__.r(__webpack_exports__);
                 }, "slow", function () {
                   $(this).remove();
                 });
+                toastr.success(res.message);
+              } else {
+                toastr.error(res.message);
               }
               $(document).trigger("rtcl.favorite", res);
             },
@@ -1728,10 +1909,12 @@ __webpack_require__.r(__webpack_exports__);
     });
     $("#rtcl-checkout-form").on("click", 'input[name="pricing_id"]', function (e) {
       if ($(this).data('price') + 0 === 0) {
-        $("#rtcl-checkout-fields-wrap").slideUp(250);
+        $("#rtcl-billing-fields").slideUp(250);
+        $("#rtcl-payment-methods").slideUp(250);
         $("#rtcl-checkout-store-gateway").slideDown(250);
       } else {
-        $("#rtcl-checkout-fields-wrap").slideDown(250);
+        $("#rtcl-billing-fields").slideDown(250);
+        $("#rtcl-payment-methods").slideDown(250);
         $("#rtcl-checkout-store-gateway").slideUp(250);
       }
     }).on("change", 'input[name="payment_method"]', function (e) {
@@ -1856,6 +2039,7 @@ __webpack_require__.r(__webpack_exports__);
       e.preventDefault();
       var _target = this,
         _self = $(_target),
+        _parentEl = _self.parent(),
         data = {
           action: "rtcl_public_add_remove_favorites",
           post_id: parseInt(_self.attr("data-id"), 10),
@@ -1868,14 +2052,19 @@ __webpack_require__.r(__webpack_exports__);
           type: "POST",
           beforeSend: function beforeSend() {
             $("<span class='rtcl-icon-spinner animate-spin'></span>").insertAfter(_self);
+            _parentEl.addClass('is-loading');
           },
           success: function success(res) {
             res.target = _target;
             _self.next(".rtcl-icon-spinner").remove();
             if (res.success) {
               _self.replaceWith(res.html);
+              toastr.success(res.message);
+            } else {
+              toastr.error(res.message);
             }
             $(document).trigger("rtcl.favorite", res);
+            _parentEl.removeClass('is-loading');
           },
           error: function error(e) {
             $(document).trigger("rtcl.favorite.error", {
@@ -1884,6 +2073,7 @@ __webpack_require__.r(__webpack_exports__);
               target: _target
             });
             _self.next(".rtcl-icon-spinner").remove();
+            _parentEl.removeClass('is-loading');
           }
         });
       }
@@ -2081,10 +2271,15 @@ __webpack_require__.r(__webpack_exports__);
         search: function search(event, ui) {
           if (!$(event.target).parent().find(".rtcl-icon-spinner").length) {
             $("<span class='rtcl-icon-spinner animate-spin'></span>").insertAfter(event.target);
+            var aiResult = $(event.target).closest('.rtcl-ai-search-field');
+            if (aiResult.length) {
+              $("<div class='rtcl-ai-searching-data loading'><h4>" + rtcl.i18n.ai_quick_search_loading + "</h4></div>").insertAfter(event.target);
+            }
           }
         },
         response: function response(event, ui) {
           $(event.target).parent().find(".rtcl-icon-spinner").remove();
+          $(event.target).parent().find(".rtcl-ai-searching-data").remove();
         },
         source: function source(req, response) {
           req.location_slug = rtcl.rtcl_location || "";
@@ -2464,7 +2659,10 @@ __webpack_require__.r(__webpack_exports__);
     });
 
     // Reveal phone
-    $(document).on("click", ".reveal-phone", function (e) {
+    $(document).on("click keydown", ".reveal-phone", function (e) {
+      if (e.type === "keydown" && e.keyCode !== 13) {
+        return;
+      }
       var $this = $(this),
         isMobile = $this.hasClass("rtcl-mobile");
       if (!$this.hasClass("revealed")) {
@@ -3160,7 +3358,7 @@ __webpack_require__.r(__webpack_exports__);
             $.each(taxData, function (index, singleTax) {
               $content += '<span class="price-amount">';
               $content += '<span class="checkout-price-currency-symbol">' + rtcl.payment_currency_symbol + '</span>';
-              $content += '<span class="checkout-price">' + singleTax.amount + '</span>';
+              $content += '<span class="checkout-price"> ' + singleTax.amount + '</span>';
               $content += '<span class="checkout-tax-label">(' + singleTax.label + ')</span>';
               $content += '</span>';
               if (!response.enable_multiple_tax) {
@@ -3176,6 +3374,43 @@ __webpack_require__.r(__webpack_exports__);
       }
     });
   }
+  jQuery(document).ready(function ($) {
+    var $repeater = $('.rtcl-is-collapsable');
+    if (!$repeater.length) return;
+    $repeater.each(function () {
+      $(this).find('.rtcl-cfp-repeater-item').each(function (index) {
+        console.log($(this));
+        var $item = $(this);
+        var $fields = $item.find('> .rtcl-cfp-repeater-field'); // direct children only
+        if (!$fields.length) return;
+        var $title = $fields.first(); // first div = heading
+        var $contents = $fields.slice(1); // rest = collapsible
+
+        // Wrap all content fields in one container
+        var $contentWrapper = $('<div class="rtcl-repeater-content"></div>');
+        $contents.appendTo($contentWrapper);
+        $item.append($contentWrapper);
+
+        // Make title clickable
+        $title.css('cursor', 'pointer');
+        $title.addClass('item-heading item-' + index);
+
+        // Show first item by default
+        if (index === 0) {
+          $contentWrapper.show();
+          $item.addClass('open');
+        } else {
+          $contentWrapper.hide();
+        }
+
+        // Toggle on click
+        $title.on('click', function () {
+          $contentWrapper.slideToggle(200);
+          $item.toggleClass('open');
+        });
+      });
+    });
+  });
 
   //End Compare icon update
 })(jQuery);

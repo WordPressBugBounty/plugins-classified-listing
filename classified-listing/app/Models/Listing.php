@@ -95,7 +95,7 @@ class Listing extends Data {
 	 * This class should NOT be instantiated, but the get_listing() function
 	 * should be used. It is possible, but the get_listing() is preferred.
 	 *
-	 * @param int|Listing|object $listing Listing to init.
+	 * @param  int|Listing|object  $listing  Listing to init.
 	 *
 	 * @throws \Exception
 	 */
@@ -141,7 +141,7 @@ class Listing extends Data {
 	/**
 	 * By default wp_get_object_terms get all the terms as order by name , need to order them by ancestor order
 	 *
-	 * @param string $target_term
+	 * @param  string  $target_term
 	 */
 	private function setTermsOrder( $target_term = 'category' ) {
 		$target   = 'locations';
@@ -196,7 +196,7 @@ class Listing extends Data {
 	/**
 	 * Set rating counts. Read only.
 	 *
-	 * @param array $counts Product rating counts.
+	 * @param  array  $counts  Product rating counts.
 	 */
 	public function set_rating_counts( $counts ) {
 		$this->set_prop( 'rating_counts', array_filter( array_map( 'absint', (array) $counts ) ) );
@@ -206,7 +206,7 @@ class Listing extends Data {
 	/**
 	 * Set average rating. Read only.
 	 *
-	 * @param float $average Product average rating.
+	 * @param  float  $average  Product average rating.
 	 */
 	public function set_average_rating( $average ) {
 		$this->set_prop( 'average_rating', Functions::format_decimal( $average ) );
@@ -216,7 +216,7 @@ class Listing extends Data {
 	/**
 	 * Set review count. Read only.
 	 *
-	 * @param int $count Listing review count.
+	 * @param  int  $count  Listing review count.
 	 */
 	public function set_review_count( $count ) {
 		$this->set_prop( 'review_count', absint( $count ) );
@@ -226,7 +226,7 @@ class Listing extends Data {
 	/**
 	 * Get product name.
 	 *
-	 * @param string $context What the value is for. Valid values are view and edit.
+	 * @param  string  $context  What the value is for. Valid values are view and edit.
 	 *
 	 * @return string
 	 * @since 3.0.0
@@ -238,7 +238,7 @@ class Listing extends Data {
 	/**
 	 * Get product slug.
 	 *
-	 * @param string $context What the value is for. Valid values are view and edit.
+	 * @param  string  $context  What the value is for. Valid values are view and edit.
 	 *
 	 * @return string
 	 * @since 3.0.0
@@ -264,7 +264,7 @@ class Listing extends Data {
 	/**
 	 * Get product description.
 	 *
-	 * @param string $context What the value is for. Valid values are view and edit.
+	 * @param  string  $context  What the value is for. Valid values are view and edit.
 	 *
 	 * @return string
 	 * @since 1.0.0
@@ -276,7 +276,7 @@ class Listing extends Data {
 	/**
 	 * Get product short description.
 	 *
-	 * @param string $context What the value is for. Valid values are view and edit.
+	 * @param  string  $context  What the value is for. Valid values are view and edit.
 	 *
 	 * @return string
 	 * @since 1.0.0
@@ -288,7 +288,7 @@ class Listing extends Data {
 	/**
 	 * Return if reviews is allowed.
 	 *
-	 * @param string $context What the value is for. Valid values are view and edit.
+	 * @param  string  $context  What the value is for. Valid values are view and edit.
 	 *
 	 * @return bool
 	 * @since 1.0.0
@@ -300,7 +300,7 @@ class Listing extends Data {
 	/**
 	 * Get menu order.
 	 *
-	 * @param string $context What the value is for. Valid values are view and edit.
+	 * @param  string  $context  What the value is for. Valid values are view and edit.
 	 *
 	 * @return int
 	 * @since 3.0.0
@@ -629,7 +629,7 @@ class Listing extends Data {
 		     && in_array( $this->status, [
 				'publish',
 				'draft',
-				'rtcl-reviewed'
+				'rtcl-reviewed',
 			] )
 		) {
 			return true;
@@ -817,7 +817,7 @@ class Listing extends Data {
 	}
 
 	/**
-	 * @param bool $echo
+	 * @param  bool  $echo
 	 *
 	 * @return string|void
 	 * @deprecated
@@ -835,7 +835,7 @@ class Listing extends Data {
 	}
 
 	/**
-	 * @param string $size
+	 * @param  string  $size
 	 *
 	 * @return null|string
 	 */
@@ -854,7 +854,7 @@ class Listing extends Data {
 		if ( $thumb_id ) {
 			$image = wp_get_attachment_image( $thumb_id, $size, false, [
 				"class" => "rtcl-thumbnail",
-				"alt"   => esc_attr( get_the_title( $thumb_id ) )
+				"alt"   => esc_attr( get_the_title( $thumb_id ) ),
 			] );
 		} else {
 			$fallBackSizes = apply_filters( 'rtcl_default_placeholder_thumbnail_size',
@@ -864,7 +864,7 @@ class Listing extends Data {
 				esc_url( Functions::get_default_placeholder_url() ),
 				esc_attr( $this->get_the_title() ),
 				! empty( $fallBackSizes['width'] ) ? absint( $fallBackSizes['width'] ) : 150,
-				! empty( $fallBackSizes['height'] ) ? absint( $fallBackSizes['height'] ) : 150
+				! empty( $fallBackSizes['height'] ) ? absint( $fallBackSizes['height'] ) : 150,
 			);
 		}
 
@@ -892,7 +892,7 @@ class Listing extends Data {
 	}
 
 	/**
-	 * @param string $size
+	 * @param  string  $size
 	 *
 	 * @return null|string
 	 */
@@ -910,7 +910,7 @@ class Listing extends Data {
 	}
 
 	/**
-	 * @param string $size
+	 * @param  string  $size
 	 */
 	function the_thumbnail( $size = 'rtcl-thumbnail' ) {
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -918,7 +918,7 @@ class Listing extends Data {
 	}
 
 	/**
-	 * @param bool $gmt
+	 * @param  bool  $gmt
 	 *
 	 * @return string
 	 */
@@ -929,7 +929,7 @@ class Listing extends Data {
 	}
 
 	/**
-	 * @param bool $gmt
+	 * @param  bool  $gmt
 	 *
 	 */
 	function the_time( $gmt = false ) {
@@ -949,10 +949,11 @@ class Listing extends Data {
 			$author[] = $authorData->first_name;
 			$author[] = $authorData->last_name;
 			$author   = array_filter( $author );
-			if ( ! empty( $author ) ) {
+
+			$author_name = $authorData->display_name;
+
+			if ( empty( $author_name ) ) {
 				$author_name = implode( ' ', $author );
-			} else {
-				$author_name = $authorData->display_name;
 			}
 		}
 
@@ -992,8 +993,8 @@ class Listing extends Data {
 				[
 					'class' => 'author-avatar',
 					'title' => $this->get_author_name(),
-				]
-			) : get_avatar( $this->get_author_id(), 40, '', __( 'Author', 'classified-listing' ), $avatar_attr )
+				],
+			) : get_avatar( $this->get_author_id(), 40, '', __( 'Author', 'classified-listing' ), $avatar_attr ),
 		);
 
 		return apply_filters( 'rtcl_listing_get_author_logo', $author_logo );
@@ -1029,8 +1030,8 @@ class Listing extends Data {
 	}
 
 	/**
-	 * @param bool $echo
-	 * @param bool $link
+	 * @param  bool  $echo
+	 * @param  bool  $link
 	 * @param      $address
 	 *
 	 * @return string | void
@@ -1049,7 +1050,7 @@ class Listing extends Data {
 						$loc[] = sprintf(
 							'<a href="%s">%s</a>',
 							get_term_link( $location ),
-							$location->name
+							$location->name,
 						);
 					} else {
 						$loc[] = $location->name;
@@ -1087,8 +1088,8 @@ class Listing extends Data {
 	}
 
 	/**
-	 * @param bool $echo
-	 * @param bool $link
+	 * @param  bool  $echo
+	 * @param  bool  $link
 	 *
 	 * @return string
 	 */
@@ -1102,7 +1103,7 @@ class Listing extends Data {
 					$loc[] = sprintf(
 						'<a href="%s">%s</a>',
 						get_term_link( $category ),
-						$category->name
+						$category->name,
 					);
 				} else {
 					$loc[] = $category->name;
@@ -1312,7 +1313,7 @@ class Listing extends Data {
 	/**
 	 * Get the total amount (COUNT) of ratings, or just the count for one rating e.g. number of 5 star ratings.
 	 *
-	 * @param int $value  Optional. Rating value to get the count for. By default returns the count of all rating
+	 * @param  int  $value  Optional. Rating value to get the count for. By default returns the count of all rating
 	 *                    values.
 	 *
 	 * @return int
@@ -1333,7 +1334,7 @@ class Listing extends Data {
 	/**
 	 * Get rating count.
 	 *
-	 * @param string $context What the value is for. Valid values are view and edit.
+	 * @param  string  $context  What the value is for. Valid values are view and edit.
 	 *
 	 * @return array of counts
 	 */
@@ -1344,7 +1345,7 @@ class Listing extends Data {
 	/**
 	 * Get average rating.
 	 *
-	 * @param string $context What the value is for. Valid values are view and edit.
+	 * @param  string  $context  What the value is for. Valid values are view and edit.
 	 *
 	 * @return float
 	 */
@@ -1355,7 +1356,7 @@ class Listing extends Data {
 	/**
 	 * Get review count.
 	 *
-	 * @param string $context What the value is for. Valid values are view and edit.
+	 * @param  string  $context  What the value is for. Valid values are view and edit.
 	 *
 	 * @return int
 	 */
@@ -1397,7 +1398,6 @@ class Listing extends Data {
 	 * @return string
 	 */
 	public function get_price_html() {
-
 		$min_price = $this->get_price();
 		$max_price = $this->get_max_price();
 		if ( '' !== $min_price ) {
@@ -1421,7 +1421,10 @@ class Listing extends Data {
 		$price_meta_html   = '';
 		$price_meta_html   = apply_filters( 'rtcl_price_meta_html', $price_meta_html, $price, $this );
 		$price_meta_html   = $price_meta_html ? apply_filters( 'rtcl_price_meta_wrap_html',
-			sprintf( '<span class="rtcl-price-meta">%s</span>', $price_meta_html ), $price_meta_html, $price, $this ) : null;
+			sprintf( '<span class="rtcl-price-meta">%s</span>', $price_meta_html ),
+			$price_meta_html,
+			$price,
+			$this ) : null;
 		$price_html_format = apply_filters( 'rtcl_get_price_html_format', '<div class="rtcl-price price-type-%1$s">%2$s%3$s</div>' );
 		$price_html        = sprintf( $price_html_format, $this->get_price_type(), $price, $price_meta_html );
 
@@ -1432,7 +1435,7 @@ class Listing extends Data {
 	/**
 	 * Get the suffix to display after prices > 0.
 	 *
-	 * @param string $price to calculate, left blank to just use get_price().
+	 * @param  string  $price  to calculate, left blank to just use get_price().
 	 *
 	 * @return string
 	 */
@@ -1447,16 +1450,17 @@ class Listing extends Data {
 			$replacements = [
 				'{price_including_tax}' => wc_price( wc_get_price_including_tax( $this, [
 					'qty'   => $qty,
-					'price' => $price
+					'price' => $price,
 				] ) ),
 				// @phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine, WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
 				'{price_excluding_tax}' => wc_price( wc_get_price_excluding_tax( $this, [
 					'qty'   => $qty,
-					'price' => $price
+					'price' => $price,
 				] ) ),
 				// @phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound
 			];
-			$html         = str_replace( array_keys( $replacements ), array_values( $replacements ),
+			$html         = str_replace( array_keys( $replacements ),
+				array_values( $replacements ),
 				' <small class="woocommerce-price-suffix">' . wp_kses_post( $suffix ) . '</small>' );
 		}
 
@@ -1500,7 +1504,7 @@ class Listing extends Data {
 		Functions::get_template( "listing/gallery", [
 			'images'  => $this->get_images(),
 			'videos'  => $video_urls,
-			'listing' => $this
+			'listing' => $this,
 		] );
 	}
 
@@ -1525,7 +1529,7 @@ class Listing extends Data {
 				'orderby'             => 'post__in',
 				'ignore_sticky_posts' => true,
 				'no_found_rows'       => true,
-				'suppress_filters'    => false
+				'suppress_filters'    => false,
 			];
 
 			$result = new WP_Query( $args );
@@ -1533,7 +1537,7 @@ class Listing extends Data {
 		}
 		Functions::get_template( "listing/custom-fields", [
 			'fields'     => $fields,
-			'listing_id' => $this->id
+			'listing_id' => $this->id,
 		] );
 	}
 
@@ -1543,7 +1547,6 @@ class Listing extends Data {
 	 * @return Model| Form | null
 	 */
 	function getForm() {
-
 		$form = $this->form_id ? Form::query()->find( $this->form_id ) : null;
 
 		$_form = apply_filters( 'rtcl_fb_form', $form );
@@ -1555,13 +1558,13 @@ class Listing extends Data {
 		return null;
 	}
 
-	function custom_fields() {
 
+	function custom_fields() {
 		$form = $this->getForm();
 
 		Functions::get_template( "listing/c-fields", [
 			'form'       => $form,
-			'listing_id' => $this->id
+			'listing_id' => $this->id,
 		] );
 	}
 
@@ -1570,7 +1573,7 @@ class Listing extends Data {
 			'can_add_favourites' => (bool) Functions::get_option_item( 'rtcl_general_settings', 'has_favourites', '', 'checkbox' ),
 			'can_report_abuse'   => (bool) Functions::get_option_item( 'rtcl_single_listing_settings', 'has_report_abuse', '', 'checkbox' ),
 			'social'             => $this->the_social_share( false ),
-			'listing_id'         => $this->id
+			'listing_id'         => $this->id,
 		];
 		$ths_actions = apply_filters( 'rtcl_listing_the_actions', $the_actions );
 		Functions::get_template( "listing/actions", $ths_actions );
@@ -1588,7 +1591,7 @@ class Listing extends Data {
 				'misc_settings' => $social_share_options,
 				'title'         => $this->get_the_title(),
 				'url'           => rawurldecode( $this->get_the_permalink() ),
-				'thumbnail'     => $this->get_the_thumbnail_url()
+				'thumbnail'     => $this->get_the_thumbnail_url(),
 			] );
 			$html         = Functions::get_template_html( "listing/social-share", $social_share );
 		}
@@ -1597,7 +1600,7 @@ class Listing extends Data {
 	}
 
 	/**
-	 * @param bool $echo
+	 * @param  bool  $echo
 	 *
 	 * @return null|string
 	 */
@@ -1621,7 +1624,6 @@ class Listing extends Data {
 			}
 
 			if ( ! empty( $social_share_settings['social_pages'] ) && in_array( $page, $social_share_settings['social_pages'] ) ) {
-
 				// Get current page URL
 				$url = get_permalink( $post ); // Link::get_current_url();
 
@@ -1629,7 +1631,6 @@ class Listing extends Data {
 				$title = get_the_title();
 
 				if ( get_query_var( 'rtcl_location' ) || get_query_var( 'rtcl_category' ) ) {
-
 					$title = Functions::get_single_term_title();
 				}
 
@@ -1654,7 +1655,7 @@ class Listing extends Data {
 						'misc_settings' => $social_share_settings,
 						'title'         => $title,
 						'url'           => rawurldecode( $url ),
-						'thumbnail'     => $thumbnail
+						'thumbnail'     => $thumbnail,
 					] );
 				}
 			}
@@ -1671,7 +1672,6 @@ class Listing extends Data {
 
 
 	function the_related_listings() {
-
 		$this->setGeneralSettings();
 
 		$category              = ! empty( $this->categories ) ? end( $this->categories )->term_id : 0;
@@ -1684,7 +1684,7 @@ class Listing extends Data {
 			'post_type'      => rtcl()->post_type,
 			'post_status'    => 'publish',
 			'posts_per_page' => $related_post_per_page,
-			'post__not_in'   => [ $this->id ] // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
+			'post__not_in'   => [ $this->id ], // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in
 		];
 		if ( $category ) {
 			$this->setGeneralSettings();
@@ -1695,8 +1695,8 @@ class Listing extends Data {
 				                             'field'            => 'term_id',
 				                             'terms'            => $category,
 				                             'include_children' => isset( $this->general_settings['include_results_from'] )
-				                                                   && in_array( 'child_categories', $this->general_settings['include_results_from'] )
-			                             ]
+				                                                   && in_array( 'child_categories', $this->general_settings['include_results_from'] ),
+			                             ],
 			];
 		}
 		$rtcl_related_query = new \WP_Query( apply_filters( 'rtcl_related_listing_query_arg', $query_args ) );
@@ -1705,22 +1705,22 @@ class Listing extends Data {
 			"spaceBetween" => 15,
 			"breakpoints"  => [
 				0   => [
-					"slidesPerView" => 1
+					"slidesPerView" => 1,
 				],
 				576 => [
-					"slidesPerView" => 2
+					"slidesPerView" => 2,
 				],
 				768 => [
-					"slidesPerView" => 3
-				]
-			]
+					"slidesPerView" => 3,
+				],
+			],
 		] );
 		/** Added by Rashid */
 		$data = [
 			'template'              => 'listing/related-listings',
 			'rtcl_related_query'    => $rtcl_related_query,
 			'slider_options'        => $slider_options,
-			'default_template_path' => null
+			'default_template_path' => null,
 		];
 		$data = apply_filters( 'rtcl_related_listings_data', $data );
 		Functions::get_template( $data['template'], $data, '', $data['default_template_path'] );
@@ -1755,7 +1755,7 @@ class Listing extends Data {
 			if ( $zipcode && $is_zipcode ) {
 				$locations[] = $zipcode;
 			}
-		} else if ( 'geo' === $location_type ) {
+		} elseif ( 'geo' === $location_type ) {
 			$locations[] = get_post_meta( $this->id, '_rtcl_geo_address', true );
 		}
 
@@ -1764,7 +1764,6 @@ class Listing extends Data {
 	}
 
 	function the_user_info() {
-
 		$phone           = get_post_meta( $this->id, 'phone', true );
 		$whatsapp_number = get_post_meta( $this->id, '_rtcl_whatsapp_number', true );
 		$email           = get_post_meta( $this->id, 'email', true );
@@ -1779,12 +1778,12 @@ class Listing extends Data {
 			'has_contact_form'     => Functions::get_option_item( 'rtcl_single_listing_settings', 'has_contact_form', false, 'checkbox' ),
 			'website'              => $website,
 			'listing_id'           => $this->id,
-			'email_to_seller_form' => $this->email_to_seller_form( false )
+			'email_to_seller_form' => $this->email_to_seller_form( false ),
 		] );
 	}
 
 	/**
-	 * @param bool $echo
+	 * @param  bool  $echo
 	 *
 	 * @return string
 	 */
@@ -1796,8 +1795,7 @@ class Listing extends Data {
 		}
 	}
 
-	public function the_map() {
-	}
+	public function the_map() {}
 
 	public function setGeneralSettings() {
 		if ( ! empty( $this->general_settings ) ) {

@@ -1295,11 +1295,18 @@ trait Query {
 
 		$table = trim( $this->getTable() );
 		$fields = implode( ', ', $fields );
-
-		$query = "UPDATE `$table` SET $fields  $conditions";
+		
+		$query = "UPDATE `$table` SET $fields $conditions";
 
 		/* phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared */
-		return $wpdb->query( $query );
+		$result = $wpdb->query( $query );
+		// Check for errors
+		if ( $result === false ) {
+			// Display the last error
+			error_log( 'Database Error: ' . $wpdb->last_error );
+			error_log( 'Query: ' . $wpdb->last_query );
+		}
+		return $result;
 	}
 
 	/**

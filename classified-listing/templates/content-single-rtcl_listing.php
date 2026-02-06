@@ -9,6 +9,7 @@
  */
 
 use Rtcl\Helpers\Functions;
+use Rtcl\Models\Form\Form;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -72,7 +73,7 @@ do_action( 'rtcl_before_single_listing' );
 		<!-- Review  -->
 		<?php do_action( 'rtcl_single_listing_review' ) ?>
 
-		<?php if ( ! Functions::is_enable_template_support() && in_array( $sidebar_position, [ 'left', 'right' ] ) ) : ?>
+		<?php if ( !Functions::is_enable_template_support() && in_array( $sidebar_position, [ 'left', 'right' ] ) ) : ?>
 			<!-- Sidebar -->
 			<?php do_action( 'rtcl_single_listing_sidebar' ); ?>
 		<?php endif; ?>

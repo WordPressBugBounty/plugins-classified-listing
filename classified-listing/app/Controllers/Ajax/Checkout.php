@@ -2,7 +2,6 @@
 
 namespace Rtcl\Controllers\Ajax;
 
-
 use Rtcl\Gateways\Store\GatewayStore;
 use Rtcl\Helpers\Functions;
 use Rtcl\Traits\SingletonTrait;
@@ -31,15 +30,23 @@ class Checkout {
 		if ( isset( $_POST['rtcl_checkout_nonce'] ) && wp_verify_nonce( $_POST['rtcl_checkout_nonce'], 'rtcl_checkout' ) ) {
 			$pricing_id     = isset( $_REQUEST['pricing_id'] ) ? absint( $_REQUEST['pricing_id'] ) : 0;
 			$payment_method = isset( $_REQUEST['payment_method'] ) ? sanitize_key( $_POST['payment_method'] ) : '';
-			$checkout_data  = apply_filters( 'rtcl_checkout_process_data', wp_parse_args( $_REQUEST, [
-				'type'           => '',
-				'listing_id'     => 0,
-				'pricing_id'     => $pricing_id,
-				'payment_method' => $payment_method
-			] ) );
+			$checkout_data  = apply_filters(
+				'rtcl_checkout_process_data',
+				wp_parse_args(
+					$_REQUEST,
+					[
+						'type'           => '',
+						'listing_id'     => 0,
+						'pricing_id'     => $pricing_id,
+						'payment_method' => $payment_method,
+					],
+				),
+			);
 			$pricing        = rtcl()->factory->get_pricing( $checkout_data['pricing_id'] );
 			$gateway        = Functions::get_payment_gateway( $checkout_data['payment_method'] );
-			if ( ! $gateway && $pricing && ( $pricing->getPrice() + 0 ) === 0 ) {
+
+			$checkout_totals = rtcl()->session->get( 'rtcl_checkout_totals', [] );
+			if ( ! $gateway && $pricing && ( ( $pricing->getPrice() + 0 ) === 0 || ( isset( $checkout_totals['total'] ) && ( $checkout_totals['total'] + 0 ) == 0 ) ) ) {
 				$gateway = new GatewayStore();
 			}
 
@@ -61,11 +68,11 @@ class Checkout {
 					$multiple_tax = self::get_tax_amount( $country, $state, $pricing_price );
 					if ( Functions::is_enable_multiple_tax() ) {
 						foreach ( $multiple_tax as $single_tax ) {
-							$tax_amount = $tax_amount + $single_tax['amount'];
+							$tax_amount = $tax_amount + $single_tax['raw_amount'];
 						}
 					} else {
 						$single_tax = current( $multiple_tax );
-						$tax_amount = $single_tax['amount'];
+						$tax_amount = $single_tax['raw_amount'];
 					}
 					$total_price = $pricing_price + $tax_amount;
 				}
@@ -80,7 +87,7 @@ class Checkout {
 					'_payment_method'       => $gateway->id,
 					'_payment_method_title' => $gateway->method_title,
 					'_order_currency'       => Functions::get_order_currency(),
-					'_billing_email'        => $current_user ? $current_user->user_email : null
+					'_billing_email'        => $current_user ? $current_user->user_email : null,
 				];
 				if ( $current_user->first_name ) {
 					$metaInputs['_billing_first_name'] = $current_user->first_name;
@@ -108,13 +115,13 @@ class Checkout {
 					}
 				}
 				$newOrderArgs = [
-					'post_title'  => esc_html__( 'Order on', 'classified-listing' ) . ' ' . current_time( "l jS F Y h:i:s A" ),
+					'post_title'  => esc_html__( 'Order on', 'classified-listing' ) . ' ' . current_time( 'l jS F Y h:i:s A' ),
 					'post_status' => 'rtcl-created',
 					'post_parent' => '0',
 					'ping_status' => 'closed',
 					'post_author' => 1,
 					'post_type'   => rtcl()->post_type_payment,
-					'meta_input'  => $metaInputs
+					'meta_input'  => $metaInputs,
 				];
 
 				$order_id = wp_insert_post( apply_filters( 'rtcl_checkout_process_new_order_args', $newOrderArgs, $pricing, $gateway, $checkout_data ) );
@@ -140,30 +147,29 @@ class Checkout {
 							do_action( 'rtcl_checkout_process_error', $order, $payment_process_data );
 						}
 					} catch ( \Exception $e ) {
-
 					}
-
 				} else {
-					Functions::add_notice( esc_html__( "Error to create payment.", "classified-listing" ), 'error' );
+					Functions::add_notice( esc_html__( 'Error to create payment.', 'classified-listing' ), 'error' );
 				}
 			}
-
 		} else {
-			Functions::add_notice( esc_html__( "Session error", "classified-listing" ), 'error' );
+			Functions::add_notice( esc_html__( 'Session error', 'classified-listing' ), 'error' );
 		}
 
 		$error_message   = Functions::get_notices( 'error' );
 		$success_message = Functions::get_notices( 'success' );
 		Functions::clear_notices();
-		$res_data = wp_parse_args( $payment_process_data, [
-			'error_message'   => $error_message,
-			'success_message' => $success_message,
-			'success'         => $success,
-			'redirect_url'    => $redirect_url,
-			'gateway_id'      => $gateway_id
-		] );
+		$res_data = wp_parse_args(
+			$payment_process_data,
+			[
+				'error_message'   => $error_message,
+				'success_message' => $success_message,
+				'success'         => $success,
+				'redirect_url'    => $redirect_url,
+				'gateway_id'      => $gateway_id,
+			],
+		);
 		wp_send_json( apply_filters( 'rtcl_checkout_process_ajax_response_args', $res_data ) );
-
 	}
 
 	public static function calculate_checkout_tax() {
@@ -186,18 +192,17 @@ class Checkout {
 			$error = false;
 
 			$multiple_tax = self::get_tax_amount( $country, $state, $price );
-
 		} else {
 			$message = __( 'Session expired.', 'classified-listing' );
 		}
 
 		if ( Functions::is_enable_multiple_tax() ) {
 			foreach ( $multiple_tax as $single_tax ) {
-				$tax_amount = $tax_amount + $single_tax['amount'];
+				$tax_amount = $tax_amount + $single_tax['raw_amount'];
 			}
 		} else {
 			$single_tax = current( $multiple_tax );
-			$tax_amount = $single_tax['amount'];
+			$tax_amount = $single_tax['raw_amount'];
 		}
 
 		$total_amount = $price + $tax_amount;
@@ -211,7 +216,7 @@ class Checkout {
 				'pricing_price'       => Functions::get_payment_formatted_price( $price ),
 				'tax_amount'          => Functions::get_payment_formatted_price( $tax_amount ),
 				'total_amount'        => Functions::get_payment_formatted_price( $total_amount ),
-			]
+			],
 		);
 	}
 
@@ -221,15 +226,15 @@ class Checkout {
 		$table_name = $wpdb->prefix . 'rtcl_tax_rates';
 
 		$tax_amount = 0.00;
-		$where = [];
-		$params = [];
+		$where      = [];
+		$params     = [];
 
 		// Only add conditions if values exist
-		if (!empty($country)) {
+		if ( ! empty( $country ) ) {
 			$where[]  = 'country = %s';
 			$params[] = $country;
 
-			if (!empty($state)) {
+			if ( ! empty( $state ) ) {
 				$where[]  = 'country_state = %s';
 				$params[] = $state;
 			}
@@ -237,25 +242,27 @@ class Checkout {
 
 		$sql = "SELECT * FROM `{$table_name}`";
 
-		if ($where) {
-			$sql .= ' WHERE ' . implode(' AND ', $where);
+		if ( $where ) {
+			$sql .= ' WHERE ' . implode( ' AND ', $where );
 		}
 
-		$sql .= " ORDER BY tax_rate_priority DESC";
+		$sql .= ' ORDER BY tax_rate_priority DESC';
 
 		$results = $where
-			? $wpdb->get_results( $wpdb->prepare($sql, $params) )
+			? $wpdb->get_results( $wpdb->prepare( $sql, $params ) )
 			: $wpdb->get_results( $sql );
 
 		if ( empty( $results ) ) {
 			// First fallback: same country, blank state
-			$results = $wpdb->get_results( $wpdb->prepare(
-				"SELECT * FROM `{$table_name}`
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT * FROM `{$table_name}`
 					 WHERE country = %s
 					 AND country_state = ''
 					 ORDER BY tax_rate_priority DESC",
-				$country
-			) );
+					$country,
+				),
+			);
 
 			if ( empty( $results ) ) {
 				$results = $wpdb->get_results( "SELECT * FROM $table_name WHERE country = '' AND country_state = '' ORDER BY tax_rate_priority DESC" );
@@ -264,7 +271,7 @@ class Checkout {
 
 		$multiple_tax[] = [
 			'label'  => __( 'Tax', 'classified-listing' ),
-			'amount' => $tax_amount
+			'amount' => $tax_amount,
 		];
 
 		if ( ! empty( $results ) ) {
@@ -275,14 +282,13 @@ class Checkout {
 				$tax_amount = ( $tax_rate * $pricing_price ) / 100;
 
 				$multiple_tax[] = [
-					'label'  => $row->tax_rate_name,
-					'amount' => Functions::get_payment_formatted_price( $tax_amount )
+					'label'      => $row->tax_rate_name,
+					'amount'     => Functions::get_payment_formatted_price( $tax_amount ),
+					'raw_amount' => $tax_amount,
 				];
 			}
-
 		}
 
 		return $multiple_tax;
 	}
-
 }

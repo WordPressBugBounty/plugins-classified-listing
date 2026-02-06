@@ -22,11 +22,17 @@ class ActionHooks {
 		add_action( 'rtcl_listing_seller_contact_form_validation', [ __CLASS__, 'seller_form_validation' ], 10, 2 );
 		add_action( 'rtcl_listing_report_abuse_form_validation', [ __CLASS__, 'report_abuse_form_validation' ], 10, 2 );
 		add_action( 'rtcl_listing_report_abuse_form_validation', [ __CLASS__, 'report_abuse_form_validation' ], 10, 2 );
+		// login form
+		add_action( 'rtcl_login_tab_inner_content', [ __CLASS__, 'email_login_form' ] );
+	}
+
+	public static function email_login_form() {
+		Functions::get_template( "global/email-login-form" );
 	}
 
 	/**
-	 * @param WP_Error $error
-	 * @param array    $data
+	 * @param  WP_Error  $error
+	 * @param  array  $data
 	 */
 	public static function report_abuse_form_validation( $error, $data ) {
 		if ( empty( $data['post_id'] ) || ! is_object( get_post( $data['post_id'] ) ) || empty( $data['message'] ) ) {
@@ -35,8 +41,8 @@ class ActionHooks {
 	}
 
 	/**
-	 * @param WP_Error $error
-	 * @param array    $data
+	 * @param  WP_Error  $error
+	 * @param  array  $data
 	 */
 	public static function seller_form_validation( $error, $data ) {
 		if ( empty( $data['post_id'] ) || ! is_object( get_post( $data['post_id'] ) ) || empty( $data['name'] ) || empty( $data['email'] ) || empty( $data['message'] ) ) {
@@ -61,7 +67,7 @@ class ActionHooks {
 					'latitude'  => $lat,
 					'longitude' => $lan,
 					'distance'  => $distance,
-					'units'     => $rs_data["units"]
+					'units'     => $rs_data["units"],
 				];
 			}
 		}
@@ -110,7 +116,7 @@ class ActionHooks {
 	}
 
 	/**
-	 * @param Payment $payment
+	 * @param  Payment  $payment
 	 */
 	public static function checkout_process_mail( $payment ) {
 		if ( $payment && $payment->exists() ) {

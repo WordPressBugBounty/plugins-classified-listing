@@ -24,56 +24,89 @@ class UserMeta {
 		$address        = get_user_meta( $user_id, '_rtcl_address', true );
 		$social_options = Options::get_social_profiles_list();
 		$social_media   = $user_id ? Functions::get_user_social_profile( $user_id ) : [];
+		$user_type      = get_user_meta( $user_id, '_rtcl_user_type', true );
 		?>
-		<h2><?php esc_html_e( "Additional Information", "classified-listing" ); ?></h2>
+		<h2><?php
+			esc_html_e( "Additional Information", "classified-listing" ); ?></h2>
 
 		<table class="form-table rtcl-user-info-wrapper">
-
+			<?php
+			if ( Functions::is_user_type_enabled() && current_user_can( 'manage_options' ) ): ?>
+				<tr>
+					<th>
+						<label for="rtcl_user_type"><?php
+							esc_html_e( "Account Type", "classified-listing" ); ?></label>
+					</th>
+					<td>
+						<select name="rtcl_user_type" id="rtcl_user_type">
+							<option value="">— <?php
+								esc_html_e( 'Not specified', 'classified-listing' ); ?> —
+							</option>
+							<option value="seller" <?php
+							selected( $user_type, 'seller' ); ?>><?php
+								echo esc_html( Functions::get_user_type_seller_label() ); ?></option>
+							<option value="buyer" <?php
+							selected( $user_type, 'buyer' ); ?>><?php
+								echo esc_html( Functions::get_user_type_buyer_label() ); ?></option>
+						</select>
+					</td>
+				</tr>
+			<?php
+			endif; ?>
 			<tr>
 				<th>
-					<label for="_rtcl_phone"><?php esc_html_e( "Phone", "classified-listing" ); ?></label>
+					<label for="_rtcl_phone"><?php
+						esc_html_e( "Phone", "classified-listing" ); ?></label>
 				</th>
 				<td>
-					<input type="text" name="_rtcl_phone" id="_rtcl_phone" value="<?php echo esc_attr( $phone ); ?>" class="regular-text">
+					<input type="text" name="_rtcl_phone" id="_rtcl_phone" value="<?php
+					echo esc_attr( $phone ); ?>" class="regular-text">
 				</td>
 			</tr>
 			<tr>
 				<th>
-					<label for="_rtcl_whatsapp_number"><?php esc_html_e( "WhatsApp", "classified-listing" ); ?></label>
+					<label for="_rtcl_whatsapp_number"><?php
+						esc_html_e( "WhatsApp", "classified-listing" ); ?></label>
 				</th>
 				<td>
-					<input type="text" name="_rtcl_whatsapp_number" id="_rtcl_whatsapp_number" value="<?php echo esc_attr( $whatsapp ); ?>"
+					<input type="text" name="_rtcl_whatsapp_number" id="_rtcl_whatsapp_number" value="<?php
+					echo esc_attr( $whatsapp ); ?>"
 						   class="regular-text">
 				</td>
 			</tr>
 			<tr>
 				<th>
-					<label for="_rtcl_phone"><?php esc_html_e( "Website", "classified-listing" ); ?></label>
+					<label for="_rtcl_phone"><?php
+						esc_html_e( "Website", "classified-listing" ); ?></label>
 				</th>
 				<td>
-					<input type="url" name="_rtcl_website" id="_rtcl_website" value="<?php echo esc_url( $website ); ?>" class="regular-text">
+					<input type="url" name="_rtcl_website" id="_rtcl_website" value="<?php
+					echo esc_url( $website ); ?>" class="regular-text">
 				</td>
 			</tr>
 			<tr>
 				<th>
-					<label for="_rtcl_address"><?php esc_html_e( "Address", "classified-listing" ); ?></label>
+					<label for="_rtcl_address"><?php
+						esc_html_e( "Address", "classified-listing" ); ?></label>
 				</th>
 				<td>
-					<textarea name="_rtcl_address" id="_rtcl_address" rows="3" cols="30"><?php echo esc_textarea( $address ); ?></textarea>
+					<textarea name="_rtcl_address" id="_rtcl_address" rows="3" cols="30"><?php
+						echo esc_textarea( $address ); ?></textarea>
 				</td>
 			</tr>
 			<tr class="rtcl-social-profiles">
 				<th>
-					<?php esc_html_e( "Social Profiles", "classified-listing" ); ?>
+					<?php
+					esc_html_e( "Social Profiles", "classified-listing" ); ?>
 				</th>
 				<td>
 					<?php
 					foreach ( $social_options as $key => $social_option ) {
 						echo sprintf(
 							'<input type="url" name="_rtcl_social_media[%1$s]" id="rtcl-account-social-%1$s" value="%2$s" placeholder="%3$s" class="regular-text"/><br />',
-							esc_attr($key),
+							esc_attr( $key ),
 							esc_url( isset( $social_media[ $key ] ) ? $social_media[ $key ] : '' ),
-							esc_attr($social_option)
+							esc_attr( $social_option ),
 						);
 					}
 					?>
@@ -98,6 +131,10 @@ class UserMeta {
 		$user_meta['_rtcl_whatsapp_number'] = ! empty( $_POST['_rtcl_whatsapp_number'] ) ? sanitize_text_field( $_POST['_rtcl_whatsapp_number'] ) : null;
 		$user_meta['_rtcl_website']         = ! empty( $_POST['_rtcl_website'] ) ? esc_url_raw( $_POST['_rtcl_website'] ) : null;
 		$user_meta['_rtcl_address']         = ! empty( $_POST['_rtcl_address'] ) ? esc_textarea( $_POST['_rtcl_address'] ) : null;
+
+		if ( Functions::is_user_type_enabled() && current_user_can( 'manage_options' ) ) {
+			$user_meta['_rtcl_user_type'] = ! empty( $_POST['rtcl_user_type'] ) ? sanitize_text_field( $_POST['rtcl_user_type'] ) : null;
+		}
 
 		if ( isset( $_POST['_rtcl_social_media'] ) ) {
 			delete_user_meta( $user_id, '_rtcl_social' );

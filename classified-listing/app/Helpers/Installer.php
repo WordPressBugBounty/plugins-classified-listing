@@ -4,15 +4,17 @@ namespace Rtcl\Helpers;
 
 
 use Rtcl\Database\DbMigration;
+use Rtcl\Database\Migrations\Forms;
 use Rtcl\Models\Roles;
 
 class Installer {
 
-	const DB_VERSION = '5.0.0';
+	const DB_VERSION = '5.1.0';
 
 	private static array $db_updates
 		= [
 			'5.0.0' => [ 'migrate_settings_500' ],
+			'5.1.0' => [ 'add_single_layout_column_at_form_table_db_510' ],
 		];
 
 
@@ -114,12 +116,11 @@ class Installer {
 		self::maybe_update_db_version();
 
 		delete_transient( 'rtcl_installing' );
-		
+
 		set_transient( 'rtcl_activation_setup_wizard_redirect', 1, 30 );
 
 		do_action( 'rtcl_flush_rewrite_rules' );
 		do_action( 'rtcl_installed' );
-
 	}
 
 	private static function update_rtcl_version() {
@@ -130,7 +131,7 @@ class Installer {
 	/**
 	 * Update DB version to current.
 	 *
-	 * @param string|null $version New WooCommerce DB version or null.
+	 * @param  string|null  $version  New WooCommerce DB version or null.
 	 */
 	public static function update_db_version( string $version = null ) {
 		update_option( 'rtcl_db_version', is_null( $version ) ? self::DB_VERSION : $version );
@@ -178,7 +179,7 @@ class Installer {
 				'default_view'      => 'grid',
 				'orderby'           => 'date',
 				'order'             => 'desc',
-				'taxonomy_orderby'  => 'title',
+				'taxonomy_orderby'  => 'name',
 				'taxonomy_order'    => 'asc',
 				'display_options'   => [
 					'date',
@@ -187,7 +188,6 @@ class Installer {
 					'category',
 					'location',
 					'price',
-					'excerpt'
 				],
 			],
 			'rtcl_single_listing_settings'        => [
@@ -213,7 +213,8 @@ class Installer {
 			],
 			'rtcl_payment_settings'               => [
 				'payment'                      => 'yes',
-				'use_https'                    => 'no',
+				'use_https'                    => 'yes',
+				'billing_address_disabled'     => 'no',
 				'currency'                     => 'USD',
 				'currency_position'            => 'right',
 				'currency_thousands_separator' => ',',
@@ -231,7 +232,8 @@ Account Name : YOUR ACCOUNT NAME
 Account Number : YOUR ACCOUNT NUMBER
 Bank Name : YOUR BANK NAME
 		
-If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'classified-listing' ),
+If we don\'t receive your payment within 48 hrs, we will cancel the order.',
+					'classified-listing' ),
 			],
 			'rtcl_email_settings'                 => [
 				'from_name'           => get_option( 'blogname' ),
@@ -244,7 +246,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 					'register_new_user',
 					'listing_submitted',
 					'order_created',
-					'payment_received'
+					'payment_received',
 				],
 				'notify_users' => [
 					'listing_submitted',
@@ -253,7 +255,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 					'listing_expired',
 					'remind_renewal',
 					'order_created',
-					'order_completed'
+					'order_completed',
 				],
 			],
 			'rtcl_email_templates_settings'       => [
@@ -274,10 +276,13 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 				'order_completed_subject'    => esc_html__( '[{site_title}] : #{order_number} Order is completed.', 'classified-listing' ),
 				'order_completed_heading'    => esc_html__( 'Payment is completed: #{order_number}', 'classified-listing' ),
 				'contact_subject'            => esc_html__( '[{site_title}] Contact via {listing_title}', 'classified-listing' ),
-				'contact_heading'            => esc_html__( 'Thank you for mail', 'classified-listing' )
+				'contact_heading'            => esc_html__( 'Thank you for mail', 'classified-listing' ),
 			],
 			'rtcl_account_settings'               => [
-				'enable_myaccount_registration' => "yes"
+				'enable_myaccount_registration' => "yes",
+				'enable_user_type'              => "no",
+				'seller_user_type_label'        => "Seller",
+				'buyer_user_type_label'         => "Buyer",
 			],
 			'rtcl_style_settings'                 => [
 				'primary'       => "#0066bf",
@@ -288,8 +293,8 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 				'button_text'   => "#ffffff",
 				'sidebar_width' => [
 					'size' => 28,
-					'unit' => '%'
-				]
+					'unit' => '%',
+				],
 			],
 			'rtcl_misc_settings'                  => [],
 			'rtcl_misc_media_settings'            => [
@@ -307,34 +312,39 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 					'address' => '',
 					'lat'     => 0,
 					'lng'     => 0,
-				]
+				],
 			],
 			'rtcl_chat_settings'                  => [
 				'enable'                                => 'yes',
 				'unread_message_email'                  => 'yes',
-				'remove_inactive_conversation_duration' => 30
+				'remove_inactive_conversation_duration' => 30,
 			],
 			'rtcl_advanced_settings'              => [
-				'template_base'                     => 'rtcl_template',
-				'permalink'                         => 'rtcl_listing',
-				'category_base'                     => esc_html_x( 'listing-category', 'slug', 'classified-listing' ),
-				'location_base'                     => esc_html_x( 'listing-location', 'slug', 'classified-listing' ),
-				'tag_base'                          => esc_html_x( 'listing-tag', 'slug', 'classified-listing' ),
-				'myaccount_listings_endpoint'       => 'listings',
-				'myaccount_favourites_endpoint'     => 'favourites',
-				'myaccount_chat_endpoint'           => 'chat',
-				'myaccount_edit_account_endpoint'   => 'edit-account',
-				'myaccount_payments_endpoint'       => 'payments',
-				'myaccount_lost_password_endpoint'  => 'lost-password',
-				'myaccount_logout_endpoint'         => 'logout',
-				'checkout_submission_endpoint'      => 'submission',
-				'checkout_promote_endpoint'         => 'promote',
-				'checkout_payment_receipt_endpoint' => 'payment-receipt',
-				'checkout_payment_failure_endpoint' => 'payment-failure'
+				'template_base'                       => 'rtcl_template',
+				'permalink'                           => 'rtcl_listing',
+				'category_base'                       => esc_html_x( 'listing-category', 'slug', 'classified-listing' ),
+				'location_base'                       => esc_html_x( 'listing-location', 'slug', 'classified-listing' ),
+				'tag_base'                            => esc_html_x( 'listing-tag', 'slug', 'classified-listing' ),
+				'myaccount_listings_endpoint'         => 'listings',
+				'myaccount_favourites_endpoint'       => 'favourites',
+				'myaccount_chat_endpoint'             => 'chat',
+				'myaccount_edit_account_endpoint'     => 'edit-account',
+				'myaccount_payments_endpoint'         => 'payments',
+				'myaccount_profile_settings_endpoint' => 'privacy-settings',
+				'myaccount_lost_password_endpoint'    => 'lost-password',
+				'myaccount_logout_endpoint'           => 'logout',
+				'checkout_submission_endpoint'        => 'submission',
+				'checkout_promote_endpoint'           => 'promote',
+				'checkout_payment_receipt_endpoint'   => 'payment-receipt',
+				'checkout_payment_failure_endpoint'   => 'payment-failure',
+			],
+			'rtcl_ai_settings'                    => [
+				'minimum_matching_percentage' => 40,
+				'best_matching_percentage'    => 75,
 			],
 			'rtcl_fb_options'                     => [
-				'active' => 1
-			]
+				'active' => 1,
+			],
 		];
 
 		foreach ( $options as $option_name => $defaults ) {
@@ -356,7 +366,6 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 	}
 
 	private static function handleTables( $network_wide ) {
-
 		global $wpdb;
 		if ( $network_wide ) {
 			// Retrieve all site IDs from this network (WordPress >= 4.6 provides easy to use functions for that).
@@ -440,7 +449,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 						  session_expiry BIGINT UNSIGNED NOT NULL,
 						  PRIMARY KEY  (session_key),
 						  UNIQUE KEY session_id (session_id)
-						) $collate;"
+						) $collate;",
 		];
 	}
 
@@ -470,7 +479,6 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 		}
 
 		if ( ! wp_next_scheduled( 'rtcl_hourly_scheduled_events' ) ) {
-
 			wp_schedule_event( time(), 'hourly', 'rtcl_hourly_scheduled_events' );
 		}
 
@@ -484,6 +492,10 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 		Roles::create_roles();
 	}
 
+	public static function add_single_layout_column_at_form_table_db_510() {
+		Forms::add_single_layout_column();
+	}
+
 	public static function migrate_settings_500() {
 		if ( get_option( 'rtcl_settings_migrated_500' ) ) {
 			return;
@@ -495,7 +507,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 					'location_type',
 					'location_level_first',
 					'location_level_second',
-					'location_level_third'
+					'location_level_third',
 				],
 				'rtcl_general_currency_settings' => [
 					'currency',
@@ -512,17 +524,17 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 					'default_view',
 				],
 				'rtcl_single_listing_settings'   => [
-					'related_posts_per_page'
+					'related_posts_per_page',
 				],
 				'rtcl_moderation_settings'       => [
-					'text_editor'
+					'text_editor',
 				],
 			],
 			'rtcl_general_directory_settings' => [
 				'rtcl_moderation_settings' => [
 					'enable_business_hours',
-					'enable_social_profiles'
-				]
+					'enable_social_profiles',
+				],
 			],
 			'rtcl_moderation_settings'        => [
 				'rtcl_general_settings'               => [
@@ -539,7 +551,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 					'has_favourites',
 				],
 				'rtcl_misc_map_settings'              => [
-					'has_map'
+					'has_map',
 				],
 				'rtcl_general_listing_label_settings' => [
 					'new_listing_label',
@@ -548,7 +560,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 					'popular_listing_label',
 					'popular_listing_threshold',
 					'listing_top_label',
-					'listing_bump_up_label'
+					'listing_bump_up_label',
 				],
 				'rtcl_archive_listing_settings'       => [
 					'display_options',
@@ -569,7 +581,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 			'rtcl_email_settings'             => [
 				'rtcl_email_notifications_settings' => [
 					'notify_admin',
-					'notify_users'
+					'notify_users',
 				],
 				'rtcl_email_templates_settings'     => [
 					'listing_submitted_subject',
@@ -595,7 +607,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 			'rtcl_misc_settings'              => [
 				'rtcl_general_social_share_settings' => [
 					'social_services',
-					'social_pages'
+					'social_pages',
 				],
 				'rtcl_moderation_settings'           => [
 					'required_gallery_image',
@@ -605,7 +617,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 					'disable_gallery_slider',
 					'disable_gallery_video',
 					'disable_gallery_zoom',
-					'disable_gallery_photoswipe'
+					'disable_gallery_photoswipe',
 				],
 				'rtcl_misc_media_settings'           => [
 					'image_size_gallery',
@@ -623,7 +635,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'cl
 					'map_zoom_level',
 					'map_center',
 					'maxmind_license_key',
-					'maxmind_database_path'
+					'maxmind_database_path',
 				],
 			],
 		];

@@ -3,6 +3,7 @@
 namespace Rtcl\Services\FormBuilder;
 
 use DateTime;
+use InvalidArgumentException;
 use Rtcl\Database\Eloquent\Model;
 use Rtcl\Helpers\Functions;
 use Rtcl\Helpers\Str;
@@ -15,6 +16,7 @@ class FBHelper {
 
 	/**
 	 * @param $id
+	 *
 	 * @return mixed|Form|null
 	 */
 	public static function getFormById( $id ) {
@@ -28,13 +30,28 @@ class FBHelper {
 
 		return null;
 	}
-	
+
+	/**
+	 * @param Listing $listing
+	 * @return bool
+	 */
+	public static function isEnableSingleBuilder( $listing ): bool {
+		if ( !is_a( $listing, Listing::class ) ) {
+			return false;
+		}
+		if ( ( $form = $listing->getForm() ) && ( $singleLayout = $form->getSingleLayout() ) && !empty( $singleLayout['settings']['active'] ) && !empty( $singleLayout['containers'] ) ) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * @param $slug
+	 *
 	 * @return mixed|Form|null
 	 */
 	public static function getFormBySlug( $slug ) {
-		$form = $slug ? Form::query()->find( $slug, 'slug') : null;
+		$form = $slug ? Form::query()->find( $slug, 'slug' ) : null;
 
 		$_form = apply_filters( 'rtcl_fb_form', $form );
 
@@ -345,7 +362,9 @@ class FBHelper {
 								$tempDateList = [];
 								$newSBhs = [];
 								foreach ( $rawBsh['special'] as $sbh ) {
-									if ( !empty( $sbh['date'] ) && !isset( $tempDateList[$sbh['date']] ) && $dateObj = Utility::sanitizedDateObj( $sbh['date'] ) ) {
+									if ( !empty( $sbh['date'] ) && !isset( $tempDateList[$sbh['date']] )
+										&& $dateObj = Utility::sanitizedDateObj( $sbh['date'] )
+									) {
 										$date = $dateObj->format( 'Y-m-d' );
 										$tempDateList[$date] = $date;
 										$newSbh = [
@@ -453,6 +472,15 @@ class FBHelper {
 						}
 					}
 					$value = $images;
+				} elseif ( 'classima_spec_info' === $name ) {
+					$feature = get_post_meta( $listing_id, $name, true );
+					if ( is_array( $feature ) && !empty( $feature['specs'] ) ) {
+						$value = implode( PHP_EOL, array_filter(
+							array_map( 'trim', preg_split( '/\r\n|\r|\n/', $feature['specs'] ) )
+						) );
+					} else {
+						$value = $feature;
+					}
 				} else {
 					if ( empty( $field['multiple'] ) ) {
 						$value = get_post_meta( $listing_id, $name, true );
@@ -489,7 +517,8 @@ class FBHelper {
 								foreach ( $field['fields'] as $rField ) {
 									if ( !empty( $tempValueArray[$rField['name']] ) ) {
 										if ( !empty( $rField['element'] ) && 'file' === $rField['element'] ) {
-											$values[$rIndex][$rField['name']] = self::getFieldAttachmentFiles( $listing_id, $rField, $tempValueArray[$rField['name']], $field );
+											$values[$rIndex][$rField['name']] = self::getFieldAttachmentFiles( $listing_id, $rField,
+												$tempValueArray[$rField['name']], $field );
 										} else {
 											$values[$rIndex][$rField['name']] = $tempValueArray[$rField['name']];
 										}
@@ -529,6 +558,24 @@ class FBHelper {
 		}
 
 		return null;
+	}
+
+	public static function getFormList() {
+		$forms = [];
+
+		if ( ! self::isEnabled() ) {
+			return $forms;
+		}
+
+		$allForms = Form::query()->select( 'id,title,`default`' )->where( 'status', 'publish' )->order_by( 'created_at', 'DESC' )->get();
+
+		if ( ! empty( $allForms ) ) {
+			foreach ( $allForms as $form ) {
+				$forms[ $form->id ] = $form->title;
+			}
+		}
+
+		return is_array( $forms ) ? $forms : [];
 	}
 
 	/**
@@ -604,6 +651,8 @@ class FBHelper {
 		if ( empty( $field ) ) {
 			return false;
 		}
+		// Fixed: missing key at array element
+		$condition = wp_parse_args( $condition, ['fieldId'=> '', 'value'=> '', 'operator' => '']);
 		$fieldName = $field['name'];
 		$currentValue = $formData[$fieldName] ?? null;
 		if ( '=' === $condition['operator'] ) {
@@ -658,13 +707,21 @@ class FBHelper {
 									$priceRequiredErrors['pricing_type'] = $ruleMessage;
 								}
 							}
-							if ( !in_array( 'pricing_type', $field['options'] ) || ( in_array( 'pricing_type', $field['options'] ) && !empty( $value['pricing_type'] ) && $value['pricing_type'] !== "disabled" ) ) {
+							if ( !in_array( 'pricing_type', $field['options'] )
+								|| ( in_array( 'pricing_type', $field['options'] )
+									&& !empty( $value['pricing_type'] )
+									&& $value['pricing_type'] !== "disabled" )
+							) {
 								if ( in_array( 'price_type', $field['options'] ) ) {
 									if ( empty( $value['price_type'] ) ) {
 										$priceRequiredErrors['price_type'] = $ruleMessage;
 									}
 								}
-								if ( ( !in_array( 'price_type', $field['options'] ) || ( in_array( 'price_type', $field['options'] ) && !empty( $value['price_type'] ) && $value['price_type'] !== "on_call" ) ) ) {
+								if ( ( !in_array( 'price_type', $field['options'] )
+									|| ( in_array( 'price_type', $field['options'] )
+										&& !empty( $value['price_type'] )
+										&& $value['price_type'] !== "on_call" ) )
+								) {
 									if ( in_array( 'price_unit', $field['options'] ) ) {
 										if ( empty( $value['price_unit'] ) ) {
 											$priceRequiredErrors['price_unit'] = $ruleMessage;
@@ -673,7 +730,9 @@ class FBHelper {
 									if ( empty( $value['price'] ) ) {
 										$priceRequiredErrors['price'] = $ruleMessage;
 									}
-									if ( in_array( 'pricing_type', $field['options'] ) && !empty( $value['pricing_type'] ) && $value['pricing_type'] === "range" ) {
+									if ( in_array( 'pricing_type', $field['options'] ) && !empty( $value['pricing_type'] )
+										&& $value['pricing_type'] === "range"
+									) {
 										if ( empty( $value['max_price'] ) ) {
 											$priceRequiredErrors['max_price'] = $ruleMessage;
 										}
@@ -802,7 +861,8 @@ class FBHelper {
 						$errors['invalid_url'] = __( 'Invalid url', 'classified-listing' );
 					}
 				} elseif ( 'video_urls' === $field['element'] ) {
-					$pattern = '/(https?:\/\/)(www.)?(youtube.com\/watch[?]v=([a-zA-Z0-9_-]{11}))|https?:\/\/(www.)?vimeo.com\/(\d+)/';
+					//$pattern = '/(https?:\/\/)(www.)?(youtube.com\/watch[?]v=([a-zA-Z0-9_-]{11}))|https?:\/\/(www.)?vimeo.com\/(\d+)/';
+					$pattern = '/^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})$|^(https?:\/\/)?(www\.)?vimeo\.com\/(\d+)$/';
 					if ( is_array( $value ) ) {
 						foreach ( $value as $videoUrl ) {
 							if ( !preg_match( $pattern, $videoUrl ) ) {
@@ -855,7 +915,8 @@ class FBHelper {
 					if ( !$recaptchaSecretKey ) {
 						$errors['empty_recaptcha_key'] = __( 'Invalid Google reCAPTACHA secret key', 'classified-listing' );
 					}
-					$request = wp_remote_get( 'https://www.google.com/recaptcha/api/siteverify?secret=' . $recaptchaSecretKey . '&response=' . $value . '&remoteip=' . $_SERVER['REMOTE_ADDR'] );
+					$request = wp_remote_get( 'https://www.google.com/recaptcha/api/siteverify?secret=' . $recaptchaSecretKey . '&response=' . $value
+						. '&remoteip=' . $_SERVER['REMOTE_ADDR'] );
 					$response_body = wp_remote_retrieve_body( $request );
 					$response = json_decode( $response_body );
 					if ( empty( $response->success ) || true !== $response->success ) {
@@ -938,17 +999,21 @@ class FBHelper {
 						}
 						$uuid = $field['uuid'];
 						$name = !empty( $field['name'] ) ? $field['name'] : null;
-						if ( ( empty( $field['logics'] ) || empty( $field['logics']['status'] ) || in_array( $field['logics']['status'],
+						if ( ( empty( $field['logics'] ) || empty( $field['logics']['status'] )
+								|| in_array( $field['logics']['status'],
 									[
 										false,
 										'false'
 									],
-									true ) ) || ( in_array( $field['logics']['status'],
+									true ) )
+							|| ( in_array( $field['logics']['status'],
 									[
 										true,
 										'true'
 									],
-									true ) && self::isValidateCondition( $rawFormData, $logics, $fields ) ) ) {
+									true )
+								&& self::isValidateCondition( $rawFormData, $logics, $fields ) )
+						) {
 
 							if ( $field['element'] === 'repeater' ) {
 								$_errors = self::isValidateRepeaterField( $rawFormData[$name] ?? '', $field, $listing );
@@ -1088,7 +1153,8 @@ class FBHelper {
 				$sanitize_value = [];
 				if ( !empty( $rawValue ) ) {
 					// Pattern to check youtube or vimeo url
-					$pattern = '/(https?:\/\/)(www.)?(youtube.com\/watch[?]v=([a-zA-Z0-9_-]{11}))|https?:\/\/(www.)?vimeo.com\/([0-9]{9})/';
+					//$pattern = '/(https?:\/\/)(www.)?(youtube.com\/watch[?]v=([a-zA-Z0-9_-]{11}))|https?:\/\/(www.)?vimeo.com\/([0-9]{9})/';
+					$pattern = '/^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})$|^(https?:\/\/)?(www\.)?vimeo\.com\/(\d+)$/';
 					if ( is_array( $rawValue ) ) {
 						$filtered = array_filter( $rawValue,
 							function ( $url ) use ( $pattern ) {
@@ -1204,7 +1270,8 @@ class FBHelper {
 							}
 							$_value = $repeaterValues[$repeaterField['name']] ?? '';
 							if ( 'file' === $repeaterField['element'] ) {
-								$value = !empty( $oldValues[$_repeaterIndex][$repeaterField['name']] ) ? $oldValues[$_repeaterIndex][$repeaterField['name']] : '';
+								$value = !empty( $oldValues[$_repeaterIndex][$repeaterField['name']] )
+									? $oldValues[$_repeaterIndex][$repeaterField['name']] : '';
 								// if ( ! empty( $_value ) && is_array( $_value ) ) {
 								// $attachment_ids = array_map( function ( $_item ) {
 								// return ! empty( $_item['uid'] ) ? absint( $_item['uid'] ) : absint( $_item );
@@ -1441,6 +1508,7 @@ class FBHelper {
 	 * @param string $type enum[ 'name', 'uuid', 'element','id']
 	 * @param string $value
 	 * @param array $data
+	 *
 	 * @return mixed|null
 	 */
 	public static function getFieldByFromGivenDirectoryData( string $type, string $value, $data = [] ) {
@@ -1630,6 +1698,7 @@ class FBHelper {
 				'dayIndex' => $dayIndex
 			];
 		}
+
 		return $updatedDays;
 	}
 
@@ -1642,7 +1711,7 @@ class FBHelper {
 	public static function getFormattedFieldHtml( $value, FBField $field ) {
 		$html = is_array( $value ) ? '' : $value;
 		if ( $field->getElement() === 'color_picker' ) {
-			$html = sprintf( '<span class="cfp-color" style="background-color: %s;"></span>', esc_attr( $value ) );
+			$html = sprintf( '<span class="cfp-color rtcl-slf-color" style="background-color: %s;"></span>', esc_attr( $value ) );
 		} elseif ( in_array( $field->getElement(), [ 'select', 'radio', 'checkbox' ] ) ) {
 			$options = $field->getOptions();
 			$enable_icon_class = $field->getData( 'enable_icon_class', false );
@@ -1651,7 +1720,10 @@ class FBHelper {
 					$items = [];
 					foreach ( $options as $option ) {
 						if ( !empty( $option['value'] ) && in_array( $option['value'], $value ) ) {
-							$items[] = sprintf( '<span class="rtcl-cfp-vi">%s%s</span>', !empty( $option['icon_class'] ) && $enable_icon_class ? '<i class="' . esc_attr( $option['icon_class'] ) . '"></i>' : '', esc_html( $option['label'] ) );
+							$items[] = sprintf( '<span class="rtcl-cfp-vi %s">%s%s</span>',
+								!empty( $option['icon_class'] ) && $enable_icon_class ? 'has-icon' : 'no-icon',
+								!empty( $option['icon_class'] ) && $enable_icon_class ? '<i class="' . esc_attr( $option['icon_class'] ) . '"></i>' : '',
+								esc_html( $option['label'] ) );
 
 						}
 					}
@@ -1660,7 +1732,9 @@ class FBHelper {
 			} else {
 				foreach ( $options as $option ) {
 					if ( !empty( $option['value'] ) && $option['value'] == $value ) {
-						$html = sprintf( '<span class="rtcl-cfp-vi">%s%s</span>', !empty( $option['icon_class'] ) && $enable_icon_class ? '<i class="' . esc_attr( $option['icon_class'] ) . '"></i>' : '', esc_html( $option['label'] ) );
+						$html = sprintf( '<span class="rtcl-cfp-vi">%s%s</span>',
+							!empty( $option['icon_class'] ) && $enable_icon_class ? '<i class="' . esc_attr( $option['icon_class'] ) . '"></i>' : '',
+							esc_html( $option['label'] ) );
 						break;
 					}
 				}
@@ -1682,12 +1756,15 @@ class FBHelper {
 					if ( str_starts_with( $mime_type, 'image/' ) ) {
 						$thumbnailUrl = wp_get_attachment_image_url( $file['uid'] );
 						if ( $thumbnailUrl ) {
-							$html .= sprintf( '<div class="rtcl-file-item rtcl-file-item-image" data-type="%s"><a href="%s" target="_blank"><img class="" src="%s" alt="%s"/></a></div>', esc_attr( $mime_type ), esc_url( $file['url'] ), esc_url( $thumbnailUrl ), esc_html( $file['name'] ) );
+							$html .= sprintf( '<div class="rtcl-file-item rtcl-file-item-image" data-type="%s"><a href="%s" target="_blank"><img class="" src="%s" alt="%s"/></a></div>',
+								esc_attr( $mime_type ), esc_url( $file['url'] ), esc_url( $thumbnailUrl ), esc_html( $file['name'] ) );
 						}
 					} elseif ( str_starts_with( $mime_type, 'audio/' ) ) {
-						$html .= sprintf( '<div class="rtcl-file-item  rtcl-file-item-audio" data-type="%s"><i class="rtcl-icon rtcl-icon-music"></i><a href="%s" target="_blank">%s</a></div>', esc_attr( $mime_type ), esc_url( $file['url'] ), esc_html( $file['name'] ) );
+						$html .= sprintf( '<div class="rtcl-file-item  rtcl-file-item-audio" data-type="%s"><i class="rtcl-icon rtcl-icon-music"></i><a href="%s" target="_blank">%s</a></div>',
+							esc_attr( $mime_type ), esc_url( $file['url'] ), esc_html( $file['name'] ) );
 					} elseif ( str_starts_with( $mime_type, 'video/' ) ) {
-						$html .= sprintf( '<div class="rtcl-file-item rtcl-file-item-video" data-type="%s"><i class="rtcl-icon rtcl-icon-video"></i><a href="%s" target="_blank">%s</a></div>', esc_attr( $mime_type ), esc_url( $file['url'] ), esc_html( $file['name'] ) );
+						$html .= sprintf( '<div class="rtcl-file-item rtcl-file-item-video" data-type="%s"><i class="rtcl-icon rtcl-icon-video"></i><a href="%s" target="_blank">%s</a></div>',
+							esc_attr( $mime_type ), esc_url( $file['url'] ), esc_html( $file['name'] ) );
 					} elseif ( str_starts_with( $mime_type, 'application/' ) ) {
 						$ext = explode( '/', $mime_type )[1];
 						if ( $ext === 'pdf' ) {
@@ -1697,9 +1774,11 @@ class FBHelper {
 						} else {
 							$iconClass = 'rtcl-icon-doc';
 						}
-						$html .= sprintf( '<div class="rtcl-file-item" data-type="%s"><i class="rtcl-icon %s"></i><a href="%s" target="_blank">%s</a></div>', esc_attr( $mime_type ), esc_attr( $iconClass ), esc_url( $file['url'] ), esc_html( $file['name'] ) );
+						$html .= sprintf( '<div class="rtcl-file-item" data-type="%s"><i class="rtcl-icon %s"></i><a href="%s" target="_blank">%s</a></div>',
+							esc_attr( $mime_type ), esc_attr( $iconClass ), esc_url( $file['url'] ), esc_html( $file['name'] ) );
 					} else {
-						$html .= sprintf( '<div class="rtcl-file-item rtcl-file-item-attachment" data-type="%s"><i class="rtcl-icon rtcl-icon-attach"></i><a href="%s" target="_blank">%s</a></div>', esc_attr( $mime_type ), esc_url( $file['url'] ), esc_html( $file['name'] ) );
+						$html .= sprintf( '<div class="rtcl-file-item rtcl-file-item-attachment" data-type="%s"><i class="rtcl-icon rtcl-icon-attach"></i><a href="%s" target="_blank">%s</a></div>',
+							esc_attr( $mime_type ), esc_url( $file['url'] ), esc_html( $file['name'] ) );
 					}
 				}
 				if ( !empty( $html ) ) {
@@ -1707,6 +1786,7 @@ class FBHelper {
 				}
 			}
 		}
+
 		return apply_filters( 'rtcl_fb_custom_field_value_html', $html, $value, $field );
 	}
 

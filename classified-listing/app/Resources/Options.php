@@ -2,7 +2,10 @@
 
 namespace Rtcl\Resources;
 
+use Rtcl\Controllers\EmbeddingController;
 use Rtcl\Helpers\Functions;
+use Rtcl\Helpers\Link;
+use Rtcl\Helpers\Tax;
 use Rtcl\Helpers\Text;
 use Rtcl\Traits\SingletonTrait;
 
@@ -17,6 +20,1848 @@ class Options {
 	 * @var array|null
 	 */
 	protected $checkout_fields = null;
+
+	static function option_items() {
+		$paymentOptions   = [
+			'rtcl_payment_settings' => [
+				'label'  => __( 'Checkout Options', 'classified-listing' ),
+				'fields' => self::checkout_fields(),
+			],
+		];
+		$payment_gateways = rtcl()->payment_gateways();
+		foreach ( $payment_gateways as $gateway ) {
+			$title = empty( $gateway->method_title ) ? ucfirst( $gateway->id ) : $gateway->method_title;
+			//$paymentOptions[strtolower( $gateway->id )] = esc_html( $title );
+			$paymentOptions[ 'rtcl_payment_' . strtolower( $gateway->id ) ] = [
+				'label'  => esc_html( $title ),
+				'fields' => $gateway->form_fields,
+			];
+		}
+		$paymentOptions['rtcl_tax_settings'] = [
+			'label'  => __( 'Tax', 'classified-listing' ),
+			'fields' => Tax::fields(),
+		];
+
+
+		$options = apply_filters( 'rtcl_option_items', [
+			'general'                       => [
+				'label'    => __( 'General', 'classified-listing' ),
+				'icon'     => 'fa-regular fa-sun',
+				'children' => apply_filters( 'rtcl_general_options_children', [
+					'rtcl_general_settings'               => [
+						'label'  => __( 'Listing Settings', 'classified-listing' ),
+						'fields' => self::listing_settings_fields(),
+					],
+					'rtcl_general_listing_label_settings' => [
+						'label'  => __( 'Listing Labels', 'classified-listing' ),
+						'fields' => self::listing_labels_fields(),
+					],
+					'rtcl_general_location_settings'      => [
+						'label'  => __( 'Location', 'classified-listing' ),
+						'fields' => self::location_settings_fields(),
+					],
+					'rtcl_general_currency_settings'      => [
+						'label'  => __( 'Currency', 'classified-listing' ),
+						'fields' => self::currency_options_fields(),
+					],
+					'rtcl_general_social_share_settings'  => [
+						'label'  => __( 'Social Share', 'classified-listing' ),
+						'fields' => self::social_share_fields(),
+					],
+				] ),
+			],
+			'rtcl_archive_listing_settings' => [
+				'label'  => __( 'All Listings Page', 'classified-listing' ),
+				'icon'   => 'fa-solid fa-list',
+				'fields' => self::all_listing_fields(),
+			],
+			'rtcl_single_listing_settings'  => [
+				'label'  => __( 'Listing Details Page', 'classified-listing' ),
+				'icon'   => 'fa-regular fa-file-lines',
+				'fields' => self::listing_details_fields(),
+			],
+			'payment'                       => [
+				'label'    => __( 'Payment', 'classified-listing' ),
+				'icon'     => 'fa-regular fa-credit-card',
+				'children' => $paymentOptions,
+			],
+			'email'                         => [
+				'label'    => __( 'Email', 'classified-listing' ),
+				'icon'     => 'fa-regular fa-envelope',
+				'children' => [
+					'rtcl_email_settings'               => [
+						'label'  => __( 'Sender Options', 'classified-listing' ),
+						'fields' => self::email_sender_fields(),
+					],
+					'rtcl_email_notifications_settings' => [
+						'label'  => __( 'Email Notifications', 'classified-listing' ),
+						'fields' => self::email_notification_fields(),
+					],
+					'rtcl_email_templates_settings'     => [
+						'label'  => __( 'Email Templates', 'classified-listing' ),
+						'fields' => self::email_templates_fields(),
+					],
+				],
+			],
+			'rtcl_account_settings'         => [
+				'label'  => __( 'Account & Policy', 'classified-listing' ),
+				'icon'   => 'fa-solid fa-shield-halved',
+				'fields' => self::account_policy_fields(),
+			],
+			'rtcl_advanced_settings'        => [
+				'label'  => __( 'Page Setup & Permalink', 'classified-listing' ),
+				'icon'   => 'fas fa-chain',
+				'fields' => self::page_setup_permalink_fields(),
+			],
+			'rtcl_style_settings'           => [
+				'label'  => __( 'Style', 'classified-listing' ),
+				'icon'   => 'fas fa-fill-drip',
+				'fields' => self::style_fields(),
+			],
+			'misc'                          => [
+				'label'    => __( 'Misc', 'classified-listing' ),
+				'icon'     => 'fa-solid fa-table-cells-large',
+				'children' => [
+					'rtcl_misc_settings'       => [
+						'label'  => __( 'Misc', 'classified-listing' ),
+						'fields' => self::misc_recaptcha_fields(),
+					],
+					'rtcl_misc_media_settings' => [
+						'label'  => __( 'Media', 'classified-listing' ),
+						'fields' => self::misc_media_fields(),
+					],
+					'rtcl_misc_map_settings'   => [
+						'label'  => __( 'Map', 'classified-listing' ),
+						'fields' => self::misc_map_fields(),
+					],
+				],
+			],
+			'rtcl_tools_settings'           => [
+				'label'  => __( 'Tools', 'classified-listing' ),
+				'icon'   => 'fa-solid fa-wrench',
+				'fields' => self::tools_fields(),
+			],
+			'rtcl_ai_settings'              => [
+				'label'  => __( 'AI Integration', 'classified-listing' ),
+				'icon'   => 'fas fa-microchip',
+				'fields' => self::all_integration_fields(),
+			],
+		] );
+
+		if ( ! get_option( 'rtcl_embedding_process_completed' ) ) {
+			$options['rtcl_ai_settings']['fields']['semantic_search_existing_listing'] = [
+				'title'       => __( 'Data Training', 'classified-listing' ),
+				'type'        => 'html',
+				'description' => sprintf( __( 'Compatible your existing listings with semantic search process. <a class="rtcl-generate-embedding" href="%s">Generate Embeddings</a>', 'classified-listing' ),
+					add_query_arg( [
+						rtcl()->nonceId => wp_create_nonce( rtcl()->nonceText ),
+						'action'        => 'rtcl_start_embedding_process',
+					], admin_url( 'admin.php?page=rtcl-settings&parentId=rtcl_ai_settings' ) ) ),
+				'depends'     => [
+					'relation' => 'and',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.semantic_search',
+							'value'     => 'yes',
+							'condition' => '=',
+						],
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'DeepSeek',
+							'condition' => '!=',
+						],
+					],
+				],
+			];
+		}
+
+		$children = apply_filters( 'rtcl_option_addon_items', [] );
+		if ( ! empty( $children ) && is_array( $children ) ) {
+			$options['addon'] = [
+				'label'    => esc_html__( 'Addon Settings', 'classified-listing' ),
+				'icon'     => 'fa-solid fa-network-wired',
+				'children' => $children,
+			];
+		}
+
+		return $options;
+	}
+
+	// General settings
+	public static function listing_settings_fields() {
+		$options = [
+			'field_title_listing_settings'           => [
+				'title' => __( 'Listing Settings', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'include_results_from'                   => [
+				'title'       => __( 'Include Results From', 'classified-listing' ),
+				'type'        => 'checkbox',
+				'orientation' => 'vertical',
+				'default'     => 'child_categories',
+				'options'     => [
+					'child_categories' => __( 'Child Categories', 'classified-listing' ),
+					'child_locations'  => __( 'Child Locations', 'classified-listing' ),
+				],
+			],
+			'listing_duration'                       => [
+				'title'       => __( 'Listing Duration (in days)', 'classified-listing' ),
+				'type'        => 'number',
+				'default'     => 15,
+				'description' => __( 'Use a value of "0" to keep a listing alive indefinitely.', 'classified-listing' ),
+			],
+			'delete_expired_listings'                => [
+				'title'       => __( 'Delete Expired Listings (in days)', 'classified-listing' ),
+				'type'        => 'number',
+				'default'     => 15,
+				'description' => __( 'If you have the renewal notification enabled (Settings > Email > Notify users via email), this will be the number of days after the "Renewal Reminder" email was sent.',
+					'classified-listing' ),
+			],
+			'has_favourites'                         => [
+				'title'   => __( 'Enable Add to Favourite', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => 1,
+			],
+			'rss_feed_number'                        => [
+				'title'       => __( 'Number of Listings for RSS Feed', 'classified-listing' ),
+				'type'        => 'number',
+				'default'     => 10,
+				'description' => __( 'Number of listings to show in RSS Feed', 'classified-listing' ),
+			],
+			'renew'                                  => [
+				'title'   => __( 'Renew Listing', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => 0,
+			],
+			'new_listing_status'                     => [
+				'title'       => __( 'New Listing Status', 'classified-listing' ),
+				'type'        => 'select',
+				'default'     => 'pending',
+				'options'     => [
+					'publish'       => __( 'Published', 'classified-listing' ),
+					'pending'       => __( 'Pending', 'classified-listing' ),
+					'draft'         => __( 'Draft', 'classified-listing' ),
+					'rtcl-reviewed' => __( 'Reviewed', 'classified-listing' ),
+					'rtcl-expired'  => __( 'Expired', 'classified-listing' ),
+				],
+				'description' => __( 'Listing status at new listing', 'classified-listing' ),
+			],
+			'edited_listing_status'                  => [
+				'title'   => __( 'Listing Status after Edit', 'classified-listing' ),
+				'type'    => 'select',
+				'default' => 'pending',
+				'options' => [
+					'publish'       => __( 'Published', 'classified-listing' ),
+					'pending'       => __( 'Pending', 'classified-listing' ),
+					'draft'         => __( 'Draft', 'classified-listing' ),
+					'rtcl-reviewed' => __( 'Reviewed', 'classified-listing' ),
+					'rtcl-expired'  => __( 'Expired', 'classified-listing' ),
+				],
+			],
+			'redirect_new_listing'                   => [
+				'title'       => __( 'Redirect after Submit Listing', 'classified-listing' ),
+				'type'        => 'select',
+				'default'     => 'submission',
+				'options'     => [
+					'account'    => __( 'Account', 'classified-listing' ),
+					'submission' => __( 'Regular submission', 'classified-listing' ),
+					'custom'     => __( 'Custom', 'classified-listing' ),
+				],
+				'description' => __( 'Redirect after successfully post a new listing', 'classified-listing' ),
+			],
+			'redirect_new_listing_custom'            => [
+				'title'   => esc_html__( 'Custom Redirect URL after Submit Listing', 'classified-listing' ),
+				'type'    => 'url',
+				'depends' => [
+					'on' => [
+						[
+							'field'     => 'rtcl_general_settings.redirect_new_listing',
+							'value'     => 'custom',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'redirect_update_listing'                => [
+				'title'       => __( 'Redirect after Edit Listing', 'classified-listing' ),
+				'type'        => 'select',
+				'default'     => 'submission',
+				'options'     => [
+					'account'    => __( 'Account', 'classified-listing' ),
+					'submission' => __( 'Regular submission', 'classified-listing' ),
+					'custom'     => __( 'Custom', 'classified-listing' ),
+				],
+				'description' => __( 'Redirect after successfully post a new listing', 'classified-listing' ),
+			],
+			'redirect_update_listing_custom'         => [
+				'title'   => esc_html__( 'Custom Redirect URL after Edit Listing', 'classified-listing' ),
+				'type'    => 'url',
+				'depends' => [
+					'on' => [
+						[
+							'field'     => 'rtcl_general_settings.redirect_update_listing',
+							'value'     => 'custom',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'pending_listing_status_after_promotion' => [
+				'title'   => __( 'Publish Pending Listing after Payment Success', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => 0,
+			],
+			'field_title_info'                       => [
+				'title' => __( 'Information', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'admin_note_to_users'                    => [
+				'title'       => __( 'Admin Note to All Users', 'classified-listing' ),
+				'type'        => 'textarea',
+				'description' => __( 'This information will show to all user\'s dashboard.', 'classified-listing' ),
+			],
+		];
+
+		return apply_filters( 'rtcl_general_settings_options', $options );
+	}
+
+	public static function listing_labels_fields() {
+		$options = [
+			'field_title'            => [
+				'title' => __( 'Listing Labels', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'new_listing_label'      => [
+				'title'       => __( 'New Listings Label', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => 'New',
+				'description' => __( 'Enter the text you want to use inside the "New" tag.', 'classified-listing' ),
+			],
+			'new_listing_threshold'  => [
+				'title'       => __( 'New Listing Threshold (days)', 'classified-listing' ),
+				'type'        => 'number',
+				'default'     => 3,
+				'description' => __( 'Enter the number of days the listing will be tagged as "New" from the day it is published.', 'classified-listing' ),
+			],
+			'listing_featured_label' => [
+				'title'       => __( 'Feature Listings Label', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => 'Featured',
+				'description' => __( 'Enter the text you want to use inside the "Featured" tag.', 'classified-listing' ),
+			],
+		];
+
+		return apply_filters( 'rtcl_general_listing_label_settings_options', $options );
+	}
+
+	public static function location_settings_fields() {
+		return [
+			'field_title'           => [
+				'title' => __( 'Location Settings', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'location_type'         => [
+				'title'       => __( 'Location Type', 'classified-listing' ),
+				'type'        => 'radio',
+				'orientation' => 'vertical',
+				'options'     => [
+					'local' => __( 'Local (WordPress default location taxonomy)', 'classified-listing' ),
+					'geo'   => __( 'GEO Location (Set Map type => Settings > Misc > Map Type)', 'classified-listing' ),
+				],
+				'default'     => 'local',
+			],
+			'location_level_first'  => [
+				'title'    => __( 'First Level Location', 'classified-listing' ),
+				'type'     => 'text',
+				'default'  => 'State',
+				'required' => true,
+			],
+			'location_level_second' => [
+				'title'   => __( 'Second Level Location', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => 'City',
+			],
+			'location_level_third'  => [
+				'title'   => __( 'Third Level Location', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => 'Town',
+			],
+		];
+	}
+
+	public static function currency_options_fields() {
+		return [
+			'field_title_currency'         => [
+				'title'       => __( 'Currency Options', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'The following options affect how prices are displayed on the frontend.', 'classified-listing' ),
+			],
+			'currency'                     => [
+				'title'            => __( 'Currency', 'classified-listing' ),
+				'type'             => 'select',
+				'searchable'       => true,
+				'allowedLabelHtml' => true,
+				'default'          => 'dollar',
+				'options'          => Options::get_currencies(),
+			],
+			'currency_position'            => [
+				'title'   => __( 'Currency Position', 'classified-listing' ),
+				'type'    => 'select',
+				'default' => 'right',
+				'options' => Options::get_currency_positions(),
+			],
+			'currency_thousands_separator' => [
+				'title'       => __( 'Thousands Separator', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => ',',
+				'style'       => 'width:50px',
+				'description' => __( 'The symbol (usually , or .) to separate thousands.', 'classified-listing' ),
+			],
+			'currency_decimal_separator'   => [
+				'title'       => __( 'Decimal Separator', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => ',',
+				'style'       => 'width:50px',
+				'description' => __( 'The symbol (usually , or .) to separate decimal points.', 'classified-listing' ),
+			],
+		];
+	}
+
+	public static function social_share_fields() {
+		return [
+			'field_title_social' => [
+				'title' => __( 'Social Share Settings', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'social_services'    => [
+				'title'       => __( 'Enable Social Share', 'classified-listing' ),
+				'type'        => 'checkbox',
+				'orientation' => 'vertical',
+				'options'     => [
+					'facebook'  => __( 'Facebook', 'classified-listing' ),
+					'twitter'   => __( 'Twitter', 'classified-listing' ),
+					'linkedin'  => __( 'LinkedIn', 'classified-listing' ),
+					'pinterest' => __( 'Pinterest', 'classified-listing' ),
+					'whatsapp'  => __( 'WhatsApp (Only at mobile)', 'classified-listing' ),
+					'telegram'  => __( 'Telegram (Only at mobile)', 'classified-listing' ),
+				],
+				'default'     => [ 'facebook', 'twitter' ],
+			],
+			'social_pages'       => [
+				'title'       => __( 'Show Buttons in', 'classified-listing' ),
+				'type'        => 'checkbox',
+				'orientation' => 'vertical',
+				'options'     => [
+					'listing'    => __( 'Listing detail page', 'classified-listing' ),
+					'listings'   => __( 'Listings page', 'classified-listing' ),
+					'categories' => __( 'Categories page', 'classified-listing' ),
+					'locations'  => __( 'Locations page', 'classified-listing' ),
+				],
+				'default'     => [ 'listing', 'listings' ],
+			],
+		];
+	}
+
+	// All listing settings
+	public static function all_listing_fields() {
+		$options = [
+			'field_title_archive' => [
+				'title' => __( 'Listing Archive Settings', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'listings_per_page'   => [
+				'title'       => __( 'Listings Per Page', 'classified-listing' ),
+				'type'        => 'number',
+				'default'     => 10,
+				'description' => __( 'Number of listings to show per page. Use a value of "0" to show all listings.', 'classified-listing' ),
+			],
+			'default_view'        => [
+				'title'   => __( 'Default Listing View', 'classified-listing' ),
+				'type'    => 'select',
+				'default' => 'grid',
+				'options' => [
+					''     => __( 'Select one', 'classified-listing' ),
+					'grid' => __( 'Grid View', 'classified-listing' ),
+					'list' => __( 'List View', 'classified-listing' ),
+				],
+			],
+			'listings_per_row'    => [
+				'title'       => __( 'Grid Per Row', 'classified-listing' ),
+				'type'        => 'listingsPerRow',
+				'description' => __( 'Number of listings to show per row for grid view.', 'classified-listing' ),
+			],
+			'orderby'             => [
+				'title'   => __( 'Listings Order by', 'classified-listing' ),
+				'type'    => 'select',
+				'default' => 'date',
+				'options' => [
+					'title' => __( 'Title', 'classified-listing' ),
+					'price' => __( 'Price', 'classified-listing' ),
+					'date'  => __( 'Date Posted', 'classified-listing' ),
+					'views' => __( 'Views Count', 'classified-listing' ),
+				],
+			],
+			'order'               => [
+				'title'   => __( 'Listings Sort by', 'classified-listing' ),
+				'type'    => 'select',
+				'default' => 'desc',
+				'options' => [
+					'asc'  => __( 'Ascending', 'classified-listing' ),
+					'desc' => __( 'Descending', 'classified-listing' ),
+				],
+			],
+			'taxonomy_orderby'    => [
+				'title'   => __( 'Category / Location Order by', 'classified-listing' ),
+				'type'    => 'select',
+				'default' => 'desc',
+				'options' => [
+					'name'         => __( 'Name', 'classified-listing' ),
+					'id'           => __( 'Id', 'classified-listing' ),
+					'count'        => __( 'Count', 'classified-listing' ),
+					'slug'         => __( 'Slug', 'classified-listing' ),
+					'custom_order' => __( 'Custom Order', 'classified-listing' ),
+					'none'         => __( 'None', 'classified-listing' ),
+				],
+			],
+			'taxonomy_order'      => [
+				'title'   => __( 'Category / Location Sort by', 'classified-listing' ),
+				'type'    => 'select',
+				'default' => 'desc',
+				'options' => [
+					'asc'  => __( 'Ascending', 'classified-listing' ),
+					'desc' => __( 'Descending', 'classified-listing' ),
+				],
+			],
+			'display_options'     => [
+				'title'       => __( 'Show in Listing', 'classified-listing' ),
+				'type'        => 'checkbox',
+				'orientation' => 'vertical',
+				'default'     => [ 'date', 'user', 'views', 'category', 'location', 'excerpt', 'price' ],
+				'options'     => Options::get_listing_display_options(),
+			],
+		];
+
+		return apply_filters( 'rtcl_archive_listing_settings_options', $options );
+	}
+
+	// Listing details settings
+	public static function listing_details_fields() {
+		$options = [
+			'field_title_details'          => [
+				'title' => __( 'Listing Details Settings', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'has_report_abuse'             => [
+				'title'   => __( 'Enable Report Abuse', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => 1,
+			],
+			'has_contact_form'             => [
+				'title'   => __( 'Enable Contact Form', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => 1,
+			],
+			'has_comment_form'             => [
+				'title'   => __( 'Enable Review Form', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => 0,
+			],
+			'disable_gallery_slider'       => [
+				'title'   => __( 'Disable Gallery Slider', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => 0,
+			],
+			'disable_gallery_video'        => [
+				'title'   => __( 'Disable Gallery Video', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => 0,
+			],
+			'related_posts_per_page'       => [
+				'title'       => __( 'Number of Related Listings', 'classified-listing' ),
+				'type'        => 'number',
+				'default'     => 4,
+				'description' => __( 'Number of listings to show as related listing.', 'classified-listing' ),
+			],
+			'detail_page_sidebar_position' => [
+				'title'   => __( 'Sidebar Position', 'classified-listing' ),
+				'type'    => 'select',
+				'default' => 'right',
+				'options' => [
+					'right'  => __( 'Right', 'classified-listing' ),
+					'left'   => __( 'Left', 'classified-listing' ),
+					'bottom' => __( 'Bottom', 'classified-listing' ),
+				],
+			],
+			'display_options_detail'       => [
+				'title'       => __( 'Show in Listing Detail Page', 'classified-listing' ),
+				'type'        => 'checkbox',
+				'orientation' => 'vertical',
+				'default'     => [ 'date', 'user', 'views', 'category', 'location', 'price' ],
+				'options'     => Options::get_listing_detail_page_display_options(),
+			],
+		];
+
+		return apply_filters( 'rtcl_single_listing_settings_options', $options );
+	}
+
+	// Payment settings
+	public static function checkout_fields() {
+		$options = [
+			'field_title_general'          => [
+				'title' => __( 'General Settings', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'payment'                      => [
+				'title'   => __( 'Enable Payment', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => 'yes',
+			],
+			'use_https'                    => [
+				'title'   => __( 'Enforce SSL on Checkout', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => 'no',
+			],
+			'billing_address_disabled'     => [
+				'title'   => __( 'Disable Billing Address', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => 'no',
+			],
+			'field_title_currency_options' => [
+				'title'       => __( 'Currency Options', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'The following options affect how prices are displayed on the frontend.', 'classified-listing' ),
+			],
+			'currency'                     => [
+				'title'            => __( 'Currency', 'classified-listing' ),
+				'type'             => 'select',
+				'searchable'       => true,
+				'allowedLabelHtml' => true,
+				'default'          => 'dollar',
+				'options'          => Options::get_currencies(),
+			],
+			'currency_position'            => [
+				'title'   => __( 'Currency Position', 'classified-listing' ),
+				'type'    => 'select',
+				'default' => 'right',
+				'options' => self::get_currency_positions(),
+			],
+			'currency_thousands_separator' => [
+				'title'       => __( 'Thousands Separator', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => ',',
+				'style'       => 'width:50px',
+				'description' => __( 'The symbol (usually , or .) to separate thousands.', 'classified-listing' ),
+			],
+			'currency_decimal_separator'   => [
+				'title'       => __( 'Decimal Separator', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => ',',
+				'style'       => 'width:50px',
+				'description' => __( 'The symbol (usually , or .) to separate decimal points.', 'classified-listing' ),
+			],
+		];
+
+		return apply_filters( 'rtcl_payment_settings_options', $options );
+	}
+
+	// Email settings
+	public static function email_sender_fields() {
+		return [
+			'field_title_email'           => [
+				'title' => __( 'Email Sender Options', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'from_name'                   => [
+				'title'       => __( 'From Name', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => Functions::get_blogname(),
+				'description' => __( 'The name system generated emails are sent from. This should probably be your site or directory name.',
+					'classified-listing' ),
+			],
+			'from_email'                  => [
+				'title'       => __( 'From Email', 'classified-listing' ),
+				'type'        => 'email',
+				'default'     => get_option( 'admin_email' ),
+				'description' => __( 'The sender email address should belong to the site domain.', 'classified-listing' ),
+			],
+			'admin_notice_emails'         => [
+				'title'       => __( 'Admin Notification Emails', 'classified-listing' ),
+				'type'        => 'textarea',
+				'default'     => get_option( 'admin_email' ),
+				'description' => __( 'Enter the email address(es) that should receive admin notification emails, one per line.', 'classified-listing' ),
+			],
+			// Others Options
+			'field_title_others'          => [
+				'title'       => __( 'Others Options', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => sprintf( '<strong>%s</strong>', esc_html__( "You can use the following placeholders", "classified-listing" ) ) . '<br>' .
+				                 '{site_name} - ' . esc_html__( 'Your site name', 'classified-listing' ) . '<br>' .
+				                 '{site_link} - ' . esc_html__( 'Your site name with link', 'classified-listing' ) . '<br>' .
+				                 '{site_url} - ' . esc_html__( 'Your site url with link', 'classified-listing' ) . '<br>' .
+				                 '{admin_email} - ' . esc_html__( 'Administration Email Address', 'classified-listing' ) . '<br>' .
+				                 '{renewal_link} - ' . esc_html__( 'Link to renewal page', 'classified-listing' ) . '<br>' .
+				                 '{today} - ' . esc_html__( 'Current date', 'classified-listing' ) . '<br>' .
+				                 '{now} - ' . esc_html__( 'Current time', 'classified-listing' ) . '<br><br>' .
+				                 wp_kses(
+				                 /* translators:  link */
+					                 sprintf( __( 'This section lets you customize the Classified Listing emails. <a href="%s" target="_blank">Click here to preview your email template.</a>',
+						                 "classified-listing" ),
+						                 wp_nonce_url( admin_url( '?preview_rtcl_mail=true' ), 'preview-mail' ) ),
+					                 [
+						                 'a' => [
+							                 'href'   => true,
+							                 'target' => true,
+						                 ],
+					                 ],
+				                 ),
+			],
+			'email_content_type'          => [
+				'title'       => __( 'Email Content Type', 'classified-listing' ),
+				'type'        => 'select',
+				'options'     => Options::get_email_type_options(),
+				'default'     => 'html',
+				'description' => __( 'Choose which format of email to send.', 'classified-listing' ),
+			],
+			'email_header_image'          => [
+				'title'       => __( 'Header Image', 'classified-listing' ),
+				'type'        => 'image',
+				'default'     => 0,
+				'description' => __( 'Upload an image to use as the header for your emails.', 'classified-listing' ),
+			],
+			'email_footer_text'           => [
+				'title'       => __( 'Footer Text', 'classified-listing' ),
+				'type'        => 'textarea',
+				'default'     => '{site_title}',
+				'description' => __( 'The text to appear in the footer of emails. Available placeholders: {site_title}', 'classified-listing' ),
+			],
+			'email_base_color'            => [
+				'title'       => __( 'Base Color', 'classified-listing' ),
+				'type'        => 'color',
+				'default'     => '#0071bd',
+				'description' => __( 'The base color for email templates. Default #0071bd', 'classified-listing' ),
+			],
+			'email_background_color'      => [
+				'title'       => __( 'Background Color', 'classified-listing' ),
+				'type'        => 'color',
+				'default'     => '#f7f7f7',
+				'description' => __( 'The background color for email templates. Default #f7f7f7', 'classified-listing' ),
+			],
+			'email_body_background_color' => [
+				'title'       => __( 'Body Background Color', 'classified-listing' ),
+				'type'        => 'color',
+				'default'     => '#ffffff',
+				'description' => __( 'The main body background color. Default #ffffff', 'classified-listing' ),
+			],
+			'email_text_color'            => [
+				'title'       => __( 'Body Text Color', 'classified-listing' ),
+				'type'        => 'color',
+				'default'     => '#3c3c3c',
+				'description' => __( 'The main body text color. Default #3c3c3c', 'classified-listing' ),
+			],
+		];
+	}
+
+	public static function email_notification_fields() {
+		return [
+			'field_title_notification' => [
+				'title' => __( 'Enable / Disable Notifications', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'notify_admin'             => [
+				'title'       => __( 'Notify Admin via Email when', 'classified-listing' ),
+				'type'        => 'checkbox',
+				'orientation' => 'vertical',
+				'options'     => self::get_admin_email_notification_options(),
+				'default'     => [ 'register_new_user', 'listing_submitted', 'order_created' ],
+			],
+			'notify_users'             => [
+				'title'       => __( 'Notify Users via Email when Their', 'classified-listing' ),
+				'type'        => 'checkbox',
+				'orientation' => 'vertical',
+				'options'     => self::get_user_email_notification_options(),
+				'default'     => [
+					'listing_submitted',
+					'listing_published',
+					'listing_renewal',
+					'listing_expired',
+					'remind_renewal',
+					'order_created',
+					'order_completed',
+				],
+			],
+		];
+	}
+
+	public static function email_templates_fields() {
+		return [
+			'field_title_templates'        => [
+				'title'       => __( 'Email Templates', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => sprintf( '<strong>%s</strong>', esc_html__( "You can use the following placeholders", "classified-listing" ) ) . '<br>' .
+				                 '{site_name} - ' . esc_html__( 'Your site name', 'classified-listing' ) . '<br>' .
+				                 '{site_link} - ' . esc_html__( 'Your site name with link', 'classified-listing' ) . '<br>' .
+				                 '{site_url} - ' . esc_html__( 'Your site url with link', 'classified-listing' ) . '<br>' .
+				                 '{admin_email} - ' . esc_html__( 'Administration Email Address', 'classified-listing' ) . '<br>' .
+				                 '{renewal_link} - ' . esc_html__( 'Link to renewal page', 'classified-listing' ) . '<br>' .
+				                 '{today} - ' . esc_html__( 'Current date', 'classified-listing' ) . '<br>' .
+				                 '{now} - ' . esc_html__( 'Current time', 'classified-listing' ) . '<br><br>' .
+				                 wp_kses(
+				                 /* translators:  link */
+					                 sprintf( __( 'This section lets you customize the Classified Listing emails. <a href="%s" target="_blank">Click here to preview your email template.</a>',
+						                 "classified-listing" ),
+						                 wp_nonce_url( admin_url( '?preview_rtcl_mail=true' ), 'preview-mail' ) ),
+					                 [
+						                 'a' => [
+							                 'href'   => true,
+							                 'target' => true,
+						                 ],
+					                 ],
+				                 ),
+			],
+			// Listing Submitted Email ( Confirmation )
+			'field_title_submitted'        => [
+				'title'       => __( 'Listing Submitted Email ( Confirmation )', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'To override and edit this email template copy <code>classified-listing/templates/emails/listing-submitted-email-to-owner.php</code> to your theme <code>folder: astra/classified-listing/emails/listing-submitted-email-to-owner.php.</code>',
+					'classified-listing' ),
+			],
+			'listing_submitted_subject'    => [
+				'title'   => __( 'Subject', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( '[{site_title}] {listing_title} - is received', 'classified-listing' ),
+			],
+			'listing_submitted_heading'    => [
+				'title'   => __( 'Heading', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( 'Your listing is received', 'classified-listing' ),
+			],
+			// Listing Published / Approved Email
+			'field_title_published'        => [
+				'title' => __( 'Listing Published / Approved Email', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'listing_published_subject'    => [
+				'title'   => __( 'Subject', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( '[{site_title}] {listing_title} - is published', 'classified-listing' ),
+			],
+			'listing_published_heading'    => [
+				'title'   => __( 'Heading', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( 'Your listing is published', 'classified-listing' ),
+			],
+			// Listing Renewal Email
+			'field_title_renewal'          => [
+				'title' => __( 'Listing Renewal Email', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'renewal_email_threshold'      => [
+				'title'       => __( 'Listing Renewal Email Threshold (in days)' ),
+				'type'        => 'number',
+				'default'     => 3,
+				'max'         => 100,
+				'min'         => 1,
+				'description' => __( 'Configure how many days before listing expiration is the renewal email sent.', 'classified-listing' ),
+			],
+			'renewal_subject'              => [
+				'title'   => __( 'Subject', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( '[{site_name}] {listing_title} - Expiration notice', 'classified-listing' ),
+			],
+			'renewal_heading'              => [
+				'title'   => __( 'Heading', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( 'Expiration notice', 'classified-listing' ),
+			],
+			// Listing Expired Email
+			'field_title_expired'          => [
+				'title' => __( 'Listing Expired Email', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'expired_subject'              => [
+				'title'   => __( 'Subject', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( '[{site_name}] {listing_title} - Expiration notice', 'classified-listing' ),
+			],
+			'expired_heading'              => [
+				'title'   => __( 'Heading', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( 'Expiration notice', 'classified-listing' ),
+			],
+			// Renewal Reminder Email
+			'field_title_renewal_reminder' => [
+				'title' => __( 'Renewal Reminder Email', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'renewal_reminder_threshold'   => [
+				'title'       => __( 'Listing renewal reminder email threshold (in days)' ),
+				'type'        => 'number',
+				'default'     => 3,
+				'max'         => 100,
+				'min'         => 1,
+				'description' => __( 'Configure how many days after the expiration of a listing an email reminder should be sent to the owner.',
+					'classified-listing' ),
+			],
+			'renewal_reminder_subject'     => [
+				'title'   => __( 'Subject', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( '[{site_title}] {listing_title} - Renewal reminder', 'classified-listing' ),
+			],
+			'renewal_reminder_heading'     => [
+				'title'   => __( 'Heading', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( 'Renewal reminder', 'classified-listing' ),
+			],
+			// New Order
+			'field_title_new_order'        => [
+				'title' => __( 'New Order', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'order_created_subject'        => [
+				'title'   => __( 'Subject', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( '[{site_title}] #{order_number} Thank you for your order', 'classified-listing' ),
+			],
+			'order_created_heading'        => [
+				'title'   => __( 'Heading', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( 'New Order: #{order_number}', 'classified-listing' ),
+			],
+			// Order Completed Email
+			'field_title_order_completed'  => [
+				'title' => __( 'Order Completed Email', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'order_completed_subject'      => [
+				'title'   => __( 'Subject', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( '[{site_title}] : #{order_number} Order is completed.', 'classified-listing' ),
+			],
+			'order_completed_heading'      => [
+				'title'   => __( 'Heading', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( 'Payment is completed: #{order_number}', 'classified-listing' ),
+			],
+			// Listing Contact Email
+			'field_title_contact_email'    => [
+				'title' => __( 'Listing Contact Email', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'contact_subject'              => [
+				'title'   => __( 'Subject', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( '[{site_title}] Contact via {listing_title}', 'classified-listing' ),
+			],
+			'contact_heading'              => [
+				'title'   => __( 'Heading', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => __( 'Thank you for mail', 'classified-listing' ),
+			],
+		];
+	}
+
+	// Account and policy setting
+	public static function account_policy_fields() {
+		$options = [
+			'field_title_account'                  => [
+				'title' => __( 'Account & Policy Settings', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'enable_myaccount_registration'        => [
+				'title'       => __( 'Account Creation', 'classified-listing' ),
+				'type'        => 'switch',
+				'default'     => 'yes',
+				'description' => __( 'Allow visitor to create an account on the "My account" page', 'classified-listing' ),
+			],
+			'separate_registration_form'           => [
+				'title'       => __( 'Separate Registration Form', 'classified-listing' ),
+				'type'        => 'switch',
+				'default'     => 'no',
+				'description' => __( 'Separate registration page from login page', 'classified-listing' ),
+			],
+			'user_role'                            => [
+				'title'       => __( 'New User Default Role', 'classified-listing' ),
+				'type'        => 'select',
+				'searchable'  => true,
+				'options'     => [
+					''             => __( 'Default Role as WordPress', 'classified-listing' ),
+					'editor'       => __( 'Editor', 'classified-listing' ),
+					'author'       => __( 'Author', 'classified-listing' ),
+					'contributor'  => __( 'Contributor', 'classified-listing' ),
+					'subscriber'   => __( 'Subscriber', 'classified-listing' ),
+					'rtcl_manager' => __( 'Listing Manager', 'classified-listing' ),
+				],
+				'default'     => '',
+				'description' => __( 'Select the role assigned to new users registered through the Classified Listing plugin.', 'classified-listing' ),
+			],
+			'social_login_shortcode'               => [
+				'title'       => __( 'Social Login Shortcode', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => '',
+				'description' => __( 'Add your social login shortcode, which will run at <em style="color:red">rtcl_login_form</em> hook. <strong style="color: green">We will support shortcode from any third party plugin.</strong> Example: [TheChamp-Login], [miniorange_social_login theme="default"]',
+					'classified-listing' ),
+			],
+			// Registration fields
+			'registration_fields_section'          => [
+				'title' => __( 'Registration Fields', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'disable_name_phone_registration'      => [
+				'title'       => __( 'Hide Name', 'classified-listing' ),
+				'type'        => 'switch',
+				'default'     => 'no',
+				'description' => __( 'Hide name at registration form', 'classified-listing' ),
+			],
+			'disable_phone_at_registration'        => [
+				'title'       => __( 'Hide Phone Number', 'classified-listing' ),
+				'type'        => 'switch',
+				'default'     => 'no',
+				'description' => __( 'Hide phone number at registration form', 'classified-listing' ),
+			],
+			'required_phone_at_registration'       => [
+				'title'       => __( 'Required Phone', 'classified-listing' ),
+				'type'        => 'switch',
+				'default'     => 'no',
+				'description' => __( 'Required phone number at registration form', 'classified-listing' ),
+				'depends'     => [
+					'on' => [
+						[
+							'field'     => 'rtcl_account_settings.disable_phone_at_registration',
+							'value'     => 'yes',
+							'condition' => '!=',
+						],
+					],
+				],
+			],
+			'enable_user_type'                     => [
+				'title'       => __( 'Enable Account Type', 'classified-listing' ),
+				'type'        => 'switch',
+				'default'     => 'no',
+				'description' => __( 'Enable account type at registration form', 'classified-listing' ),
+			],
+			'seller_user_type_label'               => [
+				'title'       => __( 'Seller Label', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => 'Seller',
+				'description' => __( 'Allow users to post listings.', 'classified-listing' ),
+				'depends'     => [
+					'on' => [
+						[
+							'field'     => 'rtcl_account_settings.enable_user_type',
+							'value'     => 'yes',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'buyer_user_type_label'                => [
+				'title'       => __( 'Buyer Label', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => 'Buyer',
+				'description' => __( 'Disallow users to post listings.', 'classified-listing' ),
+				'depends'     => [
+					'on' => [
+						[
+							'field'     => 'rtcl_account_settings.enable_user_type',
+							'value'     => 'yes',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			// Terms and Conditions
+			'field_title_terms'                    => [
+				'title' => __( 'Terms and Conditions', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'enable_listing_terms_conditions'      => [
+				'title'       => __( 'Enable Listing Terms and Conditions', 'classified-listing' ),
+				'type'        => 'switch',
+				'default'     => 'no',
+				'description' => __( 'Display and require user agreement to Terms and Conditions for Listing form.', 'classified-listing' ),
+			],
+			'enable_checkout_terms_conditions'     => [
+				'title'       => __( 'Enable Terms and Conditions at Checkout Page', 'classified-listing' ),
+				'type'        => 'switch',
+				'default'     => 'no',
+				'description' => __( 'Display and require user agreement to Terms and Conditions at checkout page.', 'classified-listing' ),
+			],
+			'enable_registration_terms_conditions' => [
+				'title'       => __( 'Enable Terms and Conditions at Registration', 'classified-listing' ),
+				'type'        => 'switch',
+				'default'     => 'no',
+				'description' => __( 'Display and require user agreement to Terms and Conditions at registration page.', 'classified-listing' ),
+			],
+			'page_for_terms_and_conditions'        => [
+				'title'       => __( 'Terms and Conditions Page', 'classified-listing' ),
+				'type'        => 'select',
+				'searchable'  => true,
+				'options'     => Functions::get_pages(),
+				'default'     => '',
+				'description' => __( 'Choose a page to act as your Terms and Conditions.', 'classified-listing' ),
+			],
+			'terms_and_conditions_checkbox_text'   => [
+				'title'       => __( 'Terms and Conditions', 'classified-listing' ),
+				'type'        => 'textarea',
+				'default'     => __( 'I have read and agree to the website [terms].', 'classified-listing' ),
+				'description' => __( 'Optionally add some text for the terms checkbox that customers must accept.', 'classified-listing' ),
+			],
+			// Privacy Policy
+			'field_title_privacy'                  => [
+				'title'       => __( 'Privacy Policy', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'This section controls the display of your website privacy policy. The privacy notices below will not show up unless a privacy page is first set.',
+					'classified-listing' ),
+			],
+			'page_for_privacy_policy'              => [
+				'title'       => __( 'Privacy Page', 'classified-listing' ),
+				'type'        => 'select',
+				'searchable'  => true,
+				'options'     => Functions::get_pages(),
+				'default'     => '',
+				'description' => __( 'Choose a page to act as your privacy policy.', 'classified-listing' ),
+			],
+			'registration_privacy_policy_text'     => [
+				'title'       => __( 'Registration Privacy Policy', 'classified-listing' ),
+				'type'        => 'textarea',
+				'default'     => __( 'Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our [privacy_policy].',
+					'classified-listing' ),
+				'description' => __( 'Optionally add some text about your store privacy policy to show on account registration forms.', 'classified-listing' ),
+			],
+			'checkout_privacy_policy_text'         => [
+				'title'       => __( 'Checkout Privacy Policy', 'classified-listing' ),
+				'type'        => 'textarea',
+				'default'     => __( 'Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our [privacy_policy].',
+					'classified-listing' ),
+				'description' => __( 'Optionally add some text about your store privacy policy to show during checkout.', 'classified-listing' ),
+			],
+		];
+
+		return apply_filters( 'rtcl_account_settings_options', $options );
+	}
+
+	// Style settings
+	public static function style_fields() {
+		$options = [
+			'field_title_global_style' => [
+				'title' => __( 'Global Style', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'primary'                  => [
+				'title'   => __( 'Primary', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#0066bf',
+			],
+			'link'                     => [
+				'title'   => __( 'Link Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#111111',
+			],
+			'link_hover'               => [
+				'title'   => __( 'Link Color on Hover', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#0066bf',
+			],
+			'button'                   => [
+				'title'   => __( 'Button Background', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#0066bf',
+			],
+			'button_hover'             => [
+				'title'   => __( 'Button Hover Background', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#3065c1',
+			],
+			'button_text'              => [
+				'title'   => __( 'Button Text Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#ffffff',
+			],
+			'button_hover_text'        => [
+				'title'   => __( 'Button Text Color on Hover', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '',
+			],
+			// Label Style
+			'field_title_label_style'  => [
+				'title' => __( 'Label Style', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'new'                      => [
+				'title'   => __( 'New Label Background Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '',
+			],
+			'new_text'                 => [
+				'title'   => __( 'New Label Text Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '',
+			],
+			'feature'                  => [
+				'title'   => __( 'Feature Label Background Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '',
+			],
+			'feature_text'             => [
+				'title'   => __( 'Feature Label Text Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '',
+			],
+			// Others Style
+			'field_title_others_style' => [
+				'title' => __( 'Others Style', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'container_class'          => [
+				'title'       => __( 'Container Class', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => '',
+				'description' => __( 'Add theme container class here to adjust width', 'classified-listing' ),
+			],
+			'sidebar_width'            => [
+				'title'   => __( 'Sidebar Width', 'classified-listing' ),
+				'type'    => 'sidebarWidth',
+				'default' => [
+					'required' => true,
+					'size'     => 28,
+					'unit'     => 'px',
+				],
+			],
+		];
+
+		return apply_filters( 'rtcl_style_settings_options', $options );
+	}
+
+	// Misc settings
+	public static function misc_recaptcha_fields() {
+		$options = [
+			'field_title_google_recaptcha' => [
+				'title' => __( 'Google reCAPTCHA', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'recaptcha_forms'              => [
+				'title'       => __( 'Enable reCAPTCHA in', 'classified-listing' ),
+				'type'        => 'checkbox',
+				'orientation' => 'vertical',
+				'options'     => Options::get_recaptcha_form_list(),
+				'default'     => [],
+			],
+			'recaptcha_version'            => [
+				'title'       => __( 'reCAPTCHA Version', 'classified-listing' ),
+				'type'        => 'radio',
+				'options'     => [
+					3 => esc_html__( 'reCAPTCHA v3', 'classified-listing' ),
+					2 => esc_html__( 'reCAPTCHA v2', 'classified-listing' ),
+				],
+				'default'     => 2,
+				'description' => __( 'Google reCAPTCHA v2 will show in the form and reCAPTCHA v3 will show in the browser corner.', 'classified-listing' ),
+			],
+			'recaptcha_site_key'           => [
+				'title'       => __( 'Site Key', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => '',
+				'description' => __( '<span style="color: red">Google reCAPTCHA v2 and v3, site key and secrect key will be different.</span> How to generate reCAPTCHA <a target="_blank" href="https://www.radiustheme.com/docs/faqs/add-re-captcha/">Click here</a>',
+					'classified-listing' ),
+			],
+			'recaptcha_secret_key'         => [
+				'title'   => __( 'Secret Key', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => '',
+			],
+		];
+
+		return apply_filters( 'rtcl_misc_settings_options', $options );
+	}
+
+	public static function misc_media_fields() {
+		$options = [
+			'field_title_image_size'       => [
+				'title' => __( 'Image Sizes', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'image_size_gallery'           => [
+				'title'       => __( 'Gallery Slider', 'classified-listing' ),
+				'type'        => 'image_size',
+				'default'     => [
+					'width'  => 924,
+					'height' => 462,
+					'crop'   => true,
+				],
+				'description' => __( 'This image size is being used in the image slider on Listing details pages.', 'classified-listing' ),
+			],
+			'image_size_gallery_thumbnail' => [
+				'title'       => __( 'Gallery Thumbnail', 'classified-listing' ),
+				'type'        => 'image_size',
+				'default'     => [
+					'width'  => 150,
+					'height' => 105,
+					'crop'   => true,
+				],
+				'description' => __( 'Gallery thumbnail image size', 'classified-listing' ),
+			],
+			'image_size_thumbnail'         => [
+				'title'       => __( 'Thumbnail', 'classified-listing' ),
+				'type'        => 'image_size',
+				'default'     => [
+					'width'  => 320,
+					'height' => 240,
+					'crop'   => true,
+				],
+				'description' => __( 'Listing thumbnail size will use all listing page', 'classified-listing' ),
+			],
+			'image_allowed_type'           => [
+				'title'       => __( 'Allowed Image Type', 'classified-listing' ),
+				'type'        => 'checkbox',
+				'orientation' => 'vertical',
+				'options'     => [
+					'png'  => __( 'PNG', 'classified-listing' ),
+					'jpg'  => __( 'JPG', 'classified-listing' ),
+					'jpeg' => __( 'JPEG', 'classified-listing' ),
+					'webp' => __( 'WebP', 'classified-listing' ),
+				],
+				'default'     => [ 'png', 'jpg', 'jpeg', 'webp' ],
+			],
+			'image_allowed_memory'         => [
+				'title'       => __( 'Allowed Image Memory Size', 'classified-listing' ),
+				'type'        => 'number',
+				'default'     => 2,
+				'max'         => 100,
+				'min'         => 1,
+				'description' => __( 'Enter the image memory size, like 2 for 2 MB (only number without MB) <span style="color: red">Your hosting allowed maximum 300 MB</span>',
+					'classified-listing' ),
+			],
+			'placeholder_image'            => [
+				'title'       => __( 'Placeholder Image', 'classified-listing' ),
+				'type'        => 'image',
+				'default'     => 0,
+				'description' => esc_html__( 'Select an Image to display as placeholder if have no image.', 'classified-listing' ),
+			],
+		];
+
+		return apply_filters( 'rtcl_misc_media_settings_options', $options );
+	}
+
+	public static function misc_map_fields() {
+		$maxMindDatabaseService = Functions::maxMindDatabaseService();
+
+		$options = [
+			'map_title'                => [
+				'title' => __( 'Map', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'has_map'                  => [
+				'title'   => __( 'Enable Map', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => 'yes',
+			],
+			'map_type'                 => [
+				'title'       => __( 'Map Type', 'classified-listing' ),
+				'type'        => 'radio',
+				'orientation' => 'vertical',
+				'options'     => [
+					'osm'    => __( 'OpenStreetMap', 'classified-listing' ),
+					'google' => __( 'Google Map', 'classified-listing' ),
+				],
+				'default'     => 'osm',
+			],
+			'map_api_key'              => [
+				'title'       => __( 'Google Map API Key', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => '',
+				'description' => __( 'How to generate Google Map API key <a target="_blank" href="https://www.radiustheme.com/docs/main-settings/misc-settings/#google-map">Click here</a>',
+					'classified-listing' ),
+				'depends'     => [
+					'on' => [
+						[
+							'field'     => 'rtcl_misc_map_settings.map_type',
+							'value'     => 'google',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'map_view_center_position' => [
+				'title'   => __( 'Map View Center Position', 'classified-listing' ),
+				'type'    => 'select',
+				'default' => 'crowded',
+				'options' => [
+					''        => __( 'Select one', 'classified-listing' ),
+					'densest' => __( 'Densest Cluster', 'classified-listing' ),
+					'crowded' => __( 'Focus Crowded Area', 'classified-listing' ),
+				],
+				'depends' => [
+					'on' => [
+						[
+							'field'     => 'rtcl_misc_map_settings.map_type',
+							'value'     => 'osm',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'map_zoom_level'           => [
+				'title'       => __( 'Map Zoom Level', 'classified-listing' ),
+				'type'        => 'select',
+				'default'     => 10,
+				'validation'  => [
+					'max' => 18,
+					'min' => 0,
+				],
+				'options'     => [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 ],
+				'description' => __( 'Select the default zoom level for the map.', 'classified-listing' ),
+			],
+			'map_center'               => [
+				'title' => __( 'Map Default Location', 'classified-listing' ),
+				'type'  => 'mapCenter',
+			],
+			// MaxMind Geolocation
+			'geolocation_title'        => [
+				'title'       => __( 'MaxMind Geolocation', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'An integration for utilizing MaxMind to do Geolocation lookups. Please note that this integration will only do country lookups.',
+					'classified-listing' ),
+			],
+			'maxmind_license_key'      => [
+				'title'       => __( 'MaxMind License Key', 'classified-listing' ),
+				'type'        => 'password',
+				'placeholder' => __( 'Enter license key', 'classified-listing' ),
+				'description' => __( 'The key that will be used when dealing with MaxMind Geolocation services. You can read how to generate one in <a target="_blank" href="https://docs.woocommerce.com/document/maxmind-geolocation-integration/">MaxMind Geolocation Integration documentation.</a>',
+					'classified-listing' ),
+			],
+			'maxmind_database_path'    => [
+				'title'       => __( 'Database File Path', 'classified-listing' ),
+				'type'        => 'html',
+				'description' => $maxMindDatabaseService ? sprintf( '<strong>%s</strong>', $maxMindDatabaseService->get_database_path() ) : '',
+			],
+		];
+
+		return apply_filters( 'rtcl_misc_map_settings_options', $options );
+	}
+
+	// Page Setup & Permalink
+	public static function page_setup_permalink_fields() {
+		$options = [
+			'field_title_permalink'               => [
+				'title'       => __( 'Permalink Slugs', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( "NOTE: Just make sure that, after updating the fields in this section, you flush the rewrite rules by visiting Settings > Permalinks. Otherwise you'll still see the old links.",
+					'classified-listing' ),
+			],
+			'permalink'                           => [
+				'title'       => __( 'Listing Base', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => 'rtcl_listing',
+				'description' => __( 'Listing base permalink. Default rtcl_listing', 'classified-listing' ),
+			],
+			'category_base'                       => [
+				'title'       => __( 'Listing Category Base', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => 'listing-category',
+				'description' => __( 'Listing category base permalink.', 'classified-listing' ),
+			],
+			'location_base'                       => [
+				'title'       => __( 'Listing Location Base', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => 'listing-location',
+				'description' => __( 'Listing location base permalink.', 'classified-listing' ),
+			],
+			// Page Setup
+			'field_title_page_setup'              => [
+				'title'       => __( 'Page Setup', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'These pages need to be set so that listing endpoint.', 'classified-listing' ),
+			],
+			'template_base'                       => [
+				'title'      => __( 'Base Template', 'classified-listing' ),
+				'type'       => 'select',
+				'searchable' => true,
+				'default'    => 'rtcl_template',
+				'options'    => [
+					''              => __( 'Select base template', 'classified-listing' ),
+					'theme_page'    => __( 'Theme Template', 'classified-listing' ),
+					'rtcl_template' => __( 'Classified Listing Template', 'classified-listing' ),
+				],
+			],
+			'listings'                            => [
+				'title'       => __( 'Listings Page', 'classified-listing' ),
+				'type'        => 'select',
+				'searchable'  => true,
+				'options'     => Functions::get_pages(),
+				'default'     => '',
+				'description' => __( 'This is the page where all the active listings are displayed.', 'classified-listing' ),
+			],
+			'listing_form'                        => [
+				'title'       => __( 'Listing Form Page', 'classified-listing' ),
+				'type'        => 'select',
+				'searchable'  => true,
+				'options'     => Functions::get_pages(),
+				'default'     => '',
+				'description' => __( 'This is the listing form page used to add or edit listing details. The [rtcl_listing_form] short code must be on this page.',
+					'classified-listing' ),
+			],
+			'myaccount'                           => [
+				'title'       => __( 'My Account', 'classified-listing' ),
+				'type'        => 'select',
+				'searchable'  => true,
+				'options'     => Functions::get_pages(),
+				'default'     => '',
+				'description' => __( 'This is the page where the users can view/edit their account info. The [rtcl_my_account] short code must be on this page.',
+					'classified-listing' ),
+			],
+			'checkout'                            => [
+				'title'       => __( 'Checkout Page', 'classified-listing' ),
+				'type'        => 'select',
+				'searchable'  => true,
+				'options'     => Functions::get_pages(),
+				'default'     => '',
+				'description' => __( 'This is the checkout page where users will complete their purchases. The [rtcl_checkout] short code must be on this page.',
+					'classified-listing' ),
+			],
+
+			// Account Endpoints
+			'field_title_account_end'             => [
+				'title'       => __( 'Account Endpoints', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'Endpoints are appended to your page URLs to handle specific actions on the accounts pages. They should be unique and can be left blank to disable the endpoint.',
+					'classified-listing' ),
+			],
+			'myaccount_listings_endpoint'         => [
+				'title'   => __( 'My Listings', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => 'listings',
+			],
+			'myaccount_favourites_endpoint'       => [
+				'title'   => __( 'Favourites', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => 'favourites',
+			],
+			'myaccount_edit_account_endpoint'     => [
+				'title'   => __( 'Edit Account', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => 'edit-account',
+			],
+			'myaccount_payments_endpoint'         => [
+				'title'   => __( 'Payments', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => 'payments',
+			],
+			'myaccount_profile_settings_endpoint' => [
+				'title'   => __( 'Privacy Settings', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => 'privacy-settings',
+			],
+			'myaccount_lost_password_endpoint'    => [
+				'title'   => __( 'Lost Password', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => 'lost-password',
+			],
+			'myaccount_logout_endpoint'           => [
+				'title'   => __( 'Logout', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => 'logout',
+			],
+
+			// Checkout Endpoints
+			'field_title_checkout_end'            => [
+				'title'       => __( 'Checkout Endpoints', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'Endpoints are appended to your page URLs to handle specific actions during the checkout process. They should be unique.',
+					'classified-listing' ),
+			],
+			'checkout_submission_endpoint'        => [
+				'title'   => __( 'Submission', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => 'submission',
+			],
+			'checkout_promote_endpoint'           => [
+				'title'   => __( 'Promote', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => 'promote',
+			],
+			'checkout_payment_receipt_endpoint'   => [
+				'title'   => __( 'Payment Receipt', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => 'payment-receipt',
+			],
+			'checkout_payment_failure_endpoint'   => [
+				'title'   => __( 'Payment Failure', 'classified-listing' ),
+				'type'    => 'text',
+				'default' => 'payment-failure',
+			],
+
+		];
+
+		return apply_filters( 'rtcl_advanced_settings_options', $options );
+	}
+
+	// Tools settings
+	public static function tools_fields() {
+		$options = [
+			'field_title_data' => [
+				'title'       => __( 'Data Management', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => sprintf( __( 'You can remove all classified listing cache from here. <a href="%s">Clear all cache</a>', 'classified-listing' ),
+					add_query_arg( [
+						rtcl()->nonceId    => wp_create_nonce( rtcl()->nonceText ),
+						'clear_rtcl_cache' => '',
+					], Link::get_current_url() ) ),
+			],
+			'delete_all_data'  => [
+				'title'       => __( 'Delete All Data', 'classified-listing' ),
+				'type'        => 'switch',
+				'default'     => 'no',
+				'description' => __( 'Allow to delete all listing data during delete this plugin', 'classified-listing' ),
+			],
+		];
+
+		return apply_filters( 'rtcl_tools_settings_options', $options );
+	}
+
+	// AI Integration Settings
+	public static function all_integration_fields() {
+		return [
+			'field_title_ai'              => [
+				'title'       => __( 'AI Integration Settings', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'To integrate with Write with AI services, you need to obtain an API key from your chosen provider. Visit the respective service provider’s website to generate an API key.',
+					'classified-listing' ),
+			],
+			'ai_tools'                    => [
+				'title'   => __( 'AI Tools', 'classified-listing' ),
+				'type'    => 'select',
+				'options' => [
+					'OpenAI'   => __( 'ChatGPT', 'classified-listing' ),
+					'Gemini'   => __( 'Google Gemini', 'classified-listing' ),
+					'DeepSeek' => __( 'DeepSeek', 'classified-listing' ),
+				],
+				'default' => 'OpenAI',
+			],
+			'gpt_models'                  => [
+				'title'   => __( 'GPT Model', 'classified-listing' ),
+				'type'    => 'select',
+				'options' => [
+					'gpt-4o'      => __( 'GPT-4o (Full Version)', 'classified-listing' ),
+					'gpt-4o-mini' => __( 'GPT-4o Mini (Light Version)', 'classified-listing' ),
+				],
+				'default' => 'gpt-4o',
+				'depends' => [
+					'relation' => 'or',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'OpenAI',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'gpt_api_key'                 => [
+				'title'       => __( 'ChatGPT API Key', 'classified-listing' ),
+				'type'        => 'password',
+				'default'     => '',
+				'placeholder' => 'sk-p********',
+				'description' => __( 'To integrate with ChatGPT, you need to obtain an API key from OpenAI. Visit <a href="https://platform.openai.com/account/api-keys" target="_blank">OpenAI API Keys</a> to generate one.',
+					'classified-listing' ),
+				'depends'     => [
+					'relation' => 'or',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'OpenAI',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'gemini_api_key'              => [
+				'title'       => __( 'Gemini API Key', 'classified-listing' ),
+				'type'        => 'password',
+				'default'     => '',
+				'placeholder' => 'AIzaSy***********************',
+				'description' => __( 'To integrate with Google Gemini, you need to obtain an API key from Google Cloud. Visit <a target="_blank" href="https://makersuite.google.com/app/apikey">Google AI Studio API Keys</a> to generate one.',
+					'classified-listing' ),
+				'depends'     => [
+					'relation' => 'or',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'Gemini',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'deepseek_api_key'            => [
+				'title'       => __( 'DeepSeek API Key', 'classified-listing' ),
+				'type'        => 'password',
+				'default'     => '',
+				'placeholder' => 'ds-***********************',
+				'description' => __( 'To integrate with DeepSeek, you need to obtain an API key from DeepSeek. Visit <a target="_blank" href="https://www.deepseek.com/api-keys">DeepSeek API Keys</a> to generate one.',
+					'classified-listing' ),
+				'depends'     => [
+					'relation' => 'or',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'DeepSeek',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'deepseek_models'             => [
+				'title'   => __( 'DeepSeek Model', 'classified-listing' ),
+				'type'    => 'select',
+				'options' => [
+					'deepseek-chat'     => __( 'DeepSeek Chat (Full Version)', 'classified-listing' ),
+					'deepseek-reasoner' => __( 'DeepSeek Reasoner Mini (Light Version)', 'classified-listing' ),
+				],
+				'depends' => [
+					'relation' => 'or',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'DeepSeek',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'gpt_max_token'               => [
+				'title'       => __( 'Maximum Characters in Prompt Input', 'classified-listing' ),
+				'type'        => 'number',
+				'default'     => 200,
+				'max'         => 2000,
+				'min'         => 1,
+				'description' => __( 'Set the maximum character limit for the prompt input. This controls how many characters users can enter, ensuring input stays concise and manageable. Higher limits may affect performance and response quality.',
+					'classified-listing' ),
+			],
+			'field_search_media_section'  => [
+				'title'       => __( 'Search & Media', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'Manage Semantic Search and Media Enhancement.',
+					'classified-listing' ),
+			],
+			'semantic_search'             => [
+				'title'       => __( 'Semantic Search', 'classified-listing' ),
+				'type'        => 'checkbox',
+				'default'     => 'no',
+				'description' => __( 'Enable AI search instead of keyword matching to get listings',
+					'classified-listing' ),
+				'depends'     => [
+					'relation' => 'or',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'OpenAI',
+							'condition' => '=',
+						],
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'Gemini',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'minimum_matching_percentage' => [
+				'title'       => __( 'Minimum Accuracy (in percentage)', 'classified-listing' ),
+				'type'        => 'number',
+				'default'     => 40,
+				'validation'  => [
+					'required' => true,
+					'min'      => 1,
+					'max'      => 99,
+				],
+				'description' => __( 'Number of accuracy percentage to match the keywords. The higher the value, the more accurate the search results.',
+					'classified-listing' ),
+				'depends'     => [
+					'relation' => 'and',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'DeepSeek',
+							'condition' => '!=',
+						],
+						[
+							'field'     => 'rtcl_ai_settings.semantic_search',
+							'value'     => 'yes',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'enable_ai_quick_search'      => [
+				'title'       => __( 'Enable Best Matching Search', 'classified-listing' ),
+				'type'        => 'checkbox',
+				'default'     => 'no',
+				'description' => __( 'Enable AI quick search with keyword field on ajax filter',
+					'classified-listing' ),
+				'depends'     => [
+					'relation' => 'and',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'DeepSeek',
+							'condition' => '!=',
+						],
+						[
+							'field'     => 'rtcl_ai_settings.semantic_search',
+							'value'     => 'yes',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'best_matching_percentage'    => [
+				'title'      => __( 'Best Matching (in percentage)', 'classified-listing' ),
+				'type'       => 'number',
+				'default'    => 75,
+				'validation' => [
+					'required' => true,
+					'min'      => 1,
+					'max'      => 99,
+				],
+				'depends'    => [
+					'relation' => 'and',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'DeepSeek',
+							'condition' => '!=',
+						],
+						[
+							'field'     => 'rtcl_ai_settings.semantic_search',
+							'value'     => 'yes',
+							'condition' => '=',
+						],
+						[
+							'field'     => 'rtcl_ai_settings.enable_ai_quick_search',
+							'value'     => 'yes',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'image_enhancement'           => [
+				'title'       => __( 'Image Enhancement', 'classified-listing' ),
+				'type'        => 'checkbox',
+				'default'     => 'no',
+				'description' => __( 'Enable image modification feature using AI to enhance listing images.',
+					'classified-listing' ),
+				'depends'     => [
+					'relation' => 'and',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'Gemini',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+		];
+	}
 
 	/**
 	 * Filter Form fields
@@ -42,8 +1887,8 @@ class Options {
 						'id'      => 'placeholder',
 						'default' => __( 'Search ...', 'classified-listing' ),
 						'type'    => 'text',
-					]
-				]
+					],
+				],
 			],
 			'category'      => [
 				'label'  => esc_html__( 'Categories', 'classified-listing' ),
@@ -62,7 +1907,7 @@ class Options {
 						'default'  => 'checkbox',
 						'options'  => [
 							'checkbox' => esc_html__( 'Checkbox', 'classified-listing' ),
-							'radio'    => esc_html__( 'Radio', 'classified-listing' )
+							'radio'    => esc_html__( 'Radio', 'classified-listing' ),
 						],
 						'type'     => 'select',
 						'required' => 1,
@@ -70,25 +1915,25 @@ class Options {
 					[
 						'label' => esc_html__( 'Hide empty', 'classified-listing' ),
 						'id'    => 'hide_empty',
-						'type'  => 'switch'
+						'type'  => 'switch',
 					],
 					[
 						'label' => esc_html__( 'Show count', 'classified-listing' ),
 						'id'    => 'show_count',
-						'type'  => 'switch'
+						'type'  => 'switch',
 					],
 					[
 						'label'   => esc_html__( 'Show icon or image', 'classified-listing' ),
 						'id'      => 'show_icon_image',
 						'default' => 1,
-						'type'    => 'switch'
+						'type'    => 'switch',
 					],
 					[
 						'label' => esc_html__( 'More Less', 'classified-listing' ),
 						'id'    => 'more_less',
-						'type'  => 'switch'
-					]
-				]
+						'type'  => 'switch',
+					],
+				],
 			],
 			'location'      => [
 				'label'  => esc_html__( 'Locations', 'classified-listing' ),
@@ -107,26 +1952,26 @@ class Options {
 						'default' => 'checkbox',
 						'options' => [
 							'checkbox' => esc_html__( 'Checkbox', 'classified-listing' ),
-							'radio'    => esc_html__( 'Radio', 'classified-listing' )
+							'radio'    => esc_html__( 'Radio', 'classified-listing' ),
 						],
 						'type'    => 'select',
 					],
 					[
 						'label' => esc_html__( 'Hide empty', 'classified-listing' ),
 						'id'    => 'hide_empty',
-						'type'  => 'switch'
+						'type'  => 'switch',
 					],
 					[
 						'label' => esc_html__( 'Show count', 'classified-listing' ),
 						'id'    => 'show_count',
-						'type'  => 'switch'
+						'type'  => 'switch',
 					],
 					[
 						'label' => esc_html__( 'More Less', 'classified-listing' ),
 						'id'    => 'more_less',
-						'type'  => 'switch'
-					]
-				]
+						'type'  => 'switch',
+					],
+				],
 			],
 			'tag'           => [
 				'label'    => esc_html__( 'Tags', 'classified-listing' ),
@@ -135,7 +1980,7 @@ class Options {
 					'hide_empty' => 1,
 					'all_link'   => 1,
 					'type'       => 'checkboxes',
-					'hide_count' => 1
+					'hide_count' => 1,
 				],
 				'fields'   => [
 					[
@@ -151,27 +1996,27 @@ class Options {
 						'default' => 'checkbox',
 						'options' => [
 							'checkbox' => esc_html__( 'Checkbox', 'classified-listing' ),
-							'radio'    => esc_html__( 'Radio', 'classified-listing' )
+							'radio'    => esc_html__( 'Radio', 'classified-listing' ),
 						],
-						'type'    => 'select'
+						'type'    => 'select',
 					],
 					[
 						'label'   => esc_html__( 'Hide empty', 'classified-listing' ),
 						'id'      => 'hide_empty',
 						'default' => 1,
-						'type'    => 'switch'
+						'type'    => 'switch',
 					],
 					[
 						'label' => esc_html__( 'Show count', 'classified-listing' ),
 						'id'    => 'show_count',
-						'type'  => 'switch'
+						'type'  => 'switch',
 					],
 					[
 						'label' => esc_html__( 'More Less', 'classified-listing' ),
 						'id'    => 'more_less',
-						'type'  => 'switch'
-					]
-				]
+						'type'  => 'switch',
+					],
+				],
 			],
 			'ad_type'       => [
 				'label'  => esc_html__( 'Listing Ad Types', 'classified-listing' ),
@@ -193,9 +2038,9 @@ class Options {
 							'radio'    => esc_html__( 'Radio', 'classified-listing' ),
 							'select'   => esc_html__( 'Dropdown', 'classified-listing' ),
 						],
-						'type'    => 'select'
-					]
-				]
+						'type'    => 'select',
+					],
+				],
 			],
 			'price_range'   => [
 				'label'  => esc_html__( 'Price Range', 'classified-listing' ),
@@ -212,21 +2057,21 @@ class Options {
 						'label'   => esc_html__( 'Default Min Price', 'classified-listing' ),
 						'id'      => 'min_price',
 						'default' => 0,
-						'type'    => 'number'
+						'type'    => 'number',
 					],
 					[
 						'label'   => esc_html__( 'Default Max Price', 'classified-listing' ),
 						'id'      => 'max_price',
 						'default' => 50000,
-						'type'    => 'number'
+						'type'    => 'number',
 					],
 					[
 						'label'   => esc_html__( 'Range step', 'classified-listing' ),
 						'id'      => 'step',
 						'default' => 1000,
-						'type'    => 'number'
+						'type'    => 'number',
 					],
-				]
+				],
 			],
 			'radius_filter' => [
 				'icon'   => 'rtcl-icon-location',
@@ -239,8 +2084,8 @@ class Options {
 						'type'     => 'text',
 						'required' => 1,
 					],
-				]
-			]
+				],
+			],
 		];
 
 		return apply_filters( 'rtcl_filter_form_items', $fields );
@@ -249,7 +2094,7 @@ class Options {
 	public static function google_map_script_options() {
 		$options = [
 			'v'         => '3.exp',
-			'libraries' => 'geometry,places'
+			'libraries' => 'geometry,places',
 		];
 
 		return wp_parse_args( apply_filters( 'rtcl_google_map_script_options', $options ), $options );
@@ -259,7 +2104,7 @@ class Options {
 		$options = [
 			'units'            => 'miles',
 			'max_distance'     => 300,
-			'default_distance' => 30
+			'default_distance' => 30,
 		];
 
 		return wp_parse_args( apply_filters( 'rtcl_radius_search_options', $options ), $options );
@@ -269,31 +2114,31 @@ class Options {
 		$fields = [
 			'title'            => [
 				'label' => esc_html__( 'Title', 'classified-listing' ),
-				'type'  => 'text'
+				'type'  => 'text',
 			],
 			'location'         => [
 				'label' => esc_html__( 'Filter by Location', 'classified-listing' ),
-				'type'  => 'location'
+				'type'  => 'location',
 			],
 			'category'         => [
 				'label' => esc_html__( 'Filter by Category', 'classified-listing' ),
-				'type'  => 'category'
+				'type'  => 'category',
 			],
 			'type'             => [
 				'label'   => esc_html__( 'Filter by ad Type', 'classified-listing' ),
 				'type'    => 'select',
 				'options' => [
 					'featured_only' => esc_html__( 'Featured only', 'classified-listing' ),
-					'all'           => esc_html__( 'All Type', 'classified-listing' )
-				]
+					'all'           => esc_html__( 'All Type', 'classified-listing' ),
+				],
 			],
 			'related_listings' => [
 				'label' => esc_html__( 'Related Listings', 'classified-listing' ),
-				'type'  => 'checkbox'
+				'type'  => 'checkbox',
 			],
 			'limit'            => [
 				'label' => esc_html__( 'Limit / Listing per page(pagination)', 'classified-listing' ),
-				'type'  => 'text'
+				'type'  => 'text',
 			],
 			'orderby'          => [
 				'label'   => esc_html__( 'Order By', 'classified-listing' ),
@@ -303,20 +2148,20 @@ class Options {
 					'date'  => esc_html__( 'Date posted', 'classified-listing' ),
 					'price' => esc_html__( 'Price', 'classified-listing' ),
 					'views' => esc_html__( 'Views count', 'classified-listing' ),
-					'rand'  => esc_html__( 'Random', 'classified-listing' )
-				]
+					'rand'  => esc_html__( 'Random', 'classified-listing' ),
+				],
 			],
 			'order'            => [
 				'label'   => esc_html__( 'Order', 'classified-listing' ),
 				'type'    => 'select',
 				'options' => [
 					'asc'  => esc_html__( 'ASC', 'classified-listing' ),
-					'desc' => esc_html__( 'DESC', 'classified-listing' )
-				]
+					'desc' => esc_html__( 'DESC', 'classified-listing' ),
+				],
 			],
 			'display_options'  => [
 				'label' => esc_html__( 'Display Options', 'classified-listing' ),
-				'type'  => 'section_title'
+				'type'  => 'section_title',
 			],
 			'view'             => [
 				'label'      => esc_html__( 'View', 'classified-listing' ),
@@ -324,8 +2169,8 @@ class Options {
 				'wrap_class' => 'rtcl-widget-listings-view',
 				'options'    => [
 					'grid'   => esc_html__( 'Grid', 'classified-listing' ),
-					'slider' => esc_html__( 'Slider', 'classified-listing' )
-				]
+					'slider' => esc_html__( 'Slider', 'classified-listing' ),
+				],
 			],
 			'columns'          => [
 				'wrap_class' => 'rtcl-general-item',
@@ -339,8 +2184,8 @@ class Options {
 					5 => 5,
 					6 => 6,
 					7 => 7,
-					8 => 8
-				]
+					8 => 8,
+				],
 			],
 			'tab_items'        => [
 				'wrap_class' => 'rtcl-slider-item rtcl-general-item',
@@ -354,8 +2199,8 @@ class Options {
 					5 => 5,
 					6 => 6,
 					7 => 7,
-					8 => 8
-				]
+					8 => 8,
+				],
 			],
 			'mobile_items'     => [
 				'wrap_class' => 'rtcl-slider-item rtcl-general-item',
@@ -369,8 +2214,8 @@ class Options {
 					5 => 5,
 					6 => 6,
 					7 => 7,
-					8 => 8
-				]
+					8 => 8,
+				],
 			],
 			'show_image'       => [
 				'wrap_class' => 'rtcl-general-item',
@@ -383,8 +2228,8 @@ class Options {
 				'type'       => 'select',
 				'options'    => [
 					'top'  => esc_html__( 'Top', 'classified-listing' ),
-					'left' => esc_html__( 'Left', 'classified-listing' )
-				]
+					'left' => esc_html__( 'Left', 'classified-listing' ),
+				],
 			],
 			'show_category'    => [
 				'wrap_class' => 'rtcl-general-item',
@@ -430,19 +2275,19 @@ class Options {
 		$fields = [
 			'title'               => [
 				'label' => esc_html__( 'Title', 'classified-listing' ),
-				'type'  => 'text'
+				'type'  => 'text',
 			],
 			'search_by_category'  => [
 				'label' => esc_html__( 'Search by Category', 'classified-listing' ),
-				'type'  => 'checkbox'
+				'type'  => 'checkbox',
 			],
 			'search_by_tag'       => [
 				'label' => esc_html__( 'Search by Tag', 'classified-listing' ),
-				'type'  => 'checkbox'
+				'type'  => 'checkbox',
 			],
 			'search_by_location'  => [
 				'label' => esc_html__( 'Search by Location', 'classified-listing' ),
-				'type'  => 'checkbox'
+				'type'  => 'checkbox',
 			],
 			'radius_search'       => [
 				'label' => esc_html__( 'Radius Search (Location search will turn off)', 'classified-listing' ),
@@ -450,28 +2295,28 @@ class Options {
 			],
 			'search_by_ad_type'   => [
 				'label' => esc_html__( 'Search by ad Types', 'classified-listing' ),
-				'type'  => 'checkbox'
+				'type'  => 'checkbox',
 			],
 			'search_by_price'     => [
 				'label' => esc_html__( 'Search by Price', 'classified-listing' ),
-				'type'  => 'checkbox'
+				'type'  => 'checkbox',
 			],
 			'hide_empty'          => [
 				'label' => esc_html__( 'Hide empty Category / Location', 'classified-listing' ),
-				'type'  => 'checkbox'
+				'type'  => 'checkbox',
 			],
 			'show_count'          => [
 				'label' => esc_html__( 'Show count for Category / Location', 'classified-listing' ),
-				'type'  => 'checkbox'
+				'type'  => 'checkbox',
 			],
 			'ajax_load'           => [
 				'label' => esc_html__( 'Ajax load for Category / Location to increase PageSpeed.', 'classified-listing' ),
-				'type'  => 'checkbox'
+				'type'  => 'checkbox',
 			],
 			'taxonomy_reset_link' => [
 				'label' => esc_html__( 'All Categories / All Locations link', 'classified-listing' ),
-				'type'  => 'checkbox'
-			]
+				'type'  => 'checkbox',
+			],
 		];
 		if ( 'local' !== Functions::location_type() ) {
 			unset( $fields['search_by_location'] );
@@ -484,23 +2329,23 @@ class Options {
 		$fields = [
 			'title'                   => [
 				'label' => esc_html__( 'Title', 'classified-listing' ),
-				'type'  => 'text'
+				'type'  => 'text',
 			],
 			'style'                   => [
 				'label'   => esc_html__( 'Style', 'classified-listing' ),
 				'type'    => 'radio',
 				'options' => [
 					'vertical' => esc_html__( 'Vertical', 'classified-listing' ),
-					'inline'   => esc_html__( 'inline', 'classified-listing' )
-				]
+					'inline'   => esc_html__( 'inline', 'classified-listing' ),
+				],
 			],
 			'search_by_category'      => [
 				'label' => esc_html__( 'Search by Category', 'classified-listing' ),
-				'type'  => 'checkbox'
+				'type'  => 'checkbox',
 			],
 			'search_by_location'      => [
 				'label' => esc_html__( 'Search by Location', 'classified-listing' ),
-				'type'  => 'checkbox'
+				'type'  => 'checkbox',
 			],
 			'radius_search'           => [
 				'label' => esc_html__( 'Radius Search (Location search will turn off)', 'classified-listing' ),
@@ -508,12 +2353,12 @@ class Options {
 			],
 			'search_by_listing_types' => [
 				'label' => esc_html__( 'Search by Types', 'classified-listing' ),
-				'type'  => 'checkbox'
+				'type'  => 'checkbox',
 			],
 			'search_by_price'         => [
 				'label' => esc_html__( 'Search by Price', 'classified-listing' ),
-				'type'  => 'checkbox'
-			]
+				'type'  => 'checkbox',
+			],
 		];
 		if ( 'local' !== Functions::location_type() ) {
 			unset( $fields['search_by_location'] );
@@ -531,7 +2376,7 @@ class Options {
 			'linkedin'  => esc_html__( 'LinkedIn', 'classified-listing' ),
 			'pinterest' => esc_html__( 'Pinterest', 'classified-listing' ),
 			'reddit'    => esc_html__( 'Reddit', 'classified-listing' ),
-			'tiktok'    => esc_html__( 'Tiktok', 'classified-listing' )
+			'tiktok'    => esc_html__( 'Tiktok', 'classified-listing' ),
 		];
 
 		return apply_filters( 'rtcl_social_profiles_list', $options );
@@ -544,7 +2389,7 @@ class Options {
 			'date-desc'  => esc_html__( 'Recently added ( latest )', 'classified-listing' ),
 			'date-asc'   => esc_html__( 'Date added ( oldest )', 'classified-listing' ),
 			'views-desc' => esc_html__( 'Most viewed', 'classified-listing' ),
-			'views-asc'  => esc_html__( 'Less viewed', 'classified-listing' )
+			'views-asc'  => esc_html__( 'Less viewed', 'classified-listing' ),
 		];
 
 		if ( ! Functions::is_price_disabled() ) {
@@ -559,11 +2404,10 @@ class Options {
 	 * @return mixed|void
 	 */
 	public static function get_redirect_page_list() {
-
 		$list = [
 			'account'    => esc_html__( 'Account', 'classified-listing' ),
 			'submission' => esc_html__( 'Regular submission', 'classified-listing' ),
-			'custom'     => esc_html__( 'Custom', 'classified-listing' )
+			'custom'     => esc_html__( 'Custom', 'classified-listing' ),
 		];
 
 		return apply_filters( 'rtcl_get_redirect_page_list', $list );
@@ -615,7 +2459,7 @@ class Options {
 			'rtcl-cancelled'  => _x( 'Cancelled', 'Payment status', 'classified-listing' ),
 			'rtcl-refunded'   => _x( 'Refunded', 'Payment status', 'classified-listing' ),
 			'rtcl-failed'     => _x( 'Failed', 'Payment status', 'classified-listing' ),
-			'rtcl-created'    => _x( 'Created', 'Payment status', 'classified-listing' )
+			'rtcl-created'    => _x( 'Created', 'Payment status', 'classified-listing' ),
 		];
 		if ( $short ) {
 			unset( $statuses['rtcl-created'] );
@@ -628,7 +2472,7 @@ class Options {
 		$price_types = [
 			'fixed'      => Text::price_type_fixed(),
 			'negotiable' => Text::price_type_negotiable(),
-			'on_call'    => Text::price_type_on_call()
+			'on_call'    => Text::price_type_on_call(),
 		];
 
 		return apply_filters( 'rtcl_price_types', $price_types );
@@ -669,8 +2513,8 @@ class Options {
 				'h:i:s'  => 'hh:mm:ss',
 				'g:i a'  => 'h:mm a',
 				'g:i A'  => 'h:mm A',
-				'H:i'    => 'HH:mm'
-			]
+				'H:i'    => 'HH:mm',
+			],
 		);
 	}
 
@@ -690,8 +2534,8 @@ class Options {
 						             '_placeholder'   => [
 							             'label' => esc_html__( 'Placeholder text', 'classified-listing' ),
 							             'type'  => 'text',
-						             ]
-					             ]
+						             ],
+					             ],
 				],
 				'textarea' => [
 					'name'    => esc_html__( 'Textarea', 'classified-listing' ),
@@ -708,9 +2552,9 @@ class Options {
 						             ],
 						             '_rows'          => [
 							             'label' => esc_html__( 'Rows', 'classified-listing' ),
-							             'type'  => 'number'
-						             ]
-					             ]
+							             'type'  => 'number',
+						             ],
+					             ],
 				],
 				'url'      => [
 					'name'    => esc_html__( 'URL', 'classified-listing' ),
@@ -732,11 +2576,11 @@ class Options {
 						             '_nofollow'      => [
 							             'label' => esc_html__(
 								             'Use rel="nofollow" when displaying the link?',
-								             'classified-listing'
+								             'classified-listing',
 							             ),
 							             'type'  => 'switch',
 						             ],
-					             ]
+					             ],
 				],
 				'number'   => [
 					'name'    => esc_html__( 'Number', 'classified-listing' ),
@@ -753,17 +2597,17 @@ class Options {
 						             ],
 						             '_min'           => [
 							             'label' => esc_html__( 'Minimum value', 'classified-listing' ),
-							             'type'  => 'number'
+							             'type'  => 'number',
 						             ],
 						             '_max'           => [
 							             'label' => esc_html__( 'Maximum value', 'classified-listing' ),
-							             'type'  => 'number'
+							             'type'  => 'number',
 						             ],
 						             '_step_size'     => [
 							             'label' => esc_html__( 'Step Size', 'classified-listing' ),
-							             'type'  => 'number'
-						             ]
-					             ]
+							             'type'  => 'number',
+						             ],
+					             ],
 				],
 				'date'     => [
 					'name'    => esc_html__( 'Date', 'classified-listing' ),
@@ -784,7 +2628,7 @@ class Options {
 								             'date_time'       => esc_html__( 'Date & Time', 'classified-listing' ),
 								             'date_range'      => esc_html__( 'Date Range', 'classified-listing' ),
 								             'date_time_range' => esc_html__( 'Date & Time Range', 'classified-listing' ),
-							             ]
+							             ],
 						             ],
 						             '_date_format'          => [
 							             'label'   => esc_html__( 'Date Format', 'classified-listing' ),
@@ -797,7 +2641,7 @@ class Options {
 								             'F j, Y' => 'F j, Y (November 12, 2025)',
 								             'j F, Y' => 'j F, Y (12 November, 2025)',
 								             'j F Y'  => 'j F Y (12 November 2025)',
-							             ]
+							             ],
 						             ],
 						             '_date_time_format'     => [
 							             'label'   => esc_html__( 'Time Format', 'classified-listing' ),
@@ -807,8 +2651,8 @@ class Options {
 								             'h:i:s' => 'h:i:s (00:00:00)',
 								             'g:i a' => 'g:i a (3:10 pm)',
 								             'g:i A' => 'g:i A (3:10 PM)',
-								             'H:i'   => 'H:i (15:10)'
-							             ]
+								             'H:i'   => 'H:i (15:10)',
+							             ],
 						             ],
 						             '_date_searchable_type' => [
 							             'label'   => esc_html__( 'Search able date type', 'classified-listing' ),
@@ -818,9 +2662,9 @@ class Options {
 							             'options' => [
 								             'single' => esc_html__( 'Single', 'classified-listing' ),
 								             'range'  => esc_html__( 'Range', 'classified-listing' ),
-							             ]
-						             ]
-					             ]
+							             ],
+						             ],
+					             ],
 				],
 				'select'   => [
 					'name'    => esc_html__( 'Select', 'classified-listing' ),
@@ -829,9 +2673,9 @@ class Options {
 					             [
 						             '_options' => [
 							             'label' => esc_html__( 'Options', 'classified-listing' ),
-							             'type'  => 'select'
-						             ]
-					             ]
+							             'type'  => 'select',
+						             ],
+					             ],
 				],
 				'radio'    => [
 					'name'    => esc_html__( 'Radio', 'classified-listing' ),
@@ -840,9 +2684,9 @@ class Options {
 					             [
 						             '_options' => [
 							             'label' => esc_html__( 'Options', 'classified-listing' ),
-							             'type'  => 'select'
-						             ]
-					             ]
+							             'type'  => 'select',
+						             ],
+					             ],
 				],
 				'checkbox' => [
 					'name'    => esc_html__( 'Checkbox', 'classified-listing' ),
@@ -851,11 +2695,11 @@ class Options {
 					             [
 						             '_options' => [
 							             'label' => esc_html__( 'Options', 'classified-listing' ),
-							             'type'  => 'checkbox'
-						             ]
-					             ]
-				]
-			]
+							             'type'  => 'checkbox',
+						             ],
+					             ],
+				],
+			],
 		);
 	}
 
@@ -867,47 +2711,47 @@ class Options {
 					'label'       => esc_html__( 'Field label', 'classified-listing' ),
 					'type'        => 'text',
 					'placeholder' => esc_html__( 'Enter field label', 'classified-listing' ),
-					'class'       => 'rtcl-forms-set-legend js-rtcl-slugize-source'
+					'class'       => 'rtcl-forms-set-legend js-rtcl-slugize-source',
 				],
 				'_slug'              => [
 					'label'       => esc_html__( 'Field slug/name', 'classified-listing' ),
 					'type'        => 'text',
 					'placeholder' => esc_html__( 'Enter field slug/name', 'classified-listing' ),
-					'class'       => 'rtcl-forms-field-slug js-rtcl-slugize'
+					'class'       => 'rtcl-forms-field-slug js-rtcl-slugize',
 				],
 				'_description'       => [
 					'label'       => esc_html__( 'Field description', 'classified-listing' ),
 					'type'        => 'textarea',
-					'placeholder' => esc_html__( 'Enter field description', 'classified-listing' )
+					'placeholder' => esc_html__( 'Enter field description', 'classified-listing' ),
 				],
 				'_icon'              => [
 					'label'   => esc_html__( 'Icon', 'classified-listing' ),
 					'type'    => 'dropdown',
 					'class'   => 'rtcl-select2-icon',
 					'empty'   => esc_html__( 'Select one', 'classified-listing' ),
-					'options' => self::get_icon_list()
+					'options' => self::get_icon_list(),
 				],
 				'_required'          => [
 					'label' => esc_html__( 'Required?', 'classified-listing' ),
-					'type'  => 'switch'
+					'type'  => 'switch',
 				],
 				'_searchable'        => [
 					'label'      => esc_html__( 'Include this field in the filter (Widget)?', 'classified-listing' ) . rtcl()->pro_tag(),
 					'type'       => 'switch',
-					'wrap_class' => ! rtcl()->has_pro() ? [ 'is_pro' ] : ''
+					'wrap_class' => ! rtcl()->has_pro() ? [ 'is_pro' ] : '',
 				],
 				'_listable'          => [
 					'label'      => esc_html__( 'Include this field in the listing?', 'classified-listing' ) . rtcl()->pro_tag(),
 					'type'       => 'switch',
-					'wrap_class' => ! rtcl()->has_pro() ? [ 'is_pro' ] : ''
+					'wrap_class' => ! rtcl()->has_pro() ? [ 'is_pro' ] : '',
 				],
 				'_conditional_logic' => [
 					'label'      => esc_html__( 'Conditional Logic', 'classified-listing' ) . rtcl()->pro_tag(),
 					'type'       => 'switch',
 					'wrap_class' => ! rtcl()->has_pro() ? [ 'is_pro' ] : '',
-					'class'      => 'conditions-toggle'
-				]
-			]
+					'class'      => 'conditions-toggle',
+				],
+			],
 		);
 	}
 
@@ -919,39 +2763,39 @@ class Options {
 					'type'  => 'text',
 					'label' => esc_html__( 'Zip Code', 'classified-listing' ),
 					'id'    => 'rtcl-zipcode',
-					'class' => 'rtcl-map-field'
+					'class' => 'rtcl-map-field',
 				],
 				'address'               => [
 					'type'  => 'textarea',
 					'label' => esc_html__( 'Address', 'classified-listing' ),
 					'id'    => 'rtcl-address',
-					'class' => 'rtcl-map-field'
+					'class' => 'rtcl-map-field',
 				],
 				'phone'                 => [
 					'type'  => 'text',
 					'label' => esc_html__( 'Phone', 'classified-listing' ),
 					'id'    => 'rtcl-phone',
-					'class' => ''
+					'class' => '',
 				],
 				'_rtcl_whatsapp_number' => [
 					'type'  => 'text',
 					'label' => esc_html__( 'Whatsapp number', 'classified-listing' ),
 					'id'    => 'rtcl-whatsapp-phone',
-					'class' => ''
+					'class' => '',
 				],
 				'email'                 => [
 					'type'  => 'email',
 					'label' => esc_html__( 'Email', 'classified-listing' ),
 					'id'    => 'rtcl-email',
-					'class' => ''
+					'class' => '',
 				],
 				'website'               => [
 					'type'  => 'url',
 					'label' => esc_html__( 'Website', 'classified-listing' ),
 					'id'    => 'rtcl-website',
-					'class' => ''
-				]
-			]
+					'class' => '',
+				],
+			],
 		);
 	}
 
@@ -968,12 +2812,11 @@ class Options {
 			esc_html__( 'Sep', 'classified-listing' ),
 			esc_html__( 'Oct', 'classified-listing' ),
 			esc_html__( 'Nov', 'classified-listing' ),
-			esc_html__( 'Dec', 'classified-listing' )
+			esc_html__( 'Dec', 'classified-listing' ),
 		];
 	}
 
 	static function allowed_tags() {
-
 		$allowed_atts = [
 			'align'      => [],
 			'class'      => [],
@@ -1035,7 +2878,7 @@ class Options {
 			'p'        => $allowed_atts,
 			'a'        => $allowed_atts,
 			'b'        => $allowed_atts,
-			'i'        => $allowed_atts
+			'i'        => $allowed_atts,
 		];
 
 		return $allowedTags;
@@ -1410,12 +3253,15 @@ class Options {
 		return apply_filters( 'rtcl_payment_pricing_types', $types );
 	}
 
+	/**
+	 * @return array
+	 */
 	public static function get_currency_positions() {
 		return [
 			'left'        => esc_html__( 'Left ($99)', 'classified-listing' ),
 			'right'       => esc_html__( 'Right (99$)', 'classified-listing' ),
 			'left_space'  => esc_html__( 'Left with space ($ 99)', 'classified-listing' ),
-			'right_space' => esc_html__( 'Right with space (99 $)', 'classified-listing' )
+			'right_space' => esc_html__( 'Right with space (99 $)', 'classified-listing' ),
 		];
 	}
 
@@ -2890,7 +4736,7 @@ class Options {
 			'rtcl-icon-youtube-play',
 			'rtcl-icon-youtube-squared',
 			'rtcl-icon-zoom-in',
-			'rtcl-icon-zoom-out'
+			'rtcl-icon-zoom-out',
 		];
 
 		return apply_filters( 'rtcl_get_icon_class_list', $icons );
@@ -2898,36 +4744,35 @@ class Options {
 
 
 	public static function get_price_unit_list() {
-
 		$unit_list = [
 			'year'  => [
 				'title' => esc_html__( 'Year', 'classified-listing' ),
-				'short' => esc_html__( 'per year', 'classified-listing' )
+				'short' => esc_html__( 'per year', 'classified-listing' ),
 			],
 			'month' => [
 				'title' => esc_html__( 'Month', 'classified-listing' ),
-				'short' => esc_html__( 'per month', 'classified-listing' )
+				'short' => esc_html__( 'per month', 'classified-listing' ),
 			],
 			'week'  => [
 				'title' => esc_html__( 'Week', 'classified-listing' ),
-				'short' => esc_html__( 'per week', 'classified-listing' )
+				'short' => esc_html__( 'per week', 'classified-listing' ),
 			],
 			'day'   => [
 				'title' => esc_html__( 'Day', 'classified-listing' ),
-				'short' => esc_html__( 'per day', 'classified-listing' )
+				'short' => esc_html__( 'per day', 'classified-listing' ),
 			],
 			'hour'  => [
 				'title' => esc_html__( 'Hour', 'classified-listing' ),
-				'short' => esc_html__( 'per hour', 'classified-listing' )
+				'short' => esc_html__( 'per hour', 'classified-listing' ),
 			],
 			'sqft'  => [
 				'title' => esc_html__( 'Square Feet', 'classified-listing' ),
-				'short' => esc_html__( 'per sqft', 'classified-listing' )
+				'short' => esc_html__( 'per sqft', 'classified-listing' ),
 			],
 			'total' => [
 				'title' => esc_html__( 'Total Price', 'classified-listing' ),
-				'short' => esc_html__( 'total price', 'classified-listing' )
-			]
+				'short' => esc_html__( 'total price', 'classified-listing' ),
+			],
 		];
 
 		return apply_filters( 'rtcl_get_price_unit_list', $unit_list );
@@ -2942,7 +4787,7 @@ class Options {
 			'listing_expired'   => esc_html__( 'A listing expired', 'classified-listing' ),
 			'order_created'     => esc_html__( 'Order created', 'classified-listing' ),
 			'order_completed'   => esc_html__( 'Payment received / Order Completed', 'classified-listing' ),
-			'listing_contact'   => esc_html__( 'Contact message (Email to listing owner)', 'classified-listing' )
+			'listing_contact'   => esc_html__( 'Contact message (Email to listing owner)', 'classified-listing' ),
 		];
 
 		return apply_filters( 'rtcl_get_admin_email_notification_options', $options );
@@ -2960,7 +4805,7 @@ class Options {
 			'order_created'         => esc_html__( 'Order created', 'classified-listing' ),
 			'order_completed'       => esc_html__( 'Order completed', 'classified-listing' ),
 			'user_import'           => esc_html__( 'User imported', 'classified-listing' ),
-			'disable_contact_email' => esc_html__( 'Disable contact email to listing owner', 'classified-listing' )
+			'disable_contact_email' => esc_html__( 'Disable contact email to listing owner', 'classified-listing' ),
 		];
 
 		return apply_filters( 'rtcl_get_user_email_notification_options', $options );
@@ -2972,8 +4817,8 @@ class Options {
 		$potTypes     = get_post_types(
 			[
 				'public'   => true,
-				'_builtin' => false
-			]
+				'_builtin' => false,
+			],
 		);
 		foreach ( $potTypes as $pot_type ) {
 			$obj = get_post_type_object( $pot_type );
@@ -3010,8 +4855,8 @@ class Options {
 				'registration' => esc_html__( 'User Registration form', 'classified-listing' ),
 				'listing'      => esc_html__( 'New Listing form', 'classified-listing' ),
 				'contact'      => esc_html__( 'Contact form', 'classified-listing' ),
-				'report_abuse' => esc_html__( 'Report abuse form', 'classified-listing' )
-			]
+				'report_abuse' => esc_html__( 'Report abuse form', 'classified-listing' ),
+			],
 		);
 	}
 
@@ -3030,7 +4875,7 @@ class Options {
 			'price'      => esc_html__( 'Price', 'classified-listing' ),
 			'price_type' => esc_html__( 'Price type', 'classified-listing' ),
 			'address'    => esc_html__( 'Address', 'classified-listing' ),
-			'zipcode'    => esc_html__( 'Zip Code', 'classified-listing' )
+			'zipcode'    => esc_html__( 'Zip Code', 'classified-listing' ),
 		];
 
 		return apply_filters( 'rtcl_get_listing_detail_page_display_options', $options );
@@ -3042,7 +4887,7 @@ class Options {
 			'location'   => esc_html__( 'Location name', 'classified-listing' ),
 			'ad_type'    => esc_html__( 'Ad Type', 'classified-listing' ),
 			'price'      => esc_html__( 'Price', 'classified-listing' ),
-			'price_type' => esc_html__( 'Price type', 'classified-listing' )
+			'price_type' => esc_html__( 'Price type', 'classified-listing' ),
 		];
 
 		return apply_filters( 'rtcl_get_listing_common_display_options', $options );
@@ -3061,7 +4906,7 @@ class Options {
 			'ad_type'    => esc_html__( 'Ad Type', 'classified-listing' ),
 			'price'      => esc_html__( 'Price', 'classified-listing' ),
 			'price_type' => esc_html__( 'Price type', 'classified-listing' ),
-			'excerpt'    => esc_html__( 'Short description', 'classified-listing' )
+			'excerpt'    => esc_html__( 'Short description', 'classified-listing' ),
 		];
 
 		return apply_filters( 'rtcl_get_listing_display_options', $options );
@@ -3095,7 +4940,6 @@ class Options {
 		$weekStart = apply_filters( 'rtcl_start_of_week', get_option( 'start_of_week' ) );
 		$weekday   = $wp_locale->weekday;
 		for ( $i = 0; $i < $weekStart; $i ++ ) {
-
 			$day = array_slice( $weekday, 0, 1, true );
 			unset( $weekday[ $i ] );
 
@@ -3118,7 +4962,7 @@ class Options {
 			'Australia',
 			'Europe',
 			'Indian',
-			'Pacific'
+			'Pacific',
 		];
 
 		$zonen = [];
@@ -3161,7 +5005,6 @@ class Options {
 				// It's at the continent level (generally won't happen).
 				$display = $zone['t_continent'];
 			} else {
-
 				// Add the city to the value.
 				$value[] = $zone['city'];
 
@@ -3177,7 +5020,7 @@ class Options {
 			$value    = implode( '/', $value );
 			$_zones[] = [
 				'label' => esc_html( $display ),
-				'value' => $value
+				'value' => $value,
 			];
 			// Close continent optgroup.
 			if ( ! empty( $zone['city'] )
@@ -3187,14 +5030,14 @@ class Options {
 			) {
 				$zones[] = [
 					'label'   => $zone['t_continent'],
-					'options' => $_zones
+					'options' => $_zones,
 				];
 			}
 		}
 
 		$zones[] = [
-			'label' => __( 'UTC' , 'classified-listing'),
-			'value' => 'UTC'
+			'label' => __( 'UTC', 'classified-listing' ),
+			'value' => 'UTC',
 		];
 
 		$manuals = [];
@@ -3269,12 +5112,12 @@ class Options {
 			$offset_value = 'UTC' . $offset_value;
 			$manuals[]    = [
 				'label' => esc_html( $offset_name ),
-				'value' => $offset_value
+				'value' => $offset_value,
 			];
 		}
 		$zones[] = [
 			'label'   => __( 'Manual Offsets', 'classified-listing' ),
-			'options' => $manuals
+			'options' => $manuals,
 		];
 
 		return $zones;
@@ -3287,7 +5130,7 @@ class Options {
 			'linkedin'  => esc_html__( 'Linkedin', 'classified-listing' ),
 			'pinterest' => esc_html__( 'Pinterest', 'classified-listing' ),
 			'whatsapp'  => esc_html__( 'WhatsApp (Only at mobile)', 'classified-listing' ),
-			'telegram'  => esc_html__( 'Telegram (Only at mobile)', 'classified-listing' )
+			'telegram'  => esc_html__( 'Telegram (Only at mobile)', 'classified-listing' ),
 		];
 
 		return apply_filters( 'rtcl_social_services_options', $options );
@@ -3468,7 +5311,7 @@ class Options {
 				'img_url'  => 'https://radiustheme.com/our-plugins/ClassiList-classified-ads-wordpress-theme.png',
 				'demo_url' => 'https://www.radiustheme.com/demo/wordpress/themes/classilist',
 				'buy_url'  => 'https://www.radiustheme.com/downloads/classilist-classified-ads-wordpress-theme/',
-			]
+			],
 		];
 
 		return apply_filters( 'rtcl_themes', $themes );

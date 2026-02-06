@@ -110,7 +110,7 @@ class ListingAds {
 			"col_style"          => array(
 				"type"    => "object",
 				"default" => array(
-					"style"      => "list",
+					"style"      => "grid",
 					"style_list" => "1",
 					"style_grid" => "1",
 				),

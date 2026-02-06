@@ -1,7 +1,7 @@
 <?php
 /**
- * @var string  $id
- * @var bool    $radius_search
+ * @var string $id
+ * @var bool $radius_search
  * @var boolean $can_search_by_location
  * @var boolean $can_search_by_category
  * @var boolean $can_search_by_listing_types
@@ -16,8 +16,8 @@ use Rtcl\Resources\Options;
 
 $active_count = $can_search_by_location + $can_search_by_category + $can_search_by_listing_types + $can_search_by_price;
 
-$orderby = strtolower( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_orderby', 'name' ) );
-$order   = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'taxonomy_order', 'DESC' ) );
+$orderby = strtolower( Functions::get_option_item( 'rtcl_archive_listing_settings', 'taxonomy_orderby', 'name' ) );
+$order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_settings', 'taxonomy_order', 'DESC' ) );
 ?>
 <div class="rtcl rtcl-search rtcl-search-inline">
 	<form action="<?php echo esc_url( Functions::get_filter_form_url() ) ?>"
@@ -26,13 +26,12 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'tax
 			$rs_data = Options::radius_search_options();
 			?>
 			<div class="form-group ws-item ws-location col-sm-6 col-12">
-				<label
-					for="rtc-geo-search-<?php echo esc_attr( $id ); ?>"><?php echo esc_html( Text::get_select_location_text() ); ?></label>
+				<label for="rtc-geo-search-<?php echo esc_attr( $id ); ?>"><?php echo esc_html( Text::get_select_location_text() ); ?></label>
 				<div class="rtcl-geo-address-field">
 					<input type="text" name="geo_address" autocomplete="off"
 						   value="<?php echo ! empty( $_GET['geo_address'] ) ? esc_attr( $_GET['geo_address'] ) : '' ?>"
 						   placeholder="<?php esc_attr_e( 'Select a location', 'classified-listing' ) ?>"
-						   class="form-control rtcl-geo-address-input"/>
+						   class="form-control rtcl-geo-address-input" id="rtc-geo-search-<?php echo esc_attr( $id ); ?>"/>
 					<i class="rtcl-get-location rtcl-icon rtcl-icon-target"></i>
 					<input type="hidden" class="latitude" name="center_lat"
 						   value="<?php echo ! empty( $_GET['center_lat'] ) ? esc_attr( $_GET['center_lat'] ) : '' ?>">
@@ -47,14 +46,14 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'tax
 								sprintf( '<span class="rtcl-range-value">%s</span>', ! empty( $_GET['distance'] ) ? absint( $_GET['distance'] ) : 0 ),
 								in_array( $rs_data['units'], [
 									'km',
-									'kilometers'
-								] ) ? __( 'km', 'classified-listing' ) : __( 'Miles', 'classified-listing' )
+									'kilometers',
+								] ) ? __( 'km', 'classified-listing' ) : __( 'Miles', 'classified-listing' ),
 							),
 							[
 								'span' => [
-									'class' => []
-								]
-							]
+									'class' => [],
+								],
+							],
 						) ?>
 					</div>
 					<input type="range" class="form-control-range rtcl-range-slider-input" name="distance" min="0"
@@ -65,6 +64,7 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'tax
 		<?php endif ?>
 		<?php if ( 'local' === Functions::location_type() && $can_search_by_location ) : ?>
 			<div class="form-group ws-item ws-location col-sm-6 col-12">
+				<label class="screen-reader-text" for="rtcl-location-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Select a Location', 'classified-listing' ); ?></label>
 				<?php
 				$args = [
 					'show_option_none'  => Text::get_select_location_text(),
@@ -93,6 +93,7 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'tax
 
 		<?php if ( $can_search_by_category ) : ?>
 			<div class="form-group ws-item ws-category col-sm-6 col-12">
+				<label class="screen-reader-text" for="rtcl-category-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Select a Category', 'classified-listing' ); ?></label>
 				<?php
 				$args = [
 					'show_option_none'  => Text::get_select_category_text(),
@@ -121,7 +122,8 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'tax
 
 		<?php if ( $can_search_by_listing_types ) : ?>
 			<div class="form-group ws-item ws-type col-sm-6 col-12">
-				<select class="form-control" name="filters[ad_type]">
+				<label class="screen-reader-text" for="rtcl-type-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Select Type', 'classified-listing' ); ?></label>
+				<select class="form-control" name="filters[ad_type]" id="rtcl-type-search-<?php echo esc_attr( $id ); ?>">
 					<option value=""><?php esc_html_e( 'Select type', 'classified-listing' ); ?></option>
 					<?php
 					$listing_types = Functions::get_listing_types();
@@ -142,14 +144,16 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'tax
 			<div class="form-group ws-item ws-price col-sm-6  col-12">
 				<div class="row">
 					<div class="col-md-6 col-xs-6">
-						<input type="text" name="filters[price][min]" class="form-control"
+						<label class="screen-reader-text" for="rtcl-search-price-min"><?php esc_html_e( 'Min Price', 'classified-listing' ); ?></label>
+						<input type="text" name="filters[price][min]" class="form-control" id="rtcl-search-price-min"
 							   placeholder="<?php esc_attr_e( 'min', 'classified-listing' ); ?>"
 							   value="<?php if ( isset( $_GET['filters']['price'] ) ) {
 								   echo esc_attr( $_GET['filters']['price']['min'] );
 							   } ?>">
 					</div>
 					<div class="col-md-6 col-xs-6">
-						<input type="text" name="filters[price][max]" class="form-control"
+						<label class="screen-reader-text" for="rtcl-search-price-max"><?php esc_html_e( 'Max Price', 'classified-listing' ); ?></label>
+						<input type="text" name="filters[price][max]" class="form-control" id="rtcl-search-price-max"
 							   placeholder="<?php esc_attr_e( 'max', 'classified-listing' ); ?>"
 							   value="<?php if ( isset( $_GET['filters']['price'] ) ) {
 								   echo esc_attr( $_GET['filters']['price']['max'] );
@@ -161,7 +165,8 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_general_settings', 'tax
 
 		<div class="form-group ws-item ws-text col-sm-6">
 			<div class="rt-autocomplete-wrapper">
-				<input type="text" name="q" class="rtcl-autocomplete form-control"
+				<label class="screen-reader-text" for="rtcl-keyword-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Search', 'classified-listing' ); ?></label>
+				<input type="text" id="rtcl-keyword-search-<?php echo esc_attr( $id ); ?>" name="q" class="rtcl-autocomplete form-control"
 					   placeholder="<?php esc_attr_e( 'Enter your keyword here ...', 'classified-listing' ); ?>"
 					   value="<?php if ( isset( $_GET['q'] ) ) {
 						   echo esc_attr( Functions::clean( wp_unslash( $_GET['q'] ) ) );

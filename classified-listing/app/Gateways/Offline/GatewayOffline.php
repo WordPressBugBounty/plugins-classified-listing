@@ -42,7 +42,7 @@ class GatewayOffline extends PaymentGateway {
 			],
 			'enabled'        => [
 				'title' => esc_html__( 'Enable Offline Payment', 'classified-listing' ),
-				'type'  => 'checkbox',
+				'type'  => 'switch',
 				'label' => esc_html__( 'Enable Offline Payment', 'classified-listing' ),
 			],
 			'title'          => [
@@ -63,7 +63,6 @@ class GatewayOffline extends PaymentGateway {
 			'instructions'   => [
 				'title'             => esc_html__( 'Instructions', 'classified-listing' ),
 				'type'              => 'wysiwyg',
-				'custom_attributes' => [ 'rows' => 13 ],
 				'default'           => esc_html__( 'Make your payment directly in our bank account. Please use your Order ID as payment reference. Your order won\'t get approved until the funds have cleared in our account.
 Account details :
 		
@@ -72,7 +71,6 @@ Account Number : YOUR ACCOUNT NUMBER
 Bank Name : YOUR BANK NAME
 		
 If we don\'t receive your payment within 48 hrs, we will cancel the order.', 'classified-listing' ),
-				'class'             => 'wide-input',
 			]
 		];
 	}

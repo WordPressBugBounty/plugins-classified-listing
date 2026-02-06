@@ -63,6 +63,7 @@ class Cache {
 				'_transient_rtcl_cache_%',
 				'_transient_timeout_rtcl_cache%'
 			) );
+			wp_cache_flush();
 			Functions::add_notice( __( "All cache has been removed.", "classified-listing" ) );
 
 		}
@@ -77,6 +78,21 @@ class Cache {
 			'_transient_timeout_rtcl_cache_category%',
 			'_transient_timeout_rtcl_cache_location%'
 		) );
+		wp_cache_flush();
+	}
+
+	/**
+	 * Clear category cache when terms are modified.
+	 *
+	 * @param int $term_id Term ID.
+	 * @param int $tt_id Term taxonomy ID.
+	 * @param string $taxonomy Taxonomy slug.
+	 * @return void
+	 */
+	static function clear_cache_on_term_change( $term_id, $tt_id, $taxonomy ) {
+		if ( in_array( $taxonomy, [ rtcl()->category, rtcl()->location, rtcl()->tag ] ) ) {
+			self::remove_all_taxonomy_cache();
+		}
 	}
 
 	/**

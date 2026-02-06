@@ -9,9 +9,9 @@ use Rtcl\Services\FormBuilder\FBHelper;
 
 class Export {
 	function __construct() {
-		add_action( 'wp_ajax_rtcl_taxonomy_settings_export', array( __CLASS__, 'rtcl_taxonomy_settings_export' ) );
-		add_action( 'wp_ajax_rtcl_listings_export', array( __CLASS__, 'rtcl_listings_export' ) );
-		add_action( 'wp_ajax_rtcl_remove_temporary_file', array( __CLASS__, 'remove_temporary_file' ) );
+		add_action( 'wp_ajax_rtcl_taxonomy_settings_export', [ __CLASS__, 'rtcl_taxonomy_settings_export' ] );
+		add_action( 'wp_ajax_rtcl_listings_export', [ __CLASS__, 'rtcl_listings_export' ] );
+		add_action( 'wp_ajax_rtcl_remove_temporary_file', [ __CLASS__, 'remove_temporary_file' ] );
 	}
 
 	/**
@@ -43,7 +43,6 @@ class Export {
 	}
 
 	public static function rtcl_taxonomy_settings_export() {
-
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( esc_html__( 'Unauthorized access!!!', 'classified-listing' ) );
 		}
@@ -62,7 +61,7 @@ class Export {
 		$data = [
 			'path'         => rtcl()->get_assets_uri( '/export/' . $filename ),
 			'file_name'    => $filename,
-			'export_types' => $export_types
+			'export_types' => $export_types,
 		];
 
 		wp_send_json_success( $data );
@@ -99,7 +98,6 @@ class Export {
 						$third_categories[] = $third_value;
 					}
 					$second_value->child = $third_categories;
-
 				}
 				$first_value->child = $second_categories;
 
@@ -129,7 +127,6 @@ class Export {
 						$third_locations[] = $third_value;
 					}
 					$second_value->child = $third_locations;
-
 				}
 				$first_value->child = $second_locations;
 
@@ -144,7 +141,7 @@ class Export {
 			foreach ( $get_listing_types as $key => $value ) {
 				$listing_types[] = [
 					'key'   => $key,
-					'value' => $value
+					'value' => $value,
 				];
 			}
 			$results['types'] = $listing_types;
@@ -157,7 +154,7 @@ class Export {
 					'listing_label_settings' => [],
 					'location_settings'      => [],
 					'currency_settings'      => [],
-					'social_share_settings'  => []
+					'social_share_settings'  => [],
 				],
 				'archive_listing' => [],
 				'single_listing'  => [],
@@ -166,20 +163,20 @@ class Export {
 					'offline'      => [],
 					'paypal'       => [],
 					'authorizenet' => [],
-					'stripe'       => []
+					'stripe'       => [],
 				],
 				'tax'             => [
-					'tax_rate_settings' => []
+					'tax_rate_settings' => [],
 				],
 				'email'           => [
 					'notifications_settings' => [],
-					'templates_settings'     => []
+					'templates_settings'     => [],
 				],
 				'account'         => [],
 				'style'           => [],
 				'misc'            => [
 					'media_settings' => [],
-					'map_settings'   => []
+					'map_settings'   => [],
 				],
 				'chat'            => [],
 				'advanced'        => [],
@@ -189,7 +186,7 @@ class Export {
 				'membership'      => [],
 				'booking'         => [],
 				'marketplace'     => [],
-				'addons'          => []
+				'addons'          => [],
 			];
 
 			$settings_data = [];
@@ -201,7 +198,7 @@ class Export {
 					if ( $option ) {
 						$settings_data[] = [
 							'key'   => 'rtcl_' . $key . '_settings',
-							'value' => $option
+							'value' => $option,
 						];
 					}
 				} else {
@@ -210,7 +207,7 @@ class Export {
 					if ( $option ) {
 						$settings_data[] = [
 							'key'   => 'rtcl_' . $key . '_settings',
-							'value' => $option
+							'value' => $option,
 						];
 					}
 
@@ -220,7 +217,7 @@ class Export {
 							if ( $option ) {
 								$settings_data[] = [
 									'key'   => 'rtcl_' . $key . '_' . $sub_key,
-									'value' => $option
+									'value' => $option,
 								];
 							}
 						}
@@ -242,7 +239,6 @@ class Export {
 	}
 
 	public static function rtcl_listings_export() {
-
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( esc_html__( 'Unauthorized access!!!', 'classified-listing' ) );
 		}
@@ -257,15 +253,15 @@ class Export {
 
 		$listings[] = array_merge( $columns, $custom_fields );
 
-		$args = array(
+		$args = [
 			'post_type'      => rtcl()->post_type,
 			'posts_per_page' => - 1,
-		);
+		];
 
 		$query         = new \WP_Query( $args );
 		$listing_posts = $query->posts;
 		foreach ( $listing_posts as $post ) {
-			$listing_post = array();
+			$listing_post = [];
 			$listing      = rtcl()->factory->get_listing( $post->ID );
 
 			$listing_post[] = $listing->get_the_title();
@@ -330,7 +326,32 @@ class Export {
 			$listing_post[] = $listing->get_status();
 
 			foreach ( $custom_fields as $custom_meta ) {
-				$listing_post[] = get_post_meta( $listing->get_id(), $custom_meta, true );
+				$cf_data = get_post_meta( $listing->get_id(), $custom_meta, true );
+
+				if ( is_array( $cf_data ) ) {
+					$row_strings = [];
+
+					foreach ( $cf_data as $step_key => $step_data ) {
+						if ( is_array( $step_data ) ) {
+							$pairs = [];
+
+							foreach ( $step_data as $key => $value ) {
+								$key   = trim( $key );
+								$value = trim( (string) $value );
+
+								$pairs[] = "{$key}:{$value}";
+							}
+
+							$row_strings[] = implode( ' | ', $pairs );
+						} else {
+							$row_strings[] = "{$step_key} | {$step_data}";
+						}
+					}
+
+					$listing_post[] = implode( ', ', $row_strings );
+				} else {
+					$listing_post[] = $cf_data;
+				}
 			}
 
 			//insert
@@ -338,14 +359,13 @@ class Export {
 		}
 		wp_reset_postdata();
 
-		$data = array();
+		$data = [];
 		foreach ( $listings as $row ) {
 			$data[] = $row;
 		}
 
 		self::export_as_csv( $data );
 		exit();
-
 	}
 
 	public static function export_as_csv( $data, $filename = "rtcl-listings.csv", $delimiter = "," ) {

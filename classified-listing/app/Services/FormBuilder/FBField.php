@@ -23,6 +23,7 @@ class FBField {
 	protected $_name;
 	protected $_icon;
 	protected $_label;
+	protected $_slField;
 	protected $_isFilterable;
 	protected $_isArchiveViewAble;
 	protected $_isSingleViewAble;
@@ -441,5 +442,19 @@ class FBField {
 
 
 		return true;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getSlField() {
+		return $this->_slField;
+	}
+
+	/**
+	 * @param array $slField
+	 */
+	public function setSlField( array $slField ): void {
+		$this->_slField = $slField;
 	}
 }

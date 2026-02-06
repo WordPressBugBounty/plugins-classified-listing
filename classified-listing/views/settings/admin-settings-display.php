@@ -104,7 +104,7 @@ use Rtcl\Helpers\Functions;
 						</ul>
 
 						<div class="price-section">
-							<div class="savings">Save 20%</div>
+							<div class="savings">Save 40%</div>
 						</div>
 
 						<a class="cta-button" href="https://www.radiustheme.com/downloads/classified-listing-pro-plugins-bundle/?utm_source=clplugin_banner&utm_medium=banner&utm_campaign=Discount" target="_blank">Get Bundle Now</a>

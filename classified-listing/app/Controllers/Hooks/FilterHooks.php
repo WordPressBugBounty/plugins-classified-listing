@@ -44,13 +44,68 @@ class FilterHooks {
 		add_action( 'rss2_item', [ __CLASS__, 'custom_data_to_rss' ] );
 		// Custom page template
 		self::$templates = [
-			'rtcl-canvas_template' => 'Classified Listing - Dashboard'
+			'rtcl-canvas_template' => 'Classified Listing - Dashboard',
 		];
 
 		if ( absint( Functions::get_description_character_limit() ) ) {
 			add_filter( 'tiny_mce_before_init', [ __CLASS__, 'tiny_mce_add_past_restriction' ], 10, 2 );
 		}
 		add_filter( 'rtcl_register_settings_group', [ __CLASS__, 'remove_classic_form_settings' ] );
+		add_filter( 'rtcl_account_menu_items', [ __CLASS__, 'remove_menu_items_for_buyer' ], 999 );
+		add_filter( 'rtcl_my_account_endpoint', [ __CLASS__, 'remove_menu_endpoints_for_buyer' ], 999 );
+		// site title
+		add_filter( 'pre_get_document_title', [ __CLASS__, 'listing_archive_site_title' ] );
+	}
+
+	/**
+	 * Filter the document title for the Classified Listing archive
+	 *
+	 * @param  string  $title  Current document title
+	 *
+	 * @return string Modified title
+	 */
+	public static function listing_archive_site_title( $title ) {
+		if ( is_post_type_archive( 'rtcl_listing' ) ) {
+			$_name = Functions::get_page_id( 'listings' ) ? get_the_title( Functions::get_page_id( 'listings' ) ) : __( 'All Listings', 'classified-listing' );
+			$title = esc_html( $_name ) . ' – ' . esc_html( get_bloginfo( 'name' ) );
+		}
+
+		return $title;
+	}
+
+	/**
+	 * @param $items
+	 *
+	 * @return array
+	 */
+	public static function remove_menu_items_for_buyer( $items ) {
+		if ( Functions::is_user_type_enabled() ) {
+			$user_type = get_user_meta( get_current_user_id(), '_rtcl_user_type', true );
+
+			if ( $user_type === 'buyer' ) {
+				unset( $items['listings'] );
+				unset( $items['add-listing'] );
+			}
+		}
+
+		return $items;
+	}
+
+	/**
+	 * @param $endpoints
+	 *
+	 * @return array
+	 */
+	public static function remove_menu_endpoints_for_buyer( $endpoints ) {
+		if ( Functions::is_user_type_enabled() ) {
+			$user_type = get_user_meta( get_current_user_id(), '_rtcl_user_type', true );
+
+			if ( $user_type === 'buyer' ) {
+				unset( $endpoints['listings'] );
+			}
+		}
+
+		return $endpoints;
 	}
 
 	public static function remove_classic_form_settings( $group ) {
@@ -83,16 +138,23 @@ class FilterHooks {
 				$thumbnail = $thumbnail[0] ?? '';
 				if ( ! empty( $thumbnail ) ) {
 					?>
-					<image><?php echo esc_url( $thumbnail ); ?></image>;
-				<?php } endif; ?>
-			<?php if ( $listing->get_price() ): ?>
+					<image><?php
+						echo esc_url( $thumbnail ); ?></image>;
+					<?php
+				} endif; ?>
+			<?php
+			if ( $listing->get_price() ): ?>
 				<price><?php
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo $listing->get_price_html(); ?></price>
-			<?php endif; ?>
-			<category><?php $listing->the_categories(); ?></category>
-			<location><?php $listing->the_locations(); ?></location>
-			<author><?php $listing->the_author(); ?></author>
+			<?php
+			endif; ?>
+			<category><?php
+				$listing->the_categories(); ?></category>
+			<location><?php
+				$listing->the_locations(); ?></location>
+			<author><?php
+				$listing->the_author(); ?></author>
 			<views><?php
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo $listing->get_view_counts(); ?></views>
@@ -105,7 +167,8 @@ class FilterHooks {
 			$maxLimit = absint( Functions::get_description_character_limit() );
 			/* translators:  maxLimit*/
 			$errorText              = sprintf( esc_html__( 'Pasting this exceeds the maximum allowed number of %s characters for the input.',
-				'classified-listing' ), $maxLimit );
+				'classified-listing' ),
+				$maxLimit );
 			$in['paste_preprocess'] = "function(plugin, args){
 													const editor = tinymce.get('description');
 													const length = editor.getContent({format: 'text'}).length;
@@ -126,7 +189,6 @@ class FilterHooks {
 	 * into thinking the template file exists where it doens't really exist.
 	 */
 	public static function register_page_templates( $atts ) {
-
 		// Create the key used for the themes cache
 		$cache_key = 'page_templates-' . md5( get_theme_root() . '/' . get_stylesheet() );
 
@@ -155,12 +217,11 @@ class FilterHooks {
 	/**
 	 * Add page templates.
 	 *
-	 * @param array $templates The list of page templates
+	 * @param  array  $templates  The list of page templates
 	 *
 	 * @return array  $templates  The modified list of page templates
 	 */
 	public static function add_page_templates( $templates ) {
-
 		$templates = array_merge( $templates, self::$templates );
 
 		return $templates;
@@ -185,7 +246,9 @@ class FilterHooks {
 
 		// Return default template if we don't have a custom one defined
 		if ( ! isset( self::$templates[ get_post_meta(
-				$post->ID, '_wp_page_template', true
+				$post->ID,
+				'_wp_page_template',
+				true,
 			) ] )
 		) {
 			return $template;
@@ -206,20 +269,18 @@ class FilterHooks {
 	}
 
 	/**
-	 * @param Form $form
+	 * @param  Form  $form
 	 *
 	 * @return Form
 	 */
 	public static function fb_form_apply_translation( $form ) {
 		if ( is_a( $form, Form::class ) && defined( 'ICL_SITEPRESS_VERSION' ) ) {
-
 			$default = apply_filters( 'wpml_default_language', null );
 			$current = apply_filters( 'wpml_current_language', null );
 
 			if ( $default && $current && $default !== $current ) {
 				$form->translatedForm( $current );
 			}
-
 		}
 
 		return $form;
@@ -237,7 +298,6 @@ class FilterHooks {
 	 * @return bool
 	 */
 	public static function required_phone_validation_at_registration() {
-
 		if ( Functions::get_option_item( 'rtcl_account_settings', 'disable_phone_at_registration', false, 'checkbox' ) ) {
 			return false;
 		}
@@ -293,8 +353,8 @@ class FilterHooks {
 
 
 	/**
-	 * @param WP_Error $errors
-	 * @param string   $password
+	 * @param  WP_Error  $errors
+	 * @param  string  $password
 	 *
 	 * @return WP_Error
 	 */
@@ -305,9 +365,9 @@ class FilterHooks {
 	}
 
 	/**
-	 * @param WP_Error $errors
-	 * @param WP_User  $user
-	 * @param array    $posted_fields
+	 * @param  WP_Error  $errors
+	 * @param  WP_User  $user
+	 * @param  array  $posted_fields
 	 *
 	 * @return WP_Error
 	 */
@@ -319,10 +379,10 @@ class FilterHooks {
 	}
 
 	/**
-	 * @param WP_Error $errors
-	 * @param string   $email
-	 * @param string   $username
-	 * @param string   $password
+	 * @param  WP_Error  $errors
+	 * @param  string  $email
+	 * @param  string  $username
+	 * @param  string  $password
 	 */
 	public static function password_validation( $errors, $email, $username, $password ) {
 		self::min_password_validation_message( $errors, $password );
@@ -331,8 +391,8 @@ class FilterHooks {
 	}
 
 	/**
-	 * @param WP_Error $errors
-	 * @param string   $password
+	 * @param  WP_Error  $errors
+	 * @param  string  $password
 	 */
 	private static function min_password_validation_message( &$errors, $password ) {
 		$length = Functions::password_min_length();
@@ -368,7 +428,6 @@ class FilterHooks {
 	}
 
 	public static function add_registration_endpoint_options( $options ) {
-
 		$position = array_search( 'myaccount_edit_account_endpoint', array_keys( $options ) );
 
 		if ( $position > - 1 ) {
@@ -376,8 +435,8 @@ class FilterHooks {
 				'myaccount_registration_endpoint' => [
 					'title'   => esc_html__( 'Registration', 'classified-listing' ),
 					'type'    => 'text',
-					'default' => 'registration'
-				]
+					'default' => 'registration',
+				],
 			];
 			Functions::array_insert( $options, $position, $newOptions );
 		}

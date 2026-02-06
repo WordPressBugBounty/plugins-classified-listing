@@ -8,7 +8,17 @@ use Rtcl\Helpers\Functions;
 
 defined( 'ABSPATH' ) || exit;
 
-get_header( 'listing' );
+if ( Functions::is_block_theme() ) {
+	if ( function_exists( 'wp_load_block_template' ) ) {
+		wp_load_block_template();
+	}
+
+	if ( function_exists( 'block_header_area' ) ) {
+		block_header_area();
+	}
+} else {
+	get_header( 'listing' );
+}
 
 do_action( 'rtcl_before_content_wrapper' );
 
@@ -38,4 +48,10 @@ do_action( 'rtcl_sidebar' );
 
 do_action( 'rtcl_after_content_wrapper' );
 
-get_footer( 'listing' );
+if ( Functions::is_block_theme() ) {
+	if ( function_exists( 'block_footer_area' ) ) {
+		block_footer_area();
+	}
+} else {
+	get_footer( 'listing' );
+}

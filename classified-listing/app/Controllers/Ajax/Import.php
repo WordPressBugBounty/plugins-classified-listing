@@ -26,7 +26,7 @@ class Import {
 				[
 					'success' => false,
 					'message' => esc_html__( 'Unauthorized access!!!', 'classified-listing' ),
-				]
+				],
 			);
 		}
 
@@ -35,7 +35,7 @@ class Import {
 				[
 					'success' => false,
 					'message' => esc_html__( 'Session Expired!!', 'classified-listing' ),
-				]
+				],
 			);
 		}
 
@@ -117,7 +117,6 @@ class Import {
 							$parent = 0;
 							if ( ! empty( $terms ) ) {
 								foreach ( $terms as $index => $slug ) {
-
 									if ( $limit === $index ) {
 										break;
 									}
@@ -131,7 +130,7 @@ class Import {
 											[
 												'slug'   => sanitize_title( $slug ),
 												'parent' => $parent,
-											]
+											],
 										);
 										$cat_ids[] = absint( $cat_id['term_id'] );
 									} else {
@@ -145,7 +144,6 @@ class Import {
 									}
 
 									$parent = $cat_id['term_id'] ?? 0;
-
 								}
 							}
 						}
@@ -158,7 +156,6 @@ class Import {
 							$parent = 0;
 							if ( ! empty( $terms ) ) {
 								foreach ( $terms as $index => $slug ) {
-
 									if ( $limit === $index ) {
 										break;
 									}
@@ -172,7 +169,7 @@ class Import {
 											[
 												'slug'   => sanitize_title( $slug ),
 												'parent' => $parent,
-											]
+											],
 										);
 										$loc_ids[] = absint( $loc_id['term_id'] );
 									} else {
@@ -186,7 +183,6 @@ class Import {
 									}
 
 									$parent = $loc_id['term_id'] ?? 0;
-
 								}
 							}
 						}
@@ -206,7 +202,7 @@ class Import {
 											rtcl()->tag,
 											[
 												'slug' => sanitize_title( $name ),
-											]
+											],
 										);
 										if ( ! is_wp_error( $tag_id ) ) {
 											$tag_ids[] = absint( $tag_id['term_id'] );
@@ -252,6 +248,14 @@ class Import {
 							}
 						}
 						break;
+					case strpos( $key, 'repeater_' ) === 0:
+						if ( ! empty( $data ) ) {
+							$repeater_data = $this->parse_repeater_meta_data( $data );
+							if ( ! empty( $repeater_data ) ) {
+								$meta_data[ $key ] = $repeater_data;
+							}
+						}
+						break;
 					default:
 						if ( ! empty( $data ) ) {
 							$meta_data[ $key ] = $data;
@@ -282,7 +286,7 @@ class Import {
 								'last_name'    => $author['post_author_lname'] ?? '',
 								'display_name' => $author['post_author_display_name'] ?? $user_name,
 								'role'         => $author['post_author_role'] ?? get_option( 'default_role', 'subscriber' ),
-							]
+							],
 						);
 						$customer_id   = wp_insert_user( $new_user_data );
 						if ( ! is_wp_error( $customer_id ) ) {
@@ -305,7 +309,7 @@ class Import {
 							[
 								'ID'         => $post_id,
 								'meta_input' => $meta_data,
-							]
+							],
 						);
 					}
 
@@ -330,7 +334,7 @@ class Import {
 								[
 									'ID'          => $attachment_id,
 									'post_parent' => $post_id,
-								]
+								],
 							);
 						}
 						update_post_meta( $post_id, '_rtcl_attachments_order', $attachment_ids );
@@ -348,13 +352,46 @@ class Import {
 		wp_send_json( $return );
 	}
 
+	private function parse_repeater_meta_data( string $value ) {
+		$result = [];
+
+		// Split repeater rows
+		$rows = array_filter( array_map( 'trim', explode( ',', $value ) ) );
+		if ( ! empty( $rows ) ) {
+			foreach ( $rows as $row ) {
+				$item = [];
+
+				// Split key:value pairs
+				$pairs = array_filter( array_map( 'trim', explode( '|', $row ) ) );
+
+				foreach ( $pairs as $pair ) {
+					if ( strpos( $pair, ':' ) === false ) {
+						continue;
+					}
+
+					[ $key, $val ] = array_map( 'trim', explode( ':', $pair, 2 ) );
+
+					if ( $key !== '' ) {
+						$item[ $key ] = $val;
+					}
+				}
+
+				if ( ! empty( $item ) ) {
+					$result[] = $item;
+				}
+			}
+		}
+
+		return $result;
+	}
+
 	public function rtcl_import_category() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json(
 				[
 					'success' => false,
 					'message' => esc_html__( 'Unauthorized access!!!', 'classified-listing' ),
-				]
+				],
 			);
 		}
 
@@ -364,7 +401,7 @@ class Import {
 					'success' => false,
 					'data'    => null,
 					'message' => esc_html__( 'Session Expired!!', 'classified-listing' ),
-				]
+				],
 			);
 
 			return;
@@ -381,7 +418,7 @@ class Import {
 				[
 					'success' => false,
 					'message' => esc_html__( 'Unauthorized access!!!', 'classified-listing' ),
-				]
+				],
 			);
 		}
 
@@ -391,7 +428,7 @@ class Import {
 					'success' => false,
 					'data'    => null,
 					'message' => esc_html__( 'Session Expired!!', 'classified-listing' ),
-				]
+				],
 			);
 
 			return;
@@ -408,7 +445,7 @@ class Import {
 				[
 					'success' => false,
 					'message' => esc_html__( 'Unauthorized access!!!', 'classified-listing' ),
-				]
+				],
 			);
 		}
 
@@ -418,7 +455,7 @@ class Import {
 					'success' => false,
 					'data'    => null,
 					'message' => esc_html__( 'Session Expired!!', 'classified-listing' ),
-				]
+				],
 			);
 		}
 
@@ -433,7 +470,7 @@ class Import {
 				[
 					'success' => false,
 					'message' => esc_html__( 'Unauthorized access!!!', 'classified-listing' ),
-				]
+				],
 			);
 		}
 
@@ -443,7 +480,7 @@ class Import {
 					'success' => false,
 					'data'    => null,
 					'message' => esc_html__( 'Session Expired!!', 'classified-listing' ),
-				]
+				],
 			);
 		}
 
@@ -510,7 +547,7 @@ class Import {
 				[
 					'success' => false,
 					'message' => esc_html__( 'Unauthorized access!!!', 'classified-listing' ),
-				]
+				],
 			);
 		}
 
@@ -520,7 +557,7 @@ class Import {
 					'success' => false,
 					'data'    => null,
 					'message' => esc_html__( 'Session Expired!!', 'classified-listing' ),
-				]
+				],
 			);
 		}
 
@@ -542,7 +579,7 @@ class Import {
 				$file,
 				[
 					'test_form' => false,
-				]
+				],
 			);
 			Filters::afterUpload();
 			if ( $status && ! isset( $status['error'] ) ) {
@@ -564,9 +601,9 @@ class Import {
 						/* translators: %s: $row_count. */
 							esc_html__(
 								'Please, add maximum 100 listings in one file. You added %s listings!!',
-								'classified-listing'
+								'classified-listing',
 							),
-							$row_count - 1
+							$row_count - 1,
 						);
 					} else {
 						$title_row          = $row_count > 1 ? array_shift( $rows ) : [];
@@ -584,7 +621,7 @@ class Import {
 										<?php
 										esc_html_e(
 											'Select fields from your CSV file to map against listings fields, or to ignore during import.',
-											'classified-listing'
+											'classified-listing',
 										);
 										?>
 									</p>

@@ -52,15 +52,14 @@ class RtclLicense {
 	/**
 	 * Class constructor.
 	 *
-	 * @param string $_plugin_file Path to the plugin file.
-	 * @param array  $_api_data    Optional data to send with API calls.
+	 * @param  string  $_plugin_file  Path to the plugin file.
+	 * @param  array  $_api_data  Optional data to send with API calls.
 	 *
 	 * @uses hook()
 	 *
 	 * @uses plugin_basename()
 	 */
 	public function __construct( $_plugin_file, $_api_data = [], $settings = [] ) {
-
 		global $edd_plugin_data;
 
 		$_api_data = wp_parse_args(
@@ -75,8 +74,9 @@ class RtclLicense {
 				'version'     => '',
 				'api_url'     => $this->api_url,
 				'beta'        => false,
-			]
+			],
 		);
+
 		if ( ! Functions::check_license() || empty( $_api_data['product_id'] ) || empty( $_api_data['key_name'] ) || empty( $_api_data['status_name'] )
 		     || empty( $_api_data['action_name'] )
 		) {
@@ -87,7 +87,7 @@ class RtclLicense {
 			[
 				'position_key' => 'licensing_section',
 				'title'        => '',
-			]
+			],
 		);
 
 		$this->key_name            = $_api_data['key_name'];
@@ -110,7 +110,6 @@ class RtclLicense {
 
 		// Set up hooks.
 		$this->init();
-
 	}
 
 	/**
@@ -120,7 +119,6 @@ class RtclLicense {
 	 * @uses add_filter()
 	 */
 	public function init() {
-		add_action( 'rtcl_admin_settings_saved', [ $this, 'update_licensing_status' ] );
 		add_action( 'wp_ajax_' . $this->action_name, [ &$this, 'manage_licensing' ] );
 		add_filter( 'rtcl_tools_settings_options', [ &$this, 'add_tools_licensing_options' ], 15 );
 		/* phpcs:ignore update_modification_detected */
@@ -132,94 +130,16 @@ class RtclLicense {
 		add_action( 'admin_init', [ $this, 'show_changelog' ] );
 	}
 
-	public function update_licensing_status( $action ) {
-		if ( 'tools_settings' == $action ) {
-			$settings    = Functions::get_option( 'rtcl_tools_settings' );
-			$license_key = ! empty( $settings[ $this->key_name ] ) ? trim( $settings[ $this->key_name ] ) : null;
-			$status      = ( ! empty( $settings[ $this->status_name ] ) && $settings[ $this->status_name ] === 'valid' ) ? true : false;
-			if ( $license_key && ! $status ) {
-				$api_params = [
-					'edd_action' => 'activate_license',
-					'license'    => $license_key,
-					'item_id'    => $this->product_id,
-					'url'        => home_url(),
-				];
-				$response   = wp_remote_post(
-					$this->api_url,
-					[
-						'timeout'   => 15,
-						'sslverify' => false,
-						'body'      => $api_params,
-					]
-				);
-				if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-					if ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) {
-						$message = $response->get_error_message();
-					} elseif ( isset( $response['response'] ) && is_array( $response['response'] ) && isset( $response['response']['message'] ) ) {
-						$message = 'sss' . $response['response']['message'];
-					} else {
-						$message = esc_html__( 'An error occurred, please try again.', 'classified-listing' );
-					}
-					Functions::add_notice( $message ? $message : esc_html__( 'Error to activation license', 'classified-listing' ), 'error' );
-				} else {
-					$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-					if ( false === $license_data->success ) {
-						switch ( $license_data->error ) {
-							case 'expired':
-								$message = sprintf(
-								/* translators: Expiration date. */
-									esc_html__( 'Your license key expired on %s.', 'classified-listing' ),
-									date_i18n(
-										get_option( 'date_format' ),
-										strtotime( $license_data->expires, current_time( 'timestamp' ) )
-									)
-								);
-								break;
-							case 'revoked':
-								$message = esc_html__( 'Your license key has been disabled.', 'classified-listing' );
-								break;
-							case 'missing':
-								$message = esc_html__( 'Invalid license.', 'classified-listing' );
-								break;
-							case 'invalid':
-							case 'site_inactive':
-								$message = esc_html__( 'Your license is not active for this URL.', 'classified-listing' );
-								break;
-							case 'item_name_mismatch':
-								/* translators: License key for item. */
-								$message = sprintf( esc_html__( "This appears to be an invalid license key for %s.", 'classified-listing' ),
-									$this->settings['title'] );
-								break;
-							case 'no_activations_left':
-								$message = esc_html__( 'Your license key has reached its activation limit.', 'classified-listing' );
-								break;
-							default:
-								$message = esc_html__( 'An error occurred, please try again.', 'classified-listing' );
-								break;
-						}
-					}
-					// Check if anything passed on a message constituting a failure
-					if ( empty( $message ) && $license_data->license === 'valid' ) {
-						$settings[ $this->status_name ] = $license_data->license;
-						update_option( 'rtcl_tools_settings', $settings );
-						Functions::add_notice( esc_html__( 'Successfully activated', 'classified-listing' ), 'success' );
-					} else {
-						Functions::add_notice( $message ? $message : esc_html__( 'Error to activation license', 'classified-listing' ), 'error' );
-					}
-				}
-			} elseif ( ! $license_key && ! $status ) {
-				unset( $settings[ $this->key_name ] );
-				update_option( 'rtcl_tools_settings', $settings );
-			}
-		}
-	}
-
-	public function manage_licensing() {
-		$error       = true;
-		$type        = $value = $data = $message = null;
-		$settings    = Functions::get_option( 'rtcl_tools_settings' );
+	/**
+	 * @param $settingsId
+	 *
+	 * @return array|true[]|void
+	 */
+	public function force_update_licensing_status( $settingsId ) {
+		$settingsId  = $settingsId ?: 'rtcl_tools_settings';
+		$settings    = Functions::get_option( $settingsId );
 		$license_key = ! empty( $settings[ $this->key_name ] ) ? trim( $settings[ $this->key_name ] ) : null;
-		if ( ! empty( $_REQUEST['type'] ) && $_REQUEST['type'] == 'license_activate' ) {
+		if ( $license_key ) {
 			$api_params = [
 				'edd_action' => 'activate_license',
 				'license'    => $license_key,
@@ -232,23 +152,29 @@ class RtclLicense {
 					'timeout'   => 15,
 					'sslverify' => false,
 					'body'      => $api_params,
-				]
+				],
 			);
+			$message    = null;
 			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-				$err     = $response->get_error_message();
-				$message = ( is_wp_error( $response ) && ! empty( $err ) ) ? $err : esc_html__( 'An error occurred, please try again.', 'classified-listing' );
+				if ( is_wp_error( $response ) && ! empty( $response->get_error_message() ) ) {
+					$message = $response->get_error_message();
+				} elseif ( isset( $response['response'] ) && is_array( $response['response'] ) && isset( $response['response']['message'] ) ) {
+					$message = 'sss' . $response['response']['message'];
+				} else {
+					$message = esc_html__( 'An error occurred, please try again.', 'classified-listing' );
+				}
 			} else {
 				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 				if ( false === $license_data->success ) {
 					switch ( $license_data->error ) {
 						case 'expired':
 							$message = sprintf(
-							/* translators: License expired date */
+							/* translators: Expiration date. */
 								esc_html__( 'Your license key expired on %s.', 'classified-listing' ),
 								date_i18n(
 									get_option( 'date_format' ),
-									strtotime( $license_data->expires, current_time( 'timestamp' ) )
-								)
+									strtotime( $license_data->expires, current_time( 'timestamp' ) ),
+								),
 							);
 							break;
 						case 'revoked':
@@ -275,20 +201,109 @@ class RtclLicense {
 					}
 				}
 				// Check if anything passed on a message constituting a failure
-				if ( empty( $message ) ) {
+				if ( empty( $message ) && $license_data->license === 'valid' ) {
 					$settings[ $this->status_name ] = $license_data->license;
 					update_option( 'rtcl_tools_settings', $settings );
+
+					return [ 'success' => true, 'message' => esc_html__( 'Successfully activated', 'classified-listing' ) ];
+				} else {
+					unset( $settings[ $this->status_name ] );
+					update_option( 'rtcl_tools_settings', $settings );
+
+					return [ 'success' => false, 'message' => $message ?: esc_html__( 'Error to activation license', 'classified-listing' ) ];
+				}
+			}
+		} else {
+			unset( $settings[ $this->key_name ] );
+			unset( $settings[ $this->status_name ] );
+			update_option( 'rtcl_tools_settings', $settings );
+
+			return [ 'success' => true ];
+		}
+	}
+
+	public function manage_licensing() {
+		$error         = true;
+		$type          = $value = $data = $message = null;
+		$settings      = Functions::get_option( 'rtcl_tools_settings' );
+		$dbLicense_key = ! empty( $settings[ $this->key_name ] ) ? trim( $settings[ $this->key_name ] ) : null;
+		if ( ! empty( $_REQUEST['type'] ) && $_REQUEST['type'] == 'license_activate' ) {
+			$license_key                 = ! empty( $_REQUEST['license_key'] ) ? sanitize_text_field( trim( $_REQUEST['license_key'] ) ) : null;
+			$settings[ $this->key_name ] = $license_key;
+			update_option( 'rtcl_tools_settings', $settings );
+			$api_params = [
+				'edd_action' => 'activate_license',
+				'license'    => $license_key,
+				'item_id'    => $this->product_id,
+				'url'        => home_url(),
+			];
+
+
+			$response = wp_remote_post(
+				$this->api_url,
+				[
+					'timeout'   => 15,
+					'sslverify' => false,
+					'body'      => $api_params,
+				],
+			);
+
+			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+				$err     = $response->get_error_message();
+				$message = ( is_wp_error( $response ) && ! empty( $err ) ) ? $err : esc_html__( 'An error occurred, please try again.', 'classified-listing' );
+			} else {
+				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+				error_log( print_r( $license_data, true ) );
+				if ( false === $license_data->success ) {
+					switch ( $license_data->error ) {
+						case 'expired':
+							$message = sprintf(
+							/* translators: License expired date */
+								esc_html__( 'Your license key expired on %s.', 'classified-listing' ),
+								date_i18n(
+									get_option( 'date_format' ),
+									strtotime( $license_data->expires, current_time( 'timestamp' ) ),
+								),
+							);
+							break;
+						case 'revoked':
+							$message = esc_html__( 'Your license key has been disabled.', 'classified-listing' );
+							break;
+						case 'missing':
+							$message = esc_html__( 'Invalid license.', 'classified-listing' );
+							break;
+						case 'invalid':
+						case 'site_inactive':
+							$message = esc_html__( 'Your license is not active for this URL.', 'classified-listing' );
+							break;
+						case 'invalid_item_id':
+						case 'item_name_mismatch':
+							/* translators: License key for item. */
+							$message = sprintf( esc_html__( "This appears to be an invalid license key for %s.", 'classified-listing' ),
+								$this->settings['title'] );
+							break;
+						case 'no_activations_left':
+							$message = esc_html__( 'Your license key has reached its activation limit.', 'classified-listing' );
+							break;
+						default:
+							$message = esc_html__( 'An error occurred, please try again.', 'classified-listing' );
+							break;
+					}
+				}
+				// Check if anything passed on a message constituting a failure
+				if ( empty( $message ) ) {
 					$error   = false;
 					$type    = 'license_deactivate';
 					$message = esc_html__( 'License successfully activated', 'classified-listing' );
-					$value   = esc_html__( 'Deactivate License', 'classified-listing' );
 				}
+				$settings[ $this->status_name ] = $license_data->license;
+				update_option( 'rtcl_tools_settings', $settings );
 			}
 		}
 		if ( ! empty( $_REQUEST['type'] ) && $_REQUEST['type'] == 'license_deactivate' ) {
 			$api_params = [
 				'edd_action' => 'deactivate_license',
-				'license'    => $license_key,
+				'license'    => $dbLicense_key,
 				'item_id'    => $this->product_id,
 				'url'        => home_url(),
 			];
@@ -298,7 +313,7 @@ class RtclLicense {
 					'timeout'   => 15,
 					'sslverify' => false,
 					'body'      => $api_params,
-				]
+				],
 			);
 
 			// Make sure there are no errors
@@ -311,17 +326,98 @@ class RtclLicense {
 				$error   = false;
 				$type    = 'license_activate';
 				$message = esc_html__( 'License successfully deactivated', 'classified-listing' );
-				$value   = esc_html__( 'Activate License', 'classified-listing' );
+			}
+		}
+		if ( ! empty( $_REQUEST['type'] ) && $_REQUEST['type'] === 'license_check' ) {
+			$api_params = [
+				'edd_action' => 'check_license',
+				'license'    => $dbLicense_key,
+				'item_id'    => $this->product_id,
+				'url'        => home_url(),
+			];
+
+			$response = wp_remote_post(
+				$this->api_url,
+				[
+					'timeout'   => 15,
+					'sslverify' => false,
+					'body'      => $api_params,
+				],
+			);
+
+			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+				$err     = $response->get_error_message();
+				$message = ( is_wp_error( $response ) && ! empty( $err ) ) ? $err : esc_html__( 'License check failed.', 'classified-listing' );
+			}
+			{
+				$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
+				$is_valid   = ! empty( $license_data->license ) && $license_data->license === 'valid';
+				$renew_link = '';
+				$expires    = false;
+
+
+				if ( ! empty( $license_data->expires ) ) {
+					if ( 'lifetime' === $license_data->expires ) {
+						$expires = 'lifetime';
+					} else {
+						$expires = date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires ) );
+					}
+					if ( '' != $this->product_id && $license_key ) {
+						$url        = esc_url( $this->api_url );
+						$url        .= '/checkout/?edd_license_key=' . $license_key . '&download_id=' . $this->product_id;
+						$renew_link = '<a href="' . esc_url( $url ) . '" target="_blank">' . esc_html__( 'Renew?', 'classified-listing' ) . '</a>';
+					}
+				}
+
+				$site_count    = ! empty( $license_data->site_count ) ? $license_data->site_count : '';
+				$license_limit = ! empty( $license_data->license_limit ) ? $license_data->license_limit : '';
+
+				if ( $is_valid ) {
+					$error                          = false;
+					$settings[ $this->status_name ] = 'valid';
+
+					$message = esc_html__( 'License key is active.', 'classified-listing' ) . ' ';
+					if ( $expires ) {
+						$message .= 'lifetime' === $expires ? esc_html__( 'License type: lifetime.', 'classified-listing' ) : sprintf( esc_html__( 'License valid until %s.', 'classified-listing' ), $expires ) . ' ';
+						if ( $site_count && $license_limit ) {
+							$message .= sprintf( esc_html__( 'You have %1$s / %2$s sites activated.', 'classified-listing' ), $site_count, $license_limit );
+						}
+					}
+				} elseif ( $license_data->license == 'expired' ) {
+					if ( $expires ) {
+						$message = sprintf( esc_html__( 'License key expired %s.', 'classified-listing' ), $expires );
+					} else {
+						$message = esc_html__( 'License key has expired.', 'classified-listing' );
+					}
+					if ( $renew_link ) {
+						$message .= ' ' . $renew_link;
+					}
+				} elseif ( $license_data->license == 'invalid' ) {
+					$message = __( 'License keys do not match.', 'classified-listing' );
+				} elseif ( $license_data->license == 'inactive' ) {
+					$message = __( 'License is inactive.', 'classified-listing' );
+				} elseif ( $license_data->license == 'disabled' ) {
+					$message = esc_html__( 'License key is disabled.', 'classified-listing' );
+				} elseif ( $license_data->license == 'site_inactive' ) {
+					$message = esc_html__( 'Site is inactive.', 'classified-listing' );
+				} else {
+					$message = esc_html__( 'License status is unknown.', 'classified-listing' );
+				}
 			}
 		}
 		$response = [
-			'error' => $error,
-			'msg'   => $message,
-			'type'  => $type,
-			'value' => $value,
-			'data'  => $data,
+			'status'         => ! empty( $settings[ $this->status_name ] ) && $settings[ $this->status_name ] === 'valid',
+			'msg'            => $message,
+			'license_status' => $settings[ $this->status_name ],
+			'type'           => $type,
 		];
-		wp_send_json( $response );
+		if ( $error ) {
+			wp_send_json_error( $response );
+
+			return;
+		}
+		wp_send_json_success( $response );
 	}
 
 	public function add_tools_licensing_options( $options ) {
@@ -330,22 +426,29 @@ class RtclLicense {
 		}
 		$position = array_search( $this->settings['position_key'], array_keys( $options ) );
 		if ( $position > - 1 ) {
-			$settings       = Functions::get_option( 'rtcl_tools_settings' );
-			$status         = ! empty( $settings[ $this->status_name ] ) && $settings[ $this->status_name ] === 'valid';
-			$license_status = ! empty( $settings[ $this->key_name ] ) ? sprintf(
-				"<span class='license-status'>%s</span>",
-				$status
-					? "<span data-action='" . $this->action_name . "' class='button-secondary rt-licensing-btn danger license_deactivate'>"
-					  . esc_html__( 'Deactivate License', 'classified-listing' ) . '</span>'
-					: "<span data-action='" . $this->action_name . "' class='button-secondary rt-licensing-btn button-primary license_activate'>"
-					  . esc_html__( 'Activate License', 'classified-listing' ) . '</span>'
-			) : ' ';
-			$option         = [
+			$settings = Functions::get_option( 'rtcl_tools_settings' );
+			$status   = ! empty( $settings[ $this->status_name ] ) && $settings[ $this->status_name ] === 'valid';
+//			$license_status = ! empty( $settings[ $this->key_name ] ) ? sprintf(
+//				"<span class='license-status'>%s</span>",
+//				$status
+//					? "<span data-action='" . $this->action_name . "' class='button-secondary rt-licensing-btn danger license_deactivate'>"
+//					  . esc_html__( 'Deactivate License', 'classified-listing' ) . '</span>'
+//					: "<span data-action='" . $this->action_name . "' class='button-secondary rt-licensing-btn button-primary license_activate'>"
+//					  . esc_html__( 'Activate License', 'classified-listing' ) . '</span>'
+//			) : ' ';
+			$option = [
 				$this->key_name => [
-					'title'         => $this->settings['title'],
-					'type'          => 'text',
-					'wrapper_class' => 'rtcl-license-wrapper',
-					'description'   => $license_status,
+					'title' => $this->settings['title'],
+					'type'  => 'license',
+					'i18n'  => [
+						'deactivate_license' => esc_html__( 'Deactivate License', 'classified-listing' ),
+						'activate_license'   => esc_html__( 'Activate License', 'classified-listing' ),
+					],
+					'data'  => [
+						'status' => $status,
+						'action' => $this->action_name,
+					],
+					//					'description' => $license_status,
 				],
 			];
 			Functions::array_insert( $options, $position, $option );
@@ -362,13 +465,12 @@ class RtclLicense {
 	 * It is reassembled from parts of the native WordPress plugin update code.
 	 * See wp-includes/update.php line 121 for the original wp_update_plugins() function.
 	 *
-	 * @param array $_transient_data Update array build by WordPress.
+	 * @param  array  $_transient_data  Update array build by WordPress.
 	 *
 	 * @return array Modified update array with custom plugin data.
 	 * @uses api_request()
 	 */
 	public function check_update( $_transient_data ) {
-
 		global $pagenow;
 
 		if ( ! is_object( $_transient_data ) ) {
@@ -391,31 +493,25 @@ class RtclLicense {
 				[
 					'slug' => $this->slug,
 					'beta' => $this->beta,
-				]
+				],
 			);
 
 			$this->set_version_info_cache( $version_info );
-
 		}
 
 		if ( false !== $version_info && is_object( $version_info ) && isset( $version_info->new_version ) ) {
-
 			if ( version_compare( $this->version, $version_info->new_version, '<' ) ) {
-
 				$_transient_data->response[ $this->name ] = $version_info;
-
 			}
 
 			$_transient_data->last_checked           = current_time( 'timestamp' );
 			$_transient_data->checked[ $this->name ] = $this->version;
-
 		}
 
 		return $_transient_data;
 	}
 
 	public function show_update_notification_key_check( $file, $plugin ) {
-
 		if ( is_network_admin() ) {
 			return;
 		}
@@ -437,7 +533,6 @@ class RtclLicense {
 		$update_cache = is_object( $update_cache ) ? $update_cache : new stdClass();
 
 		if ( empty( $update_cache->response ) || empty( $update_cache->response[ $this->name ] ) ) {
-
 			$version_info = $this->get_cached_version_info();
 
 			if ( false === $version_info ) {
@@ -446,7 +541,7 @@ class RtclLicense {
 					[
 						'slug' => $this->slug,
 						'beta' => $this->beta,
-					]
+					],
 				);
 
 				$this->set_version_info_cache( $version_info );
@@ -457,20 +552,15 @@ class RtclLicense {
 			}
 
 			if ( version_compare( $this->version, $version_info->new_version, '<' ) ) {
-
 				$update_cache->response[ $this->name ] = $version_info;
-
 			}
 
 			$update_cache->last_checked           = current_time( 'timestamp' );
 			$update_cache->checked[ $this->name ] = $this->version;
 
 			set_site_transient( 'update_plugins', $update_cache );
-
 		} else {
-
 			$version_info = $update_cache->response[ $this->name ];
-
 		}
 
 		// Restore our filter
@@ -484,7 +574,7 @@ class RtclLicense {
 			echo '<td colspan="3" class="plugin-update colspanchange">';
 			echo '<div class="update-message notice inline notice-warning notice-alt"><p><strong>'
 			     . esc_html__( 'Please enter valid license key for automatic updates.', 'classified-listing' ) . '</strong> <a href="'
-			     . esc_url( admin_url( 'admin.php?page=rtcl-settings&tab=tools' ) ) . '">' . esc_html__( 'Click here', 'classified-listing' ) . '</a></p>';
+			     . esc_url( admin_url( 'admin.php?page=rtcl-settings&parentId=rtcl_tools_settings' ) ) . '">' . esc_html__( 'Click here', 'classified-listing' ) . '</a></p>';
 			echo '</div></td></tr>';
 		} else {
 			if ( empty( $version_info->new_version ) && empty( $version_info->stable_version ) && empty( $version_info->sections )
@@ -496,21 +586,19 @@ class RtclLicense {
 				echo '<td colspan="3" class="plugin-update colspanchange">';
 				echo '<div class="update-message notice inline notice-warning notice-alt"><p>' . esc_html( $version_info->msg ) . '. <strong>'
 				     . esc_html__( 'Please enter valid license key for automatic updates.', 'classified-listing' ) . '</strong><a href="'
-				     . esc_url( admin_url( 'admin.php?page=rtcl-settings&tab=tools' ) ) . '">' . esc_html__( 'Click here', 'classified-listing' ) . '</a></p>';
+				     . esc_url( admin_url( 'admin.php?page=rtcl-settings&parentId=rtcl_tools_settings' ) ) . '">' . esc_html__( 'Click here', 'classified-listing' ) . '</a></p>';
 				echo '</div></td></tr>';
 			}
 		}
-
 	}
 
 	/**
 	 * show update notification row -- needed for multisite subsites, because WP won't tell you otherwise!
 	 *
-	 * @param string $file
-	 * @param array  $plugin
+	 * @param  string  $file
+	 * @param  array  $plugin
 	 */
 	public function show_update_notification( $file, $plugin ) {
-
 		if ( is_network_admin() ) {
 			return;
 		}
@@ -536,7 +624,6 @@ class RtclLicense {
 		$update_cache = is_object( $update_cache ) ? $update_cache : new stdClass();
 
 		if ( empty( $update_cache->response ) || empty( $update_cache->response[ $this->name ] ) ) {
-
 			$version_info = $this->get_cached_version_info();
 
 			if ( false === $version_info ) {
@@ -545,7 +632,7 @@ class RtclLicense {
 					[
 						'slug' => $this->slug,
 						'beta' => $this->beta,
-					]
+					],
 				);
 
 				$this->set_version_info_cache( $version_info );
@@ -556,20 +643,15 @@ class RtclLicense {
 			}
 
 			if ( version_compare( $this->version, $version_info->new_version, '<' ) ) {
-
 				$update_cache->response[ $this->name ] = $version_info;
-
 			}
 
 			$update_cache->last_checked           = current_time( 'timestamp' );
 			$update_cache->checked[ $this->name ] = $this->version;
 
 			set_site_transient( 'update_plugins', $update_cache );
-
 		} else {
-
 			$version_info = $update_cache->response[ $this->name ];
-
 		}
 
 		// Restore our filter
@@ -577,7 +659,6 @@ class RtclLicense {
 		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'check_update' ] );
 
 		if ( ! empty( $update_cache->response[ $this->name ] ) && version_compare( $this->version, $version_info->new_version, '<' ) ) {
-
 			// build a plugin list row, with update notification
 			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
 			// <tr class="plugin-update-tr"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange">
@@ -596,7 +677,7 @@ class RtclLicense {
 					esc_html( $version_info->name ),
 					'<a target="_blank" class="thickbox" href="' . esc_url( $changelog_link ) . '">',
 					esc_html( $version_info->new_version ),
-					'</a>'
+					'</a>',
 				);
 			} else {
 				printf(
@@ -608,7 +689,7 @@ class RtclLicense {
 					'</a>',
 					'<a href="' . esc_url( wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $this->name,
 						'upgrade-plugin_' . $this->name ) ) . '">',
-					'</a>'
+					'</a>',
 				);
 			}
 
@@ -621,25 +702,20 @@ class RtclLicense {
 	/**
 	 * Updates information on the "View version x.x details" page with custom data.
 	 *
-	 * @param mixed  $_data
-	 * @param string $_action
-	 * @param object $_args
+	 * @param  mixed  $_data
+	 * @param  string  $_action
+	 * @param  object  $_args
 	 *
 	 * @return object $_data
 	 * @uses api_request()
 	 */
 	public function plugins_api_filter( $_data, $_action = '', $_args = null ) {
-
 		if ( $_action != 'plugin_information' ) {
-
 			return $_data;
-
 		}
 
 		if ( ! isset( $_args->slug ) || ( $_args->slug != $this->slug ) ) {
-
 			return $_data;
-
 		}
 
 		$to_send = [
@@ -658,7 +734,6 @@ class RtclLicense {
 
 		// If we have no transient-saved value, run the API, set a fresh transient with the API value, and return that value too right now.
 		if ( empty( $edd_api_request_transient ) ) {
-
 			$api_response = $this->api_request( 'plugin_information', $to_send );
 
 			// Expires in 3 hours
@@ -697,27 +772,25 @@ class RtclLicense {
 	/**
 	 * Disable SSL verification in order to prevent download update failures
 	 *
-	 * @param array  $args
-	 * @param string $url
+	 * @param  array  $args
+	 * @param  string  $url
 	 *
 	 * @return array $array
 	 */
 	public function http_request_args( $args, $url ) {
-
 		$verify_ssl = $this->verify_ssl();
 		if ( strpos( $url, 'https://' ) !== false && strpos( $url, 'edd_action=package_download' ) ) {
 			$args['sslverify'] = $verify_ssl;
 		}
 
 		return $args;
-
 	}
 
 	/**
 	 * Calls the API and, if successfull, returns the object delivered by the API.
 	 *
-	 * @param string $_action The requested action.
-	 * @param array  $_data   Parameters for the API action.
+	 * @param  string  $_action  The requested action.
+	 * @param  array  $_data  Parameters for the API action.
 	 *
 	 * @return false|object
 	 * @uses get_bloginfo()
@@ -725,7 +798,6 @@ class RtclLicense {
 	 * @uses is_wp_error()
 	 */
 	private function api_request( $_action, $_data ) {
-
 		global $wp_version;
 
 		$data = array_merge( $this->api_data, $_data );
@@ -756,7 +828,7 @@ class RtclLicense {
 				'timeout'   => 15,
 				'sslverify' => $verify_ssl,
 				'body'      => $api_params,
-			]
+			],
 		);
 
 		if ( ! is_wp_error( $request ) ) {
@@ -783,7 +855,6 @@ class RtclLicense {
 	}
 
 	public function show_changelog() {
-
 		global $edd_plugin_data;
 
 		if ( empty( $_REQUEST['edd_sl_action'] ) || 'view_plugin_changelog' != $_REQUEST['edd_sl_action'] ) {
@@ -799,7 +870,8 @@ class RtclLicense {
 		}
 
 		if ( ! current_user_can( 'update_plugins' ) ) {
-			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'classified-listing' ), esc_html__( 'Error', 'classified-listing' ),
+			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'classified-listing' ),
+				esc_html__( 'Error', 'classified-listing' ),
 				[ 'response' => 403 ] );
 		}
 
@@ -809,7 +881,6 @@ class RtclLicense {
 		$version_info = $this->get_cached_version_info( $cache_key );
 
 		if ( false === $version_info ) {
-
 			$api_params = [
 				'edd_action' => 'get_version',
 				'item_name'  => $data['item_name'] ?? false,
@@ -827,7 +898,7 @@ class RtclLicense {
 					'timeout'   => 15,
 					'sslverify' => $verify_ssl,
 					'body'      => $api_params,
-				]
+				],
 			);
 
 			if ( ! is_wp_error( $request ) ) {
@@ -847,7 +918,6 @@ class RtclLicense {
 			}
 
 			$this->set_version_info_cache( $version_info, $cache_key );
-
 		}
 
 		if ( ! empty( $version_info ) && isset( $version_info->sections['changelog'] ) ) {
@@ -859,7 +929,6 @@ class RtclLicense {
 	}
 
 	public function get_cached_version_info( $cache_key = '' ) {
-
 		if ( empty( $cache_key ) ) {
 			$cache_key = $this->cache_key;
 		}
@@ -871,11 +940,9 @@ class RtclLicense {
 		}
 
 		return json_decode( $cache['value'] );
-
 	}
 
 	public function set_version_info_cache( $value = '', $cache_key = '' ) {
-
 		if ( empty( $cache_key ) ) {
 			$cache_key = $this->cache_key;
 		}
@@ -886,7 +953,6 @@ class RtclLicense {
 		];
 
 		update_option( $cache_key, $data, 'no' );
-
 	}
 
 	/**

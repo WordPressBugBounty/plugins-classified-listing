@@ -44,7 +44,7 @@ trait ListingTrait {
 
 	/**
 	 * @param       $cat_id
-	 * @param Listing/null $listing
+	 * @param  Listing/null $listing
 	 *
 	 * @return mixed|void
 	 * @var Listing $listing
@@ -52,8 +52,8 @@ trait ListingTrait {
 	/**
 	 * Get HTML for listing form price unit selection
 	 *
-	 * @param int          $cat_id  Category ID
-	 * @param Listing|null $listing Listing object
+	 * @param  int  $cat_id  Category ID
+	 * @param  Listing|null  $listing  Listing object
 	 *
 	 * @return mixed|void HTML content for price unit selection
 	 */
@@ -63,11 +63,11 @@ trait ListingTrait {
 		}
 
 		$price_unit  = null;
-		$price_units = array();
+		$price_units = [];
 		if ( is_a( $listing, Listing::class ) ) {
 			$price_units = $listing->get_price_units();
 			$price_unit  = $listing->get_price_unit();
-		} else if ( $cat_id ) {
+		} elseif ( $cat_id ) {
 			$price_units = self::get_category_price_units( $cat_id );
 		}
 		$price_unit_list = Options::get_price_unit_list();
@@ -85,7 +85,7 @@ trait ListingTrait {
 	/**
 	 * Get price units for a specific category
 	 *
-	 * @param int $cat_id Category ID
+	 * @param  int  $cat_id  Category ID
 	 *
 	 * @return array Array of price units
 	 */
@@ -109,12 +109,11 @@ trait ListingTrait {
 	/**
 	 * Check if category has price units
 	 *
-	 * @param int $cat_id Category ID
+	 * @param  int  $cat_id  Category ID
 	 *
 	 * @return boolean True if category has price units, false otherwise
 	 */
 	static function category_has_price_units( $cat_id ) {
-
 		return count( self::get_category_price_units( $cat_id ) ) > 0;
 	}
 
@@ -146,13 +145,12 @@ trait ListingTrait {
 	/**
 	 * Create a new term in the specified taxonomy
 	 *
-	 * @param string $taxonomy Taxonomy name
-	 * @param array  $data     Term data including name, slug, parent, description, order, meta and child
+	 * @param  string  $taxonomy  Taxonomy name
+	 * @param  array  $data  Term data including name, slug, parent, description, order, meta and child
 	 *
 	 * @return array Response array with success status, data and message
 	 */
 	public static function create_term( $taxonomy, $data ) {
-
 		$data = wp_parse_args(
 			$data,
 			[
@@ -163,7 +161,7 @@ trait ListingTrait {
 				'order'       => 0,
 				'meta'        => [],
 				'child'       => [],
-			]
+			],
 		);
 
 		$return = [
@@ -183,7 +181,7 @@ trait ListingTrait {
 							'parent'      => isset( $data['parent'] ) ? absint( $data['parent'] ) : 0,
 							'slug'        => $data['slug'],
 							'description' => $data['description'],
-						]
+						],
 					);
 					if ( ! is_wp_error( $term ) ) {
 						update_term_meta( $term['term_id'], '_rtcl_order', absint( $data['order'] ) );
@@ -216,9 +214,9 @@ trait ListingTrait {
 	/**
 	 * Set listing term for a post
 	 *
-	 * @param string $name     Term name
-	 * @param string $taxonomy Taxonomy name (default: 'rtcl_category')
-	 * @param int    $post_id  Post ID
+	 * @param  string  $name  Term name
+	 * @param  string  $taxonomy  Taxonomy name (default: 'rtcl_category')
+	 * @param  int  $post_id  Post ID
 	 *
 	 * @return void
 	 */
@@ -235,7 +233,6 @@ trait ListingTrait {
 
 			if ( ! empty( $terms ) ) {
 				foreach ( $terms as $index => $slug ) {
-
 					if ( $limit === $index ) {
 						break;
 					}
@@ -250,7 +247,7 @@ trait ListingTrait {
 							[
 								'slug'   => sanitize_title( $slug ),
 								'parent' => $parent,
-							]
+							],
 						);
 						if ( is_wp_error( $cat_id ) ) {
 							continue;
@@ -278,7 +275,7 @@ trait ListingTrait {
 	/**
 	 * Convert taxonomy term slug to a proper title
 	 *
-	 * @param string $slug The taxonomy term slug.
+	 * @param  string  $slug  The taxonomy term slug.
 	 *
 	 * @return string The formatted title.
 	 */
@@ -291,7 +288,7 @@ trait ListingTrait {
 	/**
 	 * Prepares a list of social links by filtering and validating input data.
 	 *
-	 * @param string $data Comma-separated list of social profiles,
+	 * @param  string  $data  Comma-separated list of social profiles,
 	 *                     where each profile consists of a key and URL separated by a pipe character.
 	 *
 	 * @return array Associative array of valid social links with the profile key as the key and URL as the value.
@@ -319,6 +316,25 @@ trait ListingTrait {
 		}
 
 		return $socials;
+	}
+
+	/**
+	 * Get total published listings
+	 */
+	public static function need_listings_embedding() {
+		$listings = get_posts( [
+			'post_type'   => rtcl()->post_type,
+			'post_status' => 'publish',
+			'fields'      => 'ids',
+			'meta_query'  => [
+				[
+					'key'     => '_has_embedding',
+					'compare' => 'NOT EXISTS',
+				],
+			],
+		] );
+
+		return count( $listings );
 	}
 
 }

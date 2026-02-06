@@ -20,84 +20,84 @@ class AllLocation {
 	protected $attributes = [];
 
 	public function get_attributes( $default = false ) {
-		$attributes = array(
-			'blockId'                => array(
+		$attributes = [
+			'blockId'                => [
 				'type'    => 'string',
 				'default' => '',
-			),
-			'preview'                => array(
+			],
+			'preview'                => [
 				'type'    => 'boolean',
 				'default' => false,
-			),
-			"col_style"              => array(
+			],
+			"col_style"              => [
 				"type"    => "object",
-				"default" => array(
+				"default" => [
 					"style"      => "grid",
 					"style_list" => "1",
 					"style_grid" => "1",
-				),
-			),
+				],
+			],
 			'colBGColor'             => [
 				'type'    => 'string',
 				'default' => '',
-				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes { background-color:{{colBGColor}}; }' ] ]
+				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes { background-color:{{colBGColor}}; }' ] ],
 			],
 			'colBorderColor'         => [
 				'type'    => 'string',
 				'default' => '',
-				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes { border-color:{{colBorderColor}}; }' ] ]
+				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes { border-color:{{colBorderColor}}; }' ] ],
 			],
 			'colBorderWith'          => [
 				'type'    => 'string',
 				'default' => '',
-				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes {border-width:{{colBorderWith}}; }' ] ]
+				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes {border-width:{{colBorderWith}}; }' ] ],
 			],
 			'colBorderStyle'         => [
 				'type'    => 'string',
 				'default' => 'solid',
-				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes { border-style:{{colBorderStyle}}; }' ] ]
+				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes { border-style:{{colBorderStyle}}; }' ] ],
 			],
 			'colBorderRadius'        => [
 				'type'    => 'string',
 				'default' => '',
-				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes { border-radius:{{colBorderRadius}}; }' ] ]
+				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes { border-radius:{{colBorderRadius}}; }' ] ],
 			],
-			"col_padding"            => array(
+			"col_padding"            => [
 				"type"    => "object",
-				"default" => array(
+				"default" => [
 					"unit" => "px",
-				),
+				],
 				'style'   => [
 					(object) [
 						'selector' => '{{RTCL}} .grid-style-1 .location-boxes,
-				{{RTCL}} .list-style-1 .location-boxes {padding:{{col_padding}} !important;}'
-					]
-				]
-			),
-			"gutter_padding"         => array(
+				{{RTCL}} .list-style-1 .location-boxes {padding:{{col_padding}} !important;}',
+					],
+				],
+			],
+			"gutter_padding"         => [
 				"type"    => "object",
-				"default" => array(
+				"default" => [
 					"unit" => "px",
-				),
-				'style'   => [ (object) [ 'selector' => '{{RTCL}} .location-boxes-wrapper {padding:{{gutter_padding}};}' ] ]
-			),
+				],
+				'style'   => [ (object) [ 'selector' => '{{RTCL}} .location-boxes-wrapper {padding:{{gutter_padding}};}' ] ],
+			],
 			'headerBGColor'          => [
 				'type'    => 'string',
 				'default' => '',
-				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations.grid-style-2 .location-boxes .location-boxes-header { background-color:{{headerBGColor}}; }' ] ]
+				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations.grid-style-2 .location-boxes .location-boxes-header { background-color:{{headerBGColor}}; }' ] ],
 			],
 			'headerBorderColor'      => [
 				'type'    => 'string',
 				'default' => '',
-				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations.grid-style-2 .location-boxes .location-boxes-header { border-color:{{headerBorderColor}}; }' ] ]
+				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations.grid-style-2 .location-boxes .location-boxes-header { border-color:{{headerBorderColor}}; }' ] ],
 			],
-			"header_padding"         => array(
+			"header_padding"         => [
 				"type"    => "object",
-				"default" => array(
+				"default" => [
 					"unit" => "px",
-				),
-				'style'   => [ (object) [ 'selector' => '{{RTCL}} .location-boxes-header {padding:{{header_padding}} !important;}' ] ]
-			),
+				],
+				'style'   => [ (object) [ 'selector' => '{{RTCL}} .location-boxes-header {padding:{{header_padding}} !important;}' ] ],
+			],
 			'childIconColor'         => [
 				'type'    => 'string',
 				'default' => '',
@@ -105,8 +105,8 @@ class AllLocation {
 					(object) [
 						'selector' => '{{RTCL}} .gb-all-locations .rtcl-gb-sub-location li i {
 						color:{{childIconColor}};
-					}'
-					]
+					}',
+					],
 				],
 			],
 			'childColor'             => [
@@ -115,8 +115,8 @@ class AllLocation {
 					(object) [
 						'selector' => '{{RTCL}} .gb-all-locations .rtcl-gb-sub-location li a {
 						color:{{childColor}} !important;
-					}'
-					]
+					}',
+					],
 				],
 			],
 			'childHoverColor'        => [
@@ -126,8 +126,8 @@ class AllLocation {
 					(object) [
 						'selector' => '{{RTCL}} .gb-all-locations .rtcl-gb-sub-location li a:hover {
 						color:{{childHoverColor}};
-					}'
-					]
+					}',
+					],
 				],
 			],
 			'childTypo'              => [
@@ -138,30 +138,30 @@ class AllLocation {
 					'spacing'        => (object) [ 'lg' => '0', 'unit' => 'px' ],
 					'height'         => (object) [ 'lg' => '26', 'unit' => 'px' ],
 					'transform'      => 'none',
-					'weight'         => '400'
+					'weight'         => '400',
 				],
 				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .rtcl-gb-sub-location li' ] ],
 			],
-			"child_location_padding" => array(
+			"child_location_padding" => [
 				"type"    => "object",
-				"default" => array(
+				"default" => [
 					"unit" => "px",
-				),
-				'style'   => [ (object) [ 'selector' => '{{RTCL}} .location-boxes-body {padding:{{child_location_padding}} !important;}' ] ]
-			),
-			"titleColor"             => array(
+				],
+				'style'   => [ (object) [ 'selector' => '{{RTCL}} .location-boxes-body {padding:{{child_location_padding}} !important;}' ] ],
+			],
+			"titleColor"             => [
 				"type"    => "string",
 				"default" => "",
-				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes .rtcl-title a{color:{{titleColor}} !important;}' ] ]
-			),
-			"titleHoverColor"        => array(
+				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes .rtcl-title a{color:{{titleColor}} !important;}' ] ],
+			],
+			"titleHoverColor"        => [
 				"type"    => "string",
 				"default" => "",
 				'style'   => [
 					(object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes .rtcl-title a:hover {color:{{titleHoverColor}} !important;}' ],
 				],
 
-			),
+			],
 			'titleTypo'              => [
 				'type'    => 'object',
 				'default' => (object) [
@@ -170,19 +170,19 @@ class AllLocation {
 					'spacing'        => (object) [ 'lg' => '0', 'unit' => 'px' ],
 					'height'         => (object) [ 'lg' => '26', 'unit' => 'px' ],
 					'transform'      => 'capitalize',
-					'weight'         => '700'
+					'weight'         => '700',
 				],
 				'style'   => [
 					(object) [
-						'selector' => '{{RTCL}} .gb-all-locations .location-boxes .rtcl-title'
+						'selector' => '{{RTCL}} .gb-all-locations .location-boxes .rtcl-title',
 					],
 				],
 			],
-			"counterColor"           => array(
+			"counterColor"           => [
 				"type"    => "string",
 				"default" => "",
-				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes .rtcl-counter{color:{{counterColor}}; }' ] ]
-			),
+				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes .rtcl-counter{color:{{counterColor}}; }' ] ],
+			],
 			'counterTypo'            => [
 				'type'    => 'object',
 				'default' => (object) [
@@ -191,15 +191,15 @@ class AllLocation {
 					'spacing'        => (object) [ 'lg' => '0', 'unit' => 'px' ],
 					'height'         => (object) [ 'lg' => '26', 'unit' => 'px' ],
 					'transform'      => 'capitalize',
-					'weight'         => '400'
+					'weight'         => '400',
 				],
 				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes .rtcl-counter' ], ],
 			],
-			"contentColor"           => array(
+			"contentColor"           => [
 				"type"    => "string",
 				"default" => "",
-				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes .rtcl-description{color:{{contentColor}}; }' ] ]
-			),
+				'style'   => [ (object) [ 'selector' => '{{RTCL}} .gb-all-locations .location-boxes .rtcl-description{color:{{contentColor}}; }' ] ],
+			],
 			'contentTypo'            => [
 				'type'    => 'object',
 				'default' => (object) [
@@ -208,131 +208,147 @@ class AllLocation {
 					'spacing'        => (object) [ 'lg' => '0', 'unit' => 'px' ],
 					'height'         => (object) [ 'lg' => '26', 'unit' => 'px' ],
 					'transform'      => 'none',
-					'weight'         => '400'
+					'weight'         => '400',
 				],
 				'style'   => [
 					(object) [
-						'selector' => '{{RTCL}} .gb-all-locations .location-boxes .rtcl-description'
+						'selector' => '{{RTCL}} .gb-all-locations .location-boxes .rtcl-description',
 					],
 				],
 			],
-			"container_padding"      => array(
+			"container_padding"      => [
 				"type"    => "object",
-				"default" => array(
+				"default" => [
 					"unit" => "px",
-				),
+				],
 				'style'   => [
 					(object) [
 						'selector' => '{{RTCL}}.rtcl-block-editor,
-				{{RTCL}}.rtcl-block-frontend {padding:{{container_padding}};}'
-					]
-				]
-			),
-			"container_margin"       => array(
+				{{RTCL}}.rtcl-block-frontend {padding:{{container_padding}};}',
+					],
+				],
+			],
+			"container_margin"       => [
 				"type"    => "object",
-				"default" => array(
+				"default" => [
 					"unit" => "px",
-				),
+				],
 				'style'   => [
 					(object) [
 						'selector' => '{{RTCL}}.rtcl-block-editor,
-				{{RTCL}}.rtcl-block-frontend {margin:{{container_margin}};}'
-					]
-				]
-			),
-			"containerBGColor"       => array(
+				{{RTCL}}.rtcl-block-frontend {margin:{{container_margin}};}',
+					],
+				],
+			],
+			"containerBGColor"       => [
 				"type"    => "string",
 				"default" => "",
 				'style'   => [
 					(object) [
 						'selector' => '{{RTCL}}.rtcl-block-editor,
-				{{RTCL}}.rtcl-block-frontend {background-color:{{containerBGColor}};}'
-					]
-				]
-			),
-			"locations"              => array(
+				{{RTCL}}.rtcl-block-frontend {background-color:{{containerBGColor}};}',
+					],
+				],
+			],
+			"locations"              => [
 				"type" => "array",
-			),
-			"location_type"          => array(
+			],
+			"location_type"          => [
 				"type"    => "string",
 				"default" => "all",
-			),
-			"show_count"             => array(
+			],
+			"show_count"             => [
 				"type"    => "boolean",
 				"default" => true,
-			),
-			"count_position"         => array(
+			],
+			"count_position"         => [
 				"type"    => "string",
 				"default" => "inline",
-			),
-			"count_after_text"       => array(
+			],
+			"count_after_text"       => [
 				"type" => "string",
-			),
-			"orderby"                => array(
+			],
+			"orderby"                => [
 				"type"    => "string",
 				"default" => "name",
-			),
-			"sortby"                 => array(
+			],
+			"sortby"                 => [
 				"type"    => "string",
 				"default" => "asc",
-			),
-			"hide_empty"             => array(
+			],
+			"hide_empty"             => [
 				"type"    => "boolean",
 				"default" => false,
-			),
-			"show_desc"              => array(
-				"type"    => "boolean",
-				"default" => true,
-			),
-			"show_sub_location"      => array(
-				"type"    => "boolean",
-				"default" => true,
-			),
-			"enable_link"            => array(
-				"type"    => "boolean",
-				"default" => true,
-			),
-			"enable_nofollow"        => array(
+			],
+			"show_image"             => [
 				"type"    => "boolean",
 				"default" => false,
-			),
-			"enable_parent"          => array(
+			],
+			"image_size"             => [
+				"type"    => "string",
+				"default" => "rtcl-thumbnail",
+			],
+			"custom_image_width"     => [
+				"type"    => "number",
+				"default" => 400,
+			],
+			"custom_image_height"    => [
+				"type"    => "number",
+				"default" => 280,
+			],
+			"show_desc"              => [
+				"type"    => "boolean",
+				"default" => true,
+			],
+			"show_sub_location"      => [
+				"type"    => "boolean",
+				"default" => true,
+			],
+			"enable_link"            => [
+				"type"    => "boolean",
+				"default" => true,
+			],
+			"enable_nofollow"        => [
 				"type"    => "boolean",
 				"default" => false,
-			),
-			"sub_location_limit"     => array(
+			],
+			"enable_parent"          => [
+				"type"    => "boolean",
+				"default" => false,
+			],
+			"sub_location_limit"     => [
 				"type"    => "number",
 				"default" => 4,
-			),
-			"location_limit"         => array(
+			],
+			"location_limit"         => [
 				"type"    => "number",
 				"default" => 4,
-			),
-			"desc_limit"             => array(
+			],
+			"desc_limit"             => [
 				"type"    => "number",
 				"default" => 20,
-			),
-			"col_xl"                 => array(
+			],
+			"col_xl"                 => [
 				"type"    => "string",
 				"default" => "3",
-			),
-			"col_lg"                 => array(
+			],
+			"col_lg"                 => [
 				"type"    => "string",
 				"default" => "3",
-			),
-			"col_md"                 => array(
+			],
+			"col_md"                 => [
 				"type"    => "string",
 				"default" => "4",
-			),
-			"col_sm"                 => array(
+			],
+			"col_sm"                 => [
 				"type"    => "string",
 				"default" => "6",
-			),
-			"col_mobile"             => array(
+			],
+			"col_mobile"             => [
 				"type"    => "string",
 				"default" => "12",
-			),
-		);
+			],
+		];
 
 		if ( $default ) {
 			$temp = [];
@@ -361,7 +377,7 @@ class AllLocation {
 			[
 				'render_callback' => [ $this, 'render_callback_listings' ],
 				'attributes'      => $this->get_attributes(),
-			]
+			],
 		);
 	}
 
@@ -376,14 +392,14 @@ class AllLocation {
 				? $settings['col_style']['style_grid'] : '1';
 		}
 
-		$data = array(
+		$data = [
 			'template'              => 'block/all-location/' . $view . '/style-' . $style,
 			'view'                  => $view,
 			'style'                 => $style,
 			'settings'              => $settings,
 			'terms'                 => AdminAjaxController::rtcl_gb_all_location_query( $settings ),
 			'default_template_path' => null,
-		);
+		];
 
 		$data = apply_filters( 'rtcl_gb_all_location_box_data', $data );
 		ob_start();

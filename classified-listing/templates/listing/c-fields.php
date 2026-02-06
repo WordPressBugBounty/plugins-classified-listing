@@ -66,8 +66,11 @@ if ( count( $fields ) ) :
 					if ( 'repeater' === $field->getElement() ) {
 						$repeaterFields = $field->getData( 'fields', [] );
 						if ( ! empty( $repeaterFields ) && is_array( $value ) ) {
+							$repeaterItemFields = $field->getField();
+							$is_collapsable     = isset( $repeaterItemFields['collapsable'] ) && $repeaterItemFields['collapsable'] == 'yes' ? 'rtcl-is-collapsable' : 'rtcl-not-collapsable';
+							$layout             = isset( $repeaterItemFields['layout'] ) ? 'layout_' . $repeaterItemFields['layout'] : '';
 							?>
-							<div class="rtcl-cfp-repeater-items">
+							<div class="rtcl-cfp-repeater-items <?php echo esc_attr( $is_collapsable . ' ' . $layout ); ?>">
 								<?php
 								foreach ( $value as $rValueIndex => $rValues ) {
 									?>
@@ -80,7 +83,7 @@ if ( count( $fields ) ) :
 												? FBHelper::getFieldAttachmentFiles( $listing_id, $rField->getField(), $rValues[ $rField->getName() ], true )
 												: [] ) : ( $rValues[ $rField->getName() ] ?? '' );
 											?>
-											<div class="rtcl-cfp-repeater-field" data-name="<?php echo esc_attr( $field->getName() ); ?>"
+											<div class="rtcl-cfp-repeater-field <?php echo esc_attr( $rField->getElement() ) ?>" data-name="<?php echo esc_attr( $field->getName() ); ?>"
 												 data-uuid="<?php echo esc_attr( $field->getUuid() ); ?>">
 												<?php
 												$rIcon = $rField->getIconData();
