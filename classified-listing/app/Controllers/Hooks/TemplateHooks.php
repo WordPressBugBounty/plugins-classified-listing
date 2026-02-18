@@ -257,7 +257,7 @@ class TemplateHooks {
 		$placeholder        = ! empty( $itemData['placeholder'] ) ? $itemData['placeholder'] : esc_html__( 'Search ...', 'classified-listing' );
 		$itemData['active'] = ! empty( $q );
 		$field_html         = '';
-		$filed_class        = Functions::is_semantic_quick_search_enabled() ? 'rtcl-ajax-filter-text rtcl-ai-search-field' : 'rtcl-ajax-filter-text';
+		$filed_class        = Functions::is_semantic_quick_search_enabled() ? 'rtcl-ajax-filter-text rtcl-ai-search-field' : 'rtcl-ajax-filter-text-search rtcl-ajax-filter-text';
 		$field_html         = sprintf( '<div class="%1$s">
 											<input name="q" type="text"  aria-label="Keyword" autocomplete="off" value="%2$s" class="rtcl-form-control rtcl-filter-text-field" placeholder="%3$s">
 											<i class="rtcl-clear-text rtcl-icon-trash"></i>
@@ -266,6 +266,9 @@ class TemplateHooks {
     												<span class="rtcl-ai-quick-search-text">%4$s</span>
 												</span>
 											</span>
+											<span class="rtcl-ajax-filter-search-icon"><svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M8.65429 17.2954C3.88229 17.2954 0 13.4161 0 8.64769C0 3.87933 3.88229 0 8.65429 0C13.4263 0 17.3086 3.87933 17.3086 8.64769C17.3086 13.4161 13.4263 17.2954 8.65429 17.2954ZM8.65429 1.63937C4.78693 1.63937 1.64062 4.78328 1.64062 8.64769C1.64062 12.5121 4.78693 15.656 8.65429 15.656C12.5216 15.656 15.668 12.5121 15.668 8.64769C15.668 4.78328 12.5216 1.63937 8.65429 1.63937ZM20.7598 20.76C21.0801 20.4398 21.0801 19.9208 20.7598 19.6007L17.0889 15.9326C16.7685 15.6125 16.2491 15.6125 15.9287 15.9326C15.6084 16.2527 15.6084 16.7718 15.9287 17.0919L19.5996 20.76C19.7598 20.92 19.9697 21 20.1797 21C20.3897 21 20.5995 20.92 20.7598 20.76Z" fill="#646464"></path>
+						</svg></span>
 										</div>',
 			$filed_class,
 			$q,
@@ -1145,22 +1148,26 @@ class TemplateHooks {
 					} ?>
 				</select>
 			</div>
-			<div class="rtcl-field-col">
-				<label for="rtcl-zipcode"
-					   class="rtcl-field-label"><?php
-					esc_html_e( "Zip Code", "classified-listing" ) ?></label>
-				<input type="text" name="zipcode" value="<?php
-				echo esc_attr( $zipcode ); ?>"
-					   class="rtcl-map-field rtcl-form-control" id="rtcl-zipcode"/>
-			</div>
-			<div class="rtcl-field-col">
-				<label for="rtcl-address"
-					   class="rtcl-field-label"><?php
-					esc_html_e( "Address", "classified-listing" ) ?></label>
-				<textarea name="address" rows="3" class="rtcl-map-field rtcl-form-control"
-						  id="rtcl-address"><?php
-					echo esc_textarea( $address ); ?></textarea>
-			</div>
+			<?php if ( apply_filters( 'rtcl_myaccount_enable_zipcode_field', true ) ) { ?>
+				<div class="rtcl-field-col">
+					<label for="rtcl-zipcode"
+						   class="rtcl-field-label"><?php
+						esc_html_e( "Zip Code", "classified-listing" ) ?></label>
+					<input type="text" name="zipcode" value="<?php
+					echo esc_attr( $zipcode ); ?>"
+						   class="rtcl-map-field rtcl-form-control" id="rtcl-zipcode"/>
+				</div>
+			<?php } ?>
+			<?php if ( apply_filters( 'rtcl_myaccount_enable_address_field', true ) ) { ?>
+				<div class="rtcl-field-col">
+					<label for="rtcl-address"
+						   class="rtcl-field-label"><?php
+						esc_html_e( "Address", "classified-listing" ) ?></label>
+					<textarea name="address" rows="3" class="rtcl-map-field rtcl-form-control"
+							  id="rtcl-address"><?php
+						echo esc_textarea( $address ); ?></textarea>
+				</div>
+			<?php } ?>
 		</div>
 		<?php
 	}

@@ -1137,18 +1137,16 @@ class Listing extends Data {
 	public function get_tags() {
 		$data = '';
 
-		if ( ! Functions::is_tag_disabled() ) {
-			$terms = get_the_terms( $this->id, rtcl()->tag );
+		$terms = get_the_terms( $this->id, rtcl()->tag );
 
-			if ( $terms && ! is_wp_error( $terms ) ) {
-				$term_links = [];
+		if ( $terms && ! is_wp_error( $terms ) ) {
+			$term_links = [];
 
-				foreach ( $terms as $term ) {
-					$term_links[] = trim( $term->name );
-				}
-
-				$data = join( ',', $term_links );
+			foreach ( $terms as $term ) {
+				$term_links[] = trim( $term->name );
 			}
+
+			$data = join( ',', $term_links );
 		}
 
 		return $data;

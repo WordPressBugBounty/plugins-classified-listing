@@ -160,6 +160,7 @@ class FormBuilderAjax {
 		$post_arg           = [];
 		$new_listing_status = Functions::get_option_item( 'rtcl_general_settings', 'new_listing_status', 'pending' );
 		if ( $listing ) {
+			$post_arg['ID'] = $listing->get_id();
 			if ( ( $listing->get_listing()->post_author > 0 && ( ( 'rtcl-temp' === $listing->get_listing()->post_status && $listing->get_listing()->post_author === get_current_user_id() ) || $listing->get_listing()->post_author == absint( apply_filters( 'rtcl_listing_post_user_id', get_current_user_id() ) ) ) ) || ( $listing->get_listing()->post_author == 0 && $post_for_unregister ) ) {
 				if ( 'rtcl-temp' === $listing->get_listing()->post_status ) {
 					$post_arg['post_status'] = $new_listing_status;
@@ -175,7 +176,10 @@ class FormBuilderAjax {
 				if ( $listing->get_listing()->post_author == 0 && $post_for_unregister ) {
 					$post_arg['post_author'] = $user_id;
 				}
-				$post_arg['ID'] = $listing->get_id();
+			} else {
+				if ( current_user_can( 'manage_options' ) && !in_array( $listing->get_listing()->post_author, [ apply_filters( 'rtcl_listing_post_user_id', get_current_user_id() ), get_current_user_id() ] ) ) {
+					$postingType = 'update';
+				}
 			}
 		} else {
 			$post_arg = [

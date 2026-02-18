@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory Plugin 5.3.6\n"
+"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory Plugin 5.3.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-04T09:21:43+00:00\n"
+"POT-Creation-Date: 2026-02-18T07:06:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: classified-listing\n"
@@ -89,12 +89,12 @@ msgid "Contact Details"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/AddMetaBox.php:75
-#: app/Resources/Options.php:4923
+#: app/Resources/Options.php:4924
 msgid "Gallery"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/AddMetaBox.php:83
-#: app/Resources/Options.php:4924
+#: app/Resources/Options.php:4925
 #: app/Services/FormBuilder/FormPreDefined.php:220
 #: templates/listing-form/video-urls.php:15
 msgid "Video URL"
@@ -127,7 +127,7 @@ msgstr ""
 
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:81
 #: app/Controllers/Admin/RegisterPostType.php:34
-#: app/Helpers/Functions.php:1215
+#: app/Helpers/Functions.php:1232
 msgid "All Categories"
 msgstr ""
 
@@ -221,7 +221,7 @@ msgid "Views"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/ListingMetaColumn.php:31
-#: app/Controllers/Hooks/TemplateHooks.php:1242
+#: app/Controllers/Hooks/TemplateHooks.php:1249
 #: app/Helpers/Installer.php:159
 #: app/Resources/Gallery.php:204
 #: app/Resources/Gallery.php:286
@@ -319,7 +319,7 @@ msgid "Save"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/ListingSubmitBoxMice.php:111
-#: app/Controllers/Hooks/TemplateHooks.php:1449
+#: app/Controllers/Hooks/TemplateHooks.php:1456
 #: app/Resources/OrderOptions.php:22
 #: app/Resources/OrderOptions.php:23
 #: app/Services/FormBuilder/AvailableFields.php:1036
@@ -388,10 +388,10 @@ msgstr ""
 #: app/Resources/Options.php:499
 #: app/Resources/Options.php:2149
 #: app/Resources/Options.php:3239
-#: app/Resources/Options.php:4875
-#: app/Resources/Options.php:4889
-#: app/Resources/Options.php:4907
-#: app/Resources/Options.php:4920
+#: app/Resources/Options.php:4876
+#: app/Resources/Options.php:4890
+#: app/Resources/Options.php:4908
+#: app/Resources/Options.php:4921
 #: app/Resources/OrderOptions.php:148
 #: app/Resources/PricingOptions.php:33
 #: app/Services/FormBuilder/AvailableFields.php:145
@@ -425,7 +425,7 @@ msgid "Additional Information"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/UserMeta.php:38
-#: app/Controllers/Hooks/TemplateHooks.php:1517
+#: app/Controllers/Hooks/TemplateHooks.php:1524
 #: app/Controllers/Settings/AdminSettings.php:110
 msgid "Account Type"
 msgstr ""
@@ -437,7 +437,7 @@ msgstr ""
 #: app/Controllers/Admin/Meta/UserMeta.php:59
 #: app/Models/Countries.php:1769
 #: app/Resources/Options.php:2776
-#: app/Resources/Options.php:4928
+#: app/Resources/Options.php:4929
 #: app/Services/FormBuilder/AvailableFields.php:347
 #: app/Services/FormBuilder/AvailableFields.php:360
 #: app/Services/FormBuilder/AvailableFields.php:1227
@@ -464,10 +464,10 @@ msgid "Website"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/UserMeta.php:90
-#: app/Controllers/Hooks/TemplateHooks.php:1159
+#: app/Controllers/Hooks/TemplateHooks.php:1165
 #: app/Resources/Options.php:2770
-#: app/Resources/Options.php:4877
-#: app/Resources/Options.php:4927
+#: app/Resources/Options.php:4878
+#: app/Resources/Options.php:4928
 #: app/Services/FormBuilder/AvailableFields.php:298
 #: app/Services/FormBuilder/AvailableFields.php:312
 #: templates/listing-form/contact.php:130
@@ -574,7 +574,7 @@ msgid "Locations"
 msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:79
-#: app/Helpers/Functions.php:1216
+#: app/Helpers/Functions.php:1233
 msgid "All Locations"
 msgstr ""
 
@@ -631,14 +631,15 @@ msgstr ""
 #: app/Controllers/Admin/RegisterPostType.php:122
 #: app/Controllers/Ajax/FilterAjax.php:273
 #: app/Resources/Options.php:1977
-#: app/Resources/Options.php:4922
+#: app/Resources/Options.php:4874
+#: app/Resources/Options.php:4923
 #: templates/listing-form/information.php:182
 #: templates/listing/custom-fields.php:18
 msgid "Tags"
 msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:123
-#: app/Helpers/Functions.php:1218
+#: app/Helpers/Functions.php:1235
 msgid "All Tags"
 msgstr ""
 
@@ -843,7 +844,7 @@ msgid "No payments found in Trash"
 msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:322
-#: app/Helpers/Functions.php:3210
+#: app/Helpers/Functions.php:3227
 #: app/Resources/Options.php:1544
 #: views/settings/advanced-settings.php:116
 msgid "Payments"
@@ -1295,8 +1296,8 @@ msgid "Mismatch"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:269
-#: app/Helpers/Functions.php:5136
-#: app/Helpers/Functions.php:5138
+#: app/Helpers/Functions.php:5153
+#: app/Helpers/Functions.php:5155
 msgid "Select an option&hellip;"
 msgstr ""
 
@@ -1351,12 +1352,12 @@ msgid "Searching&hellip;"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:286
-#: app/Helpers/Functions.php:5039
+#: app/Helpers/Functions.php:5056
 msgid "required"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:287
-#: app/Helpers/Functions.php:5041
+#: app/Helpers/Functions.php:5058
 msgid "optional"
 msgstr ""
 
@@ -1390,8 +1391,8 @@ msgid "Are you sure?"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:676
-#: app/Controllers/Hooks/TemplateHooks.php:386
-#: app/Controllers/Hooks/TemplateHooks.php:432
+#: app/Controllers/Hooks/TemplateHooks.php:389
+#: app/Controllers/Hooks/TemplateHooks.php:435
 #: app/Resources/ListingDetails.php:69
 #: app/Resources/Options.php:1900
 #: app/Services/FormBuilder/AvailableFields.php:168
@@ -1406,11 +1407,11 @@ msgid "Category"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:677
-#: app/Controllers/Hooks/TemplateHooks.php:793
-#: app/Controllers/Hooks/TemplateHooks.php:1175
+#: app/Controllers/Hooks/TemplateHooks.php:796
+#: app/Controllers/Hooks/TemplateHooks.php:1182
 #: app/Resources/Options.php:60
 #: app/Resources/Options.php:1945
-#: app/Resources/Options.php:4925
+#: app/Resources/Options.php:4926
 #: app/Services/FormBuilder/AvailableFields.php:232
 #: app/Services/FormBuilder/AvailableFields.php:245
 #: app/Services/FormBuilder/AvailableFields.php:256
@@ -1444,7 +1445,7 @@ msgid "Delete Permanently"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:685
-#: app/Controllers/Hooks/TemplateHooks.php:2211
+#: app/Controllers/Hooks/TemplateHooks.php:2218
 msgid "Proceed to payment"
 msgstr ""
 
@@ -1481,7 +1482,7 @@ msgstr ""
 #. translators: 1: related to , 2: Related form
 #. translators: related something
 #: app/Controllers/Admin/ScriptLoader.php:732
-#: app/Controllers/Hooks/TemplateHooks.php:812
+#: app/Controllers/Hooks/TemplateHooks.php:815
 #, php-format
 msgid "Need to discuss something related to '%1$s' from %2$s"
 msgstr ""
@@ -1522,7 +1523,7 @@ msgstr ""
 #. translators: Date formate
 #. translators: 1: month, 2: day, 3: year, 4: hour, 5: minute
 #: app/Controllers/Admin/ScriptLoader.php:922
-#: app/Helpers/Functions.php:4967
+#: app/Helpers/Functions.php:4984
 #, php-format
 msgid "%1$s %2$s, %3$s @ %4$s:%5$s"
 msgstr ""
@@ -1569,7 +1570,7 @@ msgstr ""
 #: app/Controllers/Ajax/AjaxListingType.php:46
 #: app/Controllers/Ajax/AjaxListingType.php:78
 #: app/Controllers/Ajax/AjaxListingType.php:149
-#: app/Controllers/Ajax/FormBuilderAjax.php:1513
+#: app/Controllers/Ajax/FormBuilderAjax.php:1517
 msgid "Session error!!"
 msgstr ""
 
@@ -1706,8 +1707,8 @@ msgid "You cannot edit images."
 msgstr ""
 
 #: app/Controllers/AIImageController.php:35
-#: app/Controllers/Ajax/FormBuilderAjax.php:660
-#: app/Controllers/Ajax/FormBuilderAjax.php:848
+#: app/Controllers/Ajax/FormBuilderAjax.php:664
+#: app/Controllers/Ajax/FormBuilderAjax.php:852
 msgid "Given file is empty to upload."
 msgstr ""
 
@@ -1749,19 +1750,19 @@ msgstr ""
 #: app/Controllers/Ajax/FormBuilderAdminAjax.php:817
 #: app/Controllers/Ajax/FormBuilderAdminAjax.php:848
 #: app/Controllers/Ajax/FormBuilderAjax.php:70
-#: app/Controllers/Ajax/FormBuilderAjax.php:519
-#: app/Controllers/Ajax/FormBuilderAjax.php:588
-#: app/Controllers/Ajax/FormBuilderAjax.php:623
-#: app/Controllers/Ajax/FormBuilderAjax.php:761
-#: app/Controllers/Ajax/FormBuilderAjax.php:797
-#: app/Controllers/Ajax/FormBuilderAjax.php:842
-#: app/Controllers/Ajax/FormBuilderAjax.php:1053
-#: app/Controllers/Ajax/FormBuilderAjax.php:1220
-#: app/Controllers/Ajax/FormBuilderAjax.php:1260
-#: app/Controllers/Ajax/FormBuilderAjax.php:1321
-#: app/Controllers/Ajax/FormBuilderAjax.php:1420
-#: app/Controllers/Ajax/FormBuilderAjax.php:1452
-#: app/Controllers/Ajax/FormBuilderAjax.php:1486
+#: app/Controllers/Ajax/FormBuilderAjax.php:523
+#: app/Controllers/Ajax/FormBuilderAjax.php:592
+#: app/Controllers/Ajax/FormBuilderAjax.php:627
+#: app/Controllers/Ajax/FormBuilderAjax.php:765
+#: app/Controllers/Ajax/FormBuilderAjax.php:801
+#: app/Controllers/Ajax/FormBuilderAjax.php:846
+#: app/Controllers/Ajax/FormBuilderAjax.php:1057
+#: app/Controllers/Ajax/FormBuilderAjax.php:1224
+#: app/Controllers/Ajax/FormBuilderAjax.php:1264
+#: app/Controllers/Ajax/FormBuilderAjax.php:1325
+#: app/Controllers/Ajax/FormBuilderAjax.php:1424
+#: app/Controllers/Ajax/FormBuilderAjax.php:1456
+#: app/Controllers/Ajax/FormBuilderAjax.php:1490
 #: app/Controllers/Ajax/PublicUser.php:1374
 #: app/Controllers/Ajax/PublicUser.php:1418
 msgid "Session error !!"
@@ -1790,33 +1791,33 @@ msgid "Select a field type"
 msgstr ""
 
 #: app/Controllers/Ajax/AjaxGallery.php:51
-#: app/Controllers/Ajax/FormBuilderAjax.php:535
-#: app/Controllers/Ajax/FormBuilderAjax.php:596
-#: app/Controllers/Ajax/FormBuilderAjax.php:769
-#: app/Controllers/Ajax/FormBuilderAjax.php:805
-#: app/Controllers/Ajax/FormBuilderAjax.php:1127
+#: app/Controllers/Ajax/FormBuilderAjax.php:539
+#: app/Controllers/Ajax/FormBuilderAjax.php:600
+#: app/Controllers/Ajax/FormBuilderAjax.php:773
+#: app/Controllers/Ajax/FormBuilderAjax.php:809
+#: app/Controllers/Ajax/FormBuilderAjax.php:1131
 msgid "Attachment does not exist."
 msgstr ""
 
 #: app/Controllers/Ajax/AjaxGallery.php:56
-#: app/Controllers/Ajax/FormBuilderAjax.php:541
-#: app/Controllers/Ajax/FormBuilderAjax.php:604
-#: app/Controllers/Ajax/FormBuilderAjax.php:777
-#: app/Controllers/Ajax/FormBuilderAjax.php:813
-#: app/Controllers/Ajax/FormBuilderAjax.php:1141
+#: app/Controllers/Ajax/FormBuilderAjax.php:545
+#: app/Controllers/Ajax/FormBuilderAjax.php:608
+#: app/Controllers/Ajax/FormBuilderAjax.php:781
+#: app/Controllers/Ajax/FormBuilderAjax.php:817
+#: app/Controllers/Ajax/FormBuilderAjax.php:1145
 msgid "Incorrect attachment ID."
 msgstr ""
 
 #: app/Controllers/Ajax/AjaxGallery.php:63
-#: app/Controllers/Ajax/FormBuilderAjax.php:552
-#: app/Controllers/Ajax/FormBuilderAjax.php:1195
+#: app/Controllers/Ajax/FormBuilderAjax.php:556
+#: app/Controllers/Ajax/FormBuilderAjax.php:1199
 #: app/Controllers/Ajax/PublicUser.php:429
 msgid "File could not be deleted."
 msgstr ""
 
 #: app/Controllers/Ajax/AjaxGallery.php:157
-#: app/Controllers/Ajax/FormBuilderAjax.php:703
-#: app/Controllers/Ajax/FormBuilderAjax.php:1021
+#: app/Controllers/Ajax/FormBuilderAjax.php:707
+#: app/Controllers/Ajax/FormBuilderAjax.php:1025
 msgid "RTCL Auto Temp"
 msgstr ""
 
@@ -1963,12 +1964,12 @@ msgid "Keyword"
 msgstr ""
 
 #: app/Controllers/Ajax/FilterAjax.php:181
-#: app/Controllers/Hooks/TemplateHooks.php:301
+#: app/Controllers/Hooks/TemplateHooks.php:304
 #: app/Resources/Options.php:2028
-#: app/Resources/Options.php:4874
-#: app/Resources/Options.php:4888
-#: app/Resources/Options.php:4906
-#: app/Resources/Options.php:4917
+#: app/Resources/Options.php:4875
+#: app/Resources/Options.php:4889
+#: app/Resources/Options.php:4907
+#: app/Resources/Options.php:4918
 #: templates/listing-form/category.php:31
 msgid "Ad Type"
 msgstr ""
@@ -2170,8 +2171,8 @@ msgid "Invalid AI service type."
 msgstr ""
 
 #: app/Controllers/Ajax/FormBuilderAjax.php:80
-#: app/Controllers/Ajax/FormBuilderAjax.php:527
-#: app/Controllers/Ajax/FormBuilderAjax.php:1135
+#: app/Controllers/Ajax/FormBuilderAjax.php:531
+#: app/Controllers/Ajax/FormBuilderAjax.php:1139
 #: app/Shortcodes/ListingForm.php:38
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
@@ -2196,106 +2197,106 @@ msgstr ""
 msgid "A new account is registered, password is sent to your email(%s)."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:478
+#: app/Controllers/Ajax/FormBuilderAjax.php:482
 #: app/Controllers/Ajax/PublicUser.php:1295
 msgid "Thank you for submitting your ad!"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:480
+#: app/Controllers/Ajax/FormBuilderAjax.php:484
 #: app/Controllers/Ajax/PublicUser.php:1305
 msgid "Successfully updated !!!"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:610
+#: app/Controllers/Ajax/FormBuilderAjax.php:614
 msgid "File is already as featured."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:614
+#: app/Controllers/Ajax/FormBuilderAjax.php:618
 msgid "Error while making feature."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:617
+#: app/Controllers/Ajax/FormBuilderAjax.php:621
 msgid "Image successfully featured."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:630
+#: app/Controllers/Ajax/FormBuilderAjax.php:634
 msgid "You do not have sufficient permissions to set."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:636
+#: app/Controllers/Ajax/FormBuilderAjax.php:640
 msgid "Attachment ids not exist."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:652
+#: app/Controllers/Ajax/FormBuilderAjax.php:656
 #: app/Controllers/Ajax/InlineSearchAjax.php:54
 msgid "Unauthorized access!"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:656
+#: app/Controllers/Ajax/FormBuilderAjax.php:660
 msgid "Registration required to upload listing image."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:783
-#: app/Controllers/Ajax/FormBuilderAjax.php:819
+#: app/Controllers/Ajax/FormBuilderAjax.php:787
+#: app/Controllers/Ajax/FormBuilderAjax.php:823
 msgid "Unauthorized access"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:855
+#: app/Controllers/Ajax/FormBuilderAjax.php:859
 msgid "From id is empty to upload."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:867
-#: app/Controllers/Ajax/FormBuilderAjax.php:897
+#: app/Controllers/Ajax/FormBuilderAjax.php:871
+#: app/Controllers/Ajax/FormBuilderAjax.php:901
 msgid "Field id is empty to upload."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:874
-#: app/Controllers/Ajax/FormBuilderAjax.php:906
+#: app/Controllers/Ajax/FormBuilderAjax.php:878
+#: app/Controllers/Ajax/FormBuilderAjax.php:910
 msgid "No field found to upload."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:890
-#: app/Controllers/Ajax/FormBuilderAjax.php:1095
+#: app/Controllers/Ajax/FormBuilderAjax.php:894
+#: app/Controllers/Ajax/FormBuilderAjax.php:1099
 msgid "Repeater field index is not defined."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:914
-#: app/Controllers/Ajax/FormBuilderAjax.php:1119
+#: app/Controllers/Ajax/FormBuilderAjax.php:918
+#: app/Controllers/Ajax/FormBuilderAjax.php:1123
 msgid "Field name is empty."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:971
+#: app/Controllers/Ajax/FormBuilderAjax.php:975
 msgid "Your file upload limit is over."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1060
+#: app/Controllers/Ajax/FormBuilderAjax.php:1064
 msgid "From id is empty to delete."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1072
-#: app/Controllers/Ajax/FormBuilderAjax.php:1102
+#: app/Controllers/Ajax/FormBuilderAjax.php:1076
+#: app/Controllers/Ajax/FormBuilderAjax.php:1106
 msgid "Field id is empty to delete."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1079
-#: app/Controllers/Ajax/FormBuilderAjax.php:1111
+#: app/Controllers/Ajax/FormBuilderAjax.php:1083
+#: app/Controllers/Ajax/FormBuilderAjax.php:1115
 msgid "No field found to delete."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1189
+#: app/Controllers/Ajax/FormBuilderAjax.php:1193
 msgid "No file found to delete."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1459
+#: app/Controllers/Ajax/FormBuilderAjax.php:1463
 msgid "Tag name is required"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1467
-#: app/Controllers/Ajax/FormBuilderAjax.php:1474
+#: app/Controllers/Ajax/FormBuilderAjax.php:1471
+#: app/Controllers/Ajax/FormBuilderAjax.php:1478
 msgid "Error while creating new tag."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1517
+#: app/Controllers/Ajax/FormBuilderAjax.php:1521
 #: app/Controllers/Ajax/PublicUser.php:358
 msgid "Unauthorized access."
 msgstr ""
@@ -2809,8 +2810,8 @@ msgstr ""
 #: app/Controllers/FormHandler.php:216
 #: app/Controllers/FormHandler.php:220
 #: app/Controllers/FormHandler.php:339
-#: app/Helpers/Functions.php:3757
-#: app/Helpers/Functions.php:3894
+#: app/Helpers/Functions.php:3774
+#: app/Helpers/Functions.php:3911
 msgid "Error:"
 msgstr ""
 
@@ -2935,26 +2936,26 @@ msgstr ""
 msgid "Search ..."
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:273
+#: app/Controllers/Hooks/TemplateHooks.php:276
 msgid "AI Best Matches"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:340
+#: app/Controllers/Hooks/TemplateHooks.php:343
 #: app/Resources/Options.php:2670
 msgid "Select"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:353
-#: app/Helpers/Functions.php:1543
+#: app/Controllers/Hooks/TemplateHooks.php:356
+#: app/Helpers/Functions.php:1560
 msgid "More"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:354
-#: app/Helpers/Functions.php:1544
+#: app/Controllers/Hooks/TemplateHooks.php:357
+#: app/Helpers/Functions.php:1561
 msgid "Less"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:469
+#: app/Controllers/Hooks/TemplateHooks.php:472
 #: app/Resources/Options.php:1989
 #: app/Services/FormBuilder/AvailableFields.php:191
 #: app/Services/FormBuilder/AvailableFields.php:204
@@ -2962,21 +2963,21 @@ msgstr ""
 msgid "Tag"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:509
+#: app/Controllers/Hooks/TemplateHooks.php:512
 #: app/Widgets/Filter.php:379
 #: templates/widgets/search/inline.php:149
 #: templates/widgets/search/vertical.php:149
 msgid "min"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:510
+#: app/Controllers/Hooks/TemplateHooks.php:513
 #: app/Widgets/Filter.php:381
 #: templates/widgets/search/inline.php:157
 #: templates/widgets/search/vertical.php:157
 msgid "max"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:513
+#: app/Controllers/Hooks/TemplateHooks.php:516
 #: app/Resources/Options.php:2046
 #: app/Resources/Options.php:2052
 #: app/Resources/Options.php:3240
@@ -2985,8 +2986,8 @@ msgstr ""
 msgid "Price Range"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:549
-#: app/Controllers/Hooks/TemplateHooks.php:1184
+#: app/Controllers/Hooks/TemplateHooks.php:552
+#: app/Controllers/Hooks/TemplateHooks.php:1191
 #: app/Helpers/Text.php:107
 #: app/Services/FormBuilder/LocalizedString.php:42
 #: app/Widgets/Filter.php:426
@@ -3000,67 +3001,67 @@ msgstr ""
 msgid "Select a location"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:552
+#: app/Controllers/Hooks/TemplateHooks.php:555
 #: app/Widgets/Filter.php:427
 msgid "Radius"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:557
+#: app/Controllers/Hooks/TemplateHooks.php:560
 #: app/Widgets/Filter.php:422
 #: templates/widgets/search/inline.php:50
 #: templates/widgets/search/vertical.php:56
 msgid "km"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:557
+#: app/Controllers/Hooks/TemplateHooks.php:560
 #: app/Widgets/Filter.php:422
 #: templates/widgets/search/inline.php:50
 #: templates/widgets/search/vertical.php:56
 msgid "Miles"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:562
+#: app/Controllers/Hooks/TemplateHooks.php:565
 #: app/Widgets/Filter.php:437
 #: src/blocks/listing-search/inspector.js:126
 msgid "Radius Search"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:611
+#: app/Controllers/Hooks/TemplateHooks.php:614
 msgid "View all my listings"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:623
+#: app/Controllers/Hooks/TemplateHooks.php:626
 msgid "View details"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:651
+#: app/Controllers/Hooks/TemplateHooks.php:654
 msgid "Visit Website"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:723
+#: app/Controllers/Hooks/TemplateHooks.php:726
 msgid "Contact Number"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:732
+#: app/Controllers/Hooks/TemplateHooks.php:735
 msgid "Click to reveal phone number"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:826
+#: app/Controllers/Hooks/TemplateHooks.php:829
 msgid "Message to Telegram"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:860
+#: app/Controllers/Hooks/TemplateHooks.php:863
 #: app/Resources/Options.php:1577
 #: views/settings/advanced-settings.php:142
 msgid "Promote"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:898
+#: app/Controllers/Hooks/TemplateHooks.php:901
 msgid "Renew"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:925
-#: app/Helpers/Functions.php:4960
+#: app/Controllers/Hooks/TemplateHooks.php:928
+#: app/Helpers/Functions.php:4977
 #: app/Services/FormBuilder/LocalizedString.php:31
 #: views/settings/listing-type.php:38
 #: src/form-builder/backend/components/pages/FormList.jsx:457
@@ -3070,8 +3071,8 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:941
-#: app/Controllers/Hooks/TemplateHooks.php:948
+#: app/Controllers/Hooks/TemplateHooks.php:944
+#: app/Controllers/Hooks/TemplateHooks.php:951
 #: app/Services/FormBuilder/LocalizedString.php:32
 #: templates/myaccount/favourite-listings.php:118
 #: views/settings/listing-type.php:39
@@ -3083,35 +3084,35 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1018
+#: app/Controllers/Hooks/TemplateHooks.php:1021
 msgid "Update Account"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1029
+#: app/Controllers/Hooks/TemplateHooks.php:1032
 msgid "Social Profile"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1067
+#: app/Controllers/Hooks/TemplateHooks.php:1070
 msgid "Select state"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1099
-#: app/Controllers/Hooks/TemplateHooks.php:1132
+#: app/Controllers/Hooks/TemplateHooks.php:1102
+#: app/Controllers/Hooks/TemplateHooks.php:1135
 #: templates/listing-form/contact.php:45
 #: templates/listing-form/contact.php:75
 #: templates/listing-form/contact.php:104
 msgid "Select location"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1151
+#: app/Controllers/Hooks/TemplateHooks.php:1155
 #: app/Resources/Options.php:2764
-#: app/Resources/Options.php:4878
-#: app/Resources/Options.php:4926
+#: app/Resources/Options.php:4879
+#: app/Resources/Options.php:4927
 #: templates/listing-form/contact.php:123
 msgid "Zip Code"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1201
+#: app/Controllers/Hooks/TemplateHooks.php:1208
 #: app/Resources/Options.php:134
 #: app/Resources/Options.php:1349
 #: app/Services/FormBuilder/AvailableFields.php:278
@@ -3120,70 +3121,70 @@ msgstr ""
 msgid "Map"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1262
+#: app/Controllers/Hooks/TemplateHooks.php:1269
 #: app/Helpers/Installer.php:155
 #: views/settings/general-listing_label-settings.php:18
 msgid "New"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1428
+#: app/Controllers/Hooks/TemplateHooks.php:1435
 msgid "Apply filters"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1436
+#: app/Controllers/Hooks/TemplateHooks.php:1443
 msgid "Clear filters"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1451
+#: app/Controllers/Hooks/TemplateHooks.php:1458
 #: app/Services/FormBuilder/AvailableFields.php:1031
 #: app/Services/FormBuilder/FormPreDefined.php:33
 #: app/Services/FormBuilder/FormPreDefined.php:273
 #: app/Services/FormBuilder/LocalizedString.php:18
 #: templates/listing-form/form-builder.php:28
-#: templates/listing/actions.php:73
+#: templates/listing/actions.php:80
 #: templates/listing/email-to-seller-form.php:41
 #: templates/single-layout/elements/listing-actions.php:138
 msgid "Submit"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1480
+#: app/Controllers/Hooks/TemplateHooks.php:1487
 #: templates/myaccount/form-edit-account.php:50
 msgid "First Name"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1493
+#: app/Controllers/Hooks/TemplateHooks.php:1500
 #: templates/myaccount/form-edit-account.php:58
 msgid "Last Name"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1548
+#: app/Controllers/Hooks/TemplateHooks.php:1555
 msgid "Phone Number"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1695
+#: app/Controllers/Hooks/TemplateHooks.php:1702
 msgid "Relevance"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:2118
+#: app/Controllers/Hooks/TemplateHooks.php:2125
 #: templates/myaccount/form-login.php:35
 #: templates/myaccount/form-login.php:99
 #: templates/myaccount/form-registration.php:94
 msgid "Register"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:2121
+#: app/Controllers/Hooks/TemplateHooks.php:2128
 msgid "Forgot your password?"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:2140
+#: app/Controllers/Hooks/TemplateHooks.php:2147
 msgid "Please review your order, and click purchase once you are ready to proceed."
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:2154
+#: app/Controllers/Hooks/TemplateHooks.php:2161
 msgid "Given Listing Id is not a valid listing"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:2205
+#: app/Controllers/Hooks/TemplateHooks.php:2212
 msgid "Go to My Account"
 msgstr ""
 
@@ -3212,7 +3213,7 @@ msgid "Payments Orders"
 msgstr ""
 
 #: app/Controllers/Query.php:1360
-#: app/Helpers/Functions.php:3208
+#: app/Helpers/Functions.php:3225
 #: app/Resources/Options.php:1529
 #: views/settings/advanced-settings.php:101
 msgid "My Listings"
@@ -3567,7 +3568,7 @@ msgstr ""
 #: app/Gateways/Offline/GatewayOffline.php:55
 #: app/Gateways/Paypal/GatewayPaypal.php:307
 #: app/Resources/Gallery.php:301
-#: app/Resources/Options.php:4921
+#: app/Resources/Options.php:4922
 #: app/Resources/PricingOptions.php:62
 #: app/Services/FormBuilder/AvailableFields.php:74
 #: app/Services/FormBuilder/AvailableFields.php:94
@@ -3900,18 +3901,18 @@ msgid "All cache has been removed."
 msgstr ""
 
 #. translators: 1: price from 2: price to
-#: app/Helpers/Functions.php:694
+#: app/Helpers/Functions.php:711
 #, php-format
 msgctxt "Price range: from-to"
 msgid "<div class=\"rtcl-price-range\">%1$s <span class=\"sep\">&ndash;</span> %2$s</div>"
 msgstr ""
 
-#: app/Helpers/Functions.php:1417
+#: app/Helpers/Functions.php:1434
 #: app/Widgets/Filter.php:342
 msgid "Show More"
 msgstr ""
 
-#: app/Helpers/Functions.php:1759
+#: app/Helpers/Functions.php:1776
 #: app/Helpers/Text.php:111
 #: app/Services/FormBuilder/LocalizedString.php:46
 #: templates/listing-form/category.php:56
@@ -3921,111 +3922,111 @@ msgstr ""
 msgid "Select a category"
 msgstr ""
 
-#: app/Helpers/Functions.php:2240
+#: app/Helpers/Functions.php:2257
 msgid "Select an Option"
 msgstr ""
 
 #. translators:  Human read able time
 #. translators: Human read able time.
-#: app/Helpers/Functions.php:2932
+#: app/Helpers/Functions.php:2949
 #: app/Models/Listing.php:927
 #, php-format
 msgid "%s ago"
 msgstr ""
 
-#: app/Helpers/Functions.php:3207
+#: app/Helpers/Functions.php:3224
 msgid "Dashboard"
 msgstr ""
 
-#: app/Helpers/Functions.php:3209
+#: app/Helpers/Functions.php:3226
 #: app/Resources/Options.php:1534
 #: views/settings/advanced-settings.php:106
 msgid "Favourites"
 msgstr ""
 
-#: app/Helpers/Functions.php:3211
+#: app/Helpers/Functions.php:3228
 #: templates/myaccount/form-edit-account.php:35
 msgid "Account Details"
 msgstr ""
 
-#: app/Helpers/Functions.php:3212
+#: app/Helpers/Functions.php:3229
 #: app/Resources/Options.php:1549
 #: templates/myaccount/profile-settings.php:24
 msgid "Privacy Settings"
 msgstr ""
 
-#: app/Helpers/Functions.php:3213
+#: app/Helpers/Functions.php:3230
 #: app/Resources/Options.php:1559
 #: views/settings/advanced-settings.php:126
 msgid "Logout"
 msgstr ""
 
-#: app/Helpers/Functions.php:3214
+#: app/Helpers/Functions.php:3231
 msgid "Add Listing"
 msgstr ""
 
 #. translators: %s template
-#: app/Helpers/Functions.php:3381
+#: app/Helpers/Functions.php:3398
 #, php-format
 msgid "%s does not exist."
 msgstr ""
 
-#: app/Helpers/Functions.php:3571
-#: app/Helpers/Functions.php:3594
-#: app/Helpers/Functions.php:3606
-#: app/Helpers/Functions.php:3629
-#: app/Helpers/Functions.php:3644
-#: app/Helpers/Functions.php:3669
+#: app/Helpers/Functions.php:3588
+#: app/Helpers/Functions.php:3611
+#: app/Helpers/Functions.php:3623
+#: app/Helpers/Functions.php:3646
+#: app/Helpers/Functions.php:3661
+#: app/Helpers/Functions.php:3686
 msgid "This function should not be called before rtcl_init."
 msgstr ""
 
-#: app/Helpers/Functions.php:3807
+#: app/Helpers/Functions.php:3824
 msgid "Please provide a valid email address."
 msgstr ""
 
-#: app/Helpers/Functions.php:3812
+#: app/Helpers/Functions.php:3829
 msgid "An account is already registered with your email address. Please log in."
 msgstr ""
 
-#: app/Helpers/Functions.php:3823
+#: app/Helpers/Functions.php:3840
 msgid "Please enter a valid account username."
 msgstr ""
 
-#: app/Helpers/Functions.php:3828
+#: app/Helpers/Functions.php:3845
 msgid "An account is already registered with that username. Please choose another."
 msgstr ""
 
-#: app/Helpers/Functions.php:3833
+#: app/Helpers/Functions.php:3850
 msgid "Please enter your first name."
 msgstr ""
 
-#: app/Helpers/Functions.php:3836
+#: app/Helpers/Functions.php:3853
 msgid "Please enter your last name."
 msgstr ""
 
-#: app/Helpers/Functions.php:3841
+#: app/Helpers/Functions.php:3858
 msgid "Please enter your phone."
 msgstr ""
 
-#: app/Helpers/Functions.php:3845
+#: app/Helpers/Functions.php:3862
 msgid "An account is already registered with your phone number. Please log in."
 msgstr ""
 
-#: app/Helpers/Functions.php:3850
+#: app/Helpers/Functions.php:3867
 msgid "Please select user type option."
 msgstr ""
 
-#: app/Helpers/Functions.php:3861
+#: app/Helpers/Functions.php:3878
 msgid "Please enter an account password."
 msgstr ""
 
-#: app/Helpers/Functions.php:3895
+#: app/Helpers/Functions.php:3912
 msgid "Couldn&#8217;t register you&hellip; please contact us if you continue to have problems."
 msgstr ""
 
 #. translators: 1: rating 2: rating count
-#: app/Helpers/Functions.php:4483
-#: app/Helpers/Functions.php:4511
+#: app/Helpers/Functions.php:4500
+#: app/Helpers/Functions.php:4528
 #, php-format
 msgid "Rated %1$s out of 5 based on %2$s customer rating"
 msgid_plural "Rated %1$s out of 5 based on %2$s customer ratings"
@@ -4033,79 +4034,79 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: rating
-#: app/Helpers/Functions.php:4491
+#: app/Helpers/Functions.php:4508
 #, php-format
 msgid "Rated %s out of 5"
 msgstr ""
 
-#: app/Helpers/Functions.php:4918
+#: app/Helpers/Functions.php:4935
 msgid "M j, Y @ H:i"
 msgstr ""
 
-#: app/Helpers/Functions.php:4934
+#: app/Helpers/Functions.php:4951
 #: app/Resources/Options.php:4753
 msgid "Month"
 msgstr ""
 
 #. translators: 1: month number (01, 02, etc.), 2: month abbreviation
-#: app/Helpers/Functions.php:4941
+#: app/Helpers/Functions.php:4958
 #, php-format
 msgid "%1$s-%2$s"
 msgstr ""
 
-#: app/Helpers/Functions.php:4945
+#: app/Helpers/Functions.php:4962
 #: app/Resources/Options.php:4761
 msgid "Day"
 msgstr ""
 
-#: app/Helpers/Functions.php:4947
+#: app/Helpers/Functions.php:4964
 #: app/Resources/Options.php:4749
 msgid "Year"
 msgstr ""
 
-#: app/Helpers/Functions.php:4949
+#: app/Helpers/Functions.php:4966
 #: app/Resources/Options.php:4765
 msgid "Hour"
 msgstr ""
 
-#: app/Helpers/Functions.php:4951
+#: app/Helpers/Functions.php:4968
 msgid "Minute"
 msgstr ""
 
-#: app/Helpers/Functions.php:4955
+#: app/Helpers/Functions.php:4972
 #, php-format
 msgid "Expired on: <b>%1$s</b>"
 msgstr ""
 
-#: app/Helpers/Functions.php:4961
+#: app/Helpers/Functions.php:4978
 msgid "Edit date and time"
 msgstr ""
 
-#: app/Helpers/Functions.php:4964
+#: app/Helpers/Functions.php:4981
 msgid "Date and time"
 msgstr ""
 
-#: app/Helpers/Functions.php:4991
+#: app/Helpers/Functions.php:5008
 msgid "OK"
 msgstr ""
 
-#: app/Helpers/Functions.php:4994
+#: app/Helpers/Functions.php:5011
 #: app/Resources/Gallery.php:466
 #: app/Services/FormBuilder/LocalizedString.php:21
 msgid "Cancel"
 msgstr ""
 
-#: app/Helpers/Functions.php:5105
-#: app/Helpers/Functions.php:5106
+#: app/Helpers/Functions.php:5122
+#: app/Helpers/Functions.php:5123
 msgid "Select a country / region&hellip;"
 msgstr ""
 
-#: app/Helpers/Functions.php:5115
-#: app/Helpers/Functions.php:5116
+#: app/Helpers/Functions.php:5132
+#: app/Helpers/Functions.php:5133
 msgid "Update country / region"
 msgstr ""
 
-#: app/Helpers/Functions.php:5200
+#: app/Helpers/Functions.php:5217
 msgid "Choose an option"
 msgstr ""
 
@@ -4238,7 +4239,7 @@ msgid "Remove from Favourites"
 msgstr ""
 
 #: app/Helpers/Text.php:55
-#: templates/listing/actions.php:56
+#: templates/listing/actions.php:63
 #: templates/single-layout/elements/listing-actions.php:121
 msgid "Report Abuse"
 msgstr ""
@@ -4514,7 +4515,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: app/Models/Listing.php:1413
+#: app/Models/Listing.php:1411
 msgid "Free!"
 msgstr ""
 
@@ -5143,7 +5144,7 @@ msgid "Pricing:"
 msgstr ""
 
 #: app/Resources/ListingDetails.php:150
-#: app/Resources/Options.php:4919
+#: app/Resources/Options.php:4920
 #: app/Services/FormBuilder/AvailableFields.php:143
 #: app/Services/FormBuilder/ElementCustomization.php:755
 #: templates/listing-form/information.php:85
@@ -5205,7 +5206,7 @@ msgstr ""
 
 #: app/Resources/Options.php:89
 #: app/Resources/Options.php:2788
-#: app/Resources/Options.php:4931
+#: app/Resources/Options.php:4932
 #: app/Services/FormBuilder/AvailableFields.php:397
 #: app/Services/FormBuilder/AvailableFields.php:413
 #: app/Services/FormBuilder/AvailableFields.php:1228
@@ -5574,13 +5575,13 @@ msgstr ""
 
 #: app/Resources/Options.php:441
 #: app/Resources/Options.php:2372
-#: app/Resources/Options.php:5128
+#: app/Resources/Options.php:5129
 msgid "Facebook"
 msgstr ""
 
 #: app/Resources/Options.php:442
 #: app/Resources/Options.php:2373
-#: app/Resources/Options.php:5129
+#: app/Resources/Options.php:5130
 msgid "Twitter"
 msgstr ""
 
@@ -5591,17 +5592,17 @@ msgstr ""
 
 #: app/Resources/Options.php:444
 #: app/Resources/Options.php:2377
-#: app/Resources/Options.php:5131
+#: app/Resources/Options.php:5132
 msgid "Pinterest"
 msgstr ""
 
 #: app/Resources/Options.php:445
-#: app/Resources/Options.php:5132
+#: app/Resources/Options.php:5133
 msgid "WhatsApp (Only at mobile)"
 msgstr ""
 
 #: app/Resources/Options.php:446
-#: app/Resources/Options.php:5133
+#: app/Resources/Options.php:5134
 msgid "Telegram (Only at mobile)"
 msgstr ""
 
@@ -7106,7 +7107,7 @@ msgstr ""
 
 #: app/Resources/Options.php:2150
 #: app/Resources/Options.php:4869
-#: app/Resources/Options.php:4901
+#: app/Resources/Options.php:4902
 #: views/settings/archive_listing-settings.php:67
 msgid "Views count"
 msgstr ""
@@ -8337,79 +8338,79 @@ msgid "Report abuse form"
 msgstr ""
 
 #: app/Resources/Options.php:4866
-#: app/Resources/Options.php:4898
+#: app/Resources/Options.php:4899
 msgid "Date added"
 msgstr ""
 
 #: app/Resources/Options.php:4867
-#: app/Resources/Options.php:4899
+#: app/Resources/Options.php:4900
 msgid "Listing owner name"
 msgstr ""
 
 #: app/Resources/Options.php:4868
-#: app/Resources/Options.php:4900
+#: app/Resources/Options.php:4901
 msgid "Listing owner link"
 msgstr ""
 
 #: app/Resources/Options.php:4870
-#: app/Resources/Options.php:4902
+#: app/Resources/Options.php:4903
 msgid "Feature Label"
 msgstr ""
 
 #: app/Resources/Options.php:4871
-#: app/Resources/Options.php:4903
+#: app/Resources/Options.php:4904
 msgid "New Label"
 msgstr ""
 
 #: app/Resources/Options.php:4872
-#: app/Resources/Options.php:4886
-#: app/Resources/Options.php:4904
+#: app/Resources/Options.php:4887
+#: app/Resources/Options.php:4905
 msgid "Category name"
 msgstr ""
 
 #: app/Resources/Options.php:4873
-#: app/Resources/Options.php:4887
-#: app/Resources/Options.php:4905
+#: app/Resources/Options.php:4888
+#: app/Resources/Options.php:4906
 msgid "Location name"
 msgstr ""
 
-#: app/Resources/Options.php:4876
-#: app/Resources/Options.php:4890
-#: app/Resources/Options.php:4908
+#: app/Resources/Options.php:4877
+#: app/Resources/Options.php:4891
+#: app/Resources/Options.php:4909
 msgid "Price type"
 msgstr ""
 
-#: app/Resources/Options.php:4909
+#: app/Resources/Options.php:4910
 msgid "Short description"
 msgstr ""
 
-#: app/Resources/Options.php:4918
+#: app/Resources/Options.php:4919
 #: app/Services/FormBuilder/AvailableFields.php:142
 #: app/Services/FormBuilder/ElementCustomization.php:751
 msgid "Pricing Type"
 msgstr ""
 
-#: app/Resources/Options.php:4929
+#: app/Resources/Options.php:4930
 msgid "Whatsapp Number"
 msgstr ""
 
-#: app/Resources/Options.php:4930
+#: app/Resources/Options.php:4931
 msgid "Telegram"
 msgstr ""
 
-#: app/Resources/Options.php:4932
+#: app/Resources/Options.php:4933
 msgid "Website URL"
 msgstr ""
 
-#: app/Resources/Options.php:5039
+#: app/Resources/Options.php:5040
 msgid "UTC"
 msgstr ""
 
-#: app/Resources/Options.php:5119
+#: app/Resources/Options.php:5120
 msgid "Manual Offsets"
 msgstr ""
 
-#: app/Resources/Options.php:5130
+#: app/Resources/Options.php:5131
 msgid "Linkedin"
 msgstr ""
 
@@ -11320,12 +11321,12 @@ msgstr ""
 msgid "Only YouTube & Vimeo URL"
 msgstr ""
 
-#: templates/listing/actions.php:63
+#: templates/listing/actions.php:70
 #: templates/single-layout/elements/listing-actions.php:128
 msgid "Your Complaint"
 msgstr ""
 
-#: templates/listing/actions.php:67
+#: templates/listing/actions.php:74
 #: templates/single-layout/elements/listing-actions.php:132
 msgid "Message... "
 msgstr ""

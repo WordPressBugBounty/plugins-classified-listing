@@ -1,11 +1,11 @@
 === Classified Listing – AI-Powered Classified ads & Business Directory Plugin ===
-Contributors: techlabpro1
+Contributors: techlabpro1, mamunnu
 Donate link:
 Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 5.3.6
+Stable tag: 5.3.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -306,6 +306,13 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 5.3.7 ( Feb 18, 2026 ) =
+* Fixed: Search widget/block responsive issue
+* Fixed: Free ads count issue
+* Fixed: Category/location custom order issue
+* Fixed: Tag link and display issue in single listing page
+* Added: Search button for AJAX filter text field
 
 = 5.3.6 ( Feb 04, 2026 ) =
 * Fixed: Create sample listing form

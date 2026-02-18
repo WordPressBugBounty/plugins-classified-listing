@@ -563,15 +563,32 @@ class Functions {
 	}
 
 	/**
+	 * Check if tag field is enabled.
+	 *
 	 * @return bool
 	 */
-	public static function is_tag_disabled() {
-		if ( self::get_option_item( 'rtcl_moderation_settings', 'hide_form_fields', 'tags', 'multi_checkbox' ) ) {
-			return true;
-		}
+	public static function is_tag_enabled() {
+		$display_option = self::get_display_options();
 
-		return false;
+		return in_array( 'tags', $display_option );
 	}
+
+	/**
+	 * Check if tag field is disabled (DEPRECATED).
+	 *
+	 * @return bool
+	 * @deprecated 5.3.7 Use is_tag_enabled() instead.
+	 */
+	public static function is_tag_disabled() {
+		_deprecated_function(
+			__METHOD__,
+			'5.3.7',
+			__CLASS__ . '::is_tag_enabled()',
+		);
+		
+		return ! self::is_tag_enabled();
+	}
+
 
 	/**
 	 * @return bool
@@ -5478,20 +5495,18 @@ class Functions {
 	public static function get_listing_tag( $listing_id ) {
 		$data = '';
 
-		if ( ! self::is_tag_disabled() ) {
-			$terms = get_the_terms( $listing_id, rtcl()->tag );
+		$terms = get_the_terms( $listing_id, rtcl()->tag );
 
-			if ( $terms && ! is_wp_error( $terms ) ) {
-				$term_links = [];
+		if ( $terms && ! is_wp_error( $terms ) ) {
+			$term_links = [];
 
-				foreach ( $terms as $term ) {
-					$term_links[] = '<a href="' . esc_attr( get_term_link( $term->slug, rtcl()->tag ) ) . '">' . __( $term->name ) . '</a>';
-				}
-
-				$all_terms = join( '<span class="delimiter">,</span>', $term_links );
-
-				$data .= '<span class="terms-name">' . $all_terms . '</span>';
+			foreach ( $terms as $term ) {
+				$term_links[] = '<a href="' . esc_attr( get_term_link( $term->slug, rtcl()->tag ) ) . '">' . __( $term->name ) . '</a>';
 			}
+
+			$all_terms = join( '<span class="delimiter">,</span>', $term_links );
+
+			$data .= '<span class="terms-name">' . $all_terms . '</span>';
 		}
 
 		return $data;

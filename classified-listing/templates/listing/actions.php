@@ -18,33 +18,40 @@ if ( ! $can_add_favourites && ! $can_report_abuse && ! $social ) {
 	return;
 }
 ?>
-	<ul class='rtcl-single-listing-action'>
-		<?php do_action( 'rtcl_single_action_before_list_item', $listing_id ); ?>
-		<?php if ( $can_add_favourites ): ?>
-			<li id="rtcl-favourites"><?php
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo Functions::get_favourites_link( $listing_id ); ?></li>
-		<?php endif; ?>
-		<?php if ( $can_report_abuse ): ?>
-			<li>
-				<?php if ( is_user_logged_in() ): ?>
-					<a href="javascript:void(0)" data-toggle="modal" id="rtcl-report-abuse-modal-link"><span
-							class='rtcl-icon rtcl-icon-trash'></span><?php echo esc_html( Text::report_abuse() ); ?>
-					</a>
-				<?php else: ?>
-					<a href="javascript:void(0)" class="rtcl-require-login"><span
-							class='rtcl-icon rtcl-icon-trash'></span><?php echo esc_html( Text::report_abuse() ); ?>
-					</a>
-				<?php endif; ?>
-			</li>
-		<?php endif; ?>
-		<?php do_action( 'rtcl_single_action_after_list_item', $listing_id ); ?>
-		<?php if ( $social ): ?>
-			<li class="rtcl-sidebar-social">
-				<?php echo wp_kses_post( $social ); ?>
-			</li>
-		<?php endif; ?>
-	</ul>
+	<div class="rtcl-single-listing-action-wrapper">
+		<?php
+		if ( Functions::is_tag_enabled() ) {
+			Functions::print_html( Functions::get_listing_tag( $listing_id ) );
+		}
+		?>
+		<ul class='rtcl-single-listing-action'>
+			<?php do_action( 'rtcl_single_action_before_list_item', $listing_id ); ?>
+			<?php if ( $can_add_favourites ): ?>
+				<li id="rtcl-favourites"><?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo Functions::get_favourites_link( $listing_id ); ?></li>
+			<?php endif; ?>
+			<?php if ( $can_report_abuse ): ?>
+				<li>
+					<?php if ( is_user_logged_in() ): ?>
+						<a href="javascript:void(0)" data-toggle="modal" id="rtcl-report-abuse-modal-link"><span
+								class='rtcl-icon rtcl-icon-trash'></span><?php echo esc_html( Text::report_abuse() ); ?>
+						</a>
+					<?php else: ?>
+						<a href="javascript:void(0)" class="rtcl-require-login"><span
+								class='rtcl-icon rtcl-icon-trash'></span><?php echo esc_html( Text::report_abuse() ); ?>
+						</a>
+					<?php endif; ?>
+				</li>
+			<?php endif; ?>
+			<?php do_action( 'rtcl_single_action_after_list_item', $listing_id ); ?>
+			<?php if ( $social ): ?>
+				<li class="rtcl-sidebar-social">
+					<?php echo wp_kses_post( $social ); ?>
+				</li>
+			<?php endif; ?>
+		</ul>
+	</div>
 
 <?php do_action( 'rtcl_single_listing_after_action', $listing_id ); ?>
 

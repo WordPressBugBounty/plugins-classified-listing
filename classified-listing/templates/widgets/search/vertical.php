@@ -20,11 +20,11 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 <div class="rtcl rtcl-search rtcl-search-vertical">
 	<form action="<?php echo esc_url( Functions::get_filter_form_url() ) ?>"
 		  class="rtcl-widget-search-vertical rtcl-widget-search-form">
-		<div class="form-group">
+		<div class="rtcl-form-group">
 			<label class="screen-reader-text" for="rtcl-keyword-search-<?php echo esc_attr( $id ); ?>">
 				<?php esc_html_e( 'keyword', 'classified-listing' ); ?>
 			</label>
-			<input type="text" name="q" class="form-control" id="rtcl-keyword-search-<?php echo esc_attr( $id ); ?>"
+			<input type="text" name="q" class="rtcl-form-control" id="rtcl-keyword-search-<?php echo esc_attr( $id ); ?>"
 				   placeholder="<?php esc_attr_e( 'Enter your keyword here ...', 'classified-listing' ); ?>"
 				   value="<?php if ( isset( $_GET['q'] ) ) {
 					   echo esc_attr( Functions::clean( wp_unslash( $_GET['q'] ) ) );
@@ -34,13 +34,13 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 		<?php if ( $radius_search ):
 			$rs_data = Options::radius_search_options();
 			?>
-			<div class="form-group">
+			<div class="rtcl-form-group">
 				<label for="rtc-geo-search-<?php echo esc_attr( $id ); ?>"><?php echo esc_html( Text::get_select_location_text() ); ?></label>
 				<div class="rtcl-geo-address-field">
 					<input type="text" name="geo_address" autocomplete="off"
 						   value="<?php echo ! empty( $_GET['geo_address'] ) ? esc_attr( $_GET['geo_address'] ) : '' ?>"
 						   placeholder="<?php esc_attr_e( 'Select a location', 'classified-listing' ) ?>"
-						   class="form-control rtcl-geo-address-input" id="rtc-geo-search-<?php echo esc_attr( $id ); ?>"/>
+						   class="rtcl-form-control rtcl-geo-address-input" id="rtc-geo-search-<?php echo esc_attr( $id ); ?>"/>
 					<i class="rtcl-get-location rtcl-icon rtcl-icon-target"></i>
 					<input type="hidden" class="latitude" name="center_lat"
 						   value="<?php echo ! empty( $_GET['center_lat'] ) ? esc_attr( $_GET['center_lat'] ) : '' ?>">
@@ -71,7 +71,7 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 
 		<?php if ( 'local' === Functions::location_type() && $can_search_by_location ) : ?>
 			<!-- Location field -->
-			<div class="form-group">
+			<div class="rtcl-form-group">
 				<label for="rtcl-location-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Select a location', 'classified-listing' ); ?></label>
 				<?php
 				$location = 0;
@@ -86,7 +86,7 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 					'taxonomy'         => rtcl()->location,
 					'name'             => 'l',
 					'id'               => 'rtcl-location-search-' . $id,
-					'class'            => 'form-control',
+					'class'            => 'rtcl-form-control',
 					'selected'         => $location,
 				] );
 				?>
@@ -95,7 +95,7 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 
 		<?php if ( $can_search_by_category ) : ?>
 			<!-- Category field -->
-			<div class="form-group">
+			<div class="rtcl-form-group">
 				<label for="rtcl-category-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Select a category', 'classified-listing' ); ?></label>
 				<?php
 				$category = 0;
@@ -111,7 +111,7 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 					'taxonomy'          => rtcl()->category,
 					'name'              => 'c',
 					'id'                => 'rtcl-category-search-' . $id,
-					'class'             => 'form-control rtcl-category-search',
+					'class'             => 'rtcl-form-control rtcl-category-search',
 					'selected'          => $category,
 				] );
 				?>
@@ -119,9 +119,9 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 		<?php endif; ?>
 
 		<?php if ( $can_search_by_listing_types ) : ?>
-			<div class="form-group">
+			<div class="rtcl-form-group">
 				<label for="rtcl-search-type-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Select Type', 'classified-listing' ); ?></label>
-				<select class="form-control" name="filters[ad_type]" id="rtcl-search-type-<?php echo esc_attr( $id ); ?>">
+				<select class="rtcl-form-control" name="filters[ad_type]" id="rtcl-search-type-<?php echo esc_attr( $id ); ?>">
 					<option value=""><?php esc_html_e( 'Select type', 'classified-listing' ); ?></option>
 					<?php
 					$listing_types = Functions::get_listing_types();
@@ -140,20 +140,20 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 
 		<?php if ( $can_search_by_price ) : ?>
 			<!-- Price fields -->
-			<div class="form-group">
+			<div class="rtcl-form-group">
 				<label for="rtcl-search-price-min"><?php esc_html_e( 'Price Range', 'classified-listing' ); ?></label>
-				<div class="row">
-					<div class="col-md-6 col-xs-6">
+				<div class="rtcl-row">
+					<div class="rtcl-col-md-6 rtcl-col-xs-6">
 						<label class="screen-reader-text" for="rtcl-search-price-min"><?php esc_html_e( 'Min Price', 'classified-listing' ); ?></label>
-						<input type="text" id="rtcl-search-price-min" name="filters[price][min]" class="form-control"
+						<input type="text" id="rtcl-search-price-min" name="filters[price][min]" class="rtcl-form-control"
 							   placeholder="<?php esc_attr_e( 'min', 'classified-listing' ); ?>"
 							   value="<?php if ( isset( $_GET['filters']['price'] ) ) {
 								   echo esc_attr( $_GET['filters']['price']['min'] );
 							   } ?>">
 					</div>
-					<div class="col-md-6 col-xs-6">
+					<div class="rtcl-col-md-6 rtcl-col-xs-6">
 						<label class="screen-reader-text" for="rtcl-search-price-max"><?php esc_html_e( 'Max Price', 'classified-listing' ); ?></label>
-						<input type="text" id="rtcl-search-price-max" name="filters[price][max]" class="form-control"
+						<input type="text" id="rtcl-search-price-max" name="filters[price][max]" class="rtcl-form-control"
 							   placeholder="<?php esc_attr_e( 'max', 'classified-listing' ); ?>"
 							   value="<?php if ( isset( $_GET['filters']['price'] ) ) {
 								   echo esc_attr( $_GET['filters']['price']['max'] );

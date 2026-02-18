@@ -296,6 +296,8 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
         return;
       }
       _this.resetFilter(e);
+    }).on('click', '.rtcl-ajax-filter-text-search .rtcl-ajax-filter-search-icon', function (e) {
+      _this.handleFilter(e);
     }).on('click keydown', '.rtcl-active-filters-container .af-items .afi', function (e) {
       if (e.type === 'keydown' && e.key !== 'Enter') {
         return;
@@ -562,6 +564,11 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
           _this.addParam(option_name, rating);
           _this.$(document).trigger('rtcl_ajax_filter_update_params', [_this.data.params]);
         }
+      }
+      if (_$self2.closest('.rtcl-ajax-filter-text-search').length) {
+        var $textField = _$self2.closest('.rtcl-ajax-filter-text').find('input[type=text]');
+        _this.addParam(option_name, $textField.val());
+        _this.$(document).trigger('rtcl_ajax_filter_update_params', [_this.data.params]);
       }
     }
   });
@@ -1603,7 +1610,20 @@ __webpack_require__.r(__webpack_exports__);
     my_account_listings_ajax();
   }).on("click", ".rtcl-my-listings-content .rtcl-pagination a", function (e) {
     e.preventDefault();
-    var page = $(this).html() || 1;
+    var $this = $(this),
+      $wrapper = $this.closest(".rtcl-my-listings-content"),
+      currentPage = parseInt($wrapper.find(".current").text()) || 1,
+      page;
+    if ($this.hasClass("next")) {
+      page = currentPage + 1;
+    } else if ($this.hasClass("prev")) {
+      page = currentPage - 1;
+    } else {
+      page = parseInt($this.text());
+    }
+    if (page < 1) {
+      page = 1;
+    }
     my_account_listings_ajax(page);
   }).on('click', '.rtcl-my-listing-table .rtcl-actions-wrap .actions-dot', function (e) {
     $('.rtcl-my-listing-table').find('.rtcl-actions').removeClass('opened').addClass('closed');

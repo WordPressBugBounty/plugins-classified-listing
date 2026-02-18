@@ -332,7 +332,7 @@ class FormHandler {
 						'classified-listing' ) ) );
 				}
 
-				wp_redirect( wp_validate_redirect( apply_filters( 'rtcl_registration_redirect', $redirect ), Link::get_page_permalink( 'myaccount' ) ) );
+				wp_redirect( wp_validate_redirect( apply_filters( 'rtcl_registration_redirect', $redirect, $_POST ), Link::get_page_permalink( 'myaccount' ) ) );
 				exit;
 
 			} catch ( \Exception $e ) {

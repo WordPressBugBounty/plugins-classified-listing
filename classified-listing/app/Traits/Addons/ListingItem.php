@@ -45,18 +45,18 @@ trait ListingItem {
 						",
 						rtcl()->post_type,
 						'publish',
-						$getFbId // Replace $specific_value with the desired value for '_fb_form_id'.
-					)
+						$getFbId, // Replace $specific_value with the desired value for '_fb_form_id'.
+					),
 				);
-			} else {
-				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			}
+			if ( ! $_post_id ) {
 				$_post_id = $wpdb->get_var(
-					$wpdb->prepare( "SELECT MAX(ID) FROM {$wpdb->prefix}posts WHERE post_type =  %s AND post_status = %s", rtcl()->post_type, 'publish' )
+					$wpdb->prepare( "SELECT MAX(ID) FROM {$wpdb->prefix}posts WHERE post_type =  %s AND post_status = %s", rtcl()->post_type, 'publish' ),
 				);
 			}
 			set_transient( $cache_key, $_post_id, 12 * HOUR_IN_SECONDS );
-
 		}
+
 		return $_post_id;
 	}
 }

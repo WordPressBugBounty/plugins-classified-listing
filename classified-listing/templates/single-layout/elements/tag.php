@@ -17,34 +17,36 @@ use Rtcl\Services\FormBuilder\FBHelper;
 
 defined( 'ABSPATH' ) || exit;
 global $listing;
-if ( !is_a( $field, FBField::class ) || !is_a( $listing, Listing::class ) ) {
+if ( ! is_a( $field, FBField::class ) || ! is_a( $listing, Listing::class ) ) {
 	return;
 }
-$tags = $listing->get_tags();
+$tags = Functions::get_listing_tag( $listing->get_id() );
 if ( empty( $tags ) ) {
 	return;
 }
-$icon = $field->getIconData();
-$labelPlacement = !empty( $field->getSlField()['label_placement'] ) ? $field->getSlField()['label_placement'] : '';
+$icon           = $field->getIconData();
+$labelPlacement = ! empty( $field->getSlField()['label_placement'] ) ? $field->getSlField()['label_placement'] : '';
 ?>
-<div class="rtcl-sl-element label-<?php echo esc_attr($labelPlacement)?>">
+<div class="rtcl-sl-element label-<?php echo esc_attr( $labelPlacement ) ?>">
 	<?php
-	if ( ( !empty( $icon['type'] ) && 'class' === $icon['type'] && !empty( $icon['class'] ) ) || !empty( $field->getLabel() ) ) {
+	if ( ( ! empty( $icon['type'] ) && 'class' === $icon['type'] && ! empty( $icon['class'] ) ) || ! empty( $field->getLabel() ) ) {
 		?>
 		<div class="rtcl-slf-label-wrap">
 			<?php
-			if ( !empty( $icon['type'] ) && 'class' === $icon['type'] && !empty( $icon['class'] ) ) {
+			if ( ! empty( $icon['type'] ) && 'class' === $icon['type'] && ! empty( $icon['class'] ) ) {
 				?>
 				<div class="rtcl-field-icon"><i class="<?php echo esc_attr( $icon['class'] ); ?>"></i></div>
 				<?php
 			}
-			if ( !empty( $field->getLabel() ) ) {
+			if ( ! empty( $field->getLabel() ) ) {
 				?>
-				<div class='rtcl-slf-label'><?php echo esc_html( $field->getLabel() ); ?></div>
+				<div class='rtcl-slf-label'><?php echo esc_html( $field->getLabel() ); ?>:</div>
 				<?php
 			}
 			?>
 		</div>
 	<?php } ?>
-	<div class="rtcl-slf-value"><?php echo esc_html($tags) ?></div>
+	<div class="rtcl-slf-value rtcl-single-listing-action-wrapper">
+		<?php Functions::print_html( $tags ); ?>
+	</div>
 </div>

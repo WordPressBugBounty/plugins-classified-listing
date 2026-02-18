@@ -25,13 +25,13 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 		<?php if ( $radius_search ):
 			$rs_data = Options::radius_search_options();
 			?>
-			<div class="form-group ws-item ws-location col-sm-6 col-12">
+			<div class="rtcl-form-group ws-item ws-location rtcl-col-sm-6 rtcl-col-12">
 				<label for="rtc-geo-search-<?php echo esc_attr( $id ); ?>"><?php echo esc_html( Text::get_select_location_text() ); ?></label>
 				<div class="rtcl-geo-address-field">
 					<input type="text" name="geo_address" autocomplete="off"
 						   value="<?php echo ! empty( $_GET['geo_address'] ) ? esc_attr( $_GET['geo_address'] ) : '' ?>"
 						   placeholder="<?php esc_attr_e( 'Select a location', 'classified-listing' ) ?>"
-						   class="form-control rtcl-geo-address-input" id="rtc-geo-search-<?php echo esc_attr( $id ); ?>"/>
+						   class="rtcl-form-control rtcl-geo-address-input" id="rtc-geo-search-<?php echo esc_attr( $id ); ?>"/>
 					<i class="rtcl-get-location rtcl-icon rtcl-icon-target"></i>
 					<input type="hidden" class="latitude" name="center_lat"
 						   value="<?php echo ! empty( $_GET['center_lat'] ) ? esc_attr( $_GET['center_lat'] ) : '' ?>">
@@ -56,14 +56,14 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 							],
 						) ?>
 					</div>
-					<input type="range" class="form-control-range rtcl-range-slider-input" name="distance" min="0"
+					<input type="range" class="rtcl-form-control-range rtcl-range-slider-input" name="distance" min="0"
 						   max="<?php echo absint( $rs_data['max_distance'] ) ?>"
 						   value="<?php echo absint( isset( $_GET['distance'] ) ? $_GET['distance'] : $rs_data['default_distance'] ) ?>">
 				</div>
 			</div>
 		<?php endif ?>
 		<?php if ( 'local' === Functions::location_type() && $can_search_by_location ) : ?>
-			<div class="form-group ws-item ws-location col-sm-6 col-12">
+			<div class="rtcl-form-group ws-item ws-location rtcl-col-sm-6 rtcl-col-12">
 				<label class="screen-reader-text" for="rtcl-location-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Select a Location', 'classified-listing' ); ?></label>
 				<?php
 				$args = [
@@ -71,7 +71,7 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 					'taxonomy'          => rtcl()->location,
 					'name'              => 'rtcl_location',
 					'id'                => 'rtcl-location-search-' . $id,
-					'class'             => 'form-control rtcl-location-search',
+					'class'             => 'rtcl-form-control rtcl-location-search',
 					'selected'          => get_query_var( '__loc' ),
 					'hierarchical'      => true,
 					'option_none_value' => '',
@@ -92,7 +92,7 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 		<?php endif; ?>
 
 		<?php if ( $can_search_by_category ) : ?>
-			<div class="form-group ws-item ws-category col-sm-6 col-12">
+			<div class="rtcl-form-group ws-item ws-category rtcl-col-sm-6 rtcl-col-12">
 				<label class="screen-reader-text" for="rtcl-category-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Select a Category', 'classified-listing' ); ?></label>
 				<?php
 				$args = [
@@ -100,7 +100,7 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 					'taxonomy'          => rtcl()->category,
 					'name'              => 'rtcl_category',
 					'id'                => 'rtcl-category-search-' . $id,
-					'class'             => 'form-control rtcl-category-search',
+					'class'             => 'rtcl-form-control rtcl-category-search',
 					'selected'          => get_query_var( '__cat' ),
 					'hierarchical'      => true,
 					'value_field'       => 'slug',
@@ -121,9 +121,9 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 		<?php endif; ?>
 
 		<?php if ( $can_search_by_listing_types ) : ?>
-			<div class="form-group ws-item ws-type col-sm-6 col-12">
+			<div class="rtcl-form-group ws-item ws-type col-sm-6 col-12">
 				<label class="screen-reader-text" for="rtcl-type-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Select Type', 'classified-listing' ); ?></label>
-				<select class="form-control" name="filters[ad_type]" id="rtcl-type-search-<?php echo esc_attr( $id ); ?>">
+				<select class="rtcl-form-control" name="filters[ad_type]" id="rtcl-type-search-<?php echo esc_attr( $id ); ?>">
 					<option value=""><?php esc_html_e( 'Select type', 'classified-listing' ); ?></option>
 					<?php
 					$listing_types = Functions::get_listing_types();
@@ -141,17 +141,17 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 		<?php endif; ?>
 
 		<?php if ( $can_search_by_price ) : ?>
-			<div class="form-group ws-item ws-price col-sm-6  col-12">
-				<div class="row">
-					<div class="col-md-6 col-xs-6">
+			<div class="rtcl-form-group ws-item ws-price col-sm-6  col-12">
+				<div class="rtcl-row">
+					<div class="rtcl-col-md-6 rtcl-col-xs-6">
 						<label class="screen-reader-text" for="rtcl-search-price-min"><?php esc_html_e( 'Min Price', 'classified-listing' ); ?></label>
-						<input type="text" name="filters[price][min]" class="form-control" id="rtcl-search-price-min"
+						<input type="text" name="filters[price][min]" class="rtcl-form-control" id="rtcl-search-price-min"
 							   placeholder="<?php esc_attr_e( 'min', 'classified-listing' ); ?>"
 							   value="<?php if ( isset( $_GET['filters']['price'] ) ) {
 								   echo esc_attr( $_GET['filters']['price']['min'] );
 							   } ?>">
 					</div>
-					<div class="col-md-6 col-xs-6">
+					<div class="rtcl-col-md-6 rtcl-col-xs-6">
 						<label class="screen-reader-text" for="rtcl-search-price-max"><?php esc_html_e( 'Max Price', 'classified-listing' ); ?></label>
 						<input type="text" name="filters[price][max]" class="form-control" id="rtcl-search-price-max"
 							   placeholder="<?php esc_attr_e( 'max', 'classified-listing' ); ?>"
@@ -163,7 +163,7 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 			</div>
 		<?php endif; ?>
 
-		<div class="form-group ws-item ws-text col-sm-6">
+		<div class="rtcl-form-group ws-item ws-text col-sm-6">
 			<div class="rt-autocomplete-wrapper">
 				<label class="screen-reader-text" for="rtcl-keyword-search-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'Search', 'classified-listing' ); ?></label>
 				<input type="text" id="rtcl-keyword-search-<?php echo esc_attr( $id ); ?>" name="q" class="rtcl-autocomplete form-control"
@@ -174,10 +174,10 @@ $order   = strtoupper( Functions::get_option_item( 'rtcl_archive_listing_setting
 			</div>
 		</div>
 
-		<div class="form-group ws-item ws-button  col-sm-6">
+		<div class="rtcl-form-group ws-item ws-button">
 			<div class="rtcl-action-buttons text-right">
 				<button type="submit"
-						class="btn btn-primary"><?php esc_html_e( 'Search', 'classified-listing' ); ?></button>
+						class="rtcl-btn btn-primary"><?php esc_html_e( 'Search', 'classified-listing' ); ?></button>
 			</div>
 		</div>
 		<?php do_action( 'rtcl_widget_search_inline_form', $can_search_by_location, $can_search_by_category ) ?>
