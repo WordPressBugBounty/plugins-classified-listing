@@ -1250,6 +1250,9 @@ class AvailableFields {
 					'title'      => __( 'Shortcode', 'classified-listing' ),
 					'icon_class' => 'rtcl-icon-code',
 					'template'   => 'shortcode',
+					'hints'      => [
+						'value' => __( 'Enter shortcode', 'classified-listing' ),
+					]
 				]
 			],
 			'spacer'            => [

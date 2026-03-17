@@ -25,18 +25,70 @@ class EmbeddingController {
 	 * Show admin notice during processing
 	 */
 	public function show_notice() {
+		// Show error notice if there was an error
+		$error = get_option( 'rtcl_embedding_error' );
+		if ( $error ) {
+			?>
+			<div class="notice notice-error is-dismissible">
+				<p>
+					<strong><?php esc_html_e( 'Classified Listing', 'classified-listing' ); ?></strong> -
+					<?php esc_html_e( 'AI Search data training failed:', 'classified-listing' ); ?>
+					<?php echo esc_html( $error ); ?>
+				</p>
+			</div>
+			<?php
+			delete_option( 'rtcl_embedding_error' );
+
+			return;
+		}
+
 		if ( ! get_option( 'rtcl_embedding_in_progress' ) ) {
 			return;
 		}
 
-		$progress = get_option( 'rtcl_embedding_progress', [ 'processed' => 0, 'total' => 0 ] );
-		$total    = max( 1, intval( $progress['total'] ) );
-		$done     = intval( $progress['processed'] );
-		$percent  = min( 100, round( ( $done / $total ) * 100 ) );
+		$progress  = get_option( 'rtcl_embedding_progress', [ 'processed' => 0, 'total' => 0, 'failed' => 0 ] );
+		$total     = max( 1, intval( $progress['total'] ) );
+		$done      = intval( $progress['processed'] );
+		$failed    = isset( $progress['failed'] ) ? intval( $progress['failed'] ) : 0;
+		$remaining = Functions::need_listings_embedding();
+		$percent   = min( 100, round( ( ( $done + $failed ) / $total ) * 100 ) );
 		?>
 		<div class="notice notice-warning">
-			<p><strong>Classified Listing</strong> - 🔄 AI Search data training in progress... <?php
-				echo esc_html( "{$done}/{$total} processed ({$percent}%)" ) ?></p>
+			<p>
+				<strong><?php esc_html_e( 'Classified Listing', 'classified-listing' ); ?></strong> -
+				<?php esc_html_e( 'AI Search data training in progress...', 'classified-listing' ); ?>
+			</p>
+			<p>
+				<?php
+				printf(
+					/* translators: 1: processed count, 2: total count */
+					esc_html__( 'Processed: %1$d / %2$d', 'classified-listing' ),
+					$done,
+					$total
+				);
+
+				if ( $failed > 0 ) {
+					echo ' | ';
+					printf(
+						/* translators: %d: failed count */
+						esc_html__( 'Failed: %d', 'classified-listing' ),
+						$failed
+					);
+				}
+
+				if ( $remaining > 0 ) {
+					echo ' | ';
+					printf(
+						/* translators: %d: remaining count */
+						esc_html__( 'Remaining: %d', 'classified-listing' ),
+						$remaining
+					);
+				}
+				?>
+			</p>
+			<div style="background: #e0e0e0; border-radius: 3px; height: 20px; margin: 10px 0; overflow: hidden;">
+				<div style="background: #2271b1; height: 100%; width: <?php echo esc_attr( $percent ); ?>%; transition: width 0.3s;"></div>
+			</div>
 		</div>
 		<?php
 	}
@@ -67,14 +119,20 @@ class EmbeddingController {
 	 * @return void
 	 */
 	public function process_batch() {
+		// Get listings that don't have embedding and haven't failed
 		$listings = get_posts( [
 			'post_type'      => 'rtcl_listing',
 			'post_status'    => 'publish',
 			'posts_per_page' => 25,
 			'fields'         => 'ids',
 			'meta_query'     => [
+				'relation' => 'AND',
 				[
 					'key'     => '_has_embedding',
+					'compare' => 'NOT EXISTS',
+				],
+				[
+					'key'     => '_embedding_failed',
 					'compare' => 'NOT EXISTS',
 				],
 			],
@@ -82,28 +140,58 @@ class EmbeddingController {
 
 		if ( empty( $listings ) ) {
 			delete_option( 'rtcl_embedding_in_progress' );
-			delete_option( 'rtcl_embedding_progress' );
 			update_option( 'rtcl_embedding_process_completed', time() );
 
 			return; // all done
 		}
 
-		$service = new EmbeddingService();
+		// Try to create service, handle exception if AI not configured
+		try {
+			$service = new EmbeddingService();
+		} catch ( \Exception $e ) {
+			// AI service not configured, stop the process
+			delete_option( 'rtcl_embedding_in_progress' );
+			update_option( 'rtcl_embedding_error', $e->getMessage() );
+
+			return;
+		}
+
+		$processed = 0;
+		$failed    = 0;
 
 		foreach ( $listings as $id ) {
 			$title   = get_the_title( $id );
 			$content = get_post_field( 'post_content', $id );
-			$service->generate_and_store( $id, $title, $content );
-			update_post_meta( $id, '_has_embedding', 1 );
+
+			try {
+				$result = $service->generate_and_store( $id, $title, $content );
+
+				if ( $result ) {
+					update_post_meta( $id, '_has_embedding', 1 );
+					delete_post_meta( $id, '_embedding_failed' );
+					$processed++;
+				} else {
+					// API returned empty/invalid response
+					update_post_meta( $id, '_embedding_failed', time() );
+					$failed++;
+				}
+			} catch ( \Exception $e ) {
+				// Mark as failed to prevent infinite retry
+				update_post_meta( $id, '_embedding_failed', time() );
+				$failed++;
+			}
 		}
 
 		// Update progress
-		$progress              = get_option( 'rtcl_embedding_progress', [ 'processed' => 0, 'total' => 0 ] );
-		$progress['processed'] += count( $listings );
+		$progress              = get_option( 'rtcl_embedding_progress', [ 'processed' => 0, 'total' => 0, 'failed' => 0 ] );
+		$progress['processed'] = isset( $progress['processed'] ) ? $progress['processed'] + $processed : $processed;
+		$progress['failed']    = isset( $progress['failed'] ) ? $progress['failed'] + $failed : $failed;
 		update_option( 'rtcl_embedding_progress', $progress );
 
-		// Schedule the next batch immediately
-		wp_schedule_single_event( time() + 2, 'rtcl_embedding_cron_run' );
+		// Schedule the next batch
+		if ( ! wp_next_scheduled( 'rtcl_embedding_cron_run' ) ) {
+			wp_schedule_single_event( time() + 5, 'rtcl_embedding_cron_run' );
+		}
 	}
 
 	/**

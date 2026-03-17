@@ -1843,7 +1843,7 @@ __webpack_require__.r(__webpack_exports__);
     $('#rtcl-reg-confirm-password').on("cut copy paste", function (e) {
       e.preventDefault();
     });
-    $(".rtcl-delete-listing").on("click", function (e) {
+    $(document).on("click", ".rtcl-delete-listing", function (e) {
       e.preventDefault();
       if (confirm(rtcl.confirm_text)) {
         var _self = $(this),
@@ -1880,7 +1880,7 @@ __webpack_require__.r(__webpack_exports__);
       }
       return false;
     });
-    $(".rtcl-delete-favourite-listing").on("click", function (e) {
+    $(document).on("click", ".rtcl-delete-favourite-listing", function (e) {
       e.preventDefault();
       if (confirm(rtcl.confirm_text)) {
         var _target = this,
@@ -2647,6 +2647,18 @@ __webpack_require__.r(__webpack_exports__);
         postcode = $form.find("#billing_postcode").val(),
         city = $form.find("#billing_city").val();
       if (rtcl.is_enable_tax) {
+        checkout_tax_pricing(country, state, postcode, city);
+      }
+    });
+
+    // Custom event for addons (e.g. coupon) to trigger tax recalculation
+    $(document).on("rtcl_recalculate_tax", function () {
+      if (rtcl.is_enable_tax) {
+        var $form = $("#rtcl-checkout-form"),
+          country = $form.find("#billing_country").val(),
+          state = $form.find("#billing_state").val(),
+          postcode = $form.find("#billing_postcode").val(),
+          city = $form.find("#billing_city").val();
         checkout_tax_pricing(country, state, postcode, city);
       }
     });

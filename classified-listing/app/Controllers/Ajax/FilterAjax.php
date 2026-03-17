@@ -37,7 +37,7 @@ class FilterAjax {
 
 		$args = [
 			'post_type'      => rtcl()->post_type,
-			'posts_per_page' => 4,
+			'posts_per_page' => 10,
 			'post_status'    => 'publish',
 		];
 

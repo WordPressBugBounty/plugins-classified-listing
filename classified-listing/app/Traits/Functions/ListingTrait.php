@@ -323,10 +323,11 @@ trait ListingTrait {
 	 */
 	public static function need_listings_embedding() {
 		$listings = get_posts( [
-			'post_type'   => rtcl()->post_type,
-			'post_status' => 'publish',
-			'fields'      => 'ids',
-			'meta_query'  => [
+			'post_type'      => rtcl()->post_type,
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+			'meta_query'     => [
 				[
 					'key'     => '_has_embedding',
 					'compare' => 'NOT EXISTS',

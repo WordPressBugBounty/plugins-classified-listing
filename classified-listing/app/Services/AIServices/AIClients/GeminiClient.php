@@ -15,7 +15,7 @@ class GeminiClient {
 	/**
 	 * @var string Model to be used for AI responses.
 	 */
-	protected $model = 'gemini-2.0-flash'; // Default Gemini model
+	protected $model = 'gemini-2.5-flash'; // Default Gemini model
 
 	protected $token = '200';
 
@@ -27,9 +27,10 @@ class GeminiClient {
 	 * @throws \Exception If required settings are missing.
 	 */
 	public function __construct() {
-		$apiKey      = Functions::get_option_item( 'rtcl_ai_settings', 'gemini_api_key' ); //Different setting name
-		$this->model = 'gemini-2.0-flash'; //Gemini Pro model
-		$this->token = Functions::get_option_item( 'rtcl_ai_settings', 'gpt_max_token' ); //using same setting
+		$apiKey      = Functions::get_option_item( 'rtcl_ai_settings', 'gemini_api_key' );
+		$model       = Functions::get_option_item( 'rtcl_ai_settings', 'gemini_models' );
+		$this->model = ! empty( $model ) ? $model : 'gemini-2.5-flash';
+		$this->token = Functions::get_option_item( 'rtcl_ai_settings', 'gpt_max_token' );
 		if ( empty( $apiKey ) ) {
 			throw new \Exception( 'Gemini API key is not properly configured.' );
 		}
@@ -45,7 +46,7 @@ class GeminiClient {
 	 */
 	public function ask( string $prompt, string $system_prompt = '' ): string { //System prompt removed
 		$apiKey    = Functions::get_option_item( 'rtcl_ai_settings', 'gemini_api_key' ); // Get the API Key
-		$url       = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' . $apiKey; // Gemini API endpoint
+		$url       = 'https://generativelanguage.googleapis.com/v1beta/models/' . $this->model . ':generateContent?key=' . $apiKey; // Gemini API endpoint
 		$contents  = [
 			[
 				'role'  => 'user', // Or 'model'. Experiment if needed. User generally appropriate for instruction/context
@@ -150,7 +151,7 @@ class GeminiClient {
 	 */
 	public function callGemini( $prompt, $instruction, $temperature = 0.7, $model = null, $for = 'keyword' ) {
 		$apiKey = Functions::get_option_item( 'rtcl_ai_settings', 'gemini_api_key' );
-		$url    = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' . $apiKey;
+		$url    = 'https://generativelanguage.googleapis.com/v1beta/models/' . $this->model . ':generateContent?key=' . $apiKey;
 		// Construct the contents array with the instruction as context.  Always ensure instruction goes before prompt
 		$contents = [
 			[

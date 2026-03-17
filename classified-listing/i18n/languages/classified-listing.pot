@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory Plugin 5.3.7\n"
+"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory Plugin 5.3.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-18T07:06:35+00:00\n"
+"POT-Creation-Date: 2026-03-17T08:18:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: classified-listing\n"
@@ -89,12 +89,12 @@ msgid "Contact Details"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/AddMetaBox.php:75
-#: app/Resources/Options.php:4924
+#: app/Resources/Options.php:4943
 msgid "Gallery"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/AddMetaBox.php:83
-#: app/Resources/Options.php:4925
+#: app/Resources/Options.php:4944
 #: app/Services/FormBuilder/FormPreDefined.php:220
 #: templates/listing-form/video-urls.php:15
 msgid "Video URL"
@@ -141,7 +141,7 @@ msgstr ""
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:360
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:498
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:654
-#: app/Resources/Options.php:2155
+#: app/Resources/Options.php:2174
 #: app/Resources/OrderOptions.php:43
 #: views/widgets/categories.php:52
 msgid "Order"
@@ -192,7 +192,7 @@ msgstr ""
 
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:474
 #: app/Controllers/Admin/Meta/AddTermMetaField.php:614
-#: app/Resources/Options.php:2728
+#: app/Resources/Options.php:2747
 #: app/Services/FormBuilder/AvailableFields.php:1024
 #: app/Services/FormBuilder/ElementCustomization.php:535
 #: app/Services/FormBuilder/ElementCustomization.php:545
@@ -208,7 +208,7 @@ msgstr ""
 #: app/Models/SettingsAPI.php:1732
 #: app/Resources/Options.php:483
 #: app/Resources/Options.php:1388
-#: app/Resources/Options.php:2731
+#: app/Resources/Options.php:2750
 #: app/Resources/PricingOptions.php:271
 #: app/Widgets/AjaxFilter.php:124
 msgid "Select one"
@@ -221,11 +221,11 @@ msgid "Views"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/ListingMetaColumn.php:31
-#: app/Controllers/Hooks/TemplateHooks.php:1249
+#: app/Controllers/Hooks/TemplateHooks.php:1277
 #: app/Helpers/Installer.php:159
 #: app/Resources/Gallery.php:204
 #: app/Resources/Gallery.php:286
-#: app/Resources/Options.php:2418
+#: app/Resources/Options.php:2437
 #: app/Services/FormBuilder/LocalizedString.php:52
 #: views/settings/general-listing_label-settings.php:31
 #: src/form-builder/backend/components/editor/elements/ImagesElement.jsx:35
@@ -233,7 +233,7 @@ msgid "Featured"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/ListingMetaColumn.php:32
-#: app/Resources/Options.php:2230
+#: app/Resources/Options.php:2249
 #: app/Services/FormBuilder/ElementCustomization.php:589
 #: src/blocks/listing-ads/constants.js:83
 msgid "Top"
@@ -304,7 +304,7 @@ msgid "Mark as"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/ListingSubmitBoxMice.php:66
-#: app/Resources/Options.php:2167
+#: app/Resources/Options.php:2186
 #: src/blocks/all-location/inspector.js:184
 #: src/blocks/listing-ads/inspector.js:301
 msgid "View"
@@ -319,7 +319,7 @@ msgid "Save"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/ListingSubmitBoxMice.php:111
-#: app/Controllers/Hooks/TemplateHooks.php:1456
+#: app/Controllers/Hooks/TemplateHooks.php:1484
 #: app/Resources/OrderOptions.php:22
 #: app/Resources/OrderOptions.php:23
 #: app/Services/FormBuilder/AvailableFields.php:1036
@@ -336,7 +336,7 @@ msgid "Order ID"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/OrderMetaColumn.php:75
-#: app/Resources/Options.php:2622
+#: app/Resources/Options.php:2641
 #: app/Services/FormBuilder/LocalizedString.php:14
 #: app/Widgets/Filter.php:353
 #: templates/block/listing-search/search.php:212
@@ -359,8 +359,8 @@ msgid "Transaction ID"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/OrderMetaColumn.php:78
-#: app/Resources/Options.php:2613
-#: app/Resources/Options.php:2627
+#: app/Resources/Options.php:2632
+#: app/Resources/Options.php:2646
 #: templates/checkout/payment-info.php:35
 #: templates/emails/email-order-details.php:60
 #: templates/myaccount/payment-history.php:30
@@ -386,12 +386,12 @@ msgstr ""
 #: app/Controllers/Admin/Meta/PricingMetaColumn.php:38
 #: app/Resources/ListingDetails.php:173
 #: app/Resources/Options.php:499
-#: app/Resources/Options.php:2149
-#: app/Resources/Options.php:3239
-#: app/Resources/Options.php:4876
-#: app/Resources/Options.php:4890
-#: app/Resources/Options.php:4908
-#: app/Resources/Options.php:4921
+#: app/Resources/Options.php:2168
+#: app/Resources/Options.php:3258
+#: app/Resources/Options.php:4895
+#: app/Resources/Options.php:4909
+#: app/Resources/Options.php:4927
+#: app/Resources/Options.php:4940
 #: app/Resources/OrderOptions.php:148
 #: app/Resources/PricingOptions.php:33
 #: app/Services/FormBuilder/AvailableFields.php:145
@@ -425,7 +425,7 @@ msgid "Additional Information"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/UserMeta.php:38
-#: app/Controllers/Hooks/TemplateHooks.php:1524
+#: app/Controllers/Hooks/TemplateHooks.php:1552
 #: app/Controllers/Settings/AdminSettings.php:110
 msgid "Account Type"
 msgstr ""
@@ -436,8 +436,8 @@ msgstr ""
 
 #: app/Controllers/Admin/Meta/UserMeta.php:59
 #: app/Models/Countries.php:1769
-#: app/Resources/Options.php:2776
-#: app/Resources/Options.php:4929
+#: app/Resources/Options.php:2795
+#: app/Resources/Options.php:4948
 #: app/Services/FormBuilder/AvailableFields.php:347
 #: app/Services/FormBuilder/AvailableFields.php:360
 #: app/Services/FormBuilder/AvailableFields.php:1227
@@ -453,7 +453,7 @@ msgid "WhatsApp"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/UserMeta.php:80
-#: app/Resources/Options.php:2794
+#: app/Resources/Options.php:2813
 #: app/Services/FormBuilder/AvailableFields.php:424
 #: app/Services/FormBuilder/AvailableFields.php:436
 #: app/Services/FormBuilder/AvailableFields.php:1229
@@ -464,10 +464,10 @@ msgid "Website"
 msgstr ""
 
 #: app/Controllers/Admin/Meta/UserMeta.php:90
-#: app/Controllers/Hooks/TemplateHooks.php:1165
-#: app/Resources/Options.php:2770
-#: app/Resources/Options.php:4878
-#: app/Resources/Options.php:4928
+#: app/Controllers/Hooks/TemplateHooks.php:1193
+#: app/Resources/Options.php:2789
+#: app/Resources/Options.php:4897
+#: app/Resources/Options.php:4947
 #: app/Services/FormBuilder/AvailableFields.php:298
 #: app/Services/FormBuilder/AvailableFields.php:312
 #: templates/listing-form/contact.php:130
@@ -496,7 +496,7 @@ msgstr ""
 #: app/Controllers/Admin/RegisterPostType.php:33
 #: app/Controllers/Ajax/FilterAjax.php:210
 #: app/Controllers/Settings/AdminSettings.php:194
-#: app/Resources/Options.php:1894
+#: app/Resources/Options.php:1913
 #: app/Widgets/Categories.php:94
 #: src/blocks/listing-ads/inspector.js:368
 #: src/blocks/listing-cat-box/inspector.js:188
@@ -568,7 +568,7 @@ msgstr ""
 #: app/Controllers/Admin/RegisterPostType.php:78
 #: app/Controllers/Ajax/FilterAjax.php:241
 #: app/Controllers/Settings/AdminSettings.php:207
-#: app/Resources/Options.php:1939
+#: app/Resources/Options.php:1958
 #: src/blocks/listing-ads/inspector.js:382
 msgid "Locations"
 msgstr ""
@@ -630,9 +630,9 @@ msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:122
 #: app/Controllers/Ajax/FilterAjax.php:273
-#: app/Resources/Options.php:1977
-#: app/Resources/Options.php:4874
-#: app/Resources/Options.php:4923
+#: app/Resources/Options.php:1996
+#: app/Resources/Options.php:4893
+#: app/Resources/Options.php:4942
 #: templates/listing-form/information.php:182
 #: templates/listing/custom-fields.php:18
 msgid "Tags"
@@ -960,7 +960,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: app/Controllers/Admin/RegisterPostType.php:417
-#: app/Resources/Options.php:2462
+#: app/Resources/Options.php:2481
 msgctxt "Payment status"
 msgid "Created"
 msgstr ""
@@ -974,7 +974,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: app/Controllers/Admin/RegisterPostType.php:429
-#: app/Resources/Options.php:2458
+#: app/Resources/Options.php:2477
 msgctxt "Payment status"
 msgid "Completed"
 msgstr ""
@@ -988,7 +988,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: app/Controllers/Admin/RegisterPostType.php:441
-#: app/Resources/Options.php:2461
+#: app/Resources/Options.php:2480
 msgctxt "Payment status"
 msgid "Failed"
 msgstr ""
@@ -1002,7 +1002,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: app/Controllers/Admin/RegisterPostType.php:451
-#: app/Resources/Options.php:2459
+#: app/Resources/Options.php:2478
 msgctxt "Payment status"
 msgid "Cancelled"
 msgstr ""
@@ -1016,7 +1016,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: app/Controllers/Admin/RegisterPostType.php:463
-#: app/Resources/Options.php:2460
+#: app/Resources/Options.php:2479
 msgctxt "Payment status"
 msgid "Refunded"
 msgstr ""
@@ -1030,7 +1030,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: app/Controllers/Admin/RegisterPostType.php:475
-#: app/Resources/Options.php:2457
+#: app/Resources/Options.php:2476
 msgctxt "Payment status"
 msgid "On hold"
 msgstr ""
@@ -1044,7 +1044,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: app/Controllers/Admin/RegisterPostType.php:486
-#: app/Resources/Options.php:2456
+#: app/Resources/Options.php:2475
 msgctxt "Payment status"
 msgid "Processing"
 msgstr ""
@@ -1391,10 +1391,10 @@ msgid "Are you sure?"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:676
-#: app/Controllers/Hooks/TemplateHooks.php:389
-#: app/Controllers/Hooks/TemplateHooks.php:435
+#: app/Controllers/Hooks/TemplateHooks.php:390
+#: app/Controllers/Hooks/TemplateHooks.php:436
 #: app/Resources/ListingDetails.php:69
-#: app/Resources/Options.php:1900
+#: app/Resources/Options.php:1919
 #: app/Services/FormBuilder/AvailableFields.php:168
 #: app/Services/FormBuilder/AvailableFields.php:180
 #: app/Widgets/Filter.php:214
@@ -1407,11 +1407,11 @@ msgid "Category"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:677
-#: app/Controllers/Hooks/TemplateHooks.php:796
-#: app/Controllers/Hooks/TemplateHooks.php:1182
+#: app/Controllers/Hooks/TemplateHooks.php:824
+#: app/Controllers/Hooks/TemplateHooks.php:1210
 #: app/Resources/Options.php:60
-#: app/Resources/Options.php:1945
-#: app/Resources/Options.php:4926
+#: app/Resources/Options.php:1964
+#: app/Resources/Options.php:4945
 #: app/Services/FormBuilder/AvailableFields.php:232
 #: app/Services/FormBuilder/AvailableFields.php:245
 #: app/Services/FormBuilder/AvailableFields.php:256
@@ -1445,7 +1445,7 @@ msgid "Delete Permanently"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:685
-#: app/Controllers/Hooks/TemplateHooks.php:2218
+#: app/Controllers/Hooks/TemplateHooks.php:2246
 msgid "Proceed to payment"
 msgstr ""
 
@@ -1482,7 +1482,7 @@ msgstr ""
 #. translators: 1: related to , 2: Related form
 #. translators: related something
 #: app/Controllers/Admin/ScriptLoader.php:732
-#: app/Controllers/Hooks/TemplateHooks.php:815
+#: app/Controllers/Hooks/TemplateHooks.php:843
 #, php-format
 msgid "Need to discuss something related to '%1$s' from %2$s"
 msgstr ""
@@ -1895,7 +1895,7 @@ msgstr ""
 msgid "Session error"
 msgstr ""
 
-#: app/Controllers/Ajax/Checkout.php:196
+#: app/Controllers/Ajax/Checkout.php:205
 #: app/Controllers/Ajax/ListingAdminAjax.php:31
 #: app/Controllers/Ajax/ListingAdminAjax.php:78
 #: app/Controllers/Ajax/ListingAdminAjax.php:115
@@ -1904,7 +1904,7 @@ msgstr ""
 msgid "Session expired."
 msgstr ""
 
-#: app/Controllers/Ajax/Checkout.php:273
+#: app/Controllers/Ajax/Checkout.php:282
 #: app/Models/Countries.php:617
 #: app/Resources/Options.php:41
 #: templates/checkout/payment-overview.php:27
@@ -1955,8 +1955,8 @@ msgid "No results found."
 msgstr ""
 
 #: app/Controllers/Ajax/FilterAjax.php:145
-#: app/Resources/Options.php:1874
-#: app/Resources/Options.php:1880
+#: app/Resources/Options.php:1893
+#: app/Resources/Options.php:1899
 #: templates/block/listing-search/search.php:265
 #: templates/block/listing-search/search.php:267
 #: src/blocks/listing-search/layout/style-1.js:104
@@ -1964,12 +1964,12 @@ msgid "Keyword"
 msgstr ""
 
 #: app/Controllers/Ajax/FilterAjax.php:181
-#: app/Controllers/Hooks/TemplateHooks.php:304
-#: app/Resources/Options.php:2028
-#: app/Resources/Options.php:4875
-#: app/Resources/Options.php:4889
-#: app/Resources/Options.php:4907
-#: app/Resources/Options.php:4918
+#: app/Controllers/Hooks/TemplateHooks.php:305
+#: app/Resources/Options.php:2047
+#: app/Resources/Options.php:4894
+#: app/Resources/Options.php:4908
+#: app/Resources/Options.php:4926
+#: app/Resources/Options.php:4937
 #: templates/listing-form/category.php:31
 msgid "Ad Type"
 msgstr ""
@@ -1979,8 +1979,8 @@ msgid "Price Filter"
 msgstr ""
 
 #: app/Controllers/Ajax/FilterAjax.php:383
-#: app/Resources/Options.php:2078
-#: app/Resources/Options.php:2083
+#: app/Resources/Options.php:2097
+#: app/Resources/Options.php:2102
 msgid "Radius Filter"
 msgstr ""
 
@@ -2667,6 +2667,8 @@ msgid "Style 2"
 msgstr ""
 
 #: app/Controllers/BlockController.php:357
+#: app/Controllers/EmbeddingController.php:34
+#: app/Controllers/EmbeddingController.php:58
 #: app/Controllers/Settings/AdminSettings.php:186
 #: app/Controllers/Settings/AdminSettings.php:312
 #: app/Controllers/Settings/AdminSettings.php:313
@@ -2772,11 +2774,37 @@ msgstr ""
 msgid "Sorry, we are currently closed."
 msgstr ""
 
-#: app/Controllers/EmbeddingController.php:50
+#: app/Controllers/EmbeddingController.php:35
+msgid "AI Search data training failed:"
+msgstr ""
+
+#: app/Controllers/EmbeddingController.php:59
+msgid "AI Search data training in progress..."
+msgstr ""
+
+#. translators: 1: processed count, 2: total count
+#: app/Controllers/EmbeddingController.php:65
+#, php-format
+msgid "Processed: %1$d / %2$d"
+msgstr ""
+
+#. translators: %d: failed count
+#: app/Controllers/EmbeddingController.php:74
+#, php-format
+msgid "Failed: %d"
+msgstr ""
+
+#. translators: %d: remaining count
+#: app/Controllers/EmbeddingController.php:83
+#, php-format
+msgid "Remaining: %d"
+msgstr ""
+
+#: app/Controllers/EmbeddingController.php:102
 msgid "Access denied."
 msgstr ""
 
-#: app/Controllers/EmbeddingController.php:54
+#: app/Controllers/EmbeddingController.php:106
 msgid "Invalid request."
 msgstr ""
 
@@ -2921,7 +2949,7 @@ msgstr ""
 msgid "Registration"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:256
+#: app/Controllers/Hooks/TemplateHooks.php:257
 #: templates/block/listing-search/search.php:291
 #: templates/widgets/search/inline.php:168
 #: templates/widgets/search/inline.php:180
@@ -2930,64 +2958,64 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:257
-#: app/Resources/Options.php:1881
-#: app/Resources/Options.php:1888
+#: app/Controllers/Hooks/TemplateHooks.php:258
+#: app/Resources/Options.php:1900
+#: app/Resources/Options.php:1907
 msgid "Search ..."
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:276
+#: app/Controllers/Hooks/TemplateHooks.php:277
 msgid "AI Best Matches"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:343
-#: app/Resources/Options.php:2670
+#: app/Controllers/Hooks/TemplateHooks.php:344
+#: app/Resources/Options.php:2689
 msgid "Select"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:356
+#: app/Controllers/Hooks/TemplateHooks.php:357
 #: app/Helpers/Functions.php:1560
 msgid "More"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:357
+#: app/Controllers/Hooks/TemplateHooks.php:358
 #: app/Helpers/Functions.php:1561
 msgid "Less"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:472
-#: app/Resources/Options.php:1989
+#: app/Controllers/Hooks/TemplateHooks.php:473
+#: app/Resources/Options.php:2008
 #: app/Services/FormBuilder/AvailableFields.php:191
 #: app/Services/FormBuilder/AvailableFields.php:204
 #: app/Widgets/Filter.php:259
 msgid "Tag"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:512
+#: app/Controllers/Hooks/TemplateHooks.php:513
 #: app/Widgets/Filter.php:379
 #: templates/widgets/search/inline.php:149
 #: templates/widgets/search/vertical.php:149
 msgid "min"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:513
+#: app/Controllers/Hooks/TemplateHooks.php:514
 #: app/Widgets/Filter.php:381
 #: templates/widgets/search/inline.php:157
 #: templates/widgets/search/vertical.php:157
 msgid "max"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:516
-#: app/Resources/Options.php:2046
-#: app/Resources/Options.php:2052
-#: app/Resources/Options.php:3240
+#: app/Controllers/Hooks/TemplateHooks.php:517
+#: app/Resources/Options.php:2065
+#: app/Resources/Options.php:2071
+#: app/Resources/Options.php:3259
 #: app/Widgets/Filter.php:392
 #: templates/widgets/search/vertical.php:144
 msgid "Price Range"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:552
-#: app/Controllers/Hooks/TemplateHooks.php:1191
+#: app/Controllers/Hooks/TemplateHooks.php:553
+#: app/Controllers/Hooks/TemplateHooks.php:1219
 #: app/Helpers/Text.php:107
 #: app/Services/FormBuilder/LocalizedString.php:42
 #: app/Widgets/Filter.php:426
@@ -3001,66 +3029,70 @@ msgstr ""
 msgid "Select a location"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:555
+#: app/Controllers/Hooks/TemplateHooks.php:556
 #: app/Widgets/Filter.php:427
 msgid "Radius"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:560
+#: app/Controllers/Hooks/TemplateHooks.php:561
 #: app/Widgets/Filter.php:422
 #: templates/widgets/search/inline.php:50
 #: templates/widgets/search/vertical.php:56
 msgid "km"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:560
+#: app/Controllers/Hooks/TemplateHooks.php:561
 #: app/Widgets/Filter.php:422
 #: templates/widgets/search/inline.php:50
 #: templates/widgets/search/vertical.php:56
 msgid "Miles"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:565
+#: app/Controllers/Hooks/TemplateHooks.php:566
 #: app/Widgets/Filter.php:437
 #: src/blocks/listing-search/inspector.js:126
 msgid "Radius Search"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:614
+#: app/Controllers/Hooks/TemplateHooks.php:611
+msgid "Tax "
+msgstr ""
+
+#: app/Controllers/Hooks/TemplateHooks.php:642
 msgid "View all my listings"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:626
+#: app/Controllers/Hooks/TemplateHooks.php:654
 msgid "View details"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:654
+#: app/Controllers/Hooks/TemplateHooks.php:682
 msgid "Visit Website"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:726
+#: app/Controllers/Hooks/TemplateHooks.php:754
 msgid "Contact Number"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:735
+#: app/Controllers/Hooks/TemplateHooks.php:763
 msgid "Click to reveal phone number"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:829
+#: app/Controllers/Hooks/TemplateHooks.php:857
 msgid "Message to Telegram"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:863
+#: app/Controllers/Hooks/TemplateHooks.php:891
 #: app/Resources/Options.php:1577
 #: views/settings/advanced-settings.php:142
 msgid "Promote"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:901
+#: app/Controllers/Hooks/TemplateHooks.php:929
 msgid "Renew"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:928
+#: app/Controllers/Hooks/TemplateHooks.php:956
 #: app/Helpers/Functions.php:4977
 #: app/Services/FormBuilder/LocalizedString.php:31
 #: views/settings/listing-type.php:38
@@ -3071,8 +3103,8 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:944
-#: app/Controllers/Hooks/TemplateHooks.php:951
+#: app/Controllers/Hooks/TemplateHooks.php:972
+#: app/Controllers/Hooks/TemplateHooks.php:979
 #: app/Services/FormBuilder/LocalizedString.php:32
 #: templates/myaccount/favourite-listings.php:118
 #: views/settings/listing-type.php:39
@@ -3084,35 +3116,35 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1021
+#: app/Controllers/Hooks/TemplateHooks.php:1049
 msgid "Update Account"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1032
+#: app/Controllers/Hooks/TemplateHooks.php:1060
 msgid "Social Profile"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1070
+#: app/Controllers/Hooks/TemplateHooks.php:1098
 msgid "Select state"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1102
-#: app/Controllers/Hooks/TemplateHooks.php:1135
+#: app/Controllers/Hooks/TemplateHooks.php:1130
+#: app/Controllers/Hooks/TemplateHooks.php:1163
 #: templates/listing-form/contact.php:45
 #: templates/listing-form/contact.php:75
 #: templates/listing-form/contact.php:104
 msgid "Select location"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1155
-#: app/Resources/Options.php:2764
-#: app/Resources/Options.php:4879
-#: app/Resources/Options.php:4927
+#: app/Controllers/Hooks/TemplateHooks.php:1183
+#: app/Resources/Options.php:2783
+#: app/Resources/Options.php:4898
+#: app/Resources/Options.php:4946
 #: templates/listing-form/contact.php:123
 msgid "Zip Code"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1208
+#: app/Controllers/Hooks/TemplateHooks.php:1236
 #: app/Resources/Options.php:134
 #: app/Resources/Options.php:1349
 #: app/Services/FormBuilder/AvailableFields.php:278
@@ -3121,21 +3153,21 @@ msgstr ""
 msgid "Map"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1269
+#: app/Controllers/Hooks/TemplateHooks.php:1297
 #: app/Helpers/Installer.php:155
 #: views/settings/general-listing_label-settings.php:18
 msgid "New"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1435
+#: app/Controllers/Hooks/TemplateHooks.php:1463
 msgid "Apply filters"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1443
+#: app/Controllers/Hooks/TemplateHooks.php:1471
 msgid "Clear filters"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1458
+#: app/Controllers/Hooks/TemplateHooks.php:1486
 #: app/Services/FormBuilder/AvailableFields.php:1031
 #: app/Services/FormBuilder/FormPreDefined.php:33
 #: app/Services/FormBuilder/FormPreDefined.php:273
@@ -3147,44 +3179,44 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1487
+#: app/Controllers/Hooks/TemplateHooks.php:1515
 #: templates/myaccount/form-edit-account.php:50
 msgid "First Name"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1500
+#: app/Controllers/Hooks/TemplateHooks.php:1528
 #: templates/myaccount/form-edit-account.php:58
 msgid "Last Name"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1555
+#: app/Controllers/Hooks/TemplateHooks.php:1583
 msgid "Phone Number"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:1702
+#: app/Controllers/Hooks/TemplateHooks.php:1730
 msgid "Relevance"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:2125
+#: app/Controllers/Hooks/TemplateHooks.php:2153
 #: templates/myaccount/form-login.php:35
 #: templates/myaccount/form-login.php:99
 #: templates/myaccount/form-registration.php:94
 msgid "Register"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:2128
+#: app/Controllers/Hooks/TemplateHooks.php:2156
 msgid "Forgot your password?"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:2147
+#: app/Controllers/Hooks/TemplateHooks.php:2175
 msgid "Please review your order, and click purchase once you are ready to proceed."
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:2161
+#: app/Controllers/Hooks/TemplateHooks.php:2189
 msgid "Given Listing Id is not a valid listing"
 msgstr ""
 
-#: app/Controllers/Hooks/TemplateHooks.php:2212
+#: app/Controllers/Hooks/TemplateHooks.php:2240
 msgid "Go to My Account"
 msgstr ""
 
@@ -3533,10 +3565,10 @@ msgstr ""
 #: app/Gateways/Paypal/GatewayPaypal.php:301
 #: app/Resources/Gallery.php:296
 #: app/Resources/Options.php:498
-#: app/Resources/Options.php:2116
-#: app/Resources/Options.php:2147
-#: app/Resources/Options.php:2277
-#: app/Resources/Options.php:2331
+#: app/Resources/Options.php:2135
+#: app/Resources/Options.php:2166
+#: app/Resources/Options.php:2296
+#: app/Resources/Options.php:2350
 #: app/Services/FormBuilder/AvailableFields.php:41
 #: app/Services/FormBuilder/AvailableFields.php:60
 #: app/Widgets/AjaxFilter.php:127
@@ -3568,7 +3600,7 @@ msgstr ""
 #: app/Gateways/Offline/GatewayOffline.php:55
 #: app/Gateways/Paypal/GatewayPaypal.php:307
 #: app/Resources/Gallery.php:301
-#: app/Resources/Options.php:4922
+#: app/Resources/Options.php:4941
 #: app/Resources/PricingOptions.php:62
 #: app/Services/FormBuilder/AvailableFields.php:74
 #: app/Services/FormBuilder/AvailableFields.php:94
@@ -4044,7 +4076,7 @@ msgid "M j, Y @ H:i"
 msgstr ""
 
 #: app/Helpers/Functions.php:4951
-#: app/Resources/Options.php:4753
+#: app/Resources/Options.php:4772
 msgid "Month"
 msgstr ""
 
@@ -4055,17 +4087,17 @@ msgid "%1$s-%2$s"
 msgstr ""
 
 #: app/Helpers/Functions.php:4962
-#: app/Resources/Options.php:4761
+#: app/Resources/Options.php:4780
 msgid "Day"
 msgstr ""
 
 #: app/Helpers/Functions.php:4964
-#: app/Resources/Options.php:4749
+#: app/Resources/Options.php:4768
 msgid "Year"
 msgstr ""
 
 #: app/Helpers/Functions.php:4966
-#: app/Resources/Options.php:4765
+#: app/Resources/Options.php:4784
 msgid "Hour"
 msgstr ""
 
@@ -5144,7 +5176,7 @@ msgid "Pricing:"
 msgstr ""
 
 #: app/Resources/ListingDetails.php:150
-#: app/Resources/Options.php:4920
+#: app/Resources/Options.php:4939
 #: app/Services/FormBuilder/AvailableFields.php:143
 #: app/Services/FormBuilder/ElementCustomization.php:755
 #: templates/listing-form/information.php:85
@@ -5205,8 +5237,8 @@ msgid "Listing Details Page"
 msgstr ""
 
 #: app/Resources/Options.php:89
-#: app/Resources/Options.php:2788
-#: app/Resources/Options.php:4932
+#: app/Resources/Options.php:2807
+#: app/Resources/Options.php:4951
 #: app/Services/FormBuilder/AvailableFields.php:397
 #: app/Services/FormBuilder/AvailableFields.php:413
 #: app/Services/FormBuilder/AvailableFields.php:1228
@@ -5239,7 +5271,7 @@ msgid "Page Setup & Permalink"
 msgstr ""
 
 #: app/Resources/Options.php:117
-#: app/Resources/Options.php:2335
+#: app/Resources/Options.php:2354
 #: src/blocks/all-location/inspector.js:193
 #: src/blocks/listing-ads/inspector.js:310
 #: src/blocks/listing-ads/inspector.js:319
@@ -5340,34 +5372,34 @@ msgstr ""
 
 #: app/Resources/Options.php:241
 #: app/Resources/Options.php:254
-#: app/Resources/Options.php:2427
+#: app/Resources/Options.php:2446
 #: templates/myaccount/my-listings.php:29
 msgid "Published"
 msgstr ""
 
 #: app/Resources/Options.php:242
 #: app/Resources/Options.php:255
-#: app/Resources/Options.php:2428
+#: app/Resources/Options.php:2447
 #: templates/myaccount/my-listings.php:30
 msgid "Pending"
 msgstr ""
 
 #: app/Resources/Options.php:243
 #: app/Resources/Options.php:256
-#: app/Resources/Options.php:2429
+#: app/Resources/Options.php:2448
 #: app/Services/FormBuilder/LocalizedString.php:167
 msgid "Draft"
 msgstr ""
 
 #: app/Resources/Options.php:244
 #: app/Resources/Options.php:257
-#: app/Resources/Options.php:2430
+#: app/Resources/Options.php:2449
 msgid "Reviewed"
 msgstr ""
 
 #: app/Resources/Options.php:245
 #: app/Resources/Options.php:258
-#: app/Resources/Options.php:2431
+#: app/Resources/Options.php:2450
 #: templates/myaccount/my-listings.php:31
 msgid "Expired"
 msgstr ""
@@ -5389,19 +5421,19 @@ msgstr ""
 
 #: app/Resources/Options.php:266
 #: app/Resources/Options.php:290
-#: app/Resources/Options.php:2408
+#: app/Resources/Options.php:2427
 msgid "Account"
 msgstr ""
 
 #: app/Resources/Options.php:267
 #: app/Resources/Options.php:291
-#: app/Resources/Options.php:2409
+#: app/Resources/Options.php:2428
 msgid "Regular submission"
 msgstr ""
 
 #: app/Resources/Options.php:268
 #: app/Resources/Options.php:292
-#: app/Resources/Options.php:2410
+#: app/Resources/Options.php:2429
 #: app/Services/FormBuilder/ElementCustomization.php:1386
 #: views/widgets/categories.php:40
 msgid "Custom"
@@ -5574,35 +5606,35 @@ msgid "Enable Social Share"
 msgstr ""
 
 #: app/Resources/Options.php:441
-#: app/Resources/Options.php:2372
-#: app/Resources/Options.php:5129
+#: app/Resources/Options.php:2391
+#: app/Resources/Options.php:5148
 msgid "Facebook"
 msgstr ""
 
 #: app/Resources/Options.php:442
-#: app/Resources/Options.php:2373
-#: app/Resources/Options.php:5130
+#: app/Resources/Options.php:2392
+#: app/Resources/Options.php:5149
 msgid "Twitter"
 msgstr ""
 
 #: app/Resources/Options.php:443
-#: app/Resources/Options.php:2376
+#: app/Resources/Options.php:2395
 msgid "LinkedIn"
 msgstr ""
 
 #: app/Resources/Options.php:444
-#: app/Resources/Options.php:2377
-#: app/Resources/Options.php:5132
+#: app/Resources/Options.php:2396
+#: app/Resources/Options.php:5151
 msgid "Pinterest"
 msgstr ""
 
 #: app/Resources/Options.php:445
-#: app/Resources/Options.php:5133
+#: app/Resources/Options.php:5152
 msgid "WhatsApp (Only at mobile)"
 msgstr ""
 
 #: app/Resources/Options.php:446
-#: app/Resources/Options.php:5134
+#: app/Resources/Options.php:5153
 msgid "Telegram (Only at mobile)"
 msgstr ""
 
@@ -5818,15 +5850,15 @@ msgid "Sidebar Position"
 msgstr ""
 
 #: app/Resources/Options.php:590
-#: app/Resources/Options.php:2445
+#: app/Resources/Options.php:2464
 #: app/Services/FormBuilder/ElementCustomization.php:593
 #: app/Services/FormBuilder/ElementCustomization.php:1009
 msgid "Right"
 msgstr ""
 
 #: app/Resources/Options.php:591
-#: app/Resources/Options.php:2231
-#: app/Resources/Options.php:2446
+#: app/Resources/Options.php:2250
+#: app/Resources/Options.php:2465
 #: app/Services/FormBuilder/ElementCustomization.php:581
 #: app/Services/FormBuilder/ElementCustomization.php:1001
 #: src/blocks/listing-ads/constants.js:84
@@ -5834,7 +5866,7 @@ msgid "Left"
 msgstr ""
 
 #: app/Resources/Options.php:592
-#: app/Resources/Options.php:2447
+#: app/Resources/Options.php:2466
 #: app/Services/FormBuilder/ElementCustomization.php:585
 msgid "Bottom"
 msgstr ""
@@ -6886,213 +6918,225 @@ msgid "To integrate with ChatGPT, you need to obtain an API key from OpenAI. Vis
 msgstr ""
 
 #: app/Resources/Options.php:1677
+msgid "Gemini Model"
+msgstr ""
+
+#: app/Resources/Options.php:1680
+msgid "Gemini 2.5 Flash"
+msgstr ""
+
+#: app/Resources/Options.php:1681
+msgid "Gemini 2.5 Pro"
+msgstr ""
+
+#: app/Resources/Options.php:1696
 #: views/settings/ai-settings.php:97
 msgid "Gemini API Key"
 msgstr ""
 
-#: app/Resources/Options.php:1681
+#: app/Resources/Options.php:1700
 msgid "To integrate with Google Gemini, you need to obtain an API key from Google Cloud. Visit <a target=\"_blank\" href=\"https://makersuite.google.com/app/apikey\">Google AI Studio API Keys</a> to generate one."
 msgstr ""
 
-#: app/Resources/Options.php:1695
-#: views/settings/ai-settings.php:139
-msgid "DeepSeek API Key"
-msgstr ""
-
-#: app/Resources/Options.php:1699
-msgid "To integrate with DeepSeek, you need to obtain an API key from DeepSeek. Visit <a target=\"_blank\" href=\"https://www.deepseek.com/api-keys\">DeepSeek API Keys</a> to generate one."
-msgstr ""
-
-#: app/Resources/Options.php:1713
+#: app/Resources/Options.php:1714
 #: views/settings/ai-settings.php:164
 msgid "DeepSeek Model"
 msgstr ""
 
-#: app/Resources/Options.php:1716
+#: app/Resources/Options.php:1717
 #: views/settings/ai-settings.php:169
 msgid "DeepSeek Chat (Full Version)"
 msgstr ""
 
-#: app/Resources/Options.php:1717
+#: app/Resources/Options.php:1718
 #: views/settings/ai-settings.php:170
 msgid "DeepSeek Reasoner Mini (Light Version)"
 msgstr ""
 
-#: app/Resources/Options.php:1731
+#: app/Resources/Options.php:1732
+#: views/settings/ai-settings.php:139
+msgid "DeepSeek API Key"
+msgstr ""
+
+#: app/Resources/Options.php:1736
+msgid "To integrate with DeepSeek, you need to obtain an API key from DeepSeek. Visit <a target=\"_blank\" href=\"https://www.deepseek.com/api-keys\">DeepSeek API Keys</a> to generate one."
+msgstr ""
+
+#: app/Resources/Options.php:1750
 #: views/settings/ai-settings.php:80
 #: views/settings/ai-settings.php:122
 #: views/settings/ai-settings.php:182
 msgid "Maximum Characters in Prompt Input"
 msgstr ""
 
-#: app/Resources/Options.php:1736
+#: app/Resources/Options.php:1755
 #: views/settings/ai-settings.php:82
 #: views/settings/ai-settings.php:124
 #: views/settings/ai-settings.php:184
 msgid "Set the maximum character limit for the prompt input. This controls how many characters users can enter, ensuring input stays concise and manageable. Higher limits may affect performance and response quality."
 msgstr ""
 
-#: app/Resources/Options.php:1740
+#: app/Resources/Options.php:1759
 msgid "Search & Media"
 msgstr ""
 
-#: app/Resources/Options.php:1742
+#: app/Resources/Options.php:1761
 msgid "Manage Semantic Search and Media Enhancement."
 msgstr ""
 
-#: app/Resources/Options.php:1746
+#: app/Resources/Options.php:1765
 msgid "Semantic Search"
 msgstr ""
 
-#: app/Resources/Options.php:1749
+#: app/Resources/Options.php:1768
 msgid "Enable AI search instead of keyword matching to get listings"
 msgstr ""
 
-#: app/Resources/Options.php:1768
+#: app/Resources/Options.php:1787
 msgid "Minimum Accuracy (in percentage)"
 msgstr ""
 
-#: app/Resources/Options.php:1776
+#: app/Resources/Options.php:1795
 msgid "Number of accuracy percentage to match the keywords. The higher the value, the more accurate the search results."
 msgstr ""
 
-#: app/Resources/Options.php:1795
+#: app/Resources/Options.php:1814
 msgid "Enable Best Matching Search"
 msgstr ""
 
-#: app/Resources/Options.php:1798
+#: app/Resources/Options.php:1817
 msgid "Enable AI quick search with keyword field on ajax filter"
 msgstr ""
 
-#: app/Resources/Options.php:1817
+#: app/Resources/Options.php:1836
 msgid "Best Matching (in percentage)"
 msgstr ""
 
-#: app/Resources/Options.php:1847
+#: app/Resources/Options.php:1866
 msgid "Image Enhancement"
 msgstr ""
 
-#: app/Resources/Options.php:1850
+#: app/Resources/Options.php:1869
 msgid "Enable image modification feature using AI to enhance listing images."
 msgstr ""
 
-#: app/Resources/Options.php:1878
-#: app/Resources/Options.php:1898
-#: app/Resources/Options.php:1943
-#: app/Resources/Options.php:1987
-#: app/Resources/Options.php:2026
-#: app/Resources/Options.php:2050
-#: app/Resources/Options.php:2081
+#: app/Resources/Options.php:1897
+#: app/Resources/Options.php:1917
+#: app/Resources/Options.php:1962
+#: app/Resources/Options.php:2006
+#: app/Resources/Options.php:2045
+#: app/Resources/Options.php:2069
+#: app/Resources/Options.php:2100
 msgid "Item title"
 msgstr ""
 
-#: app/Resources/Options.php:1886
+#: app/Resources/Options.php:1905
 #: app/Services/FormBuilder/ElementCustomization.php:694
 msgid "Placeholder"
 msgstr ""
 
-#: app/Resources/Options.php:1905
-#: app/Resources/Options.php:1950
-#: app/Resources/Options.php:1994
-#: app/Resources/Options.php:2033
+#: app/Resources/Options.php:1924
+#: app/Resources/Options.php:1969
+#: app/Resources/Options.php:2013
+#: app/Resources/Options.php:2052
 msgid "Form field type"
 msgstr ""
 
-#: app/Resources/Options.php:1909
-#: app/Resources/Options.php:1954
-#: app/Resources/Options.php:1998
-#: app/Resources/Options.php:2037
-#: app/Resources/Options.php:2692
+#: app/Resources/Options.php:1928
+#: app/Resources/Options.php:1973
+#: app/Resources/Options.php:2017
+#: app/Resources/Options.php:2056
+#: app/Resources/Options.php:2711
 #: app/Services/FormBuilder/AvailableFields.php:884
 #: app/Services/FormBuilder/AvailableFields.php:919
 #: app/Services/FormBuilder/ElementCustomization.php:1407
 msgid "Checkbox"
 msgstr ""
 
-#: app/Resources/Options.php:1910
-#: app/Resources/Options.php:1955
-#: app/Resources/Options.php:1999
-#: app/Resources/Options.php:2038
-#: app/Resources/Options.php:2681
+#: app/Resources/Options.php:1929
+#: app/Resources/Options.php:1974
+#: app/Resources/Options.php:2018
+#: app/Resources/Options.php:2057
+#: app/Resources/Options.php:2700
 #: app/Services/FormBuilder/AvailableFields.php:843
 #: app/Services/FormBuilder/AvailableFields.php:873
 #: app/Services/FormBuilder/ElementCustomization.php:1411
 msgid "Radio"
 msgstr ""
 
-#: app/Resources/Options.php:1916
-#: app/Resources/Options.php:1960
-#: app/Resources/Options.php:2004
+#: app/Resources/Options.php:1935
+#: app/Resources/Options.php:1979
+#: app/Resources/Options.php:2023
 msgid "Hide empty"
 msgstr ""
 
-#: app/Resources/Options.php:1921
-#: app/Resources/Options.php:1965
-#: app/Resources/Options.php:2010
+#: app/Resources/Options.php:1940
+#: app/Resources/Options.php:1984
+#: app/Resources/Options.php:2029
 msgid "Show count"
 msgstr ""
 
-#: app/Resources/Options.php:1926
+#: app/Resources/Options.php:1945
 msgid "Show icon or image"
 msgstr ""
 
-#: app/Resources/Options.php:1932
-#: app/Resources/Options.php:1970
-#: app/Resources/Options.php:2015
+#: app/Resources/Options.php:1951
+#: app/Resources/Options.php:1989
+#: app/Resources/Options.php:2034
 msgid "More Less"
 msgstr ""
 
-#: app/Resources/Options.php:2022
+#: app/Resources/Options.php:2041
 msgid "Listing Ad Types"
 msgstr ""
 
-#: app/Resources/Options.php:2039
+#: app/Resources/Options.php:2058
 #: app/Services/FormBuilder/AvailableFields.php:785
 #: app/Services/FormBuilder/AvailableFields.php:812
 msgid "Dropdown"
 msgstr ""
 
-#: app/Resources/Options.php:2057
+#: app/Resources/Options.php:2076
 msgid "Default Min Price"
 msgstr ""
 
-#: app/Resources/Options.php:2063
+#: app/Resources/Options.php:2082
 msgid "Default Max Price"
 msgstr ""
 
-#: app/Resources/Options.php:2069
+#: app/Resources/Options.php:2088
 msgid "Range step"
 msgstr ""
 
-#: app/Resources/Options.php:2120
+#: app/Resources/Options.php:2139
 msgid "Filter by Location"
 msgstr ""
 
-#: app/Resources/Options.php:2124
+#: app/Resources/Options.php:2143
 msgid "Filter by Category"
 msgstr ""
 
-#: app/Resources/Options.php:2128
+#: app/Resources/Options.php:2147
 msgid "Filter by ad Type"
 msgstr ""
 
-#: app/Resources/Options.php:2131
+#: app/Resources/Options.php:2150
 msgid "Featured only"
 msgstr ""
 
-#: app/Resources/Options.php:2132
+#: app/Resources/Options.php:2151
 msgid "All Type"
 msgstr ""
 
-#: app/Resources/Options.php:2136
+#: app/Resources/Options.php:2155
 msgid "Related Listings"
 msgstr ""
 
-#: app/Resources/Options.php:2140
+#: app/Resources/Options.php:2159
 msgid "Limit / Listing per page(pagination)"
 msgstr ""
 
-#: app/Resources/Options.php:2144
+#: app/Resources/Options.php:2163
 #: views/widgets/categories.php:31
 #: src/blocks/all-location/inspector.js:376
 #: src/blocks/listing-ads/inspector.js:396
@@ -7100,248 +7144,248 @@ msgstr ""
 msgid "Order By"
 msgstr ""
 
-#: app/Resources/Options.php:2148
+#: app/Resources/Options.php:2167
 #: views/settings/archive_listing-settings.php:65
 msgid "Date posted"
 msgstr ""
 
-#: app/Resources/Options.php:2150
-#: app/Resources/Options.php:4869
-#: app/Resources/Options.php:4902
+#: app/Resources/Options.php:2169
+#: app/Resources/Options.php:4888
+#: app/Resources/Options.php:4921
 #: views/settings/archive_listing-settings.php:67
 msgid "Views count"
 msgstr ""
 
-#: app/Resources/Options.php:2151
+#: app/Resources/Options.php:2170
 msgid "Random"
 msgstr ""
 
-#: app/Resources/Options.php:2158
+#: app/Resources/Options.php:2177
 #: views/widgets/categories.php:57
 msgid "ASC"
 msgstr ""
 
-#: app/Resources/Options.php:2159
+#: app/Resources/Options.php:2178
 #: views/widgets/categories.php:58
 msgid "DESC"
 msgstr ""
 
-#: app/Resources/Options.php:2163
+#: app/Resources/Options.php:2182
 msgid "Display Options"
 msgstr ""
 
-#: app/Resources/Options.php:2171
+#: app/Resources/Options.php:2190
 msgid "Grid"
 msgstr ""
 
-#: app/Resources/Options.php:2172
+#: app/Resources/Options.php:2191
 msgid "Slider"
 msgstr ""
 
-#: app/Resources/Options.php:2177
+#: app/Resources/Options.php:2196
 msgid "Number of columns / Items to display at slider"
 msgstr ""
 
-#: app/Resources/Options.php:2192
+#: app/Resources/Options.php:2211
 msgid "Number of items at Tab (Slider)"
 msgstr ""
 
-#: app/Resources/Options.php:2207
+#: app/Resources/Options.php:2226
 msgid "Number of items at Mobile (Slider)"
 msgstr ""
 
-#: app/Resources/Options.php:2222
+#: app/Resources/Options.php:2241
 #: src/blocks/all-location/inspector.js:314
 msgid "Show Image"
 msgstr ""
 
-#: app/Resources/Options.php:2227
+#: app/Resources/Options.php:2246
 msgid "Image Position"
 msgstr ""
 
-#: app/Resources/Options.php:2236
+#: app/Resources/Options.php:2255
 msgid "Show Category"
 msgstr ""
 
-#: app/Resources/Options.php:2241
+#: app/Resources/Options.php:2260
 msgid "Show Location"
 msgstr ""
 
-#: app/Resources/Options.php:2246
+#: app/Resources/Options.php:2265
 msgid "Show Labels"
 msgstr ""
 
-#: app/Resources/Options.php:2251
+#: app/Resources/Options.php:2270
 msgid "Show Price"
 msgstr ""
 
-#: app/Resources/Options.php:2256
+#: app/Resources/Options.php:2275
 msgid "Show Date"
 msgstr ""
 
-#: app/Resources/Options.php:2261
+#: app/Resources/Options.php:2280
 msgid "Show User"
 msgstr ""
 
-#: app/Resources/Options.php:2266
+#: app/Resources/Options.php:2285
 msgid "Show Views"
 msgstr ""
 
-#: app/Resources/Options.php:2281
-#: app/Resources/Options.php:2343
+#: app/Resources/Options.php:2300
+#: app/Resources/Options.php:2362
 msgid "Search by Category"
 msgstr ""
 
-#: app/Resources/Options.php:2285
+#: app/Resources/Options.php:2304
 msgid "Search by Tag"
 msgstr ""
 
-#: app/Resources/Options.php:2289
-#: app/Resources/Options.php:2347
+#: app/Resources/Options.php:2308
+#: app/Resources/Options.php:2366
 msgid "Search by Location"
 msgstr ""
 
-#: app/Resources/Options.php:2293
-#: app/Resources/Options.php:2351
+#: app/Resources/Options.php:2312
+#: app/Resources/Options.php:2370
 msgid "Radius Search (Location search will turn off)"
 msgstr ""
 
-#: app/Resources/Options.php:2297
+#: app/Resources/Options.php:2316
 msgid "Search by ad Types"
 msgstr ""
 
-#: app/Resources/Options.php:2301
-#: app/Resources/Options.php:2359
+#: app/Resources/Options.php:2320
+#: app/Resources/Options.php:2378
 msgid "Search by Price"
 msgstr ""
 
-#: app/Resources/Options.php:2305
+#: app/Resources/Options.php:2324
 msgid "Hide empty Category / Location"
 msgstr ""
 
-#: app/Resources/Options.php:2309
+#: app/Resources/Options.php:2328
 msgid "Show count for Category / Location"
 msgstr ""
 
-#: app/Resources/Options.php:2313
+#: app/Resources/Options.php:2332
 msgid "Ajax load for Category / Location to increase PageSpeed."
 msgstr ""
 
-#: app/Resources/Options.php:2317
+#: app/Resources/Options.php:2336
 msgid "All Categories / All Locations link"
 msgstr ""
 
-#: app/Resources/Options.php:2338
+#: app/Resources/Options.php:2357
 #: app/Services/FormBuilder/ElementCustomization.php:660
 #: src/blocks/listing-search/constants.js:58
 msgid "Vertical"
 msgstr ""
 
-#: app/Resources/Options.php:2339
+#: app/Resources/Options.php:2358
 msgid "inline"
 msgstr ""
 
-#: app/Resources/Options.php:2355
+#: app/Resources/Options.php:2374
 msgid "Search by Types"
 msgstr ""
 
-#: app/Resources/Options.php:2374
+#: app/Resources/Options.php:2393
 msgid "Youtube"
 msgstr ""
 
-#: app/Resources/Options.php:2375
+#: app/Resources/Options.php:2394
 msgid "Instagram"
 msgstr ""
 
-#: app/Resources/Options.php:2378
+#: app/Resources/Options.php:2397
 msgid "Reddit"
 msgstr ""
 
-#: app/Resources/Options.php:2379
+#: app/Resources/Options.php:2398
 msgid "Tiktok"
 msgstr ""
 
-#: app/Resources/Options.php:2387
+#: app/Resources/Options.php:2406
 msgid "A to Z ( title )"
 msgstr ""
 
-#: app/Resources/Options.php:2388
+#: app/Resources/Options.php:2407
 msgid "Z to A ( title )"
 msgstr ""
 
-#: app/Resources/Options.php:2389
+#: app/Resources/Options.php:2408
 msgid "Recently added ( latest )"
 msgstr ""
 
-#: app/Resources/Options.php:2390
+#: app/Resources/Options.php:2409
 msgid "Date added ( oldest )"
 msgstr ""
 
-#: app/Resources/Options.php:2391
+#: app/Resources/Options.php:2410
 msgid "Most viewed"
 msgstr ""
 
-#: app/Resources/Options.php:2392
+#: app/Resources/Options.php:2411
 msgid "Less viewed"
 msgstr ""
 
-#: app/Resources/Options.php:2396
+#: app/Resources/Options.php:2415
 msgid "Price ( low to high )"
 msgstr ""
 
-#: app/Resources/Options.php:2397
+#: app/Resources/Options.php:2416
 msgid "Price ( high to low )"
 msgstr ""
 
-#: app/Resources/Options.php:2434
+#: app/Resources/Options.php:2453
 msgid "Temporary"
 msgstr ""
 
-#: app/Resources/Options.php:2455
+#: app/Resources/Options.php:2474
 msgctxt "Payment status"
 msgid "Pending"
 msgstr ""
 
-#: app/Resources/Options.php:2483
+#: app/Resources/Options.php:2502
 msgid "Sell"
 msgstr ""
 
-#: app/Resources/Options.php:2484
+#: app/Resources/Options.php:2503
 msgid "Buy"
 msgstr ""
 
-#: app/Resources/Options.php:2485
+#: app/Resources/Options.php:2504
 msgid "Exchange"
 msgstr ""
 
-#: app/Resources/Options.php:2486
+#: app/Resources/Options.php:2505
 msgid "Job"
 msgstr ""
 
-#: app/Resources/Options.php:2487
+#: app/Resources/Options.php:2506
 msgid "To-Let"
 msgstr ""
 
-#: app/Resources/Options.php:2526
+#: app/Resources/Options.php:2545
 msgid "Text Box"
 msgstr ""
 
-#: app/Resources/Options.php:2531
-#: app/Resources/Options.php:2546
+#: app/Resources/Options.php:2550
 #: app/Resources/Options.php:2565
-#: app/Resources/Options.php:2591
+#: app/Resources/Options.php:2584
+#: app/Resources/Options.php:2610
 msgid "Default value"
 msgstr ""
 
-#: app/Resources/Options.php:2535
-#: app/Resources/Options.php:2550
+#: app/Resources/Options.php:2554
 #: app/Resources/Options.php:2569
-#: app/Resources/Options.php:2595
-#: app/Resources/Options.php:2618
+#: app/Resources/Options.php:2588
+#: app/Resources/Options.php:2614
+#: app/Resources/Options.php:2637
 msgid "Placeholder text"
 msgstr ""
 
-#: app/Resources/Options.php:2541
+#: app/Resources/Options.php:2560
 #: app/Services/FormBuilder/AvailableFields.php:627
 #: app/Services/FormBuilder/AvailableFields.php:641
 #: app/Services/FormBuilder/ElementCustomization.php:488
@@ -7349,1068 +7393,1068 @@ msgstr ""
 msgid "Textarea"
 msgstr ""
 
-#: app/Resources/Options.php:2554
+#: app/Resources/Options.php:2573
 #: app/Services/FormBuilder/ElementCustomization.php:816
 msgid "Rows"
 msgstr ""
 
-#: app/Resources/Options.php:2560
+#: app/Resources/Options.php:2579
 msgid "URL"
 msgstr ""
 
-#: app/Resources/Options.php:2573
+#: app/Resources/Options.php:2592
 msgid "Open link in a new window?"
 msgstr ""
 
-#: app/Resources/Options.php:2577
+#: app/Resources/Options.php:2596
 msgid "Use rel=\"nofollow\" when displaying the link?"
 msgstr ""
 
-#: app/Resources/Options.php:2586
+#: app/Resources/Options.php:2605
 #: app/Services/FormBuilder/AvailableFields.php:654
 #: app/Services/FormBuilder/AvailableFields.php:686
 msgid "Number"
 msgstr ""
 
-#: app/Resources/Options.php:2599
+#: app/Resources/Options.php:2618
 msgid "Minimum value"
 msgstr ""
 
-#: app/Resources/Options.php:2603
+#: app/Resources/Options.php:2622
 msgid "Maximum value"
 msgstr ""
 
-#: app/Resources/Options.php:2607
+#: app/Resources/Options.php:2626
 msgid "Step Size"
 msgstr ""
 
-#: app/Resources/Options.php:2628
+#: app/Resources/Options.php:2647
 #: app/Services/FormBuilder/AvailableFields.php:747
 msgid "Date & Time"
 msgstr ""
 
-#: app/Resources/Options.php:2629
+#: app/Resources/Options.php:2648
 #: views/settings/reports.php:164
 msgid "Date Range"
 msgstr ""
 
-#: app/Resources/Options.php:2630
+#: app/Resources/Options.php:2649
 msgid "Date & Time Range"
 msgstr ""
 
-#: app/Resources/Options.php:2634
+#: app/Resources/Options.php:2653
 #: app/Services/FormBuilder/ElementCustomization.php:793
 msgid "Date Format"
 msgstr ""
 
-#: app/Resources/Options.php:2647
+#: app/Resources/Options.php:2666
 #: app/Services/FormBuilder/ElementCustomization.php:802
 msgid "Time Format"
 msgstr ""
 
-#: app/Resources/Options.php:2658
+#: app/Resources/Options.php:2677
 msgid "Search able date type"
 msgstr ""
 
-#: app/Resources/Options.php:2663
+#: app/Resources/Options.php:2682
 #: app/Services/FormBuilder/ElementCustomization.php:503
 #: app/Services/FormBuilder/ElementCustomization.php:523
 #: app/Services/FormBuilder/ElementCustomization.php:556
 msgid "Single"
 msgstr ""
 
-#: app/Resources/Options.php:2664
+#: app/Resources/Options.php:2683
 #: app/Services/FormBuilder/ElementCustomization.php:507
 #: app/Services/FormBuilder/ElementCustomization.php:527
 msgid "Range"
 msgstr ""
 
-#: app/Resources/Options.php:2675
-#: app/Resources/Options.php:2686
-#: app/Resources/Options.php:2697
+#: app/Resources/Options.php:2694
+#: app/Resources/Options.php:2705
+#: app/Resources/Options.php:2716
 #: app/Services/FormBuilder/ElementCustomization.php:826
 #: app/Services/FormBuilder/ElementCustomization.php:837
 #: app/Services/FormBuilder/ElementCustomization.php:1212
 msgid "Options"
 msgstr ""
 
-#: app/Resources/Options.php:2711
+#: app/Resources/Options.php:2730
 msgid "Field label"
 msgstr ""
 
-#: app/Resources/Options.php:2713
+#: app/Resources/Options.php:2732
 msgid "Enter field label"
 msgstr ""
 
-#: app/Resources/Options.php:2717
+#: app/Resources/Options.php:2736
 msgid "Field slug/name"
 msgstr ""
 
-#: app/Resources/Options.php:2719
+#: app/Resources/Options.php:2738
 msgid "Enter field slug/name"
 msgstr ""
 
-#: app/Resources/Options.php:2723
+#: app/Resources/Options.php:2742
 msgid "Field description"
 msgstr ""
 
-#: app/Resources/Options.php:2725
+#: app/Resources/Options.php:2744
 msgid "Enter field description"
 msgstr ""
 
-#: app/Resources/Options.php:2735
+#: app/Resources/Options.php:2754
 msgid "Required?"
 msgstr ""
 
-#: app/Resources/Options.php:2739
+#: app/Resources/Options.php:2758
 msgid "Include this field in the filter (Widget)?"
 msgstr ""
 
-#: app/Resources/Options.php:2744
+#: app/Resources/Options.php:2763
 msgid "Include this field in the listing?"
 msgstr ""
 
-#: app/Resources/Options.php:2749
+#: app/Resources/Options.php:2768
 #: app/Services/FormBuilder/ElementCustomization.php:1221
 msgid "Conditional Logic"
 msgstr ""
 
-#: app/Resources/Options.php:2782
+#: app/Resources/Options.php:2801
 #: app/Services/FormBuilder/AvailableFields.php:372
 #: templates/listing-form/contact.php:171
 #: templates/myaccount/form-edit-account.php:77
 msgid "Whatsapp number"
 msgstr ""
 
-#: app/Resources/Options.php:2804
+#: app/Resources/Options.php:2823
 msgid "Jan"
 msgstr ""
 
-#: app/Resources/Options.php:2805
+#: app/Resources/Options.php:2824
 msgid "Feb"
 msgstr ""
 
-#: app/Resources/Options.php:2806
+#: app/Resources/Options.php:2825
 msgid "Mar"
 msgstr ""
 
-#: app/Resources/Options.php:2807
+#: app/Resources/Options.php:2826
 msgid "Apr"
 msgstr ""
 
-#: app/Resources/Options.php:2808
+#: app/Resources/Options.php:2827
 msgid "May"
 msgstr ""
 
-#: app/Resources/Options.php:2809
+#: app/Resources/Options.php:2828
 msgid "Jun"
 msgstr ""
 
-#: app/Resources/Options.php:2810
+#: app/Resources/Options.php:2829
 msgid "Jul"
 msgstr ""
 
-#: app/Resources/Options.php:2811
+#: app/Resources/Options.php:2830
 msgid "Aug"
 msgstr ""
 
-#: app/Resources/Options.php:2812
+#: app/Resources/Options.php:2831
 msgid "Sep"
 msgstr ""
 
-#: app/Resources/Options.php:2813
+#: app/Resources/Options.php:2832
 msgid "Oct"
 msgstr ""
 
-#: app/Resources/Options.php:2814
+#: app/Resources/Options.php:2833
 msgid "Nov"
 msgstr ""
 
-#: app/Resources/Options.php:2815
+#: app/Resources/Options.php:2834
 msgid "Dec"
 msgstr ""
 
-#: app/Resources/Options.php:3069
+#: app/Resources/Options.php:3088
 msgid "United Arab Emirates dirham"
 msgstr ""
 
-#: app/Resources/Options.php:3070
+#: app/Resources/Options.php:3089
 msgid "Afghan afghani"
 msgstr ""
 
-#: app/Resources/Options.php:3071
+#: app/Resources/Options.php:3090
 msgid "Albanian lek"
 msgstr ""
 
-#: app/Resources/Options.php:3072
+#: app/Resources/Options.php:3091
 msgid "Armenian dram"
 msgstr ""
 
-#: app/Resources/Options.php:3073
+#: app/Resources/Options.php:3092
 msgid "Netherlands Antillean guilder"
 msgstr ""
 
-#: app/Resources/Options.php:3074
+#: app/Resources/Options.php:3093
 msgid "Angolan kwanza"
 msgstr ""
 
-#: app/Resources/Options.php:3075
+#: app/Resources/Options.php:3094
 msgid "Argentine peso"
 msgstr ""
 
-#: app/Resources/Options.php:3076
+#: app/Resources/Options.php:3095
 msgid "Australian dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3077
+#: app/Resources/Options.php:3096
 msgid "Aruban florin"
 msgstr ""
 
-#: app/Resources/Options.php:3078
+#: app/Resources/Options.php:3097
 msgid "Azerbaijani manat"
 msgstr ""
 
-#: app/Resources/Options.php:3079
+#: app/Resources/Options.php:3098
 msgid "Bosnia and Herzegovina convertible mark"
 msgstr ""
 
-#: app/Resources/Options.php:3080
+#: app/Resources/Options.php:3099
 msgid "Barbadian dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3081
+#: app/Resources/Options.php:3100
 msgid "Bangladeshi taka"
 msgstr ""
 
-#: app/Resources/Options.php:3082
+#: app/Resources/Options.php:3101
 msgid "Bulgarian lev"
 msgstr ""
 
-#: app/Resources/Options.php:3083
+#: app/Resources/Options.php:3102
 msgid "Bahraini dinar"
 msgstr ""
 
-#: app/Resources/Options.php:3084
+#: app/Resources/Options.php:3103
 msgid "Burundian franc"
 msgstr ""
 
-#: app/Resources/Options.php:3085
+#: app/Resources/Options.php:3104
 msgid "Bermudian dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3086
+#: app/Resources/Options.php:3105
 msgid "Brunei dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3087
+#: app/Resources/Options.php:3106
 msgid "Bolivian boliviano"
 msgstr ""
 
-#: app/Resources/Options.php:3088
+#: app/Resources/Options.php:3107
 msgid "Brazilian real"
 msgstr ""
 
-#: app/Resources/Options.php:3089
+#: app/Resources/Options.php:3108
 msgid "Bahamian dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3090
+#: app/Resources/Options.php:3109
 msgid "Bitcoin"
 msgstr ""
 
-#: app/Resources/Options.php:3091
+#: app/Resources/Options.php:3110
 msgid "Bhutanese ngultrum"
 msgstr ""
 
-#: app/Resources/Options.php:3092
+#: app/Resources/Options.php:3111
 msgid "Botswana pula"
 msgstr ""
 
-#: app/Resources/Options.php:3093
+#: app/Resources/Options.php:3112
 msgid "Belarusian ruble (old)"
 msgstr ""
 
-#: app/Resources/Options.php:3094
+#: app/Resources/Options.php:3113
 msgid "Belarusian ruble"
 msgstr ""
 
-#: app/Resources/Options.php:3095
+#: app/Resources/Options.php:3114
 msgid "Belize dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3096
+#: app/Resources/Options.php:3115
 msgid "Canadian dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3097
+#: app/Resources/Options.php:3116
 msgid "Congolese franc"
 msgstr ""
 
-#: app/Resources/Options.php:3098
+#: app/Resources/Options.php:3117
 msgid "Swiss franc"
 msgstr ""
 
-#: app/Resources/Options.php:3099
+#: app/Resources/Options.php:3118
 msgid "Chilean peso"
 msgstr ""
 
-#: app/Resources/Options.php:3100
+#: app/Resources/Options.php:3119
 msgid "Chinese yuan"
 msgstr ""
 
-#: app/Resources/Options.php:3101
+#: app/Resources/Options.php:3120
 msgid "Colombian peso"
 msgstr ""
 
-#: app/Resources/Options.php:3102
+#: app/Resources/Options.php:3121
 msgid "Costa Rican col&oacute;n"
 msgstr ""
 
-#: app/Resources/Options.php:3103
+#: app/Resources/Options.php:3122
 msgid "Cuban convertible peso"
 msgstr ""
 
-#: app/Resources/Options.php:3104
+#: app/Resources/Options.php:3123
 msgid "Cuban peso"
 msgstr ""
 
-#: app/Resources/Options.php:3105
+#: app/Resources/Options.php:3124
 msgid "Cape Verdean escudo"
 msgstr ""
 
-#: app/Resources/Options.php:3106
+#: app/Resources/Options.php:3125
 msgid "Czech koruna"
 msgstr ""
 
-#: app/Resources/Options.php:3107
+#: app/Resources/Options.php:3126
 msgid "Djiboutian franc"
 msgstr ""
 
-#: app/Resources/Options.php:3108
+#: app/Resources/Options.php:3127
 msgid "Danish krone"
 msgstr ""
 
-#: app/Resources/Options.php:3109
+#: app/Resources/Options.php:3128
 msgid "Dominican peso"
 msgstr ""
 
-#: app/Resources/Options.php:3110
+#: app/Resources/Options.php:3129
 msgid "Algerian dinar"
 msgstr ""
 
-#: app/Resources/Options.php:3111
+#: app/Resources/Options.php:3130
 msgid "Egyptian pound"
 msgstr ""
 
-#: app/Resources/Options.php:3112
+#: app/Resources/Options.php:3131
 msgid "Eritrean nakfa"
 msgstr ""
 
-#: app/Resources/Options.php:3113
+#: app/Resources/Options.php:3132
 msgid "Ethiopian birr"
 msgstr ""
 
-#: app/Resources/Options.php:3114
+#: app/Resources/Options.php:3133
 msgid "Euro"
 msgstr ""
 
-#: app/Resources/Options.php:3115
+#: app/Resources/Options.php:3134
 msgid "Fijian dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3116
+#: app/Resources/Options.php:3135
 msgid "Falkland Islands pound"
 msgstr ""
 
-#: app/Resources/Options.php:3117
+#: app/Resources/Options.php:3136
 msgid "Pound sterling"
 msgstr ""
 
-#: app/Resources/Options.php:3118
+#: app/Resources/Options.php:3137
 msgid "Georgian lari"
 msgstr ""
 
-#: app/Resources/Options.php:3119
+#: app/Resources/Options.php:3138
 msgid "Guernsey pound"
 msgstr ""
 
-#: app/Resources/Options.php:3120
+#: app/Resources/Options.php:3139
 msgid "Ghana cedi"
 msgstr ""
 
-#: app/Resources/Options.php:3121
+#: app/Resources/Options.php:3140
 msgid "Gibraltar pound"
 msgstr ""
 
-#: app/Resources/Options.php:3122
+#: app/Resources/Options.php:3141
 msgid "Gambian dalasi"
 msgstr ""
 
-#: app/Resources/Options.php:3123
+#: app/Resources/Options.php:3142
 msgid "Guinean franc"
 msgstr ""
 
-#: app/Resources/Options.php:3124
+#: app/Resources/Options.php:3143
 msgid "Guatemalan quetzal"
 msgstr ""
 
-#: app/Resources/Options.php:3125
+#: app/Resources/Options.php:3144
 msgid "Guyanese dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3126
+#: app/Resources/Options.php:3145
 msgid "Hong Kong dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3127
+#: app/Resources/Options.php:3146
 msgid "Honduran lempira"
 msgstr ""
 
-#: app/Resources/Options.php:3128
+#: app/Resources/Options.php:3147
 msgid "Croatian kuna"
 msgstr ""
 
-#: app/Resources/Options.php:3129
+#: app/Resources/Options.php:3148
 msgid "Haitian gourde"
 msgstr ""
 
-#: app/Resources/Options.php:3130
+#: app/Resources/Options.php:3149
 msgid "Hungarian forint"
 msgstr ""
 
-#: app/Resources/Options.php:3131
+#: app/Resources/Options.php:3150
 msgid "Indonesian rupiah"
 msgstr ""
 
-#: app/Resources/Options.php:3132
+#: app/Resources/Options.php:3151
 msgid "Israeli new shekel"
 msgstr ""
 
-#: app/Resources/Options.php:3133
+#: app/Resources/Options.php:3152
 msgid "Manx pound"
 msgstr ""
 
-#: app/Resources/Options.php:3134
+#: app/Resources/Options.php:3153
 msgid "Indian rupee"
 msgstr ""
 
-#: app/Resources/Options.php:3135
+#: app/Resources/Options.php:3154
 msgid "Iraqi dinar"
 msgstr ""
 
-#: app/Resources/Options.php:3136
+#: app/Resources/Options.php:3155
 msgid "Iranian rial"
 msgstr ""
 
-#: app/Resources/Options.php:3137
+#: app/Resources/Options.php:3156
 msgid "Iranian toman"
 msgstr ""
 
-#: app/Resources/Options.php:3138
+#: app/Resources/Options.php:3157
 msgid "Icelandic kr&oacute;na"
 msgstr ""
 
-#: app/Resources/Options.php:3139
+#: app/Resources/Options.php:3158
 msgid "Jersey pound"
 msgstr ""
 
-#: app/Resources/Options.php:3140
+#: app/Resources/Options.php:3159
 msgid "Jamaican dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3141
+#: app/Resources/Options.php:3160
 msgid "Jordanian dinar"
 msgstr ""
 
-#: app/Resources/Options.php:3142
+#: app/Resources/Options.php:3161
 msgid "Japanese yen"
 msgstr ""
 
-#: app/Resources/Options.php:3143
+#: app/Resources/Options.php:3162
 msgid "Kenyan shilling"
 msgstr ""
 
-#: app/Resources/Options.php:3144
+#: app/Resources/Options.php:3163
 msgid "Kyrgyzstani som"
 msgstr ""
 
-#: app/Resources/Options.php:3145
+#: app/Resources/Options.php:3164
 msgid "Cambodian riel"
 msgstr ""
 
-#: app/Resources/Options.php:3146
+#: app/Resources/Options.php:3165
 msgid "Comorian franc"
 msgstr ""
 
-#: app/Resources/Options.php:3147
+#: app/Resources/Options.php:3166
 msgid "North Korean won"
 msgstr ""
 
-#: app/Resources/Options.php:3148
+#: app/Resources/Options.php:3167
 msgid "South Korean won"
 msgstr ""
 
-#: app/Resources/Options.php:3149
+#: app/Resources/Options.php:3168
 msgid "Kuwaiti dinar"
 msgstr ""
 
-#: app/Resources/Options.php:3150
+#: app/Resources/Options.php:3169
 msgid "Cayman Islands dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3151
+#: app/Resources/Options.php:3170
 msgid "Kazakhstani tenge"
 msgstr ""
 
-#: app/Resources/Options.php:3152
+#: app/Resources/Options.php:3171
 msgid "Lao kip"
 msgstr ""
 
-#: app/Resources/Options.php:3153
+#: app/Resources/Options.php:3172
 msgid "Lebanese pound"
 msgstr ""
 
-#: app/Resources/Options.php:3154
+#: app/Resources/Options.php:3173
 msgid "Sri Lankan rupee"
 msgstr ""
 
-#: app/Resources/Options.php:3155
+#: app/Resources/Options.php:3174
 msgid "Liberian dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3156
+#: app/Resources/Options.php:3175
 msgid "Lesotho loti"
 msgstr ""
 
-#: app/Resources/Options.php:3157
+#: app/Resources/Options.php:3176
 msgid "Libyan dinar"
 msgstr ""
 
-#: app/Resources/Options.php:3158
+#: app/Resources/Options.php:3177
 msgid "Moroccan dirham"
 msgstr ""
 
-#: app/Resources/Options.php:3159
+#: app/Resources/Options.php:3178
 msgid "Moldovan leu"
 msgstr ""
 
-#: app/Resources/Options.php:3160
+#: app/Resources/Options.php:3179
 msgid "Malagasy ariary"
 msgstr ""
 
-#: app/Resources/Options.php:3161
+#: app/Resources/Options.php:3180
 msgid "Macedonian denar"
 msgstr ""
 
-#: app/Resources/Options.php:3162
+#: app/Resources/Options.php:3181
 msgid "Burmese kyat"
 msgstr ""
 
-#: app/Resources/Options.php:3163
+#: app/Resources/Options.php:3182
 msgid "Mongolian t&ouml;gr&ouml;g"
 msgstr ""
 
-#: app/Resources/Options.php:3164
+#: app/Resources/Options.php:3183
 msgid "Macanese pataca"
 msgstr ""
 
-#: app/Resources/Options.php:3165
+#: app/Resources/Options.php:3184
 msgid "Mauritanian ouguiya"
 msgstr ""
 
-#: app/Resources/Options.php:3166
+#: app/Resources/Options.php:3185
 msgid "Mauritian rupee"
 msgstr ""
 
-#: app/Resources/Options.php:3167
+#: app/Resources/Options.php:3186
 msgid "Maldivian rufiyaa"
 msgstr ""
 
-#: app/Resources/Options.php:3168
+#: app/Resources/Options.php:3187
 msgid "Malawian kwacha"
 msgstr ""
 
-#: app/Resources/Options.php:3169
+#: app/Resources/Options.php:3188
 msgid "Mexican peso"
 msgstr ""
 
-#: app/Resources/Options.php:3170
+#: app/Resources/Options.php:3189
 msgid "Malaysian ringgit"
 msgstr ""
 
-#: app/Resources/Options.php:3171
+#: app/Resources/Options.php:3190
 msgid "Mozambican metical"
 msgstr ""
 
-#: app/Resources/Options.php:3172
+#: app/Resources/Options.php:3191
 msgid "Namibian dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3173
+#: app/Resources/Options.php:3192
 msgid "Nigerian naira"
 msgstr ""
 
-#: app/Resources/Options.php:3174
+#: app/Resources/Options.php:3193
 msgid "Nicaraguan c&oacute;rdoba"
 msgstr ""
 
-#: app/Resources/Options.php:3175
+#: app/Resources/Options.php:3194
 msgid "Norwegian krone"
 msgstr ""
 
-#: app/Resources/Options.php:3176
+#: app/Resources/Options.php:3195
 msgid "Nepalese rupee"
 msgstr ""
 
-#: app/Resources/Options.php:3177
+#: app/Resources/Options.php:3196
 msgid "New Zealand dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3178
+#: app/Resources/Options.php:3197
 msgid "Omani rial"
 msgstr ""
 
-#: app/Resources/Options.php:3179
+#: app/Resources/Options.php:3198
 msgid "Panamanian balboa"
 msgstr ""
 
-#: app/Resources/Options.php:3180
+#: app/Resources/Options.php:3199
 msgid "Peruvian nuevo sol"
 msgstr ""
 
-#: app/Resources/Options.php:3181
+#: app/Resources/Options.php:3200
 msgid "Papua New Guinean kina"
 msgstr ""
 
-#: app/Resources/Options.php:3182
+#: app/Resources/Options.php:3201
 msgid "Philippine peso"
 msgstr ""
 
-#: app/Resources/Options.php:3183
+#: app/Resources/Options.php:3202
 msgid "Pakistani rupee"
 msgstr ""
 
-#: app/Resources/Options.php:3184
+#: app/Resources/Options.php:3203
 msgid "Polish z&#x142;oty"
 msgstr ""
 
-#: app/Resources/Options.php:3185
+#: app/Resources/Options.php:3204
 msgid "Transnistrian ruble"
 msgstr ""
 
-#: app/Resources/Options.php:3186
+#: app/Resources/Options.php:3205
 msgid "Paraguayan guaran&iacute;"
 msgstr ""
 
-#: app/Resources/Options.php:3187
+#: app/Resources/Options.php:3206
 msgid "Qatari riyal"
 msgstr ""
 
-#: app/Resources/Options.php:3188
+#: app/Resources/Options.php:3207
 msgid "Romanian leu"
 msgstr ""
 
-#: app/Resources/Options.php:3189
+#: app/Resources/Options.php:3208
 msgid "Serbian dinar"
 msgstr ""
 
-#: app/Resources/Options.php:3190
+#: app/Resources/Options.php:3209
 msgid "Russian ruble"
 msgstr ""
 
-#: app/Resources/Options.php:3191
+#: app/Resources/Options.php:3210
 msgid "Rwandan franc"
 msgstr ""
 
-#: app/Resources/Options.php:3192
+#: app/Resources/Options.php:3211
 msgid "Saudi riyal"
 msgstr ""
 
-#: app/Resources/Options.php:3193
+#: app/Resources/Options.php:3212
 msgid "Solomon Islands dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3194
+#: app/Resources/Options.php:3213
 msgid "Seychellois rupee"
 msgstr ""
 
-#: app/Resources/Options.php:3195
+#: app/Resources/Options.php:3214
 msgid "Sudanese pound"
 msgstr ""
 
-#: app/Resources/Options.php:3196
+#: app/Resources/Options.php:3215
 msgid "Swedish krona"
 msgstr ""
 
-#: app/Resources/Options.php:3197
+#: app/Resources/Options.php:3216
 msgid "Singapore dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3198
+#: app/Resources/Options.php:3217
 msgid "Saint Helena pound"
 msgstr ""
 
-#: app/Resources/Options.php:3199
+#: app/Resources/Options.php:3218
 msgid "Sierra Leonean leone"
 msgstr ""
 
-#: app/Resources/Options.php:3200
+#: app/Resources/Options.php:3219
 msgid "Somali shilling"
 msgstr ""
 
-#: app/Resources/Options.php:3201
+#: app/Resources/Options.php:3220
 msgid "Surinamese dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3202
+#: app/Resources/Options.php:3221
 msgid "South Sudanese pound"
 msgstr ""
 
-#: app/Resources/Options.php:3203
+#: app/Resources/Options.php:3222
 msgid "S&atilde;o Tom&eacute; and Pr&iacute;ncipe dobra"
 msgstr ""
 
-#: app/Resources/Options.php:3204
+#: app/Resources/Options.php:3223
 msgid "Syrian pound"
 msgstr ""
 
-#: app/Resources/Options.php:3205
+#: app/Resources/Options.php:3224
 msgid "Swazi lilangeni"
 msgstr ""
 
-#: app/Resources/Options.php:3206
+#: app/Resources/Options.php:3225
 msgid "Thai baht"
 msgstr ""
 
-#: app/Resources/Options.php:3207
+#: app/Resources/Options.php:3226
 msgid "Tajikistani somoni"
 msgstr ""
 
-#: app/Resources/Options.php:3208
+#: app/Resources/Options.php:3227
 msgid "Turkmenistan manat"
 msgstr ""
 
-#: app/Resources/Options.php:3209
+#: app/Resources/Options.php:3228
 msgid "Tunisian dinar"
 msgstr ""
 
-#: app/Resources/Options.php:3210
+#: app/Resources/Options.php:3229
 msgid "Tongan pa&#x2bb;anga"
 msgstr ""
 
-#: app/Resources/Options.php:3211
+#: app/Resources/Options.php:3230
 msgid "Turkish lira"
 msgstr ""
 
-#: app/Resources/Options.php:3212
+#: app/Resources/Options.php:3231
 msgid "Trinidad and Tobago dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3213
+#: app/Resources/Options.php:3232
 msgid "New Taiwan dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3214
+#: app/Resources/Options.php:3233
 msgid "Tanzanian shilling"
 msgstr ""
 
-#: app/Resources/Options.php:3215
+#: app/Resources/Options.php:3234
 msgid "Ukrainian hryvnia"
 msgstr ""
 
-#: app/Resources/Options.php:3216
+#: app/Resources/Options.php:3235
 msgid "Ugandan shilling"
 msgstr ""
 
-#: app/Resources/Options.php:3217
+#: app/Resources/Options.php:3236
 msgid "United States dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3218
+#: app/Resources/Options.php:3237
 msgid "Uruguayan peso"
 msgstr ""
 
-#: app/Resources/Options.php:3219
+#: app/Resources/Options.php:3238
 msgid "Uzbekistani som"
 msgstr ""
 
-#: app/Resources/Options.php:3220
+#: app/Resources/Options.php:3239
 msgid "Venezuelan bol&iacute;var"
 msgstr ""
 
-#: app/Resources/Options.php:3221
+#: app/Resources/Options.php:3240
 msgid "Vietnamese &#x111;&#x1ed3;ng"
 msgstr ""
 
-#: app/Resources/Options.php:3222
+#: app/Resources/Options.php:3241
 msgid "Vanuatu vatu"
 msgstr ""
 
-#: app/Resources/Options.php:3223
+#: app/Resources/Options.php:3242
 msgid "Samoan t&#x101;l&#x101;"
 msgstr ""
 
-#: app/Resources/Options.php:3224
+#: app/Resources/Options.php:3243
 msgid "Central African CFA franc"
 msgstr ""
 
-#: app/Resources/Options.php:3225
+#: app/Resources/Options.php:3244
 msgid "East Caribbean dollar"
 msgstr ""
 
-#: app/Resources/Options.php:3226
+#: app/Resources/Options.php:3245
 msgid "West African CFA franc"
 msgstr ""
 
-#: app/Resources/Options.php:3227
+#: app/Resources/Options.php:3246
 msgid "CFP franc"
 msgstr ""
 
-#: app/Resources/Options.php:3228
+#: app/Resources/Options.php:3247
 msgid "Yemeni rial"
 msgstr ""
 
-#: app/Resources/Options.php:3229
+#: app/Resources/Options.php:3248
 msgid "South African rand"
 msgstr ""
 
-#: app/Resources/Options.php:3230
+#: app/Resources/Options.php:3249
 msgid "Zambian kwacha"
 msgstr ""
 
-#: app/Resources/Options.php:3241
+#: app/Resources/Options.php:3260
 msgid "Disabled"
 msgstr ""
 
-#: app/Resources/Options.php:3250
+#: app/Resources/Options.php:3269
 msgid "Regular"
 msgstr ""
 
-#: app/Resources/Options.php:3261
+#: app/Resources/Options.php:3280
 msgid "Left ($99)"
 msgstr ""
 
-#: app/Resources/Options.php:3262
+#: app/Resources/Options.php:3281
 msgid "Right (99$)"
 msgstr ""
 
-#: app/Resources/Options.php:3263
+#: app/Resources/Options.php:3282
 msgid "Left with space ($ 99)"
 msgstr ""
 
-#: app/Resources/Options.php:3264
+#: app/Resources/Options.php:3283
 msgid "Right with space (99 $)"
 msgstr ""
 
-#: app/Resources/Options.php:4750
+#: app/Resources/Options.php:4769
 msgid "per year"
 msgstr ""
 
-#: app/Resources/Options.php:4754
+#: app/Resources/Options.php:4773
 msgid "per month"
 msgstr ""
 
-#: app/Resources/Options.php:4757
+#: app/Resources/Options.php:4776
 msgid "Week"
 msgstr ""
 
-#: app/Resources/Options.php:4758
+#: app/Resources/Options.php:4777
 msgid "per week"
 msgstr ""
 
-#: app/Resources/Options.php:4762
+#: app/Resources/Options.php:4781
 msgid "per day"
 msgstr ""
 
-#: app/Resources/Options.php:4766
+#: app/Resources/Options.php:4785
 msgid "per hour"
 msgstr ""
 
-#: app/Resources/Options.php:4769
+#: app/Resources/Options.php:4788
 msgid "Square Feet"
 msgstr ""
 
-#: app/Resources/Options.php:4770
+#: app/Resources/Options.php:4789
 msgid "per sqft"
 msgstr ""
 
-#: app/Resources/Options.php:4773
+#: app/Resources/Options.php:4792
 msgid "Total Price"
 msgstr ""
 
-#: app/Resources/Options.php:4774
+#: app/Resources/Options.php:4793
 msgid "total price"
 msgstr ""
 
-#: app/Resources/Options.php:4783
-#: app/Resources/Options.php:4798
+#: app/Resources/Options.php:4802
+#: app/Resources/Options.php:4817
 msgid "A new user is registered (Only work when user registered using Classified listing plugin registration form)"
 msgstr ""
 
-#: app/Resources/Options.php:4785
+#: app/Resources/Options.php:4804
 msgid "A new listing is submitted"
 msgstr ""
 
-#: app/Resources/Options.php:4786
+#: app/Resources/Options.php:4805
 msgid "A listing is edited"
 msgstr ""
 
-#: app/Resources/Options.php:4787
+#: app/Resources/Options.php:4806
 msgid "A listing expired"
 msgstr ""
 
-#: app/Resources/Options.php:4788
-#: app/Resources/Options.php:4805
+#: app/Resources/Options.php:4807
+#: app/Resources/Options.php:4824
 msgid "Order created"
 msgstr ""
 
-#: app/Resources/Options.php:4789
+#: app/Resources/Options.php:4808
 msgid "Payment received / Order Completed"
 msgstr ""
 
-#: app/Resources/Options.php:4790
+#: app/Resources/Options.php:4809
 msgid "Contact message (Email to listing owner)"
 msgstr ""
 
-#: app/Resources/Options.php:4800
+#: app/Resources/Options.php:4819
 msgid "Listing is submitted"
 msgstr ""
 
-#: app/Resources/Options.php:4801
+#: app/Resources/Options.php:4820
 msgid "Listing is approved/published"
 msgstr ""
 
-#: app/Resources/Options.php:4802
+#: app/Resources/Options.php:4821
 msgid "Listing is about to expire (reached renewal email threshold)."
 msgstr ""
 
-#: app/Resources/Options.php:4803
+#: app/Resources/Options.php:4822
 msgid "Listing expired"
 msgstr ""
 
-#: app/Resources/Options.php:4804
+#: app/Resources/Options.php:4823
 msgid "Listing expired and reached renewal reminder email threshold"
 msgstr ""
 
-#: app/Resources/Options.php:4806
+#: app/Resources/Options.php:4825
 msgid "Order completed"
 msgstr ""
 
-#: app/Resources/Options.php:4807
+#: app/Resources/Options.php:4826
 msgid "User imported"
 msgstr ""
 
-#: app/Resources/Options.php:4808
+#: app/Resources/Options.php:4827
 msgid "Disable contact email to listing owner"
 msgstr ""
 
-#: app/Resources/Options.php:4840
+#: app/Resources/Options.php:4859
 msgid "Plain text"
 msgstr ""
 
-#: app/Resources/Options.php:4843
-#: app/Services/FormBuilder/AvailableFields.php:1267
+#: app/Resources/Options.php:4862
+#: app/Services/FormBuilder/AvailableFields.php:1270
 msgid "HTML"
 msgstr ""
 
-#: app/Resources/Options.php:4844
+#: app/Resources/Options.php:4863
 msgid "Multipart"
 msgstr ""
 
-#: app/Resources/Options.php:4854
+#: app/Resources/Options.php:4873
 msgid "User Login form"
 msgstr ""
 
-#: app/Resources/Options.php:4855
+#: app/Resources/Options.php:4874
 msgid "User Registration form"
 msgstr ""
 
-#: app/Resources/Options.php:4856
+#: app/Resources/Options.php:4875
 msgid "New Listing form"
 msgstr ""
 
-#: app/Resources/Options.php:4857
+#: app/Resources/Options.php:4876
 msgid "Contact form"
 msgstr ""
 
-#: app/Resources/Options.php:4858
+#: app/Resources/Options.php:4877
 msgid "Report abuse form"
 msgstr ""
 
-#: app/Resources/Options.php:4866
-#: app/Resources/Options.php:4899
+#: app/Resources/Options.php:4885
+#: app/Resources/Options.php:4918
 msgid "Date added"
 msgstr ""
 
-#: app/Resources/Options.php:4867
-#: app/Resources/Options.php:4900
+#: app/Resources/Options.php:4886
+#: app/Resources/Options.php:4919
 msgid "Listing owner name"
 msgstr ""
 
-#: app/Resources/Options.php:4868
-#: app/Resources/Options.php:4901
+#: app/Resources/Options.php:4887
+#: app/Resources/Options.php:4920
 msgid "Listing owner link"
 msgstr ""
 
-#: app/Resources/Options.php:4870
-#: app/Resources/Options.php:4903
+#: app/Resources/Options.php:4889
+#: app/Resources/Options.php:4922
 msgid "Feature Label"
 msgstr ""
 
-#: app/Resources/Options.php:4871
-#: app/Resources/Options.php:4904
+#: app/Resources/Options.php:4890
+#: app/Resources/Options.php:4923
 msgid "New Label"
 msgstr ""
 
-#: app/Resources/Options.php:4872
-#: app/Resources/Options.php:4887
-#: app/Resources/Options.php:4905
+#: app/Resources/Options.php:4891
+#: app/Resources/Options.php:4906
+#: app/Resources/Options.php:4924
 msgid "Category name"
 msgstr ""
 
-#: app/Resources/Options.php:4873
-#: app/Resources/Options.php:4888
-#: app/Resources/Options.php:4906
+#: app/Resources/Options.php:4892
+#: app/Resources/Options.php:4907
+#: app/Resources/Options.php:4925
 msgid "Location name"
 msgstr ""
 
-#: app/Resources/Options.php:4877
-#: app/Resources/Options.php:4891
-#: app/Resources/Options.php:4909
+#: app/Resources/Options.php:4896
+#: app/Resources/Options.php:4910
+#: app/Resources/Options.php:4928
 msgid "Price type"
 msgstr ""
 
-#: app/Resources/Options.php:4910
+#: app/Resources/Options.php:4929
 msgid "Short description"
 msgstr ""
 
-#: app/Resources/Options.php:4919
+#: app/Resources/Options.php:4938
 #: app/Services/FormBuilder/AvailableFields.php:142
 #: app/Services/FormBuilder/ElementCustomization.php:751
 msgid "Pricing Type"
 msgstr ""
 
-#: app/Resources/Options.php:4930
+#: app/Resources/Options.php:4949
 msgid "Whatsapp Number"
 msgstr ""
 
-#: app/Resources/Options.php:4931
+#: app/Resources/Options.php:4950
 msgid "Telegram"
 msgstr ""
 
-#: app/Resources/Options.php:4933
+#: app/Resources/Options.php:4952
 msgid "Website URL"
 msgstr ""
 
-#: app/Resources/Options.php:5040
+#: app/Resources/Options.php:5059
 msgid "UTC"
 msgstr ""
 
-#: app/Resources/Options.php:5120
+#: app/Resources/Options.php:5139
 msgid "Manual Offsets"
 msgstr ""
 
-#: app/Resources/Options.php:5131
+#: app/Resources/Options.php:5150
 msgid "Linkedin"
 msgstr ""
 
@@ -8529,15 +8573,15 @@ msgstr ""
 msgid "HTML is allowed :)"
 msgstr ""
 
-#: app/Services/AIServices/AIClients/GeminiClient.php:289
+#: app/Services/AIServices/AIClients/GeminiClient.php:290
 msgid "Gemini API key not found."
 msgstr ""
 
-#: app/Services/AIServices/AIClients/GeminiClient.php:327
+#: app/Services/AIServices/AIClients/GeminiClient.php:328
 msgid "Error from Gemini API: "
 msgstr ""
 
-#: app/Services/AIServices/AIClients/GeminiClient.php:335
+#: app/Services/AIServices/AIClients/GeminiClient.php:336
 msgid "No image returned by Gemini."
 msgstr ""
 
@@ -8869,7 +8913,11 @@ msgstr ""
 msgid "Shortcode"
 msgstr ""
 
-#: app/Services/FormBuilder/AvailableFields.php:1259
+#: app/Services/FormBuilder/AvailableFields.php:1254
+msgid "Enter shortcode"
+msgstr ""
+
+#: app/Services/FormBuilder/AvailableFields.php:1262
 msgid "Spacer"
 msgstr ""
 

@@ -225,6 +225,7 @@ class TemplateHooks {
 		add_action( 'rtcl_payment_receipt', [ __CLASS__, 'payment_receipt_actions' ], 50 );
 		add_action( 'rtcl_payment_receipt_popup', [ __CLASS__, 'payment_receipt_popup_pricing_info' ], 20, 2 );
 		add_action( 'rtcl_payment_receipt_popup', [ __CLASS__, 'payment_receipt_popup_actions' ], 50 );
+		add_action( 'rtcl_payment_receipt_details_before_total_amount', [ __CLASS__, 'payment_receipt_tax_info' ], 20 );
 
 		// Ajax filters
 		add_action( 'rtcl_widget_ajax_filter_render_search', [ __CLASS__, 'ajax_filter_render_search' ], 10, 3 );
@@ -591,6 +592,33 @@ class TemplateHooks {
 	 */
 	public static function payment_receipt_billing_info( $paymentId, $payment ) {
 		Functions::get_template( "checkout/billing-info", compact( 'payment' ) );
+	}
+
+	/**
+	 * Display tax row on payment receipt.
+	 *
+	 * @param  Payment  $payment
+	 */
+	public static function payment_receipt_tax_info( $payment ) {
+		if ( ! Functions::is_enable_tax() ) {
+			return;
+		}
+		$tax_amount = floatval( get_post_meta( $payment->get_id(), '_tax_amount', true ) );
+		if ( $tax_amount > 0 ) {
+			?>
+			<tr>
+				<td class="text-right rtcl-vertical-middle">
+					<?php esc_html_e( 'Tax ', 'classified-listing' ); ?>
+				</td>
+				<td>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo Functions::get_payment_formatted_price_html( $tax_amount );
+					?>
+				</td>
+			</tr>
+			<?php
+		}
 	}
 
 	public static function payment_receipt_popup_pricing_info( $paymentId, $payment ) {

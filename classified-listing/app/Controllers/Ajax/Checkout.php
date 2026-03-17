@@ -189,6 +189,15 @@ class Checkout {
 				$price   = $pricing->getPrice();
 			}
 
+			// Use discounted price if coupon plugin is active and coupon is applied
+			if ( function_exists( 'rtcl_coupon' ) ) {
+				$applied_coupon  = rtcl()->session->get( 'rtcl_applied_coupon', '' );
+				$checkout_totals = rtcl()->session->get( 'rtcl_checkout_totals', [] );
+				if ( ! empty( $applied_coupon ) && ! empty( $checkout_totals['total'] ) && floatval( $checkout_totals['total'] ) > 0 ) {
+					$price = floatval( $checkout_totals['total'] );
+				}
+			}
+
 			$error = false;
 
 			$multiple_tax = self::get_tax_amount( $country, $state, $price );

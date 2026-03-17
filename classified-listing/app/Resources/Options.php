@@ -1673,6 +1673,25 @@ class Options {
 					],
 				],
 			],
+			'gemini_models'               => [
+				'title'   => __( 'Gemini Model', 'classified-listing' ),
+				'type'    => 'select',
+				'options' => [
+					'gemini-2.5-flash' => __( 'Gemini 2.5 Flash', 'classified-listing' ),
+					'gemini-2.5-pro'   => __( 'Gemini 2.5 Pro', 'classified-listing' ),
+				],
+				'default' => 'gemini-2.5-flash',
+				'depends' => [
+					'relation' => 'or',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'Gemini',
+							'condition' => '=',
+						],
+					],
+				],
+			],
 			'gemini_api_key'              => [
 				'title'       => __( 'Gemini API Key', 'classified-listing' ),
 				'type'        => 'password',
@@ -1691,14 +1710,14 @@ class Options {
 					],
 				],
 			],
-			'deepseek_api_key'            => [
-				'title'       => __( 'DeepSeek API Key', 'classified-listing' ),
-				'type'        => 'password',
-				'default'     => '',
-				'placeholder' => 'ds-***********************',
-				'description' => __( 'To integrate with DeepSeek, you need to obtain an API key from DeepSeek. Visit <a target="_blank" href="https://www.deepseek.com/api-keys">DeepSeek API Keys</a> to generate one.',
-					'classified-listing' ),
-				'depends'     => [
+			'deepseek_models'             => [
+				'title'   => __( 'DeepSeek Model', 'classified-listing' ),
+				'type'    => 'select',
+				'options' => [
+					'deepseek-chat'     => __( 'DeepSeek Chat (Full Version)', 'classified-listing' ),
+					'deepseek-reasoner' => __( 'DeepSeek Reasoner Mini (Light Version)', 'classified-listing' ),
+				],
+				'depends' => [
 					'relation' => 'or',
 					'on'       => [
 						[
@@ -1709,14 +1728,14 @@ class Options {
 					],
 				],
 			],
-			'deepseek_models'             => [
-				'title'   => __( 'DeepSeek Model', 'classified-listing' ),
-				'type'    => 'select',
-				'options' => [
-					'deepseek-chat'     => __( 'DeepSeek Chat (Full Version)', 'classified-listing' ),
-					'deepseek-reasoner' => __( 'DeepSeek Reasoner Mini (Light Version)', 'classified-listing' ),
-				],
-				'depends' => [
+			'deepseek_api_key'            => [
+				'title'       => __( 'DeepSeek API Key', 'classified-listing' ),
+				'type'        => 'password',
+				'default'     => '',
+				'placeholder' => 'ds-***********************',
+				'description' => __( 'To integrate with DeepSeek, you need to obtain an API key from DeepSeek. Visit <a target="_blank" href="https://www.deepseek.com/api-keys">DeepSeek API Keys</a> to generate one.',
+					'classified-listing' ),
+				'depends'     => [
 					'relation' => 'or',
 					'on'       => [
 						[

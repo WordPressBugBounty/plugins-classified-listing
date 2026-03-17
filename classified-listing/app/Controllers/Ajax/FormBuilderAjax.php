@@ -656,7 +656,7 @@ class FormBuilderAjax {
 			wp_send_json_error( esc_html__( "Unauthorized access!", "classified-listing" ) );
 		}
 
-		if ( ! is_user_logged_in() ) {
+		if ( ! is_user_logged_in() && apply_filters( 'rtcl_is_disable_post_for_unregister', true ) ) {
 			wp_send_json_error( __( 'Registration required to upload listing image.', 'classified-listing' ) );
 		}
 
