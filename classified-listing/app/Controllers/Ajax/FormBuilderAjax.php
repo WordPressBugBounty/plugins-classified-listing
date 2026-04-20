@@ -664,6 +664,26 @@ class FormBuilderAjax {
 			wp_send_json_error( esc_html__( "Given file is empty to upload.", "classified-listing" ) );
 		}
 
+		// The ID of the post this attachment is for.
+		$parent_post_id = isset( $_POST["listingId"] ) ? absint( $_POST["listingId"] ) : 0;
+
+		// Verify that the current user owns (or can edit) the target listing before accepting the upload.
+		// Without this check any user could upload files onto an arbitrary listing by supplying its ID.
+		if ( $parent_post_id > 0 ) {
+			$parent_listing = rtcl()->factory->get_listing( $parent_post_id );
+			if ( ! $parent_listing ) {
+				wp_send_json_error( esc_html__( 'Invalid listing ID.', 'classified-listing' ) );
+			}
+
+			$parent_post   = $parent_listing->get_listing();
+			$post_author   = (int) $parent_post->post_author;
+			$is_temp_guest = ( 'rtcl-temp' === $parent_post->post_status && 0 === $post_author && Functions::is_enable_post_for_unregister() );
+
+			if ( ! $is_temp_guest && ! Functions::current_user_can( 'edit_' . rtcl()->post_type, $parent_post_id ) ) {
+				wp_send_json_error( apply_filters( 'rtcl_fb_not_found_error_message', __( 'You do not have sufficient permissions to access this page.', 'classified-listing' ), $_REQUEST, 'permission_error' ) );
+			}
+		}
+
 		Filters::beforeUpload();
 		// you can use WP's wp_handle_upload() function:
 		$status = wp_handle_upload( $_FILES['image'], [ 'test_form' => false ] );
@@ -678,9 +698,6 @@ class FormBuilderAjax {
 
 		// $filename should be the path to a file in the upload directory.
 		$filename = $status['file'];
-
-		// The ID of the post this attachment is for.
-		$parent_post_id = isset( $_POST["listingId"] ) ? absint( $_POST["listingId"] ) : 0;
 
 		// Check the type of tile. We'll use this as the 'post_mime_type'.
 		$filetype = wp_check_filetype( basename( $filename ) );
@@ -848,6 +865,10 @@ class FormBuilderAjax {
 			return;
 		}
 
+		if ( ! is_user_logged_in() && apply_filters( 'rtcl_is_disable_post_for_unregister', true ) ) {
+			wp_send_json_error( __( 'Registration required to upload listing file.', 'classified-listing' ) );
+		}
+
 		if ( empty( $_FILES['file'] ) ) {
 			wp_send_json_error( esc_html__( 'Given file is empty to upload.', 'classified-listing' ) );
 
@@ -922,6 +943,26 @@ class FormBuilderAjax {
 
 		// The ID of the post this attachment is for.
 		$listing_id = isset( $_POST['listingId'] ) ? absint( $_POST['listingId'] ) : 0;
+
+		if ( $listing_id > 0 ) {
+			$parent_listing = rtcl()->factory->get_listing( $listing_id );
+			if ( ! $parent_listing ) {
+				wp_send_json_error( esc_html__( 'Invalid listing ID.', 'classified-listing' ) );
+
+				return;
+			}
+
+			$parent_post   = $parent_listing->get_listing();
+			$post_author   = (int) $parent_post->post_author;
+			$is_temp_guest = ( 'rtcl-temp' === $parent_post->post_status && 0 === $post_author && Functions::is_enable_post_for_unregister() );
+
+			if ( ! $is_temp_guest && ! Functions::current_user_can( 'edit_' . rtcl()->post_type, $listing_id ) ) {
+				wp_send_json_error( apply_filters( 'rtcl_fb_not_found_error_message', __( 'You do not have sufficient permissions to access this page.', 'classified-listing' ), $_REQUEST, 'permission_error' ) );
+
+				return;
+			}
+		}
+
 		if ( $listing_id ) {
 			if ( $repeater ) {
 				$repeaterValue = get_post_meta( $listing_id, $repeater['name'], true );

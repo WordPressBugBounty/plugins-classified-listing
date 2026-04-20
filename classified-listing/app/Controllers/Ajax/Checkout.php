@@ -279,8 +279,9 @@ class Checkout {
 		}
 
 		$multiple_tax[] = [
-			'label'  => __( 'Tax', 'classified-listing' ),
-			'amount' => $tax_amount,
+			'label'      => __( 'Tax', 'classified-listing' ),
+			'amount'     => $tax_amount,
+			'raw_amount' => $tax_amount,
 		];
 
 		if ( ! empty( $results ) ) {

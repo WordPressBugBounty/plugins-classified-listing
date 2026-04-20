@@ -442,6 +442,7 @@ class Options {
 					'twitter'   => __( 'Twitter', 'classified-listing' ),
 					'linkedin'  => __( 'LinkedIn', 'classified-listing' ),
 					'pinterest' => __( 'Pinterest', 'classified-listing' ),
+					'vk'        => __( 'VK', 'classified-listing' ),
 					'whatsapp'  => __( 'WhatsApp (Only at mobile)', 'classified-listing' ),
 					'telegram'  => __( 'Telegram (Only at mobile)', 'classified-listing' ),
 				],
@@ -515,12 +516,12 @@ class Options {
 				'type'    => 'select',
 				'default' => 'desc',
 				'options' => [
-					'name'         => __( 'Name', 'classified-listing' ),
-					'id'           => __( 'Id', 'classified-listing' ),
-					'count'        => __( 'Count', 'classified-listing' ),
-					'slug'         => __( 'Slug', 'classified-listing' ),
+					'name'        => __( 'Name', 'classified-listing' ),
+					'id'          => __( 'Id', 'classified-listing' ),
+					'count'       => __( 'Count', 'classified-listing' ),
+					'slug'        => __( 'Slug', 'classified-listing' ),
 					'_rtcl_order' => __( 'Custom Order', 'classified-listing' ),
-					'none'         => __( 'None', 'classified-listing' ),
+					'none'        => __( 'None', 'classified-listing' ),
 				],
 			],
 			'taxonomy_order'      => [
@@ -5151,6 +5152,7 @@ class Options {
 			'pinterest' => esc_html__( 'Pinterest', 'classified-listing' ),
 			'whatsapp'  => esc_html__( 'WhatsApp (Only at mobile)', 'classified-listing' ),
 			'telegram'  => esc_html__( 'Telegram (Only at mobile)', 'classified-listing' ),
+			'vk'        => esc_html__( 'VK', 'classified-listing' ),
 		];
 
 		return apply_filters( 'rtcl_social_services_options', $options );

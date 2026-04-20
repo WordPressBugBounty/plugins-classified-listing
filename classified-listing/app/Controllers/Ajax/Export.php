@@ -323,6 +323,77 @@ class Export {
 			$listing_post[] = get_post_meta( $listing->get_id(), 'never_expires', true );
 			$listing_post[] = get_post_meta( $listing->get_id(), 'expiry_date', true );
 			$listing_post[] = $listing->get_view_counts();
+
+			$bhs_data = get_post_meta( $listing->get_id(), '_rtcl_bhs', true );
+			$bhs_data = is_array( $bhs_data ) ? $bhs_data : [];
+
+			$bhs_output = '';
+			if ( ! empty( $bhs_data['active'] ) ) {
+				$bhs_type = ! empty( $bhs_data['type'] ) && 'selective' === $bhs_data['type'] ? 'Selective' : 'Open 24/7';
+				$bhs_lines   = [];
+				$bhs_lines[] = 'Status: Active | Type: ' . $bhs_type;
+
+				if ( 'Selective' === $bhs_type ) {
+					$day_names = [
+						0 => 'Sunday',
+						1 => 'Monday',
+						2 => 'Tuesday',
+						3 => 'Wednesday',
+						4 => 'Thursday',
+						5 => 'Friday',
+						6 => 'Saturday',
+					];
+					foreach ( $day_names as $day_index => $day_name ) {
+						$day = $bhs_data['days'][ $day_index ] ?? [];
+						if ( ! empty( $day['open'] ) ) {
+							if ( empty( $day['times'] ) || ! is_array( $day['times'] ) ) {
+								$bhs_lines[] = $day_name . ': Open 24 Hours';
+							} else {
+								$time_ranges = [];
+								foreach ( $day['times'] as $time ) {
+									if ( ! empty( $time['start'] ) && ! empty( $time['end'] ) ) {
+										$time_ranges[] = $time['start'] . '-' . $time['end'];
+									}
+								}
+								$bhs_lines[] = $day_name . ': ' . ( ! empty( $time_ranges ) ? implode( ', ', $time_ranges ) : 'Open 24 Hours' );
+							}
+						} else {
+							$bhs_lines[] = $day_name . ': Closed';
+						}
+					}
+				}
+
+				if ( ! empty( $bhs_data['special'] ) && is_array( $bhs_data['special'] ) ) {
+					$special_entries = [];
+					foreach ( $bhs_data['special'] as $sbh ) {
+						if ( empty( $sbh['date'] ) ) {
+							continue;
+						}
+						$occur = ! empty( $sbh['occur'] ) && 'once' === $sbh['occur'] ? 'Once' : 'Repeat';
+						if ( ! empty( $sbh['open'] ) && ! empty( $sbh['times'] ) && is_array( $sbh['times'] ) ) {
+							$time_ranges = [];
+							foreach ( $sbh['times'] as $time ) {
+								if ( ! empty( $time['start'] ) && ! empty( $time['end'] ) ) {
+									$time_ranges[] = $time['start'] . '-' . $time['end'];
+								}
+							}
+							$hours = ! empty( $time_ranges ) ? implode( ', ', $time_ranges ) : 'Open 24 Hours';
+						} elseif ( ! empty( $sbh['open'] ) ) {
+							$hours = 'Open 24 Hours';
+						} else {
+							$hours = 'Closed';
+						}
+						$special_entries[] = $sbh['date'] . ' (' . $occur . '): ' . $hours;
+					}
+					if ( ! empty( $special_entries ) ) {
+						$bhs_lines[] = 'Special: ' . implode( '; ', $special_entries );
+					}
+				}
+
+				$bhs_output = implode( "\n", $bhs_lines );
+			}
+			$listing_post[] = $bhs_output;
+
 			$listing_post[] = $listing->get_status();
 
 			foreach ( $custom_fields as $custom_meta ) {

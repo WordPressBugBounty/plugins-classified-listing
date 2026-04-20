@@ -32,3 +32,7 @@ if ( in_array( 'facebook', $misc_settings['social_services'] ) ) : ?>
 <?php if ( in_array( 'telegram', $misc_settings['social_services'] ) ): ?>
     <a class="telegram" href="https://telegram.me/share/url?text=<?php echo esc_attr($title); ?>&amp;url=<?php echo esc_url($url); ?>" target="_blank" rel="nofollow" aria-label="Share on Telegram"><i class="rtcl-icon rtcl-icon-telegram"></i></a>
 <?php endif; ?>
+
+<?php if ( in_array( 'vk', $misc_settings['social_services'] ) ): ?>
+	<a class="vk" href="https://vk.com/share.php?url=<?php echo esc_url($url); ?>&amp;title=<?php echo esc_attr($title); ?>" target="_blank" rel="nofollow" aria-label="Share on VK"><span class="rtcl-icon rtcl-icon-vkontakte"></span></a>
+<?php endif; ?>

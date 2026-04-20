@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 5.3.8
+Stable tag: 5.3.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -13,9 +13,9 @@ A Classified ads and Business Directory plugin for WordPress, to create classifi
 
 == Description ==
 
-AI-Powered Classified Listing and Business Directory plugin for WordPress to create classified listings, real estate directory, local business directory, car listings, event directory, job board, member directory and service directory. Classified Listing is easy to use and highly customizatible plugin.
+AI-Powered Classified Listing and Business Directory plugin for WordPress to create classified listings, real estate directory, local business directory, car listings, event directory, job board, member directory, and service directory. Classified Listing is easy to use and highly customizatible plugin.
 
-👉 [Try Admin Demo](https://radiustheme.net/sandbox/cl-classified/) | [Demo](https://radiustheme.net/publicdemo/classified-listing/) | [Documentation](https://www.radiustheme.com/docs/classified-listing/) | [Addons](https://www.radiustheme.com/classified-listing-addons/) | [Themes](https://www.radiustheme.com/classified-listing-themes/) | [RoadMaps](https://radiustheme.com/classified-listing-roadmaps/) | [Get Pro](https://www.radiustheme.com/downloads/classified-listing-pro-wordpress/?utm_source=WordPress&utm_medium=Listing&utm_campaign=pro_click') 👈
+👉 [Demo](https://radiustheme.net/publicdemo/classified-listing/) | [Documentation](https://www.radiustheme.com/docs/classified-listing/) | [Addons](https://www.radiustheme.com/classified-listing-addons/) | [Themes](https://www.radiustheme.com/classified-listing-themes/) | [RoadMaps](https://radiustheme.com/classified-listing-roadmaps/) | [Get Pro](https://www.radiustheme.com/downloads/classified-listing-pro-wordpress/?utm_source=WordPress&utm_medium=Listing&utm_campaign=pro_click') 👈
 
 == Built for Any Niche (With AI Assistance) ==
 
@@ -34,7 +34,7 @@ AI-Powered Classified Listing and Business Directory plugin for WordPress to cre
 
 == Classified ads & Business Directory Plugin for WordPress  ==
 
-All-in-one classified ads & business directory WordPress plugin can use to create a classified ads, business directory and members directory website easily. This plugin included Elementor addon, Gutenberg blocks and DIVI modules so you can build the classified site easily with the default Gutenberg block editor, most popular Elementor page builder and DIVI Builder.
+All-in-one classified ads & business directory WordPress plugin can use to create a classified ads, business directory, and members directory website easily. This plugin included Elementor addon, Gutenberg blocks, and DIVI modules so you can build the classified site easily with the default Gutenberg block editor, most popular Elementor page builder, and DIVI Builder.
 
 [youtube https://www.youtube.com/watch?v=lg9ADZr5XTY]
 
@@ -93,7 +93,7 @@ You can create unlimited custom fields. You can apply advanced conditional logic
 👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/listing-management-admin/custom-fields/)
 
 == Migration is easy using CSV Import/ Export ==
-We introduce import and export option. So now you can import categories, locations, settings and listings from other plugins and themes easily like Category, Location, Listings, Settings import/ export.
+We introduce import and export option. So now you can import categories, locations, settings, and listings from other plugins and themes easily like Category, Location, Listings, Settings import/ export.
 
 == Live Chat ==
 The One of important feature is real time communication between sellers and buyers via live chat. This eliminates the need for sharing contact information. We implement Pusher so chat is now on real time. 
@@ -208,7 +208,7 @@ Classified Listing provides a range of cost effective [Addons](https://www.radiu
 **[Mobile APP](https://www.radiustheme.com/downloads/classima-classified-ads-android-app/):** If you want to build mobile app for your classified ads or directory then you need the Pro version of the plugin, By using the Pro version you can build both Android &amp; IOS apps.
 
 == Need Any Help? ==
-* For any bug, support or suggestion please submit your ticket [here](https://www.radiustheme.com/ticket-support/).
+* For any bug, support, or suggestion please submit your ticket [here](https://www.radiustheme.com/ticket-support/).
 
 == Liked RadiusTheme ==
 * Join our [Facebook Group](https://www.facebook.com/groups/radiustheme).
@@ -216,7 +216,7 @@ Classified Listing provides a range of cost effective [Addons](https://www.radiu
 
 == WHAT’S NEXT ==
 
-* [The Post Grid](https://wordpress.org/plugins/the-post-grid/) – Shortcode, Gutenberg Blocks and Elementor Addon for Post Grid.
+* [The Post Grid](https://wordpress.org/plugins/the-post-grid/) – Shortcode, Gutenberg Blocks, and Elementor Addon for Post Grid.
 * [ShopBuilder](https://wordpress.org/plugins/shopbuilder/) - Elementor WooCommerce Builder Addons with 120+ widgets and 25+ Advanced modules.
 * [Food Menu](https://wordpress.org/plugins/tlp-food-menu/) – Restaurant Menu, Online Ordering, Table Booking using WooCommerce.
 
@@ -227,7 +227,7 @@ Classified Listing provides a range of cost effective [Addons](https://www.radiu
 Classified Listing is an all-in-one, AI-Powered WordPress plugin that allows you to create a professional classifieds marketplace or a business directory website. You can use it to build sites for car listings, real estate, job boards, local business directories, and more.
 
 = How does the "AI-Powered" feature actually work? =
-Our AI assistant is integrated listing submission form generation. A user can simply enter a directory name, location and keyword, AI will genrate form. Also Write with AI so enter a title only AI will write a unique, high-quality description for them. Also write with AI feature work for title, description and custom fields to genreate content.
+Our AI assistant is integrated listing submission form generation. A user can simply enter a directory name, location, and keyword, AI will genrate form. Also Write with AI so enter a title only AI will write a unique, high-quality description for them. Also write with AI feature work for title, description, and custom fields to genreate content.
 
 = Can I use Classified Listing plugin by RadiusTheme to build any type of directory? =
 Yes, you can use the **Classified Listing plugin by RadiusTheme** to build any type of **directory or classified website**.
@@ -307,6 +307,11 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
+= 5.3.9 ( Apr 20, 2026 ) =
+* Fixed: Sanitizing, escaping, and validation issue
+* Fixed: Business hour export/import issue
+* Added: VK social share for listing
+
 = 5.3.8 ( Mar 17, 2026 ) =
 * Fixed: My-listings pagination issue
 * Fixed: My-listings delete issue during pagination
@@ -365,18 +370,5 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Fixed: Single listing builder conditional field visibility issue fixed
 * Added: AI Semantic Search
 * Added: AI Image Enhancement
-
-= 5.2.2 ( Nov 05, 2025 ) =
-* Fixed: Remove Hello text from Form builder
-* Updated: Discount Amount
-
-= 5.2.1 ( Nov 04, 2025 ) =
-* Fixed: Admin Notification Emails field
-* Fixed: Author page profile picture issue
-* Fixed: Add wpml use same image for translated listings
-* Fixed: Renew email expired on date issue
-* Fixed: Condition check array key issue
-* Update: From Builder Single Listing Layout Builder
-* Update: From Builder Design
 
 [See changelog for all versions.](https://raw.githubusercontent.com/radiustheme/changelog/refs/heads/main/classified-listing.txt)

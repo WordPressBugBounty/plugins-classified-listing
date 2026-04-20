@@ -1,4 +1,4 @@
-/*! tailwindcss v4.1.14 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.1.18 | MIT License | https://tailwindcss.com */
 @charset "UTF-8";
 .noUi-target, .noUi-target * {
   -webkit-touch-callout: none;
@@ -8051,6 +8051,9 @@ body.modal-open .rtcl-bs-modal {
 .rtcl .rtcl-sidebar-social .rtcl-icon.rtcl-icon-telegram {
   background: #0088cc;
 }
+.rtcl .rtcl-sidebar-social .rtcl-icon.rtcl-icon-vkontakte {
+  background: #4680c2;
+}
 .rtcl .rtcl-listings-actions {
   display: flex;
   justify-content: space-between;
@@ -10017,13 +10020,13 @@ body.rtl .rtcl-el-slider-wrapper.rtcl-slider-btn-style-2 .rtcl-slider-btn.button
   margin: 0;
   padding: 0;
 }
-.tax-rtcl_category .rtcl-ajax-filter-item.rtcl-filter_category:not(.showAllItems) .rtcl-ajax-filter-data-item.rtcl-filter-checkbox-item:not(.active) {
+.tax-rtcl_category .rtcl-ajax-filter-item.rtcl-filter_category:not(.showAllItems) .filter-list > .rtcl-ajax-filter-data-item.rtcl-filter-checkbox-item:not(.active):not(.is-open) {
   display: none;
 }
-.tax-rtcl_location .rtcl-ajax-filter-item.rtcl-filter_location:not(.showAllItems) .rtcl-ajax-filter-data-item.rtcl-filter-checkbox-item:not(.active) {
+.tax-rtcl_location .rtcl-ajax-filter-item.rtcl-filter_location:not(.showAllItems) .filter-list > .rtcl-ajax-filter-data-item.rtcl-filter-checkbox-item:not(.active):not(.is-open) {
   display: none;
 }
-.tax-rtcl_tag .rtcl-ajax-filter-item.rtcl-filter_tag:not(.showAllItems) .rtcl-ajax-filter-data-item.rtcl-filter-checkbox-item:not(.active) {
+.tax-rtcl_tag .rtcl-ajax-filter-item.rtcl-filter_tag:not(.showAllItems) .filter-list > .rtcl-ajax-filter-data-item.rtcl-filter-checkbox-item:not(.active):not(.is-open) {
   display: none;
 }
 .rtcl-filter-checkbox-item label {

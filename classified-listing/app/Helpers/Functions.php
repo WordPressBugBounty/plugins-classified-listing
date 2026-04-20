@@ -5770,6 +5770,7 @@ class Functions {
 			'never_expires'         => 'Never Expire', // meta
 			'expiry_date'           => 'Expiry Date', // meta
 			'_views'                => 'Views', // meta
+			'_rtcl_bhs'             => 'Business Hours', // meta
 			'rtcl_listing_status'   => 'Status',
 		];
 

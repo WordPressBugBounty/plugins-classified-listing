@@ -21,8 +21,13 @@ class AjaxSettings {
 
 	public static function save_setting_options() {
 
-		if ( !Functions::verify_nonce() || !current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( esc_html__( 'User permission error', 'classified-listing' ) );
+		if ( !Functions::verify_nonce() ) {
+			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
+
+			return;
+		}
+		if ( !current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to save settings.', 'classified-listing' ) );
 
 			return;
 		}
@@ -238,8 +243,13 @@ class AjaxSettings {
 
 	public static function getMediaById() {
 
-		if ( !isset( $_POST['nonce'] ) && !wp_verify_nonce( $_POST['nonce'], 'rt_options' ) && !current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( [ 'message' => __( 'User permission error', 'classified-listing' ) ] );
+		if ( !isset( $_POST['nonce'] ) || !wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'rt_options' ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Session error !!', 'classified-listing' ) ] );
+
+			return;
+		}
+		if ( !current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'You do not have permission to access media.', 'classified-listing' ) ] );
 
 			return;
 		}

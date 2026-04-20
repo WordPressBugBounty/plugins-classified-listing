@@ -5,6 +5,7 @@ namespace Rtcl\Controllers\Ajax;
 use Rtcl\Controllers\Hooks\Filters;
 use Rtcl\Helpers\Functions;
 use Rtcl\Resources\Options;
+use Rtcl\Services\FormBuilder\FBHelper;
 
 class Import {
 
@@ -45,9 +46,10 @@ class Import {
 			'message' => esc_html__( 'Something wrong. Not added any listing!!', 'classified-listing' ),
 		];
 
-		$rows = $_POST['rows'];
-		parse_str( $_POST['formData'], $formData );
-		$map_to = $formData['map_to'];
+		$raw_rows = $_POST['rows'] ?? null;
+		$rows     = is_string( $raw_rows ) ? json_decode( wp_unslash( $raw_rows ), true ) : $raw_rows;
+		parse_str( $_POST['formData'] ?? '', $formData );
+		$map_to = $formData['map_to'] ?? null;
 
 		if ( empty( $rows ) || ! is_array( $rows ) ) {
 			$return['message'] = esc_html__( 'Not found listings!', 'classified-listing' );
@@ -59,25 +61,36 @@ class Import {
 			wp_send_json( $return );
 		}
 
+		$field_labels   = Functions::get_listings_default_fields() + Functions::get_listings_custom_fields();
 		$inserted_posts = [];
+		$errors         = [];
+		$row_number     = 0;
 
 		foreach ( $rows as $row ) {
-			$postarr   = [];
-			$meta_data = [];
-			$cat_id    = null;
-			$loc_id    = null;
-			$tag_id    = null;
-			$loc_ids   = [];
-			$cat_ids   = [];
-			$tag_ids   = [];
-			$author    = [];
+			$row_number++;
+			$postarr       = [];
+			$meta_data     = [];
+			$cat_id        = null;
+			$loc_id        = null;
+			$tag_id        = null;
+			$loc_ids       = [];
+			$cat_ids       = [];
+			$tag_ids       = [];
+			$author        = [];
+			$row_title     = '';
 
 			foreach ( $row as $field => $data ) {
-				$key = $map_to[ $field ];
+				if ( ! isset( $map_to[ $field ] ) || '' === $map_to[ $field ] ) {
+					continue;
+				}
+				$key         = $map_to[ $field ];
+				$field_label = $field_labels[ $key ] ?? $key;
 
+				try {
 				switch ( $key ) {
 					case 'rtcl_title':
 						$postarr['post_title'] = $data;
+						$row_title             = $data;
 						break;
 					case 'rtcl_content':
 						$postarr['post_content'] = $data;
@@ -248,6 +261,37 @@ class Import {
 							}
 						}
 						break;
+					case '_rtcl_bhs':
+						if ( ! empty( $data ) ) {
+							$parsed_bhs = self::parse_business_hours_import( $data );
+							if ( ! empty( $parsed_bhs['active'] ) ) {
+								$fb_enabled   = class_exists( FBHelper::class ) && FBHelper::isEnabled();
+								$default_form = $fb_enabled ? FBHelper::getDefaultForm() : null;
+								if ( $fb_enabled && $default_form ) {
+									// Save in new format and assign default form for proper display.
+									$meta_data[ $key ] = $parsed_bhs;
+									if ( ! isset( $meta_data['_rtcl_form_id'] ) ) {
+										$meta_data['_rtcl_form_id'] = $default_form->id;
+									}
+								} else {
+									// Save in old format (days indexed 0-6 at root level).
+									if ( ! empty( $parsed_bhs['type'] ) && 'selective' === $parsed_bhs['type'] ) {
+										$meta_data[ $key ] = ! empty( $parsed_bhs['days'] ) ? $parsed_bhs['days'] : [];
+									} else {
+										// Open 24/7 - set all days as open.
+										$all_open = [];
+										for ( $i = 0; $i <= 6; $i++ ) {
+											$all_open[ $i ] = [ 'open' => true ];
+										}
+										$meta_data[ $key ] = $all_open;
+									}
+									if ( ! empty( $parsed_bhs['special'] ) ) {
+										$meta_data['_rtcl_special_bhs'] = $parsed_bhs['special'];
+									}
+								}
+							}
+						}
+						break;
 					case strpos( $key, 'repeater_' ) === 0:
 						if ( ! empty( $data ) ) {
 							$repeater_data = $this->parse_repeater_meta_data( $data );
@@ -261,92 +305,140 @@ class Import {
 							$meta_data[ $key ] = $data;
 						}
 				}
+				} catch ( \Exception $e ) {
+					$row_identifier = $row_title ? $row_title : '#' . $row_number;
+					/* translators: 1: Row identifier, 2: Field label, 3: Error message */
+					$errors[] = sprintf(
+						__( 'Row "%1$s": Field "%2$s" - %3$s', 'classified-listing' ),
+						$row_identifier,
+						$field_label,
+						$e->getMessage()
+					);
+				}
 			}
 
-			if ( ! empty( $postarr ) ) {
-				$postarr['post_type'] = rtcl()->post_type;
+			if ( empty( $postarr ) ) {
+				$row_identifier = $row_title ? $row_title : '#' . $row_number;
+				/* translators: %s: Row identifier */
+				$errors[] = sprintf( __( 'Row "%s": No valid data found to create listing.', 'classified-listing' ), $row_identifier );
+				continue;
+			}
 
-				if ( ! empty( $author ) && ! empty( $author['post_author_email'] ) ) {
-					$user_id = email_exists( $author['post_author_email'] );
-					if ( isset( $author['post_author_uname'] ) && ! username_exists( $author['post_author_uname'] ) ) {
-						$user_name = $author['post_author_uname'];
+			$postarr['post_type'] = rtcl()->post_type;
+
+			if ( ! empty( $author ) && ! empty( $author['post_author_email'] ) ) {
+				$user_id = email_exists( $author['post_author_email'] );
+				if ( isset( $author['post_author_uname'] ) && ! username_exists( $author['post_author_uname'] ) ) {
+					$user_name = $author['post_author_uname'];
+				} else {
+					$part_of_email = explode( '@', $author['post_author_email'] );
+					$user_name     = username_exists( $part_of_email[0] ) ? $author['post_author_email'] : $part_of_email[0];
+				}
+				if ( ! $user_id ) {
+					$password      = wp_generate_password();
+					$new_user_data = apply_filters(
+						'rtcl_import_new_user_data',
+						[
+							'user_login'   => $user_name,
+							'user_pass'    => $password,
+							'user_email'   => $author['post_author_email'],
+							'first_name'   => $author['post_author_fname'] ?? '',
+							'last_name'    => $author['post_author_lname'] ?? '',
+							'display_name' => $author['post_author_display_name'] ?? $user_name,
+							'role'         => $author['post_author_role'] ?? get_option( 'default_role', 'subscriber' ),
+						],
+					);
+					$customer_id   = wp_insert_user( $new_user_data );
+					if ( ! is_wp_error( $customer_id ) ) {
+						$user_id = $customer_id;
+						if ( Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_users', 'user_import', 'multi_checkbox' ) ) {
+							rtcl()->mailer()->emails['User_Import_Email_To_User']->trigger( $user_id, $new_user_data );
+						}
 					} else {
-						$part_of_email = explode( '@', $author['post_author_email'] );
-						$user_name     = username_exists( $part_of_email[0] ) ? $author['post_author_email'] : $part_of_email[0];
-					}
-					if ( ! $user_id ) {
-						$password      = wp_generate_password();
-						$new_user_data = apply_filters(
-							'rtcl_import_new_user_data',
-							[
-								'user_login'   => $user_name,
-								'user_pass'    => $password,
-								'user_email'   => $author['post_author_email'],
-								'first_name'   => $author['post_author_fname'] ?? '',
-								'last_name'    => $author['post_author_lname'] ?? '',
-								'display_name' => $author['post_author_display_name'] ?? $user_name,
-								'role'         => $author['post_author_role'] ?? get_option( 'default_role', 'subscriber' ),
-							],
+						$row_identifier = $row_title ? $row_title : '#' . $row_number;
+						/* translators: 1: Row identifier, 2: Error message */
+						$errors[] = sprintf(
+							__( 'Row "%1$s": Failed to create user - %2$s', 'classified-listing' ),
+							$row_identifier,
+							$customer_id->get_error_message()
 						);
-						$customer_id   = wp_insert_user( $new_user_data );
-						if ( ! is_wp_error( $customer_id ) ) {
-							$user_id = $customer_id;
-							if ( Functions::get_option_item( 'rtcl_email_notifications_settings', 'notify_users', 'user_import', 'multi_checkbox' ) ) {
-								rtcl()->mailer()->emails['User_Import_Email_To_User']->trigger( $user_id, $new_user_data );
-							}
-						} else {
-							$user_id = $author['post_author'];
-						}
-					}
-					$postarr['post_author'] = $user_id;
-				}
-
-				$post_id = wp_insert_post( $postarr );
-				if ( ! is_wp_error( $post_id ) ) {
-					$inserted_posts[] = $post_id;
-					if ( ! empty( $meta_data ) ) {
-						wp_update_post(
-							[
-								'ID'         => $post_id,
-								'meta_input' => $meta_data,
-							],
-						);
-					}
-
-					if ( ! is_wp_error( $cat_id ) && ! empty( $cat_ids ) ) {
-						wp_set_object_terms( $post_id, $cat_ids, rtcl()->category );
-					}
-
-					if ( ! is_wp_error( $loc_id ) && ! empty( $loc_ids ) ) {
-						wp_set_object_terms( $post_id, $loc_ids, rtcl()->location );
-					}
-
-					if ( ! is_wp_error( $tag_id ) && ! empty( $tag_ids ) ) {
-						wp_set_object_terms( $post_id, $tag_ids, rtcl()->tag );
-					}
-
-					if ( ! empty( $attachment_ids ) && is_array( $attachment_ids ) ) {
-						$attachment_ids = array_map( 'intval', $attachment_ids );
-						$attachment_ids = array_filter( $attachment_ids );
-						set_post_thumbnail( $post_id, $attachment_ids[0] );
-						foreach ( $attachment_ids as $attachment_id ) {
-							wp_update_post(
-								[
-									'ID'          => $attachment_id,
-									'post_parent' => $post_id,
-								],
-							);
-						}
-						update_post_meta( $post_id, '_rtcl_attachments_order', $attachment_ids );
+						$user_id = $author['post_author'];
 					}
 				}
+				$postarr['post_author'] = $user_id;
+			}
+
+			$post_id = wp_insert_post( $postarr, true );
+			if ( is_wp_error( $post_id ) ) {
+				$row_identifier = $row_title ? $row_title : '#' . $row_number;
+				/* translators: 1: Row identifier, 2: Error message */
+				$errors[] = sprintf(
+					__( 'Row "%1$s": Failed to create listing - %2$s', 'classified-listing' ),
+					$row_identifier,
+					$post_id->get_error_message()
+				);
+				continue;
+			}
+
+			$inserted_posts[] = $post_id;
+			if ( ! empty( $meta_data ) ) {
+				wp_update_post(
+					[
+						'ID'         => $post_id,
+						'meta_input' => $meta_data,
+					],
+				);
+			}
+
+			if ( ! is_wp_error( $cat_id ) && ! empty( $cat_ids ) ) {
+				wp_set_object_terms( $post_id, $cat_ids, rtcl()->category );
+			}
+
+			if ( ! is_wp_error( $loc_id ) && ! empty( $loc_ids ) ) {
+				wp_set_object_terms( $post_id, $loc_ids, rtcl()->location );
+			}
+
+			if ( ! is_wp_error( $tag_id ) && ! empty( $tag_ids ) ) {
+				wp_set_object_terms( $post_id, $tag_ids, rtcl()->tag );
+			}
+
+			if ( ! empty( $attachment_ids ) && is_array( $attachment_ids ) ) {
+				$attachment_ids = array_map( 'intval', $attachment_ids );
+				$attachment_ids = array_filter( $attachment_ids );
+				set_post_thumbnail( $post_id, $attachment_ids[0] );
+				foreach ( $attachment_ids as $attachment_id ) {
+					wp_update_post(
+						[
+							'ID'          => $attachment_id,
+							'post_parent' => $post_id,
+						],
+					);
+				}
+				update_post_meta( $post_id, '_rtcl_attachments_order', $attachment_ids );
 			}
 		}
 
-		if ( ! empty( $inserted_posts ) ) {
+		$total_rows = $row_number;
+		$success_count = count( $inserted_posts );
+		$error_count   = count( $errors );
+
+		if ( $success_count > 0 && $error_count > 0 ) {
 			$return['success'] = true;
-			/* translators: %s: Number of posts. */
-			$return['message'] = sprintf( __( 'Added %d listings.', 'classified-listing' ), count( $inserted_posts ) );
+			/* translators: 1: Success count, 2: Total rows, 3: Error count */
+			$return['message'] = sprintf(
+				__( 'Imported %1$d of %2$d listings. %3$d failed.', 'classified-listing' ),
+				$success_count,
+				$total_rows,
+				$error_count
+			);
+			$return['errors'] = $errors;
+		} elseif ( $success_count > 0 ) {
+			$return['success'] = true;
+			/* translators: %d: Number of posts */
+			$return['message'] = sprintf( __( 'Successfully imported %d listings.', 'classified-listing' ), $success_count );
+		} elseif ( $error_count > 0 ) {
+			$return['message'] = __( 'Failed to import any listings.', 'classified-listing' );
+			$return['errors']  = $errors;
 		}
 
 		wp_send_json( $return );
@@ -383,6 +475,131 @@ class Import {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Parse formatted business hours text back into _rtcl_bhs meta array.
+	 *
+	 * Expected format:
+	 * Status: Active | Type: Selective
+	 * Monday: 09:00-17:00, 13:00-14:00
+	 * Tuesday: Closed
+	 * Special: 2024-12-25 (Once): Closed; 2024-12-31 (Repeat): 09:00-13:00
+	 *
+	 * Or: Status: Active | Type: Open 24/7
+	 *
+	 * @param string $data Formatted business hours string.
+	 *
+	 * @return array
+	 */
+	private static function parse_business_hours_import( $data ) {
+		$bhs   = [];
+		$lines = preg_split( '/\r\n|\r|\n/', trim( $data ) );
+
+		if ( empty( $lines ) ) {
+			return $bhs;
+		}
+
+		$day_map = [
+			'sunday'    => 0,
+			'monday'    => 1,
+			'tuesday'   => 2,
+			'wednesday' => 3,
+			'thursday'  => 4,
+			'friday'    => 5,
+			'saturday'  => 6,
+		];
+
+		foreach ( $lines as $line ) {
+			$line = trim( $line );
+			if ( '' === $line ) {
+				continue;
+			}
+
+			// Parse "Status: Active | Type: Selective" line
+			if ( stripos( $line, 'Status:' ) === 0 ) {
+				$bhs['active'] = stripos( $line, 'Active' ) !== false;
+				if ( stripos( $line, 'Selective' ) !== false ) {
+					$bhs['type'] = 'selective';
+				} else {
+					$bhs['type'] = 247;
+				}
+				continue;
+			}
+
+			// Parse "Special: ..." line
+			if ( stripos( $line, 'Special:' ) === 0 ) {
+				$special_str = trim( substr( $line, 8 ) );
+				$entries     = array_map( 'trim', explode( ';', $special_str ) );
+				$special     = [];
+				foreach ( $entries as $entry ) {
+					if ( preg_match( '/^(\d{4}-\d{2}-\d{2})\s*\((\w+)\):\s*(.+)$/', $entry, $m ) ) {
+						$sbh = [
+							'date'  => $m[1],
+							'occur' => strtolower( $m[2] ) === 'once' ? 'once' : 'repeat',
+						];
+						$hours = trim( $m[3] );
+						if ( strtolower( $hours ) === 'closed' ) {
+							$sbh['open'] = false;
+						} elseif ( strtolower( $hours ) === 'open 24 hours' ) {
+							$sbh['open'] = true;
+						} else {
+							$sbh['open'] = true;
+							$time_parts  = array_map( 'trim', explode( ',', $hours ) );
+							$times       = [];
+							foreach ( $time_parts as $range ) {
+								$parts = array_map( 'trim', explode( '-', $range, 2 ) );
+								if ( count( $parts ) === 2 && $parts[0] && $parts[1] ) {
+									$times[] = [ 'start' => $parts[0], 'end' => $parts[1] ];
+								}
+							}
+							if ( ! empty( $times ) ) {
+								$sbh['times'] = $times;
+							}
+						}
+						$special[] = $sbh;
+					}
+				}
+				if ( ! empty( $special ) ) {
+					$bhs['special'] = $special;
+				}
+				continue;
+			}
+
+			// Parse day lines like "Monday: 09:00-17:00, 13:00-14:00"
+			if ( preg_match( '/^(\w+):\s*(.+)$/', $line, $m ) ) {
+				$day_name = strtolower( $m[1] );
+				if ( isset( $day_map[ $day_name ] ) ) {
+					$day_index = $day_map[ $day_name ];
+					$hours     = trim( $m[2] );
+
+					if ( ! isset( $bhs['days'] ) ) {
+						$bhs['days'] = [];
+					}
+
+					if ( strtolower( $hours ) === 'closed' ) {
+						$bhs['days'][ $day_index ] = [ 'open' => false ];
+					} elseif ( strtolower( $hours ) === 'open 24 hours' ) {
+						$bhs['days'][ $day_index ] = [ 'open' => true ];
+					} else {
+						$time_parts = array_map( 'trim', explode( ',', $hours ) );
+						$times      = [];
+						foreach ( $time_parts as $range ) {
+							$parts = array_map( 'trim', explode( '-', $range, 2 ) );
+							if ( count( $parts ) === 2 && $parts[0] && $parts[1] ) {
+								$times[] = [ 'start' => $parts[0], 'end' => $parts[1] ];
+							}
+						}
+						$bhs['days'][ $day_index ] = [
+							'open'  => true,
+							'times' => ! empty( $times ) ? $times : [],
+						];
+					}
+				}
+			}
+		}
+
+		return $bhs;
 	}
 
 	public function rtcl_import_category() {

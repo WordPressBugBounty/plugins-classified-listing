@@ -17,7 +17,6 @@ class ListingAdminAjax {
 			[ $this, 'ajax_callback_get_location_for_contact' ]
 		);
 		add_action( 'wp_ajax_rtcl_delete_temp_listing', [ $this, 'delete_temp_listing' ] );
-		add_action( 'wp_ajax_nopriv_rtcl_delete_temp_listing', [ $this, 'delete_temp_listing' ] );
 
 		// Send email to user by moderator
 		add_action( 'wp_ajax_rtcl_send_email_to_user_by_moderator', [ $this, 'send_email_to_user_by_moderator' ] );
@@ -77,14 +76,33 @@ class ListingAdminAjax {
 		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( __( 'Session expired.', 'classified-listing' ) );
 		}
-		
-		$id   = Functions::request( 'id' );
-		$post = get_post( $id );
+
+		$id   = absint( Functions::request( 'id' ) );
+		$post = $id ? get_post( $id ) : null;
 		if ( $post === null || rtcl()->post_type !== $post->post_type || $post->post_status != Functions::get_temp_listing_status() ) {
 			wp_send_json(
 				[
 					'result' => 0,
 					'error'  => esc_html__( 'Post with given ID does not exist.', 'classified-listing' )
+				]
+			);
+		}
+		
+		$post_author     = (int) $post->post_author;
+		$current_user_id = (int) get_current_user_id();
+		$can_delete      = false;
+
+		if ( current_user_can( 'manage_options' ) ) {
+			$can_delete = true;
+		} elseif ( $post_author > 0 && $current_user_id > 0 && $post_author === $current_user_id ) {
+			$can_delete = true;
+		}
+
+		if ( ! $can_delete ) {
+			wp_send_json(
+				[
+					'result' => 0,
+					'error'  => esc_html__( 'You do not have permission to delete this listing.', 'classified-listing' )
 				]
 			);
 		}

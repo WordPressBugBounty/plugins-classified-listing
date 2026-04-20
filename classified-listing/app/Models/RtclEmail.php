@@ -447,7 +447,20 @@ class RtclEmail {
 	 */
 	public function set_attachments( $paths = [] ) {
 		if ( is_array( $paths ) && ! empty( $paths ) ) {
-			$this->attachments = $paths;
+			$upload_dir  = wp_upload_dir();
+			$upload_base = realpath( $upload_dir['basedir'] );
+			$safe_paths  = [];
+			foreach ( $paths as $path ) {
+				if ( ! is_string( $path ) || '' === $path ) {
+					continue;
+				}
+				$real = realpath( $path );
+				// Only allow files that exist within the WordPress uploads directory.
+				if ( $real && $upload_base && 0 === strpos( $real, $upload_base . DIRECTORY_SEPARATOR ) && is_file( $real ) ) {
+					$safe_paths[] = $real;
+				}
+			}
+			$this->attachments = $safe_paths;
 		}
 
 		return $this;

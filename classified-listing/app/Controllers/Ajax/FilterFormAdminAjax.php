@@ -22,6 +22,9 @@ class FilterFormAdminAjax {
 		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
 		}
+		if ( !current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to manage filter settings.', 'classified-listing' ) );
+		}
 		$filterId = !empty( $_POST['filterId'] ) ? sanitize_text_field( wp_unslash( $_POST['filterId'] ) ) : '';
 		$name = !empty( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
 		$id = !empty( $_POST['id'] ) ? sanitize_text_field( wp_unslash( $_POST['id'] ) ) : '';
@@ -66,6 +69,9 @@ class FilterFormAdminAjax {
 		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
 		}
+		if ( !current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to remove filter forms.', 'classified-listing' ) );
+		}
 
 		$filterId = !empty( $_POST['filterId'] ) ? sanitize_text_field( wp_unslash( $_POST['filterId'] ) ) : '';
 		$filters = Functions::get_option( 'rtcl_filter_settings' );
@@ -87,6 +93,9 @@ class FilterFormAdminAjax {
 	public function update_filter_item() {
 		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
+		}
+		if ( !current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to update filter items.', 'classified-listing' ) );
 		}
 
 		$filterId = !empty( $_POST['filterId'] ) ? sanitize_text_field( wp_unslash( $_POST['filterId'] ) ) : '';
@@ -170,6 +179,9 @@ class FilterFormAdminAjax {
 		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
 		}
+		if ( !current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to reorder filter items.', 'classified-listing' ) );
+		}
 
 		$filterId = !empty( $_POST['filterId'] ) ? sanitize_text_field( wp_unslash( $_POST['filterId'] ) ) : '';
 		$rawItemKeys = !empty( $_POST['itemKeys'] ) && is_array( $_POST['itemKeys'] ) ? $_POST['itemKeys'] : [];
@@ -221,6 +233,9 @@ class FilterFormAdminAjax {
 	public function remove_filter_item() {
 		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
+		}
+		if ( !current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to remove filter items.', 'classified-listing' ) );
 		}
 
 		$filterId = !empty( $_POST['filterId'] ) ? sanitize_text_field( wp_unslash( $_POST['filterId'] ) ) : '';

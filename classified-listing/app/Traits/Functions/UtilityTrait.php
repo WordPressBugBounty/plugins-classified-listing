@@ -700,6 +700,22 @@ trait UtilityTrait {
 	}
 
 	/**
+	 * Get listing ad type HTML class.
+	 *
+	 * @param  Listing  $listing  Listing object.
+	 *
+	 * @return array
+	 */
+	static function get_listing_ad_type_class( $listing ) {
+		$classes = [];
+		if ( $listing && ( $ad_type = $listing->get_ad_type() ) ) {
+			$classes[] = sanitize_html_class( 'rtcl_ad_type-' . $ad_type );
+		}
+
+		return $classes;
+	}
+
+	/**
 	 * Retrieves the classes for the post div as an array.
 	 *
 	 * @param  string|array  $class  One or more classes to add to the class list.
@@ -743,6 +759,7 @@ trait UtilityTrait {
 			$listing->get_label_class(),
 			self::get_listing_taxonomy_class( $listing->get_category_ids(), rtcl()->category ),
 			self::get_listing_taxonomy_class( $listing->get_location_ids(), rtcl()->location ),
+			self::get_listing_ad_type_class( $listing ),
 			is_array( $extra_class ) ? $extra_class : [],
 		);
 

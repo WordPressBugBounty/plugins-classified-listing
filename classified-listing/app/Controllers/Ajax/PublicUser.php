@@ -222,11 +222,12 @@ class PublicUser {
 			wp_send_json_error( esc_html__( 'Authentication error!!', 'classified-listing' ) );
 		}
 
-		if ( ! get_current_user_id() ) {
+		$current_user_id = get_current_user_id();
+		if ( ! $current_user_id ) {
 			wp_send_json_error( esc_html__( 'You are not authorized to display it.', 'classified-listing' ) );
 		}
 
-		$order_id = absint( Functions::clean( $_POST['order_id'] ) );
+		$order_id = isset( $_POST['order_id'] ) ? absint( Functions::clean( $_POST['order_id'] ) ) : 0;
 
 		if ( ! $order_id ) {
 			wp_send_json_error( esc_html__( 'Order ID is missing.', 'classified-listing' ) );
@@ -236,6 +237,11 @@ class PublicUser {
 
 		if ( ! $order ) {
 			wp_send_json_error( esc_html__( 'Order not found.', 'classified-listing' ) );
+		}
+		
+		$order_customer_id = (int) $order->get_customer_id();
+		if ( $order_customer_id !== (int) $current_user_id ) {
+			wp_send_json_error( esc_html__( 'You are not authorized to view this order.', 'classified-listing' ) );
 		}
 
 		ob_start();
@@ -851,16 +857,13 @@ class PublicUser {
 			),
 		) : '';
 
-		$data = wp_parse_args(
-			[
-				'post_id' => $post_id,
-				'name'    => $name,
-				'email'   => $email,
-				'phone'   => $phone,
-				'message' => $message,
-			],
-			$_POST,
-		);
+		$data = [
+			'post_id' => $post_id,
+			'name'    => $name,
+			'email'   => $email,
+			'phone'   => $phone,
+			'message' => $message,
+		];
 
 		$data = apply_filters( 'rtcl_listing_seller_contact_form_data', $data, $_POST, $_FILES, $error );
 
@@ -949,13 +952,10 @@ class PublicUser {
 		}
 		$post_id = (int) $_POST['post_id'];
 		$message = esc_textarea( $_POST['message'] );
-		$data    = wp_parse_args(
-			[
-				'post_id' => $post_id,
-				'message' => $message,
-			],
-			$_POST,
-		);
+		$data = [
+			'post_id' => $post_id,
+			'message' => $message,
+		];
 		do_action( 'rtcl_listing_report_abuse_form_validation', $error, $data );
 
 		if ( is_wp_error( $error ) && ! empty( $error->errors ) ) {
