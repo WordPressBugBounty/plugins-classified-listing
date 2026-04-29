@@ -73,6 +73,8 @@ class Listings
 				'cat_operator'      => 'IN',      // Operator to compare categories. Possible values are 'IN', 'NOT IN', 'AND'.
 				'location'          => '',      // Operator to compare categories. Possible values are 'IN', 'NOT IN', 'AND'.
 				'location_operator' => 'IN',      // Operator to compare categories. Possible values are 'IN', 'NOT IN', 'AND'.
+				'tag'               => '',        // Comma separated tag slugs or ids.
+				'tag_operator'      => 'IN',      // Operator to compare tags. Possible values are 'IN', 'NOT IN', 'AND'.
 				'attribute'         => '',        // Single attribute slug.
 				'terms'             => '',        // Comma separated term slugs or ids.
 				'terms_operator'    => 'IN',      // Operator to compare terms. Possible values are 'IN', 'NOT IN', 'AND'.
@@ -163,6 +165,9 @@ class Listings
 
 		// Locations.
 		$this->set_locations_query_args($query_args);
+
+		// Tags.
+		$this->set_tags_query_args($query_args);
 
 		// Override tax query from filter with $_GET params location, category, rtcl_location, rtcl_category
 		$query_args['tax_query'] = rtcl()->query->get_tax_query(!empty($query_args['tax_query']) ? $query_args['tax_query'] : []); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
@@ -299,6 +304,38 @@ class Listings
 				 * as only products belonging to all the children categories would be selected.
 				 */
 				'include_children' => !('AND' === $this->attributes['location_operator']),
+			);
+		}
+	}
+
+	/**
+	 * Set tags query args.
+	 *
+	 * @param array $query_args Query args.
+	 *
+	 * @since 1.5.56
+	 */
+	protected function set_tags_query_args(&$query_args) {
+		if (!empty($this->attributes['tag'])) {
+			$tags = array_map('sanitize_title', explode(',', $this->attributes['tag']));
+			$field = 'slug';
+
+			if (is_numeric($tags[0])) {
+				$field = 'term_id';
+				$tags = array_map('absint', $tags);
+				foreach ($tags as $tag) {
+					$the_tag = get_term_by('slug', $tag, rtcl()->tag);
+					if (false !== $the_tag) {
+						$tags[] = $the_tag->term_id;
+					}
+				}
+			}
+
+			$query_args['tax_query'][] = array(
+				'taxonomy' => rtcl()->tag,
+				'terms'    => $tags,
+				'field'    => $field,
+				'operator' => $this->attributes['tag_operator'],
 			);
 		}
 	}

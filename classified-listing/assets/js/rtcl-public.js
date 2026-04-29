@@ -2,11 +2,11 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/js/classes/RtclAjaxFilter.js"
+/***/ "./src/js/classes/RtclAjaxFilter.js":
 /*!******************************************!*\
   !*** ./src/js/classes/RtclAjaxFilter.js ***!
   \******************************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -509,7 +509,12 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
             if (event.currentTarget.checked) {
               _this.addParam(option_name, inputValue, event.currentTarget.type === 'checkbox');
             } else if ('select' === options.field_type && inputValue) {
-              _this.addParam(option_name, inputValue);
+              //this.addParam(option_name, inputValue);
+              if (event.currentTarget.checked) {
+                _this.addParam(option_name, inputValue, event.currentTarget.type === 'checkbox');
+              } else {
+                _this.removeParam(option_name, inputValue, event.currentTarget.type === 'checkbox');
+              }
             } else {
               _this.removeParam(option_name, inputValue, event.currentTarget.type === 'checkbox');
             }
@@ -1156,7 +1161,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RtclAjaxFilter);
 
-/***/ }
+/***/ })
 
 /******/ 	});
 /************************************************************************/
@@ -1169,12 +1174,6 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
 /******/ 		var cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Check if module exists (development only)
-/******/ 		if (__webpack_modules__[moduleId] === undefined) {
-/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
-/******/ 			e.code = 'MODULE_NOT_FOUND';
-/******/ 			throw e;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {

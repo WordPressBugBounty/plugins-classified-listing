@@ -177,7 +177,7 @@ class FormBuilderAjax {
 					$post_arg['post_author'] = $user_id;
 				}
 			} else {
-				if ( current_user_can( 'manage_options' ) && !in_array( $listing->get_listing()->post_author, [ apply_filters( 'rtcl_listing_post_user_id', get_current_user_id() ), get_current_user_id() ] ) ) {
+				if ( current_user_can( 'manage_options' ) && ! in_array( $listing->get_listing()->post_author, [ apply_filters( 'rtcl_listing_post_user_id', get_current_user_id() ), get_current_user_id() ] ) ) {
 					$postingType = 'update';
 				}
 			}
@@ -1499,6 +1499,14 @@ class FormBuilderAjax {
 			return;
 		}
 
+		$listing_id = isset( $_POST['listingId'] ) ? absint( $_POST['listingId'] ) : 0;
+		
+		if ( ! current_user_can( 'manage_categories' ) && ! apply_filters( 'rtcl_user_can_create_tag', false, $listing_id ) ) {
+			wp_send_json_error( __( "You don't have permission to create tags.", 'classified-listing' ) );
+
+			return;
+		}
+
 		$tagName = ! empty( $_POST['tag_name'] ) ? sanitize_text_field( $_POST['tag_name'] ) : '';
 		if ( empty( $tagName ) ) {
 			wp_send_json_error( __( 'Tag name is required', 'classified-listing' ) );
@@ -1506,6 +1514,29 @@ class FormBuilderAjax {
 			return;
 		}
 
+		// Enforce a sane length limit.
+		$maxLength = apply_filters( 'rtcl_tag_name_max_length', 64 );
+		if ( mb_strlen( $tagName ) > $maxLength ) {
+			wp_send_json_error(
+			/* translators: %d: maximum allowed characters */
+				sprintf( __( 'Tag name must not exceed %d characters.', 'classified-listing' ), $maxLength ),
+			);
+
+			return;
+		}
+
+		// Prevent duplicate tags – return the existing term instead of creating a new one.
+		$existingTerm = term_exists( $tagName, rtcl()->tag );
+		if ( $existingTerm ) {
+			$term = get_term( is_array( $existingTerm ) ? $existingTerm['term_id'] : $existingTerm, rtcl()->tag );
+			if ( $term && ! is_wp_error( $term ) ) {
+				wp_send_json_success( [
+					'data' => $term,
+				] );
+
+				return;
+			}
+		}
 
 		$newTag = wp_create_term( $tagName, rtcl()->tag );
 		if ( is_wp_error( $newTag ) ) {
@@ -1515,7 +1546,7 @@ class FormBuilderAjax {
 		}
 		$term = get_term( $newTag['term_id'], rtcl()->tag );
 
-		if ( ! $term || is_wp_error( $newTag ) ) {
+		if ( ! $term || is_wp_error( $term ) ) {
 			wp_send_json_error( __( 'Error while creating new tag.', 'classified-listing' ) );
 
 			return;

@@ -92,7 +92,7 @@ class TemplateLoader {
 			$default_file = 'single-' . rtcl()->post_type . '.php';
 		} elseif ( Functions::is_listing_taxonomy() ) {
 			$object = get_queried_object();
-			if ( is_tax( rtcl()->category ) || is_tax( rtcl()->location ) ) {
+			if ( is_tax( rtcl()->category ) || is_tax( rtcl()->location ) || is_tax( rtcl()->tag ) ) {
 				$default_file = 'taxonomy-' . $object->taxonomy . '.php';
 			} else {
 				$default_file = 'archive-' . rtcl()->post_type . '.php';
@@ -174,6 +174,7 @@ class TemplateLoader {
 		if ( $queried_object && isset( $queried_object->taxonomy ) ) {
 			$queried_tax = $queried_object->taxonomy;
 		}
+		$tag = '';
 		switch ( $queried_tax ) {
 			case 'rtcl_location':
 				$location = $queried_object->slug;
@@ -181,6 +182,11 @@ class TemplateLoader {
 				break;
 			case 'rtcl_category':
 				$category = $queried_object->slug;
+				$location = get_query_var( 'rtcl_location' );
+				break;
+			case 'rtcl_tag':
+				$tag      = $queried_object->slug;
+				$category = get_query_var( 'rtcl_category' );
 				$location = get_query_var( 'rtcl_location' );
 				break;
 			default:
@@ -196,9 +202,12 @@ class TemplateLoader {
 			'limit'    => apply_filters( 'rtcl_loop_listing_per_page', Functions::get_option_item( 'rtcl_archive_listing_settings', 'listings_per_page' ) )
 		];
 
-		if ( Functions::is_listing_category() || Functions::is_listing_location() ) {
+		if ( Functions::is_listing_category() || Functions::is_listing_location() || Functions::is_listing_tag() ) {
 			$shortcode_args['category'] = $category;
 			$shortcode_args['location'] = $location;
+			if ( $tag ) {
+				$shortcode_args['tag'] = $tag;
+			}
 		} else {
 			// Default theme archive for all other taxonomies.
 			return;

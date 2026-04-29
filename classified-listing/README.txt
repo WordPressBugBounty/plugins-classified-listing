@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 5.3.9
+Stable tag: 5.3.10
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -15,7 +15,7 @@ A Classified ads and Business Directory plugin for WordPress, to create classifi
 
 AI-Powered Classified Listing and Business Directory plugin for WordPress to create classified listings, real estate directory, local business directory, car listings, event directory, job board, member directory, and service directory. Classified Listing is easy to use and highly customizatible plugin.
 
-👉 [Demo](https://radiustheme.net/publicdemo/classified-listing/) | [Documentation](https://www.radiustheme.com/docs/classified-listing/) | [Addons](https://www.radiustheme.com/classified-listing-addons/) | [Themes](https://www.radiustheme.com/classified-listing-themes/) | [RoadMaps](https://radiustheme.com/classified-listing-roadmaps/) | [Get Pro](https://www.radiustheme.com/downloads/classified-listing-pro-wordpress/?utm_source=WordPress&utm_medium=Listing&utm_campaign=pro_click') 👈
+👉 [Demo](https://www.radiustheme.com/demo/wordpress/themes/cl-classified/) | [Documentation](https://www.radiustheme.com/docs/classified-listing/) | [Addons](https://www.radiustheme.com/classified-listing-addons/) | [Themes](https://www.radiustheme.com/classified-listing-themes/) | [RoadMaps](https://radiustheme.com/classified-listing-roadmaps/) | [Get Pro](https://www.radiustheme.com/downloads/classified-listing-pro-wordpress/?utm_source=WordPress&utm_medium=Listing&utm_campaign=pro_click') 👈
 
 == Built for Any Niche (With AI Assistance) ==
 
@@ -306,6 +306,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 5.3.10 ( Apr 28, 2026 ) =
+* Fixed: Sanitizing, escaping, and validation issue
+* Fixed: Classified demo image import issue
+* Fixed: Textarea field code editor issue
+* Added: Tag archive page
 
 = 5.3.9 ( Apr 20, 2026 ) =
 * Fixed: Sanitizing, escaping, and validation issue

@@ -358,6 +358,17 @@ class Functions {
 	}
 
 	/**
+	 * Check is Listing Tag archive page
+	 *
+	 * @param  string  $term
+	 *
+	 * @return bool
+	 */
+	public static function is_listing_tag( $term = '' ) {
+		return is_tax( rtcl()->tag, $term );
+	}
+
+	/**
 	 * Is_ajax - Returns true when the page is loaded via ajax.
 	 *
 	 * @return bool

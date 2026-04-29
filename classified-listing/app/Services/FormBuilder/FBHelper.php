@@ -1078,7 +1078,7 @@ class FBHelper {
 				break;
 			case 'textarea':
 				if ( !empty( $field['editor_type'] ) && 'wp_editor' === $field['editor_type'] ) {
-					$sanitize_value = wp_kses_post( $rawValue );
+					$sanitize_value = wp_kses_post( wp_unslash( $rawValue ) );
 				} else {
 					$sanitize_value = sanitize_textarea_field( wp_unslash( $rawValue ) );
 				}
@@ -1743,6 +1743,9 @@ class FBHelper {
 			if ( 'textarea' === $field->getData( 'editor_type', 'textarea' ) ) {
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				$html = nl2br( wp_strip_all_tags( $value ) );
+			} else {
+				// wp_editor content: balance unclosed tags and apply wpautop for proper rendering
+				$html = wpautop( force_balance_tags( $value ) );
 			}
 		} elseif ( $field->getElement() === 'file' ) {
 			if ( !empty( $value ) && is_array( $value ) ) {
