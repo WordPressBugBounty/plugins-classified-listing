@@ -8,13 +8,12 @@ use Rtcl\Helpers\Text;
 class ListingAdminAjax {
 
 	public function __construct() {
-
 		add_action( 'wp_ajax_rtcl_custom_fields_listings', [ $this, 'ajax_callback_custom_fields' ], 10, 2 );
 		add_action( 'wp_ajax_rtcl_get_sub_location_options', [ $this, 'ajax_callback_get_location_for_contact' ] );
 
 		add_action(
 			'wp_ajax_nopriv_rtcl_get_sub_location_options',
-			[ $this, 'ajax_callback_get_location_for_contact' ]
+			[ $this, 'ajax_callback_get_location_for_contact' ],
 		);
 		add_action( 'wp_ajax_rtcl_delete_temp_listing', [ $this, 'delete_temp_listing' ] );
 
@@ -31,12 +30,22 @@ class ListingAdminAjax {
 		}
 		wp_send_json(
 			[
-				'html' => isset( $_POST['term_id'] ) ? Functions::get_listing_form_price_unit_html( absint( $_POST['term_id'] ) ) : ''
-			]
+				'html' => isset( $_POST['term_id'] ) ? Functions::get_listing_form_price_unit_html( absint( $_POST['term_id'] ) ) : '',
+			],
 		);
 	}
 
 	function send_email_to_user_by_moderator() {
+		if ( ! current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json(
+				[
+					'error'   => true,
+					'message' => esc_html__( 'Unauthorized access!!!', 'classified-listing' ),
+					'class'   => 'rtcl-flash-warn',
+				],
+			);
+		}
+
 		$error = true;
 		$class = 'rtcl-flash-warn';
 		if ( wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
@@ -66,13 +75,12 @@ class ListingAdminAjax {
 			[
 				'error'   => $error,
 				'message' => $message,
-				'class'   => $class
-			]
+				'class'   => $class,
+			],
 		);
 	}
 
 	function delete_temp_listing() {
-
 		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( __( 'Session expired.', 'classified-listing' ) );
 		}
@@ -83,11 +91,11 @@ class ListingAdminAjax {
 			wp_send_json(
 				[
 					'result' => 0,
-					'error'  => esc_html__( 'Post with given ID does not exist.', 'classified-listing' )
-				]
+					'error'  => esc_html__( 'Post with given ID does not exist.', 'classified-listing' ),
+				],
 			);
 		}
-		
+
 		$post_author     = (int) $post->post_author;
 		$current_user_id = (int) get_current_user_id();
 		$can_delete      = false;
@@ -102,15 +110,15 @@ class ListingAdminAjax {
 			wp_send_json(
 				[
 					'result' => 0,
-					'error'  => esc_html__( 'You do not have permission to delete this listing.', 'classified-listing' )
-				]
+					'error'  => esc_html__( 'You do not have permission to delete this listing.', 'classified-listing' ),
+				],
 			);
 		}
 
 		$param    = [
 			'post_parent'      => $id,
 			'post_type'        => 'attachment',
-			'suppress_filters' => false
+			'suppress_filters' => false,
 		];
 		$children = get_posts( $param );
 
@@ -123,8 +131,8 @@ class ListingAdminAjax {
 		Functions::delete_post( $id );
 		wp_send_json(
 			[
-				'result' => 1
-			]
+				'result' => 1,
+			],
 		);
 	}
 
@@ -132,7 +140,7 @@ class ListingAdminAjax {
 		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( __( 'Session expired.', 'classified-listing' ) );
 		}
-		
+
 		do_action( 'rtcl_set_local' );
 		$term_id   = absint( $_POST['term_id'] );
 		$locations = '';
@@ -147,17 +155,16 @@ class ListingAdminAjax {
 		}
 		wp_send_json(
 			[
-				'locations' => $locations
-			]
+				'locations' => $locations,
+			],
 		);
 	}
 
 	function ajax_callback_custom_fields( $post_id = 0, $term_id = 0 ) {
-
-		if (wp_doing_ajax() && ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
+		if ( wp_doing_ajax() && ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) ) {
 			wp_send_json_error( __( 'Session expired.', 'classified-listing' ) );
 		}
-		
+
 		$ajax = false;
 
 		if ( isset( $_POST['term_id'] ) ) {
@@ -179,8 +186,8 @@ class ListingAdminAjax {
 			wp_send_json(
 				[
 					'custom_fields' => $customFields,
-					'child_cats'    => $child_cats
-				]
+					'child_cats'    => $child_cats,
+				],
 			);
 		} else {
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

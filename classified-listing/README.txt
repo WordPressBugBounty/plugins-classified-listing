@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 5.3.10
+Stable tag: 5.4.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -184,6 +184,10 @@ OpenStreet GoogleMap is a free platform to display location and use the map feat
 == Fully Translatable & RTL Compatible ==
 Classified Listing is fully translatable. However, it comes with a ready translation for Spanish. Still, you can translate it into whichever language you want using simple WordPress translation plugins, such as Loco Translate and the WPML plugin.
 
+== Radius Booking Plugin Integration ==
+
+Classified Listing now integrates with the **[Radius Booking](https://wordpress.org/plugins/radius-booking/)** plugin; By combining both, you can instantly transform a standard business directory into a fully functional service marketplace with integrated booking capabilities.
+
 == Popular Addons ==
 Classified Listing provides a range of cost effective [Addons](https://www.radiustheme.com/classified-listing-addons/) to enhance the features of your Classified ads and Business directory website. Currently, there are 19 powerful addons available to enhance your site.. 
 
@@ -307,7 +311,11 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
-= 5.3.10 ( Apr 28, 2026 ) =
+= 5.4.0 ( May 10, 2026 ) =
+* Fixed: Sanitizing, escaping, and validation issue
+* Added: RadiusBooking integration
+
+= 5.3.10 ( Apr 29, 2026 ) =
 * Fixed: Sanitizing, escaping, and validation issue
 * Fixed: Classified demo image import issue
 * Fixed: Textarea field code editor issue

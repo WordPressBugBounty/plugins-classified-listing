@@ -12,26 +12,6 @@ class Comments {
 	 * Hook in methods.
 	 */
 	public static function init() {
-		// Rating posts.
-		// add_filter('comments_open', array(__CLASS__, 'comments_open'), 10, 2);
-		// add_filter('preprocess_comment', array(__CLASS__, 'check_comment_is_allowed'), 0);
-		// add_filter('preprocess_comment', array(__CLASS__, 'check_comment_rating'), 1);
-		// add_filter('preprocess_comment', array(__CLASS__, 'check_comment_title'), 2);
-		// add_action('comment_post', array(__CLASS__, 'add_comment_rating'), 1);
-		// add_action('comment_post', array(__CLASS__, 'add_comment_title'), 1);
-		// add_action('comment_moderation_recipients', array(__CLASS__, 'comment_moderation_recipients'), 10, 2);
-		//
-		// Clear transients.
-		// add_action('wp_update_comment_count', array(__CLASS__, 'clear_transients'));
-		//
-		//
-		// Count comments.
-		// add_filter('wp_count_comments', array(__CLASS__, 'wp_count_comments'), 10, 2);
-		//
-		// Delete comments count cache whenever there is a new comment or a comment status changes.
-		// add_action('wp_insert_comment', array(__CLASS__, 'delete_comments_count_cache'));
-		// add_action('wp_set_comment_status', array(__CLASS__, 'delete_comments_count_cache'));
-
 		// Secure order notes.
 		add_filter( 'comments_clauses', [ __CLASS__, 'exclude_order_comments' ], 10, 1 );
 		add_filter( 'comment_feed_where', [ __CLASS__, 'exclude_order_comments_from_feed_where' ] );
@@ -49,7 +29,11 @@ class Comments {
 	 */
 	static function add_order_note() {
 		if ( ! wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) || ! isset( $_POST['post_id'], $_POST['note'], $_POST['note_type'] ) ) {
-			wp_die( -1 );
+			wp_die( - 1 );
+		}
+
+		if ( ! current_user_can( 'manage_rtcl_options' ) ) {
+			wp_die( - 1 );
 		}
 
 		$post_id   = absint( $_POST['post_id'] );
@@ -69,13 +53,13 @@ class Comments {
 			ob_start();
 			?>
 			<li rel="<?php echo absint( $note->id ); ?>"
-				class="<?php echo esc_attr( implode( ' ', $note_classes ) ); ?>">
+			    class="<?php echo esc_attr( implode( ' ', $note_classes ) ); ?>">
 				<div class="note_content">
 					<?php echo wp_kses_post( wpautop( wptexturize( make_clickable( $note->content ) ) ) ); ?>
 				</div>
 				<p class="meta">
 					<abbr class="exact-date"
-						  title="<?php echo esc_attr( $note->date_created->date( 'y-m-d h:i:s' ) ); ?>">
+					      title="<?php echo esc_attr( $note->date_created->date( 'y-m-d h:i:s' ) ); ?>">
 						<?php
 						/* translators: $1: Date created, $2 Time created */
 						printf( esc_html__( 'added on %1$s at %2$s', 'classified-listing' ), esc_html( $note->date_created->date_i18n( Functions::date_format() ) ), esc_html( $note->date_created->date_i18n( Functions::time_format() ) ) );
@@ -105,7 +89,7 @@ class Comments {
 	 */
 	static function delete_order_note() {
 		$success = false;
-		if ( wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) && current_user_can('manage_rtcl_options')) {
+		if ( wp_verify_nonce( isset( $_REQUEST[ rtcl()->nonceId ] ) ? $_REQUEST[ rtcl()->nonceId ] : null, rtcl()->nonceText ) && current_user_can( 'manage_rtcl_options' ) ) {
 			$note_id = isset( $_POST['note_id'] ) ? absint( $_POST['note_id'] ) : 0;
 			if ( $note_id > 0 ) {
 				$success = wp_delete_comment( $note_id, true );
@@ -175,7 +159,7 @@ class Comments {
 	/**
 	 * Validate the comment ratings.
 	 *
-	 * @param array $comment_data Comment data.
+	 * @param  array  $comment_data  Comment data.
 	 *
 	 * @return array
 	 */
@@ -194,7 +178,7 @@ class Comments {
 	/**
 	 * Validate the comment Title.
 	 *
-	 * @param array $comment_data Comment data.
+	 * @param  array  $comment_data  Comment data.
 	 *
 	 * @return array
 	 */
@@ -214,7 +198,7 @@ class Comments {
 	/**
 	 * Rating field for comments.
 	 *
-	 * @param int $comment_id Comment ID.
+	 * @param  int  $comment_id  Comment ID.
 	 */
 	public static function add_comment_rating( $comment_id ) {
 		if ( isset( $_POST['rating'], $_POST['comment_post_ID'] ) && rtcl()->post_type === get_post_type( absint( $_POST['comment_post_ID'] ) ) ) { // WPCS: input var ok, CSRF ok.
@@ -234,7 +218,7 @@ class Comments {
 	/**
 	 * Title field for comments.
 	 *
-	 * @param int $comment_id Comment ID.
+	 * @param  int  $comment_id  Comment ID.
 	 */
 	public static function add_comment_title( $comment_id ) {
 		if ( isset( $_POST['title'], $_POST['comment_post_ID'] ) && rtcl()->post_type === get_post_type( absint( $_POST['comment_post_ID'] ) ) && $title = sanitize_text_field( $_POST['title'] ) ) { // WPCS: input var ok, CSRF ok.
@@ -246,8 +230,8 @@ class Comments {
 	/**
 	 * Modify recipient of review email.
 	 *
-	 * @param array $emails Emails.
-	 * @param int   $comment_id Comment ID.
+	 * @param  array  $emails  Emails.
+	 * @param  int  $comment_id  Comment ID.
 	 *
 	 * @return array
 	 */
@@ -265,7 +249,7 @@ class Comments {
 	/**
 	 * Ensure product average rating and review count is kept up to date.
 	 *
-	 * @param int $post_id Post ID.
+	 * @param  int  $post_id  Post ID.
 	 */
 	public static function clear_transients( $post_id ) {
 		if ( rtcl()->post_type === get_post_type( $post_id ) ) {
@@ -278,7 +262,7 @@ class Comments {
 
 
 	/**
-	 * @param array $clauses A compacted array of comment query clauses.
+	 * @param  array  $clauses  A compacted array of comment query clauses.
 	 *
 	 * @return array
 	 */
@@ -291,7 +275,7 @@ class Comments {
 	/**
 	 * Exclude order comments from queries and RSS.
 	 *
-	 * @param string $where The WHERE clause of the query.
+	 * @param  string  $where  The WHERE clause of the query.
 	 *
 	 * @return string
 	 */
@@ -312,8 +296,8 @@ class Comments {
 	/**
 	 * Remove order notes and webhook delivery logs from wp_count_comments().
 	 *
-	 * @param object $stats Comment stats.
-	 * @param int    $post_id Post ID.
+	 * @param  object  $stats  Comment stats.
+	 * @param  int  $post_id  Post ID.
 	 *
 	 * @return object
 	 * @since  1.0.0
@@ -336,7 +320,7 @@ class Comments {
 					FROM {$wpdb->comments}
 					WHERE comment_type NOT IN ('rtcl_webhook_delivery')
 					GROUP BY comment_approved",
-					ARRAY_A
+					ARRAY_A,
 				);
 
 				$approved = [
@@ -377,7 +361,7 @@ class Comments {
 	/**
 	 * Make sure WP displays avatars for comments with the `review` type.
 	 *
-	 * @param array $comment_types Comment types.
+	 * @param  array  $comment_types  Comment types.
 	 *
 	 * @return array
 	 * @since  2.3
@@ -390,7 +374,7 @@ class Comments {
 	/**
 	 * Get listing rating count for a product. Please note this is not cached.
 	 *
-	 * @param Listing $listing Product instance.
+	 * @param  Listing  $listing  Product instance.
 	 *
 	 * @return int[]
 	 * @since 1.0.0
@@ -409,8 +393,8 @@ class Comments {
 			AND comment_approved = '1'
 			AND meta_value > 0
 			GROUP BY meta_value",
-				$listing->get_id()
-			)
+				$listing->get_id(),
+			),
 		);
 
 		foreach ( $raw_counts as $count ) {
@@ -429,7 +413,7 @@ class Comments {
 	/**
 	 * Get listing rating for a product. Please note this is not cached.
 	 *
-	 * @param Listing $listing Product instance.
+	 * @param  Listing  $listing  Product instance.
 	 *
 	 * @return float
 	 * @since 1.0.0
@@ -449,8 +433,8 @@ class Comments {
 				AND comment_post_ID = %d
 				AND comment_approved = '1'
 				AND meta_value > 0",
-					$listing->get_id()
-				)
+					$listing->get_id(),
+				),
 			);
 			$average = number_format( $ratings / $count, 2, '.', '' );
 		} else {
@@ -469,7 +453,7 @@ class Comments {
 	/**
 	 * Get listing review count for a liasting (not replies). Please note this is not cached.
 	 *
-	 * @param Listing $listing Listing instance.
+	 * @param  Listing  $listing  Listing instance.
 	 *
 	 * @return int
 	 * @since 1.0.0
@@ -484,8 +468,8 @@ class Comments {
 			WHERE comment_parent = 0
 			AND comment_post_ID = %d
 			AND comment_approved = '1'",
-				$listing->get_id()
-			)
+				$listing->get_id(),
+			),
 		);
 
 		$listing->set_review_count( $count );

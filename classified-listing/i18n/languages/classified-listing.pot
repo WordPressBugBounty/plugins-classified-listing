@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory Plugin 5.3.10\n"
+"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory Plugin 5.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-04-29T04:53:55+00:00\n"
+"POT-Creation-Date: 2026-05-10T10:10:16+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: classified-listing\n"
@@ -844,7 +844,7 @@ msgid "No payments found in Trash"
 msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:322
-#: app/Helpers/Functions.php:3238
+#: app/Helpers/Functions.php:3239
 #: app/Resources/Options.php:1545
 #: views/settings/advanced-settings.php:116
 msgid "Payments"
@@ -1296,8 +1296,8 @@ msgid "Mismatch"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:269
-#: app/Helpers/Functions.php:5164
-#: app/Helpers/Functions.php:5166
+#: app/Helpers/Functions.php:5165
+#: app/Helpers/Functions.php:5167
 msgid "Select an option&hellip;"
 msgstr ""
 
@@ -1352,12 +1352,12 @@ msgid "Searching&hellip;"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:286
-#: app/Helpers/Functions.php:5067
+#: app/Helpers/Functions.php:5068
 msgid "required"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:287
-#: app/Helpers/Functions.php:5069
+#: app/Helpers/Functions.php:5070
 msgid "optional"
 msgstr ""
 
@@ -1523,7 +1523,7 @@ msgstr ""
 #. translators: Date formate
 #. translators: 1: month, 2: day, 3: year, 4: hour, 5: minute
 #: app/Controllers/Admin/ScriptLoader.php:922
-#: app/Helpers/Functions.php:4995
+#: app/Helpers/Functions.php:4996
 #, php-format
 msgid "%1$s %2$s, %3$s @ %4$s:%5$s"
 msgstr ""
@@ -1997,10 +1997,10 @@ msgid "Session error"
 msgstr ""
 
 #: app/Controllers/Ajax/Checkout.php:205
-#: app/Controllers/Ajax/ListingAdminAjax.php:30
-#: app/Controllers/Ajax/ListingAdminAjax.php:77
-#: app/Controllers/Ajax/ListingAdminAjax.php:133
-#: app/Controllers/Ajax/ListingAdminAjax.php:158
+#: app/Controllers/Ajax/ListingAdminAjax.php:29
+#: app/Controllers/Ajax/ListingAdminAjax.php:85
+#: app/Controllers/Ajax/ListingAdminAjax.php:141
+#: app/Controllers/Ajax/ListingAdminAjax.php:165
 #: app/Controllers/Ajax/PublicUser.php:926
 msgid "Session expired."
 msgstr ""
@@ -2023,6 +2023,7 @@ msgstr ""
 #: app/Controllers/Ajax/Import.php:664
 #: app/Controllers/Ajax/Import.php:689
 #: app/Controllers/Ajax/Import.php:766
+#: app/Controllers/Ajax/ListingAdminAjax.php:43
 msgid "Unauthorized access!!!"
 msgstr ""
 
@@ -2570,29 +2571,29 @@ msgstr ""
 msgid "Empty listing title"
 msgstr ""
 
-#: app/Controllers/Ajax/ListingAdminAjax.php:54
+#: app/Controllers/Ajax/ListingAdminAjax.php:63
 msgid "Successfully sent"
 msgstr ""
 
-#: app/Controllers/Ajax/ListingAdminAjax.php:57
+#: app/Controllers/Ajax/ListingAdminAjax.php:66
 #: app/Controllers/Ajax/PublicUser.php:1326
 msgid "Error!!"
 msgstr ""
 
-#: app/Controllers/Ajax/ListingAdminAjax.php:60
+#: app/Controllers/Ajax/ListingAdminAjax.php:69
 #: app/Services/FormBuilder/LocalizedString.php:151
 msgid "Please select all field"
 msgstr ""
 
-#: app/Controllers/Ajax/ListingAdminAjax.php:63
+#: app/Controllers/Ajax/ListingAdminAjax.php:72
 msgid "Session Expired"
 msgstr ""
 
-#: app/Controllers/Ajax/ListingAdminAjax.php:86
+#: app/Controllers/Ajax/ListingAdminAjax.php:94
 msgid "Post with given ID does not exist."
 msgstr ""
 
-#: app/Controllers/Ajax/ListingAdminAjax.php:105
+#: app/Controllers/Ajax/ListingAdminAjax.php:113
 msgid "You do not have permission to delete this listing."
 msgstr ""
 
@@ -3019,8 +3020,8 @@ msgstr ""
 #: app/Controllers/FormHandler.php:216
 #: app/Controllers/FormHandler.php:220
 #: app/Controllers/FormHandler.php:339
-#: app/Helpers/Functions.php:3785
-#: app/Helpers/Functions.php:3922
+#: app/Helpers/Functions.php:3786
+#: app/Helpers/Functions.php:3923
 msgid "Error:"
 msgstr ""
 
@@ -3077,45 +3078,45 @@ msgid "No ad selected to make payment."
 msgstr ""
 
 #. translators: $1: Date created, $2 Time created
-#: app/Controllers/Hooks/Comments.php:81
+#: app/Controllers/Hooks/Comments.php:65
 #, php-format
 msgid "added on %1$s at %2$s"
 msgstr ""
 
 #. translators: %s: note author
-#: app/Controllers/Hooks/Comments.php:87
+#: app/Controllers/Hooks/Comments.php:71
 #: views/html-order-notes.php:37
 #, php-format
 msgid "by %s"
 msgstr ""
 
-#: app/Controllers/Hooks/Comments.php:91
+#: app/Controllers/Hooks/Comments.php:75
 #: views/html-order-notes.php:41
 msgid "Delete note"
 msgstr ""
 
-#: app/Controllers/Hooks/Comments.php:142
-#: app/Controllers/Hooks/Comments.php:144
+#: app/Controllers/Hooks/Comments.php:126
+#: app/Controllers/Hooks/Comments.php:128
 msgid "Ad author can't post rating."
 msgstr ""
 
-#: app/Controllers/Hooks/Comments.php:160
-#: app/Controllers/Hooks/Comments.php:162
+#: app/Controllers/Hooks/Comments.php:144
+#: app/Controllers/Hooks/Comments.php:146
 msgid "Only ajax can update the comment."
 msgstr ""
 
-#: app/Controllers/Hooks/Comments.php:165
-#: app/Controllers/Hooks/Comments.php:167
+#: app/Controllers/Hooks/Comments.php:149
+#: app/Controllers/Hooks/Comments.php:151
 msgid "You have already a review."
 msgstr ""
 
-#: app/Controllers/Hooks/Comments.php:186
-#: app/Controllers/Hooks/Comments.php:188
+#: app/Controllers/Hooks/Comments.php:170
+#: app/Controllers/Hooks/Comments.php:172
 msgid "Please rate the listing."
 msgstr ""
 
-#: app/Controllers/Hooks/Comments.php:205
-#: app/Controllers/Hooks/Comments.php:207
+#: app/Controllers/Hooks/Comments.php:189
+#: app/Controllers/Hooks/Comments.php:191
 msgid "Please add the review title."
 msgstr ""
 
@@ -3274,7 +3275,7 @@ msgid "Renew"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:956
-#: app/Helpers/Functions.php:4988
+#: app/Helpers/Functions.php:4989
 #: app/Services/FormBuilder/LocalizedString.php:31
 #: views/settings/listing-type.php:38
 #: src/form-builder/backend/components/pages/FormList.jsx:457
@@ -3426,7 +3427,7 @@ msgid "Payments Orders"
 msgstr ""
 
 #: app/Controllers/Query.php:1360
-#: app/Helpers/Functions.php:3236
+#: app/Helpers/Functions.php:3237
 #: app/Resources/Options.php:1530
 #: views/settings/advanced-settings.php:101
 msgid "My Listings"
@@ -4135,111 +4136,115 @@ msgstr ""
 msgid "Select a category"
 msgstr ""
 
-#: app/Helpers/Functions.php:2268
+#: app/Helpers/Functions.php:1923
+msgid "Select a sub-category"
+msgstr ""
+
+#: app/Helpers/Functions.php:2269
 msgid "Select an Option"
 msgstr ""
 
 #. translators:  Human read able time
 #. translators: Human read able time.
-#: app/Helpers/Functions.php:2960
+#: app/Helpers/Functions.php:2961
 #: app/Models/Listing.php:927
 #, php-format
 msgid "%s ago"
 msgstr ""
 
-#: app/Helpers/Functions.php:3235
+#: app/Helpers/Functions.php:3236
 msgid "Dashboard"
 msgstr ""
 
-#: app/Helpers/Functions.php:3237
+#: app/Helpers/Functions.php:3238
 #: app/Resources/Options.php:1535
 #: views/settings/advanced-settings.php:106
 msgid "Favourites"
 msgstr ""
 
-#: app/Helpers/Functions.php:3239
+#: app/Helpers/Functions.php:3240
 #: templates/myaccount/form-edit-account.php:35
 msgid "Account Details"
 msgstr ""
 
-#: app/Helpers/Functions.php:3240
+#: app/Helpers/Functions.php:3241
 #: app/Resources/Options.php:1550
 #: templates/myaccount/profile-settings.php:24
 msgid "Privacy Settings"
 msgstr ""
 
-#: app/Helpers/Functions.php:3241
+#: app/Helpers/Functions.php:3242
 #: app/Resources/Options.php:1560
 #: views/settings/advanced-settings.php:126
 msgid "Logout"
 msgstr ""
 
-#: app/Helpers/Functions.php:3242
+#: app/Helpers/Functions.php:3243
 msgid "Add Listing"
 msgstr ""
 
 #. translators: %s template
-#: app/Helpers/Functions.php:3409
+#: app/Helpers/Functions.php:3410
 #, php-format
 msgid "%s does not exist."
 msgstr ""
 
-#: app/Helpers/Functions.php:3599
-#: app/Helpers/Functions.php:3622
-#: app/Helpers/Functions.php:3634
-#: app/Helpers/Functions.php:3657
-#: app/Helpers/Functions.php:3672
-#: app/Helpers/Functions.php:3697
+#: app/Helpers/Functions.php:3600
+#: app/Helpers/Functions.php:3623
+#: app/Helpers/Functions.php:3635
+#: app/Helpers/Functions.php:3658
+#: app/Helpers/Functions.php:3673
+#: app/Helpers/Functions.php:3698
 msgid "This function should not be called before rtcl_init."
 msgstr ""
 
-#: app/Helpers/Functions.php:3835
+#: app/Helpers/Functions.php:3836
 msgid "Please provide a valid email address."
 msgstr ""
 
-#: app/Helpers/Functions.php:3840
+#: app/Helpers/Functions.php:3841
 msgid "An account is already registered with your email address. Please log in."
 msgstr ""
 
-#: app/Helpers/Functions.php:3851
+#: app/Helpers/Functions.php:3852
 msgid "Please enter a valid account username."
 msgstr ""
 
-#: app/Helpers/Functions.php:3856
+#: app/Helpers/Functions.php:3857
 msgid "An account is already registered with that username. Please choose another."
 msgstr ""
 
-#: app/Helpers/Functions.php:3861
+#: app/Helpers/Functions.php:3862
 msgid "Please enter your first name."
 msgstr ""
 
-#: app/Helpers/Functions.php:3864
+#: app/Helpers/Functions.php:3865
 msgid "Please enter your last name."
 msgstr ""
 
-#: app/Helpers/Functions.php:3869
+#: app/Helpers/Functions.php:3870
 msgid "Please enter your phone."
 msgstr ""
 
-#: app/Helpers/Functions.php:3873
+#: app/Helpers/Functions.php:3874
 msgid "An account is already registered with your phone number. Please log in."
 msgstr ""
 
-#: app/Helpers/Functions.php:3878
+#: app/Helpers/Functions.php:3879
 msgid "Please select user type option."
 msgstr ""
 
-#: app/Helpers/Functions.php:3889
+#: app/Helpers/Functions.php:3890
 msgid "Please enter an account password."
 msgstr ""
 
-#: app/Helpers/Functions.php:3923
+#: app/Helpers/Functions.php:3924
 msgid "Couldn&#8217;t register you&hellip; please contact us if you continue to have problems."
 msgstr ""
 
 #. translators: 1: rating 2: rating count
-#: app/Helpers/Functions.php:4511
-#: app/Helpers/Functions.php:4539
+#: app/Helpers/Functions.php:4512
+#: app/Helpers/Functions.php:4540
 #, php-format
 msgid "Rated %1$s out of 5 based on %2$s customer rating"
 msgid_plural "Rated %1$s out of 5 based on %2$s customer ratings"
@@ -4247,79 +4252,79 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: rating
-#: app/Helpers/Functions.php:4519
+#: app/Helpers/Functions.php:4520
 #, php-format
 msgid "Rated %s out of 5"
 msgstr ""
 
-#: app/Helpers/Functions.php:4946
+#: app/Helpers/Functions.php:4947
 msgid "M j, Y @ H:i"
 msgstr ""
 
-#: app/Helpers/Functions.php:4962
+#: app/Helpers/Functions.php:4963
 #: app/Resources/Options.php:4773
 msgid "Month"
 msgstr ""
 
 #. translators: 1: month number (01, 02, etc.), 2: month abbreviation
-#: app/Helpers/Functions.php:4969
+#: app/Helpers/Functions.php:4970
 #, php-format
 msgid "%1$s-%2$s"
 msgstr ""
 
-#: app/Helpers/Functions.php:4973
+#: app/Helpers/Functions.php:4974
 #: app/Resources/Options.php:4781
 msgid "Day"
 msgstr ""
 
-#: app/Helpers/Functions.php:4975
+#: app/Helpers/Functions.php:4976
 #: app/Resources/Options.php:4769
 msgid "Year"
 msgstr ""
 
-#: app/Helpers/Functions.php:4977
+#: app/Helpers/Functions.php:4978
 #: app/Resources/Options.php:4785
 msgid "Hour"
 msgstr ""
 
-#: app/Helpers/Functions.php:4979
+#: app/Helpers/Functions.php:4980
 msgid "Minute"
 msgstr ""
 
-#: app/Helpers/Functions.php:4983
+#: app/Helpers/Functions.php:4984
 #, php-format
 msgid "Expired on: <b>%1$s</b>"
 msgstr ""
 
-#: app/Helpers/Functions.php:4989
+#: app/Helpers/Functions.php:4990
 msgid "Edit date and time"
 msgstr ""
 
-#: app/Helpers/Functions.php:4992
+#: app/Helpers/Functions.php:4993
 msgid "Date and time"
 msgstr ""
 
-#: app/Helpers/Functions.php:5019
+#: app/Helpers/Functions.php:5020
 msgid "OK"
 msgstr ""
 
-#: app/Helpers/Functions.php:5022
+#: app/Helpers/Functions.php:5023
 #: app/Resources/Gallery.php:466
 #: app/Services/FormBuilder/LocalizedString.php:21
 msgid "Cancel"
 msgstr ""
 
-#: app/Helpers/Functions.php:5133
 #: app/Helpers/Functions.php:5134
+#: app/Helpers/Functions.php:5135
 msgid "Select a country / region&hellip;"
 msgstr ""
 
-#: app/Helpers/Functions.php:5143
 #: app/Helpers/Functions.php:5144
+#: app/Helpers/Functions.php:5145
 msgid "Update country / region"
 msgstr ""
 
-#: app/Helpers/Functions.php:5228
+#: app/Helpers/Functions.php:5229
 msgid "Choose an option"
 msgstr ""
 

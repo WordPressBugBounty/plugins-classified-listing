@@ -833,7 +833,7 @@ class ScriptLoader {
 			'jquery-ui-draggable',
 			'jquery-ui-tabs',
 		], $this->version, true );
-		wp_register_style( 'rtcl-admin', rtcl()->get_assets_uri( "css/rtcl-admin.min.css" ), '', $this->version );
+		wp_register_style( 'rtcl-admin', rtcl()->get_assets_uri( "css/rtcl-admin{$this->suffix}.css" ), '', $this->version );
 		wp_register_style( 'jquery-ui', rtcl()->get_assets_uri( 'vendor/jqueryui/1.12.1/themes/smoothness/jquery-ui.css' ), '', '1.12.1' );
 		wp_register_script( 'rtcl-admin-widget', rtcl()->get_assets_uri( 'js/admin-widget.min.js' ), [ 'jquery' ], $this->version );
 		wp_register_script( 'rtcl-timepicker', rtcl()->get_assets_uri( 'vendor/jquery-ui-timepicker-addon.js' ), [ 'jquery' ], $this->version, true );
