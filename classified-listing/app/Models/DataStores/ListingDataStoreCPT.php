@@ -176,7 +176,7 @@ class ListingDataStoreCPT extends DataStoreWP {
         if ($force || array_intersect(array( 'average_rating'), array_keys($changes))) {
             $terms = array();
 
-            $rating = min(5, round($listing->get_average_rating(), 0));
+            $rating = min(5, round((float) $listing->get_average_rating(), 0));
 
             if ($rating > 0) {
                 $terms[] = 'rated-' . $rating;

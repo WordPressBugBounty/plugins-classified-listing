@@ -3,9 +3,9 @@ Contributors: techlabpro1, mamunnu
 Donate link:
 Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.7
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 5.4.0
+Stable tag: 5.4.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -310,6 +310,10 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 5.4.1 ( May 23, 2026 ) =
+* Fixed: Validation issue
+* Fixed: Description limit issue
 
 = 5.4.0 ( May 10, 2026 ) =
 * Fixed: Sanitizing, escaping, and validation issue

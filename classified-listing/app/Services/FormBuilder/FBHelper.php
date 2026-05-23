@@ -677,6 +677,33 @@ class FBHelper {
 	}
 
 	/**
+	 * Get plain text length for a field value.
+	 * For wp_editor fields (description, textarea with editor_type wp_editor, excerpt),
+	 * strips HTML tags before counting to match frontend character counting behavior.
+	 *
+	 * @param string $value
+	 * @param array  $field
+	 *
+	 * @return int
+	 */
+	public static function getFieldTextLength( $value, array $field ): int {
+		if ( ! is_string( $value ) || '' === $value ) {
+			return 0;
+		}
+		$isWpEditor = false;
+		if ( in_array( $field['element'] ?? '', [ 'description', 'excerpt' ], true ) ) {
+			$isWpEditor = true;
+		} elseif ( ( $field['element'] ?? '' ) === 'textarea' && ! empty( $field['editor_type'] ) && 'wp_editor' === $field['editor_type'] ) {
+			$isWpEditor = true;
+		}
+		if ( $isWpEditor ) {
+			return mb_strlen( wp_strip_all_tags( $value ) );
+		}
+
+		return mb_strlen( $value );
+	}
+
+	/**
 	 * @param string|array $value
 	 * @param array $field
 	 * @param Listing | null $listing
@@ -757,7 +784,8 @@ class FBHelper {
 						}
 					} else {
 						if ( $rule['value'] ) {
-							if ( $value && ( strlen( $value ) < $rule['value'] ) ) {
+							$checkLength = self::getFieldTextLength( $value, $field );
+							if ( $value && ( $checkLength < $rule['value'] ) ) {
 								$hasError = true;
 							}
 						}
@@ -770,7 +798,8 @@ class FBHelper {
 								$hasError = true;
 							}
 						} else {
-							if ( $ruleValue && $value && strlen( $value ) > $ruleValue ) {
+							$checkLength = self::getFieldTextLength( $value, $field );
+							if ( $ruleValue && $value && $checkLength > $ruleValue ) {
 								$hasError = true;
 							}
 						}
@@ -1065,7 +1094,7 @@ class FBHelper {
 					$rawValue = strip_shortcodes( $rawValue );
 				}
 				if ( !empty( $field['validation']['max']['value'] ) && $description_limit = absint( $field['validation']['max']['value'] ) ) {
-					if ( strlen( $rawValue ) > $description_limit ) {
+					if ( mb_strlen( wp_strip_all_tags( $rawValue ) ) > $description_limit ) {
 						$sanitize_value = wp_filter_nohtml_kses( $rawValue );
 						$sanitize_value = mb_substr( $sanitize_value, 0, $description_limit, 'utf-8' );
 					} else {

@@ -2,11 +2,11 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/js/classes/RtclAjaxFilter.js"
+/***/ "./src/js/classes/RtclAjaxFilter.js":
 /*!******************************************!*\
   !*** ./src/js/classes/RtclAjaxFilter.js ***!
   \******************************************/
-(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -683,6 +683,10 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
         var value = event.currentTarget.value;
         value = Number(value);
         value = parseInt(value, 10);
+        if (isNaN(value) || value < 0) {
+          value = 0;
+          event.currentTarget.value = value;
+        }
         var e = _this.$(event.currentTarget).hasClass('min') ? 0 : 1;
         setSliderValue(e, value);
         var values = priceRangeSlider.noUiSlider.get();
@@ -697,6 +701,11 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
           _this.$(document).trigger('rtcl_ajax_filter_update_params', [_this.data.params]);
         }
       }).on("keydown", function (c) {
+        var blockedKeys = ['-', 'e', 'E', '+'];
+        if (blockedKeys.includes(c.key)) {
+          c.preventDefault();
+          return;
+        }
         var values = priceRangeSlider.noUiSlider.get();
         var index = jQuery(this).hasClass('min') ? 0 : 1;
         var value = Number(values[index]);
@@ -736,6 +745,12 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
           jQuery(this).trigger("change");
         }
         this.dirty = !1;
+      }).on("paste", function (e) {
+        var _this2 = this;
+        setTimeout(function () {
+          var val = _this2.value.replace(/[^0-9]/g, '');
+          _this2.value = val;
+        }, 0);
       });
     });
   });
@@ -1161,7 +1176,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RtclAjaxFilter);
 
-/***/ }
+/***/ })
 
 /******/ 	});
 /************************************************************************/
@@ -1174,12 +1189,6 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
 /******/ 		var cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Check if module exists (development only)
-/******/ 		if (__webpack_modules__[moduleId] === undefined) {
-/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
-/******/ 			e.code = 'MODULE_NOT_FOUND';
-/******/ 			throw e;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {

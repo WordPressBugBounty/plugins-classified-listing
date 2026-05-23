@@ -20,7 +20,7 @@ class ElementCustomization {
 				'advance' => [ 'default_value', 'container_class', 'help_message' ]
 			],
 			'description'         => [
-				'general' => [ 'label', 'label_placement', 'icon', 'editor_type', 'rows', 'validation', 'ai' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'editor_type', 'excluded_tags', 'rows', 'validation', 'ai' ],
 				'advance' => [ 'container_class', 'help_message', 'admin_use_only' ]
 			],
 			'excerpt'             => [
@@ -291,6 +291,7 @@ class ElementCustomization {
 					'icon',
 					'name',
 					'editor_type',
+					'excluded_tags',
 					'rows',
 					'placeholder',
 					'validation',
@@ -492,6 +493,59 @@ class ElementCustomization {
 						'label' => __( 'WP Editor', 'classified-listing' ),
 					],
 				],
+			],
+			'excluded_tags'                => [
+				'template'    => 'multiSelect',
+				'label'       => __( 'Excluded Tags', 'classified-listing' ),
+				'help_text'   => __( 'Select HTML tags to disallow in the editor. Script tag is always excluded.', 'classified-listing' ),
+				'placeholder' => __( 'Select tags to exclude', 'classified-listing' ),
+				'dependency'  => [
+					'depends_on' => 'editor_type',
+					'value'      => 'wp_editor',
+					'operator'   => '==',
+				],
+				'options'     => apply_filters( 'rtcl_fb_excluded_tags_options', [
+					[
+						'label' => __( 'Anchor (a)', 'classified-listing' ),
+						'value' => 'a',
+					],
+					[
+						'label' => __( 'Image (img)', 'classified-listing' ),
+						'value' => 'img',
+					],
+					[
+						'label' => __( 'Iframe (iframe)', 'classified-listing' ),
+						'value' => 'iframe',
+					],
+					[
+						'label' => __( 'Table (table)', 'classified-listing' ),
+						'value' => 'table',
+					],
+					[
+						'label' => __( 'Form (form)', 'classified-listing' ),
+						'value' => 'form',
+					],
+					[
+						'label' => __( 'Video (video)', 'classified-listing' ),
+						'value' => 'video',
+					],
+					[
+						'label' => __( 'Audio (audio)', 'classified-listing' ),
+						'value' => 'audio',
+					],
+					[
+						'label' => __( 'Object (object)', 'classified-listing' ),
+						'value' => 'object',
+					],
+					[
+						'label' => __( 'Embed (embed)', 'classified-listing' ),
+						'value' => 'embed',
+					],
+					[
+						'label' => __( 'Code (code)', 'classified-listing' ),
+						'value' => 'code',
+					],
+				] ),
 			],
 			'date_type'                    => [
 				'template' => 'radio',

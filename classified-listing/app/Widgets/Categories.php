@@ -170,6 +170,10 @@ class Categories extends WP_Widget {
 				if ( ! empty( $settings['show_icon'] ) ) {
 					$icon_id = get_term_meta( $term->term_id, '_rtcl_icon', true );
 					if ( $icon_id ) {
+						if ( is_array( $icon_id ) ) {
+							$icon_id = reset( $icon_id ); // get first value from array
+						}
+						$icon_id = (string) $icon_id;
 						if ( str_contains( $icon_id, 'fa-' ) ) {
 							$cat_icon = sprintf( '<span class="rtcl-cat-icon %s"></span>', esc_attr( $icon_id ) );
 						} else {

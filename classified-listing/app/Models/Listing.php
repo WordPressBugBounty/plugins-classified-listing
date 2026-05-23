@@ -1016,8 +1016,16 @@ class Listing extends Data {
 	}
 
 	function the_excerpt() {
+		$post       = $this->listing;
+		$text       = ! empty( $post->post_excerpt ) ? $post->post_excerpt : $post->post_content;
+		$text       = wp_strip_all_tags( strip_shortcodes( $text ) );
+		$word_limit = apply_filters( 'rtcl_excerpt_word_limit', 20 );
+		$more_text  = apply_filters( 'rtcl_excerpt_more_text', '...' );
+		if ( $word_limit ) {
+			$text = wp_trim_words( $text, $word_limit, $more_text );
+		}
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo apply_filters( 'rtcl_listing_the_excerpt', get_the_excerpt( $this->listing ) );
+		echo apply_filters( 'rtcl_listing_the_excerpt', $text );
 	}
 
 	function get_the_content() {
@@ -1337,7 +1345,11 @@ class Listing extends Data {
 	 * @return array of counts
 	 */
 	public function get_rating_counts( $context = 'view' ) {
-		return $this->get_prop( 'rating_counts', $context );
+		if ( 'edit' === $context ) {
+			return $this->get_prop( 'rating_counts', $context );
+		}
+		$counts = get_post_meta( $this->id, '_rtcl_rating_count', true );
+		return is_array( $counts ) ? $counts : [];
 	}
 
 	/**
@@ -1348,7 +1360,10 @@ class Listing extends Data {
 	 * @return float
 	 */
 	public function get_average_rating( $context = 'view' ) {
-		return $this->get_prop( 'average_rating', $context );
+		if ( 'edit' === $context ) {
+			return $this->get_prop( 'average_rating', $context );
+		}
+		return (float) get_post_meta( $this->id, '_rtcl_average_rating', true );
 	}
 
 	/**
@@ -1359,7 +1374,10 @@ class Listing extends Data {
 	 * @return int
 	 */
 	public function get_review_count( $context = 'view' ) {
-		return $this->get_prop( 'review_count', $context );
+		if ( 'edit' === $context ) {
+			return $this->get_prop( 'review_count', $context );
+		}
+		return (int) get_post_meta( $this->id, '_rtcl_review_count', true );
 	}
 
 	function get_price() {

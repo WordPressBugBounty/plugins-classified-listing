@@ -606,6 +606,14 @@ class AvailableFields {
 						'value'   => false,
 						'message' => __( 'This field is required', 'classified-listing' ),
 					],
+					'min'      => [
+						'value'   => '',
+						'message' => __( 'Minimum {value} character', 'classified-listing' ),
+					],
+					'max'      => [
+						'value'   => '',
+						'message' => __( 'Maximum {value} character', 'classified-listing' ),
+					]
 				],
 				'logics'          => '',
 				'editor'          => [
@@ -635,6 +643,14 @@ class AvailableFields {
 						'value'   => false,
 						'message' => __( 'This field is required', 'classified-listing' ),
 					],
+					'min'      => [
+						'value'   => '',
+						'message' => __( 'Minimum {value} character', 'classified-listing' ),
+					],
+					'max'      => [
+						'value'   => '',
+						'message' => __( 'Maximum {value} character', 'classified-listing' ),
+					]
 				],
 				'logics'          => '',
 				'editor'          => [
