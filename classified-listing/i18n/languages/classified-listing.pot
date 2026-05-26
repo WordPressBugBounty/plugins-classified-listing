@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory Plugin 5.4.1\n"
+"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory Plugin 5.4.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-23T11:08:30+00:00\n"
+"POT-Creation-Date: 2026-05-26T04:19:01+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: classified-listing\n"
@@ -4147,7 +4147,7 @@ msgstr ""
 #. translators:  Human read able time
 #. translators: Human read able time.
 #: app/Helpers/Functions.php:2961
-#: app/Models/Listing.php:927
+#: app/Models/Listing.php:935
 #, php-format
 msgid "%s ago"
 msgstr ""
@@ -4727,13 +4727,13 @@ msgstr ""
 msgid "AI client is not found."
 msgstr ""
 
-#: app/Models/Listing.php:997
+#: app/Models/Listing.php:1005
 #: app/Resources/Options.php:990
 #: src/blocks/listing-ads/inspector.js:576
 msgid "Author"
 msgstr ""
 
-#: app/Models/Listing.php:1429
+#: app/Models/Listing.php:1437
 msgid "Free!"
 msgstr ""
 

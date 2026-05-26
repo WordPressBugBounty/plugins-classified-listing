@@ -152,9 +152,17 @@ class Listing extends Data {
 		}
 
 		$raw_terms = $this->$target;
+
+		// Prevent fatal error if wp_get_object_terms() returns WP_Error
+		if ( is_wp_error( $raw_terms ) || ! is_array( $raw_terms ) ) {
+			$this->$target = [];
+			return;
+		}
+
 		if ( $target_term === 'category' && 1 < count( $raw_terms ) ) {
 			return;
 		}
+		
 		if ( ! empty( $raw_terms ) ) {
 			$term_ancestors = [];
 			$last_term      = 0;
