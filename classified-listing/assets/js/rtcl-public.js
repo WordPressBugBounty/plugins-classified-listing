@@ -2,11 +2,11 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/js/classes/RtclAjaxFilter.js":
+/***/ "./src/js/classes/RtclAjaxFilter.js"
 /*!******************************************!*\
   !*** ./src/js/classes/RtclAjaxFilter.js ***!
   \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
@@ -990,14 +990,20 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
       var $filterWrap = _this.$('<div class="rtcl-active-filters-wrap"></div>');
       var $filters = _this.$('<div class="rtcl-active-filters"></div>');
       filters.map(function (_filter) {
-        var $filter = _this.$('<div class="rtcl-active-filter"><div class="af-name">' + _filter.label + '</div><div class="af-items"></div></div>');
+        var $filter = _this.$('<div class="rtcl-active-filter"><div class="af-name"></div><div class="af-items"></div></div>');
+        $filter.find('.af-name').text(_filter.label);
         Object.keys(_filter.selected).map(function (_id) {
-          var $item = _this.$('<div class="afi" tabindex="0" data-item-id="' + _filter.itemId + '" data-filter-name="' + _filter.id + '"  data-filter-value="' + _id + '">' + _filter.selected[_id] + '<span class="rtcl-remove-filter"><i class="remove-icon"></i></span></div>');
+          var $item = _this.$('<div class="afi" tabindex="0"><span class="rtcl-remove-filter"><i class="remove-icon"></i></span></div>');
+          $item.attr('data-item-id', _filter.itemId);
+          $item.attr('data-filter-name', _filter.id);
+          $item.attr('data-filter-value', _id);
+          $item.prepend(document.createTextNode(_filter.selected[_id]));
           $filter.find('.af-items').append($item);
         });
         $filters.append($filter);
       });
-      var $restBtn = _this.$('<div class="rtcl-clear-filters" tabindex="0"><span class="icon-wrap"><i class="rtcl-icon rtcl-icon-trash"></i></span><span>' + rtclAjaxFilterObj.clear_all_filter + '</span></div>');
+      var $restBtn = _this.$('<div class="rtcl-clear-filters" tabindex="0"><span class="icon-wrap"><i class="rtcl-icon rtcl-icon-trash"></i></span><span></span></div>');
+      $restBtn.find('span:last').text(rtclAjaxFilterObj.clear_all_filter);
       $filterWrap.append($filters, $restBtn);
       $filterContainer.append($filterWrap);
     }
@@ -1176,7 +1182,7 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RtclAjaxFilter);
 
-/***/ })
+/***/ }
 
 /******/ 	});
 /************************************************************************/
@@ -1189,6 +1195,12 @@ var RtclAjaxFilter = /*#__PURE__*/_createClass(function RtclAjaxFilter() {
 /******/ 		var cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
 /******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Check if module exists (development only)
+/******/ 		if (__webpack_modules__[moduleId] === undefined) {
+/******/ 			var e = new Error("Cannot find module '" + moduleId + "'");
+/******/ 			e.code = 'MODULE_NOT_FOUND';
+/******/ 			throw e;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {

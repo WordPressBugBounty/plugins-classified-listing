@@ -192,7 +192,7 @@ class NoticeController {
             .rtcl-review-notice h3 + p {
                 margin-top: 8px;
             } 
-            .rtcl-review-button {
+            .rtcl-review-notice_actions .rtcl-review-button {
                 display: inline-block;
                 padding: 0.4375rem 0.75rem;
                 border: 0;
@@ -204,24 +204,24 @@ class NoticeController {
                 text-decoration: none;
                 white-space: nowrap; 
             }
-            .rtcl-review-button:active {
+            .rtcl-review-notice_actions .rtcl-review-button:active {
                 background: var(--e-button-context-color-dark);
                 color: #fff;
                 text-decoration: none;
             }
-            .rtcl-review-button:focus {
+            .rtcl-review-notice_actions .rtcl-review-button:focus {
                 outline: 0;
                 background: var(--e-button-context-color-dark);
                 box-shadow: 0 0 0 2px var(--e-focus-color);
                 color: #fff;
                 text-decoration: none;
             }
-            .rtcl-review-button:hover {
+            .rtcl-review-notice_actions .rtcl-review-button:hover {
                 background: var(--e-button-context-color-dark);
                 color: #fff;
                 text-decoration: none;
             } 
-            .rtcl-review-button.focus {
+            .rtcl-review-notice_actions .rtcl-review-button.focus {
                 outline: 0;
                 box-shadow: 0 0 0 2px var(--e-focus-color);
             } 
@@ -235,6 +235,7 @@ class NoticeController {
                 border: 1px solid;
                 background: 0 0;
                 color: var(--e-button-context-color);
+                text-decoration: none;
             }
             .rtcl-review-button.rtcl-review-button--outline:focus {
                 background: var(--e-button-context-tint);

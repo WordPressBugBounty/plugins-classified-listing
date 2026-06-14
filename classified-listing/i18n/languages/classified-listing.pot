@@ -2,21 +2,21 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory Plugin 5.4.2\n"
+"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory 5.4.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-26T04:19:01+00:00\n"
+"POT-Creation-Date: 2026-06-14T09:37:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: classified-listing\n"
 
 #. Plugin Name of the plugin
 #: classified-listing.php
-msgid "Classified Listing – AI-Powered Classified ads & Business Directory Plugin"
+msgid "Classified Listing – AI-Powered Classified ads & Business Directory"
 msgstr ""
 
 #. Plugin URI of the plugin
@@ -1057,51 +1057,51 @@ msgid_plural "Refunded <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: app/Controllers/Admin/ScriptLoader.php:84
-#: app/Controllers/Admin/ScriptLoader.php:671
+#: app/Controllers/Admin/ScriptLoader.php:85
+#: app/Controllers/Admin/ScriptLoader.php:675
 msgid "Are you sure you want to re-send verification link?"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:190
+#: app/Controllers/Admin/ScriptLoader.php:191
 #: app/Resources/Gallery.php:341
 #: app/Services/FormBuilder/LocalizedString.php:69
 msgid "Edit Image"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:191
+#: app/Controllers/Admin/ScriptLoader.php:192
 msgid "Delete Image"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:192
+#: app/Controllers/Admin/ScriptLoader.php:193
 msgid "View Full Image"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:193
+#: app/Controllers/Admin/ScriptLoader.php:194
 msgid "Main"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:194
-#: app/Controllers/Admin/ScriptLoader.php:750
+#: app/Controllers/Admin/ScriptLoader.php:195
+#: app/Controllers/Admin/ScriptLoader.php:756
 msgid "Error while upload image"
 msgstr ""
 
 #. translators: Image size
-#: app/Controllers/Admin/ScriptLoader.php:196
-#: app/Controllers/Admin/ScriptLoader.php:752
+#: app/Controllers/Admin/ScriptLoader.php:197
+#: app/Controllers/Admin/ScriptLoader.php:758
 #, php-format
 msgid "Image size is more then %s."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:198
+#: app/Controllers/Admin/ScriptLoader.php:199
 msgid "Image limit is over."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:199
-#: app/Controllers/Admin/ScriptLoader.php:754
+#: app/Controllers/Admin/ScriptLoader.php:200
+#: app/Controllers/Admin/ScriptLoader.php:760
 msgid "File extension not supported."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:210
+#: app/Controllers/Admin/ScriptLoader.php:211
 #: app/Controllers/Ajax/Export.php:26
 #: app/Controllers/Ajax/Export.php:51
 #: app/Controllers/Ajax/Export.php:247
@@ -1134,243 +1134,243 @@ msgstr ""
 msgid "Session Expired!!"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:211
+#: app/Controllers/Admin/ScriptLoader.php:212
 #: app/Controllers/BusinessHoursController.php:278
 msgid "Server Error!!"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:212
+#: app/Controllers/Admin/ScriptLoader.php:213
 msgid "This field is required."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:213
+#: app/Controllers/Admin/ScriptLoader.php:214
 msgid "Please fix this field."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:214
+#: app/Controllers/Admin/ScriptLoader.php:215
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:215
+#: app/Controllers/Admin/ScriptLoader.php:216
 msgid "Please enter a valid URL."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:216
+#: app/Controllers/Admin/ScriptLoader.php:217
 msgid "Please enter a valid date."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:217
+#: app/Controllers/Admin/ScriptLoader.php:218
 msgid "Please enter a valid date (ISO)."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:218
+#: app/Controllers/Admin/ScriptLoader.php:219
 msgid "Please enter a valid number."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:219
+#: app/Controllers/Admin/ScriptLoader.php:220
 msgid "Please enter only digits."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:220
+#: app/Controllers/Admin/ScriptLoader.php:221
 msgid "Please enter the same value again."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:221
+#: app/Controllers/Admin/ScriptLoader.php:222
 msgid "Please enter no more than {0} characters."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:222
+#: app/Controllers/Admin/ScriptLoader.php:223
 msgid "Please enter at least {0} characters."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:223
+#: app/Controllers/Admin/ScriptLoader.php:224
 msgid "Please enter a value between {0} and {1} characters long."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:224
+#: app/Controllers/Admin/ScriptLoader.php:225
 msgid "Please enter a value between {0} and {1}."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:225
+#: app/Controllers/Admin/ScriptLoader.php:226
 msgid "Invalid format."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:226
+#: app/Controllers/Admin/ScriptLoader.php:227
 msgid "Please enter {0} words or less."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:227
+#: app/Controllers/Admin/ScriptLoader.php:228
 msgid "Please enter at least {0} words."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:228
+#: app/Controllers/Admin/ScriptLoader.php:229
 msgid "Please enter between {0} and {1} words."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:229
+#: app/Controllers/Admin/ScriptLoader.php:230
 msgid "Letters, numbers, and underscores only please"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:230
+#: app/Controllers/Admin/ScriptLoader.php:231
 msgid "Only alphabets and spaces are allowed."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:231
+#: app/Controllers/Admin/ScriptLoader.php:232
 msgid "Please enter a value with a valid mimetype."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:232
+#: app/Controllers/Admin/ScriptLoader.php:233
 msgid "Please enter a value less than or equal to {0}."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:233
+#: app/Controllers/Admin/ScriptLoader.php:234
 msgid "Please enter a value greater than or equal to {0}."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:234
+#: app/Controllers/Admin/ScriptLoader.php:235
 msgid "Please enter a multiple of {0}."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:235
+#: app/Controllers/Admin/ScriptLoader.php:236
 msgid "Please Select a value file with a valid extension."
 msgstr ""
 
 #. translators: Password length
-#: app/Controllers/Admin/ScriptLoader.php:237
+#: app/Controllers/Admin/ScriptLoader.php:238
 #: app/Controllers/Hooks/FilterHooks.php:402
 #, php-format
 msgid "Your password must be at least %d characters long."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:239
+#: app/Controllers/Admin/ScriptLoader.php:240
 msgid "Max must be greater than min"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:240
+#: app/Controllers/Admin/ScriptLoader.php:241
 msgid "Max price must be greater than regular price"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:242
+#: app/Controllers/Admin/ScriptLoader.php:243
 msgid "Please enter a valid credit card number."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:243
+#: app/Controllers/Admin/ScriptLoader.php:244
 msgid "Enter a valid cvc number."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:244
+#: app/Controllers/Admin/ScriptLoader.php:245
 msgid "Enter a valid expiry date"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:245
+#: app/Controllers/Admin/ScriptLoader.php:246
 msgid "Your card number is incorrect."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:246
+#: app/Controllers/Admin/ScriptLoader.php:247
 msgid "A network error has occurred, and you have not been charged. Please try again."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:251
+#: app/Controllers/Admin/ScriptLoader.php:252
 msgid "Password strength unknown"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:252
+#: app/Controllers/Admin/ScriptLoader.php:253
 msgid "Very weak"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:253
+#: app/Controllers/Admin/ScriptLoader.php:254
 msgid "Weak"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:254
+#: app/Controllers/Admin/ScriptLoader.php:255
 #: app/Services/FormBuilder/ElementCustomization.php:696
 msgid "Medium"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:255
+#: app/Controllers/Admin/ScriptLoader.php:256
 msgid "Strong"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:256
+#: app/Controllers/Admin/ScriptLoader.php:257
 msgid "Mismatch"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:269
+#: app/Controllers/Admin/ScriptLoader.php:270
 #: app/Helpers/Functions.php:5165
 #: app/Helpers/Functions.php:5167
 msgid "Select an option&hellip;"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:270
+#: app/Controllers/Admin/ScriptLoader.php:271
 msgctxt "enhanced select"
 msgid "No matches found"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:271
+#: app/Controllers/Admin/ScriptLoader.php:272
 msgctxt "enhanced select"
 msgid "Loading failed"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:272
+#: app/Controllers/Admin/ScriptLoader.php:273
 msgctxt "enhanced select"
 msgid "Please enter 1 or more characters"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:273
+#: app/Controllers/Admin/ScriptLoader.php:274
 msgctxt "enhanced select"
 msgid "Please enter %qty% or more characters"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:274
+#: app/Controllers/Admin/ScriptLoader.php:275
 msgctxt "enhanced select"
 msgid "Please delete 1 character"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:275
+#: app/Controllers/Admin/ScriptLoader.php:276
 msgctxt "enhanced select"
 msgid "Please delete %qty% characters"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:276
+#: app/Controllers/Admin/ScriptLoader.php:277
 msgctxt "enhanced select"
 msgid "You can only select 1 item"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:277
+#: app/Controllers/Admin/ScriptLoader.php:278
 msgctxt "enhanced select"
 msgid "You can only select %qty% items"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:278
+#: app/Controllers/Admin/ScriptLoader.php:279
 msgctxt "enhanced select"
 msgid "Loading more results&hellip;"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:279
+#: app/Controllers/Admin/ScriptLoader.php:280
 msgctxt "enhanced select"
 msgid "Searching&hellip;"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:286
+#: app/Controllers/Admin/ScriptLoader.php:287
 #: app/Helpers/Functions.php:5068
 msgid "required"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:287
+#: app/Controllers/Admin/ScriptLoader.php:288
 #: app/Helpers/Functions.php:5070
 msgid "optional"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:658
+#: app/Controllers/Admin/ScriptLoader.php:662
 msgid "Please select a rating"
 msgstr ""
 
 #. translators: %s: decimal
 #. translators: decimal_separator
 #. translators: pricing_decimal_separator
-#: app/Controllers/Admin/ScriptLoader.php:660
-#: app/Controllers/Admin/ScriptLoader.php:905
-#: app/Controllers/Admin/ScriptLoader.php:908
+#: app/Controllers/Admin/ScriptLoader.php:664
+#: app/Controllers/Admin/ScriptLoader.php:913
+#: app/Controllers/Admin/ScriptLoader.php:916
 #, php-format
 msgid "Please enter in decimal (%s) format without thousand separators."
 msgstr ""
@@ -1378,19 +1378,19 @@ msgstr ""
 #. translators: %s: price decimal separator
 #. translators: decimal_separator
 #. translators: pricing_decimal_separator
-#: app/Controllers/Admin/ScriptLoader.php:664
-#: app/Controllers/Admin/ScriptLoader.php:911
-#: app/Controllers/Admin/ScriptLoader.php:915
+#: app/Controllers/Admin/ScriptLoader.php:668
+#: app/Controllers/Admin/ScriptLoader.php:919
+#: app/Controllers/Admin/ScriptLoader.php:923
 #, php-format
 msgid "Please enter in monetary decimal (%s) format without thousand separators and currency symbols."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:670
+#: app/Controllers/Admin/ScriptLoader.php:674
 #: app/Models/RtclCFGField.php:246
 msgid "Are you sure?"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:676
+#: app/Controllers/Admin/ScriptLoader.php:680
 #: app/Controllers/Hooks/TemplateHooks.php:390
 #: app/Controllers/Hooks/TemplateHooks.php:436
 #: app/Resources/ListingDetails.php:69
@@ -1406,7 +1406,7 @@ msgstr ""
 msgid "Category"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:677
+#: app/Controllers/Admin/ScriptLoader.php:681
 #: app/Controllers/Hooks/TemplateHooks.php:824
 #: app/Controllers/Hooks/TemplateHooks.php:1210
 #: app/Resources/Options.php:60
@@ -1430,114 +1430,114 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:680
+#: app/Controllers/Admin/ScriptLoader.php:684
 msgid "Sorry, you need to login first."
 msgstr ""
 
 #. translators: Image pending count
-#: app/Controllers/Admin/ScriptLoader.php:683
+#: app/Controllers/Admin/ScriptLoader.php:687
 #, php-format
 msgid "Sorry, you have only %d images pending."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:684
+#: app/Controllers/Admin/ScriptLoader.php:688
 msgid "Delete Permanently"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:685
+#: app/Controllers/Admin/ScriptLoader.php:689
 #: app/Controllers/Hooks/TemplateHooks.php:2246
 msgid "Proceed to payment"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:686
+#: app/Controllers/Admin/ScriptLoader.php:690
 msgid "Finish submission"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:689
+#: app/Controllers/Admin/ScriptLoader.php:693
 msgid "Loading ..."
 msgstr ""
 
 #. translators: All of item
-#: app/Controllers/Admin/ScriptLoader.php:702
+#: app/Controllers/Admin/ScriptLoader.php:708
 #, php-format
 msgid "All of %s"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:703
+#: app/Controllers/Admin/ScriptLoader.php:709
 msgid "Go back"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:704
+#: app/Controllers/Admin/ScriptLoader.php:710
 msgid "Analyzing through AI"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:705
+#: app/Controllers/Admin/ScriptLoader.php:711
 msgid "Search Results for: "
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:723
+#: app/Controllers/Admin/ScriptLoader.php:729
 msgid "You can't leave Captcha Code empty"
 msgstr ""
 
 #. translators: 1: related to , 2: Related form
 #. translators: related something
-#: app/Controllers/Admin/ScriptLoader.php:732
+#: app/Controllers/Admin/ScriptLoader.php:738
 #: app/Controllers/Hooks/TemplateHooks.php:843
 #, php-format
 msgid "Need to discuss something related to '%1$s' from %2$s"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:758
+#: app/Controllers/Admin/ScriptLoader.php:764
 msgid "Clear all filters"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:759
+#: app/Controllers/Admin/ScriptLoader.php:765
 msgid "No result found."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:760
+#: app/Controllers/Admin/ScriptLoader.php:766
 msgid "Show All"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:763
+#: app/Controllers/Admin/ScriptLoader.php:769
 msgid "Showing all % results"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:764
+#: app/Controllers/Admin/ScriptLoader.php:770
 msgid "Showing _ of % results"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:782
+#: app/Controllers/Admin/ScriptLoader.php:788
 msgid "Please select ad type first"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:783
+#: app/Controllers/Admin/ScriptLoader.php:789
 msgid "Please select parent category first"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:920
+#: app/Controllers/Admin/ScriptLoader.php:928
 #: templates/emails/listing-expired-email-to-admin.php:35
 msgid "Expired on:"
 msgstr ""
 
 #. translators: Date formate
 #. translators: 1: month, 2: day, 3: year, 4: hour, 5: minute
-#: app/Controllers/Admin/ScriptLoader.php:922
+#: app/Controllers/Admin/ScriptLoader.php:930
 #: app/Helpers/Functions.php:4996
 #, php-format
 msgid "%1$s %2$s, %3$s @ %4$s:%5$s"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:923
+#: app/Controllers/Admin/ScriptLoader.php:931
 msgid "Are you sure you wish to delete this note? This action cannot be undone."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:924
+#: app/Controllers/Admin/ScriptLoader.php:932
 #: templates/listing/email-to-seller-form.php:31
 msgid "Message"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:925
+#: app/Controllers/Admin/ScriptLoader.php:933
 msgid "Send"
 msgstr ""
 
@@ -1570,7 +1570,7 @@ msgstr ""
 #: app/Controllers/Ajax/AjaxListingType.php:46
 #: app/Controllers/Ajax/AjaxListingType.php:78
 #: app/Controllers/Ajax/AjaxListingType.php:149
-#: app/Controllers/Ajax/FormBuilderAjax.php:1589
+#: app/Controllers/Ajax/FormBuilderAjax.php:1595
 msgid "Session error!!"
 msgstr ""
 
@@ -1707,8 +1707,8 @@ msgid "You cannot edit images."
 msgstr ""
 
 #: app/Controllers/AIImageController.php:35
-#: app/Controllers/Ajax/FormBuilderAjax.php:664
-#: app/Controllers/Ajax/FormBuilderAjax.php:873
+#: app/Controllers/Ajax/FormBuilderAjax.php:670
+#: app/Controllers/Ajax/FormBuilderAjax.php:879
 msgid "Given file is empty to upload."
 msgstr ""
 
@@ -1754,19 +1754,19 @@ msgstr ""
 #: app/Controllers/Ajax/FormBuilderAjax.php:70
 #: app/Controllers/Ajax/FormBuilderAjax.php:523
 #: app/Controllers/Ajax/FormBuilderAjax.php:592
-#: app/Controllers/Ajax/FormBuilderAjax.php:627
-#: app/Controllers/Ajax/FormBuilderAjax.php:782
-#: app/Controllers/Ajax/FormBuilderAjax.php:818
-#: app/Controllers/Ajax/FormBuilderAjax.php:863
-#: app/Controllers/Ajax/FormBuilderAjax.php:1098
-#: app/Controllers/Ajax/FormBuilderAjax.php:1265
-#: app/Controllers/Ajax/FormBuilderAjax.php:1305
-#: app/Controllers/Ajax/FormBuilderAjax.php:1366
-#: app/Controllers/Ajax/FormBuilderAjax.php:1465
-#: app/Controllers/Ajax/FormBuilderAjax.php:1497
-#: app/Controllers/Ajax/FormBuilderAjax.php:1562
-#: app/Controllers/Ajax/PublicUser.php:1374
-#: app/Controllers/Ajax/PublicUser.php:1418
+#: app/Controllers/Ajax/FormBuilderAjax.php:633
+#: app/Controllers/Ajax/FormBuilderAjax.php:788
+#: app/Controllers/Ajax/FormBuilderAjax.php:824
+#: app/Controllers/Ajax/FormBuilderAjax.php:869
+#: app/Controllers/Ajax/FormBuilderAjax.php:1104
+#: app/Controllers/Ajax/FormBuilderAjax.php:1271
+#: app/Controllers/Ajax/FormBuilderAjax.php:1311
+#: app/Controllers/Ajax/FormBuilderAjax.php:1372
+#: app/Controllers/Ajax/FormBuilderAjax.php:1471
+#: app/Controllers/Ajax/FormBuilderAjax.php:1503
+#: app/Controllers/Ajax/FormBuilderAjax.php:1568
+#: app/Controllers/Ajax/PublicUser.php:1376
+#: app/Controllers/Ajax/PublicUser.php:1420
 msgid "Session error !!"
 msgstr ""
 
@@ -1816,9 +1816,9 @@ msgstr ""
 #: app/Controllers/Ajax/AjaxGallery.php:99
 #: app/Controllers/Ajax/FormBuilderAjax.php:539
 #: app/Controllers/Ajax/FormBuilderAjax.php:600
-#: app/Controllers/Ajax/FormBuilderAjax.php:790
-#: app/Controllers/Ajax/FormBuilderAjax.php:826
-#: app/Controllers/Ajax/FormBuilderAjax.php:1172
+#: app/Controllers/Ajax/FormBuilderAjax.php:796
+#: app/Controllers/Ajax/FormBuilderAjax.php:832
+#: app/Controllers/Ajax/FormBuilderAjax.php:1178
 msgid "Attachment does not exist."
 msgstr ""
 
@@ -1828,16 +1828,16 @@ msgstr ""
 
 #: app/Controllers/Ajax/AjaxGallery.php:117
 #: app/Controllers/Ajax/FormBuilderAjax.php:545
-#: app/Controllers/Ajax/FormBuilderAjax.php:608
-#: app/Controllers/Ajax/FormBuilderAjax.php:798
-#: app/Controllers/Ajax/FormBuilderAjax.php:834
-#: app/Controllers/Ajax/FormBuilderAjax.php:1186
+#: app/Controllers/Ajax/FormBuilderAjax.php:614
+#: app/Controllers/Ajax/FormBuilderAjax.php:804
+#: app/Controllers/Ajax/FormBuilderAjax.php:840
+#: app/Controllers/Ajax/FormBuilderAjax.php:1192
 msgid "Incorrect attachment ID."
 msgstr ""
 
 #: app/Controllers/Ajax/AjaxGallery.php:124
 #: app/Controllers/Ajax/FormBuilderAjax.php:556
-#: app/Controllers/Ajax/FormBuilderAjax.php:1240
+#: app/Controllers/Ajax/FormBuilderAjax.php:1246
 #: app/Controllers/Ajax/PublicUser.php:435
 msgid "File could not be deleted."
 msgstr ""
@@ -1855,7 +1855,7 @@ msgid "You do not have permission to reorder images for this listing."
 msgstr ""
 
 #: app/Controllers/Ajax/AjaxGallery.php:172
-#: app/Controllers/Ajax/FormBuilderAjax.php:660
+#: app/Controllers/Ajax/FormBuilderAjax.php:666
 msgid "Registration required to upload listing image."
 msgstr ""
 
@@ -1868,8 +1868,8 @@ msgid "You do not have permission to upload images for this listing."
 msgstr ""
 
 #: app/Controllers/Ajax/AjaxGallery.php:257
-#: app/Controllers/Ajax/FormBuilderAjax.php:724
-#: app/Controllers/Ajax/FormBuilderAjax.php:1066
+#: app/Controllers/Ajax/FormBuilderAjax.php:730
+#: app/Controllers/Ajax/FormBuilderAjax.php:1072
 msgid "RTCL Auto Temp"
 msgstr ""
 
@@ -2294,9 +2294,9 @@ msgstr ""
 
 #: app/Controllers/Ajax/FormBuilderAjax.php:80
 #: app/Controllers/Ajax/FormBuilderAjax.php:531
-#: app/Controllers/Ajax/FormBuilderAjax.php:683
-#: app/Controllers/Ajax/FormBuilderAjax.php:960
-#: app/Controllers/Ajax/FormBuilderAjax.php:1180
+#: app/Controllers/Ajax/FormBuilderAjax.php:689
+#: app/Controllers/Ajax/FormBuilderAjax.php:966
+#: app/Controllers/Ajax/FormBuilderAjax.php:1186
 #: app/Shortcodes/ListingForm.php:38
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
@@ -2322,120 +2322,124 @@ msgid "A new account is registered, password is sent to your email(%s)."
 msgstr ""
 
 #: app/Controllers/Ajax/FormBuilderAjax.php:482
-#: app/Controllers/Ajax/PublicUser.php:1295
+#: app/Controllers/Ajax/PublicUser.php:1297
 msgid "Thank you for submitting your ad!"
 msgstr ""
 
 #: app/Controllers/Ajax/FormBuilderAjax.php:484
-#: app/Controllers/Ajax/PublicUser.php:1305
+#: app/Controllers/Ajax/PublicUser.php:1307
 msgid "Successfully updated !!!"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:614
+#: app/Controllers/Ajax/FormBuilderAjax.php:608
+msgid "You do not have sufficient permissions."
+msgstr ""
+
+#: app/Controllers/Ajax/FormBuilderAjax.php:620
 msgid "File is already as featured."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:618
+#: app/Controllers/Ajax/FormBuilderAjax.php:624
 msgid "Error while making feature."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:621
+#: app/Controllers/Ajax/FormBuilderAjax.php:627
 msgid "Image successfully featured."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:634
+#: app/Controllers/Ajax/FormBuilderAjax.php:640
 msgid "You do not have sufficient permissions to set."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:640
+#: app/Controllers/Ajax/FormBuilderAjax.php:646
 msgid "Attachment ids not exist."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:656
+#: app/Controllers/Ajax/FormBuilderAjax.php:662
 #: app/Controllers/Ajax/InlineSearchAjax.php:54
 msgid "Unauthorized access!"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:675
-#: app/Controllers/Ajax/FormBuilderAjax.php:950
+#: app/Controllers/Ajax/FormBuilderAjax.php:681
+#: app/Controllers/Ajax/FormBuilderAjax.php:956
 msgid "Invalid listing ID."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:804
-#: app/Controllers/Ajax/FormBuilderAjax.php:840
+#: app/Controllers/Ajax/FormBuilderAjax.php:810
+#: app/Controllers/Ajax/FormBuilderAjax.php:846
 msgid "Unauthorized access"
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:869
+#: app/Controllers/Ajax/FormBuilderAjax.php:875
 msgid "Registration required to upload listing file."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:880
+#: app/Controllers/Ajax/FormBuilderAjax.php:886
 msgid "From id is empty to upload."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:892
-#: app/Controllers/Ajax/FormBuilderAjax.php:922
+#: app/Controllers/Ajax/FormBuilderAjax.php:898
+#: app/Controllers/Ajax/FormBuilderAjax.php:928
 msgid "Field id is empty to upload."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:899
-#: app/Controllers/Ajax/FormBuilderAjax.php:931
+#: app/Controllers/Ajax/FormBuilderAjax.php:905
+#: app/Controllers/Ajax/FormBuilderAjax.php:937
 msgid "No field found to upload."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:915
-#: app/Controllers/Ajax/FormBuilderAjax.php:1140
+#: app/Controllers/Ajax/FormBuilderAjax.php:921
+#: app/Controllers/Ajax/FormBuilderAjax.php:1146
 msgid "Repeater field index is not defined."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:939
-#: app/Controllers/Ajax/FormBuilderAjax.php:1164
+#: app/Controllers/Ajax/FormBuilderAjax.php:945
+#: app/Controllers/Ajax/FormBuilderAjax.php:1170
 msgid "Field name is empty."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1016
+#: app/Controllers/Ajax/FormBuilderAjax.php:1022
 msgid "Your file upload limit is over."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1105
+#: app/Controllers/Ajax/FormBuilderAjax.php:1111
 msgid "From id is empty to delete."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1117
-#: app/Controllers/Ajax/FormBuilderAjax.php:1147
+#: app/Controllers/Ajax/FormBuilderAjax.php:1123
+#: app/Controllers/Ajax/FormBuilderAjax.php:1153
 msgid "Field id is empty to delete."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1124
-#: app/Controllers/Ajax/FormBuilderAjax.php:1156
+#: app/Controllers/Ajax/FormBuilderAjax.php:1130
+#: app/Controllers/Ajax/FormBuilderAjax.php:1162
 msgid "No field found to delete."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1234
+#: app/Controllers/Ajax/FormBuilderAjax.php:1240
 msgid "No file found to delete."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1505
+#: app/Controllers/Ajax/FormBuilderAjax.php:1511
 msgid "You don't have permission to create tags."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1512
+#: app/Controllers/Ajax/FormBuilderAjax.php:1518
 msgid "Tag name is required"
 msgstr ""
 
 #. translators: %d: maximum allowed characters
-#: app/Controllers/Ajax/FormBuilderAjax.php:1522
+#: app/Controllers/Ajax/FormBuilderAjax.php:1528
 #, php-format
 msgid "Tag name must not exceed %d characters."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1543
-#: app/Controllers/Ajax/FormBuilderAjax.php:1550
+#: app/Controllers/Ajax/FormBuilderAjax.php:1549
+#: app/Controllers/Ajax/FormBuilderAjax.php:1556
 msgid "Error while creating new tag."
 msgstr ""
 
-#: app/Controllers/Ajax/FormBuilderAjax.php:1593
+#: app/Controllers/Ajax/FormBuilderAjax.php:1599
 #: app/Controllers/Ajax/PublicUser.php:364
 msgid "Unauthorized access."
 msgstr ""
@@ -2576,7 +2580,7 @@ msgid "Successfully sent"
 msgstr ""
 
 #: app/Controllers/Ajax/ListingAdminAjax.php:66
-#: app/Controllers/Ajax/PublicUser.php:1326
+#: app/Controllers/Ajax/PublicUser.php:1328
 msgid "Error!!"
 msgstr ""
 
@@ -2781,19 +2785,19 @@ msgstr ""
 msgid "Category not selected"
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1336
+#: app/Controllers/Ajax/PublicUser.php:1338
 msgid "Session Error !!"
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1399
+#: app/Controllers/Ajax/PublicUser.php:1401
 msgid "Category not selected."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1442
+#: app/Controllers/Ajax/PublicUser.php:1444
 msgid "No category found."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1445
+#: app/Controllers/Ajax/PublicUser.php:1447
 msgid "Type is not selected."
 msgstr ""
 

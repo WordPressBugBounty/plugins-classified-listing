@@ -1,4 +1,4 @@
-/*! tailwindcss v4.1.14 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.1.18 | MIT License | https://tailwindcss.com */
 @charset "UTF-8";
 .noUi-target, .noUi-target * {
   -webkit-touch-callout: none;
@@ -7636,18 +7636,24 @@ html[dir=rtl] .rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul l
 .post-type-rtcl_cfg .rtcl-cf-postbox h2 .rtcl-legend-update {
   margin: 0 5px;
 }
-.rtcl-cf-add-new.button {
+#rtcl-cfg-wrapper .rtcl-cf-add-new.button {
   color: #fff;
   font-weight: 700;
   height: auto;
-  padding: 10px 15px 10px 10px;
+  padding: 6px 15px 10px 6px;
   margin-bottom: 1em;
   background-color: #f05a28;
   border-color: #ed4e26;
   box-shadow: inset 0 1px 0 rgba(255, 175, 148, 0.5), 0 1px 0 rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  max-width: -moz-max-content;
+  max-width: max-content;
+  gap: 5px;
 }
-.rtcl-cf-add-new.button span {
+#rtcl-cfg-wrapper .rtcl-cf-add-new.button span {
   vertical-align: text-top;
+  color: #fff;
 }
 .rtcl-choose-field span.rtcl-field-item {
   height: auto;
@@ -7686,12 +7692,14 @@ html[dir=rtl] .rtcl-ui-modal .rtcl-ui-select-list-wrap .rtcl-ui-select-list ul l
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+#rtcl-cfg .postbox a.rtcl-field-remove,
 #rtcl-cfg .postbox span.rtcl-field-remove {
   display: inline-block;
   padding: 5px 10px 0 0;
   color: red;
   line-height: 22px;
   cursor: pointer;
+  text-decoration: none;
 }
 #rtcl-cfg .postbox h3.hndle span.dashicons {
   text-align: center;

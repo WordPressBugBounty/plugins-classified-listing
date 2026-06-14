@@ -604,6 +604,12 @@ class FormBuilderAjax {
 
 		$listingId = absint( Functions::request( "listingId" ) );
 
+		if ( ( ! $listingId || ! $listing = rtcl()->factory->get_listing( $listingId ) || ! Functions::current_user_can( 'edit_' . rtcl()->post_type, $listingId ) ) || ( ! is_user_logged_in() && ! Functions::is_enable_post_for_unregister() ) ) {
+			wp_send_json_error( __( 'You do not have sufficient permissions.', 'classified-listing' ) );
+
+			return;
+		}
+
 		if ( $attach->post_parent !== $listingId ) {
 			wp_send_json_error( __( "Incorrect attachment ID.", "classified-listing" ) );
 

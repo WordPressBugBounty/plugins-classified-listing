@@ -1236,44 +1236,46 @@ class PublicUser {
 								$post_id                 = $success = wp_insert_post( apply_filters( 'rtcl_listing_save_update_args', $post_arg, $type ) );
 							}
 
-							if ( $post_id && isset( $_POST['rtcl_listing_tag'] ) ) {
-								$tags          = Functions::sanitize( $_POST['rtcl_listing_tag'] );
-								$tags_as_array = ! empty( $tags ) ? explode( ',', $tags ) : [];
-								wp_set_object_terms( $post_id, $tags_as_array, rtcl()->tag );
-							}
+							if ( $success && $post_id ) {
+								if ( isset( $_POST['rtcl_listing_tag'] ) ) {
+									$tags          = Functions::sanitize( $_POST['rtcl_listing_tag'] );
+									$tags_as_array = ! empty( $tags ) ? explode( ',', $tags ) : [];
+									wp_set_object_terms( $post_id, $tags_as_array, rtcl()->tag );
+								}
 
-							if ( $type == 'new' && $post_id ) {
-								wp_set_object_terms( $post_id, $cats, rtcl()->category );
-								$meta['ad_type'] = $listing_type;
-							}
-							if ( 'local' === Functions::location_type() ) {
-								$locations = [];
-								if ( $loc = Functions::request( 'location' ) ) {
-									$locations[] = absint( $loc );
+								if ( $type == 'new' ) {
+									wp_set_object_terms( $post_id, $cats, rtcl()->category );
+									$meta['ad_type'] = $listing_type;
 								}
-								if ( $loc = Functions::request( 'sub_location' ) ) {
-									$locations[] = absint( $loc );
+								if ( 'local' === Functions::location_type() ) {
+									$locations = [];
+									if ( $loc = Functions::request( 'location' ) ) {
+										$locations[] = absint( $loc );
+									}
+									if ( $loc = Functions::request( 'sub_location' ) ) {
+										$locations[] = absint( $loc );
+									}
+									if ( $loc = Functions::request( 'sub_sub_location' ) ) {
+										$locations[] = absint( $loc );
+									}
+									wp_set_object_terms( $post_id, $locations, rtcl()->location );
 								}
-								if ( $loc = Functions::request( 'sub_sub_location' ) ) {
-									$locations[] = absint( $loc );
-								}
-								wp_set_object_terms( $post_id, $locations, rtcl()->location );
-							}
 
-							// Custom Meta field
-							if ( isset( $_POST['rtcl_fields'] ) && $post_id ) {
-								foreach ( $_POST['rtcl_fields'] as $key => $value ) {
-									$field_id = (int) str_replace( '_field_', '', $key );
-									if ( $field = rtcl()->factory->get_custom_field( $field_id ) ) {
-										$field->saveSanitizedValue( $post_id, $value );
+								// Custom Meta field
+								if ( isset( $_POST['rtcl_fields'] ) ) {
+									foreach ( $_POST['rtcl_fields'] as $key => $value ) {
+										$field_id = (int) str_replace( '_field_', '', $key );
+										if ( $field = rtcl()->factory->get_custom_field( $field_id ) ) {
+											$field->saveSanitizedValue( $post_id, $value );
+										}
 									}
 								}
-							}
 
-							/* meta data */
-							if ( ! empty( $meta ) && $post_id ) {
-								foreach ( $meta as $key => $value ) {
-									update_post_meta( $post_id, $key, $value );
+								/* meta data */
+								if ( ! empty( $meta ) ) {
+									foreach ( $meta as $key => $value ) {
+										update_post_meta( $post_id, $key, $value );
+									}
 								}
 							}
 

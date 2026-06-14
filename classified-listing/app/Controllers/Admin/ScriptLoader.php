@@ -14,6 +14,7 @@ use Rtcl\Services\FormBuilder\ElementCustomization;
 use Rtcl\Services\FormBuilder\FBHelper;
 use Rtcl\Services\FormBuilder\LocalizedString;
 use Rtcl\Services\FormBuilder\ValidationRuleSettings;
+use WP_User;
 
 /**
  * Class ScriptLoader
@@ -652,6 +653,9 @@ class ScriptLoader {
 				}
 			}
 		}
+
+		$current_user = wp_get_current_user();
+
 		$localize = [
 			'plugin_url'                               => RTCL_URL,
 			'decimal_point'                            => $decimal_separator,
@@ -694,7 +698,9 @@ class ScriptLoader {
 			'is_enable_tax'                            => Functions::is_enable_tax(),
 			'payment_currency_symbol'                  => Functions::get_order_currency_symbol(),
 			'ai_enabled'                               => Functions::is_ai_enabled(),
-			'current_user'                             => wp_get_current_user(),
+			'current_user'                             => [
+				'roles' => $current_user instanceof WP_User ? $current_user->roles : [],
+			],
 			'admin_url'                                => admin_url(),
 			'prompt_max_limit'                         => Functions::get_max_prompt_input_limit(),
 			'i18n'                                     => [
@@ -897,7 +903,9 @@ class ScriptLoader {
 
 		$decimal_separator         = Functions::get_decimal_separator();
 		$pricing_decimal_separator = Functions::get_decimal_separator( true );
-		$localize                  = [
+		$current_user              = wp_get_current_user();
+
+		$localize = [
 			'ajaxurl'                        => $this->ajaxurl,
 			'decimal_point'                  => $decimal_separator,
 			'pricing_decimal_point'          => $pricing_decimal_separator,
@@ -924,7 +932,9 @@ class ScriptLoader {
 			'i18n_message'                   => esc_html__( 'Message', 'classified-listing' ),
 			'i18n_send'                      => esc_html__( 'Send', 'classified-listing' ),
 			'ai_enabled'                     => Functions::is_ai_enabled(),
-			'current_user'                   => wp_get_current_user(),
+			'current_user'                   => [
+				'roles' => $current_user instanceof WP_User ? $current_user->roles : [],
+			],
 			'admin_url'                      => admin_url(),
 			'prompt_max_limit'               => Functions::get_max_prompt_input_limit(),
 		];

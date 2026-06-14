@@ -143,7 +143,7 @@ class FilterAjax {
 				'id'       => 'q',
 				'itemId'   => 'search',
 				'label'    => __( 'Keyword', 'classified-listing' ),
-				'selected' => [ $q => $q ],
+				'selected' => [ esc_html( $q ) => esc_html( $q ) ],
 			];
 
 			if ( Functions::is_semantic_search_enabled() ) {

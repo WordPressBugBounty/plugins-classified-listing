@@ -1,11 +1,11 @@
-=== Classified Listing – AI-Powered Classified ads & Business Directory Plugin ===
+=== Classified Listing – AI-Powered Classified ads & Business Directory ===
 Contributors: techlabpro1, mamunnu
 Donate link:
 Tags: business directory, classifieds, directory plugin, listings, directory
-Requires at least: 6.7
+Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 5.4.2
+Stable tag: 5.4.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -311,8 +311,11 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
+= 5.4.3 ( Jun 14, 2026 ) =
+* Fixed: Listing ownership capability check issue
+
 = 5.4.2 ( May 26, 2026 ) =
-* Fixed listing terms error handling during taxonomy processing.
+* Fixed: Listing terms error handling during taxonomy processing.
 
 = 5.4.1 ( May 23, 2026 ) =
 * Fixed: Validation issue
