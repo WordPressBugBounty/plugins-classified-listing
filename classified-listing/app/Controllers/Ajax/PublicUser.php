@@ -580,19 +580,16 @@ class PublicUser {
 			$error = apply_filters( 'wp_login_errors', $validation_error, '' );
 			wp_send_json_error( apply_filters( 'rtcl_login_request_error', $error->get_error_message(), $error ) );
 		}
-		if ( is_multisite() ) {
-			$user_data = get_user_by( is_email( $creds['user_login'] ) ? 'email' : 'login', $creds['user_login'] );
-
-			if ( $user_data && ! is_user_member_of_blog( $user_data->ID, get_current_blog_id() ) ) {
-				add_user_to_blog( get_current_blog_id(), $user_data->ID, 'customer' );
-			}
-		}
-
+		
 		$user = wp_signon( apply_filters( 'rtcl_login_credentials', $creds, $_POST ), is_ssl() );
 
 		if ( is_wp_error( $user ) && ! empty( $user->errors ) ) {
 			$error = apply_filters( 'wp_login_errors', $user, '' );
 			wp_send_json_error( apply_filters( 'rtcl_login_request_error', $error->get_error_message(), $error ) );
+		}
+
+		if ( is_multisite() && ! is_user_member_of_blog( $user->ID, get_current_blog_id() ) ) {
+			add_user_to_blog( get_current_blog_id(), $user->ID, 'customer' );
 		}
 
 		if ( ! empty( $_POST['redirect_to'] ) ) {
@@ -1061,7 +1058,7 @@ class PublicUser {
 				$raw_cat_id   = isset( $_POST['_category_id'] ) ? absint( $_POST['_category_id'] ) : 0;
 				$listing_type = isset( $_POST['_ad_type'] ) && in_array( $_POST['_ad_type'], array_keys( Functions::get_listing_types() ) )
 					? esc_attr( $_POST['_ad_type'] ) : '';
-				$post_id      = absint( Functions::request( '_post_id' ) );
+				$post_id      = is_user_logged_in() ? absint( Functions::request( '_post_id' ) ) : 0;
 				if ( ! $raw_cat_id && ! $post_id ) {
 					Functions::add_notice(
 						apply_filters(
@@ -1205,13 +1202,7 @@ class PublicUser {
 						if ( $user_id ) {
 							$new_listing_status = Functions::get_option_item( 'rtcl_general_settings', 'new_listing_status', 'pending' );
 							if ( $post_id && is_object( $post ) && $post->post_type == rtcl()->post_type ) {
-								if ( ( $post->post_author > 0
-								       && in_array(
-									       $post->post_author,
-									       [ apply_filters( 'rtcl_listing_post_user_id', get_current_user_id() ), get_current_user_id() ],
-								       ) )
-								     || ( $post->post_author == 0 && $post_for_unregister )
-								) {
+								if ( Functions::current_user_can( 'edit_' . rtcl()->post_type, $post_id ) ) {
 									if ( $post->post_status === 'rtcl-temp' ) {
 										$post_arg['post_name']   = $title;
 										$post_arg['post_status'] = $new_listing_status;
@@ -1223,9 +1214,6 @@ class PublicUser {
 										}
 									}
 
-									if ( $post->post_author == 0 && $post_for_unregister ) {
-										$post_arg['post_author'] = $user_id;
-									}
 									$post_arg['ID'] = $post_id;
 									$success        = wp_update_post( apply_filters( 'rtcl_listing_save_update_args', $post_arg, $type ) );
 								}

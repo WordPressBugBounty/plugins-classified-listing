@@ -70,7 +70,6 @@ class BlockController {
 	 * @return void Array of the Custom Message
 	 */
 	public function save_block_css() {
-
 		try {
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_send_json_error( [ 'message' => __( 'User permission error', 'classified-listing' ) ] );
@@ -180,6 +179,7 @@ class BlockController {
 				}
 			}
 		}
+
 		return $reusable_id;
 	}
 
@@ -230,15 +230,18 @@ class BlockController {
 	 * @return void
 	 */
 	public function get_posts_call() {
-
 		if ( ! wp_verify_nonce( $_POST['rtcl_nonce'] ?? '', 'rtcl-nonce' ) ) {
 			wp_send_json_error( new WP_Error( 'rtcl_block_data_not_found', __( 'Session Expired!!', 'classified-listing' ) ) );
+		}
+
+		if ( ! current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( new WP_Error( 'rtcl_block_user_permission', __( 'User permission error!!', 'classified-listing' ) ) );
 		}
 
 		$post = $_POST;
 		if ( isset( $post['postId'] ) ) {
 			$post = get_post( $post['postId'] );
-			wp_send_json_success( $post ? $post->post_content : '');
+			wp_send_json_success( $post ? $post->post_content : '' );
 		} else {
 			wp_send_json_error( new WP_Error( 'rtcl_block_data_not_found', __( 'Data not found!!', 'classified-listing' ) ) );
 		}
@@ -248,7 +251,7 @@ class BlockController {
 	/**
 	 * Save Import CSS in the top of the File
 	 *
-	 * @param STRING
+	 * @param  STRING
 	 *
 	 * @return STRING
 	 * @since v.1.0.0
@@ -266,10 +269,10 @@ class BlockController {
 						function ( $val ) {
 							$process = trim( str_replace( [ 'font-weight', ':', ';' ], '', $val ) );
 							if ( is_numeric( $process ) ) {
-								  return $process;
+								return $process;
 							}
 						},
-						$matche_weight[0]
+						$matche_weight[0],
 					);
 					foreach ( $fonts as $key => $val ) {
 						$fonts[ $key ] = str_replace( "');", '', $val ) . ':' . implode( ',', $weight ) . "');";
@@ -279,6 +282,7 @@ class BlockController {
 				$get_css = implode( '', $fonts ) . $get_css;
 			}
 		}
+
 		return $get_css;
 	}
 
@@ -296,7 +300,7 @@ class BlockController {
 				'ajaxurl'    => admin_url( 'admin-ajax.php' ),
 				'rtcl_nonce' => wp_create_nonce( 'rtcl-nonce' ),
 				'plugin'     => RTCL_URL,
-			]
+			],
 		);
 
 		$localize_obj = [
@@ -304,11 +308,11 @@ class BlockController {
 				'style_options' => [
 					[
 						'value' => '1',
-						'label' => __( 'Style 1', 'classified-listing' )
+						'label' => __( 'Style 1', 'classified-listing' ),
 					],
 					[
 						'value' => '2',
-						'label' => __( 'Style 2', 'classified-listing' )
+						'label' => __( 'Style 2', 'classified-listing' ),
 					],
 				],
 			],
@@ -316,7 +320,7 @@ class BlockController {
 				'style_options' => [
 					[
 						'value' => '1',
-						'label' => __( 'Style 1', 'classified-listing' )
+						'label' => __( 'Style 1', 'classified-listing' ),
 					],
 				],
 			],
@@ -324,18 +328,18 @@ class BlockController {
 				'grid_style_options' => [
 					[
 						'value' => '1',
-						'label' => __( 'Style 1', 'classified-listing' )
+						'label' => __( 'Style 1', 'classified-listing' ),
 					],
 				],
 				'list_style_options' => [
 					[
 						'value' => '1',
-						'label' => __( 'Style 1', 'classified-listing' )
+						'label' => __( 'Style 1', 'classified-listing' ),
 					],
 				],
 			],
 			'location_type'       => 'local',
-			'listing_store_block' => false
+			'listing_store_block' => false,
 		];
 		wp_localize_script( 'rtcl-gb-blocks-js', 'rtcl_block_localize_obj', apply_filters( 'rtcl_gb_localize_script', $localize_obj ) );
 		wp_enqueue_style( 'gb-frontend-block-editor', rtcl()->get_assets_uri( 'css/gb-frontend-block.css' ), [], RTCL_VERSION );
@@ -361,6 +365,7 @@ class BlockController {
 		$modifiedCategory   = apply_filters( 'rtcl_block_category_lists', $modifiedCategory );
 		$modifiedCategory[] = $gb_category;
 		$modifiedCategory   = array_merge( $modifiedCategory, $categories );
+
 		return $modifiedCategory;
 	}
 
@@ -372,7 +377,7 @@ class BlockController {
 				'show_in_rest'  => true,
 				'single'        => true,
 				'auth_callback' => [ $this, 'auth_callback' ],
-			]
+			],
 		);
 	}
 

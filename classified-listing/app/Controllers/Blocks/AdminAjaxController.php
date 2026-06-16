@@ -44,6 +44,10 @@ class AdminAjaxController {
 			wp_send_json_error( esc_html__( 'Session Expired!!', 'classified-listing' ) );
 		}
 
+		if ( ! current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to access it.', 'classified-listing' ) );
+		}
+
 		$start_date = isset( $_POST['start_date'] ) ? sanitize_text_field( $_POST['start_date'] ) : '';
 		$end_date   = isset( $_POST['end_date'] ) ? sanitize_text_field( $_POST['end_date'] ) : '';
 

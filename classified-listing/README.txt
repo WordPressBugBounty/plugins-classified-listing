@@ -5,19 +5,39 @@ Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 5.4.3
+Stable tag: 5.4.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-A Classified ads and Business Directory plugin for WordPress, to create classified listing, real estate directory, local business directory, and more.
+AI-powered Classified ads & Business Directory plugin for WordPress to build classifieds, listings, real estate & local business directory sites.
 
 == Description ==
 
-AI-Powered Classified Listing and Business Directory plugin for WordPress to create classified listings, real estate directory, local business directory, car listings, event directory, job board, member directory, and service directory. Classified Listing is easy to use and highly customizatible plugin.
+Classified Listing is an AI-powered classifieds and business directory plugin for WordPress. Use this all-in-one directory plugin to build classified ads, real estate, car listing, job board, service listing, and local business directory websites — no coding required.
+
+⭐⭐⭐⭐⭐
+**Great support from RadiusTheme**
+As a newbie to this classified directory plugin, the support team has been very helpful throughout the setup process. The support team also patiently guided me not only through words’ explanation but also through graphic description and “show how” video guidance along the way. Great plugin with a great support team.
+— ***kpwong***
+
+⭐⭐⭐⭐⭐
+**Best classified ads add-on**
+This extension is truly one of the best classified ads extensions, and they have a support team that helps you solve any problem, no matter what it is. So I recommend everyone use it, and my review is based on real experience.
+— ***abdohosen***
+
+👉 **[Read all reviews on WordPress.org »](https://wordpress.org/support/plugin/classified-listing/reviews/)**
 
 👉 [Demo](https://www.radiustheme.com/demo/wordpress/themes/cl-classified/) | [Documentation](https://www.radiustheme.com/docs/classified-listing/) | [Addons](https://www.radiustheme.com/classified-listing-addons/) | [Themes](https://www.radiustheme.com/classified-listing-themes/) | [RoadMaps](https://radiustheme.com/classified-listing-roadmaps/) | [Get Pro](https://www.radiustheme.com/downloads/classified-listing-pro-wordpress/?utm_source=WordPress&utm_medium=Listing&utm_campaign=pro_click') 👈
 
-== Built for Any Niche (With AI Assistance) ==
+= Classified ads & Business Directory Plugin for WordPress  =
+
+All-in-one classified ads & business directory WordPress plugin can use to create a classified ads, business directory, and members directory website easily. This plugin included Elementor addon, Gutenberg blocks, and DIVI modules so you can build the classified site easily with the default Gutenberg block editor, most popular Elementor page builder, and DIVI Builder.
+
+[youtube https://www.youtube.com/watch?v=lg9ADZr5XTY]
+
+= Built for Any Niche (With AI Assistance) =
+
+With unlimited custom fields, conditional logic, and AI-assisted form building, you can build virtually any classifieds or directory website:
 
 * **Classified Listings:** Easily build any type of classified listing website. You can create custom fields for each category and display them dynamically using conditional logic.
 
@@ -25,171 +45,163 @@ AI-Powered Classified Listing and Business Directory plugin for WordPress to cre
 
 * **Real Estate Directory:** The perfect tool for a Real estate listing or directory site. Use custom fields for "Bedrooms" or "Baths" and our Radius Search feature.
 
-* **Car Marketplace / Auto Listings:** Build a car classifieds or car dealership site. It supports dependency field like based on car make load madel and year.
+* **Car Marketplace / Auto Listings:** Build a car classifieds or car dealership site. It supports dependency field like based on car make load model and year.
 
 * **Job Board:** The ideal solution for a niche job portal. Create listing packages for employers and let job seekers apply.
 
-* **Service Listing:** Build service listing website like cleaning service, roofing, repair services etc.
+* **Service Listing:** Build service listing website like cleaning service, roofing, repair services and other services with bookings.
 
+* **Doctor & Health Directory** – help users find doctors and specialists with full functional doctor appointment booking.
 
-== Classified ads & Business Directory Plugin for WordPress  ==
+* **Lawyer Directory** – a professional directory of firms and lawyers with online appointment.
 
-All-in-one classified ads & business directory WordPress plugin can use to create a classified ads, business directory, and members directory website easily. This plugin included Elementor addon, Gutenberg blocks, and DIVI modules so you can build the classified site easily with the default Gutenberg block editor, most popular Elementor page builder, and DIVI Builder.
+== Core Features of the Classified Listing & Business Directory Plugin ==
 
-[youtube https://www.youtube.com/watch?v=lg9ADZr5XTY]
+= AI-Powered Business Directory Plugin =
 
-== AI-Powered Business Directory Plugin ==
-Classified Listing allows you to create various directories with the help of AI according to your requirements, build any directory type with a few clicks! 
+Create and manage diverse directory and classifieds websites with built-in AI automation.
 
-**Form Generation:** This plugin has an AI-powered form builder, enabling you to generate custom multi-directory forms easily. It analyzes your input and creates customized forms. So, it saves time and simplifies form generation. 
+* **AI Form Generation** – enter a directory name, location, and keyword, and the AI form builder generates a custom listing submission form in one click.
+* **Write with AI** – integrates with ChatGPT, Gemini, and DeepSeek to write listing titles, descriptions, and custom-field content. Add your own API keys and you're ready.
+* **AI Semantic Search** – help visitors find the most relevant listings using meaning-based search.
+* **AI Image Enhancement** – automatically improve uploaded listing images for a cleaner directory.
 
-**Write with AI:** This plugin integrates with ChatGPT, Gemini, and DeepSeek to help you write titles, descriptions, and text-based content efficiently. Just insert you own API keys and you will be ready to use AI.
+👉 [Check AI Documentation](https://www.radiustheme.com/docs/classified-listing/docs/ai-integration/settings/)
 
-Thus, enjoy a modern and smart way to create and manage diverse directories with AI-assisted automation!
+= Drag & Drop Form Builder With Multi-Directory Support =
 
-👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/ai-integration/settings/)
+Build listing submission forms with your preferred fields using a drag & drop form builder — or generate them with AI. Enable multiple listing forms for different niches (for example, one form for cars and another for real estate) and assign specific categories to each form for better organization across your **directory**.
 
-== Drag & Drop Form Builder with Multi Directory Supported==
-Classified Listing has a drag & drop form builder, enabling you to create listing submission forms with your preferred fields! Also, you can use AI to generate forms. You can generate various forms for diverse directories, including business, travel, events, and other niche directories. 
+= Advanced Search & Filter for Your Directory =
 
-You can enable multiple listing forms for different niches for example, create a dedicated form for cars or another for real estate. Additionally, you can assign specific categories to each form for better organization and flexibility.
+The AJAX-powered search and filter functions make any classifieds or directory website fast and user-friendly.
 
-== AJAX Drag & Drop Filter Builder ==
-Utilize the power of our drag-and-drop AJAX filter builder to create dynamic filters easily. It has 10+ filter elements, including categories, location, tags, price range, and more. You can easily reorder these elements by dragging and dropping!
+* **AJAX Search & Filter** – instantly display results without page reloads.
+* **Drag & Drop Filter Builder** – build dynamic filters with 10+ elements (categories, location, tags, price range) and reorder them by dragging.
+* **Search by Anything** – filter by category, location, directory type, price, and any custom field.
+* **Radius Search** – location-based search using Google Places API & OpenStreetMap so users find listings near them.
 
-== Free Classified Ads WordPress Theme ==
-👉 [CLClassified – Free Classified ads WordPress Theme](https://www.radiustheme.com/downloads/clclassified-classified-ads-wordpress-theme/)
+= Monetize Your Classifieds & Directory Website =
 
-== Free Directory WordPress Theme ==
-👉 [RadiusDirectory – Free Directory WordPress Theme](https://www.radiustheme.com/downloads/radius-directory-directory-wordpress-theme/)
+Turn your classified ads or directory website into a revenue stream with flexible monetization models.
 
-== Classified ads Premium Themes ==
+* **Featured Ads** – highlight listings with a special background to boost click-throughs.
+* **Pay Per Ad** – charge a fixed fee for every new ad posted.
+* **Top Ads [Pro]** – charge a premium to pin a listing to the top of archive and search pages.
+* **Bump-Up Ads [Pro]** – auto-refresh ad dates so listings stay at the top.
+* **Subscription [Pro]** – recurring payments for sellers via Stripe or Authorize.net.
+* **Membership [Addon]** – tiered seller plans (Bronze, Silver, Gold) bundling featured ads and bump-ups.
+* **Claim Listing [Addon]** – pre-populate your directory and charge owners to claim their page.
 
-* [Classima – Classified Ads WordPress Theme](https://1.envato.market/2944O) **6k+ Selling** at Envato Marketplace.
+**Payment options:** Offline Payment, PayPal, Authorize.net [Pro], Stripe [Pro], WooCommerce [Pro], Razorpay, Paystack, and Payfast.
 
-* [Homlisti – Real Estate WordPress Theme](https://1.envato.market/DV3dPG) **1.7k Selling** at Envato Marketplace.
+= Booking Marketplace With RadiusBooking Integration =
 
-* [ListPress – Directory & Listing WordPress Theme](https://1.envato.market/jeYj00)
+Classified Listing integrates with the free [RadiusBooking](https://wordpress.org/plugins/radius-booking/) plugin to turn a standard business directory into a fully functional **booking marketplace**. Let customers check availability and book appointments or services directly from any listing — ideal for service directories, rentals, salons, clinics, tutors, and event venues.
 
-* [Listygo – Directory & Listing WordPress Theme](https://1.envato.market/e4YKZ1)
+* **Book From the Listing** – visitors reserve a slot or service on the listing detail page.
+* **Real-Time Availability** – businesses manage availability calendars from the frontend.
+* **Service & Appointment Directory** – turn any directory listing into a bookable service.
+* **Monetize Bookings** – combine with the payment options above to charge per booking.
 
-* [ClassiList – Classified ads WordPress Theme](https://www.radiustheme.com/downloads/classilist-classified-ads-wordpress-theme/)
+= Multi-Criteria Reviews, Ratings & Schema Markup (Powered by SchemaEngine AI) =
 
-== Business Hours & Social Profile for Business Directory ==
-The Business Hours allows you to set the hours of operation for your business. This feature is very important for Business Directory website. You can set the hours for each day of the week, and you can also set special hours for holidays.
+Build trust like Yelp or TripAdvisor with multi-criteria reviews and ratings, and win more organic traffic with automatic **Schema markup** generated by the [SchemaEngine AI](https://wordpress.org/plugins/review-schema/).
 
-User can also add social profiles in there directory listing. There are many social profiles that can be used for directory listings. The most popular ones are LinkedIn, Facebook, and Twitter.
+* **Multi-Criteria Ratings** – let visitors rate listings across criteria you define (Service, Value, Quality, Location) with an overall star score.
+* **Trust-Building Reviews** – collect detailed reviews on each directory listing, with owner-response options.
+* **Automatic Schema Markup** – SchemaEngine AI generates Schema.org structured data (AggregateRating, Review, LocalBusiness, Product, Event) for your listings.
+* **Rich Results in Google** – qualify for rich snippets such as star ratings, prices, and review counts in search results, boosting CTR and SEO for your directory.
 
-== Unlimited Custom Fields with Advanced Conditional Logic ==
-You can create unlimited custom fields. You can apply advanced conditional logic for the fields and set category and others condition. You’ll also have full control over the fields visible in the archive or detail view of the ads. Also fields level position, icon, placeholder text, error message and fields order.
+= Unlimited Custom Fields With Conditional Logic =
+
+Create unlimited custom fields and apply advanced conditional logic by category and condition, with full control over which fields appear in archive or detail views, plus field position, icon, placeholder, error message, and order.
 
 * Text Box, Text Area, Number, URL, Date & Time with Range
 * Color Picker, Dropdown, Switch, Radio, Checkbox, File Upload
-* Hidden File, Custom HTML
+* Hidden Field, Custom HTML
 * **Repeater Field [Pro]**
 
 [youtube https://www.youtube.com/watch?v=sl31SMctVFc]
 
 👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/listing-management-admin/custom-fields/)
 
-== Migration is easy using CSV Import/ Export ==
-We introduce import and export option. So now you can import categories, locations, settings, and listings from other plugins and themes easily like Category, Location, Listings, Settings import/ export.
+== More Directory & Classifieds Features ==
 
-== Live Chat ==
-The One of important feature is real time communication between sellers and buyers via live chat. This eliminates the need for sharing contact information. We implement Pusher so chat is now on real time. 
+= Business Hours & Social Profile for Business Directory =
+The Business Hours allows you to set the hours of operation for your business. This feature is very important for Business Directory website. You can set the hours for each day of the week, and you can also set special hours for holidays.
+
+User can also add social profiles in their directory listing. There are many social profiles that can be used for directory listings. The most popular ones are LinkedIn, Facebook, and Twitter.
+
+= Live Chat Between Buyers & Sellers [Pro] =
+
+Enable real-time communication between buyers and sellers via built-in live chat (powered by Pusher), so there's no need to share contact details. Chat happens in real time, directly on your classifieds or directory site.
 
 👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/main-settings/chat-settings/)
 
-== Advanced Search and Filter Functions ==
-The search and filter functions of this plugin are incredibly powerful. The Ajax search and filter functions accommodate multiple search options. You can even filter your search results by custom fields, category, location, and price. 
+= Design Listing Detail Page Without Code =
+Take full control of how every listing detail page looks. The drag-and-drop builder lets you rearrange sections, highlight key information, and customize layouts to match your brand. 
 
-* **AJAX Powered Search and Filter:** Instantly display results without page reloads using advanced AJAX technology for a smoother user experience. 
-* **Custom Fields:** Allow users to search by category, location, directory type, and any custom fields you define.
-* **Radius Search:** Enable location-based searches using Google place API & OpenStreet GoogleMap so that users can search for listings close to them.
+= Full Design Control With Page Builders =
 
-== Review from WordPress Community expert Darrel Wilson ==
-[youtube https://www.youtube.com/watch?v=kt4Sbb1fkL8]
+Build your classified ads or business directory website visually — without writing a single line of code.
 
-== Frontend Listing Management ==
-Each of your users can control their own data and listings from your website’s front end. Users can manage their own ad listings by editing, deleting, and promoting them. Classified Listing allows them to manage the ads they want to be their favorites.
+**Elementor Integration** – custom Elementor widgets for listings, categories, locations, and search & filter; build archive and single pages by drag & drop with the Pro addon.
 
-👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/listing-management-front-end/my-account-menu/)
+**Gutenberg (Block Editor) Ready** – multiple custom Gutenberg blocks to add and configure listings on any page.
 
-== Database Location ==
-With Classified Listing, you can set up to a maximum of 3 location levels. The default location types include state, city, and town; however, you can set your own custom levels. This classified listing WordPress plugin lets you import location. The import option for locations is via CSV; therefore, you can import bulk location data easily.
+**DIVI Builder Support** – dedicated DIVI modules for listings, search bars, and directory elements.
 
-👉 [Check Documentation](https://www.radiustheme.com/docs/listing-management-admin/locations/)
-
-== Mark As Sold ==
-If any items are sold out, but you feel the need to keep them active on the site for SEO purposes, you can mark them as sold. In this case, such ads will show in the front end, but communication on them will be disabled.
-
-👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/faqs/enable-mark-as-sold/)
-
-== Quick View & Compare ==
-The PRO version facilitates quick view, enabling users to view brief details of ad listings without going to the ad details. They can even compare ad listings quickly for differences in prices and other details easily.
-
-👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/faqs/how-to-add-compare/)
-
-== MAP View ==
-The PRO version allows GoogleMap View using Google place API & OpenStreet GoogleMap. You can display your ads with GoogleMap. So that your can easily view the ads location wise in MAP.
-
-== Android & iOS Mobile Apps ==
-Classified Listing is now available on Android and iOS platforms to help elevate your classified ads business to the next level. Our mobile apps connect with the Classified Listing Pro plugin and let you manage your business with your smartphone!
-
-👉 [Mobile App](https://www.radiustheme.com/classified-listing-mobile-apps/)
-
-== Monetize Your Directory & Classifieds Site ==
-Turn your Classified Listing or Directory website into a revenue-generating platform with multiple monetization options. Easily earn money from users who post or promote their ads using flexible payment models.
-
-== Various Payments ==
-The payment options on your site should depend mainly on your location and that of your users. You can receive payments on your site via
-
-* Offline Payment
-* [PayPal](https://www.paypal.com/) payment system
-* [Authorize.net](https://www.authorize.net/) [PRO]
-* [Stripe](https://stripe.com/) [PRO]
-* WooCommerce payment system [PRO]
-* Razorpay [Addon]
-
-**Available Monetization Features**
-
-* **Featured Ads:** Highlight listings with a special background color to grab more attention and boost click-through rates.
-* **Pay Per Ad:** Charge users a fixed fee for every new ad they post on your site.
-* **Top Ads [Pro]:** Charge a premium to pin a listing to the top of all archive and search pages, ensuring it gets maximum exposure.
-* **Bump-Up Ads [Pro]:** Automatically update ad dates so they appear at the top of listings every day keeping them fresh and noticed.
-* **Subscription [Pro]:** Enable recurring payments for sellers using Stripe or Authorize.net. Perfect for automated renewals and steady income.
-* **Membership [Addon]:** Go beyond simple subscriptions. Create tiered membership plans for sellers (e.g., "Bronze," "Silver," "Gold") and bundle perks like "10 Featured Ads" or "5 Bump-Ups" into each package.
-* **Claim Listing [Addon]:** A powerful feature for business directories. You can populate your site with listings, then charge business owners a one-time fee to "claim" and take control of their business page.
-
-
-== Full Design Control with Page Builders ==
-Build your Classified Ads or Business Directory website visually — without writing a single line of code! The Classified Listing Plugin is fully compatible with the most popular WordPress page builders, giving you complete design freedom and flexibility.
-
-**Elementor Integration:** Includes a number of custom Elementor widgets to display your listings, categories, locations and search & filter. By using the pro addon you can build archive and single page using drag & drop interface.
-
-**Gutenberg (Block Editor) Ready:** Fully compatible with the default WordPress editor. We provide multiple custom Gutenberg Blocks, allowing you to easily add and configure your classifieds listings on any page or post.
-
-**DIVI Builder Support:** Comes with dedicated DIVI Modules, allowing you to perfectly integrate all classifieds elements, listings, and search bars directly into your DIVI-built layouts.
-
-
-**Google Map and Location**
-This Classified ads and directory plugin enables the display of Google Maps in the ad detail views. You can showcase Google Locations using Google place API.
-
-**OpenStreetMap**
-OpenStreet GoogleMap is a free platform to display location and use the map features.
+**Google Maps & OpenStreetMap** – display listing locations on Google Maps (Google Places API) or free OpenStreetMap.
 
 👉 [Check Documentation](https://www.radiustheme.com/docs/classified-listing/docs/main-settings/misc-settings/)
 
-
-== Fully Translatable & RTL Compatible ==
+= Fully Translatable & RTL Compatible = 
 Classified Listing is fully translatable. However, it comes with a ready translation for Spanish. Still, you can translate it into whichever language you want using simple WordPress translation plugins, such as Loco Translate and the WPML plugin.
 
-== Radius Booking Plugin Integration ==
+= Frontend Submission & Management = 
+Users submit, edit, delete, promote, and favorite their own listings from a complete frontend dashboard, with no access to the WordPress admin.
 
-Classified Listing now integrates with the **[Radius Booking](https://wordpress.org/plugins/radius-booking/)** plugin; By combining both, you can instantly transform a standard business directory into a fully functional service marketplace with integrated booking capabilities.
+= Location Management = 
+Set up to 3 location levels (e.g. state, city, town) with custom levels and bulk CSV location import.
 
-== Popular Addons ==
-Classified Listing provides a range of cost effective [Addons](https://www.radiustheme.com/classified-listing-addons/) to enhance the features of your Classified ads and Business directory website. Currently, there are 19 powerful addons available to enhance your site.. 
+= Migration & CSV Import / Export =
+Import categories, locations, listings, and settings from other directory plugins and themes.
+
+= Mark as Sold = 
+Keep sold items visible for SEO while disabling further communication.
+
+= Quick View & Compare [Pro] = 
+Preview listing details without visiting detial page and compare listings side by side.
+
+== Android & iOS Mobile Apps for Your Classifieds Business ==
+
+Classified Listing is available on Android and iOS to take your classified ads or directory business to the next level. The mobile apps connect with the Classified Listing Pro plugin, letting you and your users manage listings on the go from a smartphone.
+
+👉 [Explore the Mobile Apps](https://www.radiustheme.com/classified-listing-mobile-apps/)
+
+== Free & Premium Classified & Directory Themes ==
+
+Start fast with a theme purpose-built for the Classified Listing plugin.
+
+= Free Themes =
+
+* 👉 [CLClassified – Free Classified Ads WordPress Theme](https://wordpress.org/themes/cl-classified/)
+* 👉 [RadiusDirectory – Free Directory WordPress Theme](https://www.radiustheme.com/downloads/radius-directory-directory-wordpress-theme/)
+
+= Premium Themes =
+
+* [Classima – Classified Ads WordPress Theme](https://1.envato.market/2944O) — 6k+ sales on Envato.
+* [Homlisti – Real Estate WordPress Theme](https://1.envato.market/DV3dPG) — 1.7k+ sales on Envato.
+* [ListPress – Directory & Listing WordPress Theme](https://1.envato.market/jeYj00)
+* [Listygo – Directory & Listing WordPress Theme](https://1.envato.market/e4YKZ1)
+* [ClassiList – Classified Ads WordPress Theme](https://www.radiustheme.com/downloads/classilist-classified-ads-wordpress-theme/)
+
+👉 [Browse all Classified & Directory themes](https://www.radiustheme.com/classified-listing-themes/)
+
+== Popular Classified Listing Addons ==
+
+Extend your classifieds and business directory website with 19+ cost-effective [addons](https://www.radiustheme.com/classified-listing-addons/):
 
 **[Store & Membership](https://www.radiustheme.com/downloads/classified-listing-store-membership-addon-for-wordpress/):** You can use the Store and Membership Addon to let ad sellers open stores within your website so that all their ads can appear within their own stores. The membership options also allow you to let sellers become members in different packages. 
 
@@ -209,7 +221,11 @@ Classified Listing provides a range of cost effective [Addons](https://www.radiu
 
 **[Marketplace](https://www.radiustheme.com/downloads/marketplace/):** Using the marketplace addon you can build a marketplace to sell your products and digital download items. This addon works with Woocommerce to make the payment.
 
-**[Mobile APP](https://www.radiustheme.com/downloads/classima-classified-ads-android-app/):** If you want to build mobile app for your classified ads or directory then you need the Pro version of the plugin, By using the Pro version you can build both Android &amp; IOS apps.
+* **Payment Gateways** – [Razorpay](https://www.radiustheme.com/downloads/razorpay-payment-addon-for-classified-listing/), [Paystack](https://www.radiustheme.com/downloads/paystack/), and [Payfast](https://www.radiustheme.com/downloads/payfast/).
+
+== Review from WordPress Community expert Darrel Wilson ==
+[youtube https://www.youtube.com/watch?v=kt4Sbb1fkL8]
+
 
 == Need Any Help? ==
 * For any bug, support, or suggestion please submit your ticket [here](https://www.radiustheme.com/ticket-support/).
@@ -228,39 +244,41 @@ Classified Listing provides a range of cost effective [Addons](https://www.radiu
 == Frequently Asked Questions ==
 
 = What is the Classified Listing plugin? =
-Classified Listing is an all-in-one, AI-Powered WordPress plugin that allows you to create a professional classifieds marketplace or a business directory website. You can use it to build sites for car listings, real estate, job boards, local business directories, and more.
+Classified Listing is an all-in-one, AI-powered WordPress plugin for building a professional classifieds marketplace or business directory — for cars, real estate, jobs, local businesses, services, and more.
 
 = How does the "AI-Powered" feature actually work? =
-Our AI assistant is integrated listing submission form generation. A user can simply enter a directory name, location, and keyword, AI will genrate form. Also Write with AI so enter a title only AI will write a unique, high-quality description for them. Also write with AI feature work for title, description, and custom fields to genreate content.
+The AI form builder generates a custom listing submission form from a directory name, location, and keyword. Write with AI creates unique titles, descriptions, and custom-field content, while AI Semantic Search and AI Image Enhancement further improve your directory.
 
-= Can I use Classified Listing plugin by RadiusTheme to build any type of directory? =
-Yes, you can use the **Classified Listing plugin by RadiusTheme** to build any type of **directory or classified website**.
+= Can I build any type of directory with Classified Listing? =
+Yes. With unlimited custom fields, multi-directory forms, and conditional logic, you can build a business directory, classified ads site, real estate directory, car marketplace, job board, service directory, or any niche listing website.
 
-It’s a fully flexible solution that allows you to create ustom fields, categories, and listing types for different niches, such as real estate, jobs, services, vehicles, or business directories.*
+= Can I turn my directory into a booking marketplace? =
+Yes. With the free RadiusBooking integration, customers can check availability and book appointments or services directly from your directory listings — ideal for service, rental, and appointment-based directories.
 
 = Does this plugin work with Elementor, Gutenberg, and DIVI? =
-Absolutely. The plugin includes number of custom Elementor widgets, dedicated Gutenberg blocks, and DIVI modules for full drag-and-drop design control.
+Absolutely. The plugin includes a number of custom Elementor widgets, dedicated Gutenberg blocks, and DIVI modules for full drag-and-drop design control.
 
-= Is there a limit to how many listings or custom fields I can add? =
-No, there’s absolutely no limitation on the number of listings you can create with the Classified Listing plugin. It’s built to handle thousands of listings efficiently. You can also add unlimited custom fields with advanced conditional logic, giving you full flexibility to design forms and categories that perfectly fit your directory’s needs.
+= Does it support multi-criteria reviews and Schema markup? =
+Yes. Visitors can rate listings across multiple criteria with an overall star score, and the SchemaEngine AI plugin automatically adds Schema.org structured data so your listings can show star ratings and review counts as rich results in Google.
 
-= Does this plugin support bulk listing import and export? = 
-Yes. Classified Listing includes a powerful CSV import and export tool. This allows you to easily bulk-upload thousands of listings saving you hours of manual work.
+= Is there a limit to listings or custom fields? =
+No. There's no limit on listings, and you can add unlimited custom fields with advanced conditional logic.
 
-= Does this plugin have a frontend user dashboard? =
-Yes. Classified Listing includes a complete frontend dashboard. From this dashboard, users can easily submit, edit, view, and delete their listings. They can also manage all of their ad promotions (like Featured, Top, or Bump Up) in one place, without ever needing to access the WordPress admin backend.
+= Does it support bulk import and export? =
+Yes. A built-in CSV import/export tool lets you bulk-upload categories, locations, listings, and settings.
 
-= Is Classified Listing translatable and multilingual-capable? = 
-Yes. The Classified Listing plugin is fully translatable and multilingual-ready. It includes full RTL (Right-to-Left) support for languages like Arabic and Hebrew. It is also 100% compatible with all major multilingual plugins, including WPML, Polylang, and Loco Translate.
+= Is the plugin translatable and multilingual-ready? =
+Yes. It's fully translatable with RTL support and is compatible with WPML, Polylang, and Loco Translate.
 
-= Can I use this plugin to create a real estate directory? =
-Yes, 'Classified Listing' is a perfect real estate directory plugin that allows you to add custom fields for price, location, and property size.
+= Can I monetize my classifieds or directory website? =
+Yes — with Featured Ads, Pay Per Ad, Top Ads, Bump-Up Ads, Subscriptions, Memberships, and Claim Listing, plus payments via PayPal, Stripe, Authorize.net, WooCommerce, Razorpay, Paystack, and Payfast.
 
 = Does this plugin support car listings or a car directory? =
 Yes, the Classified Listing plugin supports unlimited custom fields with advanced conditional logic — perfect for car listings, including fields like make, model, and year.
 
 = How can I report security bugs? =
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/classified-listing)
+
 
 == Installation ==
 
@@ -311,6 +329,10 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
+= 5.4.4 ( Jun 16, 2026 ) =
+* Added: Safeguards to prevent unauthorized access.
+* Updated: Multisite user authentication workflow.
+
 = 5.4.3 ( Jun 14, 2026 ) =
 * Fixed: Listing ownership capability check issue
 
@@ -322,8 +344,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Fixed: Description limit issue
 
 = 5.4.0 ( May 10, 2026 ) =
-* Fixed: Sanitizing, escaping, and validation issue
-* Added: RadiusBooking integration
+* Added: Booking Marketplace — turn any directory into a service-booking platform via RadiusBooking integration.
+* Added: Multi-criteria reviews & ratings with automatic Schema.org markup powered by the SchemaEngine AI plugin.
+* Security: Hardened input sanitization and output escaping across listing submission forms. 
 
 = 5.3.10 ( Apr 29, 2026 ) =
 * Fixed: Sanitizing, escaping, and validation issue

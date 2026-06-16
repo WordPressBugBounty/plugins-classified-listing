@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory 5.4.3\n"
+"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory 5.4.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-14T09:37:24+00:00\n"
+"POT-Creation-Date: 2026-06-16T04:44:03+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: classified-listing\n"
@@ -1113,23 +1113,23 @@ msgstr ""
 #: app/Controllers/Ajax/Import.php:776
 #: app/Controllers/Ajax/PublicUser.php:497
 #: app/Controllers/Ajax/PublicUser.php:570
-#: app/Controllers/Ajax/PublicUser.php:625
-#: app/Controllers/Ajax/PublicUser.php:683
-#: app/Controllers/Ajax/PublicUser.php:803
-#: app/Controllers/Ajax/PublicUser.php:832
-#: app/Controllers/Ajax/PublicUser.php:948
-#: app/Controllers/BlockController.php:80
+#: app/Controllers/Ajax/PublicUser.php:622
+#: app/Controllers/Ajax/PublicUser.php:680
+#: app/Controllers/Ajax/PublicUser.php:800
+#: app/Controllers/Ajax/PublicUser.php:829
+#: app/Controllers/Ajax/PublicUser.php:945
+#: app/Controllers/BlockController.php:79
 #: app/Controllers/BlockController.php:200
-#: app/Controllers/BlockController.php:235
+#: app/Controllers/BlockController.php:234
 #: app/Controllers/Blocks/AdminAjaxController.php:44
-#: app/Controllers/Blocks/AdminAjaxController.php:81
-#: app/Controllers/Blocks/AdminAjaxController.php:205
-#: app/Controllers/Blocks/AdminAjaxController.php:220
-#: app/Controllers/Blocks/AdminAjaxController.php:253
-#: app/Controllers/Blocks/AdminAjaxController.php:264
-#: app/Controllers/Blocks/AdminAjaxController.php:285
-#: app/Controllers/Blocks/AdminAjaxController.php:443
-#: app/Controllers/Blocks/AdminAjaxController.php:457
+#: app/Controllers/Blocks/AdminAjaxController.php:85
+#: app/Controllers/Blocks/AdminAjaxController.php:209
+#: app/Controllers/Blocks/AdminAjaxController.php:224
+#: app/Controllers/Blocks/AdminAjaxController.php:257
+#: app/Controllers/Blocks/AdminAjaxController.php:268
+#: app/Controllers/Blocks/AdminAjaxController.php:289
+#: app/Controllers/Blocks/AdminAjaxController.php:447
+#: app/Controllers/Blocks/AdminAjaxController.php:461
 #: app/Controllers/Blocks/ListingsAjaxController.php:257
 msgid "Session Expired!!"
 msgstr ""
@@ -1765,8 +1765,8 @@ msgstr ""
 #: app/Controllers/Ajax/FormBuilderAjax.php:1471
 #: app/Controllers/Ajax/FormBuilderAjax.php:1503
 #: app/Controllers/Ajax/FormBuilderAjax.php:1568
-#: app/Controllers/Ajax/PublicUser.php:1376
-#: app/Controllers/Ajax/PublicUser.php:1420
+#: app/Controllers/Ajax/PublicUser.php:1364
+#: app/Controllers/Ajax/PublicUser.php:1408
 msgid "Session error !!"
 msgstr ""
 
@@ -2001,7 +2001,7 @@ msgstr ""
 #: app/Controllers/Ajax/ListingAdminAjax.php:85
 #: app/Controllers/Ajax/ListingAdminAjax.php:141
 #: app/Controllers/Ajax/ListingAdminAjax.php:165
-#: app/Controllers/Ajax/PublicUser.php:926
+#: app/Controllers/Ajax/PublicUser.php:923
 msgid "Session expired."
 msgstr ""
 
@@ -2316,18 +2316,18 @@ msgstr ""
 #. translators:  new account email
 #. translators: Email address
 #: app/Controllers/Ajax/FormBuilderAjax.php:145
-#: app/Controllers/Ajax/PublicUser.php:1197
+#: app/Controllers/Ajax/PublicUser.php:1194
 #, php-format
 msgid "A new account is registered, password is sent to your email(%s)."
 msgstr ""
 
 #: app/Controllers/Ajax/FormBuilderAjax.php:482
-#: app/Controllers/Ajax/PublicUser.php:1297
+#: app/Controllers/Ajax/PublicUser.php:1285
 msgid "Thank you for submitting your ad!"
 msgstr ""
 
 #: app/Controllers/Ajax/FormBuilderAjax.php:484
-#: app/Controllers/Ajax/PublicUser.php:1307
+#: app/Controllers/Ajax/PublicUser.php:1295
 msgid "Successfully updated !!!"
 msgstr ""
 
@@ -2580,7 +2580,7 @@ msgid "Successfully sent"
 msgstr ""
 
 #: app/Controllers/Ajax/ListingAdminAjax.php:66
-#: app/Controllers/Ajax/PublicUser.php:1328
+#: app/Controllers/Ajax/PublicUser.php:1316
 msgid "Error!!"
 msgstr ""
 
@@ -2675,151 +2675,151 @@ msgstr ""
 msgid "You have successfully registered on our website, Please check your email and click on the link, we sent a verification mail to verify your email address."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:611
+#: app/Controllers/Ajax/PublicUser.php:608
 msgid "You have successfully logged in."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:629
+#: app/Controllers/Ajax/PublicUser.php:626
 msgid "Unauthorized request!!"
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:674
+#: app/Controllers/Ajax/PublicUser.php:671
 msgid "Settings updated successfully."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:696
+#: app/Controllers/Ajax/PublicUser.php:693
 msgid "Invalid email address."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:701
+#: app/Controllers/Ajax/PublicUser.php:698
 msgid "Sorry, that email address already exists!"
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:712
+#: app/Controllers/Ajax/PublicUser.php:709
 msgid "The password field is empty."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:717
+#: app/Controllers/Ajax/PublicUser.php:714
 #: app/Controllers/FormHandler.php:300
 msgid "The two passwords you entered don't match."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:798
+#: app/Controllers/Ajax/PublicUser.php:795
 msgid "Your account has been updated."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:835
-#: app/Controllers/Ajax/PublicUser.php:951
-#: app/Controllers/Ajax/PublicUser.php:1043
+#: app/Controllers/Ajax/PublicUser.php:832
+#: app/Controllers/Ajax/PublicUser.php:948
+#: app/Controllers/Ajax/PublicUser.php:1040
 #: app/Controllers/FormHandler.php:203
 msgid "Invalid Captcha: Please try again."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:889
-#: app/Controllers/Ajax/PublicUser.php:981
+#: app/Controllers/Ajax/PublicUser.php:886
+#: app/Controllers/Ajax/PublicUser.php:978
 msgid "Your message sent successfully."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:920
+#: app/Controllers/Ajax/PublicUser.php:917
 msgid "Successfully deleted."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:923
+#: app/Controllers/Ajax/PublicUser.php:920
 msgid "Permission Error."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:973
+#: app/Controllers/Ajax/PublicUser.php:970
 msgid "Sorry! Please try again."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1002
+#: app/Controllers/Ajax/PublicUser.php:999
 msgid "Removed from your favourites."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1007
+#: app/Controllers/Ajax/PublicUser.php:1004
 msgid "Added to your favourites list."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1015
+#: app/Controllers/Ajax/PublicUser.php:1012
 msgid "Add post id to remove"
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1018
+#: app/Controllers/Ajax/PublicUser.php:1015
 msgid "Session Expired!"
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1055
+#: app/Controllers/Ajax/PublicUser.php:1052
 msgid "Please agree with the terms and conditions."
 msgstr ""
 
 #. translators:  Category not selected
-#: app/Controllers/Ajax/PublicUser.php:1071
+#: app/Controllers/Ajax/PublicUser.php:1068
 #, php-format
 msgid "Category not selected. <a href=\"%s\">Click here to set category</a>"
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1083
+#: app/Controllers/Ajax/PublicUser.php:1080
 msgid "Image is required. Please select an image."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1097
+#: app/Controllers/Ajax/PublicUser.php:1094
 #: app/Shortcodes/ListingForm.php:66
 msgid "Please select ad type and category"
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1100
+#: app/Controllers/Ajax/PublicUser.php:1097
 #: app/Shortcodes/ListingForm.php:69
 msgid "Please select an ad type"
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1104
+#: app/Controllers/Ajax/PublicUser.php:1101
 #: app/Shortcodes/ListingForm.php:73
 msgid "Please select correct type and category"
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1108
+#: app/Controllers/Ajax/PublicUser.php:1105
 msgid "Category is not valid"
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1112
+#: app/Controllers/Ajax/PublicUser.php:1109
 msgid "Category not selected"
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1338
+#: app/Controllers/Ajax/PublicUser.php:1326
 msgid "Session Error !!"
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1401
+#: app/Controllers/Ajax/PublicUser.php:1389
 msgid "Category not selected."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1444
+#: app/Controllers/Ajax/PublicUser.php:1432
 msgid "No category found."
 msgstr ""
 
-#: app/Controllers/Ajax/PublicUser.php:1447
+#: app/Controllers/Ajax/PublicUser.php:1435
 msgid "Type is not selected."
 msgstr ""
 
-#: app/Controllers/BlockController.php:76
+#: app/Controllers/BlockController.php:75
 #: app/Controllers/BlockController.php:196
 msgid "User permission error"
 msgstr ""
 
-#: app/Controllers/BlockController.php:90
+#: app/Controllers/BlockController.php:89
 msgid "Widget CSS Saved"
 msgstr ""
 
-#: app/Controllers/BlockController.php:106
+#: app/Controllers/BlockController.php:105
 #: app/Controllers/BlockController.php:219
 msgid "CSS can not be saved due to permission!!!"
 msgstr ""
 
-#: app/Controllers/BlockController.php:109
+#: app/Controllers/BlockController.php:108
 msgid "Css file has been updated"
 msgstr ""
 
-#: app/Controllers/BlockController.php:116
+#: app/Controllers/BlockController.php:115
 msgid "Data Delete Done"
 msgstr ""
 
@@ -2828,14 +2828,18 @@ msgid "Data retrieve done"
 msgstr ""
 
 #: app/Controllers/BlockController.php:223
-#: app/Controllers/BlockController.php:243
+#: app/Controllers/BlockController.php:246
 msgid "Data not found!!"
 msgstr ""
 
-#: app/Controllers/BlockController.php:307
-#: app/Controllers/BlockController.php:319
-#: app/Controllers/BlockController.php:327
-#: app/Controllers/BlockController.php:333
+#: app/Controllers/BlockController.php:238
+msgid "User permission error!!"
+msgstr ""
+
+#: app/Controllers/BlockController.php:311
+#: app/Controllers/BlockController.php:323
+#: app/Controllers/BlockController.php:331
+#: app/Controllers/BlockController.php:337
 #: src/blocks/all-location/constants.js:57
 #: src/blocks/all-location/constants.js:61
 #: src/blocks/listing-ads/constants.js:112
@@ -2844,7 +2848,7 @@ msgstr ""
 msgid "Style 1"
 msgstr ""
 
-#: app/Controllers/BlockController.php:311
+#: app/Controllers/BlockController.php:315
 #: src/blocks/all-location/constants.js:58
 #: src/blocks/listing-ads/constants.js:113
 #: src/blocks/listing-cat-box/constants.js:29
@@ -2852,7 +2856,7 @@ msgstr ""
 msgid "Style 2"
 msgstr ""
 
-#: app/Controllers/BlockController.php:357
+#: app/Controllers/BlockController.php:361
 #: app/Controllers/EmbeddingController.php:34
 #: app/Controllers/EmbeddingController.php:58
 #: app/Controllers/Settings/AdminSettings.php:186
@@ -2861,7 +2865,11 @@ msgstr ""
 msgid "Classified Listing"
 msgstr ""
 
-#: app/Controllers/Blocks/AdminAjaxController.php:71
+#: app/Controllers/Blocks/AdminAjaxController.php:48
+msgid "You do not have permission to access it."
+msgstr ""
+
+#: app/Controllers/Blocks/AdminAjaxController.php:75
 msgid "Please Select a Location and Background"
 msgstr ""
 
