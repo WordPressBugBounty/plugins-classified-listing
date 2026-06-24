@@ -10,6 +10,17 @@ use Rtcl\Services\FormBuilder\FBHelper;
 
 class SetupWizard {
 
+	/**
+	 * AJAX actions that belong to the setup wizard plugin installer.
+	 *
+	 * @var string[]
+	 */
+	private static $plugin_ajax_actions = [
+		'rtcl_setup_wizard_install_plugin',
+		'rtcl_setup_wizard_activate_plugin',
+		'rtcl_setup_wizard_check_plugin_status',
+	];
+
 	public function __construct() {
 		add_action( 'admin_notices', [ __CLASS__, 'setup_wizard_notice' ] );
 		add_action( 'admin_menu', [ __CLASS__, 'add_setup_wizard_menu' ], 60 );
@@ -19,7 +30,24 @@ class SetupWizard {
 		add_action( 'wp_ajax_rtcl_setup_wizard_import_categories', [ __CLASS__, 'import_demo_categories' ] );
 		add_action( 'wp_ajax_rtcl_setup_wizard_import_location', [ __CLASS__, 'import_demo_location' ] );
 		add_action( 'wp_ajax_rtcl_setup_wizard_import_listings', [ __CLASS__, 'import_demo_listings' ] );
+		add_action( 'wp_ajax_rtcl_setup_wizard_install_plugin', [ __CLASS__, 'install_plugin' ] );
+		add_action( 'wp_ajax_rtcl_setup_wizard_activate_plugin', [ __CLASS__, 'activate_plugin' ] );
+		add_action( 'wp_ajax_rtcl_setup_wizard_check_plugin_status', [ __CLASS__, 'check_plugin_status' ] );
 		add_action( 'admin_init', [ __CLASS__, 'redirect_to_setup_wizard' ] );
+
+		// Block redirects from other plugins BEFORE admin_init fires.
+		// Newly activated plugins (e.g. Schema Engine AI, Radius Booking) often add
+		// an admin_init hook that calls wp_redirect() + exit() to show their setup page.
+		// This kills ALL subsequent AJAX requests, including our install/activate handlers.
+		// We must block redirects here in the constructor (which runs during plugin loading,
+		// before admin_init) so our AJAX handlers can actually execute.
+		if ( wp_doing_ajax() ) {
+			$action = isset( $_REQUEST['action'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ) : '';
+			if ( in_array( $action, self::$plugin_ajax_actions, true ) ) {
+				add_filter( 'wp_redirect', '__return_false', 999 );
+				ob_start();
+			}
+		}
 	}
 
 	public static function add_setup_wizard_menu() {
@@ -48,8 +76,8 @@ class SetupWizard {
 	public static function redirect_to_setup_wizard() {
 		$install_from = get_option( 'rtcl_installed_from' ) ?: '5.1.0';
 		if ( version_compare( $install_from, '5.1.0', '>=' ) && 'yes' !== get_option( 'rtcl_setup_wizard_completed' )
-			 && get_transient( 'rtcl_activation_setup_wizard_redirect' )
-			 && self::disallow_to_run_for_theme()
+		     && get_transient( 'rtcl_activation_setup_wizard_redirect' )
+		     && self::disallow_to_run_for_theme()
 		) {
 			delete_transient( 'rtcl_activation_setup_wizard_redirect' );
 			if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
@@ -86,7 +114,7 @@ class SetupWizard {
 
 	public static function get_theme_list() {
 		return [
-			'classima',
+			//'classima',
 			'cl-classified',
 			'radius-directory',
 			'homlisti',
@@ -118,7 +146,7 @@ class SetupWizard {
 		}
 		?>
 		<div class="notice notice-info rtcl-setup-wizard-notice"
-			 style="display:flex;flex-direction: column;padding-top: 20px; padding-bottom: 20px; border-left-color: #3232FF">
+		     style="display:flex;flex-direction: column;padding-top: 20px; padding-bottom: 20px; border-left-color: #3232FF">
 			<h3 style="margin:0;">
 				Classified Listing - Let’s Get Your Site Ready!
 			</h3>
@@ -210,41 +238,6 @@ class SetupWizard {
 			update_option( 'rtcl_data_sharing_enabled', 'yes' );
 		}
 
-		// Install Toolkits addon
-		$install_toolkit_addon = $wizard_data['preferences']['installToolkits'] ?? false;
-		$install_toolkit_addon = filter_var( $install_toolkit_addon, FILTER_VALIDATE_BOOLEAN );
-
-		if ( $install_toolkit_addon ) {
-			include_once ABSPATH . 'wp-admin/includes/plugin.php';
-			include_once ABSPATH . 'wp-admin/includes/file.php';
-			include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-
-			$plugin_slug = 'classified-listing-toolkits';
-			$plugin_file = 'classified-listing-toolkits/classified-listing-toolkits.php';
-
-			$installed_plugins = get_plugins();
-			$is_installed      = isset( $installed_plugins[ $plugin_file ] );
-			$is_active         = is_plugin_active( $plugin_file );
-
-			if ( ! $is_installed ) {
-				$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
-				$result   = $upgrader->install( "https://downloads.wordpress.org/plugin/{$plugin_slug}.latest-stable.zip" );
-
-				if ( ! is_wp_error( $result ) ) {
-					$installed_plugins = get_plugins();
-					$is_installed      = isset( $installed_plugins[ $plugin_file ] );
-				}
-			}
-
-			if ( $is_installed && ! $is_active ) {
-				$activation = activate_plugin( $plugin_file );
-
-				if ( is_wp_error( $activation ) ) {
-					$error_in_activation = $activation->get_error_message();
-				}
-			}
-		}
-
 		// Update location type
 		$location_type = $wizard_data['location']['locationType'] ?? null;
 		if ( $location_type ) {
@@ -274,9 +267,9 @@ class SetupWizard {
 		// Set features options
 		$general_settings = (array) Functions::get_option( 'rtcl_general_settings' );
 		$favourite        = isset( $wizard_data['features']['favourite'] )
-							&& filter_var( $wizard_data['features']['favourite'], FILTER_VALIDATE_BOOLEAN );
+		                    && filter_var( $wizard_data['features']['favourite'], FILTER_VALIDATE_BOOLEAN );
 		$renew            = isset( $wizard_data['features']['renew'] )
-							&& filter_var( $wizard_data['features']['renew'], FILTER_VALIDATE_BOOLEAN );
+		                    && filter_var( $wizard_data['features']['renew'], FILTER_VALIDATE_BOOLEAN );
 
 		$general_settings['has_favourites'] = $favourite ? 'yes' : false;
 		$general_settings['renew']          = $renew ? 'yes' : false;
@@ -307,7 +300,7 @@ class SetupWizard {
 				$options['billing_address_disabled'] = "no";
 			}
 			$enabled                    = isset( $wizard_data['features'][ $payment['feature'] ] )
-										  && filter_var( $wizard_data['features'][ $payment['feature'] ], FILTER_VALIDATE_BOOLEAN );
+			                              && filter_var( $wizard_data['features'][ $payment['feature'] ], FILTER_VALIDATE_BOOLEAN );
 			$options[ $payment['key'] ] = $enabled ? 'yes' : false;
 			update_option( $payment['option'], $options );
 		}
@@ -440,7 +433,7 @@ class SetupWizard {
 						'title'        => $title,
 						'slug'         => FBHelper::getUniqueSlug( $title ),
 						'status'       => ! empty( $formItem['status'] )
-										  && in_array( $formItem['status'], [
+						                  && in_array( $formItem['status'], [
 							'publish',
 							'draft',
 						] ) ? $formItem['status'] : 'publish',
@@ -935,6 +928,321 @@ class SetupWizard {
 		wp_send_json_success( [
 			'message' => esc_html__( 'Listings Import Process Completed.', 'classified-listing' ),
 			'results' => $results,
+		] );
+	}
+
+	/**
+	 * Get the raw recommended plugins list.
+	 *
+	 * @return array
+	 */
+	private static function get_recommended_plugins_list() {
+		return [
+			[
+				'slug'        => 'classified-listing-toolkits',
+				'name'        => esc_html__( 'Toolkits Addon', 'classified-listing' ),
+				'description' => esc_html__( 'Elementor Widgets & Divi Modules for Classified Listing.', 'classified-listing' ),
+				'isFocused'   => true,
+				'defaultOn'   => true,
+			],
+			[
+				'slug'        => 'review-schema',
+				'name'        => esc_html__( 'SchemaEngine AI', 'classified-listing' ),
+				'description' => esc_html__( 'Generate AI-powered schema markup for better SEO and rich Google results.', 'classified-listing' ),
+				'isFocused'   => true,
+				'defaultOn'   => true,
+			],
+			[
+				'slug'        => 'radius-booking',
+				'name'        => esc_html__( 'Radius Booking', 'classified-listing' ),
+				'description' => esc_html__( 'WordPress booking plugin for appointments, staff management and reminders.', 'classified-listing' ),
+				'isFocused'   => true,
+				'defaultOn'   => false,
+			],
+			[
+				'slug'        => 'the-post-grid',
+				'name'        => esc_html__( 'The Post Grid', 'classified-listing' ),
+				'description' => esc_html__( 'Display blog posts in beautiful grid, list, and slider layouts with filters.', 'classified-listing' ),
+			],
+			[
+				'slug'        => 'shopbuilder',
+				'name'        => esc_html__( 'ShopBuilder', 'classified-listing' ),
+				'description' => esc_html__( 'Build stunning WooCommerce stores with drag-and-drop builder.', 'classified-listing' ),
+			],
+			[
+				'slug'        => 'tlp-food-menu',
+				'name'        => esc_html__( 'Food Menu', 'classified-listing' ),
+				'description' => esc_html__( 'Create beautiful restaurant menus, categories, and layouts.', 'classified-listing' ),
+			],
+			[
+				'slug'        => 'testimonial-slider-and-showcase',
+				'name'        => esc_html__( 'Testimonial Slider', 'classified-listing' ),
+				'description' => esc_html__( 'Display customer testimonials with responsive slider and grid layouts.', 'classified-listing' ),
+			],
+			[
+				'slug'        => 'woo-product-variation-gallery',
+				'name'        => esc_html__( 'Variation Gallery', 'classified-listing' ),
+				'description' => esc_html__( 'WooCommerce plugin for unlimited additional variation image galleries.', 'classified-listing' ),
+			],
+			[
+				'slug'        => 'woo-product-variation-swatches',
+				'name'        => esc_html__( 'Variation Swatches', 'classified-listing' ),
+				'description' => esc_html__( 'WooCommerce variations into images, colors, labels, and radios.', 'classified-listing' ),
+			],
+		];
+	}
+
+	/**
+	 * Get recommended plugin slugs for whitelist validation.
+	 *
+	 * @return array
+	 */
+	private static function get_recommended_plugin_slugs() {
+		return array_column( self::get_recommended_plugins_list(), 'slug' );
+	}
+
+	/**
+	 * Get recommended plugins with installed/active status.
+	 *
+	 * @return array
+	 */
+	public static function get_recommended_plugins() {
+		$plugins = self::get_recommended_plugins_list();
+
+		if ( ! function_exists( 'get_plugins' ) ) {
+			include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		$installed_plugins = get_plugins();
+		$active_plugins    = get_option( 'active_plugins', [] );
+
+		foreach ( $plugins as $key => $plugin ) {
+			$plugin_file = self::get_plugin_file( $plugin['slug'], $installed_plugins );
+
+			$plugins[ $key ]['installed'] = ! empty( $plugin_file );
+			$plugins[ $key ]['active']    = ! empty( $plugin_file ) && in_array( $plugin_file, $active_plugins, true );
+		}
+
+		return $plugins;
+	}
+
+	/**
+	 * Get plugin file path from slug.
+	 *
+	 * @param  string  $slug  Plugin slug.
+	 * @param  array  $installed_plugins  Installed plugins list.
+	 *
+	 * @return string|false
+	 */
+	private static function get_plugin_file( $slug, $installed_plugins ) {
+		foreach ( $installed_plugins as $file => $plugin ) {
+			if ( strpos( $file, $slug . '/' ) === 0 || $file === $slug . '.php' ) {
+				return $file;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Clean any stray output and send a JSON response.
+	 *
+	 * Newly activated plugins may output content or send redirect headers
+	 * on subsequent AJAX requests (e.g. via admin_init hooks).
+	 * This ensures a clean JSON response regardless.
+	 *
+	 * @param bool  $success Whether the response is a success.
+	 * @param array $data    Response data.
+	 *
+	 * @return void
+	 */
+	private static function send_json( $success, $data ) {
+		while ( ob_get_level() > 0 ) {
+			ob_end_clean();
+		}
+		header_remove( 'Location' );
+
+		if ( $success ) {
+			wp_send_json_success( $data );
+		} else {
+			wp_send_json_error( $data );
+		}
+	}
+
+	/**
+	 * Install a plugin via AJAX.
+	 *
+	 * @return void
+	 */
+	public static function install_plugin() {
+		$message = self::check_permission();
+		if ( ! empty( $message ) ) {
+			self::send_json( false, [ 'message' => $message ] );
+		}
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			self::send_json( false, [ 'message' => esc_html__( 'You do not have permission to install plugins.', 'classified-listing' ) ] );
+		}
+
+		$slug = isset( $_POST['slug'] ) ? sanitize_text_field( wp_unslash( $_POST['slug'] ) ) : '';
+		if ( empty( $slug ) ) {
+			self::send_json( false, [ 'message' => esc_html__( 'Plugin slug is required.', 'classified-listing' ) ] );
+		}
+
+		$allowed_slugs = self::get_recommended_plugin_slugs();
+		if ( ! in_array( $slug, $allowed_slugs, true ) ) {
+			self::send_json( false, [ 'message' => esc_html__( 'Plugin is not in the allowed list.', 'classified-listing' ) ] );
+		}
+
+		include_once ABSPATH . 'wp-admin/includes/file.php';
+		include_once ABSPATH . 'wp-admin/includes/misc.php';
+		include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+
+		WP_Filesystem();
+
+		$api = plugins_api( 'plugin_information', [
+			'slug'   => $slug,
+			'fields' => [
+				'short_description' => false,
+				'sections'          => false,
+				'requires'          => false,
+				'rating'            => false,
+				'ratings'           => false,
+				'downloaded'        => false,
+				'last_updated'      => false,
+				'added'             => false,
+				'tags'              => false,
+				'compatibility'     => false,
+				'homepage'          => false,
+				'donate_link'       => false,
+			],
+		] );
+
+		if ( is_wp_error( $api ) ) {
+			self::send_json( false, [ 'message' => esc_html__( 'Plugin not found on WordPress.org.', 'classified-listing' ) ] );
+		}
+
+		$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
+		$result   = $upgrader->install( $api->download_link );
+
+		if ( is_wp_error( $result ) ) {
+			self::send_json( false, [ 'message' => $result->get_error_message() ] );
+		}
+
+		if ( ! $result ) {
+			self::send_json( false, [ 'message' => esc_html__( 'Plugin installation failed.', 'classified-listing' ) ] );
+		}
+
+		self::send_json( true, [ 'message' => esc_html__( 'Plugin installed successfully.', 'classified-listing' ) ] );
+	}
+
+	/**
+	 * Activate a plugin via AJAX.
+	 *
+	 * @return void
+	 */
+	public static function activate_plugin() {
+		$message = self::check_permission();
+		if ( ! empty( $message ) ) {
+			self::send_json( false, [ 'message' => $message ] );
+		}
+
+		if ( ! current_user_can( 'activate_plugins' ) ) {
+			self::send_json( false, [ 'message' => esc_html__( 'You do not have permission to activate plugins.', 'classified-listing' ) ] );
+		}
+
+		$slug = isset( $_POST['slug'] ) ? sanitize_text_field( wp_unslash( $_POST['slug'] ) ) : '';
+		if ( empty( $slug ) ) {
+			self::send_json( false, [ 'message' => esc_html__( 'Plugin slug is required.', 'classified-listing' ) ] );
+		}
+
+		$allowed_slugs = self::get_recommended_plugin_slugs();
+		if ( ! in_array( $slug, $allowed_slugs, true ) ) {
+			self::send_json( false, [ 'message' => esc_html__( 'Plugin is not in the allowed list.', 'classified-listing' ) ] );
+		}
+
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+		$installed_plugins = get_plugins();
+		$plugin_file       = self::get_plugin_file( $slug, $installed_plugins );
+
+		if ( ! $plugin_file ) {
+			self::send_json( false, [ 'message' => esc_html__( 'Plugin is not installed.', 'classified-listing' ) ] );
+		}
+
+		// Shutdown handler guarantees a JSON response even if a plugin calls exit()/die() during activation.
+		// WordPress updates active_plugins BEFORE firing the activation hook,
+		// so the plugin is in the list even if exit() is called during the hook.
+		$response_sent = false;
+
+		register_shutdown_function( function () use ( $plugin_file, &$response_sent ) {
+			if ( $response_sent ) {
+				return;
+			}
+
+			while ( ob_get_level() > 0 ) {
+				ob_end_clean();
+			}
+
+			$active_plugins = get_option( 'active_plugins', [] );
+			$is_active      = in_array( $plugin_file, $active_plugins, true );
+
+			if ( ! headers_sent() ) {
+				header_remove( 'Location' );
+				header( 'Content-Type: application/json; charset=utf-8' );
+			}
+
+			echo wp_json_encode( [
+				'success' => $is_active,
+				'data'    => [
+					'message' => $is_active
+						? esc_html__( 'Plugin activated successfully.', 'classified-listing' )
+						: esc_html__( 'Plugin activation was interrupted.', 'classified-listing' ),
+				],
+			] );
+
+			// Prevent other shutdown handlers from appending output after our JSON.
+			exit;
+		} );
+
+		$result = activate_plugin( $plugin_file );
+
+		// Normal path: activate_plugin() returned without exit().
+		$response_sent = true;
+
+		if ( is_wp_error( $result ) ) {
+			self::send_json( false, [ 'message' => $result->get_error_message() ] );
+		}
+
+		self::send_json( true, [ 'message' => esc_html__( 'Plugin activated successfully.', 'classified-listing' ) ] );
+	}
+
+	/**
+	 * Check actual plugin status via AJAX.
+	 *
+	 * @return void
+	 */
+	public static function check_plugin_status() {
+		$message = self::check_permission();
+		if ( ! empty( $message ) ) {
+			self::send_json( false, [ 'message' => $message ] );
+		}
+
+		$slug = isset( $_POST['slug'] ) ? sanitize_text_field( wp_unslash( $_POST['slug'] ) ) : '';
+		if ( empty( $slug ) ) {
+			self::send_json( false, [ 'message' => esc_html__( 'Plugin slug is required.', 'classified-listing' ) ] );
+		}
+
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+		$installed_plugins = get_plugins();
+		$plugin_file       = self::get_plugin_file( $slug, $installed_plugins );
+		$active_plugins    = get_option( 'active_plugins', [] );
+
+		self::send_json( true, [
+			'installed' => ! empty( $plugin_file ),
+			'active'    => ! empty( $plugin_file ) && in_array( $plugin_file, $active_plugins, true ),
 		] );
 	}
 

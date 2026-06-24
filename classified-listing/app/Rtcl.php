@@ -2,10 +2,17 @@
 
 require_once RTCL_PATH . 'vendor/autoload.php';
 
+// Action Scheduler loader — must be required on every request so the package
+// can register its tables, runner, and admin UI on init/admin_init.
+if ( file_exists( RTCL_PATH . 'vendor/woocommerce/action-scheduler/action-scheduler.php' ) ) {
+	require_once RTCL_PATH . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
+}
+
 use Rtcl\Controllers\Admin\AdminController;
 use Rtcl\Controllers\Admin\FormBuilderController;
 use Rtcl\Controllers\Admin\LicensingController;
 use Rtcl\Controllers\Admin\NoticeController;
+use Rtcl\Controllers\Admin\DeactivationFeedback;
 use Rtcl\Controllers\Admin\SetupWizard;
 use Rtcl\Controllers\AIImageController;
 use Rtcl\Controllers\Ajax\Ajax;
@@ -37,6 +44,7 @@ use Rtcl\Models\Checkout;
 use Rtcl\Models\Countries;
 use Rtcl\Models\Factory;
 use Rtcl\Models\PaymentGateways;
+use Rtcl\Services\Importers\ImportScheduler;
 use Rtcl\Models\RtclEmails;
 use Rtcl\ThemeSupports\ThemeSupports;
 use Rtcl\Traits\SingletonTrait;
@@ -193,6 +201,7 @@ if ( ! class_exists( Rtcl::class ) ) {
 				Upgrade::init();
 				Comments::init();
 				new NoticeController();
+				DeactivationFeedback::getInstance();
 			}
 
 			new SetupWizard();
@@ -208,6 +217,10 @@ if ( ! class_exists( Rtcl::class ) ) {
 			// AI Controller
 			new EmbeddingController();
 			new AIImageController();
+
+			// Importer scheduler: registers the Action Scheduler callback so
+			// background workers can run recurring RSS imports.
+			ImportScheduler::register();
 
 			ThemeSupports::init();
 			$this->query = new Query();

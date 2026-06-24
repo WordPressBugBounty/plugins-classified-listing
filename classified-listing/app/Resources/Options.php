@@ -146,6 +146,11 @@ class Options {
 				'icon'   => 'fas fa-microchip',
 				'fields' => self::all_integration_fields(),
 			],
+			'rtcl_import_settings'          => [
+				'label'  => __( 'Import', 'classified-listing' ),
+				'icon'   => 'fas fa-file-import',
+				'fields' => self::import_fields(),
+			],
 		] );
 
 		if ( ! get_option( 'rtcl_embedding_process_completed' ) ) {
@@ -168,6 +173,11 @@ class Options {
 						[
 							'field'     => 'rtcl_ai_settings.ai_tools',
 							'value'     => 'DeepSeek',
+							'condition' => '!=',
+						],
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'Claude',
 							'condition' => '!=',
 						],
 					],
@@ -1369,7 +1379,7 @@ class Options {
 				'title'       => __( 'Google Map API Key', 'classified-listing' ),
 				'type'        => 'text',
 				'default'     => '',
-				'description' => __( 'How to generate Google Map API key <a target="_blank" href="https://www.radiustheme.com/docs/main-settings/misc-settings/#google-map">Click here</a>',
+				'description' => __( 'How to generate Google Map API key <a target="_blank" href="https://www.radiustheme.com/docs/classified-listing/docs/main-settings/misc-settings/">Click here</a>',
 					'classified-listing' ),
 				'depends'     => [
 					'on' => [
@@ -1634,6 +1644,7 @@ class Options {
 					'OpenAI'   => __( 'ChatGPT', 'classified-listing' ),
 					'Gemini'   => __( 'Google Gemini', 'classified-listing' ),
 					'DeepSeek' => __( 'DeepSeek', 'classified-listing' ),
+					'Claude'   => __( 'Anthropic Claude', 'classified-listing' ),
 				],
 				'default' => 'OpenAI',
 			],
@@ -1747,6 +1758,44 @@ class Options {
 					],
 				],
 			],
+			'claude_models'               => [
+				'title'   => __( 'Claude Model', 'classified-listing' ),
+				'type'    => 'select',
+				'options' => [
+					'claude-opus-4-7'            => __( 'Claude Opus 4.7 (Full Version)', 'classified-listing' ),
+					'claude-sonnet-4-6'          => __( 'Claude Sonnet 4.6 (Balanced)', 'classified-listing' ),
+					'claude-haiku-4-5-20251001'  => __( 'Claude Haiku 4.5 (Light Version)', 'classified-listing' ),
+				],
+				'default' => 'claude-sonnet-4-6',
+				'depends' => [
+					'relation' => 'or',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'Claude',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+			'claude_api_key'              => [
+				'title'       => __( 'Claude API Key', 'classified-listing' ),
+				'type'        => 'password',
+				'default'     => '',
+				'placeholder' => 'sk-ant-***********************',
+				'description' => __( 'To integrate with Anthropic Claude, you need to obtain an API key from Anthropic. Visit <a target="_blank" href="https://console.anthropic.com/settings/keys">Anthropic API Keys</a> to generate one.',
+					'classified-listing' ),
+				'depends'     => [
+					'relation' => 'or',
+					'on'       => [
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'Claude',
+							'condition' => '=',
+						],
+					],
+				],
+			],
 			'gpt_max_token'               => [
 				'title'       => __( 'Maximum Characters in Prompt Input', 'classified-listing' ),
 				'type'        => 'number',
@@ -1804,6 +1853,11 @@ class Options {
 							'condition' => '!=',
 						],
 						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'Claude',
+							'condition' => '!=',
+						],
+						[
 							'field'     => 'rtcl_ai_settings.semantic_search',
 							'value'     => 'yes',
 							'condition' => '=',
@@ -1823,6 +1877,11 @@ class Options {
 						[
 							'field'     => 'rtcl_ai_settings.ai_tools',
 							'value'     => 'DeepSeek',
+							'condition' => '!=',
+						],
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'Claude',
 							'condition' => '!=',
 						],
 						[
@@ -1848,6 +1907,11 @@ class Options {
 						[
 							'field'     => 'rtcl_ai_settings.ai_tools',
 							'value'     => 'DeepSeek',
+							'condition' => '!=',
+						],
+						[
+							'field'     => 'rtcl_ai_settings.ai_tools',
+							'value'     => 'Claude',
 							'condition' => '!=',
 						],
 						[
@@ -1881,6 +1945,66 @@ class Options {
 				],
 			],
 		];
+	}
+
+	// Import Settings (external-source importers: RSS, Google Places).
+	public static function import_fields() {
+		$options = [
+			'field_title_import_sources'  => [
+				'title'       => __( 'External Importers', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'Configure pulling listings from external sources (RSS feeds, Google Places). CSV import is available under Tools › Export / Import.',
+					'classified-listing' ),
+			],
+			'google_places_api_key'       => [
+				'title'       => __( 'Google Places API Key', 'classified-listing' ),
+				'type'        => 'password',
+				'default'     => '',
+				'placeholder' => 'AIzaSy***********************',
+				'description' => __( 'Required to import listings from Google Maps. The key must have the new <strong>Places API</strong> enabled in your Google Cloud project. Visit <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Credentials</a> to create one.',
+					'classified-listing' ),
+			],
+			'default_import_status'       => [
+				'title'   => __( 'Default Listing Status', 'classified-listing' ),
+				'type'    => 'select',
+				'default' => 'pending',
+				'options' => [
+					'publish' => __( 'Published', 'classified-listing' ),
+					'pending' => __( 'Pending Review', 'classified-listing' ),
+					'draft'   => __( 'Draft', 'classified-listing' ),
+				],
+				'description' => __( 'Status assigned to listings created by an importer when the source does not specify one.', 'classified-listing' ),
+			],
+			'update_existing'             => [
+				'title'       => __( 'Update Existing Listings', 'classified-listing' ),
+				'type'        => 'checkbox',
+				'default'     => 'no',
+				'description' => __( 'When a record from the source matches a previously-imported listing, refresh it instead of skipping. Match is by source + source id.',
+					'classified-listing' ),
+			],
+			'max_per_run'                 => [
+				'title'      => __( 'Max Listings per Run', 'classified-listing' ),
+				'type'       => 'number',
+				'default'    => 50,
+				'validation' => [
+					'required' => true,
+					'min'      => 1,
+					'max'      => 200,
+				],
+				'description' => __( 'Hard cap on the number of listings any single import run will create. Google Places enforces an upper bound of 60.',
+					'classified-listing' ),
+			],
+			'default_fallback_image_url'  => [
+				'title'       => __( 'Default Fallback Image URL', 'classified-listing' ),
+				'type'        => 'text',
+				'default'     => '',
+				'placeholder' => 'https://example.com/path/to/placeholder.jpg',
+				'description' => __( 'Image used when an importer is configured to use a fallback instead of (or in addition to) source photos. Paste any publicly-reachable image URL. Leave empty to disable the fallback option.',
+					'classified-listing' ),
+			],
+		];
+
+		return apply_filters( 'rtcl_import_settings_options', $options );
 	}
 
 	/**

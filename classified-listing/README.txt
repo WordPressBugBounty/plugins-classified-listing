@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 5.4.4
+Stable tag: 5.5.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -328,6 +328,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 5.5.0 ( Jun 24, 2026 ) =
+* Added: Listings import from google map
+* Added: Listings import from RSS feeds
+* Added: Listings analytics for frontend dashboard
+* Added: Claude as AI tools
 
 = 5.4.4 ( Jun 16, 2026 ) =
 * Added: Safeguards to prevent unauthorized access.

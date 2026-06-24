@@ -150,6 +150,15 @@ trait SettingsTrait {
 	}
 
 	/**
+	 * @return bool
+	 */
+	public static function is_claude_enabled(): bool {
+		$ai_tools = self::get_ai_client();
+
+		return $ai_tools === 'claude';
+	}
+
+	/**
 	 * @return string
 	 */
 	public static function get_ai_client() {

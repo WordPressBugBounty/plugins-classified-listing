@@ -4,6 +4,7 @@ namespace Rtcl\Models;
 
 use Exception;
 use Rtcl\Helpers\Functions;
+use Rtcl\Services\AIServices\ClaudeAdapter;
 use Rtcl\Services\AIServices\DeepSeekAdapter;
 use Rtcl\Services\AIServices\GeminiAdapter;
 use Rtcl\Services\AIServices\OpenAIAdapter;
@@ -223,6 +224,8 @@ class Factory
 			     return new GeminiAdapter($client);
 			 case 'DeepSeek':
 			     return new DeepSeekAdapter($client);
+			 case 'Claude':
+			     return new ClaudeAdapter($client);
 			default:
 				throw new Exception("AI service not supported");
 		}

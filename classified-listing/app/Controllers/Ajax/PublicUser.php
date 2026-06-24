@@ -6,6 +6,7 @@ use Exception;
 use Rtcl\Controllers\Hooks\Filters;
 use Rtcl\Helpers\Functions;
 use Rtcl\Helpers\Link;
+use Rtcl\Helpers\ListingStats;
 use Rtcl\Helpers\Pagination;
 use Rtcl\Helpers\Text;
 use Rtcl\Models\Cipher;
@@ -174,6 +175,7 @@ class PublicUser {
 		$click = absint( get_post_meta( $listing_id, '_rtcl_whatsapp_click', true ) );
 		$click = $click + 1;
 		update_post_meta( $listing_id, '_rtcl_whatsapp_click', $click );
+		ListingStats::record( $listing_id, 'whatsapp_click' );
 		wp_send_json_success();
 	}
 
@@ -194,6 +196,7 @@ class PublicUser {
 		$click = absint( get_post_meta( $listing_id, '_rtcl_phone_click', true ) );
 		$click = $click + 1;
 		update_post_meta( $listing_id, '_rtcl_phone_click', $click );
+		ListingStats::record( $listing_id, 'phone_click' );
 		wp_send_json_success();
 	}
 
@@ -214,6 +217,7 @@ class PublicUser {
 		$reveal = absint( get_post_meta( $listing_id, '_rtcl_reveal_phone_whatsapp', true ) );
 		$reveal = $reveal + 1;
 		update_post_meta( $listing_id, '_rtcl_reveal_phone_whatsapp', $reveal );
+		ListingStats::record( $listing_id, 'reveal' );
 		wp_send_json_success();
 	}
 
@@ -883,6 +887,7 @@ class PublicUser {
 		}
 		$notification = absint( get_post_meta( $post_id, '_notification_by_visitor', true ) ) + 1;
 		update_post_meta( $post_id, '_notification_by_visitor', $notification );
+		ListingStats::record( $post_id, 'contact' );
 		$response['message'] = esc_html__( 'Your message sent successfully.', 'classified-listing' );
 		wp_send_json_success( $response );
 	}

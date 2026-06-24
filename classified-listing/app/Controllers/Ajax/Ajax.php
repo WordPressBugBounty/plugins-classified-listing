@@ -9,7 +9,12 @@ class Ajax {
 		Checkout::getInstance();
 		new AjaxCFG();
 		new PublicUser();
+		new ListingAnalyticsAjax();
 		new Import();
+		new ImportSources();
+		new ImportGoogle();
+		new ImportMapping();
+		new ImportHistoryAjax();
 		new Export();
 		new AjaxListingType();
 		InlineSearchAjax::init();

@@ -35,7 +35,7 @@ $options = array(
 			'%1$s <a target="_blank" href="%3$s">%2$s</a>',
 			esc_html__( 'How to generate Google Map API key', 'classified-listing' ),
 			esc_html__( 'Click here', 'classified-listing' ),
-			'https://www.radiustheme.com/docs/main-settings/misc-settings/#google-map'
+			'https://www.radiustheme.com/docs/classified-listing/docs/main-settings/misc-settings/'
 		),
 		'dependency'  => [
 			'rules' => [

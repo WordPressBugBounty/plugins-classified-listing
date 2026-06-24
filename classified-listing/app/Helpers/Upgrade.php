@@ -16,10 +16,29 @@ class Upgrade {
 //        self::upgrade_to_1_5_5();
 //        self::upgrade_to_1_5_59();
 		self::upgrade_to_5_3_10();
+		self::upgrade_importer_tables();
 	}
 
 	public static function upgrade_to_5_3_10() {
 		Roles::add_listing_gallery_caps();
+	}
+
+	/**
+	 * Create the importer-related tables (rtcl_import_history, rtcl_import_sources)
+	 * on existing installs without requiring a deactivate/reactivate cycle.
+	 *
+	 * Guarded by rtcl_importer_db_version so the SHOW TABLES probes run once,
+	 * not on every admin init. Bump the constant when adding more importer
+	 * tables in future phases.
+	 */
+	public static function upgrade_importer_tables() {
+		$target = 1;
+		if ( (int) get_option( 'rtcl_importer_db_version', 0 ) >= $target ) {
+			return;
+		}
+
+		Installer::migrate();
+		update_option( 'rtcl_importer_db_version', $target, false );
 	}
 
 	public static function upgrade_to_1_5_59() {

@@ -140,6 +140,14 @@ class MyAccount {
 
 		// Enqueue style dependencies
 		wp_enqueue_script( 'rtcl-public' );
+		wp_enqueue_script( 'rtcl-chart', rtcl()->get_assets_uri( 'vendor/chart/chart.min.js' ), [], RTCL_VERSION, true );
+		wp_enqueue_script(
+			'rtcl-listing-analytics',
+			rtcl()->get_assets_uri( 'js/rtcl-listing-analytics.js' ),
+			[ 'rtcl-public', 'rtcl-chart' ],
+			RTCL_VERSION,
+			true
+		);
 
 		// Define the query
 		$paged = Pagination::get_page_number();

@@ -80,28 +80,34 @@ class Export {
 		if ( in_array( 'categories', $export_types ) ) {
 			$first_categories = get_terms( [ 'taxonomy' => 'rtcl_category', 'hide_empty' => false, 'parent' => 0 ] );
 			$categories       = [];
-			foreach ( $first_categories as $first_value ) {
-				$first_value->meta = get_term_meta( $first_value->term_id );
+			if ( ! is_wp_error( $first_categories ) && is_array( $first_categories ) ) {
+				foreach ( $first_categories as $first_value ) {
+					$first_value->meta = get_term_meta( $first_value->term_id );
 
-				//second categories
-				$get_second_categories = get_terms( [ 'taxonomy' => 'rtcl_category', 'hide_empty' => false, 'parent' => $first_value->term_id ] );
-				$second_categories     = [];
-				foreach ( $get_second_categories as $second_value ) {
-					$second_value->meta  = get_term_meta( $second_value->term_id );
-					$second_categories[] = $second_value;
+					//second categories
+					$get_second_categories = get_terms( [ 'taxonomy' => 'rtcl_category', 'hide_empty' => false, 'parent' => $first_value->term_id ] );
+					$second_categories     = [];
+					if ( ! is_wp_error( $get_second_categories ) && is_array( $get_second_categories ) ) {
+						foreach ( $get_second_categories as $second_value ) {
+							$second_value->meta  = get_term_meta( $second_value->term_id );
+							$second_categories[] = $second_value;
 
-					//third categories
-					$get_third_categories = get_terms( [ 'taxonomy' => 'rtcl_category', 'hide_empty' => false, 'parent' => $second_value->term_id ] );
-					$third_categories     = [];
-					foreach ( $get_third_categories as $third_value ) {
-						$third_value->meta  = get_term_meta( $third_value->term_id );
-						$third_categories[] = $third_value;
+							//third categories
+							$get_third_categories = get_terms( [ 'taxonomy' => 'rtcl_category', 'hide_empty' => false, 'parent' => $second_value->term_id ] );
+							$third_categories     = [];
+							if ( ! is_wp_error( $get_third_categories ) && is_array( $get_third_categories ) ) {
+								foreach ( $get_third_categories as $third_value ) {
+									$third_value->meta  = get_term_meta( $third_value->term_id );
+									$third_categories[] = $third_value;
+								}
+							}
+							$second_value->child = $third_categories;
+						}
 					}
-					$second_value->child = $third_categories;
-				}
-				$first_value->child = $second_categories;
+					$first_value->child = $second_categories;
 
-				$categories[] = $first_value;
+					$categories[] = $first_value;
+				}
 			}
 			$results['categories'] = $categories;
 		}
@@ -109,28 +115,34 @@ class Export {
 		if ( in_array( 'locations', $export_types ) ) {
 			$first_locations = get_terms( [ 'taxonomy' => 'rtcl_location', 'hide_empty' => false, 'parent' => 0 ] );
 			$locations       = [];
-			foreach ( $first_locations as $first_value ) {
-				$first_value->meta = get_term_meta( $first_value->term_id );
+			if ( ! is_wp_error( $first_locations ) && is_array( $first_locations ) ) {
+				foreach ( $first_locations as $first_value ) {
+					$first_value->meta = get_term_meta( $first_value->term_id );
 
-				//second locations
-				$get_second_locations = get_terms( [ 'taxonomy' => 'rtcl_location', 'hide_empty' => false, 'parent' => $first_value->term_id ] );
-				$second_locations     = [];
-				foreach ( $get_second_locations as $second_value ) {
-					$second_value->meta = get_term_meta( $second_value->term_id );
-					$second_locations[] = $second_value;
+					//second locations
+					$get_second_locations = get_terms( [ 'taxonomy' => 'rtcl_location', 'hide_empty' => false, 'parent' => $first_value->term_id ] );
+					$second_locations     = [];
+					if ( ! is_wp_error( $get_second_locations ) && is_array( $get_second_locations ) ) {
+						foreach ( $get_second_locations as $second_value ) {
+							$second_value->meta = get_term_meta( $second_value->term_id );
+							$second_locations[] = $second_value;
 
-					//third locations
-					$get_third_locations = get_terms( [ 'taxonomy' => 'rtcl_location', 'hide_empty' => false, 'parent' => $second_value->term_id ] );
-					$third_locations     = [];
-					foreach ( $get_third_locations as $third_value ) {
-						$third_value->meta = get_term_meta( $third_value->term_id );
-						$third_locations[] = $third_value;
+							//third locations
+							$get_third_locations = get_terms( [ 'taxonomy' => 'rtcl_location', 'hide_empty' => false, 'parent' => $second_value->term_id ] );
+							$third_locations     = [];
+							if ( ! is_wp_error( $get_third_locations ) && is_array( $get_third_locations ) ) {
+								foreach ( $get_third_locations as $third_value ) {
+									$third_value->meta = get_term_meta( $third_value->term_id );
+									$third_locations[] = $third_value;
+								}
+							}
+							$second_value->child = $third_locations;
+						}
 					}
-					$second_value->child = $third_locations;
-				}
-				$first_value->child = $second_locations;
+					$first_value->child = $second_locations;
 
-				$locations[] = $first_value;
+					$locations[] = $first_value;
+				}
 			}
 			$results['locations'] = $locations;
 		}

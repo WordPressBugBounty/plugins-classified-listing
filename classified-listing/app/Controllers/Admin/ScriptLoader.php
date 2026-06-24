@@ -1018,6 +1018,7 @@ class ScriptLoader {
 				'all_listings_url'     => Link::get_listings_page_link(),
 				'logo_url'             => rtcl()->get_assets_uri( 'images/cl-logo-dark.png' ),
 				'logo_icon_url'        => rtcl()->get_assets_uri( 'images/icon-64x64.png' ),
+				'recommendedPlugins'   => SetupWizard::get_recommended_plugins(),
 			] );
 		}
 	}
@@ -1037,6 +1038,35 @@ class ScriptLoader {
 			wp_enqueue_style( 'rtcl-admin' );
 			wp_enqueue_script( 'rtcl-admin' );
 			wp_enqueue_script( 'rtcl-admin-ie' );
+
+			// Google Places import tab: load the Maps JS API so the location bias
+			// can be picked on an interactive map instead of typing raw lat/lng.
+			// Prefer the "Google Map API Key" (rtcl_misc_map_settings) — it is
+			// already authorized for the Maps JavaScript API everywhere else in
+			// the plugin. The Places import key only needs the Places API, so it
+			// usually fails to load Maps JS ("can't load Google Maps correctly").
+			// Fall back to it only when no map key is configured. Init is deferred
+			// to rtclGoogleImportMapInit, defined by the import-google view.
+			$tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
+			if ( 'google' === $tab ) {
+				$map_key = (string) Functions::get_option_item( 'rtcl_misc_map_settings', 'map_api_key', '' );
+				if ( '' === $map_key ) {
+					$map_key = (string) Functions::get_option_item( 'rtcl_import_settings', 'google_places_api_key', '' );
+				}
+				if ( '' !== $map_key ) {
+					$options             = Options::google_map_script_options();
+					$options['key']      = $map_key;
+					$options['callback'] = 'rtclGoogleImportMapInit';
+					$options['loading']  = 'async';
+					wp_enqueue_script(
+						'rtcl-google-import-map',
+						add_query_arg( $options, 'https://maps.googleapis.com/maps/api/js' ),
+						[],
+						$this->version,
+						true
+					);
+				}
+			}
 		}
 	}
 

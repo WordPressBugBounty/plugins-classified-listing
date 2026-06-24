@@ -2715,6 +2715,9 @@ class Functions {
 				$count ++;
 				update_post_meta( $post_id, $count_key, $count );
 			}
+
+			// Record the unique daily view for the analytics modal.
+			ListingStats::record( $post_id, 'view' );
 		}
 	}
 
@@ -4636,7 +4639,8 @@ class Functions {
 	}
 
 	public static function is_enable_business_hours() {
-		return Functions::get_option_item( 'rtcl_moderation_settings', 'enable_business_hours', false, 'checkbox' );
+		//return Functions::get_option_item( 'rtcl_moderation_settings', 'enable_business_hours', false, 'checkbox' );
+		return true;
 	}
 
 	public static function is_enable_social_profiles() {
@@ -5930,6 +5934,7 @@ class Functions {
 			'OpenAI'   => 'gpt',
 			'Gemini'   => 'gemini',
 			'DeepSeek' => 'deepseek',
+			'Claude'   => 'claude',
 		];
 
 		return $suffixes[ $type ] ?? '';

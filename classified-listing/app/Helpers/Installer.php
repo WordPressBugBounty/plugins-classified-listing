@@ -18,8 +18,122 @@ class Installer {
 		];
 
 
+	const STATS_TABLE_VERSION = '1.0.0';
+
 	public static function init() {
 		add_action( 'init', [ __CLASS__, 'check_version' ], 5 );
+		add_action( 'init', [ __CLASS__, 'maybe_create_stats_table' ], 5 );
+	}
+
+	/**
+	 * Create the listing stats table if it is missing or out of date.
+	 *
+	 * Runs independently of the plugin version bump so the analytics table is
+	 * self-healing; the option guard keeps it to a single dbDelta per version.
+	 *
+	 * @return void
+	 */
+	public static function maybe_create_stats_table() {
+		$current_version = get_option( 'rtcl_stats_table_version', '0' );
+
+		if ( $current_version === self::STATS_TABLE_VERSION ) {
+			return;
+		}
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta( self::get_stats_table_schema() );
+		update_option( 'rtcl_stats_table_version', self::STATS_TABLE_VERSION );
+
+		// Run the one-time meta-to-stats migration independently.
+		// Uses its own option flag so it can retry on next load if it fails.
+		if ( ! get_option( 'rtcl_stats_meta_migrated' ) ) {
+			self::migrate_meta_to_stats_table();
+		}
+	}
+
+	/**
+	 * One-time migration of existing post-meta engagement counters into the
+	 * rtcl_listing_stats table so that card totals and chart data are
+	 * consistent for listings that already had activity before daily tracking
+	 * was introduced.
+	 *
+	 * All pre-existing counts are stored under yesterday's date so they never
+	 * conflict with genuinely new daily rows recorded from today onward.
+	 *
+	 * Guarded by the `rtcl_stats_meta_migrated` option so it runs only once.
+	 * On fresh installs (no listings exist) the method sets the flag and
+	 * returns immediately without running any INSERT queries.
+	 *
+	 * @return void
+	 */
+	private static function migrate_meta_to_stats_table() {
+		global $wpdb;
+
+		$table = $wpdb->prefix . 'rtcl_listing_stats';
+
+		// Verify the stats table actually exists before attempting migration.
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) !== $table ) {
+			return; // Don't set the flag — let it retry after table is created.
+		}
+
+		$post_type = function_exists( 'rtcl' ) && ! empty( rtcl()->post_type )
+			? rtcl()->post_type
+			: 'rtcl_listing';
+
+		// Fresh install check: skip migration if no listings exist at all.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$has_listings = (bool) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT 1 FROM {$wpdb->posts} WHERE post_type = %s LIMIT 1",
+				$post_type
+			)
+		);
+
+		if ( ! $has_listings ) {
+			update_option( 'rtcl_stats_meta_migrated', 1, true );
+
+			return;
+		}
+
+		$yesterday = gmdate( 'Y-m-d', strtotime( current_time( 'Y-m-d' ) . ' -1 day' ) );
+
+		$meta_to_stat = [
+			'_views'                      => 'view',
+			'_rtcl_reveal_phone_whatsapp' => 'reveal',
+			'_rtcl_phone_click'           => 'phone_click',
+			'_rtcl_whatsapp_click'        => 'whatsapp_click',
+			'_notification_by_visitor'    => 'contact',
+		];
+
+		$has_error = false;
+
+		foreach ( $meta_to_stat as $meta_key => $stat_key ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+			$result = $wpdb->query(
+				$wpdb->prepare(
+					"INSERT INTO {$table} (listing_id, stat_date, stat_key, stat_count)
+					SELECT pm.post_id, %s, %s, CAST(pm.meta_value AS UNSIGNED)
+					FROM {$wpdb->postmeta} pm
+					INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id AND p.post_type = %s
+					WHERE pm.meta_key = %s AND CAST(pm.meta_value AS UNSIGNED) > 0
+					ON DUPLICATE KEY UPDATE stat_count = GREATEST(stat_count, VALUES(stat_count))",
+					$yesterday,
+					$stat_key,
+					$post_type,
+					$meta_key
+				)
+			);
+
+			if ( false === $result ) {
+				$has_error = true;
+			}
+		}
+
+		// Only mark as complete if all queries succeeded.
+		// On failure the flag stays unset so migration retries on next load.
+		if ( ! $has_error ) {
+			update_option( 'rtcl_stats_meta_migrated', 1, true );
+		}
 	}
 
 
@@ -397,8 +511,41 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.',
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		//$tables = array_merge( self::get_tax_table_schema(), [] );
-		$tables = self::get_tax_table_schema();
+		$tables = array_merge( self::get_tax_table_schema(), self::get_stats_table_schema() );
 		dbDelta( $tables );
+	}
+
+	/**
+	 * Schema for the per-listing daily engagement stats table.
+	 *
+	 * Stores one row per listing / day / metric so the My Account analytics
+	 * modal can plot daily trends. dbDelta keeps this idempotent.
+	 *
+	 * @return array
+	 */
+	private static function get_stats_table_schema() {
+		global $wpdb;
+
+		$collate = '';
+
+		if ( $wpdb->has_cap( 'collation' ) ) {
+			$collate = $wpdb->get_charset_collate();
+		}
+
+		$table_name = $wpdb->prefix . 'rtcl_listing_stats';
+
+		return [
+			"CREATE TABLE {$table_name} (
+				stat_id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				listing_id BIGINT(20) UNSIGNED NOT NULL,
+				stat_date DATE NOT NULL,
+				stat_key VARCHAR(32) NOT NULL,
+				stat_count BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
+				PRIMARY KEY  (stat_id),
+				UNIQUE KEY listing_date_key (listing_id, stat_date, stat_key),
+				KEY listing_id (listing_id)
+			) $collate;",
+		];
 	}
 
 	/**
