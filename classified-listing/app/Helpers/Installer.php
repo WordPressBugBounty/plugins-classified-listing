@@ -5,16 +5,17 @@ namespace Rtcl\Helpers;
 
 use Rtcl\Database\DbMigration;
 use Rtcl\Database\Migrations\Forms;
+use Rtcl\Database\Migrations\FormsMigration600;
 use Rtcl\Models\Roles;
 
 class Installer {
 
-	const DB_VERSION = '5.1.0';
+	const DB_VERSION = '6.0.0';
 
 	private static array $db_updates
 		= [
 			'5.0.0' => [ 'migrate_settings_500' ],
-			'5.1.0' => [ 'add_single_layout_column_at_form_table_db_510' ],
+			'6.0.0' => [ 'add_single_layout_column_at_form_table_db_510', 'form_migration_600', 'add_slug_builder_column' ],
 		];
 
 
@@ -23,6 +24,39 @@ class Installer {
 	public static function init() {
 		add_action( 'init', [ __CLASS__, 'check_version' ], 5 );
 		add_action( 'init', [ __CLASS__, 'maybe_create_stats_table' ], 5 );
+		add_action( 'init', [ __CLASS__, 'maybe_add_slug_builder_column' ], 20 );
+	}
+
+	/**
+	 * Ensure the wp_rtcl_forms.slug_builder column exists, independently of the DB version bump.
+	 *
+	 * Self-healing: sites whose rtcl_db_version was already advanced past 6.0.0 by an earlier build
+	 * (before the add_slug_builder_column migration existed) never got the column, which made the
+	 * slug-builder rewrite query ("SELECT slug_builder ...") emit an "Unknown column" DB error. The
+	 * option guard keeps this to a single check once the column is in place; if the table is not yet
+	 * created it retries on a later request rather than marking itself done prematurely.
+	 *
+	 * @return void
+	 */
+	public static function maybe_add_slug_builder_column() {
+		$install_from = get_option( 'rtcl_installed_from' ) ?: '6.0.0';
+		if ( version_compare( $install_from, '6.0.0', '>=' ) || get_option( 'rtcl_db_migration_' . RTCL_VERSION ) ) {
+			return;
+		}
+		global $wpdb;
+		$table = $wpdb->prefix . 'rtcl_forms';
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) !== $table ) {
+			return;
+		}
+		// Add single_layout_column
+		Forms::add_single_layout_column();
+		// Migrate forms
+		FormsMigration600::migrate();
+		// Add slug_builder column
+		FormsMigration600::add_slug_builder_column();
+		// Drop the cached rewrite flag so the slug-builder check re-runs now the column exists.
+		delete_transient( 'rtcl_slug_builder_active' );
+		update_option( 'rtcl_db_migration_' . RTCL_VERSION, 1, true );
 	}
 
 	/**
@@ -85,8 +119,8 @@ class Installer {
 		$has_listings = (bool) $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT 1 FROM {$wpdb->posts} WHERE post_type = %s LIMIT 1",
-				$post_type
-			)
+				$post_type,
+			),
 		);
 
 		if ( ! $has_listings ) {
@@ -120,8 +154,8 @@ class Installer {
 					$yesterday,
 					$stat_key,
 					$post_type,
-					$meta_key
-				)
+					$meta_key,
+				),
 			);
 
 			if ( false === $result ) {
@@ -188,7 +222,7 @@ class Installer {
 		foreach ( self::get_db_update_callbacks() as $version => $update_callbacks ) {
 			if ( version_compare( $current_db_version, $version, '<' ) ) {
 				foreach ( $update_callbacks as $update_callback ) {
-					if ( is_callable( self::class, $update_callback ) ) {
+					if ( method_exists( self::class, $update_callback ) ) {
 						self::$update_callback();
 					}
 				}
@@ -247,7 +281,7 @@ class Installer {
 	 *
 	 * @param  string|null  $version  New WooCommerce DB version or null.
 	 */
-	public static function update_db_version( string $version = null ) {
+	public static function update_db_version( ?string $version = null ) {
 		update_option( 'rtcl_db_version', is_null( $version ) ? self::DB_VERSION : $version );
 	}
 
@@ -399,10 +433,10 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.',
 				'buyer_user_type_label'         => "Buyer",
 			],
 			'rtcl_style_settings'                 => [
-				'primary'       => "#0066bf",
+				'primary'       => "#3232ff",
 				'link'          => "#111111",
-				'link_hover'    => "#0066bf",
-				'button'        => "#0066bf",
+				'link_hover'    => "#3232ff",
+				'button'        => "#3232ff",
 				'button_hover'  => "#3065c1",
 				'button_text'   => "#ffffff",
 				'sidebar_width' => [
@@ -641,6 +675,14 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.',
 
 	public static function add_single_layout_column_at_form_table_db_510() {
 		Forms::add_single_layout_column();
+	}
+
+	public static function form_migration_600() {
+		\Rtcl\Database\Migrations\FormsMigration600::migrate();
+	}
+
+	public static function add_slug_builder_column() {
+		\Rtcl\Database\Migrations\FormsMigration600::add_slug_builder_column();
 	}
 
 	public static function migrate_settings_500() {

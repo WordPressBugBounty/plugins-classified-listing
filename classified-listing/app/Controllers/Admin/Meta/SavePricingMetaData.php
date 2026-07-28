@@ -73,6 +73,26 @@ class SavePricingMetaData {
 			delete_post_meta( $post_id, 'featured' );
 		}
 
+		// Pricing card icon.
+		if ( isset( $_POST['_rtcl_pricing_icon'] ) ) {
+			$icon = sanitize_text_field( wp_unslash( $_POST['_rtcl_pricing_icon'] ) );
+			if ( $icon ) {
+				update_post_meta( $post_id, '_rtcl_pricing_icon', $icon );
+			} else {
+				delete_post_meta( $post_id, '_rtcl_pricing_icon' );
+			}
+		}
+
+		// Featured highlight + its label.
+		if ( isset( $_POST['_rtcl_pricing_featured'] ) ) {
+			update_post_meta( $post_id, '_rtcl_pricing_featured', 1 );
+			$featured_label = isset( $_POST['_rtcl_pricing_featured_label'] ) ? sanitize_text_field( wp_unslash( $_POST['_rtcl_pricing_featured_label'] ) ) : '';
+			update_post_meta( $post_id, '_rtcl_pricing_featured_label', $featured_label );
+		} else {
+			delete_post_meta( $post_id, '_rtcl_pricing_featured' );
+			delete_post_meta( $post_id, '_rtcl_pricing_featured_label' );
+		}
+
 		do_action( 'rtcl_save_pricing_meta_data', $post_id, $_POST, $post, $data );
 	}
 }

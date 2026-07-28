@@ -72,7 +72,7 @@ class VStore {
 	 *
 	 * @return mixed null will return when not exist
 	 */
-	public function get( string $id = null ) {
+	public function get( ?string $id = null ) {
 		if ( empty( $id ) ) {
 			$id = $this->get_id();
 		}

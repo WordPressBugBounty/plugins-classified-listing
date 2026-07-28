@@ -28,7 +28,22 @@ class TranslationSanitization {
 			foreach ( $this->translations as $lngCode => $rawTranslations ) {
 				if ( ! empty( $rawTranslations ) ) {
 
+					// Slug builder prefix/postfix translations (stored under a reserved top-level key).
+					if ( !empty( $rawTranslations['slug_builder'] ) && is_array( $rawTranslations['slug_builder'] ) ) {
+						foreach ( $rawTranslations['slug_builder'] as $uuid => $segTr ) {
+							if ( !empty( $segTr['prefix'] ) ) {
+								$translations[ $lngCode ]['slug_builder'][ $uuid ]['prefix'] = sanitize_text_field( $segTr['prefix'] );
+							}
+							if ( !empty( $segTr['postfix'] ) ) {
+								$translations[ $lngCode ]['slug_builder'][ $uuid ]['postfix'] = sanitize_text_field( $segTr['postfix'] );
+							}
+						}
+					}
+
 					foreach ( $rawTranslations as $fieldUuid => $_translations ) {
+						if ( $fieldUuid === 'slug_builder' ) {
+							continue;
+						}
 						if ( is_array( $_translations ) ) {
 							foreach ( $_translations as $fieldKey => $_translation ) {
 								if ( empty( $_translation ) ) {
@@ -72,7 +87,7 @@ class TranslationSanitization {
 				$options = [];
 				foreach ( $_trValue as $index => $option ) {
 					if ( ! empty( $option['label'] ) ) {
-						$options[ $index ]['label'] = sanitize_text_field( $option['label'] );
+						$options[ $index ]['label'] = sanitize_text_field( wp_unslash( $option['label'] ) );
 					}
 				}
 				if ( ! empty( $options ) ) {
@@ -84,7 +99,10 @@ class TranslationSanitization {
 				$validation = [];
 				foreach ( $_trValue as $ruleKey => $_validation ) {
 					if ( ! empty( $_validation['message'] ) ) {
-						$validation[ $ruleKey ]['message'] = sanitize_text_field( $_validation['message'] );
+						$validation[ $ruleKey ]['message'] = sanitize_text_field( wp_unslash( $_validation['message'] ) );
+					}
+					if ( ! empty( $_validation['message_plural'] ) ) {
+						$validation[ $ruleKey ]['message_plural'] = sanitize_text_field( wp_unslash( $_validation['message_plural'] ) );
 					}
 				}
 				if ( ! empty( $validation ) ) {
@@ -96,9 +114,9 @@ class TranslationSanitization {
 		} elseif ( in_array( $fieldKey, [ 'tnc_html', 'html_codes' ] ) ) {
 			$value = stripslashes( wp_kses_post( $_trValue ) );
 		} elseif ( 'help_message' === $fieldKey ) {
-			$value = sanitize_textarea_field( $_trValue );
+			$value = sanitize_textarea_field( wp_unslash( $_trValue ) );
 		} else {
-			$value = sanitize_text_field( $_trValue );
+			$value = sanitize_text_field( wp_unslash( $_trValue ) );
 		}
 
 		return $value;

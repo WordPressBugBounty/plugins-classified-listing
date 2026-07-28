@@ -26,6 +26,7 @@ class Forms extends Migration {
 			  `fields` json NULL,
 			  `sections` json NULL,
 			  `single_layout` json NULL,
+			  `slug_builder` json NULL,
 			  `translations` json NULL,
 			  `settings` json NULL,
 			  `type` VARCHAR(45) NULL,

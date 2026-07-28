@@ -7,7 +7,7 @@ class NoticeController {
 	/**
 	 * Minimum published listings to show the review notice for the first time.
 	 */
-	const REVIEW_INITIAL_THRESHOLD = 40;
+	const REVIEW_INITIAL_THRESHOLD = 50;
 
 	/**
 	 * Additional listings required before showing the notice again after "Maybe Later".
@@ -27,6 +27,7 @@ class NoticeController {
 		}
 		add_action( 'admin_notices', [ __CLASS__, 'eid_special_deal_admin_notice' ] );
 		add_action( 'wp_ajax_rtcl_dismiss_eid_notice', [ __CLASS__, 'dismiss_eid_notice' ] );
+		add_action( 'loco_admin_notices', [ __CLASS__, 'loco_translate_notice' ] );
 	}
 
 	public static function eid_special_deal_admin_notice() {
@@ -93,6 +94,54 @@ class NoticeController {
 		check_ajax_referer( 'dismiss_eid_notice', 'security' );
 		update_user_meta( get_current_user_id(), 'rtcl_dismissed_ramadan_notice', true );
 		wp_die();
+	}
+
+	/**
+	 * Warn translators inside Loco Translate that editing files stored in the
+	 * plugin/theme directory will cause their changes to be lost on the next
+	 * update. Shown on any Loco editor page when the file is not already in
+	 * the safe system/custom languages directory.
+	 */
+	public static function loco_translate_notice() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		$page      = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+		$loco_path = isset( $_GET['path'] ) ? sanitize_text_field( wp_unslash( $_GET['path'] ) ) : '';
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+		// Only fire on Loco Translate admin pages.
+		if ( 0 !== strpos( $page, 'loco-' ) ) {
+			return;
+		}
+
+		// No path means we're on the overview/language-list tab — nothing to warn about.
+		if ( empty( $loco_path ) ) {
+			return;
+		}
+
+		// File is already in a safe languages directory — no warning needed.
+		if ( ! empty( $loco_path ) && (
+			false !== strpos( $loco_path, '/languages/plugins/' ) ||
+			false !== strpos( $loco_path, '/languages/themes/' )
+		) ) {
+			return;
+		}
+		?>
+		<div class="panel panel-warning">
+			<p>
+				<strong class="has-icon icon-warn" style="color:#d97706;font-weight:600;"><?php esc_html_e( 'Edits here will be lost on update.', 'classified-listing' ); ?></strong>
+				<?php
+				echo wp_kses(
+					__( 'Before editing, use the <strong>Relocate</strong> tab to move this file to a <strong>Custom</strong> or <strong>System</strong> location. No action needed if you are just reviewing.', 'classified-listing' ),
+					[ 'strong' => [] ]
+				);
+				?>
+			</p>
+		</div>
+		<?php
 	}
 
 	/**

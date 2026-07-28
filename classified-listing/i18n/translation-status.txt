@@ -1,0 +1,57 @@
+CLASSIFIED-LISTING TRANSLATION STATUS
+======================================
+Last updated: 2026-07-05
+Total languages: 15
+Completed: 15
+Remaining: 0
+Source template: classified-listing.pot (~3,008 entries)
+
+ALL LANGUAGES COMPLETED
+------------------------
+ #  Locale  Language              .po    .mo    .l10n.php  Coverage  Status
+--- ------- --------------------- ------ ------ ---------- --------- ------
+ 1  fr_FR   French                462K   231K   199K       99.9%     Done
+ 2  it_IT   Italian               454K   222K   189K       99.9%     Done
+ 3  de_DE   German                455K   223K   189K       99.9%     Done
+ 4  bn_BD   Bengali               569K   337K   303K       99.9%     Done
+ 5  es_ES   Spanish               458K   226K   192K       99.8%     Done
+ 6  nl_NL   Dutch                 450K   218K   184K       99.8%     Done
+ 7  ru_RU   Russian (3 plurals)   515K   283K   249K       99.8%     Done
+ 8  pt_BR   Portuguese (Brazil)   455K   223K   189K       99.9%     Done
+ 9  zh_CN   Chinese Simplified    431K   199K   166K       99.8%     Done
+10  he_IL   Hebrew                467K   235K   201K       99.8%     Done
+11  hi_IN   Hindi                 562K   330K   297K       99.9%     Done
+12  fa_IR   Persian               495K   263K   230K       99.9%     Done
+13  ar      Arabic (6 plurals)    483K   251K   217K       99.7%     Done
+14  ja      Japanese (1 plural)   473K   241K   207K       99.8%     Done
+15  ur      Urdu                  497K   265K   232K       99.9%     Done
+
+VERIFICATION (2026-07-05)
+-------------------------
+- All 15 .po files present and translated
+- All 15 .mo files compiled (binary format for gettext)
+- All 15 .l10n.php files generated (WordPress 6.5+ fast-load format)
+- No missing files detected
+- Coverage ranges from 99.7% to 99.9% across all languages
+- Untranslated entries (2-8 per language) are duplicate PO keys or
+  strings with special Unicode characters that could not be matched
+
+PLURAL FORMS
+------------
+2 forms: fr_FR, it_IT, de_DE, bn_BD, es_ES, nl_NL, pt_BR, he_IL, hi_IN, fa_IR, ur
+3 forms: ru_RU
+6 forms: ar
+1 form:  zh_CN, ja
+
+FILES LOCATION
+--------------
+i18n/languages/classified-listing-{locale}.po
+i18n/languages/classified-listing-{locale}.mo
+i18n/languages/classified-listing-{locale}.l10n.php
+
+SCRIPTS LOCATION
+----------------
+.claude/scripts/scaffold_translations.py
+.claude/scripts/apply_translations.py
+.claude/scripts/compile_mo.py
+.claude/scripts/make_l10n_php.py

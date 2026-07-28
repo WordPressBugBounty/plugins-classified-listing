@@ -55,6 +55,11 @@ class FilterHooks {
 		add_filter( 'rtcl_my_account_endpoint', [ __CLASS__, 'remove_menu_endpoints_for_buyer' ], 999 );
 		// site title
 		add_filter( 'pre_get_document_title', [ __CLASS__, 'listing_archive_site_title' ] );
+
+		// Slug builder permalink
+		add_filter( 'post_type_link', [ __CLASS__, 'slug_builder_post_type_link' ], 10, 2 );
+		add_filter( 'option_rewrite_rules', [ __CLASS__, 'slug_builder_inject_rewrite_rules' ] );
+		add_action( 'rtcl_fb_after_form_update', [ __CLASS__, 'slug_builder_clear_rewrite_cache' ] );
 	}
 
 	/**
@@ -78,14 +83,11 @@ class FilterHooks {
 	 *
 	 * @return array
 	 */
-	public static function remove_menu_items_for_buyer( $items ) {
-		if ( Functions::is_user_type_enabled() ) {
-			$user_type = get_user_meta( get_current_user_id(), '_rtcl_user_type', true );
-
-			if ( $user_type === 'buyer' ) {
-				unset( $items['listings'] );
-				unset( $items['add-listing'] );
-			}
+	public static function remove_menu_items_for_buyer( $items ): array {
+		if ( Functions::is_user_type_buyer() ) {
+			unset( $items['listings'] );
+			unset( $items['add-listing'] );
+			unset( $items['payments'] );
 		}
 
 		return $items;
@@ -96,13 +98,10 @@ class FilterHooks {
 	 *
 	 * @return array
 	 */
-	public static function remove_menu_endpoints_for_buyer( $endpoints ) {
-		if ( Functions::is_user_type_enabled() ) {
-			$user_type = get_user_meta( get_current_user_id(), '_rtcl_user_type', true );
-
-			if ( $user_type === 'buyer' ) {
-				unset( $endpoints['listings'] );
-			}
+	public static function remove_menu_endpoints_for_buyer( $endpoints ): array {
+		if ( Functions::is_user_type_buyer() ) {
+			unset( $endpoints['listings'] );
+			unset( $endpoints['payments'] );
 		}
 
 		return $endpoints;
@@ -425,6 +424,70 @@ class FilterHooks {
 		add_filter( 'rtcl_short_description', [ Functions::class, 'format_product_short_description' ], 9999999 );
 		add_filter( 'rtcl_short_description', [ Functions::class, 'do_oembeds' ] );
 		add_filter( 'rtcl_short_description', [ $GLOBALS['wp_embed'], 'run_shortcode' ], 8 ); // Before wpautop().
+	}
+
+	public static function slug_builder_post_type_link( $url, $post ) {
+		if ( !$post || $post->post_type !== rtcl()->post_type ) {
+			return $url;
+		}
+		$form_id = get_post_meta( $post->ID, '_rtcl_form_id', true );
+		if ( !$form_id ) {
+			return $url;
+		}
+		$form = Form::query()->find( absint( $form_id ) );
+		if ( !$form || !FBHelper::isEnableSlugBuilder( $form ) ) {
+			return $url;
+		}
+		return FBHelper::buildSlugBuilderUrl( $form, $post );
+	}
+
+	public static function slug_builder_inject_rewrite_rules( $rules ) {
+		$has_active = get_transient( 'rtcl_slug_builder_active' );
+		if ( false === $has_active ) {
+			$has_active = self::slug_builder_has_active_form() ? '1' : '0';
+			set_transient( 'rtcl_slug_builder_active', $has_active, DAY_IN_SECONDS );
+		}
+		if ( '1' !== $has_active ) {
+			return $rules;
+		}
+		$post_type = rtcl()->post_type;
+		// Append after existing rules so specific WP rules take priority.
+		// (.+) matches any prefix depth; last segment is the listing slug.
+		return array_merge(
+			(array) $rules,
+			[ '(.+)/([^/]+)/?$' => 'index.php?post_type=' . $post_type . '&name=$matches[2]' ]
+		);
+	}
+
+	private static function slug_builder_has_active_form(): bool {
+		global $wpdb;
+		$table = $wpdb->prefix . 'rtcl_forms';
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) !== $table ) {
+			return false;
+		}
+		// The slug_builder column is absent on sites upgraded before it was introduced; guard so this
+		// rewrite-rules filter never emits an "Unknown column" DB error. Installer::maybe_add_slug_builder_column
+		// heals the column, after which this check passes. (Result is transient-cached, so this runs rarely.)
+		$has_column = (int) $wpdb->get_var( $wpdb->prepare(
+			"SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = 'slug_builder'",
+			DB_NAME, $table
+		) );
+		if ( ! $has_column ) {
+			return false;
+		}
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$rows = $wpdb->get_col( "SELECT slug_builder FROM `{$table}` WHERE slug_builder IS NOT NULL" );
+		foreach ( $rows as $json ) {
+			$sb = json_decode( $json, true );
+			if ( ! empty( $sb['active'] ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static function slug_builder_clear_rewrite_cache() {
+		delete_transient( 'rtcl_slug_builder_active' );
 	}
 
 	public static function add_registration_endpoint_options( $options ) {

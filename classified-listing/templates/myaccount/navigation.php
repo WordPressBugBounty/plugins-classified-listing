@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 do_action( 'rtcl_before_account_navigation' );
 ?>
 
+<?php $rtcl_favourites_count = Functions::get_favourites_count(); ?>
 <nav class="rtcl-MyAccount-navigation">
 	<?php Functions::get_site_logo(); ?>
 	<ul>
@@ -27,7 +28,10 @@ do_action( 'rtcl_before_account_navigation' );
 			<?php else: ?>
 				<li class="<?php echo esc_attr( Functions::get_account_menu_item_classes( $endpoint ) ); ?>">
 					<a data-href="<?php echo esc_url( Link::get_account_endpoint_url( $endpoint ) ); ?>"
-					   href="<?php echo esc_url( Link::get_account_endpoint_url( $endpoint ) ); ?>"><?php echo esc_html( $label ); ?></a>
+					   href="<?php echo esc_url( Link::get_account_endpoint_url( $endpoint ) ); ?>"><?php echo esc_html( $label );
+						if ( 'favourites' === $endpoint && $rtcl_favourites_count > 0 ) {
+							printf( '<span class="rtcl-nav-badge">%s</span>', esc_html( number_format_i18n( $rtcl_favourites_count ) ) );
+						} ?></a>
 				</li>
 			<?php endif; ?>
 		<?php endforeach; ?>

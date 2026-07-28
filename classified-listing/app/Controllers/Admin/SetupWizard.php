@@ -46,8 +46,36 @@ class SetupWizard {
 			if ( in_array( $action, self::$plugin_ajax_actions, true ) ) {
 				add_filter( 'wp_redirect', '__return_false', 999 );
 				ob_start();
+
+				// Suppress activation redirects from recommended plugins BEFORE
+				// their admin_init hooks fire. Blocking wp_redirect alone is not
+				// enough — these plugins call exit() right after the redirect,
+				// killing the request before our AJAX handler can execute.
+				// Priority 0 ensures this runs before RadiusBooking (pri 1) and
+				// SchemaEngine AI (pri 10).
+				add_action( 'admin_init', [ __CLASS__, 'suppress_plugin_redirects' ], 0 );
 			}
 		}
+	}
+
+	/**
+	 * Clear redirect flags for recommended plugins so their admin_init hooks
+	 * do not call wp_safe_redirect() + exit() and kill our AJAX requests.
+	 *
+	 * Runs at admin_init priority 0 — before RadiusBooking (pri 1) and
+	 * SchemaEngine AI (pri 10) check these values.
+	 *
+	 * @return void
+	 */
+	public static function suppress_plugin_redirects() {
+		// SchemaEngine AI (review-schema) — two redirect paths in Activation::plugin_redirect().
+		if ( ! get_option( 'rtrs_activation_setup_wizard_done' ) ) {
+			update_option( 'rtrs_activation_setup_wizard_done', true );
+		}
+		update_option( 'rtrs_activation_redirect', false );
+
+		// RadiusBooking — Installer::activation_redirect() checks this transient.
+		delete_transient( 'radius_booking_activation_redirect' );
 	}
 
 	public static function add_setup_wizard_menu() {
@@ -114,7 +142,7 @@ class SetupWizard {
 
 	public static function get_theme_list() {
 		return [
-			//'classima',
+			'classima',
 			'cl-classified',
 			'radius-directory',
 			'homlisti',

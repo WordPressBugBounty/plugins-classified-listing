@@ -39,7 +39,7 @@ class FBHelper {
 		if ( !is_a( $listing, Listing::class ) ) {
 			return false;
 		}
-		if ( ( $form = $listing->getForm() ) && ( $singleLayout = $form->getSingleLayout() ) && !empty( $singleLayout['settings']['active'] ) && !empty( $singleLayout['containers'] ) ) {
+		if ( ( $form = $listing->getForm() ) && ( $singleLayout = $form->getSingleLayout() ) && !empty( $singleLayout['settings']['active'] ) && !empty( $form->getSingleLayoutRows() ) ) {
 			return true;
 		}
 		return false;
@@ -106,6 +106,44 @@ class FBHelper {
 		$form = Form::query()->where( 'title', '=', $title )->where( 'id', '!=', $exceptFormId )->one();
 
 		return empty( $form );
+	}
+
+	/**
+	 * User-facing message shown when an incompatible (pre-6.0) form export is imported.
+	 *
+	 * Defined once here so the backend guard (import handler) and the frontend guard
+	 * (import modal, via rtclFB.i18n.admin.import_incompatible) never drift apart.
+	 *
+	 * @return string
+	 */
+	public static function importIncompatibleMessage(): string {
+		return __( 'This form was exported from an older, incompatible version of Classified Listing. Please re-export it from an updated site before importing.', 'classified-listing' );
+	}
+
+	/**
+	 * Detect a legacy (pre-6.0) exported form structure.
+	 *
+	 * The 6.0 form migration (FormsMigration600) renamed every section's field-column list
+	 * `columns` → `containers`. A legacy export therefore still carries `columns` on a section
+	 * and has no `containers`; a current/migrated export always uses `containers`. Sections are
+	 * a required part of every importable form, so this is the single most reliable discriminator
+	 * and never false-positives on a current-structure form (whose sections never carry `columns`).
+	 * Deliberately does NOT key off `single_layout` — that column is nullable, so a valid new form
+	 * with an empty single_layout must not be flagged as legacy.
+	 *
+	 * @param array $formItem One decoded form object from an import payload.
+	 *
+	 * @return bool True when the form uses the legacy structure.
+	 */
+	public static function isLegacyFormStructure( array $formItem ): bool {
+		$sections = ! empty( $formItem['sections'] ) && is_array( $formItem['sections'] ) ? $formItem['sections'] : [];
+		foreach ( $sections as $section ) {
+			if ( is_array( $section ) && array_key_exists( 'columns', $section ) && ! array_key_exists( 'containers', $section ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public static function getFileFieldData( $listing_id, $meta_key ) {
@@ -222,11 +260,17 @@ class FBHelper {
 				if ( 'title' === $element ) {
 					$value = $listing->get_listing()->post_title;
 				} elseif ( 'description' === $element ) {
-					$value = $listing->get_listing()->post_content;
+					$content = $listing->get_listing()->post_content;
+					// A plain textarea shows raw entities (&amp;, &nbsp;, …); the WP
+					// editor decodes them itself, so only decode for the textarea case.
+					$value = ( ! empty( $field['editor_type'] ) && 'wp_editor' === $field['editor_type'] )
+						? $content
+						: self::decodeHtmlEntitiesForEdit( $content );
 				} elseif ( 'listing_type' === $element ) {
 					$value = $listing->get_ad_type();
 				} elseif ( 'excerpt' === $element ) {
-					$value = $listing->get_listing()->post_excerpt;
+					// Excerpt is always a plain textarea, so decode entities for editing.
+					$value = self::decodeHtmlEntitiesForEdit( $listing->get_listing()->post_excerpt );
 				} elseif ( 'category' === $element ) {
 					$listingCategories = wp_get_object_terms( $listing_id, rtcl()->category );
 					if ( !empty( $field['multiple'] ) ) {
@@ -293,6 +337,8 @@ class FBHelper {
 					$value = get_post_meta( $listing_id, 'phone', true );
 				} elseif ( 'whatsapp' === $element ) {
 					$value = get_post_meta( $listing_id, '_rtcl_whatsapp_number', true );
+				} elseif ( 'telegram' === $element ) {
+					$value = get_post_meta( $listing_id, '_rtcl_telegram', true );
 				} elseif ( 'email' === $element ) {
 					$value = $listing->get_email();
 				} elseif ( 'website' === $element ) {
@@ -704,6 +750,91 @@ class FBHelper {
 	}
 
 	/**
+	 * Collapse every run of consecutive spaces into a single space.
+	 *
+	 * Collapses runs of 2+ real spaces/tabs, U+00A0, and the &nbsp; entities the
+	 * WP editor inserts; line breaks are preserved. This is the aggressive form
+	 * used only when a field opts in via its "remove_extra_spaces" setting, so
+	 * the default (setting off / absent) leaves all content untouched - existing
+	 * listings and forms are unaffected. Mirrors the frontend collapseExtraSpaces().
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public static function collapseExtraSpaces( $value ): string {
+		if ( ! is_string( $value ) || '' === $value ) {
+			return is_string( $value ) ? $value : '';
+		}
+		// Collapse every run of consecutive spaces - real spaces/tabs, U+00A0, and the
+		// &nbsp; / &#160; / &#xA0; entities the WP editor inserts - into one space.
+		$normalized = preg_replace( '/(?:&nbsp;|&#0*160;|&#x0*a0;|[^\S\r\n]|\x{00A0}){2,}/iu', ' ', $value );
+
+		return null === $normalized ? $value : $normalized;
+	}
+
+	/**
+	 * Decode HTML entities so a value renders correctly inside a plain edit field.
+	 *
+	 * Content saved through wp_kses_post() is stored with entities (& becomes
+	 * &amp;, spaces the editor kept become &nbsp;, etc.). The front-end renders
+	 * those decoded, but a plain textarea / React input shows the raw entity text.
+	 * Decoding on load makes the edit form match what the visitor sees. Real HTML
+	 * tags are untouched (they are not entities), so WP-editor markup is safe.
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public static function decodeHtmlEntitiesForEdit( $value ) {
+		if ( ! is_string( $value ) || '' === $value ) {
+			return $value;
+		}
+
+		return html_entity_decode( $value, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+	}
+
+	/**
+	 * Check whether a URL belongs to a given social platform.
+	 *
+	 * Accepts the URL when its host equals one of the platform's allowed domains
+	 * or is a sub-domain of it (so www./m./country sub-domains and official short
+	 * links pass). Platforms with no domain restriction defined accept any valid
+	 * URL. Mirrors the frontend check in SocialProfiles.jsx.
+	 *
+	 * @param string $url
+	 * @param string $platform
+	 *
+	 * @return bool
+	 */
+	public static function social_url_matches_platform( $url, $platform ): bool {
+		$domainsMap = Options::get_social_profile_domains();
+		$domains    = ! empty( $domainsMap[ $platform ] ) ? (array) $domainsMap[ $platform ] : [];
+		if ( empty( $domains ) ) {
+			return true; // No restriction configured for this platform.
+		}
+		$host = wp_parse_url( $url, PHP_URL_HOST );
+		if ( ! $host ) {
+			return false;
+		}
+		$host = strtolower( $host );
+		if ( str_starts_with( $host, 'www.' ) ) {
+			$host = substr( $host, 4 );
+		}
+		foreach ( $domains as $domain ) {
+			$domain = strtolower( ltrim( (string) $domain ) );
+			if ( '' === $domain ) {
+				continue;
+			}
+			if ( $host === $domain || str_ends_with( $host, '.' . $domain ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * @param string|array $value
 	 * @param array $field
 	 * @param Listing | null $listing
@@ -813,6 +944,13 @@ class FBHelper {
 					if ( $value && !filter_var( $value, FILTER_VALIDATE_URL ) ) {
 						$hasError = true;
 					}
+				} elseif ( 'regex' === $ruleKey ) {
+					if ( $value && !empty( $rule['value'] ) ) {
+						$pattern = '/' . addcslashes( $rule['value'], '/' ) . '/u';
+						if ( @preg_match( $pattern, '' ) !== false && !preg_match( $pattern, $value ) ) {
+							$hasError = true;
+						}
+					}
 				}
 
 				if ( true === $hasError && $rule['message'] ) {
@@ -882,12 +1020,33 @@ class FBHelper {
 						}
 					}
 				} elseif ( 'email' === $field['element'] ) {
-					if ( !is_email( $value ) ) {
+					// Only flag here when the `email` validation rule hasn't already caught it,
+					// so the field never shows two "invalid email" messages at once.
+					if ( empty( $errors['email'] ) && !is_email( $value ) ) {
 						$errors['invalid_email'] = __( 'Invalid email', 'classified-listing' );
 					}
 				} elseif ( 'website' === $field['element'] || 'url' === $field['element'] ) {
-					if ( filter_var( $value, FILTER_VALIDATE_URL ) === false ) {
+					// Only flag here when the `url` validation rule hasn't already caught it,
+					// so the field never shows two "invalid url" messages at once.
+					if ( empty( $errors['url'] ) && filter_var( $value, FILTER_VALIDATE_URL ) === false ) {
 						$errors['invalid_url'] = __( 'Invalid url', 'classified-listing' );
+					}
+				} elseif ( 'social_profiles' === $field['element'] ) {
+					if ( is_array( $value ) ) {
+						$socialLabels = Options::get_social_profiles_list();
+						foreach ( $value as $spKey => $spUrl ) {
+							if ( empty( $spUrl ) ) {
+								continue;
+							}
+							if ( filter_var( $spUrl, FILTER_VALIDATE_URL ) === false ) {
+								/* translators: %s: social profile key */
+								$errors[ $spKey ] = sprintf( __( 'Invalid URL for %s', 'classified-listing' ), $spKey );
+							} elseif ( ! self::social_url_matches_platform( $spUrl, $spKey ) ) {
+								$spLabel = $socialLabels[ $spKey ] ?? $spKey;
+								/* translators: %s: social platform name, e.g. Facebook */
+								$errors[ $spKey ] = sprintf( __( 'Please enter a valid %s URL', 'classified-listing' ), $spLabel );
+							}
+						}
 					}
 				} elseif ( 'video_urls' === $field['element'] ) {
 					//$pattern = '/(https?:\/\/)(www.)?(youtube.com\/watch[?]v=([a-zA-Z0-9_-]{11}))|https?:\/\/(www.)?vimeo.com\/(\d+)/';
@@ -1017,7 +1176,7 @@ class FBHelper {
 					}
 				}
 
-				$columns = is_array( $section['columns'] ) ? $section['columns'] : [];
+				$columns = is_array( $section['containers'] ) ? $section['containers'] : [];
 
 				foreach ( $columns as $column ) {
 					$fieldIds = is_array( $column['fields'] ) ? $column['fields'] : [];
@@ -1103,6 +1262,10 @@ class FBHelper {
 				} else {
 					$sanitize_value = wp_kses_post( $rawValue );
 				}
+				// Only collapse extra spaces when the field opts in (default: keep as-is).
+				if ( ! empty( $field['remove_extra_spaces'] ) ) {
+					$sanitize_value = self::collapseExtraSpaces( $sanitize_value );
+				}
 
 				break;
 			case 'textarea':
@@ -1110,6 +1273,9 @@ class FBHelper {
 					$sanitize_value = wp_kses_post( wp_unslash( $rawValue ) );
 				} else {
 					$sanitize_value = sanitize_textarea_field( wp_unslash( $rawValue ) );
+				}
+				if ( ! empty( $field['remove_extra_spaces'] ) ) {
+					$sanitize_value = self::collapseExtraSpaces( $sanitize_value );
 				}
 				break;
 			case 'address':
@@ -1321,6 +1487,15 @@ class FBHelper {
 							$sanitize_value[] = $itemValues;
 						}
 					}
+				}
+				break;
+			case 'phone':
+			case 'whatsapp':
+				$sanitize_value = sanitize_text_field( wp_unslash( $rawValue ) );
+				// A dial-code-only value (country selected but no number typed) must not be
+				// stored, otherwise the frontend shows an empty "+1"-style ghost number.
+				if ( ! Functions::phone_number_has_local_part( $sanitize_value ) ) {
+					$sanitize_value = '';
 				}
 				break;
 			default:
@@ -1824,5 +1999,112 @@ class FBHelper {
 
 	public static function generateRandomString(): string {
 		return dechex( wp_rand() );
+	}
+
+	public static function isEnableSlugBuilder( Form $form ): bool {
+		$sb = $form->getSlugBuilder();
+		return !empty( $sb['active'] ) && ( !empty( $sb['path_segments'] ) || !empty( $sb['slug_fields'] ) );
+	}
+
+	/**
+	 * Sanitize a single slug part: replace underscores/hyphens/spaces with $sep,
+	 * strip non-alphanumeric chars, collapse consecutive separators.
+	 */
+	private static function sanitizeSlugPart( string $value, string $sep ): string {
+		$v       = strtolower( wp_strip_all_tags( $value ) );
+		$v       = preg_replace( '/[\s_\-]+/', $sep, $v );
+		$sep_esc = preg_quote( $sep, '/' );
+		$v       = preg_replace( '/[^a-z0-9' . $sep_esc . ']+/', '', $v );
+		$v       = preg_replace( '/' . $sep_esc . '+/', $sep, $v );
+		return trim( $v, $sep );
+	}
+
+	public static function generateSlugFromBuilder( Form $form, array $postData, int $listing_id = 0 ): string {
+		$sb    = $form->getSlugBuilder();
+		$gsep  = ( $sb['separator'] ?? '' ) !== '' ? $sb['separator'] : '-';
+		$parts = [];
+
+		foreach ( $sb['slug_fields'] ?? [] as $seg ) {
+			$field_uuid = $seg['field_uuid'] ?? '';
+			$sep        = ( $seg['separator'] ?? '' ) !== '' ? $seg['separator'] : $gsep;
+
+			if ( $field_uuid === '__custom__' ) {
+				$value = self::sanitizeSlugPart( sanitize_text_field( $seg['value'] ?? '' ), $sep );
+			} elseif ( $field_uuid === '__listing_id__' ) {
+				$value = $listing_id ? (string) $listing_id : '';
+			} else {
+				$field = $form->getFieldByUuid( $field_uuid );
+				if ( !$field ) {
+					continue;
+				}
+				$raw = $postData[ $field['name'] ] ?? '';
+				if ( is_array( $raw ) ) {
+					$raw  = array_values( array_filter( array_map( 'strval', $raw ) ) );
+					$pick = $seg['item_pick'] ?? 'first';
+					if ( $pick === 'first' ) {
+						$raw = $raw[0] ?? '';
+					} elseif ( $pick === 'last' ) {
+						$raw = end( $raw ) ?: '';
+					} else {
+						$raw = implode( $sep, array_map( fn( $v ) => self::sanitizeSlugPart( $v, $sep ), $raw ) );
+					}
+				}
+				$value = is_array( $raw ) ? '' : self::sanitizeSlugPart( (string) $raw, $sep );
+			}
+
+			if ( $value === '' ) {
+				continue;
+			}
+			$parts[] = [
+				'value' => ( $seg['prefix'] ?? '' ) . $value . ( $seg['postfix'] ?? '' ),
+				'sep'   => $sep,
+			];
+		}
+
+		$result = '';
+		$count  = count( $parts );
+		foreach ( $parts as $i => $p ) {
+			$result .= $p['value'];
+			if ( $i < $count - 1 ) {
+				$result .= $p['sep'];
+			}
+		}
+
+		return sanitize_title( $result );
+	}
+
+	public static function buildSlugBuilderUrl( Form $form, \WP_Post $post ): string {
+		$sb       = $form->getSlugBuilder();
+		$segments = [];
+
+		foreach ( $sb['path_segments'] ?? [] as $seg ) {
+			if ( ( $seg['type'] ?? '' ) === 'custom' ) {
+				$val = sanitize_text_field( $seg['value'] ?? '' );
+				if ( $val !== '' ) {
+					$segments[] = $val;
+				}
+				continue;
+			}
+			$taxonomy = $seg['type'] === 'category' ? rtcl()->category : rtcl()->location;
+			$terms    = wp_get_post_terms( $post->ID, $taxonomy, [ 'orderby' => 'parent', 'order' => 'ASC' ] );
+			if ( empty( $terms ) || is_wp_error( $terms ) ) {
+				continue;
+			}
+			$pick = $seg['item_pick'] ?? 'all';
+			if ( $pick === 'first' ) {
+				$slugs = [ $terms[0]->slug ];
+			} elseif ( $pick === 'last' ) {
+				$slugs = [ end( $terms )->slug ];
+			} else {
+				$slugs = wp_list_pluck( $terms, 'slug' );
+			}
+			$prefix  = $seg['prefix'] ?? '';
+			$postfix = $seg['postfix'] ?? '';
+			$segments[] = $prefix . implode( '/', $slugs ) . $postfix;
+		}
+
+		$segments[] = $post->post_name;
+
+		return home_url( '/' . implode( '/', array_filter( $segments ) ) . '/' );
 	}
 }

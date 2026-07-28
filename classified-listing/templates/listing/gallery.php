@@ -27,7 +27,12 @@ $total_gallery_item   = $total_gallery_image + $total_gallery_videos;
 $isSliderEnable       = Functions::is_gallery_slider_enabled();
 if ( $total_gallery_item ) :
 	?>
-	<div id="rtcl-slider-wrapper" class="rtcl-slider-wrapper mb-4" data-options="">
+	<?php $sliderLoading = $isSliderEnable && $total_gallery_item > 1; ?>
+	<div id="rtcl-slider-wrapper" class="rtcl-slider-wrapper mb-4<?php echo $sliderLoading ? ' rtcl-slider-loading' : ''; ?>" data-options="">
+		<?php if ( $sliderLoading ) : ?>
+			<!-- Shown until Swiper initializes (JS removes .rtcl-slider-loading); prevents the flash of un-inited slides. -->
+			<div class="rtcl-slider-loader" aria-hidden="true"><span class="rtcl-slider-spinner"></span></div>
+		<?php endif; ?>
 		<!-- Slider -->
 		<div class="rtcl-slider<?php echo esc_attr( $isSliderEnable ? '' : ' off' ) ?>">
 			<div class="swiper-wrapper">

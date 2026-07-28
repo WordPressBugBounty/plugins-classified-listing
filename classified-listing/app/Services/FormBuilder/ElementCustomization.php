@@ -13,19 +13,19 @@ class ElementCustomization {
 		$placement = [
 			'listing_type'        => [
 				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
-				'advance' => [ 'default_value', 'container_class', 'help_message' ]
+				'advance' => [ 'default_value', 'css_class', 'help_message' ]
 			],
 			'title'               => [
 				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation', 'ai' ],
-				'advance' => [ 'default_value', 'container_class', 'help_message' ]
+				'advance' => [ 'default_value', 'css_class', 'help_message' ]
 			],
 			'description'         => [
-				'general' => [ 'label', 'label_placement', 'icon', 'editor_type', 'excluded_tags', 'rows', 'validation', 'ai' ],
-				'advance' => [ 'container_class', 'help_message', 'admin_use_only' ]
+				'general' => [ 'label', 'label_placement', 'icon', 'editor_type', 'excluded_tags', 'rows', 'remove_extra_spaces', 'validation', 'ai' ],
+				'advance' => [ 'css_class', 'help_message', 'admin_use_only' ]
 			],
 			'excerpt'             => [
-				'general' => [ 'label', 'label_placement', 'icon', 'validation', 'ai' ],
-				'advance' => [ 'container_class', 'help_message', 'admin_use_only' ]
+				'general' => [ 'label', 'label_placement', 'icon', 'remove_extra_spaces', 'validation', 'ai' ],
+				'advance' => [ 'css_class', 'help_message', 'admin_use_only' ]
 			],
 			'category'            => [
 				'general' => [
@@ -40,7 +40,7 @@ class ElementCustomization {
 					'validation'
 				],
 				'advance' => [
-					'container_class',
+					'css_class',
 					'help_message',
 					'admin_use_only',
 					'logics'
@@ -49,7 +49,7 @@ class ElementCustomization {
 			'location'            => [
 				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
 				'advance' => [
-					'container_class',
+					'css_class',
 					'help_message',
 					'admin_use_only',
 					'logics'
@@ -71,39 +71,43 @@ class ElementCustomization {
 			],
 			'address'             => [
 				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
-				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
+				'advance' => [ 'default_value', 'css_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'geo_location'        => [
 				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
-				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
+				'advance' => [ 'default_value', 'css_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'zipcode'             => [
 				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
-				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
+				'advance' => [ 'default_value', 'css_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'email'               => [
 				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
-				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
+				'advance' => [ 'default_value', 'css_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'website'             => [
 				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
-				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
+				'advance' => [ 'default_value', 'css_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'social_info'         => [
 				'general' => [ 'label', 'label_placement', 'icon', 'validation', 'admin_use_only' ]
 			],
 			'phone'               => [
-				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
-				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
+				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'phone_countries', 'phone_default_country', 'validation' ],
+				'advance' => [ 'default_value', 'css_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'whatsapp'            => [
+				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'phone_countries', 'phone_default_country', 'validation' ],
+				'advance' => [ 'default_value', 'css_class', 'help_message', 'logics', 'admin_use_only' ]
+			],
+			'telegram'            => [
 				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
-				'advance' => [ 'default_value', 'container_class', 'help_message', 'logics', 'admin_use_only' ]
+				'advance' => [ 'default_value', 'css_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'tag'                 => [
 				'general' => [ 'label', 'label_placement', 'icon', 'allow_new', 'validation' ],
 				'advance' => [
-					'container_class',
+					'css_class',
 					'help_message',
 					'admin_use_only',
 					'logics'
@@ -122,7 +126,7 @@ class ElementCustomization {
 					'validation'
 				],
 				'advance' => [
-					'container_class',
+					'css_class',
 					'help_message',
 					'admin_use_only',
 					'logics'
@@ -136,7 +140,7 @@ class ElementCustomization {
 					'validation',
 					'manipulation',
 					'admin_use_only',
-					'container_class',
+					'css_class',
 					'help_message',
 					'logics'
 				]
@@ -144,7 +148,7 @@ class ElementCustomization {
 			'video_urls'          => [
 				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
 				'advance' => [
-					'container_class',
+					'css_class',
 					'help_message',
 					'admin_use_only',
 					'logics'
@@ -153,7 +157,7 @@ class ElementCustomization {
 			'business_hours'      => [
 				'general' => [ 'label', 'label_placement', 'icon', 'time_format', 'validation' ],
 				'advance' => [
-					'container_class',
+					'css_class',
 					'help_message',
 					'admin_use_only'
 				]
@@ -180,7 +184,7 @@ class ElementCustomization {
 				],
 				'advance' => [
 					'id',
-					'container_class',
+					'css_class',
 					'help_message',
 					'logics'
 				]
@@ -193,7 +197,7 @@ class ElementCustomization {
 					'name',
 					'default_checked',
 					'id',
-					'container_class',
+					'css_class',
 					'help_message',
 					'single_view',
 					'archive_view',
@@ -220,7 +224,7 @@ class ElementCustomization {
 				],
 				'advance' => [
 					'id',
-					'container_class',
+					'css_class',
 					'help_message',
 					'logics'
 				]
@@ -244,7 +248,7 @@ class ElementCustomization {
 				],
 				'advance' => [
 					'id',
-					'container_class',
+					'css_class',
 					'help_message',
 					'logics'
 				]
@@ -254,10 +258,17 @@ class ElementCustomization {
 					'section_title',
 					'icon',
 					'id',
-					'container_class',
-					'column',
+					'css_class',
+					'section_flex',
 					'order',
 					'logics',
+				]
+			],
+			'container'           => [
+				'general' => [
+					'container_options',
+					'id',
+					'css_class',
 				]
 			],
 			'text'                => [
@@ -278,7 +289,7 @@ class ElementCustomization {
 				'advance' => [
 					'default_value',
 					'id',
-					'container_class',
+					'css_class',
 					'help_message',
 					'admin_use_only',
 					'logics'
@@ -293,6 +304,7 @@ class ElementCustomization {
 					'editor_type',
 					'excluded_tags',
 					'rows',
+					'remove_extra_spaces',
 					'placeholder',
 					'validation',
 					'single_view',
@@ -303,7 +315,7 @@ class ElementCustomization {
 				'advance' => [
 					'default_value',
 					'id',
-					'container_class',
+					'css_class',
 					'help_message',
 					'admin_use_only',
 					'logics'
@@ -320,6 +332,10 @@ class ElementCustomization {
 					'numeric_formatter',
 					'filterable',
 					'filterable_disable_logic',
+					'filterable_range',
+					'filterable_range_min',
+					'filterable_range_max',
+					'filterable_range_step',
 					'single_view',
 					'archive_view',
 					'order'
@@ -327,7 +343,7 @@ class ElementCustomization {
 				'advance' => [
 					'default_value',
 					'id',
-					'container_class',
+					'css_class',
 					'help_message',
 					'number_step',
 					'admin_use_only',
@@ -348,7 +364,7 @@ class ElementCustomization {
 				'advance' => [
 					'default_value',
 					'id',
-					'container_class',
+					'css_class',
 					'help_message',
 					'admin_use_only',
 					'logics'
@@ -374,7 +390,7 @@ class ElementCustomization {
 				'advance' => [
 					'default_value',
 					'id',
-					'container_class',
+					'css_class',
 					'help_message',
 					'admin_use_only',
 					'logics'
@@ -394,7 +410,7 @@ class ElementCustomization {
 				'advance' => [
 					'default_value',
 					'id',
-					'container_class',
+					'css_class',
 					'help_message',
 					'admin_use_only',
 					'logics'
@@ -414,7 +430,7 @@ class ElementCustomization {
 				],
 				'advance' => [
 					'id',
-					'container_class',
+					'css_class',
 					'help_message',
 					'logics',
 				],
@@ -432,7 +448,7 @@ class ElementCustomization {
 				],
 				'advance' => [
 					'id',
-					'container_class',
+					'css_class',
 					'help_message',
 					'order',
 					'logics',
@@ -449,7 +465,7 @@ class ElementCustomization {
 					'id',
 					'html_codes',
 					'logics',
-					'container_class'
+					'css_class'
 				]
 			]
 		];
@@ -546,6 +562,11 @@ class ElementCustomization {
 						'value' => 'code',
 					],
 				] ),
+			],
+			'remove_extra_spaces'          => [
+				'template'  => 'inputYesNoCheckBox',
+				'label'     => __( 'Remove extra spaces', 'classified-listing' ),
+				'help_text' => __( 'If enabled, runs of consecutive spaces (including the non-breaking &nbsp; spaces the WP Editor inserts) are collapsed to a single space when the field loses focus and again on save. Leave disabled to allow multiple spaces (default).', 'classified-listing' ),
 			],
 			'date_type'                    => [
 				'template' => 'radio',
@@ -961,6 +982,50 @@ class ElementCustomization {
 					'operator'   => '==',
 				],
 			],
+			'filterable_range'             => [
+				'isPro'      => true,
+				'template'   => 'inputYesNoCheckBox',
+				'label'      => __( 'Enable Range Slider', 'classified-listing' ),
+				'help_text'  => __( 'If enabled, this field will render as a range slider in the filter.', 'classified-listing' ),
+				'dependency' => [
+					'depends_on' => 'filterable',
+					'value'      => true,
+					'operator'   => '==',
+				],
+			],
+			'filterable_range_min'         => [
+				'isPro'      => true,
+				'template'   => 'inputNumber',
+				'label'      => __( 'Min', 'classified-listing' ),
+				'help_text'  => __( 'Minimum value for the range slider.', 'classified-listing' ),
+				'dependency' => [
+					'depends_on' => 'filterable_range',
+					'value'      => true,
+					'operator'   => '==',
+				],
+			],
+			'filterable_range_max'         => [
+				'isPro'      => true,
+				'template'   => 'inputNumber',
+				'label'      => __( 'Max', 'classified-listing' ),
+				'help_text'  => __( 'Maximum value for the range slider.', 'classified-listing' ),
+				'dependency' => [
+					'depends_on' => 'filterable_range',
+					'value'      => true,
+					'operator'   => '==',
+				],
+			],
+			'filterable_range_step'        => [
+				'isPro'      => true,
+				'template'   => 'inputNumber',
+				'label'      => __( 'Step', 'classified-listing' ),
+				'help_text'  => __( 'Step increment for the range slider.', 'classified-listing' ),
+				'dependency' => [
+					'depends_on' => 'filterable_range',
+					'value'      => true,
+					'operator'   => '==',
+				],
+			],
 			'archive_view'                 => [
 				'isPro'     => true,
 				'template'  => 'inputYesNoCheckBox',
@@ -1241,9 +1306,9 @@ class ElementCustomization {
 					'operator'   => '==',
 				],
 			],
-			'container_class'              => [
+			'css_class'              => [
 				'template'  => 'inputText',
-				'label'     => __( 'Container Class', 'classified-listing' ),
+				'label'     => __( 'CSS Class', 'classified-listing' ),
 				'help_text' => __( 'Class for the field wrapper. This can be used to style current element.', 'classified-listing' ),
 			],
 			'id'                           => [
@@ -1591,12 +1656,31 @@ class ElementCustomization {
 				'label'     => __( 'Section title', 'classified-listing' ),
 				'help_text' => __( 'Set the section title.', 'classified-listing' ),
 			],
+			'section_flex'                 => [
+				'template' => 'sectionLayout',
+				'label'    => __( 'Section Layout', 'classified-listing' ),
+			],
+			'container_options'            => [
+				'template' => 'containerOptions',
+				'label'    => __( 'Container Options', 'classified-listing' ),
+			],
 			'column'                       => [
 				'template'       => 'column',
 				'label'          => __( 'Column Settings', 'classified-listing' ),
 				'help_text'      => __( 'Set the width of the columns. The minimum column width is 10%.', 'classified-listing' ),
 				'limitation_msg' => __( 'The minimum column width is 10%, Maximum column number 4', 'classified-listing' ),
-			]
+			],
+			'phone_countries'       => [
+				'template'    => 'phoneCountries',
+				'label'       => __( 'Allowed Countries', 'classified-listing' ),
+				'help_text'   => __( 'Restrict the phone field to specific countries. Leave empty to allow all countries.', 'classified-listing' ),
+				'placeholder' => __( 'All countries', 'classified-listing' ),
+			],
+			'phone_default_country' => [
+				'template'  => 'phoneDefaultCountry',
+				'label'     => __( 'Default Country', 'classified-listing' ),
+				'help_text' => __( 'Pre-selected country shown in the phone dropdown on the frontend form.', 'classified-listing' ),
+			],
 		];
 
 		return apply_filters( 'rtcl_fb_editor_settings_fields', $settingsFields );

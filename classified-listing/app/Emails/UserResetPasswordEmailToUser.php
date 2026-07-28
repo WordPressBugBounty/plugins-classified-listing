@@ -25,7 +25,7 @@ class UserResetPasswordEmailToUser extends RtclEmail {
 	 * @return string
 	 */
 	public function get_default_subject() {
-		return esc_html__( '[{site_title}] Reset your password', 'classified-listing' );
+		return esc_html__( '[{site_title}] Reset Your Password', 'classified-listing' );
 	}
 
 	/**
@@ -33,7 +33,7 @@ class UserResetPasswordEmailToUser extends RtclEmail {
 	 * @return string
 	 */
 	public function get_default_heading() {
-		return esc_html__( 'Reset your password', 'classified-listing' );
+		return esc_html__( 'Reset Your Password', 'classified-listing' );
 	}
 
 

@@ -15,6 +15,7 @@ use Rtcl\Services\FormBuilder\FBField;
  * @property string|null $status
  * @property string|null $appearance_settings
  * @property array|null $single_layout
+ * @property array|null $slug_builder
  * @property array|null $sections
  * @property array|null $settings
  * @property object|null $fields
@@ -36,6 +37,7 @@ class Form extends Model {
 		'default'       => 'boolean',
 		'settings'      => 'array',
 		'single_layout' => 'array',
+		'slug_builder'  => 'array',
 		'sections'      => 'array',
 		'fields'        => 'array',
 		'translations'  => 'array'
@@ -113,6 +115,48 @@ class Form extends Model {
 
 	public function getSingleLayout() {
 		return  $this->single_layout;
+	}
+
+	public function getSlugBuilder(): ?array {
+		return $this->slug_builder ?: null;
+	}
+
+	/**
+	 * Normalized single-layout grid rows.
+	 *
+	 * Always returns the new grid shape `rows[] → columns[](width) → sections[]`, regardless of how
+	 * the layout is stored. Legacy/unmigrated data with a flat top-level `sections[]` is wrapped into
+	 * a single full-width column inside one row so callers never have to branch on shape.
+	 *
+	 * @return array
+	 */
+	public function getSingleLayoutRows(): array {
+		$sl = $this->single_layout;
+
+		if ( empty( $sl ) || ! is_array( $sl ) ) {
+			return [];
+		}
+
+		if ( ! empty( $sl['rows'] ) && is_array( $sl['rows'] ) ) {
+			return $sl['rows'];
+		}
+
+		// Back-compat: wrap a flat sections[] list into a single full-width column (the migration no
+		// longer converts these, so normalize them on read so they still render through the grid).
+		if ( ! empty( $sl['sections'] ) && is_array( $sl['sections'] ) ) {
+			return [
+				[
+					'uuid'    => '',
+					'columns' => [
+						[
+							'sections' => array_values( $sl['sections'] ),
+						],
+					],
+				],
+			];
+		}
+
+		return [];
 	}
 
 	/**
@@ -294,6 +338,22 @@ class Form extends Model {
 			}
 
 			$this->fields = $formFields;
+
+			// Translate slug_builder prefix/postfix
+			$sb = $this->slug_builder;
+			if ( !empty( $sb ) && !empty( $translations['slug_builder'] ) ) {
+				foreach ( [ 'path_segments', 'slug_fields' ] as $group ) {
+					foreach ( $sb[ $group ] ?? [] as $i => $seg ) {
+						$uuid = $seg['uuid'] ?? '';
+						if ( $uuid && !empty( $translations['slug_builder'][ $uuid ] ) ) {
+							$tr = $translations['slug_builder'][ $uuid ];
+							if ( !empty( $tr['prefix'] ) )  $sb[ $group ][ $i ]['prefix']  = $tr['prefix'];
+							if ( !empty( $tr['postfix'] ) ) $sb[ $group ][ $i ]['postfix'] = $tr['postfix'];
+						}
+					}
+				}
+				$this->slug_builder = $sb;
+			}
 		}
 	}
 
@@ -397,6 +457,9 @@ class Form extends Model {
 				foreach ( $_trValue as $ruleKey => $_validation ) {
 					if ( !empty( $_validation['message'] ) ) {
 						$originalValue[$ruleKey]['message'] = sanitize_text_field( $_validation['message'] );
+					}
+					if ( !empty( $_validation['message_plural'] ) ) {
+						$originalValue[$ruleKey]['message_plural'] = sanitize_text_field( $_validation['message_plural'] );
 					}
 				}
 			}

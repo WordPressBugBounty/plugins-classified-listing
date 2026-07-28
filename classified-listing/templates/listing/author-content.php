@@ -22,6 +22,7 @@ $store_id = get_user_meta( $user_id, '_rtcl_store_id', true );
 $phone    = get_user_meta( $user_id, '_rtcl_phone', true );
 $whatsApp = get_user_meta( $user_id, '_rtcl_whatsapp_number', true );
 $website  = get_user_meta( $user_id, '_rtcl_website', true );
+$telegram = get_user_meta( $user_id, '_rtcl_telegram', true );
 $pp_id    = absint( get_user_meta( $user_id, '_rtcl_pp_id', true ) );
 ?>
 <div class="rtcl-user-single-wrapper rtcl">
@@ -31,32 +32,41 @@ $pp_id    = absint( get_user_meta( $user_id, '_rtcl_pp_id', true ) );
 		</div>
 		<div class="rtcl-user-info">
 			<h3 class="user-name"><?php echo esc_html( $author->display_name ); ?></h3>
-			<?php echo wp_kses_post( $author->description ); ?>
+			<?php if ( $author->description ) : ?>
+				<div class="rtcl-user-bio"><?php echo wp_kses_post( wpautop( $author->description ) ); ?></div>
+			<?php endif; ?>
 			<div class="rtcl-user-meta">
 				<?php if ( $phone && Functions::check_visibility( $user_id, 'phone' ) && apply_filters( 'rtcl_show_phone_author_listing', true ) ): ?>
-					<div class="item-phone">
-						<i class="rtcl-icon rtcl-icon-phone"></i>
+					<div class="rtcl-meta-item item-phone">
+						<span class="rtcl-meta-icon"><i class="rtcl-icon rtcl-icon-phone"></i></span>
 						<a href="tel:<?php echo esc_attr( $phone ); ?>"><?php echo esc_html( $phone ); ?></a>
 					</div>
 				<?php endif; ?>
 				<?php if ( $whatsApp && Functions::check_visibility( $user_id, 'whatsapp' ) && apply_filters( 'rtcl_show_whatsapp_author_listing', true ) ): ?>
-					<div class="item-whatsapp">
-						<i class="rtcl-icon rtcl-icon-whatsapp"></i>
+					<div class="rtcl-meta-item item-whatsapp">
+						<span class="rtcl-meta-icon"><i class="rtcl-icon rtcl-icon-whatsapp"></i></span>
 						<a target="_blank"
 						   href="https://wa.me/<?php echo esc_attr( $whatsApp ); ?>"><?php echo esc_html( $whatsApp ); ?></a>
 					</div>
 				<?php endif; ?>
 				<?php if ( Functions::check_visibility( $user_id, 'email' ) && apply_filters( 'rtcl_show_email_author_listing', true ) ): ?>
-					<div class="item-contact">
-						<i class="rtcl-icon rtcl-icon-envelope-open"></i>
+					<div class="rtcl-meta-item item-contact">
+						<span class="rtcl-meta-icon"><i class="rtcl-icon rtcl-icon-envelope-open"></i></span>
 						<a href="mailto:<?php echo esc_attr( $author->user_email ); ?>"><?php echo esc_html( $author->user_email ); ?></a>
 					</div>
 				<?php endif; ?>
 				<?php if ( $website ): ?>
-					<div class="item-whatsapp">
-						<i class="rtcl-icon rtcl-icon-link"></i>
+					<div class="rtcl-meta-item item-website">
+						<span class="rtcl-meta-icon"><i class="rtcl-icon rtcl-icon-link"></i></span>
 						<a target="_blank"
 						   href="<?php echo esc_url( $website ); ?>"><?php echo esc_url( $website ); ?></a>
+					</div>
+				<?php endif; ?>
+				<?php if ( $telegram && apply_filters( 'rtcl_show_telegram_author_listing', true ) ): ?>
+					<div class="rtcl-meta-item item-telegram">
+						<span class="rtcl-meta-icon"><i class="rtcl-icon rtcl-icon-telegram"></i></span>
+						<a target="_blank"
+						   href="https://t.me/<?php echo esc_attr( ltrim( $telegram, '@' ) ); ?>"><?php echo esc_html( $telegram ); ?></a>
 					</div>
 				<?php endif; ?>
 			</div>
@@ -68,10 +78,12 @@ $pp_id    = absint( get_user_meta( $user_id, '_rtcl_pp_id', true ) );
 					<?php
 					foreach ( $social_list as $item => $value ) {
 						?>
-						<a target="_blank" href="<?php echo esc_url( $value ) ?>">
+						<a target="_blank" href="<?php echo esc_url( $value ) ?>" class="rtcl-social-link social-<?php echo esc_attr( $item ); ?>">
 							<?php
 							if ( 'twitter' === $item ) {
 								$iconClass = 'fa-brands fa-x-twitter';
+							} else if ( 'tiktok' === $item ) {
+								$iconClass = 'fa-brands fa-tiktok';
 							} else {
 								$iconClass = 'rtcl-icon-' . $item;
 							}
@@ -83,6 +95,17 @@ $pp_id    = absint( get_user_meta( $user_id, '_rtcl_pp_id', true ) );
 					?>
 				</div>
 			<?php } ?>
+			<?php
+			/**
+			 * Fires inside the author card, after the built-in meta and social links.
+			 *
+			 * Add-ons (e.g. Account Custom Fields) can hook here to append extra
+			 * author details to the public author page.
+			 *
+			 * @param int $user_id The author's user ID.
+			 */
+			do_action( 'rtcl_author_details_after_meta', $user_id );
+			?>
 		</div>
 	</div>
 	<?php Functions::get_template( 'listing/author-listing' ); ?>

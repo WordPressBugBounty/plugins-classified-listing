@@ -7,6 +7,7 @@ use Rtcl\Helpers\Functions;
 use Rtcl\Helpers\Link;
 use Rtcl\Helpers\Tax;
 use Rtcl\Helpers\Text;
+use Rtcl\Services\FormBuilder\FBHelper;
 use Rtcl\Traits\SingletonTrait;
 
 class Options {
@@ -126,6 +127,10 @@ class Options {
 						'label'  => __( 'Misc', 'classified-listing' ),
 						'fields' => self::misc_recaptcha_fields(),
 					],
+					'rtcl_misc_phone_settings' => [
+						'label'  => __( 'Phone', 'classified-listing' ),
+						'fields' => self::misc_phone_fields(),
+					],
 					'rtcl_misc_media_settings' => [
 						'label'  => __( 'Media', 'classified-listing' ),
 						'fields' => self::misc_media_fields(),
@@ -183,6 +188,27 @@ class Options {
 					],
 				],
 			];
+		}
+
+		if ( ! FBHelper::isEnabled() ) {
+			$moderation_tab = [
+				'rtcl_moderation_settings' => [
+					'label'  => __( 'Moderation Settings', 'classified-listing' ),
+					'icon'   => 'fa-solid fa-sliders',
+					'fields' => self::moderation_settings_fields(),
+				],
+			];
+			$keys           = array_keys( $options );
+			$pos            = array_search( 'general', $keys );
+			if ( false !== $pos ) {
+				$options = array_merge(
+					array_slice( $options, 0, $pos + 1, true ),
+					$moderation_tab,
+					array_slice( $options, $pos + 1, null, true )
+				);
+			} else {
+				$options = array_merge( $moderation_tab, $options );
+			}
 		}
 
 		$children = apply_filters( 'rtcl_option_addon_items', [] );
@@ -1161,7 +1187,7 @@ class Options {
 			'primary'                  => [
 				'title'   => __( 'Primary', 'classified-listing' ),
 				'type'    => 'color',
-				'default' => '#0066bf',
+				'default' => '#3232ff',
 			],
 			'link'                     => [
 				'title'   => __( 'Link Color', 'classified-listing' ),
@@ -1171,12 +1197,12 @@ class Options {
 			'link_hover'               => [
 				'title'   => __( 'Link Color on Hover', 'classified-listing' ),
 				'type'    => 'color',
-				'default' => '#0066bf',
+				'default' => '#3232ff',
 			],
 			'button'                   => [
 				'title'   => __( 'Button Background', 'classified-listing' ),
 				'type'    => 'color',
-				'default' => '#0066bf',
+				'default' => '#3232ff',
 			],
 			'button_hover'             => [
 				'title'   => __( 'Button Hover Background', 'classified-listing' ),
@@ -1243,6 +1269,57 @@ class Options {
 		return apply_filters( 'rtcl_style_settings_options', $options );
 	}
 
+	/**
+	 * Country list keyed by ISO code with the dial code appended to the label,
+	 * e.g. `[ 'US' => 'United States (+1)' ]`. Only countries with a known
+	 * calling code are included. Used by the phone-field settings + widget.
+	 *
+	 * @return array
+	 */
+	public static function get_phone_country_options() {
+		$countries = rtcl()->countries->get_countries();
+		$list      = [];
+		foreach ( $countries as $code => $name ) {
+			$dial_code = rtcl()->countries->get_country_calling_code( $code );
+			if ( ! $dial_code ) {
+				continue;
+			}
+			$list[ $code ] = $name . ' (' . $dial_code . ')';
+		}
+
+		return apply_filters( 'rtcl_phone_country_options', $list );
+	}
+
+	// Misc — Phone number field settings (default + allowed countries).
+	public static function misc_phone_fields() {
+		$country_options = self::get_phone_country_options();
+
+		$options = [
+			'field_title_phone'       => [
+				'title'       => __( 'Phone Number Field', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'Controls the country-code dropdown used on phone/WhatsApp fields (e.g. the Account Details form).', 'classified-listing' ),
+			],
+			'phone_default_country'   => [
+				'title'       => __( 'Default Country', 'classified-listing' ),
+				'type'        => 'select',
+				'searchable'  => true,
+				'options'     => $country_options,
+				'default'     => rtcl()->countries->get_base_country(),
+				'description' => __( 'Pre-selected country code when a phone field is empty.', 'classified-listing' ),
+			],
+			'phone_allowed_countries' => [
+				'title'       => __( 'Allowed Countries', 'classified-listing' ),
+				'type'        => 'multiselect',
+				'options'     => $country_options,
+				'default'     => [],
+				'description' => __( 'Restrict the country-code dropdown to these countries. Leave empty to allow all.', 'classified-listing' ),
+			],
+		];
+
+		return apply_filters( 'rtcl_misc_phone_settings_options', $options );
+	}
+
 	// Misc settings
 	public static function misc_recaptcha_fields() {
 		$options = [
@@ -1261,6 +1338,7 @@ class Options {
 				'title'       => __( 'reCAPTCHA Version', 'classified-listing' ),
 				'type'        => 'radio',
 				'options'     => [
+					0 => esc_html__( 'None', 'classified-listing' ),
 					3 => esc_html__( 'reCAPTCHA v3', 'classified-listing' ),
 					2 => esc_html__( 'reCAPTCHA v2', 'classified-listing' ),
 				],
@@ -1392,22 +1470,13 @@ class Options {
 				],
 			],
 			'map_view_center_position' => [
-				'title'   => __( 'Map View Center Position', 'classified-listing' ),
-				'type'    => 'select',
-				'default' => 'crowded',
-				'options' => [
-					''        => __( 'Select one', 'classified-listing' ),
-					'densest' => __( 'Densest Cluster', 'classified-listing' ),
-					'crowded' => __( 'Focus Crowded Area', 'classified-listing' ),
-				],
-				'depends' => [
-					'on' => [
-						[
-							'field'     => 'rtcl_misc_map_settings.map_type',
-							'value'     => 'osm',
-							'condition' => '=',
-						],
-					],
+				'title'       => __( 'Map View Center Position', 'classified-listing' ),
+				'type'        => 'select',
+				'default'     => 'crowded',
+				'description' => __( 'How the archive map frames itself: <strong>Show all pins together</strong> fits every visible listing, and falls back to the crowded/central area when they cannot all fit without blank space; <strong>Densest area</strong> zooms into the region that holds the most listings.', 'classified-listing' ),
+				'options'     => [
+					'crowded' => __( 'Show all pins together', 'classified-listing' ),
+					'densest' => __( 'Densest area (zoom to busiest region)', 'classified-listing' ),
 				],
 			],
 			'map_zoom_level'           => [
@@ -1689,10 +1758,10 @@ class Options {
 				'title'   => __( 'Gemini Model', 'classified-listing' ),
 				'type'    => 'select',
 				'options' => [
-					'gemini-2.5-flash' => __( 'Gemini 2.5 Flash', 'classified-listing' ),
-					'gemini-2.5-pro'   => __( 'Gemini 2.5 Pro', 'classified-listing' ),
+					'gemini-3.5-flash'       => __( 'Gemini 3.5 Flash', 'classified-listing' ),
+					'gemini-3.1-pro-preview' => __( 'Gemini 3.1 Pro (Preview)', 'classified-listing' ),
 				],
-				'default' => 'gemini-2.5-flash',
+				'default' => 'gemini-3.5-flash',
 				'depends' => [
 					'relation' => 'or',
 					'on'       => [
@@ -1762,9 +1831,9 @@ class Options {
 				'title'   => __( 'Claude Model', 'classified-listing' ),
 				'type'    => 'select',
 				'options' => [
-					'claude-opus-4-7'            => __( 'Claude Opus 4.7 (Full Version)', 'classified-listing' ),
-					'claude-sonnet-4-6'          => __( 'Claude Sonnet 4.6 (Balanced)', 'classified-listing' ),
-					'claude-haiku-4-5-20251001'  => __( 'Claude Haiku 4.5 (Light Version)', 'classified-listing' ),
+					'claude-opus-4-7'           => __( 'Claude Opus 4.7 (Full Version)', 'classified-listing' ),
+					'claude-sonnet-4-6'         => __( 'Claude Sonnet 4.6 (Balanced)', 'classified-listing' ),
+					'claude-haiku-4-5-20251001' => __( 'Claude Haiku 4.5 (Light Version)', 'classified-listing' ),
 				],
 				'default' => 'claude-sonnet-4-6',
 				'depends' => [
@@ -1950,13 +2019,13 @@ class Options {
 	// Import Settings (external-source importers: RSS, Google Places).
 	public static function import_fields() {
 		$options = [
-			'field_title_import_sources'  => [
+			'field_title_import_sources' => [
 				'title'       => __( 'External Importers', 'classified-listing' ),
 				'type'        => 'section',
 				'description' => __( 'Configure pulling listings from external sources (RSS feeds, Google Places). CSV import is available under Tools › Export / Import.',
 					'classified-listing' ),
 			],
-			'google_places_api_key'       => [
+			'google_places_api_key'      => [
 				'title'       => __( 'Google Places API Key', 'classified-listing' ),
 				'type'        => 'password',
 				'default'     => '',
@@ -1964,29 +2033,29 @@ class Options {
 				'description' => __( 'Required to import listings from Google Maps. The key must have the new <strong>Places API</strong> enabled in your Google Cloud project. Visit <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Credentials</a> to create one.',
 					'classified-listing' ),
 			],
-			'default_import_status'       => [
-				'title'   => __( 'Default Listing Status', 'classified-listing' ),
-				'type'    => 'select',
-				'default' => 'pending',
-				'options' => [
+			'default_import_status'      => [
+				'title'       => __( 'Default Listing Status', 'classified-listing' ),
+				'type'        => 'select',
+				'default'     => 'pending',
+				'options'     => [
 					'publish' => __( 'Published', 'classified-listing' ),
 					'pending' => __( 'Pending Review', 'classified-listing' ),
 					'draft'   => __( 'Draft', 'classified-listing' ),
 				],
 				'description' => __( 'Status assigned to listings created by an importer when the source does not specify one.', 'classified-listing' ),
 			],
-			'update_existing'             => [
+			'update_existing'            => [
 				'title'       => __( 'Update Existing Listings', 'classified-listing' ),
 				'type'        => 'checkbox',
 				'default'     => 'no',
 				'description' => __( 'When a record from the source matches a previously-imported listing, refresh it instead of skipping. Match is by source + source id.',
 					'classified-listing' ),
 			],
-			'max_per_run'                 => [
-				'title'      => __( 'Max Listings per Run', 'classified-listing' ),
-				'type'       => 'number',
-				'default'    => 50,
-				'validation' => [
+			'max_per_run'                => [
+				'title'       => __( 'Max Listings per Run', 'classified-listing' ),
+				'type'        => 'number',
+				'default'     => 50,
+				'validation'  => [
 					'required' => true,
 					'min'      => 1,
 					'max'      => 200,
@@ -1994,7 +2063,7 @@ class Options {
 				'description' => __( 'Hard cap on the number of listings any single import run will create. Google Places enforces an upper bound of 60.',
 					'classified-listing' ),
 			],
-			'default_fallback_image_url'  => [
+			'default_fallback_image_url' => [
 				'title'       => __( 'Default Fallback Image URL', 'classified-listing' ),
 				'type'        => 'text',
 				'default'     => '',
@@ -2226,6 +2295,17 @@ class Options {
 						'id'       => 'title',
 						'default'  => __( 'Radius Filter', 'classified-listing' ),
 						'type'     => 'text',
+						'required' => 1,
+					],
+					[
+						'label'    => esc_html__( 'Distance unit', 'classified-listing' ),
+						'id'       => 'unit',
+						'default'  => 'miles',
+						'options'  => [
+							'miles' => esc_html__( 'Miles', 'classified-listing' ),
+							'km'    => esc_html__( 'Kilometers', 'classified-listing' ),
+						],
+						'type'     => 'select',
 						'required' => 1,
 					],
 				],
@@ -2524,6 +2604,31 @@ class Options {
 		];
 
 		return apply_filters( 'rtcl_social_profiles_list', $options );
+	}
+
+	/**
+	 * Allowed host(s) for each social profile field.
+	 *
+	 * A URL entered for a given platform is accepted when its host equals one of
+	 * these domains or is a sub-domain of it (so www./m./country sub-domains and
+	 * official short links all pass). Platforms with several valid domains list
+	 * them all. Filterable so add-ons / sites can extend or add new platforms.
+	 *
+	 * @return array<string, string[]>
+	 */
+	static function get_social_profile_domains() {
+		$domains = [
+			'facebook'  => [ 'facebook.com', 'fb.com', 'fb.me', 'fb.watch' ],
+			'twitter'   => [ 'twitter.com', 'x.com' ],
+			'youtube'   => [ 'youtube.com', 'youtu.be' ],
+			'instagram' => [ 'instagram.com', 'instagr.am' ],
+			'linkedin'  => [ 'linkedin.com', 'lnkd.in' ],
+			'pinterest' => [ 'pinterest.com', 'pin.it' ],
+			'reddit'    => [ 'reddit.com', 'redd.it' ],
+			'tiktok'    => [ 'tiktok.com' ],
+		];
+
+		return apply_filters( 'rtcl_social_profile_domains', $domains );
 	}
 
 	public static function get_listing_orderby_options() {
@@ -5461,5 +5566,67 @@ class Options {
 		];
 
 		return apply_filters( 'rtcl_themes', $themes );
+	}
+
+	public static function moderation_settings_fields() {
+		$fields = [
+			'field_title_general_section' => [
+				'title' => __( 'General Settings', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'enable_business_hours'       => [
+				'title'   => __( 'Enable Business Hours', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => '',
+			],
+			'enable_social_profiles'      => [
+				'title'   => __( 'Enable Social Profiles', 'classified-listing' ),
+				'type'    => 'switch',
+				'default' => '',
+			],
+			'image_edit_cap'              => [
+				'title'       => __( 'User Able to Edit Image', 'classified-listing' ),
+				'type'        => 'switch',
+				'default'     => 'yes',
+				'description' => __( 'User can edit image size, can crop, can make feature', 'classified-listing' ),
+			],
+			'maximum_images_per_listing'  => [
+				'title'   => __( 'Maximum Images Allowed Per Listing', 'classified-listing' ),
+				'type'    => 'number',
+				'default' => 5,
+			],
+			'field_title_form_section'    => [
+				'title' => __( 'Listing Form', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'title_max_limit'             => [
+				'title'       => __( 'Title Character Limit', 'classified-listing' ),
+				'type'        => 'number',
+				'description' => __( 'Leave it blank if you like no limit', 'classified-listing' ),
+			],
+			'description_max_limit'       => [
+				'title'       => __( 'Description Character Limit', 'classified-listing' ),
+				'type'        => 'number',
+				'description' => __( 'Leave it blank if you like no limit', 'classified-listing' ),
+			],
+			'text_editor'                 => [
+				'title'       => __( 'Text Editor', 'classified-listing' ),
+				'type'        => 'radio',
+				'default'     => 'wp_editor',
+				'options'     => [
+					'wp_editor' => __( 'WP Editor', 'classified-listing' ),
+					'textarea'  => __( 'Textarea', 'classified-listing' ),
+				],
+				'description' => __( 'Listing form Editor style', 'classified-listing' ),
+			],
+			'hide_form_fields'            => [
+				'title'       => __( 'Hide Form Fields', 'classified-listing' ),
+				'type'        => 'multi_checkbox',
+				'orientation' => 'vertical',
+				'options'     => self::get_listing_form_hide_fields(),
+			],
+		];
+
+		return apply_filters( 'rtcl_moderation_settings_fields', $fields );
 	}
 }

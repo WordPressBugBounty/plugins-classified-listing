@@ -19,7 +19,7 @@ class FormPreDefined {
 					"settings"       => [
 						"align"            => "left",
 						"button_style"     => "default",
-						"container_class"  => "",
+						"css_class"  => "",
 						"help_message"     => "",
 						"background_color" => "#409EFF",
 						"button_size"      => "md",

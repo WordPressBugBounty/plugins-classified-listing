@@ -1,14 +1,17 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "version": "1.0.0",
   "title": "Listing Search Form",
   "name": "rtcl/listing-search",
   "category": "classified-list-gb",
+  "icon": "search",
   "description": "classified listing search form",
   "keywords": [
 	"listing search",
 	"form",
 	"classified-listing"
    ],
-  "apiVersion": 2,
+  "editorScript": "rtcl-gb-blocks-js",
   "textdomain": "classified-listing"
 }

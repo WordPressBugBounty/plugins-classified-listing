@@ -45,6 +45,8 @@ do_action( 'rtcl_before_single_listing' );
 					</div>
 				<?php endif; ?>
 
+				<?php do_action( 'rtcl_single_listing_before_content' ); ?>
+
 				<!-- Description -->
 				<div class="rtcl-listing-description"><?php $listing->the_content(); ?></div>
 
@@ -73,7 +75,7 @@ do_action( 'rtcl_before_single_listing' );
 		<!-- Review  -->
 		<?php do_action( 'rtcl_single_listing_review' ) ?>
 
-		<?php if ( !Functions::is_enable_template_support() && in_array( $sidebar_position, [ 'left', 'right' ] ) ) : ?>
+		<?php if ( ! Functions::is_enable_template_support() && in_array( $sidebar_position, [ 'left', 'right' ] ) ) : ?>
 			<!-- Sidebar -->
 			<?php do_action( 'rtcl_single_listing_sidebar' ); ?>
 		<?php endif; ?>

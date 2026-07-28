@@ -10,6 +10,8 @@ use Rtcl\Services\FormBuilder\AvailableFields;
 use Rtcl\Services\FormBuilder\Components\FieldSanitization;
 use Rtcl\Services\FormBuilder\Components\SectionSanitization;
 use Rtcl\Services\FormBuilder\Components\SettingsFieldSanitization;
+use Rtcl\Services\FormBuilder\Components\SingleLayoutRowSanitization;
+use Rtcl\Services\FormBuilder\Components\SlugBuilderSanitization;
 use Rtcl\Services\FormBuilder\Components\TranslationSanitization;
 use Rtcl\Services\FormBuilder\ElementCustomization;
 use Rtcl\Services\FormBuilder\FBHelper;
@@ -82,6 +84,16 @@ class FormBuilderAdminAjax {
 				return;
 			}
 
+			// Compatibility guard: reject legacy (pre-6.0) exports before inserting anything, so a
+			// partial import can never leave old-structure forms in the table. Authoritative — mirrors
+			// the frontend check in the import modal and can't be bypassed.
+			foreach ( $forms as $formItem ) {
+				if ( is_array( $formItem ) && FBHelper::isLegacyFormStructure( $formItem ) ) {
+					wp_send_json_error( FBHelper::importIncompatibleMessage(), 424 );
+
+					return;
+				}
+			}
 
 			foreach ( $forms as $formItem ) {
 				$title = !empty( $formItem['title'] ) ? sanitize_text_field( $formItem['title'] ) : __( 'Imported Form', 'classified-listing' );
@@ -544,6 +556,21 @@ class FormBuilderAdminAjax {
 		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) || !current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
 		}
+		// TEMP DEBUG — incoming section flex keys
+		if ( isset( $_POST['single_layout'] ) ) {
+			$__d = json_decode( wp_unslash( $_POST['single_layout'] ), true );
+			$__l = [];
+			foreach ( ( $__d['rows'] ?? [] ) as $__r ) {
+				foreach ( ( $__r['columns'] ?? [] ) as $__c ) {
+					foreach ( ( $__c['sections'] ?? [] ) as $__s ) {
+						$__l[] = ( $__s['title'] ?? '?' ) . ' -> dir=' . ( $__s['direction'] ?? '(none)' )
+							. ' align=' . ( $__s['align_items'] ?? '(none)' )
+							. ' keys[' . implode( ',', array_keys( $__s ) ) . ']';
+					}
+				}
+			}
+			file_put_contents( WP_CONTENT_DIR . '/rtcl-fb-debug.log', gmdate( 'c' ) . "\n" . implode( "\n", $__l ) . "\n\n", FILE_APPEND );
+		}
 		$formId = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
 
 		$form = Form::query()->find( $formId );
@@ -574,58 +601,30 @@ class FormBuilderAdminAjax {
 			$slSettingsFields = !empty( $slSettingsFields ) ? array_column( $slSettingsFields, null, 'name' ) : [];
 			foreach ( $raw_single_layout as $slKey => $_slValue ) {
 
-				if ( $slKey === 'containers' ) {
+				if ( $slKey === 'rows' ) {
 					if ( is_array( $_slValue ) ) {
-						$containers = [];
-						foreach ( $_slValue as $containerIndex => $_container ) {
-							if ( is_array( $_container ) ) {
-								$container = [];
-								foreach ( $_container as $_containerKey => $_containerValue ) {
-									if ( in_array( $_containerKey, [ 'title', 'uuid', 'id', 'container_class' ] ) ) {
-										$container[$_containerKey] = sanitize_text_field( wp_unslash( $_containerValue ) );
-									} else if ( $_containerKey === 'columns' && is_array( $_containerValue ) && !empty( $_containerValue ) ) {
-										$columns = [];
-										foreach ( $_containerValue as $_columnIndex => $_columnData ) {
-											if ( !empty( $_columnData ) && is_array( $_columnData ) ) {
-												$column = [];
-												foreach ( $_columnData as $_columnKey => $_columnValue ) {
-													if ( $_columnKey === 'width' ) {
-														$column['width'] = absint( $_columnValue );
-													} elseif ( $_columnKey === 'sections' && is_array( $_columnValue ) ) {
-														$slSections = ( new SectionSanitization( $_columnValue, $fields ) )->get();
-														if ( !empty( $slSections ) ) {
-															$column['sections'] = array_map( function ( $section ) {
-																if ( isset( $section['logics'] ) ) {
-																	unset( $section['logics'] );
-																}
-																if ( isset( $section['column'] ) ) {
-																	unset( $section['column'] );
-																}
-																return $section;
-															}, $slSections );
-														}
-													}
-												}
-												if ( !empty( $column ) ) {
-													$columns[] = $column;
-												}
-											}
-										}
-										if ( !empty( $columns ) ) {
-											$container['columns'] = $columns;
-										}
-									}
-								}
-								if ( !empty( $container ) ) {
-									if ( !isset( $container['columns'] ) ) {
-										$container['columns'] = [ 'width' => 100, 'sections' => [] ];
-									}
-									$containers[] = $container;
-								}
-							}
+						$slRows = ( new SingleLayoutRowSanitization( $_slValue, $fields ) )->get();
+						if ( !empty( $slRows ) ) {
+							$single_layout['rows'] = array_values( $slRows );
 						}
-						if ( !empty( $containers ) ) {
-							$single_layout['containers'] = $containers;
+					}
+				} else if ( $slKey === 'sections' ) {
+					if ( is_array( $_slValue ) ) {
+						$slSections = ( new SectionSanitization( $_slValue, $fields ) )->get();
+						// Single-layout sections have no conditional-display support — drop `logics`
+						// (and the stale `column` key) the same way the old nested parser did.
+						$slSections = array_map( function ( $section ) {
+							if ( isset( $section['logics'] ) ) {
+								unset( $section['logics'] );
+							}
+							if ( isset( $section['column'] ) ) {
+								unset( $section['column'] );
+							}
+
+							return $section;
+						}, $slSections );
+						if ( !empty( $slSections ) ) {
+							$single_layout['sections'] = array_values( $slSections );
 						}
 					}
 				} else if ( $slKey === 'fields' ) {
@@ -706,10 +705,17 @@ class FormBuilderAdminAjax {
 		}
 
 		$form->single_layout = !empty( $single_layout ) ? $single_layout : null;
+
+		$raw_slug_builder = empty( $_POST['slug_builder'] ) ? [] : json_decode( wp_unslash( $_POST['slug_builder'] ), true ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$form->slug_builder = !empty( $raw_slug_builder ) && is_array( $raw_slug_builder )
+			? SlugBuilderSanitization::sanitize( $raw_slug_builder )
+			: null;
+
 		$form->sections = $sections;
 		$form->fields = $fields;
 		$form->settings = $settings;
 		$form->update();
+		do_action( 'rtcl_fb_after_form_update', $form->id );
 		wp_send_json_success( [
 			'message' => __( 'The form is successfully updated.', 'classified-listing' ),
 			'data'    => $form->toArray()

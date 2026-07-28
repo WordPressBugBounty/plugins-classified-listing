@@ -1,14 +1,17 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"version": "1.0.0",
 	"title": "Single Location",
 	"name": "rtcl/single-location",
 	"category": "classified-list-gb",
+	"icon": "location-alt",
 	"description": "classified listings single location",
 	"keywords": [
 		"listings",
 		"listing single location",
 		"classified-listing"
 	],
-	"apiVersion": 2,
+	"editorScript": "rtcl-gb-blocks-js",
 	"textdomain": "classified-listing"
 }

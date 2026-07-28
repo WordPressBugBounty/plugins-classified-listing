@@ -100,6 +100,11 @@ class ValidationRuleSettings {
 					],
 				],
 			],
+			'regex'               => [
+				'template'  => 'inputRegex',
+				'label'     => __( 'Pattern (Regex)', 'classified-listing' ),
+				'help_text' => __( 'Validate the field value against a regular expression pattern.', 'classified-listing' ),
+			],
 			'min'                 => [
 				'template'  => 'inputText',
 				'type'      => 'number',

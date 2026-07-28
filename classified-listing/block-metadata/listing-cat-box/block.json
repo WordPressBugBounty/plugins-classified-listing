@@ -1,14 +1,17 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "version": "1.0.0",
   "title": "Listing Category",
   "name": "rtcl/listing-cat-box",
   "category": "classified-list-gb",
-  "description": "clasified listing category box",
+  "icon": "category",
+  "description": "classified listing category box",
   "keywords": [
 	"category",
 	"category-box",
 	"classified-listing"
    ],
-  "apiVersion": 2,
+  "editorScript": "rtcl-gb-blocks-js",
   "textdomain": "classified-listing"
 }

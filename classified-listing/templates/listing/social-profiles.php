@@ -41,6 +41,8 @@ if ( empty( $social_profiles ) || empty( $social_list = Options::get_social_prof
 					<?php
 					if ( 'twitter' === $item ) {
 						$iconClass = 'fa-brands fa-x-twitter';
+					} else if ( 'tiktok' === $item ) {
+						$iconClass = 'fa-brands fa-tiktok';
 					} else {
 						$iconClass = 'rtcl-icon-' . $item;
 					}

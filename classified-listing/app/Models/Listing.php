@@ -610,11 +610,8 @@ class Listing extends Data {
 	}
 
 	function has_phone() {
-		if ( get_post_meta( $this->id, 'phone', true ) ) {
-			return true;
-		}
-
-		return false;
+		// Dial-code-only values (e.g. "+1" with no number) count as no phone.
+		return Functions::phone_number_has_local_part( get_post_meta( $this->id, 'phone', true ) );
 	}
 
 	/**
@@ -1029,9 +1026,38 @@ class Listing extends Data {
 		$text       = wp_strip_all_tags( strip_shortcodes( $text ) );
 		$word_limit = apply_filters( 'rtcl_excerpt_word_limit', 20 );
 		$more_text  = apply_filters( 'rtcl_excerpt_more_text', '...' );
+
 		if ( $word_limit ) {
-			$text = wp_trim_words( $text, $word_limit, $more_text );
+			// Limit to the word count WITHOUT collapsing internal whitespace, so the
+			// spacing stored for the listing is shown faithfully: when "Remove extra
+			// spaces" is off the saved excerpt keeps its runs of spaces, when on it was
+			// already normalized on save. wp_trim_words() would flatten every run to a
+			// single space, which is why the excerpt looked collapsed even with the
+			// feature disabled.
+			$chunks    = preg_split( '/(\s+)/u', $text, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
+			$words     = 0;
+			$out       = '';
+			$truncated = false;
+			foreach ( (array) $chunks as $chunk ) {
+				if ( '' !== trim( $chunk ) ) {
+					if ( $words >= $word_limit ) {
+						$truncated = true;
+						break;
+					}
+					$words++;
+				}
+				$out .= $chunk;
+			}
+			$text = trim( $out ) . ( $truncated ? $more_text : '' );
 		}
+
+		// Browsers collapse consecutive real spaces, so a run of 2+ would still look
+		// like one on the front-end. Turn each run into a leading space + &nbsp; so the
+		// preserved spacing is actually visible while the line can still wrap.
+		$text = preg_replace_callback( '/ {2,}/', function ( $matches ) {
+			return ' ' . str_repeat( '&nbsp;', strlen( $matches[0] ) - 1 );
+		}, $text );
+
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo apply_filters( 'rtcl_listing_the_excerpt', $text );
 	}

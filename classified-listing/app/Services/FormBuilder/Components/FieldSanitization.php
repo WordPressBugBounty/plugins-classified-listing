@@ -65,7 +65,7 @@ class FieldSanitization {
 		}
 		$depensOnField = null;
 		foreach ( $field as $fieldKey => $value ) {
-			if ( in_array( $fieldKey, [ 'label', 'id', 'class', 'container_class', 'placeholder', 'order', 'help_message', 'btn_text' ] ) ) {
+			if ( in_array( $fieldKey, [ 'label', 'id', 'class', 'css_class', 'placeholder', 'order', 'help_message', 'btn_text' ] ) ) {
 				$field[$fieldKey] = sanitize_text_field( wp_unslash( $value ) );
 			} elseif ( $fieldKey === 'fields' ) {
 				if ( !empty( $value ) && is_array( $value ) ) {

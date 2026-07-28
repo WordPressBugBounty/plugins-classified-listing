@@ -14,6 +14,57 @@ class PricingOptions {
 
 		wp_nonce_field( rtcl()->nonceText, rtcl()->nonceId );
 
+		// New options: icon picker + featured highlight.
+		$pricing_icon   = get_post_meta( $post->ID, '_rtcl_pricing_icon', true );
+		$is_featured    = get_post_meta( $post->ID, '_rtcl_pricing_featured', true );
+		$featured_label = get_post_meta( $post->ID, '_rtcl_pricing_featured_label', true );
+
+		$icon_options = '<option value="">' . esc_html__( 'Select one', 'classified-listing' ) . '</option>';
+		foreach ( Options::get_icon_list() as $icon ) {
+			$icon_options .= sprintf(
+				'<option value="%1$s"%2$s data-icon="%1$s">%1$s</option>',
+				esc_attr( $icon ),
+				selected( $icon, $pricing_icon, false )
+			);
+		}
+
+		$icon_field = sprintf(
+			'<div class="rtcl-row rtcl-form-group">
+				<label class="rtcl-col-2 rtcl-field-label" for="rtcl-pricing-icon">%1$s</label>
+				<div class="rtcl-col-10">
+					<select name="_rtcl_pricing_icon" id="rtcl-pricing-icon" class="rtcl-select2-icon">%2$s</select>
+					<div class="rtcl-hints">%3$s</div>
+				</div>
+			</div>',
+			esc_html__( 'Icon', 'classified-listing' ),
+			$icon_options,
+			esc_html__( 'Icon shown on the pricing card at checkout.', 'classified-listing' )
+		);
+
+		$featured_field = sprintf(
+			'<div class="rtcl-row rtcl-form-group">
+				<label class="rtcl-col-2 rtcl-field-label" for="_rtcl_pricing_featured">%1$s</label>
+				<div class="rtcl-col-10">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" name="_rtcl_pricing_featured" value="1"%2$s id="_rtcl_pricing_featured">
+						<label class="rtcl-form-check-label" for="_rtcl_pricing_featured">%3$s</label>
+					</div>
+					<div class="rtcl-featured-label-wrap" style="margin-top:10px;%4$s">
+						<input type="text" class="rtcl-form-control" name="_rtcl_pricing_featured_label" id="_rtcl_pricing_featured_label" value="%5$s" placeholder="%6$s">
+						<div class="rtcl-hints">%7$s</div>
+					</div>
+				</div>
+			</div>
+			<script>(function($){$(function(){var c=$("#_rtcl_pricing_featured"),w=$(".rtcl-featured-label-wrap");function t(){c.is(":checked")?w.show():w.hide();}c.on("change",t);t();});})(jQuery);</script>',
+			esc_html__( 'Highlight Plan', 'classified-listing' ),
+			checked( $is_featured, 1, false ),
+			esc_html__( 'Highlight this plan as Featured on the checkout page.', 'classified-listing' ),
+			$is_featured ? '' : 'display:none;',
+			esc_attr( $featured_label ),
+			esc_attr__( 'FEATURED', 'classified-listing' ),
+			esc_html__( 'Label shown on the featured badge (e.g. FEATURED).', 'classified-listing' )
+		);
+
 		$promotion_html = '';
 		$promotions     = Options::get_listing_promotions();
 		foreach ( $promotions as $promo_id => $promotion ) {
@@ -64,6 +115,8 @@ class PricingOptions {
 				'class'       => [ 'rtcl-form-control' ],
 				'description' => __( "HTML is allowed :)", "classified-listing" ),
 			],
+			'pricing_icon'     => $icon_field,
+			'pricing_featured' => $featured_field,
 		];
 
 		$fields = apply_filters( 'rtcl_pricing_admin_options', $data, $post );

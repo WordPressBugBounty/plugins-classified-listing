@@ -26,13 +26,8 @@ class ListingForm {
 			$has_permission = false;
 		} elseif ( ! is_user_logged_in() && ! Functions::is_enable_post_for_unregister() ) {
 			$has_permission = false;
-		}
-		if ( is_user_logged_in() && Functions::is_user_type_enabled() ) {
-			$user_type = get_user_meta( get_current_user_id(), '_rtcl_user_type', true );
-
-			if ( $user_type === 'buyer' ) {
-				$has_permission = false;
-			}
+		} elseif ( Functions::is_user_type_buyer() ) {
+			$has_permission = false;
 		}
 		if ( ! $has_permission ) {
 			Functions::add_notice( __( 'You do not have sufficient permissions to access this page.', 'classified-listing' ), 'error' );

@@ -15,7 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ( Functions::is_listings() || Functions::is_listing_taxonomy() ) && is_active_sidebar( 'rtcl-archive-sidebar' ) ) {
 	?>
 	<div id="rtcl-sidebar" class="rtcl-sidebar-wrapper">
+		<?php do_action( 'rtcl_archive_sidebar_top' ); ?>
 		<?php dynamic_sidebar( 'rtcl-archive-sidebar' ); ?>
+		<?php do_action( 'rtcl_archive_sidebar_bottom' ); ?>
 	</div>
 	<?php
 } elseif ( Functions::is_listing() ) {

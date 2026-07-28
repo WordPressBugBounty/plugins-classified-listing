@@ -15,7 +15,7 @@ class GeminiClient {
 	/**
 	 * @var string Model to be used for AI responses.
 	 */
-	protected $model = 'gemini-2.5-flash'; // Default Gemini model
+	protected $model = 'gemini-3.5-flash'; // Default Gemini model (GA). Keep in sync with Options.php gemini_models.
 
 	protected $token = '200';
 
@@ -29,7 +29,11 @@ class GeminiClient {
 	public function __construct() {
 		$apiKey      = Functions::get_option_item( 'rtcl_ai_settings', 'gemini_api_key' );
 		$model       = Functions::get_option_item( 'rtcl_ai_settings', 'gemini_models' );
-		$this->model = ! empty( $model ) ? $model : 'gemini-2.5-flash';
+		// Self-heal: a saved value pointing at a retired model (e.g. the old gemini-2.5-flash, which
+		// Google no longer serves to new users) falls back to the current GA default instead of a dead
+		// model. Keep this whitelist in sync with the gemini_models options in Options.php.
+		$supportedModels = [ 'gemini-3.5-flash', 'gemini-3.1-pro-preview' ];
+		$this->model     = ! empty( $model ) && in_array( $model, $supportedModels, true ) ? $model : 'gemini-3.5-flash';
 		$this->token = Functions::get_option_item( 'rtcl_ai_settings', 'gpt_max_token' );
 		if ( empty( $apiKey ) ) {
 			throw new \Exception( 'Gemini API key is not properly configured.' );
@@ -145,7 +149,7 @@ class GeminiClient {
 	 * @param  string  $prompt  The user’s prompt to send to the model.
 	 * @param  string  $instruction  The instruction to provide context for the model.
 	 * @param  float  $temperature  The temperature setting for randomness in the response. Default is 0.7.
-	 * @param  string  $model  The OpenAI model to use, default is 'gemini-pro'.
+	 * @param  string  $model  The Gemini model to use; falls back to the configured model (default 'gemini-3.5-flash').
 	 *
 	 * @return false|string The cleaned and formatted JSON response from the API.
 	 */

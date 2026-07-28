@@ -12,6 +12,7 @@ use Rtcl\Helpers\Text;
 use Rtcl\Models\Cipher;
 use Rtcl\Models\VStore;
 use Rtcl\Resources\Options;
+use Rtcl\Services\FormBuilder\FBHelper;
 use WP_Error;
 use WP_Taxonomy;
 use WP_Term;
@@ -703,6 +704,37 @@ class PublicUser {
 			}
 		}
 
+		// Enforce a sane maximum length on free-text fields so a name/website can't be
+		// an entire paragraph. Keep in sync with the `maxlength` attributes in
+		// templates/myaccount/form-edit-account.php.
+		$length_limits = apply_filters( 'rtcl_account_field_length_limits', [
+			'first_name'   => [ 'max' => 50, 'label' => esc_html__( 'First name', 'classified-listing' ) ],
+			'last_name'    => [ 'max' => 50, 'label' => esc_html__( 'Last name', 'classified-listing' ) ],
+			'display_name' => [ 'max' => 50, 'label' => esc_html__( 'Display name', 'classified-listing' ) ],
+			'website'      => [ 'max' => 200, 'label' => esc_html__( 'Website', 'classified-listing' ) ],
+			'telegram'     => [ 'max' => 33, 'label' => esc_html__( 'Telegram ID', 'classified-listing' ) ],
+			'geo_address'  => [ 'max' => 250, 'label' => esc_html__( 'Address', 'classified-listing' ) ],
+			'zipcode'      => [ 'max' => 20, 'label' => esc_html__( 'Zip code', 'classified-listing' ) ],
+			'description'  => [ 'max' => 500, 'label' => esc_html__( 'Biographical info', 'classified-listing' ) ],
+		] );
+		foreach ( $length_limits as $ll_key => $ll ) {
+			if ( ! isset( $_POST[ $ll_key ] ) ) {
+				continue;
+			}
+			$ll_value = trim( wp_unslash( $_POST[ $ll_key ] ) );
+			if ( mb_strlen( $ll_value ) > (int) $ll['max'] ) {
+				$errors->add(
+					'rtcl_length_' . $ll_key,
+					sprintf(
+						/* translators: 1: field label, 2: maximum number of characters */
+						esc_html__( '%1$s must not exceed %2$d characters.', 'classified-listing' ),
+						$ll['label'],
+						(int) $ll['max']
+					)
+				);
+			}
+		}
+
 		// Validate password
 		$password = '';
 
@@ -729,6 +761,73 @@ class PublicUser {
 			'nickname'   => $first_name,
 		];
 
+		if ( ! empty( $_POST['display_name'] ) ) {
+			$user_data['display_name'] = sanitize_text_field( wp_unslash( $_POST['display_name'] ) );
+		}
+
+		if ( isset( $_POST['description'] ) ) {
+			// Biographical info with minimal HTML support.
+			$allowed_html            = [
+				'a'      => [ 'href' => [], 'title' => [], 'target' => [], 'rel' => [] ],
+				'b'      => [],
+				'strong' => [],
+				'i'      => [],
+				'em'     => [],
+				'br'     => [],
+				'p'      => [],
+			];
+			$user_data['description'] = wp_kses( wp_unslash( $_POST['description'] ), $allowed_html );
+		}
+
+		// Validate website URL.
+		if ( ! empty( $_POST['website'] ) ) {
+			$website_raw = trim( wp_unslash( $_POST['website'] ) );
+			if ( ! filter_var( $website_raw, FILTER_VALIDATE_URL ) ) {
+				$errors->add( 'rtcl_invalid_website', esc_html__( 'Please enter a valid website URL.', 'classified-listing' ) );
+			}
+		}
+
+		// Validate Telegram ID (must start with "@").
+		if ( ! empty( $_POST['telegram'] ) ) {
+			$telegram_raw = trim( wp_unslash( $_POST['telegram'] ) );
+			if ( ! preg_match( '/^@[A-Za-z][A-Za-z0-9_]{4,31}$/', $telegram_raw ) ) {
+				$errors->add( 'rtcl_invalid_telegram', esc_html__( 'Telegram ID must start with @ and be 5–32 characters (letters, numbers and underscore).', 'classified-listing' ) );
+			}
+		}
+
+		// Validate phone / WhatsApp numbers (basic format check).
+		$phone_fields = [
+			'phone'           => esc_html__( 'Please enter a valid phone number.', 'classified-listing' ),
+			'whatsapp_number' => esc_html__( 'Please enter a valid WhatsApp number.', 'classified-listing' ),
+		];
+		foreach ( $phone_fields as $pf_key => $pf_msg ) {
+			if ( empty( $_POST[ $pf_key ] ) ) {
+				continue;
+			}
+			$pf_val    = trim( wp_unslash( $_POST[ $pf_key ] ) );
+			$pf_digits = preg_replace( '/[^0-9]/', '', $pf_val );
+			if ( ! preg_match( '/^\+?[0-9\s\-().]+$/', $pf_val ) || strlen( $pf_digits ) < 6 || strlen( $pf_digits ) > 15 ) {
+				$errors->add( 'rtcl_invalid_' . $pf_key, $pf_msg );
+			}
+		}
+
+		// Validate social profile URLs against each platform's allowed domain(s).
+		if ( ! empty( $_POST['social_media'] ) && is_array( $_POST['social_media'] ) ) {
+			$social_labels = Options::get_social_profiles_list();
+			foreach ( wp_unslash( $_POST['social_media'] ) as $sm_key => $sm_url ) {
+				$sm_url = trim( (string) $sm_url );
+				if ( '' === $sm_url ) {
+					continue;
+				}
+				$sm_key = sanitize_key( $sm_key );
+				if ( filter_var( $sm_url, FILTER_VALIDATE_URL ) === false || ! FBHelper::social_url_matches_platform( $sm_url, $sm_key ) ) {
+					$sm_label = $social_labels[ $sm_key ] ?? $sm_key;
+					/* translators: %s: social platform name, e.g. Facebook */
+					$errors->add( 'rtcl_invalid_social_' . $sm_key, sprintf( esc_html__( 'Please enter a valid %s URL', 'classified-listing' ), $sm_label ) );
+				}
+			}
+		}
+
 		do_action( 'rtcl_my_account_validate_user_data', $errors, $user_data );
 
 		if ( is_wp_error( $errors ) && $errors->has_errors() ) {
@@ -751,6 +850,7 @@ class PublicUser {
 		$user_meta['_rtcl_phone']           = ! empty( $_POST['phone'] ) ? esc_attr( $_POST['phone'] ) : null;
 		$user_meta['_rtcl_whatsapp_number'] = ! empty( $_POST['whatsapp_number'] ) ? esc_attr( $_POST['whatsapp_number'] ) : null;
 		$user_meta['_rtcl_website']         = ! empty( $_POST['website'] ) ? esc_url_raw( $_POST['website'] ) : null;
+		$user_meta['_rtcl_telegram']        = ! empty( $_POST['telegram'] ) ? esc_attr( $_POST['telegram'] ) : null;
 		$user_meta['_rtcl_zipcode']         = ! empty( $_POST['zipcode'] ) ? esc_attr( $_POST['zipcode'] ) : null;
 		$user_meta['_rtcl_address']         = ! empty( $_POST['address'] ) ? esc_textarea( $_POST['address'] ) : null;
 

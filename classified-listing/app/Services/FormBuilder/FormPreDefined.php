@@ -14,9 +14,8 @@ class FormPreDefined {
 		$description['uuid'] = FBHelper::generateRandomString();
 		$section             = AvailableFields::getSectionField();
 		$section['uuid']     = FBHelper::generateRandomString();
-		$section['columns']  = [
+		$section['containers']  = [
 			[
-				'width'  => 100,
 				'fields' => [
 					$title['uuid'],
 					$description['uuid']
@@ -185,18 +184,16 @@ class FormPreDefined {
 		$basicInfoSection            = $productInfoSection = $gallerySection = $videoUrlSection = $bhSection = $sProfileSection = $contactDetailSection = AvailableFields::getSectionField();
 		$basicInfoSection['uuid']    = FBHelper::generateRandomString();
 		$basicInfoSection['title']   = __( 'Basic Information', 'classified-listing' );
-		$basicInfoSection['columns'] = [
+		$basicInfoSection['containers'] = [
 			[
-				'width'  => 100,
 				'fields' => [ $listingType['uuid'], $category['uuid'] ]
 			]
 		];
 
 		$productInfoSection['uuid']    = FBHelper::generateRandomString();
 		$productInfoSection['title']   = __( 'Product Information', 'classified-listing' );
-		$productInfoSection['columns'] = [
+		$productInfoSection['containers'] = [
 			[
-				'width'  => 100,
 				'fields' => [
 					$title['uuid'],
 					$pricing['uuid'],
@@ -209,27 +206,24 @@ class FormPreDefined {
 
 		$gallerySection['uuid']    = FBHelper::generateRandomString();
 		$gallerySection['title']   = __( 'Featured & Gallery Images', 'classified-listing' );
-		$gallerySection['columns'] = [
+		$gallerySection['containers'] = [
 			[
-				'width'  => 100,
 				'fields' => [ $images['uuid'] ]
 			]
 		];
 
 		$videoUrlSection['uuid']    = FBHelper::generateRandomString();
 		$videoUrlSection['title']   = __( 'Video URL', 'classified-listing' );
-		$videoUrlSection['columns'] = [
+		$videoUrlSection['containers'] = [
 			[
-				'width'  => 100,
 				'fields' => [ $videoUrl['uuid'] ]
 			]
 		];
 
 		$contactDetailSection['uuid']    = FBHelper::generateRandomString();
 		$contactDetailSection['title']   = __( 'Contact Details', 'classified-listing' );
-		$contactDetailSection['columns'] = [
+		$contactDetailSection['containers'] = [
 			[
-				'width'  => 100,
 				'fields' => [
 					$location['uuid'],
 					$zipcode['uuid'],
@@ -245,18 +239,16 @@ class FormPreDefined {
 
 		$bhSection['uuid']    = FBHelper::generateRandomString();
 		$bhSection['title']   = __( 'Business Hours', 'classified-listing' );
-		$bhSection['columns'] = [
+		$bhSection['containers'] = [
 			[
-				'width'  => 100,
 				'fields' => [ $business_hours['uuid'] ]
 			]
 		];
 
 		$sProfileSection['uuid']    = FBHelper::generateRandomString();
 		$sProfileSection['title']   = __( 'Social Profiles', 'classified-listing' );
-		$sProfileSection['columns'] = [
+		$sProfileSection['containers'] = [
 			[
-				'width'  => 100,
 				'fields' => [ $social_profiles['uuid'], $tnc['uuid'] ]
 			]
 		];

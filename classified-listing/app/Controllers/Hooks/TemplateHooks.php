@@ -304,7 +304,7 @@ class TemplateHooks {
 		}
 		$itemData['title'] = ! empty( $itemData['title'] ) ? $itemData['title'] : esc_html__( 'Ad Type', 'classified-listing' );
 		$fieldType         = ! empty( $itemData['type'] )
-							 && in_array( $itemData['type'],
+		                     && in_array( $itemData['type'],
 			[
 				'checkbox',
 				'radio',
@@ -372,7 +372,7 @@ class TemplateHooks {
 	 */
 	public static function ajax_filter_render_category( $itemData, $filterData, $object ) {
 		$fieldType      = ! empty( $itemData['type'] )
-						  && in_array( $itemData['type'],
+		                  && in_array( $itemData['type'],
 			[
 				'checkbox',
 				'radio',
@@ -418,7 +418,7 @@ class TemplateHooks {
 		}
 
 		$fieldType      = ! empty( $itemData['type'] )
-						  && in_array( $itemData['type'],
+		                  && in_array( $itemData['type'],
 			[
 				'checkbox',
 				'radio',
@@ -455,7 +455,7 @@ class TemplateHooks {
 	 */
 	public static function ajax_filter_render_tag( $itemData, $filterData, $object ) {
 		$fieldType      = ! empty( $itemData['type'] )
-						  && in_array( $itemData['type'],
+		                  && in_array( $itemData['type'],
 			[
 				'checkbox',
 				'radio',
@@ -528,6 +528,12 @@ class TemplateHooks {
 	 */
 	public static function ajax_filter_render_radius_filter( $itemData, $filterData, $object ) {
 		$rs_data           = Options::radius_search_options();
+		// Per-filter distance unit (set in the Ajax Filter Builder). Fall back to the
+		// global radius option, then miles, so filters saved before this field existed
+		// keep their current behaviour.
+		$unit              = ! empty( $itemData['unit'] ) ? strtolower( $itemData['unit'] )
+			: ( ! empty( $rs_data['units'] ) ? strtolower( $rs_data['units'] ) : 'miles' );
+		$is_km             = in_array( $unit, [ 'km', 'kilometers' ], true );
 		$geoAddress        = ! empty( $_GET['geo_address'] ) ? esc_attr( $_GET['geo_address'] )
 			: ''; /* phpcs:ignore WordPress.Security.NonceVerification.Recommended */
 		$centerLat         = ! empty( $_GET['center_lat'] ) ? esc_attr( $_GET['center_lat'] )
@@ -546,7 +552,7 @@ class TemplateHooks {
                                         </div>
                                         <div class="rtcl-radius-distance-slider-wrap">
 							                <div class="rtcl-range-label"><div class="label-txt">%5$s (<span class="rtcl-range-value">%7$d</span> %6$s)</div></div>
-							                <div class="rtcl-radius-distance-slider rtcl-noUiSlider" data-min="0" data-default="%8$d" data-current="%7$d" data-max="%9$d" data-step="5"></div>
+							                <div class="rtcl-radius-distance-slider rtcl-noUiSlider" data-min="0" data-default="%8$d" data-current="%7$d" data-max="%9$d" data-step="5" data-unit="%10$s"></div>
 							            </div>
 							        </div>',
 			$geoAddress,
@@ -554,14 +560,11 @@ class TemplateHooks {
 			$centerLat,
 			$centerLng,
 			esc_html__( 'Radius', 'classified-listing' ),
-			in_array( $rs_data['units'],
-				[
-					'km',
-					'kilometers',
-				] ) ? esc_html__( 'km', 'classified-listing' ) : esc_html__( 'Miles', 'classified-listing' ),
+			$is_km ? esc_html__( 'km', 'classified-listing' ) : esc_html__( 'Miles', 'classified-listing' ),
 			$distance,
 			$rs_data['default_distance'],
 			$rs_data['max_distance'],
+			esc_attr( $is_km ? 'km' : 'miles' ),
 		);
 		$itemData['title'] = ! empty( $settings['title'] ) ? $settings['title'] : esc_html__( 'Radius Search', 'classified-listing' );
 
@@ -691,7 +694,7 @@ class TemplateHooks {
 	 */
 	public static function seller_email( $listing ) {
 		if ( is_a( $listing, Listing::class ) && Functions::get_option_item( 'rtcl_single_listing_settings', 'has_contact_form', false, 'checkbox' )
-			 && $email = get_post_meta( $listing->get_id(), 'email', true )
+		     && $email = get_post_meta( $listing->get_id(), 'email', true )
 		) {
 			if ( is_user_logged_in() && get_current_user_id() === $listing->get_author_id() ) {
 				return;
@@ -721,6 +724,14 @@ class TemplateHooks {
 		if ( is_a( $listing, Listing::class ) ) {
 			$phone           = get_post_meta( $listing->get_id(), 'phone', true );
 			$whatsapp_number = get_post_meta( $listing->get_id(), '_rtcl_whatsapp_number', true );
+			// Hide dial-code-only values (e.g. "+1" with no number) left by the phone widget
+			// so the contact block doesn't render an empty "++1"; treat them as no number.
+			if ( ! Functions::phone_number_has_local_part( $phone ) ) {
+				$phone = '';
+			}
+			if ( ! Functions::phone_number_has_local_part( $whatsapp_number ) ) {
+				$whatsapp_number = '';
+			}
 			if ( $phone || ( $whatsapp_number && ! Functions::is_field_disabled( 'whatsapp_number' ) ) ) {
 				$mobileClass   = wp_is_mobile() ? " rtcl-mobile" : null;
 				$phone_options = [];
@@ -732,7 +743,7 @@ class TemplateHooks {
 				}
 				if ( $whatsapp_number && Functions::check_visibility( $listing->get_author_id(), 'whatsapp' ) && ! Functions::is_field_disabled( 'whatsapp_number' ) ) {
 					$phone_options['safe_whatsapp_number'] = mb_substr( $whatsapp_number, 0, mb_strlen( $whatsapp_number ) - 3 )
-															 . apply_filters( 'rtcl_phone_number_placeholder', 'XXX' );
+					                                         . apply_filters( 'rtcl_phone_number_placeholder', 'XXX' );
 					$phone_options['whatsapp_hidden']      = mb_substr( $whatsapp_number, - 3 );
 				}
 				$phone_options = apply_filters( 'rtcl_phone_number_options', $phone_options, [
@@ -742,16 +753,15 @@ class TemplateHooks {
 				?>
 				<div tabindex="0" class='rtcl-list-group-item reveal-phone<?php
 				echo esc_attr( $mobileClass ); ?>'
-					 data-options="<?php
+				     data-options="<?php
 					 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					 echo htmlspecialchars( wp_json_encode( $phone_options ) ); ?>"
-					 data-id="<?php
+				     data-id="<?php
 					 echo $listing->get_id(); ?>">
 					<div class='media'>
-						<span class='rtcl-icon rtcl-icon-phone mr-2'></span>
+						<span class='rtcl-icon rtcl-icon-volume-control-phone mr-2'></span>
 						<div class='media-body'>
-							<span><?php
-								esc_html_e( "Contact Number", "classified-listing" ); ?></span>
+							<span class="contact-label"><?php esc_html_e( "Contact Number", "classified-listing" ); ?></span>
 							<div class='numbers'><?php
 								if ( $phone && Functions::check_visibility( $listing->get_author_id(), 'phone' ) ) {
 									echo esc_html( $phone_options['safe_phone'] );
@@ -988,7 +998,7 @@ class TemplateHooks {
 	public static function add_favourite_button( $listing ) {
 		if ( Functions::is_enable_favourite() ) { ?>
 			<div class="rtcl-tooltip-wrapper rtcl-btn"
-				 data-listing_id="<?php
+			     data-listing_id="<?php
 				 echo absint( $listing->get_id() ) ?>">
 				<?php
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -1045,7 +1055,7 @@ class TemplateHooks {
 		<div class="rtcl-form-group">
 			<div class="rtcl-field-col">
 				<input type="submit" name="submit" class="rtcl-btn"
-					   value="<?php
+				       value="<?php
 					   esc_attr_e( 'Update Account', 'classified-listing' ); ?>"/>
 			</div>
 		</div>
@@ -1065,7 +1075,7 @@ class TemplateHooks {
 				$social_media   = get_current_user_id() ? Functions::get_user_social_profile( get_current_user_id() ) : [];
 				foreach ( $social_options as $key => $social_option ) {
 					echo sprintf(
-						'<input type="url" name="social_media[%1$s]" id="rtcl-account-social-%1$s" value="%2$s" placeholder="%3$s" class="rtcl-form-control"/>',
+						'<div class="rtcl-social-item"><input type="url" name="social_media[%1$s]" id="rtcl-account-social-%1$s" value="%2$s" placeholder="%3$s" data-social="%1$s" class="rtcl-form-control rtcl-social-url"/></div>',
 						esc_attr( $key ),
 						esc_url( isset( $social_media[ $key ] ) ? $social_media[ $key ] : '' ),
 						esc_html( $social_option ),
@@ -1093,7 +1103,7 @@ class TemplateHooks {
 					<span class="require-star">*</span>
 				</label>
 				<select id="rtcl-location" name="location"
-						class="rtcl-select2 rtcl-select rtcl-form-control rtcl-map-field" required>
+				        class="rtcl-select2 rtcl-select rtcl-form-control rtcl-map-field" required>
 					<option value="">--<?php
 						esc_html_e( 'Select state', 'classified-listing' ) ?>--
 					</option>
@@ -1107,8 +1117,8 @@ class TemplateHooks {
 								$slt         = " selected";
 							}
 							echo "<option value='" . esc_attr( $location->term_id ) . "'" . esc_attr( $slt ) . ">" .
-								 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								 $location->name . "</option>";
+							     // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							     $location->name . "</option>";
 						}
 					} ?>
 				</select>
@@ -1125,7 +1135,7 @@ class TemplateHooks {
 					<span class="require-star">*</span>
 				</label>
 				<select id="rtcl-sub-location" name="sub_location"
-						class="rtcl-select2 rtcl-select rtcl-form-control rtcl-map-field" required>
+				        class="rtcl-select2 rtcl-select rtcl-form-control rtcl-map-field" required>
 					<option value="">--<?php
 						esc_html_e( 'Select location', 'classified-listing' ) ?>--
 					</option>
@@ -1138,8 +1148,8 @@ class TemplateHooks {
 								$slt             = " selected";
 							}
 							echo "<option value='" . esc_attr( $location->term_id ) . "'" . esc_attr( $slt ) . ">" .
-								 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								 $location->name . "</option>";
+							     // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							     $location->name . "</option>";
 						}
 					} ?>
 				</select>
@@ -1151,14 +1161,14 @@ class TemplateHooks {
 			} ?>
 			<div class="rtcl-field-col<?php
 			echo empty( $sub_sub_locations ) ? ' rtcl-hide' : ''; ?>"
-				 id="sub-sub-location-row">
+			     id="sub-sub-location-row">
 				<label for='rtcl-sub-sub-location' class="rtcl-field-label">
 					<?php
 					echo esc_html( $town_text ); ?>
 					<span class="require-star">*</span>
 				</label>
 				<select id="rtcl-sub-sub-location" name="sub_sub_location"
-						class="rtcl-select2 rtcl-select rtcl-form-control rtcl-map-field" required>
+				        class="rtcl-select2 rtcl-select rtcl-form-control rtcl-map-field" required>
 					<option value="">--<?php
 						esc_html_e( 'Select location', 'classified-listing' ) ?>--
 					</option>
@@ -1170,8 +1180,8 @@ class TemplateHooks {
 								$slt = " selected";
 							}
 							echo "<option value='" . esc_attr( $location->term_id ) . "'" . esc_attr( $slt ) . ">" .
-								 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-								 $location->name . "</option>";
+							     // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							     $location->name . "</option>";
 						}
 					} ?>
 				</select>
@@ -1179,20 +1189,20 @@ class TemplateHooks {
 			<?php if ( apply_filters( 'rtcl_myaccount_enable_zipcode_field', true ) ) { ?>
 				<div class="rtcl-field-col">
 					<label for="rtcl-zipcode"
-						   class="rtcl-field-label"><?php
+					       class="rtcl-field-label"><?php
 						esc_html_e( "Zip Code", "classified-listing" ) ?></label>
 					<input type="text" name="zipcode" value="<?php
 					echo esc_attr( $zipcode ); ?>"
-						   class="rtcl-map-field rtcl-form-control" id="rtcl-zipcode"/>
+					       class="rtcl-map-field rtcl-form-control" id="rtcl-zipcode"/>
 				</div>
 			<?php } ?>
 			<?php if ( apply_filters( 'rtcl_myaccount_enable_address_field', true ) ) { ?>
 				<div class="rtcl-field-col">
 					<label for="rtcl-address"
-						   class="rtcl-field-label"><?php
+					       class="rtcl-field-label"><?php
 						esc_html_e( "Address", "classified-listing" ) ?></label>
 					<textarea name="address" rows="3" class="rtcl-map-field rtcl-form-control"
-							  id="rtcl-address"><?php
+					          id="rtcl-address"><?php
 						echo esc_textarea( $address ); ?></textarea>
 				</div>
 			<?php } ?>
@@ -1212,12 +1222,12 @@ class TemplateHooks {
 			<div class="rtcl-field-col">
 				<div class="rtcl-geo-address-field">
 					<input type="text" name="rtcl_geo_address" autocomplete="off"
-						   value="<?php
+					       value="<?php
 						   echo esc_attr( $geo_address ) ?>"
-						   id="rtcl-geo-address"
-						   placeholder="<?php
+					       id="rtcl-geo-address"
+					       placeholder="<?php
 						   esc_attr_e( "Select a location", "classified-listing" ) ?>"
-						   class="rtcl-form-control rtcl-geo-address-input rtcl_geo_address_input"/>
+					       class="rtcl-form-control rtcl-geo-address-input rtcl_geo_address_input"/>
 					<i class="rtcl-get-location rtcl-icon rtcl-icon-target" id="rtcl-geo-loc-form"></i>
 				</div>
 			</div>
@@ -1240,9 +1250,9 @@ class TemplateHooks {
 					<div class="rtcl-map" data-type="input">
 						<div class="marker" data-latitude="<?php
 						echo esc_attr( $latitude ); ?>"
-							 data-longitude="<?php
+						     data-longitude="<?php
 							 echo esc_attr( $longitude ); ?>"
-							 data-address="<?php
+						     data-address="<?php
 							 echo esc_attr( $address ); ?>"><?php
 							echo esc_html( $address ); ?></div>
 					</div>
@@ -1516,11 +1526,11 @@ class TemplateHooks {
 					<strong class="rtcl-required">*</strong>
 				</label>
 				<input type="text" name="first_name" id="rtcl-reg-first-name"
-					   value="<?php
+				       value="<?php
 					   if ( ! empty( $_POST['first_name'] ) ) {
 						   echo esc_attr( $_POST['first_name'] );
 					   } ?>"
-					   class="rtcl-form-control" required/>
+				       class="rtcl-form-control" required/>
 			</div>
 			<div class="second-name-column">
 				<label for="rtcl-reg-last-name" class="rtcl-field-label">
@@ -1529,11 +1539,11 @@ class TemplateHooks {
 					<strong class="rtcl-required">*</strong>
 				</label>
 				<input type="text" name="last_name"
-					   value="<?php
+				       value="<?php
 					   if ( ! empty( $_POST['last_name'] ) ) {
 						   echo esc_attr( $_POST['last_name'] );
 					   } ?>"
-					   id="rtcl-reg-last-name" class="rtcl-form-control" required/>
+				       id="rtcl-reg-last-name" class="rtcl-form-control" required/>
 			</div>
 		</div>
 		<?php
@@ -1588,13 +1598,16 @@ class TemplateHooks {
 				endif; ?>
 			</label>
 			<div class="rtcl-phone-field-button">
-				<input type="text" name="phone"
-					   value="<?php
-					   if ( ! empty( $_POST['phone'] ) ) {
-						   echo esc_attr( $_POST['phone'] );
-					   } ?>"
-					   id="rtcl-reg-phone" class="rtcl-form-control"<?php
-				echo $is_required ? ' required' : '' ?>/>
+				<?php $reg_phone = ! empty( $_POST['phone'] ) ? esc_attr( wp_unslash( $_POST['phone'] ) ) : ''; ?>
+				<div class="rtcl-intl-phone-field">
+					<input type="text" name="phone_local" id="rtcl-reg-phone"
+					       value="<?php echo esc_attr( $reg_phone ); ?>"
+					       class="rtcl-form-control rtcl-intl-phone"
+					       data-target="phone"
+					       data-rule-rtclintlphone="true"
+					       autocomplete="off"<?php echo $is_required ? ' required' : ''; ?>/>
+					<input type="hidden" name="phone" value="<?php echo esc_attr( $reg_phone ); ?>"/>
+				</div>
 				<?php do_action( 'rtcl_register_form_phone_inner' ); ?>
 			</div>
 			<?php do_action( 'rtcl_register_form_phone_end' ); ?>
@@ -1823,9 +1836,9 @@ class TemplateHooks {
 			return;
 		}
 		echo '<h3 class="' . esc_attr( apply_filters( 'rtcl_listing_loop_title_classes', 'listing-title rtcl-listing-title' ) ) . '"><a href="'
-			 . esc_url( $listing->get_the_permalink() ) . '">' .
-			 // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			 $listing->get_the_title() . '</a></h3>';
+		     . esc_url( $listing->get_the_permalink() ) . '">' .
+		     // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		     $listing->get_the_title() . '</a></h3>';
 	}
 
 	public static function loop_item_wrapper_start() {
@@ -1918,7 +1931,7 @@ public static function output_main_wrapper_start() {
 		}
 
 		if ( is_post_type_archive( rtcl()->post_type )
-			 && in_array( absint( get_query_var( 'paged' ) ), [
+		     && in_array( absint( get_query_var( 'paged' ) ), [
 				0,
 				1,
 			], true )
@@ -2170,10 +2183,13 @@ public static function output_main_wrapper_start() {
 
 
 	public static function add_checkout_form_instruction() {
-		?>
-		<p><?php
-			esc_html_e( 'Please review your order, and click purchase once you are ready to proceed.', 'classified-listing' ); ?></p>
-		<?php
+		if ( Functions::is_user_type_buyer() ) {
+			Functions::add_notice( __( 'You do not have sufficient permissions to access this page.', 'classified-listing' ), 'error' );
+			Functions::print_notices();
+		} else { ?>
+			<p><?php esc_html_e( 'Please review your order, and click purchase once you are ready to proceed.', 'classified-listing' ); ?></p>
+			<?php
+		}
 	}
 
 
@@ -2240,7 +2256,7 @@ public static function output_main_wrapper_start() {
 				echo apply_filters( 'rtcl_checkout_myaccount_btn_text', esc_html__( 'Go to My Account', 'classified-listing' ) ); ?>
 			</a>
 			<button type="submit" id="rtcl-checkout-submit-btn" name="rtcl-checkout" class="rtcl-btn rtcl-btn-primary"
-					value="1">
+			        value="1">
 				<?php
 				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				echo apply_filters( 'rtcl_checkout_payment_btn_text', esc_html__( 'Proceed to payment', 'classified-listing' ) ); ?>
@@ -2258,8 +2274,8 @@ public static function output_main_wrapper_start() {
 	public static function add_checkout_hidden_field( $type ) {
 		wp_nonce_field( 'rtcl_checkout', 'rtcl_checkout_nonce' );
 		printf( '<input type="hidden" name="type" value="%s"/>', esc_attr( $type ) ); ?><input type="hidden"
-																							   name="action"
-																							   value="rtcl_ajax_checkout_action"/><?php
+		                                                                                       name="action"
+		                                                                                       value="rtcl_ajax_checkout_action"/><?php
 	}
 
 
@@ -2289,7 +2305,7 @@ public static function output_main_wrapper_start() {
 
 		if ( $page && 'publish' === $page->post_status && $page->post_content && ! has_shortcode( $page->post_content, 'rtcl_checkout' ) ) {
 			echo '<div class="rtcl-terms-and-conditions" style="display: none; max-height: 200px; overflow: auto;">'
-				 . wp_kses_post( Functions::format_content( $page->post_content ) ) . '</div>';
+			     . wp_kses_post( Functions::format_content( $page->post_content ) ) . '</div>';
 		}
 	}
 

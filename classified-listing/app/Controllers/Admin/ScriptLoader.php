@@ -64,9 +64,23 @@ class ScriptLoader {
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_script_at_filter_builder' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_script_at_form_builder' ] );
 		add_action( 'login_enqueue_scripts', [ $this, 'resend_verification_link' ] );
+		add_filter( 'script_loader_tag', [ $this, 'add_module_type_to_react_scripts' ], 10, 2 );
+	}
+
+	function add_module_type_to_react_scripts( $tag, $handle ) {
+		$esm_handles = [ 'rtcl-fb-admin', 'rtcl-admin-settings', 'rtcl-admin-setup-wizard', 'rtcl-form-builder' ];
+		if ( in_array( $handle, $esm_handles, true ) ) {
+			$tag = str_replace( ' src=', ' type="module" src=', $tag );
+		}
+
+		return $tag;
 	}
 
 	function resend_verification_link() {
+		// The login page (wp-login.php) does not fire wp_enqueue_scripts or admin_init,
+		// so register_script_both_end() never runs here and rtcl-common is missing.
+		// Register it before enqueuing rtcl-verify-js to satisfy the dependency.
+		wp_register_script( 'rtcl-common', rtcl()->get_assets_uri( 'js/rtcl-common.min.js' ), [ 'jquery' ], $this->version );
 		wp_register_script(
 			'rtcl-verify-js',
 			rtcl()->get_assets_uri( 'js/login.min.js' ),
@@ -362,6 +376,8 @@ class ScriptLoader {
 					'nonce'                        => wp_create_nonce( rtcl()->nonceText ),
 					'i18n'                         => LocalizedString::public(),
 					'enabled_ai_image_enhancement' => Functions::is_image_enhancement_enabled(),
+					'countryPhoneList'             => $this->get_country_phone_list(),
+					'phoneDefaults'                => $this->get_phone_field_defaults(),
 				],
 			);
 			wp_enqueue_editor();
@@ -410,13 +426,24 @@ class ScriptLoader {
 			true,
 		);
 
+		wp_register_script(
+			'rtcl-edit-account',
+			rtcl()->get_assets_uri( "js/edit-account{$this->suffix}.js" ),
+			[
+				'jquery',
+				'rtcl-validator',
+			],
+			$this->version,
+			true,
+		);
+
 		$recaptcha_version = ! empty( $misc_settings['recaptcha_version'] ) ? $misc_settings['recaptcha_version'] : 2;
 		if ( $recaptcha_version == 3 ) {
 			wp_register_script( 'rtcl-recaptcha',
 				'https://www.google.com/recaptcha/api.js?render=' . esc_attr( $misc_settings['recaptcha_site_key'] ),
 				'',
 				RTCL_VERSION );
-		} else {
+		} elseif ( $recaptcha_version == 2 ) {
 			wp_register_script( 'rtcl-recaptcha',
 				'https://www.google.com/recaptcha/api.js?onload=rtcl_on_recaptcha_load&render=explicit',
 				'',
@@ -441,11 +468,19 @@ class ScriptLoader {
 			wp_enqueue_style( 'fontawesome' );
 			if ( ! is_user_logged_in() || isset( $wp->query_vars['lost-password'] ) ) {
 				$validator_script = true;
+				// Registration form: load the intl phone widget so its phone field
+				// gets the same flag/dial-code widget + validation as the account
+				// page (allowed/default country come from the Phone settings).
+				if ( Functions::is_registration_enabled()
+				     && ! Functions::get_option_item( 'rtcl_account_settings', 'disable_phone_at_registration', false, 'checkbox' ) ) {
+					$this->localize_intl_phone_script();
+				}
 			}
 			if ( isset( $wp->query_vars['edit-account'] ) || isset( $wp->query_vars['rtcl_edit_account'] ) ) {
 				$validator_script = true;
 				wp_enqueue_script( 'rtcl-map' );
 				wp_enqueue_script( 'rtcl-public-add-post' );
+				$this->localize_intl_phone_script();
 			}
 			if ( ! is_user_logged_in()
 			     && ( Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'registration', 'multi_checkbox' )
@@ -515,12 +550,20 @@ class ScriptLoader {
 			$rootVar = '';
 			if ( $primary ) {
 				$rootVar .= '--rtcl-primary-color:' . $primary . ';';
-				$style   .= ".rtcl .rtcl-icon, 
+				// Derived from the primary color above (no separate settings), computed in
+				// PHP so they work everywhere (no reliance on CSS color-mix()).
+				$primaryRgb = Functions::rgb_from_hex( $primary );
+				$rootVar    .= '--rtcl-primary-rgb:' . $primaryRgb['R'] . ',' . $primaryRgb['G'] . ',' . $primaryRgb['B'] . ';';
+				$rootVar    .= '--rtcl-primary-tint:rgba(' . $primaryRgb['R'] . ',' . $primaryRgb['G'] . ',' . $primaryRgb['B'] . ',0.08);';
+				$rootVar    .= '--rtcl-primary-soft:rgba(' . $primaryRgb['R'] . ',' . $primaryRgb['G'] . ',' . $primaryRgb['B'] . ',0.04);';
+				$rootVar    .= '--rtcl-primary-dark:' . Functions::hex_darker( $primary, 15 ) . ';';
+				$rootVar    .= '--rtcl-secondary-color:' . Functions::hex_darker( $primary, 15 ) . ';';
+				$style      .= ".rtcl .rtcl-icon, 
 							.rtcl-chat-form button.rtcl-chat-send, 
 							.rtcl-chat-container a.rtcl-chat-card-link .rtcl-cc-content .rtcl-cc-listing-amount,
 							.rtcl-chat-container ul.rtcl-messages-list .rtcl-message span.read-receipt-status .rtcl-icon.rtcl-read{color: $primary;}";
-				$style   .= '#rtcl-chat-modal {background-color: var(--rtcl-primary-color); border-color: var(--rtcl-primary-color)}';
-				$style   .= '#rtcl-compare-btn-wrap a.rtcl-compare-btn, .rtcl-btn, #rtcl-compare-panel-btn, .rtcl-chat-container ul.rtcl-messages-list .rtcl-message-wrap.own-message .rtcl-message-text, .rtcl-sold-out {background : var(--rtcl-primary-color);}';
+				$style      .= '#rtcl-chat-modal {background-color: var(--rtcl-primary-color); border-color: var(--rtcl-primary-color)}';
+				$style      .= '#rtcl-compare-btn-wrap a.rtcl-compare-btn, .rtcl-btn, #rtcl-compare-panel-btn, .rtcl-chat-container ul.rtcl-messages-list .rtcl-message-wrap.own-message .rtcl-message-text, .rtcl-sold-out {background : var(--rtcl-primary-color);}';
 			}
 			$link = ! empty( $rtcl_style_opt['link'] ) ? $rtcl_style_opt['link'] : null;
 			if ( $link ) {
@@ -1168,10 +1211,13 @@ class ScriptLoader {
 		}
 
 		wp_enqueue_style( 'rtcl-admin' );
+		wp_enqueue_style( 'fontawesome' );
 
 		wp_enqueue_script( 'select2' );
 		wp_enqueue_script( 'rtcl-validator' );
 		wp_enqueue_script( 'rtcl-admin' );
+		// Powers the .rtcl-select2-icon picker (icon preview in the dropdown).
+		wp_enqueue_script( 'rtcl-admin-taxonomy' );
 	}
 
 	public function load_admin_script_taxonomy() {
@@ -1197,7 +1243,7 @@ class ScriptLoader {
 	/**
 	 * Script load
 	 *
-	 * @param  string  $hook
+	 * @param string $hook
 	 */
 	public function load_script_at_widget_settings( $hook ) {
 		if ( 'widgets.php' !== $hook ) {
@@ -1209,11 +1255,20 @@ class ScriptLoader {
 	}
 
 	/**
-	 * @param  String  $hook
+	 * @param String $hook
 	 */
 	public function load_script_at_form_builder( $hook ) {
 		if ( ! preg_match( "#_page_rtcl-fb$#", $hook ) || ! empty( $_GET['page'] ) && $_GET['page'] !== 'rtcl-fb' ) {
 			return;
+		}
+
+		// Chat is a Pro-only element. Keep it in AvailableFields::singleLayoutFields()
+		// (the save sanitizer relies on that list to preserve chat fields already
+		// saved in a layout), but don't offer it in the builder palette when Pro
+		// is inactive — otherwise a user could add a field that fatals on render.
+		$slPaletteFields = AvailableFields::singleLayoutFields();
+		if ( ! rtcl()->has_pro() ) {
+			unset( $slPaletteFields['chat'] );
 		}
 
 		$formBuilderLocalize = [
@@ -1226,7 +1281,7 @@ class ScriptLoader {
 			'settingFields'    => AvailableFields::settings(),
 			'optionFields'     => AvailableFields::optionFields(),
 			'slSettingsFields' => AvailableFields::singleLayoutSettingsFields(),
-			'slFields'         => AvailableFields::singleLayoutFields(),
+			'slFields'         => $slPaletteFields,
 			'editor'           => [
 				'settingsFields'    => ElementCustomization::settingsFields(),
 				'settings'          => [],
@@ -1237,6 +1292,9 @@ class ScriptLoader {
 			'validation'       => ValidationRuleSettings::get(),
 			'fields'           => AvailableFields::get(),
 			'i18n'             => LocalizedString::admin(),
+			'countryPhoneList' => $this->get_country_phone_list(),
+			'phoneDefaults'    => $this->get_phone_field_defaults(),
+			'siteUrl'          => home_url( '/' ),
 		];
 
 		if ( defined( 'ICL_SITEPRESS_VERSION' ) ) {
@@ -1249,7 +1307,7 @@ class ScriptLoader {
 	}
 
 	/**
-	 * @param  String  $hook
+	 * @param String $hook
 	 */
 	public function load_script_at_filter_builder( $hook ) {
 		if ( ! preg_match( "#_page_rtcl-ajax-filter$#", $hook ) || ! empty( $_GET['page'] ) && $_GET['page'] !== 'rtcl-ajax-filter' ) {
@@ -1301,7 +1359,7 @@ class ScriptLoader {
 	/**
 	 * Return data for script handles.
 	 *
-	 * @param  string  $handle  Script handle the data will be attached to.
+	 * @param string $handle Script handle the data will be attached to.
 	 *
 	 * @return array|bool
 	 */
@@ -1335,10 +1393,102 @@ class ScriptLoader {
 	}
 
 	/**
-	 * @param  boolean  $admin
+	 * @param boolean $admin
 	 *
 	 * @return array
 	 */
+	/**
+	 * Global phone-field defaults from Settings → Misc → Phone
+	 * (`rtcl_misc_phone_settings`). Used as the fallback for both the account
+	 * details form and form-builder phone/whatsapp fields.
+	 *
+	 * @return array{default_country:string, allowed_countries:array}
+	 */
+	/**
+	 * Enqueue the international phone widget script and localize its config —
+	 * the country list and default country from the Phone settings
+	 * (rtcl_misc_phone_settings). When no countries are explicitly allowed the
+	 * full list is offered. Shared by the edit-account form and the registration
+	 * form so both phone fields behave identically.
+	 *
+	 * @return void
+	 */
+	private function localize_intl_phone_script() {
+		wp_enqueue_script( 'rtcl-edit-account' );
+
+		$phone_defaults     = $this->get_phone_field_defaults();
+		$allowed_countries  = $phone_defaults['allowed_countries'];
+		$default_country    = $phone_defaults['default_country'];
+		$phone_country_list = $this->get_country_phone_list();
+		// Allowed empty => render every country.
+		if ( ! empty( $allowed_countries ) ) {
+			$phone_country_list = array_values(
+				array_filter(
+					$phone_country_list,
+					static function ( $c ) use ( $allowed_countries ) {
+						return in_array( $c['value'], $allowed_countries, true );
+					}
+				)
+			);
+		}
+
+		wp_localize_script(
+			'rtcl-edit-account',
+			'rtcl_edit_account',
+			[
+				'countryPhoneList'       => $phone_country_list,
+				'default_country'        => $default_country,
+				'social_profiles'        => Options::get_social_profiles_list(),
+				'social_profile_domains' => Options::get_social_profile_domains(),
+				'i18n'                   => [
+					'search'             => esc_html__( 'Search', 'classified-listing' ),
+					'need_country'       => esc_html__( 'Please select a country code.', 'classified-listing' ),
+					'invalid_phone'      => esc_html__( 'Please enter a valid phone number for the selected country.', 'classified-listing' ),
+					'invalid_telegram'   => esc_html__( 'Telegram ID must start with @ and be 5–32 characters (letters, numbers and underscore).', 'classified-listing' ),
+					/* translators: %s: social platform name, e.g. Facebook */
+					'invalid_social_url' => esc_html__( 'Please enter a valid %s URL', 'classified-listing' ),
+				],
+			]
+		);
+	}
+
+	private function get_phone_field_defaults(): array {
+		$allowed = (array) Functions::get_option_item( 'rtcl_misc_phone_settings', 'phone_allowed_countries' );
+		$allowed = array_values( array_filter( array_map( 'strval', $allowed ) ) );
+
+		$default = Functions::get_option_item( 'rtcl_misc_phone_settings', 'phone_default_country' );
+		if ( ! $default ) {
+			$default = rtcl()->countries->get_base_country();
+		}
+		// Default must be within the allowed set (if any).
+		if ( ! empty( $allowed ) && ! in_array( $default, $allowed, true ) ) {
+			$default = reset( $allowed );
+		}
+
+		return [
+			'default_country'   => $default,
+			'allowed_countries' => $allowed,
+		];
+	}
+
+	private function get_country_phone_list(): array {
+		$countries = rtcl()->countries->get_countries();
+		$list      = [];
+		foreach ( $countries as $code => $name ) {
+			$dial_code = rtcl()->countries->get_country_calling_code( $code );
+			if ( ! $dial_code ) {
+				continue;
+			}
+			$list[] = [
+				'value'     => $code,
+				'label'     => $name . ' (' . $dial_code . ')',
+				'dial_code' => $dial_code,
+			];
+		}
+
+		return $list;
+	}
+
 	private function get_fb_settings_options( bool $admin = false ): array {
 		// 'timezones'       => Options::get_timezone_list()
 		$currency = Functions::get_currency();
@@ -1355,6 +1505,7 @@ class ScriptLoader {
 				],
 			],
 			'social_profiles' => Options::get_social_profiles_list(),
+			'social_profile_domains' => Options::get_social_profile_domains(),
 			'recaptcha'       => [
 				'version'  => Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_version', 2 ),
 				'site_key' => Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_site_key' ),

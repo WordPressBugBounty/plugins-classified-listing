@@ -129,6 +129,13 @@ class FormBuilderAjax {
 			return;
 		}
 
+		// The form data arrives URL-decoded (unslashed) via parse_str(), but
+		// wp_update_post()/update_post_meta() below expect slashed input and
+		// unslash internally. Slash it here — after validation — so special
+		// characters (backslashes, quotes) round-trip losslessly instead of
+		// being stripped on each save.
+		$formData = wp_slash( $formData );
+
 		// Data prepare
 		$user_id             = get_current_user_id();
 		$post_for_unregister = Functions::is_enable_post_for_unregister();
@@ -266,6 +273,12 @@ class FormBuilderAjax {
 				} elseif ( 'whatsapp' === $element ) {
 					$metaData[] = [
 						'name'  => '_rtcl_whatsapp_number',
+						'field' => $field,
+						'value' => Functions::sanitize( $rawValue ),
+					];
+				} elseif ( 'telegram' === $element ) {
+					$metaData[] = [
+						'name'  => '_rtcl_telegram',
 						'field' => $field,
 						'value' => Functions::sanitize( $rawValue ),
 					];
@@ -422,6 +435,13 @@ class FormBuilderAjax {
 		}
 
 		wp_set_object_terms( $listing_id, ! empty( $taxonomy['tag'] ) ? $taxonomy['tag'] : null, rtcl()->tag );
+
+		if ( FBHelper::isEnableSlugBuilder( $form ) ) {
+			$generated_slug = FBHelper::generateSlugFromBuilder( $form, $formData, $listing_id );
+			if ( $generated_slug ) {
+				wp_update_post( [ 'ID' => $listing_id, 'post_name' => $generated_slug ] );
+			}
+		}
 
 		$metaData = apply_filters( 'rtcl_fb_metadata_fields_before_save', $metaData, $postingType );
 		/* meta data */
@@ -1019,7 +1039,13 @@ class FormBuilderAjax {
 		if ( ! empty( $field['validation']['max_file_count']['value'] ) ) {
 			$maxFileCount = absint( $field['validation']['max_file_count']['value'] );
 			if ( $maxFileCount && count( $attachment_ids ) >= $maxFileCount ) {
-				$message = ! empty( $field['validation']['max_file_count']['message'] ) ? str_replace( '{value}', $maxFileCount, $field['validation']['max_file_count']['message'] ) : esc_html__( 'Your file upload limit is over.', 'classified-listing' );
+				$message = ! empty( $field['validation']['max_file_count']['message'] )
+					? str_replace(
+						[ '{value}', '{images}' ],
+						[ $maxFileCount, _n( 'image', 'images', $maxFileCount, 'classified-listing' ) ],
+						$field['validation']['max_file_count']['message']
+					)
+					: esc_html__( 'Your file upload limit is over.', 'classified-listing' );
 				wp_send_json_error( $message );
 
 				return;

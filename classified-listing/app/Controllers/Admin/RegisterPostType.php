@@ -28,23 +28,23 @@ class RegisterPostType {
 		$permalinks = Functions::get_permalink_structure();
 
 		$cat_labels = [
-			'name'                       => esc_html_x( 'Listing Categories', 'Taxonomy General Name', 'classified-listing' ),
-			'singular_name'              => esc_html_x( 'Category', 'Taxonomy Singular Name', 'classified-listing' ),
-			'menu_name'                  => esc_html__( 'Categories', 'classified-listing' ),
-			'all_items'                  => esc_html__( 'All Categories', 'classified-listing' ),
-			'parent_item'                => esc_html__( 'Parent Category', 'classified-listing' ),
-			'parent_item_colon'          => esc_html__( 'Parent Category:', 'classified-listing' ),
-			'new_item_name'              => esc_html__( 'New Category Name', 'classified-listing' ),
-			'add_new_item'               => esc_html__( 'Add New Category', 'classified-listing' ),
-			'edit_item'                  => esc_html__( 'Edit Category', 'classified-listing' ),
-			'update_item'                => esc_html__( 'Update Category', 'classified-listing' ),
-			'view_item'                  => esc_html__( 'View Category', 'classified-listing' ),
-			'separate_items_with_commas' => esc_html__( 'Separate Categories with commas', 'classified-listing' ),
-			'add_or_remove_items'        => esc_html__( 'Add or remove Categories', 'classified-listing' ),
-			'choose_from_most_used'      => esc_html__( 'Choose from the most used', 'classified-listing' ),
+			'name'                       => _x( 'Listing Categories', 'Taxonomy General Name', 'classified-listing' ),
+			'singular_name'              => _x( 'Category', 'Taxonomy Singular Name', 'classified-listing' ),
+			'menu_name'                  => __( 'Categories', 'classified-listing' ),
+			'all_items'                  => __( 'All Categories', 'classified-listing' ),
+			'parent_item'                => __( 'Parent Category', 'classified-listing' ),
+			'parent_item_colon'          => __( 'Parent Category:', 'classified-listing' ),
+			'new_item_name'              => __( 'New Category Name', 'classified-listing' ),
+			'add_new_item'               => __( 'Add New Category', 'classified-listing' ),
+			'edit_item'                  => __( 'Edit Category', 'classified-listing' ),
+			'update_item'                => __( 'Update Category', 'classified-listing' ),
+			'view_item'                  => __( 'View Category', 'classified-listing' ),
+			'separate_items_with_commas' => __( 'Separate Categories with commas', 'classified-listing' ),
+			'add_or_remove_items'        => __( 'Add or remove Categories', 'classified-listing' ),
+			'choose_from_most_used'      => __( 'Choose from the most used', 'classified-listing' ),
 			'popular_items'              => null,
-			'search_items'               => esc_html__( 'Search Categories', 'classified-listing' ),
-			'not_found'                  => esc_html__( 'Not Found', 'classified-listing' ),
+			'search_items'               => __( 'Search Categories', 'classified-listing' ),
+			'not_found'                  => __( 'Not Found', 'classified-listing' ),
 		];
 
 		$cat_args = [
@@ -73,23 +73,23 @@ class RegisterPostType {
 
 		if ( 'local' === Functions::location_type() ) {
 			$location_labels = [
-				'name'                       => esc_html_x( 'Listing Locations', 'Taxonomy General Name', 'classified-listing' ),
-				'singular_name'              => esc_html_x( 'Location', 'Taxonomy Singular Name', 'classified-listing' ),
-				'menu_name'                  => esc_html__( 'Locations', 'classified-listing' ),
-				'all_items'                  => esc_html__( 'All Locations', 'classified-listing' ),
-				'parent_item'                => esc_html__( 'Parent Location', 'classified-listing' ),
-				'parent_item_colon'          => esc_html__( 'Parent Location:', 'classified-listing' ),
-				'new_item_name'              => esc_html__( 'New Location Name', 'classified-listing' ),
-				'add_new_item'               => esc_html__( 'Add New Location', 'classified-listing' ),
-				'edit_item'                  => esc_html__( 'Edit Location', 'classified-listing' ),
-				'update_item'                => esc_html__( 'Update Location', 'classified-listing' ),
-				'view_item'                  => esc_html__( 'View Location', 'classified-listing' ),
-				'separate_items_with_commas' => esc_html__( 'Separate Locations with commas', 'classified-listing' ),
-				'add_or_remove_items'        => esc_html__( 'Add or remove Locations', 'classified-listing' ),
-				'choose_from_most_used'      => esc_html__( 'Choose from the most used', 'classified-listing' ),
+				'name'                       => _x( 'Listing Locations', 'Taxonomy General Name', 'classified-listing' ),
+				'singular_name'              => _x( 'Location', 'Taxonomy Singular Name', 'classified-listing' ),
+				'menu_name'                  => __( 'Locations', 'classified-listing' ),
+				'all_items'                  => __( 'All Locations', 'classified-listing' ),
+				'parent_item'                => __( 'Parent Location', 'classified-listing' ),
+				'parent_item_colon'          => __( 'Parent Location:', 'classified-listing' ),
+				'new_item_name'              => __( 'New Location Name', 'classified-listing' ),
+				'add_new_item'               => __( 'Add New Location', 'classified-listing' ),
+				'edit_item'                  => __( 'Edit Location', 'classified-listing' ),
+				'update_item'                => __( 'Update Location', 'classified-listing' ),
+				'view_item'                  => __( 'View Location', 'classified-listing' ),
+				'separate_items_with_commas' => __( 'Separate Locations with commas', 'classified-listing' ),
+				'add_or_remove_items'        => __( 'Add or remove Locations', 'classified-listing' ),
+				'choose_from_most_used'      => __( 'Choose from the most used', 'classified-listing' ),
 				'popular_items'              => null,
-				'search_items'               => esc_html__( 'Search Locations', 'classified-listing' ),
-				'not_found'                  => esc_html__( 'Not Found', 'classified-listing' ),
+				'search_items'               => __( 'Search Locations', 'classified-listing' ),
+				'not_found'                  => __( 'Not Found', 'classified-listing' ),
 			];
 
 			$location_args = [
@@ -117,23 +117,23 @@ class RegisterPostType {
 		}
 
 		$tag_labels = [
-			'name'                       => esc_html_x( 'Tags', 'Taxonomy General Name', 'classified-listing' ),
-			'singular_name'              => esc_html_x( 'Tag', 'Taxonomy Singular Name', 'classified-listing' ),
-			'menu_name'                  => esc_html__( 'Tags', 'classified-listing' ),
-			'all_items'                  => esc_html__( 'All Tags', 'classified-listing' ),
-			'parent_item'                => esc_html__( 'Parent Tag', 'classified-listing' ),
-			'parent_item_colon'          => esc_html__( 'Parent Tag:', 'classified-listing' ),
-			'new_item_name'              => esc_html__( 'New Tag Name', 'classified-listing' ),
-			'add_new_item'               => esc_html__( 'Add New Tag', 'classified-listing' ),
-			'edit_item'                  => esc_html__( 'Edit Tag', 'classified-listing' ),
-			'update_item'                => esc_html__( 'Update Tag', 'classified-listing' ),
-			'view_item'                  => esc_html__( 'View Tag', 'classified-listing' ),
-			'separate_items_with_commas' => esc_html__( 'Separate with commas or the Enter key.', 'classified-listing' ),
-			'add_or_remove_items'        => esc_html__( 'Add or remove Tags', 'classified-listing' ),
-			'choose_from_most_used'      => esc_html__( 'Choose from the most used', 'classified-listing' ),
+			'name'                       => _x( 'Tags', 'Taxonomy General Name', 'classified-listing' ),
+			'singular_name'              => _x( 'Tag', 'Taxonomy Singular Name', 'classified-listing' ),
+			'menu_name'                  => __( 'Tags', 'classified-listing' ),
+			'all_items'                  => __( 'All Tags', 'classified-listing' ),
+			'parent_item'                => __( 'Parent Tag', 'classified-listing' ),
+			'parent_item_colon'          => __( 'Parent Tag:', 'classified-listing' ),
+			'new_item_name'              => __( 'New Tag Name', 'classified-listing' ),
+			'add_new_item'               => __( 'Add New Tag', 'classified-listing' ),
+			'edit_item'                  => __( 'Edit Tag', 'classified-listing' ),
+			'update_item'                => __( 'Update Tag', 'classified-listing' ),
+			'view_item'                  => __( 'View Tag', 'classified-listing' ),
+			'separate_items_with_commas' => __( 'Separate with commas or the Enter key.', 'classified-listing' ),
+			'add_or_remove_items'        => __( 'Add or remove Tags', 'classified-listing' ),
+			'choose_from_most_used'      => __( 'Choose from the most used', 'classified-listing' ),
 			'popular_items'              => null,
-			'search_items'               => esc_html__( 'Search Tags', 'classified-listing' ),
-			'not_found'                  => esc_html__( 'Not Found', 'classified-listing' ),
+			'search_items'               => __( 'Search Tags', 'classified-listing' ),
+			'not_found'                  => __( 'Not Found', 'classified-listing' ),
 		];
 
 		$tag_args = [
@@ -172,22 +172,26 @@ class RegisterPostType {
 
 		$permalinks = Functions::get_permalink_structure();
 
+		// NOTE: register_post_type() labels must be PLAIN strings — use _x()/__(), never esc_html_*().
+		// WordPress (and well-behaved consumers) escape labels at display time; pre-escaping here double-encodes
+		// any translation containing an apostrophe/quote (e.g. Uzbek "bo'yicha" -> "bo&#039;yicha"), which then
+		// shows raw entities in places that print the label directly, such as WPML's Translation dashboard.
 		$labels                  = [
-			'name'               => esc_html_x( 'Classified Listings', 'post type general name', 'classified-listing' ),
-			'singular_name'      => esc_html_x( 'Classified Listing', 'post type singular name', 'classified-listing' ),
-			'add_new'            => esc_html_x( 'Add New', 'post', 'classified-listing' ),
-			'add_new_item'       => esc_html__( 'Add New Listing', 'classified-listing' ),
-			'edit_item'          => esc_html__( 'Edit Listing', 'classified-listing' ),
-			'new_item'           => esc_html__( 'New Listing', 'classified-listing' ),
-			'all_items'          => esc_html__( 'All Listings', 'classified-listing' ),
-			'view_item'          => esc_html__( 'View Listing', 'classified-listing' ),
-			'search_items'       => esc_html__( 'Search Listing', 'classified-listing' ),
-			'not_found'          => esc_html__( 'No Listings found', 'classified-listing' ),
-			'not_found_in_trash' => esc_html__( 'No Listing found in the Trash', 'classified-listing' ),
-			'name_admin_bar'     => esc_html__( 'Listing', 'classified-listing' ),
-			'update_item'        => esc_html__( 'Update Listing', 'classified-listing' ),
+			'name'               => _x( 'Classified Listings', 'post type general name', 'classified-listing' ),
+			'singular_name'      => _x( 'Classified Listing', 'post type singular name', 'classified-listing' ),
+			'add_new'            => _x( 'Add New', 'post', 'classified-listing' ),
+			'add_new_item'       => __( 'Add New Listing', 'classified-listing' ),
+			'edit_item'          => __( 'Edit Listing', 'classified-listing' ),
+			'new_item'           => __( 'New Listing', 'classified-listing' ),
+			'all_items'          => __( 'All Listings', 'classified-listing' ),
+			'view_item'          => __( 'View Listing', 'classified-listing' ),
+			'search_items'       => __( 'Search Listing', 'classified-listing' ),
+			'not_found'          => __( 'No Listings found', 'classified-listing' ),
+			'not_found_in_trash' => __( 'No Listing found in the Trash', 'classified-listing' ),
+			'name_admin_bar'     => __( 'Listing', 'classified-listing' ),
+			'update_item'        => __( 'Update Listing', 'classified-listing' ),
 			'parent_item_colon'  => '',
-			'menu_name'          => esc_html__( 'Listings', 'classified-listing' ),
+			'menu_name'          => __( 'Listings', 'classified-listing' ),
 		];
 		$listing_support         = [ 'title', 'editor', 'author' ];
 		$single_listing_settings = Functions::get_option( 'rtcl_single_listing_settings' );
@@ -237,16 +241,16 @@ class RegisterPostType {
 		register_post_type( rtcl()->post_type, apply_filters( 'rtcl_register_listing_post_type_args', $args ) );
 
 		$cf_group_labels = [
-			'name'               => esc_html__( 'Custom Fields', 'classified-listing' ),
-			'singular_name'      => esc_html__( 'Custom Fields', 'classified-listing' ),
-			'add_new'            => esc_html__( 'Add New', 'classified-listing' ),
-			'add_new_item'       => esc_html__( 'Add New Field Group', 'classified-listing' ),
-			'edit_item'          => esc_html__( 'Edit Field Group', 'classified-listing' ),
-			'new_item'           => esc_html__( 'New Field Group', 'classified-listing' ),
-			'view_item'          => esc_html__( 'View Field Group', 'classified-listing' ),
-			'search_items'       => esc_html__( 'Search Field Groups', 'classified-listing' ),
-			'not_found'          => esc_html__( 'No Field Groups found', 'classified-listing' ),
-			'not_found_in_trash' => esc_html__( 'No Field Groups found in Trash', 'classified-listing' ),
+			'name'               => __( 'Custom Fields', 'classified-listing' ),
+			'singular_name'      => __( 'Custom Fields', 'classified-listing' ),
+			'add_new'            => __( 'Add New', 'classified-listing' ),
+			'add_new_item'       => __( 'Add New Field Group', 'classified-listing' ),
+			'edit_item'          => __( 'Edit Field Group', 'classified-listing' ),
+			'new_item'           => __( 'New Field Group', 'classified-listing' ),
+			'view_item'          => __( 'View Field Group', 'classified-listing' ),
+			'search_items'       => __( 'Search Field Groups', 'classified-listing' ),
+			'not_found'          => __( 'No Field Groups found', 'classified-listing' ),
+			'not_found_in_trash' => __( 'No Field Groups found in Trash', 'classified-listing' ),
 		];
 
 		register_post_type( rtcl()->post_type_cfg,
@@ -282,7 +286,7 @@ class RegisterPostType {
 		register_post_type( rtcl()->post_type_cf,
 			apply_filters( 'rtcl_register_listing_custom_field_args',
 				[
-					'label'        => esc_html__( 'Custom Field', 'classified-listing' ),
+					'label'        => __( 'Custom Field', 'classified-listing' ),
 					'public'       => false,
 					'hierarchical' => false,
 					'supports'     => false,
@@ -302,25 +306,25 @@ class RegisterPostType {
 		);
 
 		$payment_labels = [
-			'name'               => esc_html_x( 'Payment History', 'Post Type General Name', 'classified-listing' ),
-			'singular_name'      => esc_html_x( 'Payment', 'Post Type Singular Name', 'classified-listing' ),
-			'menu_name'          => esc_html__( 'Payment History', 'classified-listing' ),
-			'name_admin_bar'     => esc_html__( 'Payment', 'classified-listing' ),
-			'all_items'          => esc_html__( 'Payment History', 'classified-listing' ),
-			'add_new_item'       => esc_html__( 'Add New Payment', 'classified-listing' ),
-			'add_new'            => esc_html__( 'Add New', 'classified-listing' ),
-			'new_item'           => esc_html__( 'New Payment', 'classified-listing' ),
-			'edit_item'          => esc_html__( 'Edit Payment', 'classified-listing' ),
-			'update_item'        => esc_html__( 'Update Payment', 'classified-listing' ),
-			'view_item'          => esc_html__( 'View Payment', 'classified-listing' ),
-			'search_items'       => esc_html__( 'Search Payment', 'classified-listing' ),
-			'not_found'          => esc_html__( 'No payments found', 'classified-listing' ),
-			'not_found_in_trash' => esc_html__( 'No payments found in Trash', 'classified-listing' ),
+			'name'               => _x( 'Payment History', 'Post Type General Name', 'classified-listing' ),
+			'singular_name'      => _x( 'Payment', 'Post Type Singular Name', 'classified-listing' ),
+			'menu_name'          => __( 'Payment History', 'classified-listing' ),
+			'name_admin_bar'     => __( 'Payment', 'classified-listing' ),
+			'all_items'          => __( 'Payment History', 'classified-listing' ),
+			'add_new_item'       => __( 'Add New Payment', 'classified-listing' ),
+			'add_new'            => __( 'Add New', 'classified-listing' ),
+			'new_item'           => __( 'New Payment', 'classified-listing' ),
+			'edit_item'          => __( 'Edit Payment', 'classified-listing' ),
+			'update_item'        => __( 'Update Payment', 'classified-listing' ),
+			'view_item'          => __( 'View Payment', 'classified-listing' ),
+			'search_items'       => __( 'Search Payment', 'classified-listing' ),
+			'not_found'          => __( 'No payments found', 'classified-listing' ),
+			'not_found_in_trash' => __( 'No payments found in Trash', 'classified-listing' ),
 		];
 
 		$payment_args = [
-			'label'               => esc_html__( 'Payments', 'classified-listing' ),
-			'description'         => esc_html__( 'Post Type Description', 'classified-listing' ),
+			'label'               => __( 'Payments', 'classified-listing' ),
+			'description'         => __( 'Post Type Description', 'classified-listing' ),
 			'labels'              => $payment_labels,
 			'supports'            => [ 'title', 'comments', 'custom-fields' ],
 			'taxonomies'          => [ '' ],
@@ -339,20 +343,20 @@ class RegisterPostType {
 		];
 
 		$pricing_labels = [
-			'name'               => esc_html_x( 'Pricing', 'Post Type General Name', 'classified-listing' ),
-			'singular_name'      => esc_html_x( 'Pricing', 'Post Type Singular Name', 'classified-listing' ),
-			'menu_name'          => esc_html__( 'Pricing', 'classified-listing' ),
-			'name_admin_bar'     => esc_html__( 'Pricing', 'classified-listing' ),
-			'all_items'          => esc_html__( 'Pricing', 'classified-listing' ),
-			'add_new_item'       => esc_html__( 'Add New Pricing', 'classified-listing' ),
-			'add_new'            => esc_html__( 'Add New', 'classified-listing' ),
-			'new_item'           => esc_html__( 'New Pricing', 'classified-listing' ),
-			'edit_item'          => esc_html__( 'Edit Pricing', 'classified-listing' ),
-			'update_item'        => esc_html__( 'Update Pricing', 'classified-listing' ),
-			'view_item'          => esc_html__( 'View Pricing', 'classified-listing' ),
-			'search_items'       => esc_html__( 'Search Pricing', 'classified-listing' ),
-			'not_found'          => esc_html__( 'No Pricing found', 'classified-listing' ),
-			'not_found_in_trash' => esc_html__( 'No Pricing found in Trash', 'classified-listing' ),
+			'name'               => _x( 'Pricing', 'Post Type General Name', 'classified-listing' ),
+			'singular_name'      => _x( 'Pricing', 'Post Type Singular Name', 'classified-listing' ),
+			'menu_name'          => __( 'Pricing', 'classified-listing' ),
+			'name_admin_bar'     => __( 'Pricing', 'classified-listing' ),
+			'all_items'          => __( 'Pricing', 'classified-listing' ),
+			'add_new_item'       => __( 'Add New Pricing', 'classified-listing' ),
+			'add_new'            => __( 'Add New', 'classified-listing' ),
+			'new_item'           => __( 'New Pricing', 'classified-listing' ),
+			'edit_item'          => __( 'Edit Pricing', 'classified-listing' ),
+			'update_item'        => __( 'Update Pricing', 'classified-listing' ),
+			'view_item'          => __( 'View Pricing', 'classified-listing' ),
+			'search_items'       => __( 'Search Pricing', 'classified-listing' ),
+			'not_found'          => __( 'No Pricing found', 'classified-listing' ),
+			'not_found_in_trash' => __( 'No Pricing found in Trash', 'classified-listing' ),
 		];
 
 		$pricing_args = [
@@ -375,7 +379,7 @@ class RegisterPostType {
 
 	public static function register_post_status() {
 		register_post_status( 'rtcl-reviewed', [
-			'label'       => esc_html_x( 'Reviewed', 'post', 'classified-listing' ),
+			'label'       => _x( 'Reviewed', 'post', 'classified-listing' ),
 			'public'      => is_admin(),
 			'internal'    => false,
 			/* translators: Review Count */
@@ -383,7 +387,7 @@ class RegisterPostType {
 		] );
 
 		register_post_status( 'rtcl-expired', [
-			'label'       => esc_html_x( 'Expired', 'post', 'classified-listing' ),
+			'label'       => _x( 'Expired', 'post', 'classified-listing' ),
 			'public'      => is_admin(),
 			'internal'    => false,
 			/* translators: Expired Count */
@@ -391,7 +395,7 @@ class RegisterPostType {
 		] );
 
 		register_post_status( 'rtcl-temp', [
-			'label'                  => esc_html_x( 'Temporary', 'post', 'classified-listing' ),
+			'label'                  => _x( 'Temporary', 'post', 'classified-listing' ),
 			'public'                 => false,
 			'internal'               => false,
 			'show_in_admin_all_list' => false,
@@ -402,7 +406,7 @@ class RegisterPostType {
 		] );
 
 		register_post_status( 'rtcl-pending', [
-			'label'                     => esc_html_x( 'Pending payment', 'pending status payment', 'classified-listing' ),
+			'label'                     => _x( 'Pending payment', 'pending status payment', 'classified-listing' ),
 			'public'                    => is_admin(),
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
@@ -414,7 +418,7 @@ class RegisterPostType {
 		] );
 
 		register_post_status( 'rtcl-created', [
-			'label'                     => esc_html_x( 'Created', 'Payment status', 'classified-listing' ),
+			'label'                     => _x( 'Created', 'Payment status', 'classified-listing' ),
 			'public'                    => is_admin(),
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
@@ -426,7 +430,7 @@ class RegisterPostType {
 		] );
 
 		register_post_status( 'rtcl-completed', [
-			'label'                     => esc_html_x( 'Completed', 'Payment status', 'classified-listing' ),
+			'label'                     => _x( 'Completed', 'Payment status', 'classified-listing' ),
 			'public'                    => is_admin(),
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
@@ -438,7 +442,7 @@ class RegisterPostType {
 		] );
 
 		register_post_status( 'rtcl-failed', [
-			'label'                     => esc_html_x( 'Failed', 'Payment status', 'classified-listing' ),
+			'label'                     => _x( 'Failed', 'Payment status', 'classified-listing' ),
 			'public'                    => is_admin(),
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
@@ -448,7 +452,7 @@ class RegisterPostType {
 		] );
 
 		register_post_status( 'rtcl-cancelled', [
-			'label'                     => esc_html_x( 'Cancelled', 'Payment status', 'classified-listing' ),
+			'label'                     => _x( 'Cancelled', 'Payment status', 'classified-listing' ),
 			'public'                    => is_admin(),
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
@@ -460,7 +464,7 @@ class RegisterPostType {
 		] );
 
 		register_post_status( 'rtcl-refunded', [
-			'label'                     => esc_html_x( 'Refunded', 'Payment status', 'classified-listing' ),
+			'label'                     => _x( 'Refunded', 'Payment status', 'classified-listing' ),
 			'public'                    => is_admin(),
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
@@ -472,7 +476,7 @@ class RegisterPostType {
 		] );
 
 		register_post_status( 'rtcl-on-hold', [
-			'label'                     => esc_html_x( 'On hold', 'Payment status', 'classified-listing' ),
+			'label'                     => _x( 'On hold', 'Payment status', 'classified-listing' ),
 			'public'                    => is_admin(),
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,
@@ -483,7 +487,7 @@ class RegisterPostType {
 				'classified-listing' ),
 		] );
 		register_post_status( 'rtcl-processing', [
-			'label'                     => esc_html_x( 'Processing', 'Payment status', 'classified-listing' ),
+			'label'                     => _x( 'Processing', 'Payment status', 'classified-listing' ),
 			'public'                    => is_admin(),
 			'exclude_from_search'       => false,
 			'show_in_admin_all_list'    => true,

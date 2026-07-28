@@ -1,8 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "version": "1.0.0",
   "title": "Listings",
   "name": "rtcl/listing-ads",
   "category": "classified-list-gb",
+  "icon": "list-view",
   "description": "classified listing all listings",
   "keywords": [
 	"listings",
@@ -10,6 +13,6 @@
 	"listings-list",
 	"classified-listing"
    ],
-  "apiVersion": 2,
+  "editorScript": "rtcl-gb-blocks-js",
   "textdomain": "classified-listing"
 }

@@ -126,12 +126,17 @@ class MyAccount {
 	}
 
 	public static function profile_settings() {
-		$user_id               = get_current_user_id();
-		$user                  = get_userdata( $user_id );
-		$data['user']          = $user;
-		$data['show_phone']    = get_user_meta( $user_id, '_rtcl_display_phone_public', true );
-		$data['show_email']    = get_user_meta( $user_id, '_rtcl_display_email_public', true );
-		$data['show_whatsapp'] = get_user_meta( $user_id, '_rtcl_display_whatsapp_public', true );
+		$user_id      = get_current_user_id();
+		$user         = get_userdata( $user_id );
+		$data['user'] = $user;
+		// When a user has never saved their privacy settings the meta is empty, which
+		// left every radio unselected even though Functions::check_visibility() already
+		// treats "unset" as visible-to-everyone. Fall back to that same default so the
+		// form reflects the real behaviour. Filterable for admin/site-level overrides.
+		$default_visibility    = apply_filters( 'rtcl_default_display_visibility', 'yes', $user_id );
+		$data['show_phone']    = get_user_meta( $user_id, '_rtcl_display_phone_public', true ) ?: $default_visibility;
+		$data['show_email']    = get_user_meta( $user_id, '_rtcl_display_email_public', true ) ?: $default_visibility;
+		$data['show_whatsapp'] = get_user_meta( $user_id, '_rtcl_display_whatsapp_public', true ) ?: $default_visibility;
 		Functions::get_template( 'myaccount/profile-settings', apply_filters( 'rtcl_myaccount_profile_settings_template_data', $data, $user_id, $user ) );
 	}
 
@@ -201,6 +206,8 @@ class MyAccount {
 		$data['phone']           = get_user_meta( $user_id, '_rtcl_phone', true );
 		$data['whatsapp_number'] = get_user_meta( $user_id, '_rtcl_whatsapp_number', true );
 		$data['website']         = get_user_meta( $user_id, '_rtcl_website', true );
+		$data['telegram']        = get_user_meta( $user_id, '_rtcl_telegram', true );
+		$data['description']     = $user->description;
 		$data['user_locations']  = (array) get_user_meta( $user_id, '_rtcl_location', true );
 		$data['zipcode']         = get_user_meta( $user_id, '_rtcl_zipcode', true );
 		$data['address']         = get_user_meta( $user_id, '_rtcl_address', true );

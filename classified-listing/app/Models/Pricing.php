@@ -64,6 +64,34 @@ class Pricing
     }
 
     /**
+     * Icon class chosen for this pricing (from the rtcl icon list).
+     *
+     * @return string
+     */
+    public function getIcon() {
+        return (string) get_post_meta($this->id, '_rtcl_pricing_icon', true);
+    }
+
+    /**
+     * Whether this pricing should be highlighted as a "Featured" plan.
+     *
+     * @return bool
+     */
+    public function isFeaturedPlan() {
+        return (bool) get_post_meta($this->id, '_rtcl_pricing_featured', true);
+    }
+
+    /**
+     * Label shown on the featured badge. Falls back to "Featured".
+     *
+     * @return string
+     */
+    public function getFeaturedLabel() {
+        $label = get_post_meta($this->id, '_rtcl_pricing_featured_label', true);
+        return $label ? $label : __('Featured', 'classified-listing');
+    }
+
+    /**
      * @return mixed
      */
     public function getId() {

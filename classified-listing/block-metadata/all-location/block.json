@@ -1,14 +1,17 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "version": "1.0.0",
   "title": "All Location",
   "name": "rtcl/all-location",
   "category": "classified-list-gb",
+  "icon": "location",
   "description": "classified listings all locations",
   "keywords": [
 	"listings",
 	"listing all locations",
 	"classified-listing"
    ],
-  "apiVersion": 2,
+  "editorScript": "rtcl-gb-blocks-js",
   "textdomain": "classified-listing"
 }

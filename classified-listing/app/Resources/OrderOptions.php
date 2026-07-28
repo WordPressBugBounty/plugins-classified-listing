@@ -91,16 +91,56 @@ class OrderOptions {
 									);
 								}
 								?></label>
-							<select id="payment_status" name="post_status">
-								<?php
-								$statuses = Options::get_payment_status_list();
-								foreach ( $statuses as $status => $status_name ) {
-									echo '<option value="' . esc_attr( $status ) . '" ' . selected( $status,
-											$order->get_status(),
-											false ) . '>' . esc_html( $status_name ) . '</option>';
+							<?php
+							$statuses      = Options::get_payment_status_list();
+							// Orders created through WooCommerce are managed by WooCommerce. Changing the
+							// status from the CL side does not sync back to the WC order, so we lock the
+							// dropdown here and point the admin to the WC order. Non-WC (offline/PayPal/etc.)
+							// payments stay fully editable.
+							$is_wc_managed = ! empty( $order->get_wc_id() );
+
+							if ( $is_wc_managed ) :
+								$wc_id = absint( $order->get_wc_id() );
+								if ( class_exists( '\Automattic\WooCommerce\Utilities\OrderUtil' )
+									 && \Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled() ) {
+									$wc_order_url = admin_url( 'admin.php?page=wc-orders&action=edit&id=' . $wc_id );
+								} else {
+									$wc_order_url = admin_url( 'post.php?post=' . $wc_id . '&action=edit' );
 								}
+								$wc_managed_msg = __( 'This order is managed by WooCommerce. Please change its status from the WooCommerce order.', 'classified-listing' );
 								?>
-							</select></p>
+								<span class="rtcl-wc-managed-status" style="display:inline-block;cursor:not-allowed;"
+									  title="<?php echo esc_attr( $wc_managed_msg ); ?>"
+									  onclick="window.alert('<?php echo esc_js( $wc_managed_msg ); ?>');">
+									<select id="payment_status" name="post_status_wc_locked" disabled="disabled" style="pointer-events:none;">
+										<?php
+										foreach ( $statuses as $status => $status_name ) {
+											echo '<option value="' . esc_attr( $status ) . '" ' . selected( $status, $order->get_status(), false ) . '>' . esc_html( $status_name ) . '</option>';
+										}
+										?>
+									</select>
+								</span>
+								<span class="description rtcl-wc-managed-note" style="display:block;margin-top:6px;">
+									<?php
+									printf(
+										wp_kses(
+										/* translators: %s: WooCommerce order edit URL */
+											__( 'Managed by <strong>WooCommerce</strong>. <a href="%s">Edit status on the WooCommerce order &rarr;</a>', 'classified-listing' ),
+											[ 'strong' => [], 'a' => [ 'href' => [] ] ]
+										),
+										esc_url( $wc_order_url )
+									);
+									?>
+								</span>
+							<?php else : ?>
+								<select id="payment_status" name="post_status">
+									<?php
+									foreach ( $statuses as $status => $status_name ) {
+										echo '<option value="' . esc_attr( $status ) . '" ' . selected( $status, $order->get_status(), false ) . '>' . esc_html( $status_name ) . '</option>';
+									}
+									?>
+								</select>
+							<?php endif; ?></p>
 					</div>
 					<div class="payment_data_column">
 						<h3><?php esc_html_e( 'Billing', 'classified-listing' ); ?></h3>

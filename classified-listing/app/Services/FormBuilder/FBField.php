@@ -315,8 +315,8 @@ class FBField {
 					$fieldsIds = $data[ FBField::SECTIONS ][ $sectionIndex ]['fieldsIds'];
 				} else {
 					$fieldsIds = [];
-					if ( ! empty( $section['columns'] ) ) {
-						foreach ( $section['columns'] as $column ) {
+					if ( ! empty( $section['containers'] ) ) {
+						foreach ( $section['containers'] as $column ) {
 							if ( ! empty( $column['fields'] ) && is_array( $column['fields'] ) ) {
 								$fieldsIds = array_merge( $fieldsIds, $column['fields'] );
 							}

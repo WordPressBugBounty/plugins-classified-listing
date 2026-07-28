@@ -24,6 +24,7 @@ use Rtcl\Traits\Functions\ListingTrait;
 use Rtcl\Traits\Functions\MediaTrait;
 use Rtcl\Traits\Functions\SettingsTrait;
 use Rtcl\Traits\Functions\TemplateTrait;
+use Rtcl\Traits\Functions\UserTrait;
 use Rtcl\Traits\Functions\UtilityTrait;
 use RtclPro\Helpers\Fns;
 use stdClass;
@@ -45,6 +46,7 @@ class Functions {
 	use FormatTrait;
 	use MediaTrait;
 	use EmailTrait;
+	use UserTrait;
 
 	/**
 	 * Get all options data
@@ -250,6 +252,47 @@ class Functions {
 			return '<a href="javascript:void(0)" class="rtcl-require-login ' . $button_class
 			       . '"><span class="rtcl-icon rtcl-icon-heart-empty"></span><span class="favourite-label">' . Text::add_to_favourite() . '</span></a>';
 		}
+	}
+
+	/**
+	 * Count the current user's favourite listings that still resolve to a
+	 * published listing. The `rtcl_favourites` user meta can accumulate stale
+	 * IDs (deleted/expired listings) over years of use, so we count only the
+	 * ones the favourites screen would actually render — keeping the nav badge
+	 * in sync with the list. Result cached per request.
+	 *
+	 * @return int
+	 */
+	public static function get_favourites_count() {
+		static $cache = null;
+		if ( null !== $cache ) {
+			return $cache;
+		}
+
+		$user_id = get_current_user_id();
+		if ( ! $user_id ) {
+			return $cache = 0;
+		}
+
+		$favourites = array_filter( array_map( 'absint', (array) get_user_meta( $user_id, 'rtcl_favourites', true ) ) );
+		if ( empty( $favourites ) ) {
+			return $cache = 0;
+		}
+
+		$query = new \WP_Query( [
+			'post_type'              => rtcl()->post_type,
+			'post_status'            => 'publish',
+			'post__in'               => $favourites,
+			'fields'                 => 'ids',
+			'posts_per_page'         => -1,
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
+		] );
+
+		$count = (int) $query->post_count;
+
+		return $cache = (int) apply_filters( 'rtcl_favourites_count', $count, $user_id, $favourites );
 	}
 
 	/**
@@ -1578,7 +1621,6 @@ class Functions {
 
 		return $html;
 	}
-
 
 	/**
 	 * @param  String  $taxonomy
@@ -3864,7 +3906,7 @@ class Functions {
 			if ( empty( $args['first_name'] ) ) {
 				return new WP_Error( 'registration-error-invalid-first_name', esc_html__( 'Please enter your first name.', 'classified-listing' ) );
 			}
-			if ( empty( $args['last_name'] ) ) {
+			if ( apply_filters( 'rtcl_registration_last_name_validation', true, $source ) && empty( $args['last_name'] ) ) {
 				return new WP_Error( 'registration-error-invalid-last_name', esc_html__( 'Please enter your last name.', 'classified-listing' ) );
 			}
 		}
@@ -4639,8 +4681,7 @@ class Functions {
 	}
 
 	public static function is_enable_business_hours() {
-		//return Functions::get_option_item( 'rtcl_moderation_settings', 'enable_business_hours', false, 'checkbox' );
-		return true;
+		return Functions::get_option_item( 'rtcl_moderation_settings', 'enable_business_hours', false, 'checkbox' );
 	}
 
 	public static function is_enable_social_profiles() {
@@ -5849,6 +5890,9 @@ class Functions {
 				'plugin_url'      => RTCL_URL,
 				'enable'          => Functions::is_enable_map(),
 				'type'            => Functions::get_map_type(),
+				'i18n'            => [
+					'geocode_error' => esc_html__( 'Location search is temporarily unavailable. Please wait a moment and try again.', 'classified-listing' ),
+				],
 				'api_key'         => Functions::get_option_item( 'rtcl_misc_map_settings', 'map_api_key' ),
 				'location'        => Functions::location_type(),
 				'center'          => apply_filters( 'rtcl_map_default_center_latLng', $center_point ),
@@ -6122,6 +6166,12 @@ class Functions {
 			$status = get_user_meta( $user->ID, '_rtcl_display_email_public', true );
 		}
 
+		// Unset/empty means the user never touched their privacy settings; fall back to
+		// the site default (visible to everyone) so it matches the account form default.
+		if ( '' === $status || false === $status ) {
+			$status = apply_filters( 'rtcl_default_display_visibility', 'yes', $user->ID );
+		}
+
 		if ( $status === 'yes' ) {
 			return true;
 		} elseif ( $status === 'no' ) {
@@ -6131,5 +6181,68 @@ class Functions {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Whether a stored phone / WhatsApp value contains an actual local number, as opposed to
+	 * a dial-code-only value (e.g. "+1", "+880", "++1") that the phone widget can leave behind
+	 * when a country is selected but no number is typed. Used to hide empty numbers on the
+	 * frontend and to normalize values on save.
+	 *
+	 * Handles every stored format found across existing listings:
+	 *  - legacy plain numbers, no "+"            → real  ("01712345678")
+	 *  - "<dial> <local>" from the phone widget  → real  ("+880 1712345678")
+	 *  - dial-code only                          → empty ("+1", "+880", "++1", "+1 ")
+	 *
+	 * @param  string  $value
+	 *
+	 * @return bool
+	 */
+	public static function phone_number_has_local_part( $value ): bool {
+		$value = trim( (string) $value );
+		if ( '' === $value ) {
+			return false;
+		}
+		$digits = preg_replace( '/\D/', '', $value );
+		if ( '' === $digits ) {
+			return false;
+		}
+		// No leading "+" → plain/legacy number; any digits count as a real number.
+		if ( '+' !== $value[0] ) {
+			return true;
+		}
+		// Leading "+" → strip the longest matching country dial code. If any local digits
+		// remain it is a real number; otherwise the value is only a dial code (treat empty).
+		$dial_len = 0;
+		foreach ( self::get_dial_code_digits() as $dc ) {
+			$len = strlen( $dc );
+			if ( $len > $dial_len && 0 === strncmp( $digits, $dc, $len ) ) {
+				$dial_len = $len;
+			}
+		}
+
+		return strlen( $digits ) > $dial_len;
+	}
+
+	/**
+	 * Country calling codes as digit-only strings (e.g. "1", "880"), memoized per request.
+	 *
+	 * @return string[]
+	 */
+	public static function get_dial_code_digits(): array {
+		static $list = null;
+		if ( null === $list ) {
+			$seen = [];
+			foreach ( rtcl()->countries->get_countries() as $code => $name ) {
+				$dial = rtcl()->countries->get_country_calling_code( $code );
+				$dial = $dial ? preg_replace( '/\D/', '', $dial ) : '';
+				if ( '' !== $dial ) {
+					$seen[ $dial ] = true;
+				}
+			}
+			$list = array_keys( $seen );
+		}
+
+		return $list;
 	}
 }

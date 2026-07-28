@@ -32,7 +32,7 @@ class ListingPublishedEmailToOwner extends RtclEmail
      * @return string
      */
     public function get_default_subject() {
-        return __('[{site_title}] {listing_title} - is published', 'classified-listing');
+        return __('[{site_title}] {listing_title} - is Now Live', 'classified-listing');
     }
 
     /**
@@ -41,7 +41,7 @@ class ListingPublishedEmailToOwner extends RtclEmail
      * @return string
      */
     public function get_default_heading() {
-        return esc_html__('Your listing is published', 'classified-listing');
+        return esc_html__('Your Listing is Now Live', 'classified-listing');
     }
 
     /**

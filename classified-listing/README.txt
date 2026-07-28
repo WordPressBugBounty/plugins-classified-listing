@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 5.5.0
+Stable tag: 6.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -191,10 +191,10 @@ Start fast with a theme purpose-built for the Classified Listing plugin.
 
 = Premium Themes =
 
-* [Classima – Classified Ads WordPress Theme](https://1.envato.market/2944O) — 6k+ sales on Envato.
-* [Homlisti – Real Estate WordPress Theme](https://1.envato.market/DV3dPG) — 1.7k+ sales on Envato.
-* [ListPress – Directory & Listing WordPress Theme](https://1.envato.market/jeYj00)
-* [Listygo – Directory & Listing WordPress Theme](https://1.envato.market/e4YKZ1)
+* [Classima – Classified Ads WordPress Theme](https://www.radiustheme.com/downloads/classima-classified-ads-wordpress-theme/) — 6k+ sales on Envato.
+* [Homlisti – Real Estate WordPress Theme](https://www.radiustheme.com/downloads/homlisti-real-estate-wordpress-theme/) — 1.7k+ sales on Envato.
+* [ListPress – Directory & Listing WordPress Theme](https://www.radiustheme.com/downloads/listpress-wordpress-directory-theme/)
+* [Listygo – Directory & Listing WordPress Theme](https://www.radiustheme.com/downloads/listygo-directory-listing-wordpress-theme/) — 1k+ sales on Envato.
 * [ClassiList – Classified Ads WordPress Theme](https://www.radiustheme.com/downloads/classilist-classified-ads-wordpress-theme/)
 
 👉 [Browse all Classified & Directory themes](https://www.radiustheme.com/classified-listing-themes/)
@@ -329,8 +329,28 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
+= 6.0.0 ( Jul 28, 2026 ) =
+* Added: Single Listing Layout Builder — "Listing Header" and "Listing Contact Info"
+* Added: WhatsApp & Telegram to Author Info; Telegram, Bio & Display Name to User Profile.
+* Added: Directory-based Slug Builder for structured, SEO-friendly listing URLs
+* Added: Container-based Form Builder with full flexbox layout controls
+* Improved: Migration process and cross-theme compatibility for the new Single Listing Layout Builder
+* Improved: Compatibility between the new and legacy Form Builder data structures
+* Improved: Google Maps rendering and overall map behavior
+* Improved: Checkout, Promotions and user profile design
+* Improved: Auto-hide empty sections on the listing details page
+* Imporved: My Account desing improved
+* Fixed: AI/ChatGPT form generation errors and unclear messaging when the API key is not configured
+* Fixed: Single Listing Layout drag-and-drop dropping fields into the wrong container
+* Fixed: Map not rendering after filter changes
+* Fixed: Phone, URL, social and Telegram ID field validation issues
+* Fixed: Custom field type change behavior
+* Fixed: Primary color conflicts on the listing submission form
+* Fixed: Listing submission data being lost before final submission
+* Fixed: My Account > Account Details validation issues
+
 = 5.5.0 ( Jun 24, 2026 ) =
-* Added: Listings import from google map
+* Added: Listings import from Google map
 * Added: Listings import from RSS feeds
 * Added: Listings analytics for frontend dashboard
 * Added: Claude as AI tools

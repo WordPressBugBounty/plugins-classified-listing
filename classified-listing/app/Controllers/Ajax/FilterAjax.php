@@ -102,6 +102,14 @@ class FilterAjax {
 			global $is_listings;
 			$is_listings = true;
 		}
+		// Flag the loop so each listing item outputs its map marker data
+		// (data-options) — mirrors the initial archive render so the map can
+		// re-render with the filtered listings. Determined server-side (not from
+		// the client `hasMap` flag, which can be computed before the map exists).
+		if ( Functions::has_map() ) {
+			global $rtcl_has_map_data;
+			$rtcl_has_map_data = true;
+		}
 		if ( ! empty( $_POST['is_listing'] ) ) {
 			global $is_listing;
 			$is_listing = absint( $_POST['is_listing'] );
@@ -366,13 +374,20 @@ class FilterAjax {
 
 			if ( $lat && $lan ) {
 				$rs_data        = Options::radius_search_options();
+				// Prefer the per-filter unit sent from the radius filter (data-unit),
+				// falling back to the global radius option, then miles.
+				$unit           = ! empty( $params['distance_unit'] ) ? strtolower( sanitize_text_field( $params['distance_unit'] ) )
+					: ( ! empty( $rs_data['units'] ) ? strtolower( $rs_data['units'] ) : 'miles' );
+				if ( ! in_array( $unit, [ 'miles', 'km', 'kilometers' ], true ) ) {
+					$unit = 'miles';
+				}
 				$rtcl_geo_query = [
 					'lat_field' => 'latitude',
 					'lng_field' => 'longitude',
 					'latitude'  => $lat,
 					'longitude' => $lan,
 					'distance'  => $distance,
-					'units'     => ! empty( $rs_data['units'] ) ? $rs_data['units'] : 'km',
+					'units'     => $unit,
 				];
 				$geo_query      = array_filter( apply_filters( 'rtcl_ajax_filter_query_geo_query', $rtcl_geo_query ) );
 				if ( ! empty( $geo_query ) ) {

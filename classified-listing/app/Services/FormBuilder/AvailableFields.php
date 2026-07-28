@@ -12,7 +12,7 @@ class AvailableFields {
 				'preset'          => 1,
 				'name'            => 'listing_type',
 				'default_value'   => '',
-				'container_class' => '',
+				'css_class' => '',
 				'placeholder'     => __( 'Select a type', 'classified-listing' ),
 				'label'           => __( 'Listing type', 'classified-listing' ),
 				'label_placement' => '',
@@ -37,7 +37,7 @@ class AvailableFields {
 				'name'            => 'title',
 				'default_value'   => '',
 				'placeholder'     => __( 'Listing Title', 'classified-listing' ),
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Title', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -53,7 +53,11 @@ class AvailableFields {
 					'max'      => [
 						'value'   => 255,
 						'message' => __( 'Maximum {value} character', 'classified-listing' ),
-					]
+					],
+					'regex'    => [
+						'value'   => '',
+						'message' => __( 'The value does not match the required format.', 'classified-listing' ),
+					],
 				],
 				'logics'          => '',
 				'editor'          => [
@@ -66,11 +70,12 @@ class AvailableFields {
 				'element'         => 'description',
 				'preset'          => 1,
 				'editor_type'     => 'textarea',
+				'remove_extra_spaces' => false,
 				'name'            => 'description',
 				'placeholder'     => '',
 				'rows'            => 5,
 				'cols'            => '',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Description', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -87,7 +92,11 @@ class AvailableFields {
 					'max'      => [
 						'value'   => '',
 						'message' => __( 'Maximum {value} character', 'classified-listing' ),
-					]
+					],
+					'regex'    => [
+						'value'   => '',
+						'message' => __( 'The value does not match the required format.', 'classified-listing' ),
+					],
 				],
 				'logics'          => '',
 				'editor'          => [
@@ -99,9 +108,10 @@ class AvailableFields {
 			'excerpt'             => [
 				'element'         => 'excerpt',
 				'preset'          => 1,
+				'remove_extra_spaces' => false,
 				'name'            => 'excerpt',
 				'placeholder'     => '',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Excerpt', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -118,7 +128,11 @@ class AvailableFields {
 					'max'      => [
 						'value'   => '',
 						'message' => __( 'Maximum {value} character', 'classified-listing' ),
-					]
+					],
+					'regex'    => [
+						'value'   => '',
+						'message' => __( 'The value does not match the required format.', 'classified-listing' ),
+					],
 				],
 				'logics'          => '',
 				'editor'          => [
@@ -134,7 +148,7 @@ class AvailableFields {
 				'options'            => [ 'pricing_type', 'price_type' ],
 				'class'              => '',
 				'placeholder'        => '',
-				'container_class'    => '',
+				'css_class'    => '',
 				'pricing_type'       => 'price',
 				'price_type'         => 'fixed',
 				'label'              => __( 'Pricing', 'classified-listing' ),
@@ -164,7 +178,7 @@ class AvailableFields {
 				'type'            => 'single',
 				'name'            => 'category',
 				'placeholder'     => '',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Category', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -187,7 +201,7 @@ class AvailableFields {
 				'preset'          => 1,
 				'name'            => 'tags',
 				'placeholder'     => '',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Tag', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -212,7 +226,7 @@ class AvailableFields {
 				'name'            => 'rtcl_view_count',
 				'default_value'   => '',
 				'placeholder'     => '',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'View Count', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -228,7 +242,7 @@ class AvailableFields {
 				'preset'          => 1,
 				'name'            => 'location',
 				'placeholder'     => '',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Location', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -252,7 +266,7 @@ class AvailableFields {
 				'preset'          => 1,
 				'name'            => 'geo_location',
 				'placeholder'     => '',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Location', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -274,7 +288,7 @@ class AvailableFields {
 				'element'         => 'map',
 				'preset'          => 1,
 				'name'            => 'map',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Map', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -294,7 +308,7 @@ class AvailableFields {
 				'preset'          => 1,
 				'type'            => 'text',
 				'name'            => 'address',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Address', 'classified-listing' ),
 				'label_placement' => '',
 				'placeholder'     => __( 'Listing address eg. New York, USA', 'classified-listing' ),
@@ -304,6 +318,10 @@ class AvailableFields {
 					'required' => [
 						'value'   => false,
 						'message' => __( 'This field is required', 'classified-listing' ),
+					],
+					'regex'    => [
+						'value'   => '',
+						'message' => __( 'The value does not match the required format.', 'classified-listing' ),
 					],
 				],
 				'logics'          => '',
@@ -319,7 +337,7 @@ class AvailableFields {
 				'preset'          => 1,
 				'name'            => 'zipcode',
 				'placeholder'     => '',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Zip/Post Code', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -328,6 +346,10 @@ class AvailableFields {
 					'required' => [
 						'value'   => false,
 						'message' => __( 'This field is required', 'classified-listing' ),
+					],
+					'regex'    => [
+						'value'   => '',
+						'message' => __( 'The value does not match the required format.', 'classified-listing' ),
 					],
 				],
 				'logics'          => '',
@@ -338,21 +360,27 @@ class AvailableFields {
 				]
 			],
 			'phone'               => [
-				'element'         => 'phone',
-				'preset'          => 1,
-				'type'            => 'tel',
-				'name'            => 'phone',
-				'placeholder'     => '',
-				'container_class' => '',
-				'label'           => __( 'Phone', 'classified-listing' ),
-				'label_placement' => '',
-				'help_message'    => '',
-				'admin_use_only'  => false,
-				'allow_whatsapp'  => false,
+				'element'               => 'phone',
+				'preset'                => 1,
+				'type'                  => 'tel',
+				'name'                  => 'phone',
+				'placeholder'           => '',
+				'css_class'             => '',
+				'label'                 => __( 'Phone', 'classified-listing' ),
+				'label_placement'       => '',
+				'help_message'          => '',
+				'admin_use_only'        => false,
+				'allow_whatsapp'        => false,
+				'phone_countries'       => [],
+				'phone_default_country' => '',
 				'validation'      => [
 					'required' => [
 						'value'   => false,
 						'message' => __( 'This field is required', 'classified-listing' ),
+					],
+					'regex'    => [
+						'value'   => '',
+						'message' => __( 'The value does not match the required format.', 'classified-listing' ),
 					],
 				],
 				'logics'          => '',
@@ -363,20 +391,26 @@ class AvailableFields {
 				]
 			],
 			'whatsapp'            => [
-				'element'         => 'whatsapp',
-				'preset'          => 1,
-				'type'            => 'tel',
-				'name'            => '_rtcl_whatsapp_number',
-				'placeholder'     => '',
-				'container_class' => '',
-				'label'           => __( 'Whatsapp number', 'classified-listing' ),
-				'label_placement' => '',
-				'help_message'    => '',
-				'allow_whatsapp'  => false,
+				'element'               => 'whatsapp',
+				'preset'                => 1,
+				'type'                  => 'tel',
+				'name'                  => '_rtcl_whatsapp_number',
+				'placeholder'           => '',
+				'css_class'             => '',
+				'label'                 => __( 'Whatsapp number', 'classified-listing' ),
+				'label_placement'       => '',
+				'help_message'          => '',
+				'allow_whatsapp'        => false,
+				'phone_countries'       => [],
+				'phone_default_country' => '',
 				'validation'      => [
 					'required' => [
 						'value'   => false,
 						'message' => __( 'This field is required', 'classified-listing' ),
+					],
+					'regex'    => [
+						'value'   => '',
+						'message' => __( 'The value does not match the required format.', 'classified-listing' ),
 					],
 				],
 				'logics'          => '',
@@ -386,6 +420,39 @@ class AvailableFields {
 					'template'   => 'inputText',
 				]
 			],
+			'telegram'            => [
+				'element'         => 'telegram',
+				'preset'          => 1,
+				'type'            => 'text',
+				'name'            => '_rtcl_telegram',
+				'default_value'   => '',
+				'placeholder'     => '',
+				'css_class'       => '',
+				'label'           => __( 'Telegram ID', 'classified-listing' ),
+				'label_placement' => '',
+				'help_message'    => __( 'Enter your Telegram username starting with @ (e.g. @username)', 'classified-listing' ),
+				'admin_use_only'  => false,
+				'validation'      => [
+					'required'  => [
+						'value'   => false,
+						'message' => __( 'This field is required', 'classified-listing' ),
+					],
+					'max_length' => [
+						'value'   => 32,
+						'message' => __( 'Telegram ID must be 32 characters or fewer', 'classified-listing' ),
+					],
+					'regex'     => [
+						'value'   => '^@[A-Za-z0-9_]{4,31}$',
+						'message' => __( 'Telegram ID must start with @ and contain 5–32 characters (letters, numbers, underscores)', 'classified-listing' ),
+					],
+				],
+				'logics'          => '',
+				'editor'          => [
+					'title'      => __( 'Telegram', 'classified-listing' ),
+					'icon_class' => 'rtcl-icon-telegram',
+					'template'   => 'inputText',
+				],
+			],
 			'email'               => [
 				'element'         => 'email',
 				'preset'          => 1,
@@ -393,7 +460,7 @@ class AvailableFields {
 				'name'            => 'email',
 				'default_value'   => '',
 				'placeholder'     => '',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Email', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -420,7 +487,7 @@ class AvailableFields {
 				'preset'          => 1,
 				'name'            => 'website',
 				'placeholder'     => '',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Website', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -429,6 +496,10 @@ class AvailableFields {
 					'required' => [
 						'value'   => false,
 						'message' => __( 'This field is required', 'classified-listing' ),
+					],
+					'url'      => [
+						'value'   => true,
+						'message' => __( 'This field must contain a valid url', 'classified-listing' ),
 					],
 				],
 				'logics'          => '',
@@ -442,7 +513,7 @@ class AvailableFields {
 				'element'         => 'social_profiles',
 				'preset'          => 1,
 				'name'            => '_rtcl_social_profiles',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Social Profiles', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -465,7 +536,7 @@ class AvailableFields {
 				'preset'          => 1,
 				'name'            => 'images',
 				'placeholder'     => '',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Images', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -482,11 +553,12 @@ class AvailableFields {
 					],
 					'max_file_count'      => [
 						'value'   => 5,
-						'message' => __( 'You can upload maximum {value} image', 'classified-listing' ),
+						'message'        => __( 'You can upload maximum {value} image', 'classified-listing' ),
+						'message_plural' => __( 'You can upload maximum {value} images', 'classified-listing' ),
 					],
 					'allowed_image_types' => [
 						'value'   => [ 'jpeg', 'jpg', 'png', 'webp' ],
-						'message' => __( 'Allowed image types does not match. {value}', 'classified-listing' ),
+						'message' => __( 'Allowed image types: {value}', 'classified-listing' ),
 					],
 				],
 				'logics'          => '',
@@ -500,7 +572,7 @@ class AvailableFields {
 				'element'         => 'video_urls',
 				'preset'          => 1,
 				'name'            => '_rtcl_video_urls',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Video Url', 'classified-listing' ),
 				'label_placement' => '',
 				'placeholder'     => __( 'Only YouTube & Vimeo URLs.', 'classified-listing' ),
@@ -523,7 +595,7 @@ class AvailableFields {
 				'element'         => 'business_hours',
 				'preset'          => 1,
 				'name'            => '_rtcl_bhs',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Business Hours', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -552,7 +624,7 @@ class AvailableFields {
 				'admin_field_label' => __( 'Terms & Conditions', 'classified-listing' ),
 				'tnc_html'          => 'I have read and agree to the <a target="_blank" rel="noopener" href="#">Terms and Conditions</a> and <a target="_blank" rel="noopener" href="#">Privacy Policy</a>',
 				'has_checkbox'      => true,
-				'container_class'   => '',
+				'css_class'   => '',
 				'validation'        => [
 					'required' => [
 						'value'   => true,
@@ -570,7 +642,7 @@ class AvailableFields {
 				'element'         => 'recaptcha',
 				'preset'          => 1,
 				'name'            => 'recaptcha',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'reCaptcha', 'classified-listing' ),
 				'label_placement' => '',
 				'validation'      => [
@@ -592,7 +664,7 @@ class AvailableFields {
 				'name'            => 'custom_text',
 				'default_value'   => '',
 				'id'              => '',
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Text Input', 'classified-listing' ),
 				'label_placement' => '',
 				'placeholder'     => '',
@@ -613,7 +685,11 @@ class AvailableFields {
 					'max'      => [
 						'value'   => '',
 						'message' => __( 'Maximum {value} character', 'classified-listing' ),
-					]
+					],
+					'regex'    => [
+						'value'   => '',
+						'message' => __( 'The value does not match the required format.', 'classified-listing' ),
+					],
 				],
 				'logics'          => '',
 				'editor'          => [
@@ -628,10 +704,11 @@ class AvailableFields {
 				'default_value'   => '',
 				'id'              => '',
 				'editor_type'     => 'textarea',
+				'remove_extra_spaces' => false,
 				'placeholder'     => '',
 				'rows'            => 5,
 				'cols'            => 2,
-				'container_class' => '',
+				'css_class' => '',
 				'label'           => __( 'Textarea', 'classified-listing' ),
 				'label_placement' => '',
 				'help_message'    => '',
@@ -650,7 +727,11 @@ class AvailableFields {
 					'max'      => [
 						'value'   => '',
 						'message' => __( 'Maximum {value} character', 'classified-listing' ),
-					]
+					],
+					'regex'    => [
+						'value'   => '',
+						'message' => __( 'The value does not match the required format.', 'classified-listing' ),
+					],
 				],
 				'logics'          => '',
 				'editor'          => [
@@ -666,7 +747,7 @@ class AvailableFields {
 				'id'                => '',
 				'class'             => '',
 				'placeholder'       => '',
-				'container_class'   => '',
+				'css_class'   => '',
 				'label'             => __( 'Number', 'classified-listing' ),
 				'label_placement'   => '',
 				'help_message'      => '',
@@ -708,7 +789,7 @@ class AvailableFields {
 				'element'         => 'url',
 				'name'            => 'custom_url',
 				'default_value'   => '',
-				'container_class' => '',
+				'css_class' => '',
 				'id'              => '',
 				'label'           => __( 'Url', 'classified-listing' ),
 				'label_placement' => '',
@@ -736,7 +817,7 @@ class AvailableFields {
 			'date'                => [
 				'element'              => 'date',
 				'name'                 => 'custom_datetime',
-				'container_class'      => '',
+				'css_class'      => '',
 				'class'                => '',
 				'id'                   => '',
 				'label'                => __( 'Date / Time', 'classified-listing' ),
@@ -769,7 +850,7 @@ class AvailableFields {
 				'element'         => 'color_picker',
 				'name'            => 'custom_color_picker',
 				'default_value'   => '',
-				'container_class' => '',
+				'css_class' => '',
 				'id'              => '',
 				'label'           => __( 'Color', 'classified-listing' ),
 				'label_placement' => '',
@@ -796,7 +877,7 @@ class AvailableFields {
 				'element'         => 'select',
 				'name'            => 'custom_dropdown',
 				'default_value'   => '',
-				'container_class' => '',
+				'css_class' => '',
 				'id'              => '',
 				'label'           => __( 'Dropdown', 'classified-listing' ),
 				'label_placement' => '',
@@ -834,7 +915,7 @@ class AvailableFields {
 				'element'         => 'switch',
 				'name'            => 'custom_switch',
 				'default_value'   => '',
-				'container_class' => '',
+				'css_class' => '',
 				'id'              => '',
 				'label'           => __( 'Switch', 'classified-listing' ),
 				'label_placement' => 'left',
@@ -853,7 +934,7 @@ class AvailableFields {
 			'radio'               => [
 				'element'           => 'radio',
 				'name'              => 'custom_radio',
-				'container_class'   => '',
+				'css_class'   => '',
 				'class'             => '',
 				'id'                => '',
 				'label'             => __( 'Radio', 'classified-listing' ),
@@ -894,7 +975,7 @@ class AvailableFields {
 			'checkbox'            => [
 				'element'           => 'checkbox',
 				'name'              => 'custom_checkbox',
-				'container_class'   => '',
+				'css_class'   => '',
 				'class'             => '',
 				'id'                => '',
 				'label'             => __( 'Checkbox', 'classified-listing' ),
@@ -940,7 +1021,7 @@ class AvailableFields {
 			'file'                => [
 				'element'         => 'file',
 				'name'            => 'file',
-				'container_class' => '',
+				'css_class' => '',
 				'id'              => '',
 				'label'           => __( 'File Upload', 'classified-listing' ),
 				'label_placement' => '',
@@ -961,7 +1042,8 @@ class AvailableFields {
 					],
 					'max_file_count'     => [
 						'value'   => 1,
-						'message' => __( 'You can upload maximum {value} file', 'classified-listing' ),
+						'message'        => __( 'You can upload maximum {value} file', 'classified-listing' ),
+						'message_plural' => __( 'You can upload maximum {value} files', 'classified-listing' ),
 					],
 					'allowed_file_types' => [
 						'value'   => [ 'jpg|jpeg|webp|png|gif|bmp' ],
@@ -980,7 +1062,7 @@ class AvailableFields {
 				'name'              => 'hidden',
 				'id'                => '',
 				'default_value'     => '',
-				'container_class'   => '',
+				'css_class'   => '',
 				'admin_field_label' => '',
 				'logics'            => '',
 				'editor'            => [
@@ -994,7 +1076,7 @@ class AvailableFields {
 				'id'              => '',
 				'html_codes'      => 'Some description about this section',
 				'logics'          => '',
-				'container_class' => '',
+				'css_class' => '',
 				'editor'          => [
 					'title'      => __( 'Custom HTML', 'classified-listing' ),
 					'icon_class' => 'rtcl-icon-code',
@@ -1088,12 +1170,12 @@ class AvailableFields {
 			'element'         => 'section',
 			'title'           => __( 'Section title', 'classified-listing' ),
 			'id'              => '',
-			'container_class' => '',
+			'css_class' => '',
 			'icon'            => '',
 			'logics'          => '',
-			'columns'         => [
+			'containers'      => [
 				[
-					'width'  => '',
+					'title'  => __( 'Container 1', 'classified-listing' ),
 					'fields' => []
 				],
 			]
@@ -1286,6 +1368,22 @@ class AvailableFields {
 					'title'      => __( 'HTML', 'classified-listing' ),
 					'icon_class' => 'rtcl-icon-code',
 					'template'   => 'html',
+				]
+			],
+			'listing_header'    => [
+				'element' => 'listing_header',
+				'editor'  => [
+					'title'      => __( 'Listing Header', 'classified-listing' ),
+					'icon_class' => 'dashicons dashicons-cover-image',
+					'template'   => 'listing_header',
+				]
+			],
+			'listing_contact'   => [
+				'element' => 'listing_contact',
+				'editor'  => [
+					'title'      => __( 'Listing Contact', 'classified-listing' ),
+					'icon_class' => 'dashicons dashicons-id-alt',
+					'template'   => 'listing_contact',
 				]
 			],
 		];
