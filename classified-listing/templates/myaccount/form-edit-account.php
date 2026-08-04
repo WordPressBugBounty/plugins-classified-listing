@@ -34,7 +34,17 @@ do_action( 'rtcl_before_edit_account_form' ); ?>
 
 <form class="rtcl-EditAccountForm rtcl-MyAccount-content-inner" id="rtcl-user-account" method="post">
 	
-	<h3 class="rtcl-myaccount-content-title"><?php esc_html_e( 'Account Details', 'classified-listing' ); ?></h3>
+	<div class="rtcl-myaccount-content-title-wrap">
+		<h3 class="rtcl-myaccount-content-title"><?php esc_html_e( 'Account Details', 'classified-listing' ); ?></h3>
+		<?php
+		$rtcl_profile_url = apply_filters( 'rtcl_edit_account_profile_url', get_author_posts_url( $user->ID ), $user );
+		if ( $rtcl_profile_url ) : ?>
+			<a href="<?php echo esc_url( $rtcl_profile_url ); ?>" class="rtcl-view-profile-link" target="_blank" rel="noopener noreferrer">
+				<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+				<span><?php esc_html_e( 'View Public Profile', 'classified-listing' ); ?></span>
+			</a>
+		<?php endif; ?>
+	</div>
 
 	<?php do_action( 'rtcl_edit_account_form_start' ); ?>
 

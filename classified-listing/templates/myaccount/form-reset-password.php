@@ -41,11 +41,16 @@ Functions::print_notices(); ?>
 	<div class="rtcl-form-group">
 		<label for="password-2"
 			   class="control-label"><?php esc_html_e( 'Re-enter new password', 'classified-listing' ); ?></label>
-		<div class="rtcl-user-pass-wrap">
-			<input type="password" name="password_2" id="password-2" class="rtcl-form-control"
-				   autocomplete="new-password"
-				   data-rule-equalTo="#password-1" required/>
-			<span class="rtcl-toggle-pass rtcl-icon-eye-off"></span>
+		<div class="confirm-password-wrap">
+			<div class="rtcl-user-pass-wrap">
+				<input type="password" name="password_2" id="password-2" class="rtcl-form-control"
+					   autocomplete="new-password"
+					   data-rule-equalTo="#password-1"
+					   data-msg-equalTo="<?php esc_attr_e( 'Password does not match.', 'classified-listing' ); ?>"
+					   required/>
+				<span class="rtcl-toggle-pass rtcl-icon-eye-off"></span>
+			</div>
+			<span class="rtcl-checkmark"></span>
 		</div>
 	</div>
 

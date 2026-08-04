@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 6.0.0
+Stable tag: 6.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -328,6 +328,13 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 6.0.1 ( Aug 04, 2026 ) =
+* Fixed: Listing image rotation issue when capturing photos instantly on phone
+* Fixed: AJAX filter custom field checkbox issue
+* Fixed: Password eye icon click issue on mobile
+* Fixed: Country code dropdown issue
+* Updated: Password length validation
 
 = 6.0.0 ( Jul 28, 2026 ) =
 * Added: Single Listing Layout Builder — "Listing Header" and "Listing Contact Info"

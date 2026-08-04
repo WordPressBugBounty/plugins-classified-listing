@@ -599,7 +599,7 @@ class Options {
 				'default' => 1,
 			],
 			'has_comment_form'             => [
-				'title'   => __( 'Enable Review Form', 'classified-listing' ),
+				'title'   => apply_filters( 'rtcl_enable_comment_form_settings_title', __( 'Enable Comment Form', 'classified-listing' ) ),
 				'type'    => 'switch',
 				'default' => 0,
 			],

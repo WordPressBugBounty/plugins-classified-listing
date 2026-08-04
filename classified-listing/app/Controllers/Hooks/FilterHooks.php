@@ -394,11 +394,36 @@ class FilterHooks {
 	 * @param  string  $password
 	 */
 	private static function min_password_validation_message( &$errors, $password ) {
-		$length = Functions::password_min_length();
-		if ( $length && strlen( $password ?? '' ) < $length ) {
-			$errors->add( 'rtcl_min_pass_length',
-				/* translators: Password length */
-				sprintf( esc_html__( "Your password must be at least %d characters long.", "classified-listing" ), Functions::password_min_length() ) );
+		$password = $password ?? '';
+		$length   = Functions::password_min_length();
+		$missing  = [];
+
+		if ( $length && strlen( $password ) < $length ) {
+			/* translators: Password length */
+			$missing[] = sprintf( esc_html__( '%d+ characters', 'classified-listing' ), $length );
+		}
+		if ( ! preg_match( '/[A-Z]/', $password ) ) {
+			$missing[] = esc_html__( 'uppercase', 'classified-listing' );
+		}
+		if ( ! preg_match( '/[a-z]/', $password ) ) {
+			$missing[] = esc_html__( 'lowercase', 'classified-listing' );
+		}
+		if ( ! preg_match( '/[0-9]/', $password ) ) {
+			$missing[] = esc_html__( 'digit', 'classified-listing' );
+		}
+		if ( ! preg_match( '/[^a-zA-Z0-9]/', $password ) ) {
+			$missing[] = esc_html__( 'special character', 'classified-listing' );
+		}
+
+		if ( ! empty( $missing ) ) {
+			$errors->add( 'rtcl_pass_requirements',
+				/* translators: %1$d: minimum password length, %2$s: comma-separated list of missing requirements */
+				sprintf(
+					esc_html__( 'Password must be at least %1$d characters with uppercase, lowercase, digit and special character. Missing: %2$s.', 'classified-listing' ),
+					$length,
+					implode( ', ', $missing )
+				)
+			);
 		}
 	}
 

@@ -3863,7 +3863,7 @@ class Functions {
 	 * @return integer
 	 */
 	public static function password_min_length() {
-		return absint( apply_filters( 'rtcl_password_min_length', 6 ) );
+		return absint( apply_filters( 'rtcl_password_min_length', 8 ) );
 	}
 
 	/**

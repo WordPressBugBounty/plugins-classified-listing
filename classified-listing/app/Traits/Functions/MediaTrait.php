@@ -166,8 +166,11 @@ trait MediaTrait {
 						$saved = $editor->save();
 					}
 
-					if ( ! is_wp_error( $saved ) ) {
+					if ( ! is_wp_error( $saved ) && is_array( $saved ) && ! empty( $saved['path'] ) ) {
 						$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
+
+						// Update $file to point to the scaled/converted image for sub-size generation.
+						$file = $saved['path'];
 
 						// If the image was rotated update the stored EXIF data.
 						if ( true === $rotated && ! empty( $image_meta['image_meta']['orientation'] ) ) {
@@ -196,8 +199,11 @@ trait MediaTrait {
 					// Append `-rotated` to the image file name.
 					$saved = $editor->save( $editor->generate_filename( 'rotated' ) );
 
-					if ( ! is_wp_error( $saved ) ) {
+					if ( ! is_wp_error( $saved ) && is_array( $saved ) && ! empty( $saved['path'] ) ) {
 						$image_meta = _wp_image_meta_replace_original( $saved, $file, $image_meta, $attachment_id );
+
+						// Update $file to point to the rotated image for sub-size generation.
+						$file = $saved['path'];
 
 						// Update the stored EXIF data.
 						if ( ! empty( $image_meta['image_meta']['orientation'] ) ) {

@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory 6.0.0\n"
+"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory 6.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-28T10:09:58+00:00\n"
+"POT-Creation-Date: 2026-08-04T09:56:47+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: classified-listing\n"
@@ -457,7 +457,7 @@ msgstr ""
 #: templates/listing-form/contact.php:156
 #: templates/listing/email-to-seller-form.php:26
 #: templates/listing/email-to-seller-form.php:28
-#: templates/myaccount/form-edit-account.php:131
+#: templates/myaccount/form-edit-account.php:141
 msgid "Phone"
 msgstr ""
 
@@ -474,7 +474,7 @@ msgstr ""
 #: app/Services/FormBuilder/AvailableFields.php:1327
 #: app/Services/Importers/FieldCatalog.php:83
 #: templates/listing-form/contact.php:203
-#: templates/myaccount/form-edit-account.php:146
+#: templates/myaccount/form-edit-account.php:156
 #: templates/single-layout/elements/website.php:29
 msgid "Website"
 msgstr ""
@@ -1124,7 +1124,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: app/Controllers/Admin/ScriptLoader.php:99
-#: app/Controllers/Admin/ScriptLoader.php:718
+#: app/Controllers/Admin/ScriptLoader.php:725
 msgid "Are you sure you want to re-send verification link?"
 msgstr ""
 
@@ -1147,13 +1147,13 @@ msgid "Main"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:209
-#: app/Controllers/Admin/ScriptLoader.php:799
+#: app/Controllers/Admin/ScriptLoader.php:806
 msgid "Error while upload image"
 msgstr ""
 
 #. translators: Image size
 #: app/Controllers/Admin/ScriptLoader.php:211
-#: app/Controllers/Admin/ScriptLoader.php:801
+#: app/Controllers/Admin/ScriptLoader.php:808
 #, php-format
 msgid "Image size is more then %s."
 msgstr ""
@@ -1163,7 +1163,7 @@ msgid "Image limit is over."
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:214
-#: app/Controllers/Admin/ScriptLoader.php:803
+#: app/Controllers/Admin/ScriptLoader.php:810
 msgid "File extension not supported."
 msgstr ""
 
@@ -1303,9 +1303,8 @@ msgstr ""
 
 #. translators: Password length
 #: app/Controllers/Admin/ScriptLoader.php:252
-#: app/Controllers/Hooks/FilterHooks.php:401
 #, php-format
-msgid "Your password must be at least %d characters long."
+msgid "Password must be at least %d characters with uppercase, lowercase, digit and special character."
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:254
@@ -1361,68 +1360,99 @@ msgstr ""
 msgid "Mismatch"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:284
+#: app/Controllers/Admin/ScriptLoader.php:272
+msgid "Missing:"
+msgstr ""
+
+#. translators: Password length
+#: app/Controllers/Admin/ScriptLoader.php:274
+#: app/Controllers/Hooks/FilterHooks.php:403
+#, php-format
+msgid "%d+ characters"
+msgstr ""
+
+#: app/Controllers/Admin/ScriptLoader.php:275
+#: app/Controllers/Hooks/FilterHooks.php:406
+msgid "uppercase"
+msgstr ""
+
+#: app/Controllers/Admin/ScriptLoader.php:276
+#: app/Controllers/Hooks/FilterHooks.php:409
+msgid "lowercase"
+msgstr ""
+
+#: app/Controllers/Admin/ScriptLoader.php:277
+#: app/Controllers/Hooks/FilterHooks.php:412
+msgid "digit"
+msgstr ""
+
+#: app/Controllers/Admin/ScriptLoader.php:278
+#: app/Controllers/Hooks/FilterHooks.php:415
+msgid "special character"
+msgstr ""
+
+#: app/Controllers/Admin/ScriptLoader.php:291
 #: app/Helpers/Functions.php:5210
 #: app/Helpers/Functions.php:5212
 msgid "Select an option&hellip;"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:285
+#: app/Controllers/Admin/ScriptLoader.php:292
 msgctxt "enhanced select"
 msgid "No matches found"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:286
+#: app/Controllers/Admin/ScriptLoader.php:293
 msgctxt "enhanced select"
 msgid "Loading failed"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:287
+#: app/Controllers/Admin/ScriptLoader.php:294
 msgctxt "enhanced select"
 msgid "Please enter 1 or more characters"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:288
+#: app/Controllers/Admin/ScriptLoader.php:295
 msgctxt "enhanced select"
 msgid "Please enter %qty% or more characters"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:289
+#: app/Controllers/Admin/ScriptLoader.php:296
 msgctxt "enhanced select"
 msgid "Please delete 1 character"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:290
+#: app/Controllers/Admin/ScriptLoader.php:297
 msgctxt "enhanced select"
 msgid "Please delete %qty% characters"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:291
+#: app/Controllers/Admin/ScriptLoader.php:298
 msgctxt "enhanced select"
 msgid "You can only select 1 item"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:292
+#: app/Controllers/Admin/ScriptLoader.php:299
 msgctxt "enhanced select"
 msgid "You can only select %qty% items"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:293
+#: app/Controllers/Admin/ScriptLoader.php:300
 msgctxt "enhanced select"
 msgid "Loading more results&hellip;"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:294
+#: app/Controllers/Admin/ScriptLoader.php:301
 msgctxt "enhanced select"
 msgid "Searching&hellip;"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:301
+#: app/Controllers/Admin/ScriptLoader.php:308
 #: app/Helpers/Functions.php:5113
 msgid "required"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:302
+#: app/Controllers/Admin/ScriptLoader.php:309
 #: app/Helpers/Functions.php:5115
 #: views/settings/import-google.php:86
 #: views/settings/import-google.php:97
@@ -1430,16 +1460,16 @@ msgstr ""
 msgid "optional"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:705
+#: app/Controllers/Admin/ScriptLoader.php:712
 msgid "Please select a rating"
 msgstr ""
 
 #. translators: %s: decimal
 #. translators: decimal_separator
 #. translators: pricing_decimal_separator
-#: app/Controllers/Admin/ScriptLoader.php:707
-#: app/Controllers/Admin/ScriptLoader.php:956
-#: app/Controllers/Admin/ScriptLoader.php:959
+#: app/Controllers/Admin/ScriptLoader.php:714
+#: app/Controllers/Admin/ScriptLoader.php:963
+#: app/Controllers/Admin/ScriptLoader.php:966
 #, php-format
 msgid "Please enter in decimal (%s) format without thousand separators."
 msgstr ""
@@ -1447,19 +1477,19 @@ msgstr ""
 #. translators: %s: price decimal separator
 #. translators: decimal_separator
 #. translators: pricing_decimal_separator
-#: app/Controllers/Admin/ScriptLoader.php:711
-#: app/Controllers/Admin/ScriptLoader.php:962
-#: app/Controllers/Admin/ScriptLoader.php:966
+#: app/Controllers/Admin/ScriptLoader.php:718
+#: app/Controllers/Admin/ScriptLoader.php:969
+#: app/Controllers/Admin/ScriptLoader.php:973
 #, php-format
 msgid "Please enter in monetary decimal (%s) format without thousand separators and currency symbols."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:717
+#: app/Controllers/Admin/ScriptLoader.php:724
 #: app/Models/RtclCFGField.php:246
 msgid "Are you sure?"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:723
+#: app/Controllers/Admin/ScriptLoader.php:730
 #: app/Controllers/Hooks/TemplateHooks.php:390
 #: app/Controllers/Hooks/TemplateHooks.php:436
 #: app/Resources/ListingDetails.php:69
@@ -1475,7 +1505,7 @@ msgstr ""
 msgid "Category"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:724
+#: app/Controllers/Admin/ScriptLoader.php:731
 #: app/Controllers/Hooks/TemplateHooks.php:834
 #: app/Controllers/Hooks/TemplateHooks.php:1220
 #: app/Resources/Options.php:61
@@ -1499,118 +1529,118 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:727
+#: app/Controllers/Admin/ScriptLoader.php:734
 msgid "Sorry, you need to login first."
 msgstr ""
 
 #. translators: Image pending count
-#: app/Controllers/Admin/ScriptLoader.php:730
+#: app/Controllers/Admin/ScriptLoader.php:737
 #, php-format
 msgid "Sorry, you have only %d images pending."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:731
+#: app/Controllers/Admin/ScriptLoader.php:738
 msgid "Delete Permanently"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:732
+#: app/Controllers/Admin/ScriptLoader.php:739
 #: app/Controllers/Hooks/TemplateHooks.php:2262
 msgid "Proceed to payment"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:733
+#: app/Controllers/Admin/ScriptLoader.php:740
 msgid "Finish submission"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:736
+#: app/Controllers/Admin/ScriptLoader.php:743
 msgid "Loading ..."
 msgstr ""
 
 #. translators: All of item
-#: app/Controllers/Admin/ScriptLoader.php:751
+#: app/Controllers/Admin/ScriptLoader.php:758
 #, php-format
 msgid "All of %s"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:752
+#: app/Controllers/Admin/ScriptLoader.php:759
 msgid "Go back"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:753
+#: app/Controllers/Admin/ScriptLoader.php:760
 msgid "Analyzing through AI"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:754
+#: app/Controllers/Admin/ScriptLoader.php:761
 msgid "Search Results for: "
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:772
+#: app/Controllers/Admin/ScriptLoader.php:779
 msgid "You can't leave Captcha Code empty"
 msgstr ""
 
 #. translators: 1: related to , 2: Related form
 #. translators: related something
-#: app/Controllers/Admin/ScriptLoader.php:781
+#: app/Controllers/Admin/ScriptLoader.php:788
 #: app/Controllers/Hooks/TemplateHooks.php:853
 #, php-format
 msgid "Need to discuss something related to '%1$s' from %2$s"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:807
+#: app/Controllers/Admin/ScriptLoader.php:814
 msgid "Clear all filters"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:808
+#: app/Controllers/Admin/ScriptLoader.php:815
 msgid "No result found."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:809
+#: app/Controllers/Admin/ScriptLoader.php:816
 msgid "Show All"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:812
+#: app/Controllers/Admin/ScriptLoader.php:819
 msgid "Showing all % results"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:813
+#: app/Controllers/Admin/ScriptLoader.php:820
 msgid "Showing _ of % results"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:831
+#: app/Controllers/Admin/ScriptLoader.php:838
 msgid "Please select ad type first"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:832
+#: app/Controllers/Admin/ScriptLoader.php:839
 msgid "Please select parent category first"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:971
+#: app/Controllers/Admin/ScriptLoader.php:978
 #: templates/emails/listing-expired-email-to-admin.php:35
 msgid "Expired on:"
 msgstr ""
 
 #. translators: Date formate
 #. translators: 1: month, 2: day, 3: year, 4: hour, 5: minute
-#: app/Controllers/Admin/ScriptLoader.php:973
+#: app/Controllers/Admin/ScriptLoader.php:980
 #: app/Helpers/Functions.php:5041
 #, php-format
 msgid "%1$s %2$s, %3$s @ %4$s:%5$s"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:974
+#: app/Controllers/Admin/ScriptLoader.php:981
 msgid "Are you sure you wish to delete this note? This action cannot be undone."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:975
+#: app/Controllers/Admin/ScriptLoader.php:982
 #: templates/listing/email-to-seller-form.php:31
 msgid "Message"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:976
+#: app/Controllers/Admin/ScriptLoader.php:983
 msgid "Send"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:1444
+#: app/Controllers/Admin/ScriptLoader.php:1451
 #: app/Controllers/Hooks/TemplateHooks.php:257
 #: templates/block/listing-search/search.php:291
 #: templates/widgets/search/inline.php:168
@@ -1619,28 +1649,29 @@ msgstr ""
 #: views/settings/import-google.php:150
 #: src/blocks/listing-search/layout/style-1.js:115
 #: src/form-builder/components/IconPicker.jsx:40
+#: src/form-builder/frontend/components/elements/Phone.jsx:309
 msgid "Search"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:1445
-#: src/form-builder/frontend/components/elements/Phone.jsx:41
+#: app/Controllers/Admin/ScriptLoader.php:1452
+#: src/form-builder/frontend/components/elements/Phone.jsx:40
 #: src/form-builder/frontend/components/Form.jsx:75
 msgid "Please select a country code."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:1446
-#: src/form-builder/frontend/components/elements/Phone.jsx:56
-#: src/form-builder/frontend/components/elements/Phone.jsx:62
+#: app/Controllers/Admin/ScriptLoader.php:1453
+#: src/form-builder/frontend/components/elements/Phone.jsx:55
+#: src/form-builder/frontend/components/elements/Phone.jsx:61
 msgid "Please enter a valid phone number for the selected country."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:1447
+#: app/Controllers/Admin/ScriptLoader.php:1454
 #: app/Controllers/Ajax/PublicUser.php:794
 msgid "Telegram ID must start with @ and be 5–32 characters (letters, numbers and underscore)."
 msgstr ""
 
 #. translators: %s: social platform name, e.g. Facebook
-#: app/Controllers/Admin/ScriptLoader.php:1449
+#: app/Controllers/Admin/ScriptLoader.php:1456
 #: app/Controllers/Ajax/PublicUser.php:826
 #: app/Services/FormBuilder/FBHelper.php:1047
 #: app/Services/FormBuilder/LocalizedString.php:29
@@ -3073,7 +3104,7 @@ msgstr ""
 #: app/Controllers/Ajax/PublicUser.php:715
 #: app/Services/FormBuilder/AvailableFields.php:431
 #: templates/listing-form/contact.php:181
-#: templates/myaccount/form-edit-account.php:155
+#: templates/myaccount/form-edit-account.php:165
 msgid "Telegram ID"
 msgstr ""
 
@@ -3101,7 +3132,7 @@ msgid "The two passwords you entered don't match."
 msgstr ""
 
 #: app/Controllers/Ajax/PublicUser.php:786
-#: templates/myaccount/form-edit-account.php:149
+#: templates/myaccount/form-edit-account.php:159
 msgid "Please enter a valid website URL."
 msgstr ""
 
@@ -3539,7 +3570,12 @@ msgstr ""
 msgid "Pasting this exceeds the maximum allowed number of %s characters for the input."
 msgstr ""
 
-#: app/Controllers/Hooks/FilterHooks.php:499
+#: app/Controllers/Hooks/FilterHooks.php:422
+#, php-format
+msgid "Password must be at least %1$d characters with uppercase, lowercase, digit and special character. Missing: %2$s."
+msgstr ""
+
+#: app/Controllers/Hooks/FilterHooks.php:524
 #: templates/myaccount/form-registration.php:26
 msgid "Registration"
 msgstr ""
@@ -3769,12 +3805,12 @@ msgid "Submit"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:1525
-#: templates/myaccount/form-edit-account.php:87
+#: templates/myaccount/form-edit-account.php:97
 msgid "First Name"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:1538
-#: templates/myaccount/form-edit-account.php:95
+#: templates/myaccount/form-edit-account.php:105
 msgid "Last Name"
 msgstr ""
 
@@ -4568,7 +4604,7 @@ msgid "Favourites"
 msgstr ""
 
 #: app/Helpers/Functions.php:3285
-#: templates/myaccount/form-edit-account.php:37
+#: templates/myaccount/form-edit-account.php:38
 msgid "Account Details"
 msgstr ""
 
@@ -6453,8 +6489,7 @@ msgid "Enable Contact Form"
 msgstr ""
 
 #: app/Resources/Options.php:602
-#: views/settings/single_listing-settings.php:31
-msgid "Enable Review Form"
+msgid "Enable Comment Form"
 msgstr ""
 
 #: app/Resources/Options.php:607
@@ -8276,7 +8311,7 @@ msgstr ""
 #: app/Resources/Options.php:3031
 #: app/Services/FormBuilder/AvailableFields.php:400
 #: templates/listing-form/contact.php:171
-#: templates/myaccount/form-edit-account.php:114
+#: templates/myaccount/form-edit-account.php:124
 msgid "Whatsapp number"
 msgstr ""
 
@@ -12587,7 +12622,7 @@ msgid "Sub Category"
 msgstr ""
 
 #: templates/listing-form/contact.php:175
-#: templates/myaccount/form-edit-account.php:126
+#: templates/myaccount/form-edit-account.php:136
 msgid "WhatsApp number with your country code. e.g.+1xxxxxxxxxx"
 msgstr ""
 
@@ -12600,7 +12635,7 @@ msgid "This will be your user name."
 msgstr ""
 
 #: templates/listing-form/contact.php:206
-#: templates/myaccount/form-edit-account.php:150
+#: templates/myaccount/form-edit-account.php:160
 msgid "e.g. https://example.com"
 msgstr ""
 
@@ -12743,59 +12778,64 @@ msgstr ""
 msgid "No listing found."
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:43
+#: templates/myaccount/form-edit-account.php:44
+msgid "View Public Profile"
+msgstr ""
+
+#: templates/myaccount/form-edit-account.php:53
 msgid "Profile Picture"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:58
+#: templates/myaccount/form-edit-account.php:68
 msgid "Add Logo"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:59
+#: templates/myaccount/form-edit-account.php:69
 msgid "Delete Logo"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:71
+#: templates/myaccount/form-edit-account.php:81
 msgid "Change on Gravatar."
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:79
+#: templates/myaccount/form-edit-account.php:89
 msgid "Username:"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:104
+#: templates/myaccount/form-edit-account.php:114
 msgid "E-mail"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:185
+#: templates/myaccount/form-edit-account.php:195
 msgid "Display name publicly as"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:197
+#: templates/myaccount/form-edit-account.php:207
 msgid "Biographical Info"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:201
+#: templates/myaccount/form-edit-account.php:211
 msgid "Share a little biographical information to fill out your profile. This may be shown publicly."
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:209
+#: templates/myaccount/form-edit-account.php:219
 msgid "Change Password"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:215
+#: templates/myaccount/form-edit-account.php:225
 msgid "New Password"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:225
+#: templates/myaccount/form-edit-account.php:235
 #: templates/myaccount/form-login.php:77
 #: templates/myaccount/form-registration.php:72
 msgid "Confirm Password"
 msgstr ""
 
-#: templates/myaccount/form-edit-account.php:230
+#: templates/myaccount/form-edit-account.php:240
 #: templates/myaccount/form-login.php:85
 #: templates/myaccount/form-registration.php:80
+#: templates/myaccount/form-reset-password.php:49
 msgid "Password does not match."
 msgstr ""
 
@@ -12814,7 +12854,7 @@ msgid "Lost your password? Please enter your username or email address. You will
 msgstr ""
 
 #: templates/myaccount/form-lost-password.php:32
-#: templates/myaccount/form-reset-password.php:59
+#: templates/myaccount/form-reset-password.php:64
 msgid "Reset Password"
 msgstr ""
 
@@ -13882,6 +13922,10 @@ msgstr ""
 
 #: views/settings/single_listing-settings.php:28
 msgid "Allows visitors to contact listing authors privately. Authors will receive the messages via email."
+msgstr ""
+
+#: views/settings/single_listing-settings.php:31
+msgid "Enable Review Form"
 msgstr ""
 
 #: views/settings/single_listing-settings.php:33
