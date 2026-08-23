@@ -1207,7 +1207,7 @@ class Options {
 			'button_hover'             => [
 				'title'   => __( 'Button Hover Background', 'classified-listing' ),
 				'type'    => 'color',
-				'default' => '#3065c1',
+				'default' => '#2525d0',
 			],
 			'button_text'              => [
 				'title'   => __( 'Button Text Color', 'classified-listing' ),
@@ -2753,18 +2753,83 @@ class Options {
 		return apply_filters(
 			'rtcl_custom_field_date_js_format_placeholder',
 			[
-				'Y-m-d'  => 'YYYY-MM-DD',
-				'm/d/Y'  => 'MM/DD/YYYY',
-				'd/m/Y'  => 'DD/MM/YYYY',
-				'F j, Y' => 'MMMM D, YYYY',
-				'j F, Y' => 'D MMMM, YYYY',
-				'j F Y'  => 'D MMMM YYYY',
-				'h:i:s'  => 'hh:mm:ss',
-				'g:i a'  => 'h:mm a',
-				'g:i A'  => 'h:mm A',
-				'H:i'    => 'HH:mm',
+				'Y-m-d'       => 'YYYY-MM-DD',
+				'm/d/Y'       => 'MM/DD/YYYY',
+				'd/m/Y'       => 'DD/MM/YYYY',
+				'd.m.Y'       => 'DD.MM.YYYY',
+				'n/j/y'       => 'M/D/YY',
+				'm/d/y'       => 'MM/DD/YY',
+				'M/d/Y'       => 'MMM/DD/YYYY',
+				'y/m/d'       => 'YY/MM/DD',
+				'd-M-y'       => 'DD-MMM-YY',
+				'F j, Y'      => 'MMMM D, YYYY',
+				'j F, Y'      => 'D MMMM, YYYY',
+				'j F Y'       => 'D MMMM YYYY',
+				'm/d/Y h:i A' => 'MM/DD/YYYY hh:mm A',
+				'm/d/Y H:i'   => 'MM/DD/YYYY HH:mm',
+				'd/m/Y h:i A' => 'DD/MM/YYYY hh:mm A',
+				'd/m/Y H:i'   => 'DD/MM/YYYY HH:mm',
+				'd.m.Y h:i A' => 'DD.MM.YYYY hh:mm A',
+				'd.m.Y H:i'   => 'DD.MM.YYYY HH:mm',
+				'h:i A'       => 'hh:mm A',
+				'h:i:s'       => 'hh:mm:ss',
+				'g:i a'       => 'h:mm a',
+				'g:i A'       => 'h:mm A',
+				'H:i'         => 'HH:mm',
 			],
 		);
+	}
+
+	/**
+	 * Convert a PHP date format string to moment.js/dayjs format.
+	 *
+	 * Uses character-by-character conversion to avoid collision issues
+	 * that occur with str_replace when replacement tokens overlap.
+	 *
+	 * @param string $phpFormat PHP date format string (e.g. 'd.m.Y H:i').
+	 *
+	 * @return string Moment.js/dayjs compatible format string.
+	 */
+	public static function phpToMomentFormat( $phpFormat ) {
+		$map = [
+			'd' => 'DD',    // Day of month, 2 digits with leading zeros (01-31)
+			'D' => 'ddd',   // Abbreviated weekday name (Mon-Sun)
+			'j' => 'D',     // Day of month without leading zeros (1-31)
+			'l' => 'dddd',  // Full weekday name (Monday-Sunday)
+			'N' => 'E',     // ISO day of week (1=Monday, 7=Sunday)
+			'w' => 'd',     // Day of week (0=Sunday, 6=Saturday)
+			'F' => 'MMMM',  // Full month name (January-December)
+			'm' => 'MM',    // Month with leading zeros (01-12)
+			'M' => 'MMM',   // Abbreviated month name (Jan-Dec)
+			'n' => 'M',     // Month without leading zeros (1-12)
+			'Y' => 'YYYY',  // 4-digit year
+			'y' => 'YY',    // 2-digit year
+			'H' => 'HH',    // Hours 24h with leading zeros (00-23)
+			'G' => 'H',     // Hours 24h without leading zeros (0-23)
+			'h' => 'hh',    // Hours 12h with leading zeros (01-12)
+			'g' => 'h',     // Hours 12h without leading zeros (1-12)
+			'i' => 'mm',    // Minutes with leading zeros (00-59)
+			's' => 'ss',    // Seconds with leading zeros (00-59)
+			'A' => 'A',     // AM/PM uppercase
+			'a' => 'a',     // am/pm lowercase
+		];
+
+		$result = '';
+		$length = strlen( $phpFormat );
+		for ( $i = 0; $i < $length; $i++ ) {
+			$char = $phpFormat[ $i ];
+			if ( $char === '\\' && $i + 1 < $length ) {
+				// Escaped character in PHP format — wrap in brackets for moment.js
+				$result .= '[' . $phpFormat[ $i + 1 ] . ']';
+				$i++;
+			} elseif ( isset( $map[ $char ] ) ) {
+				$result .= $map[ $char ];
+			} else {
+				$result .= $char;
+			}
+		}
+
+		return $result;
 	}
 
 	public static function get_custom_field_list() {

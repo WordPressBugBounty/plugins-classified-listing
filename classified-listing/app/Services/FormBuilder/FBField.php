@@ -273,16 +273,13 @@ class FBField {
 
 	public function getDateFieldOptions( $data = [] ) {
 		$dateType   = $this->getData( 'date_type', 'single' );
-		$dateFormat = $this->getData( 'date_format', 'Y-d-m H:i' );
-		$js_options = Options::get_date_js_format_placeholder();
-		$find       = array_keys( $js_options );
-		$replace    = array_values( $js_options );
-		$format     = str_replace( $find, $replace, $dateFormat );
+		$dateFormat = $this->getData( 'date_format', 'Y-m-d H:i' );
+		$format     = Options::phpToMomentFormat( $dateFormat );
 
 		$options = wp_parse_args( $data, [
 			'singleDatePicker' => $dateType === 'single',
 			'showDropdowns'    => true,
-			'timePicker'       => false !== strpos( $dateFormat, 'h:i A' ) || false !== strpos( $dateFormat, 'H:i' ),
+			'timePicker'       => false !== strpos( $dateFormat, 'h:i A' ) || false !== strpos( $dateFormat, 'H:i' ) || false !== strpos( $dateFormat, 'h:i a' ),
 			'timePicker24Hour' => false !== strpos( $dateFormat, 'H:i' ),
 			'locale'           => [
 				'format' => $format,

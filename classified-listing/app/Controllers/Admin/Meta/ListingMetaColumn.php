@@ -5,6 +5,7 @@ namespace Rtcl\Controllers\Admin\Meta;
 
 
 use Rtcl\Helpers\Functions;
+use Rtcl\Models\Form\Form;
 use Rtcl\Resources\Options;
 use Rtcl\Services\FormBuilder\FBHelper;
 
@@ -120,6 +121,25 @@ class ListingMetaColumn {
 				$category_name = $category ? $category->name : '';
 			}
 
+			// Restrict by directory (form) — placed before location
+			if ( FBHelper::isEnabled() ) {
+				$forms = Form::query()->where( 'status', 'publish' )->order_by( 'title', 'ASC' )->get();
+				$_form_id = isset( $_GET['_rtcl_form_id'] ) ? absint( $_GET['_rtcl_form_id'] ) : '';
+				echo '<select name="_rtcl_form_id">';
+				printf( '<option value="">%s</option>', esc_html__( 'All Directories', 'classified-listing' ) );
+				if ( $forms && $forms->count() ) {
+					foreach ( $forms as $form ) {
+						printf(
+							'<option value="%d"%s>%s</option>',
+							absint( $form->id ),
+							selected( $_form_id, $form->id, false ),
+							esc_html( $form->title )
+						);
+					}
+				}
+				echo '</select>';
+			}
+
 			?>
 			<select class="rtcl-ajax-select" name="_rtcl_location"
 					data-type="location"
@@ -164,6 +184,36 @@ class ListingMetaColumn {
 				echo '</select>';
 			}
 
+			// Show "Clear Filters" button when any filter is active, positioned after the WP "Filter" button
+			$has_active_filter = ! empty( $location_id )
+				|| ! empty( $category_id )
+				|| ( isset( $_GET['_rtcl_form_id'] ) && absint( $_GET['_rtcl_form_id'] ) > 0 )
+				|| ( isset( $_GET['promotion'] ) && '' !== $_GET['promotion'] )
+				|| ( isset( $stat ) && ! in_array( $stat, [ 'all', 'trash' ], true ) )
+				|| ( isset( $_GET['rtcl_mark_as_sold'] ) && 'yes' === $_GET['rtcl_mark_as_sold'] );
+
+			$has_active_filter = apply_filters( 'rtcl_admin_listing_has_active_filter', $has_active_filter );
+
+			if ( $has_active_filter ) {
+				$clear_url = admin_url( 'edit.php?post_type=' . rtcl()->post_type );
+				printf(
+					'<a id="rtcl-clear-filters" href="%s" class="button" style="display:none;margin-left:4px;">%s</a>',
+					esc_url( $clear_url ),
+					esc_html__( 'Clear Filters', 'classified-listing' )
+				);
+				?>
+				<script>
+					document.addEventListener('DOMContentLoaded', function () {
+						var filterBtn = document.getElementById('post-query-submit');
+						var clearBtn = document.getElementById('rtcl-clear-filters');
+						if (filterBtn && clearBtn) {
+							filterBtn.parentNode.insertBefore(clearBtn, filterBtn.nextSibling);
+							clearBtn.style.display = '';
+						}
+					});
+				</script>
+				<?php
+			}
 		}
 
 	}
@@ -256,6 +306,17 @@ class ListingMetaColumn {
 				$query->set( 'tax_query', array_merge( $query_tax_query, $tax_query ) );
 			}
 
+
+			// Filter by directory (form)
+			if ( isset( $_REQUEST['_rtcl_form_id'] ) && $form_id = absint( $_REQUEST['_rtcl_form_id'] ) ) {
+				$meta_query = $query->get( 'meta_query' );
+				$meta_query = is_array( $meta_query ) ? $meta_query : [];
+				$meta_query[] = [
+					'key'   => '_rtcl_form_id',
+					'value' => $form_id,
+				];
+				$query->set( 'meta_query', $meta_query ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+			}
 
 			// Set featured meta in query
 			if ( isset( $_GET['promotion'] ) && in_array( $_GET['promotion'], array_keys( Options::get_listing_promotions() ), true ) ) {

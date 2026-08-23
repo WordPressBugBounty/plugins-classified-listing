@@ -643,10 +643,7 @@ class RtclCFGField {
 		$format = implode( ' ', $format );
 		$format = $format ? $format : 'Y-d-m';
 		if ( $type == 'js' ) {
-			$js_options = Options::get_date_js_format_placeholder();
-			$find       = array_keys( $js_options );
-			$replace    = array_values( $js_options );
-			$format     = str_replace( $find, $replace, $format );
+			$format = Options::phpToMomentFormat( $format );
 		}
 
 		return apply_filters( 'rtcl_custom_field_date_full_format', $format, $this );

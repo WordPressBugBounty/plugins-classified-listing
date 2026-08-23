@@ -165,7 +165,7 @@ do_action( 'rtcl_before_edit_account_form' ); ?>
 				<?php esc_html_e( 'Telegram ID', 'classified-listing' ); ?>
 			</label>
 			<div class="rtcl-field-col">
-				<input type="text" name="telegram" id="rtcl-telegram" value="<?php echo esc_attr( $telegram ); ?>" class="rtcl-form-control" maxlength="33" data-rule-rtcltelegram="true" placeholder="@username"/>
+				<input type="text" name="telegram" id="rtcl-telegram" value="<?php echo esc_attr( $telegram ); ?>" class="rtcl-form-control" maxlength="33" data-rule-rtcltelegram="true" placeholder="<?php esc_attr_e( '@username', 'classified-listing' ); ?>"/>
 			</div>
 		</div>
 		<?php

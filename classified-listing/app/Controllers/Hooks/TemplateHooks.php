@@ -527,7 +527,7 @@ class TemplateHooks {
 	 * @return void
 	 */
 	public static function ajax_filter_render_radius_filter( $itemData, $filterData, $object ) {
-		$rs_data           = Options::radius_search_options();
+		$rs_data = Options::radius_search_options();
 		// Per-filter distance unit (set in the Ajax Filter Builder). Fall back to the
 		// global radius option, then miles, so filters saved before this field existed
 		// keep their current behaviour.
@@ -1532,19 +1532,21 @@ class TemplateHooks {
 					   } ?>"
 				       class="rtcl-form-control" required/>
 			</div>
-			<div class="second-name-column">
-				<label for="rtcl-reg-last-name" class="rtcl-field-label">
-					<?php
-					esc_html_e( 'Last Name', 'classified-listing' ); ?>
-					<strong class="rtcl-required">*</strong>
-				</label>
-				<input type="text" name="last_name"
-				       value="<?php
-					   if ( ! empty( $_POST['last_name'] ) ) {
-						   echo esc_attr( $_POST['last_name'] );
-					   } ?>"
-				       id="rtcl-reg-last-name" class="rtcl-form-control" required/>
-			</div>
+			<?php if ( apply_filters( 'rtcl_registration_last_name_validation', true, null ) ): ?>
+				<div class="second-name-column">
+					<label for="rtcl-reg-last-name" class="rtcl-field-label">
+						<?php
+						esc_html_e( 'Last Name', 'classified-listing' ); ?>
+						<strong class="rtcl-required">*</strong>
+					</label>
+					<input type="text" name="last_name"
+					       value="<?php
+						   if ( ! empty( $_POST['last_name'] ) ) {
+							   echo esc_attr( $_POST['last_name'] );
+						   } ?>"
+					       id="rtcl-reg-last-name" class="rtcl-form-control" required/>
+				</div>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
@@ -2075,6 +2077,12 @@ public static function output_main_wrapper_start() {
 	}
 
 	public static function checkout_content() {
+		if ( Functions::is_payment_disabled() ) {
+			Functions::get_template( 'checkout/error' );
+
+			return;
+		}
+
 		global $wp;
 
 		if ( ! empty( $wp->query_vars ) ) {

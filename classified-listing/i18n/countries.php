@@ -131,6 +131,7 @@ return array(
 	'KZ' => __('Kazakhstan', 'classified-listing'),
 	'KE' => __('Kenya', 'classified-listing'),
 	'KI' => __('Kiribati', 'classified-listing'),
+	'XK' => __('Kosovo', 'classified-listing'),
 	'KW' => __('Kuwait', 'classified-listing'),
 	'KG' => __('Kyrgyzstan', 'classified-listing'),
 	'LA' => __('Laos', 'classified-listing'),

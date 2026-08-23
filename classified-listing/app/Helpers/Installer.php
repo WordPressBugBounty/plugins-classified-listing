@@ -437,7 +437,7 @@ If we don\'t receive your payment within 48 hrs, we will cancel the order.',
 				'link'          => "#111111",
 				'link_hover'    => "#3232ff",
 				'button'        => "#3232ff",
-				'button_hover'  => "#3065c1",
+				'button_hover'  => "#2525d0",
 				'button_text'   => "#ffffff",
 				'sidebar_width' => [
 					'size' => 28,

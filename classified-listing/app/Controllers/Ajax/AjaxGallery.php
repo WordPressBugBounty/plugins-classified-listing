@@ -311,10 +311,7 @@ class AjaxGallery {
 			] );
 			exit;
 		}
-
-		$attach_id       = absint( Functions::request( "attach_id" ) );
-		$action_type     = Functions::request( "action_type" );
-		$history_encoded = Functions::request( "history" );
+		
 		$post_id         = absint( Functions::request( "post_id" ) );
 
 		if ( $post_id > 0 && ! $this->current_user_can_edit_listing( $post_id ) ) {
@@ -324,6 +321,10 @@ class AjaxGallery {
 			] );
 			exit;
 		}
+
+		$attach_id       = absint( Functions::request( "attach_id" ) );
+		$action_type     = Functions::request( "action_type" );
+		$history_encoded = Functions::request( "history" );
 
 		$size_dash = Functions::request( "size" );
 		$size      = str_replace( "_", "-", Functions::request( "size" ) );
