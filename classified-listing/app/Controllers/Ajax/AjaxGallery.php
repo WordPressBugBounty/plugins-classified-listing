@@ -51,7 +51,7 @@ class AjaxGallery {
 		}
 
 		$post_id = absint( Functions::request( "post_id" ) );
-		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
+		if ( ! $post_id || ! Functions::current_user_can_edit_listing( $post_id ) ) {
 			echo wp_json_encode( [
 				"result" => 0,
 				"error"  => __( "You do not have permission to delete images for this listing.", "classified-listing" ),
@@ -113,7 +113,7 @@ class AjaxGallery {
 
 		$post_id = intval( Functions::request( "post_id" ) );
 
-		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
+		if ( ! $post_id || ! Functions::current_user_can_edit_listing( $post_id ) ) {
 			wp_send_json_error( [ "error" => __( "You do not have permission to reorder images for this listing.", "classified-listing" ) ] );
 		}
 
@@ -155,7 +155,7 @@ class AjaxGallery {
 		}
 
 		$parent_post_id = isset( $_POST["post_id"] ) ? absint( $_POST["post_id"] ) : 0;
-		if ( $parent_post_id > 0 && ! Functions::current_user_can_edit_listing( $parent_post_id ) ) {
+		if ( ! $parent_post_id || ! Functions::current_user_can_edit_listing( $parent_post_id ) ) {
 			echo wp_json_encode( [
 				"result" => 0,
 				"error"  => __( "You do not have permission to upload images for this listing.", "classified-listing" ),
@@ -281,10 +281,10 @@ class AjaxGallery {
 			] );
 			exit;
 		}
-		
-		$post_id         = absint( Functions::request( "post_id" ) );
 
-		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
+		$post_id = absint( Functions::request( "post_id" ) );
+
+		if ( ! $post_id || ! Functions::current_user_can_edit_listing( $post_id ) ) {
 			echo wp_json_encode( [
 				"result" => 0,
 				"error"  => __( "You do not have permission to edit images for this listing.", "classified-listing" ),
@@ -516,7 +516,7 @@ class AjaxGallery {
 		$attach_id = Functions::request( "attach_id" );
 		$post_id   = intval( Functions::request( "post_id" ) );
 
-		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
+		if ( ! $post_id || ! Functions::current_user_can_edit_listing( $post_id ) ) {
 			echo wp_json_encode( [
 				"result" => 0,
 				"error"  => __( "You do not have permission to restore images for this listing.", "classified-listing" ),
@@ -595,7 +595,7 @@ class AjaxGallery {
 		}
 
 		$post_id = intval( $_POST["post_id"] );
-		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
+		if ( ! $post_id || ! Functions::current_user_can_edit_listing( $post_id ) ) {
 			echo wp_json_encode( [
 				"result" => 0,
 				"error"  => __( "You do not have permission to update images for this listing.", "classified-listing" ),
@@ -683,7 +683,7 @@ class AjaxGallery {
 		$size            = Functions::request( "size" );
 		$post_id         = absint( Functions::request( "post_id" ) );
 
-		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
+		if ( ! $post_id || ! Functions::current_user_can_edit_listing( $post_id ) ) {
 			echo wp_json_encode( [
 				"result" => 0,
 				"error"  => __( "You do not have permission to access images for this listing.", "classified-listing" ),

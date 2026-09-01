@@ -37,7 +37,7 @@ class AIImageController {
 
 		$post_id = absint( Functions::request( "post_id" ) );
 
-		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
+		if ( ! $post_id || ! Functions::current_user_can_edit_listing( $post_id ) ) {
 			wp_send_json_error( [ "error" => esc_html__( "You do not have permission to edit images for this listing.", "classified-listing" ) ] );
 		}
 
