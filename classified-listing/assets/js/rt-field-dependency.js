@@ -1,1 +1,685 @@
-!function(){"use strict";!function(e){const t=function(t){this.el=t,this.$el=e(t),this.fields={},this.conditions=this.$el.data("rt-depends")||[],this.init()};t.prototype={init:function(){const e=this;e.conditions.length&&(e.$el.addClass("has-rt-dependent"),e.loadEvent())},loadEvent:function(){const t=this;t.conditions.map(a=>{a.map(a=>{const n='[data-id="_field_'+a.field+'"]';e(document.body).on("input change",n+" input, "+n+" select",function(e){t.runValidation.apply(t,[e,a.field])}),e(n).find("input,select").each(function(){t.runValidation({target:this},a.field)})})})},runValidation:function(t,a){const n=this,s=t.target,r=this.getField_type(s);let i=s.value;if(void 0===n.fields[a])"checkbox"===r&&(i=s.checked?[i]:""),n.fields[a]={type:r,value:i};else if("checkbox"===r){const e=n.fields[a].value.indexOf(i);s.checked?-1===e&&n.fields[a].value.push(i):e>-1&&n.fields[a].value.splice(e,1)}else n.fields[a].value="radio"===r?e(document).find("input[type='radio'][name='"+s.getAttribute("name")+"']:checked").val():i;setTimeout(()=>{n.userRule.apply(n,arguments)},10)},userRule(){const e=this,t=[];e.conditions.map(a=>{const n=[];a.map(t=>{n.push(e.validated(t))}),t.push(n)}),t.map(e=>!e.includes(!1)).includes(!0)?(e.$el.hasClass("row")?e.$el.css({display:"flex"}):e.$el.show(),e.$el.removeClass("rt-dependent-error"),e.$el.addClass("rt-dependent-valid")):(e.$el.removeClass("rt-dependent-valid"),e.$el.addClass("rt-dependent-error"),e.$el.find('input[type="checkbox"],input[type="radio"]').prop("checked",!1),e.$el.find('select, input[type="text"], input[type="number"], input[type="url"]').val("").trigger("change"),e.$el.hide())},validated(t){const a=this;let n=0;t.field;const s=t.operator;if(void 0!==a.fields[t.field]){const r=a.fields[t.field];if("==empty"===s)n=Array.isArray(r.value)?!r.value.length:!r.value;else if("!=empty"===s)n=Array.isArray(r.value)?!!r.value.length:!!r.value;else{if("=="===s)return e.isNumeric(t.value)?a.isEqualToNumber(t.value,r.value):a.isEqualTo(t.value,r.value);if("!="===s)return e.isNumeric(t.value)?!a.isEqualToNumber(t.value,r.value):!a.isEqualTo(t.value,r.value);if("==pattern"===s)return a.matchesPattern(r.value,t.value);if("==contains"===s)return a.containsString(r.value,t.value)}}return n=0===n||1===n?!!n:n,n},getField_type(e){let t="";const a=e.tagName;return e&&("INPUT"===a?t=e.type:"SELECT"===a&&(t="select")),t},parseString:function(e){return e?""+e:""},isEqualTo:function(e,t){return this.parseString(e).toLowerCase()===this.parseString(t).toLowerCase()},isEqualToNumber:function(e,t){return parseFloat(e)===parseFloat(t)},inArray:function(e,t){const a=this;return(t=t.map(function(e){return a.parseString(e)})).indexOf(e)>-1},containsString:function(e,t){return this.parseString(e).indexOf(this.parseString(t))>-1},matchesPattern:function(e,t){const a=new RegExp(this.parseString(t),"gi");return this.parseString(e).match(a)}},window.rtclRenderCFfConditions=function(){e(document).find(".rtcl-cf-wrap[data-rt-depends]").each(function(){new t(this)})},rtclRenderCFfConditions(),e.fn.rtFieldDependency=function(t){this._targets=e(this),this._settings=e.extend({attribute:"rt-depends",rules:{}},t);const a=this,n=function(e,t,a){if(void 0===a&&(a=!1),null==e&&(e=[]),1==a)return e.sort().join(",").toLowerCase()==t.sort().join(",").toLowerCase();for(var n=0;n<e.length;n++)if(t.indexOf(e[n])>=0)return!0;return!1},s=function(t,a){return e.inArray(t,a)>=0&&e.isArray(a)},r=function(t){if("null"==typeof t||void 0===t)return!0;if("string"==typeof t)return""===e.trim(t);if("object"==(void 0===t?"undefined":typeof t)){if(e.isArray(t)){let a=e.map(t,function(t,a){return""===e.trim(t)?null:t});return e.isEmptyObject(a)}return e.isEmptyObject(t)}return!1};return this.typeRegExpDependency=function(t,a){if("undefined"==typeof useEvent&&(useEvent=!1),void 0===e(parent).prop("tagName"))return!1;var n=e(parent).prop("tagName").toLowerCase()+":"+e(parent).prop("type").toLowerCase(),s=e.trim(e(parent).val());switch(n){case"input:text":case"input:password":case"input:number":case"input:date":case"input:email":case"input:url":case"input:tel":case"textarea:textarea":var r=void 0===a.modifier?"":a.modifier;new RegExp(a.pattern,r).test(s)?e(element).show():e(element).hide()}useEvent&&e(document.body).on("input",e(parent),function(e){typeRegExpDependency(element,a,parent,!1)})},this.typeEmptyDependency=function(t,a){if(void 0===e(t).prop("tagName"))return!1;let n=!1,s=e(t).prop("tagName").toLowerCase()+":"+e(t).prop("type").toLowerCase(),i=e(t).val();switch(s){case"input:text":case"input:password":case"input:number":case"input:date":case"input:email":case"input:url":case"input:tel":case"textarea:textarea":case"select:select-one":""===e.trim(i)&&(n=!0);break;case"input:checkbox":e(t).is(":checked")||""!==e.trim(i)||(n=!0);break;case"select:select-multiple":r(i)&&(n=!0)}return n},this.typeNotEmptyDependency=function(t,a){if(void 0===e(parent).prop("tagName"))return!1;let n=!1,s=e(parent).prop("tagName").toLowerCase()+":"+e(parent).prop("type").toLowerCase(),i=e(parent).val();switch(s){case"input:text":case"input:password":case"input:number":case"input:date":case"input:email":case"input:url":case"input:tel":case"textarea:textarea":case"select:select-one":""!=e.trim(i)&&(n=!0);break;case"input:checkbox":e(parent).is(":checked")&&""!=e.trim(i)&&(n=!0);break;case"select:select-multiple":r(i)&&(n=!0)}return n},this.typeEqualDependency=function(t,a){if(void 0===e(t).prop("tagName"))return!1;let i=!1,c=e(t).prop("tagName").toLowerCase()+":"+e(t).prop("type").toLowerCase(),l=e(t).val(),u=void 0!==a.like;if(a.empty=void 0!==a.empty&&a.empty,a.strict=void 0!==a.strict&&a.strict,u){let t=e(a.like).prop("tagName").toLowerCase()+":"+e(a.like).prop("type").toLowerCase();"input:checkbox"==t||"input:radio"==t?a.value=e(a.like+":checked").map(function(){return this.value}).get():(a.value=e(a.like).val(),showOnEmptyValue||(a.value=""==e.trim(e(a.like).val())?null:e(a.like).val()))}switch(c){case"input:text":case"input:password":case"input:number":case"input:date":case"input:email":case"input:url":case"input:tel":case"textarea:textarea":case"select:select-one":(e.trim(l)===a.value||s(l,a.value)||""===e.trim(l)&&a.empty)&&(i=!0);break;case"input:checkbox":case"input:radio":let c=e(t+":checked").map(function(){return this.value}).get();(c===a.value||s(c,a.value)||n(c,a.value,a.strict)||r(c)&&a.empty)&&(i=!0);break;case"select:select-multiple":(n(value,a.value,a.strict)||null==l&&a.empty)&&(i=!0)}return i},this.typeNotEqualDependency=function(t,a){if(void 0===e(t).prop("tagName"))return!1;let i=!1,c=e(t).prop("tagName").toLowerCase()+":"+e(t).prop("type").toLowerCase(),l=e(t).val(),u=void 0!==a.like;if(a.strict=void 0!==a.strict&&a.strict,a.empty=void 0===a.empty||a.empty,u){var p=e(a.like).prop("tagName").toLowerCase()+":"+e(a.like).prop("type").toLowerCase();"input:checkbox"==p||"input:radio"==p?a.value=e(a.like+":checked").map(function(){return this.value}).get():(a.value=e(a.like).val(),showOnEmptyValue||(a.value=""==e.trim(e(a.like).val())?null:e(a.like).val()))}switch(c){case"input:text":case"input:password":case"input:number":case"input:date":case"input:email":case"input:url":case"input:tel":case"textarea:textarea":case"select:select-one":i=l!=a.value&&(!s(l,a.value)&&!(""==e.trim(l)&&!a.empty));break;case"input:checkbox":case"input:radio":l=e(t+":checked").map(function(){return this.value}).get(),void 0===a.strict&&(a.strict=!1),i=l!=a.value&&(!s(l,a.value)&&(!n(l,a.value,a.strict)&&!(r(l)&&!a.empty)));break;case"select:select-multiple":i=!n(l,a.value,a.strict)&&!(null==l&&!a.empty)}return i},this.typeCompareDependency=function(t,a){let n=!1;if(void 0===e(t).prop("tagName"))return!1;e(t).prop("tagName").toLowerCase(),e(t).prop("type").toLowerCase();let s=parseInt(e(t).val());switch(a.value=parseInt(a.value),a.sign){case"<":case"lt":case"lessthen":case"less-then":case"LessThen":s<a.value&&(n=!0);break;case"<=":case"lteq":case"lessthenequal":case"less-then-equal":case"LessThenEqual":case"eqlt":s<=a.value&&(n=!0);break;case">=":case"gteq":case"greaterthenequal":case"greater-then-equal":case"GreaterThenEqual":case"eqgt":s>=a.value&&(n=!0);break;case">":case"gt":case"greaterthen":case"greater-then":case"GreaterThen":s>a.value&&(n=!0)}return n},this.typeRangeDependency=function(t,a){if(void 0===e(t).prop("tagName"))return!1;let n=!1;e(t).prop("tagName").toLowerCase(),e(t).prop("type").toLowerCase();let s,r,i=parseInt(e(t).val());return e.isArray(a.value)&&(s=parseInt(a.value[0]),r=parseInt(a.value[1])),void 0===a.value&&(s=parseInt(a.min),r=parseInt(a.max)),s<i&&i<r&&(n=!0),n},this.typeLengthDependency=function(t,a){if(void 0===e(parent).prop("tagName"))return!1;let n=!1;e(parent).prop("tagName").toLowerCase(),e(parent).prop("type").toLowerCase();let s=e(parent).val().length;switch(a.value=parseInt(a.value),a.sign){case"<":case"lt":case"lessthen":case"less-then":case"LessThen":s<a.value&&(n=!0);break;case"<=":case"lteq":case"lessthenequal":case"less-then-equal":case"LessThenEqual":case"eqlt":s<=a.value&&(n=!0);break;case">=":case"gteq":case"greaterthenequal":case"greater-then-equal":case"GreaterThenEqual":case"eqgt":s>=a.value&&(n=!0);break;case">":case"gt":case"greaterthen":case"greater-then":case"GreaterThen":s>a.value&&(n=!0)}return n},this.useRuleType=function(t,a){let n=!1;const s=this;e.each(a.rules,function(e,t){switch(t.type){case"empty":n=s.typeEmptyDependency(e,t);break;case"notempty":case"not-empty":case"notEmpty":case"!empty":n=s.typeNotEmptyDependency(e,t);break;case"equal":case"==":case"=":n=s.typeEqualDependency(e,t);break;case"!equal":case"notequal":case"!=":case"not-equal":case"notEqual":n=s.typeNotEqualDependency(e,t);break;case"regexp":case"expression":case"reg":case"exp":n=s.typeRegExpDependency(e,t);break;case"compare":case"comp":n=s.typeCompareDependency(e,t);break;case"length":case"lng":n=s.typeLengthDependency(e,t);break;case"range":n=s.typeRangeDependency(e,t)}return("and"!==a.relation.toLocaleLowerCase()||!0!==n)&&(("or"!==a.relation.toLocaleLowerCase()||!1!==n)&&void 0)}),n?e(t).show("slow"):e(t).hide("slow")},this._targets.each(function(){const t=e(this),n=t.data(a._settings.attribute.replace("data-","").trim());if(n){t.addClass("has-dependent-data");const s=e.extend({rules:{},relation:"or"},n),r=Object.keys(s.rules);r.length&&(a.useRuleType(t,s),e(document.body).on("input change",e(r.join(",")),function(e){a.useRuleType(t,s)}))}})}}(jQuery)}();
+(function() {
+  "use strict";
+  (function($) {
+    const RtFieldDependency = function(el) {
+      this.el = el;
+      this.$el = $(el);
+      this.fields = {};
+      this.conditions = this.$el.data("rt-depends") || [];
+      this.init();
+    };
+    RtFieldDependency.prototype = {
+      init: function() {
+        const fd = this;
+        if (fd.conditions.length) {
+          fd.$el.addClass("has-rt-dependent");
+          fd.loadEvent();
+        }
+      },
+      loadEvent: function() {
+        const fd = this;
+        fd.conditions.map((rules) => {
+          rules.map((rule) => {
+            const context = '[data-id="_field_' + rule.field + '"]';
+            $(document.body).on("input change", context + " input, " + context + " select", function(e) {
+              fd.runValidation.apply(fd, [e, rule.field]);
+            });
+            $(context).find("input,select").each(function() {
+              const el = this;
+              fd.runValidation({ target: el }, rule.field);
+            });
+          });
+        });
+      },
+      runValidation: function(e, field_id) {
+        const fd = this;
+        const el = e.target;
+        const type = this.getField_type(el);
+        let current_value = el.value;
+        if (fd.fields[field_id] === void 0) {
+          if ("checkbox" === type) {
+            current_value = el.checked ? [current_value] : "";
+          }
+          fd.fields[field_id] = {
+            type,
+            value: current_value
+          };
+        } else {
+          if ("checkbox" === type) {
+            const itemIndex = fd.fields[field_id].value.indexOf(current_value);
+            if (el.checked) {
+              if (itemIndex === -1) {
+                fd.fields[field_id].value.push(current_value);
+              }
+            } else {
+              if (itemIndex > -1) {
+                fd.fields[field_id].value.splice(itemIndex, 1);
+              }
+            }
+          } else if ("radio" === type) {
+            fd.fields[field_id].value = $(document).find("input[type='radio'][name='" + el.getAttribute("name") + "']:checked").val();
+          } else {
+            fd.fields[field_id].value = current_value;
+          }
+        }
+        setTimeout(() => {
+          fd.userRule.apply(fd, arguments);
+        }, 10);
+      },
+      userRule() {
+        const fd = this;
+        const con = [];
+        fd.conditions.map((rules) => {
+          const conInner = [];
+          rules.map((rule) => {
+            conInner.push(fd.validated(rule));
+          });
+          con.push(conInner);
+        });
+        if (con.map((item) => !item.includes(false)).includes(true)) {
+          if (fd.$el.hasClass("row")) {
+            fd.$el.css({ display: "flex" });
+          } else {
+            fd.$el.show();
+          }
+          fd.$el.removeClass("rt-dependent-error");
+          fd.$el.addClass("rt-dependent-valid");
+        } else {
+          fd.$el.removeClass("rt-dependent-valid");
+          fd.$el.addClass("rt-dependent-error");
+          fd.$el.find('input[type="checkbox"],input[type="radio"]').prop("checked", false);
+          fd.$el.find('select, input[type="text"], input[type="number"], input[type="url"]').val("").trigger("change");
+          fd.$el.hide();
+        }
+      },
+      validated(rule) {
+        const fd = this;
+        let isValid = 0;
+        rule.field;
+        const operator = rule.operator;
+        if (fd.fields[rule.field] !== void 0) {
+          const field = fd.fields[rule.field];
+          if (operator === "==empty") {
+            isValid = Array.isArray(field.value) ? !field.value.length : !field.value;
+          } else if (operator === "!=empty") {
+            isValid = Array.isArray(field.value) ? !!field.value.length : !!field.value;
+          } else if (operator === "==") {
+            if ($.isNumeric(rule.value)) {
+              return fd.isEqualToNumber(rule.value, field.value);
+            } else {
+              return fd.isEqualTo(rule.value, field.value);
+            }
+          } else if (operator === "!=") {
+            if ($.isNumeric(rule.value)) {
+              return !fd.isEqualToNumber(rule.value, field.value);
+            } else {
+              return !fd.isEqualTo(rule.value, field.value);
+            }
+          } else if (operator === "==pattern") {
+            return fd.matchesPattern(field.value, rule.value);
+          } else if (operator === "==contains") {
+            return fd.containsString(field.value, rule.value);
+          }
+        }
+        isValid = isValid === 0 || isValid === 1 ? !!isValid : isValid;
+        return isValid;
+      },
+      getField_type(el) {
+        let type = "";
+        const tagName = el.tagName;
+        if (el) {
+          if (tagName === "INPUT") {
+            type = el.type;
+          } else if (tagName === "SELECT") {
+            type = "select";
+          }
+        }
+        return type;
+      },
+      parseString: function(val) {
+        return val ? "" + val : "";
+      },
+      isEqualTo: function(v1, v2) {
+        return this.parseString(v1).toLowerCase() === this.parseString(v2).toLowerCase();
+      },
+      isEqualToNumber: function(v1, v2) {
+        return parseFloat(v1) === parseFloat(v2);
+      },
+      inArray: function(v1, array) {
+        const fd = this;
+        array = array.map(function(v2) {
+          return fd.parseString(v2);
+        });
+        return array.indexOf(v1) > -1;
+      },
+      containsString: function(haystack, needle) {
+        return this.parseString(haystack).indexOf(this.parseString(needle)) > -1;
+      },
+      matchesPattern: function(v1, pattern) {
+        const regexp = new RegExp(this.parseString(pattern), "gi");
+        return this.parseString(v1).match(regexp);
+      }
+    };
+    window.rtclRenderCFfConditions = function() {
+      $(document).find(".rtcl-cf-wrap[data-rt-depends]").each(function() {
+        new RtFieldDependency(this);
+      });
+    };
+    rtclRenderCFfConditions();
+    $.fn.rtFieldDependency = function(options) {
+      this._targets = $(this);
+      this._settings = $.extend({
+        "attribute": "rt-depends",
+        "rules": {}
+      }, options);
+      const that = this;
+      const arrayInArraysHelper = function arrayInArraysHelper2(needleArray, haystackArray, strict) {
+        if (typeof strict == "undefined") {
+          strict = false;
+        }
+        if (needleArray == null) {
+          needleArray = [];
+        }
+        if (strict == true) {
+          return needleArray.sort().join(",").toLowerCase() == haystackArray.sort().join(",").toLowerCase();
+        } else {
+          for (var i = 0; i < needleArray.length; i++) {
+            if (haystackArray.indexOf(needleArray[i]) >= 0) {
+              return true;
+            }
+          }
+          return false;
+        }
+      };
+      const stringInArraysHelper = function stringInArraysHelper2(needleString, haystackArray) {
+        return $.inArray(needleString, haystackArray) >= 0 && $.isArray(haystackArray);
+      };
+      const isEmpty = function isEmpty2(value2) {
+        if (typeof value2 == "null" || typeof value2 == "undefined") {
+          return true;
+        }
+        if (typeof value2 == "string") {
+          return $.trim(value2) === "";
+        }
+        if ((typeof value2 === "undefined" ? "undefined" : typeof value2) == "object") {
+          if ($.isArray(value2)) {
+            let _tmp = $.map(value2, function(val, i) {
+              return $.trim(val) === "" ? null : val;
+            });
+            return $.isEmptyObject(_tmp);
+          } else {
+            return $.isEmptyObject(value2);
+          }
+        }
+        return false;
+      };
+      this.typeRegExpDependency = function(selector, depObject) {
+        if (typeof useEvent == "undefined") {
+          useEvent = false;
+        }
+        if (typeof $(parent).prop("tagName") == "undefined") {
+          return false;
+        }
+        var tag = $(parent).prop("tagName").toLowerCase();
+        var type = $(parent).prop("type").toLowerCase();
+        var name = tag + ":" + type;
+        var value2 = $.trim($(parent).val());
+        switch (name) {
+          case "input:text":
+          case "input:password":
+          case "input:number":
+          case "input:date":
+          case "input:email":
+          case "input:url":
+          case "input:tel":
+          case "textarea:textarea":
+            var modifier = typeof depObject.modifier == "undefined" ? "" : depObject.modifier;
+            var pattern = new RegExp(depObject.pattern, modifier);
+            if (pattern.test(value2)) {
+              $(element).show();
+            } else {
+              $(element).hide();
+            }
+            break;
+        }
+        if (useEvent) {
+          $(document.body).on("input", $(parent), function(e) {
+            typeRegExpDependency(element, depObject, parent, false);
+          });
+        }
+      };
+      this.typeEmptyDependency = function(selector, depObject) {
+        if (typeof $(selector).prop("tagName") == "undefined") {
+          return false;
+        }
+        let trigger = false;
+        let tag = $(selector).prop("tagName").toLowerCase();
+        let type = $(selector).prop("type").toLowerCase();
+        let name = tag + ":" + type;
+        let value2 = $(selector).val();
+        switch (name) {
+          case "input:text":
+          case "input:password":
+          case "input:number":
+          case "input:date":
+          case "input:email":
+          case "input:url":
+          case "input:tel":
+          case "textarea:textarea":
+          case "select:select-one":
+            if ($.trim(value2) === "") {
+              trigger = true;
+            }
+            break;
+          case "input:checkbox":
+            if (!$(selector).is(":checked") && $.trim(value2) === "") {
+              trigger = true;
+            }
+            break;
+          case "select:select-multiple":
+            if (isEmpty(value2)) {
+              trigger = true;
+            }
+            break;
+        }
+        return trigger;
+      };
+      this.typeNotEmptyDependency = function(selector, depObject) {
+        if (typeof $(parent).prop("tagName") == "undefined") {
+          return false;
+        }
+        let trigger = false;
+        let tag = $(parent).prop("tagName").toLowerCase();
+        let type = $(parent).prop("type").toLowerCase();
+        let name = tag + ":" + type;
+        let value2 = $(parent).val();
+        switch (name) {
+          case "input:text":
+          case "input:password":
+          case "input:number":
+          case "input:date":
+          case "input:email":
+          case "input:url":
+          case "input:tel":
+          case "textarea:textarea":
+          case "select:select-one":
+            if ($.trim(value2) != "") {
+              trigger = true;
+            }
+            break;
+          case "input:checkbox":
+            if ($(parent).is(":checked") && $.trim(value2) != "") {
+              trigger = true;
+            }
+            break;
+          case "select:select-multiple":
+            if (isEmpty(value2)) {
+              trigger = true;
+            }
+            break;
+        }
+        return trigger;
+      };
+      this.typeEqualDependency = function(selector, depObject) {
+        if (typeof $(selector).prop("tagName") == "undefined") {
+          return false;
+        }
+        let trigger = false;
+        let tag = $(selector).prop("tagName").toLowerCase();
+        let type = $(selector).prop("type").toLowerCase();
+        let name = tag + ":" + type;
+        let val = $(selector).val();
+        let equalLike = typeof depObject.like != "undefined";
+        depObject.empty = typeof depObject.empty == "undefined" ? false : depObject.empty;
+        depObject.strict = typeof depObject.strict == "undefined" ? false : depObject.strict;
+        if (equalLike) {
+          let eqtag = $(depObject.like).prop("tagName").toLowerCase();
+          let eqtype = $(depObject.like).prop("type").toLowerCase();
+          let eqname = eqtag + ":" + eqtype;
+          if (eqname == "input:checkbox" || eqname == "input:radio") {
+            depObject.value = $(depObject.like + ":checked").map(function() {
+              return this.value;
+            }).get();
+          } else {
+            depObject.value = $(depObject.like).val();
+            if (!showOnEmptyValue) {
+              depObject.value = $.trim($(depObject.like).val()) == "" ? null : $(depObject.like).val();
+            }
+          }
+        }
+        switch (name) {
+          case "input:text":
+          case "input:password":
+          case "input:number":
+          case "input:date":
+          case "input:email":
+          case "input:url":
+          case "input:tel":
+          case "textarea:textarea":
+          case "select:select-one":
+            if ($.trim(val) === depObject.value) {
+              trigger = true;
+            } else if (stringInArraysHelper(val, depObject.value)) {
+              trigger = true;
+            } else {
+              if ($.trim(val) === "" && depObject.empty) {
+                trigger = true;
+              }
+            }
+            break;
+          case "input:checkbox":
+          case "input:radio":
+            let valList = $(selector + ":checked").map(function() {
+              return this.value;
+            }).get();
+            if (valList === depObject.value) {
+              trigger = true;
+            } else if (stringInArraysHelper(valList, depObject.value)) {
+              trigger = true;
+            } else if (arrayInArraysHelper(valList, depObject.value, depObject.strict)) {
+              trigger = true;
+            } else {
+              if (isEmpty(valList) && depObject.empty) {
+                trigger = true;
+              }
+            }
+            break;
+          case "select:select-multiple":
+            if (arrayInArraysHelper(value, depObject.value, depObject.strict)) {
+              trigger = true;
+            } else {
+              if (val == null && depObject.empty) {
+                trigger = true;
+              }
+            }
+            break;
+        }
+        return trigger;
+      };
+      this.typeNotEqualDependency = function(selector, depObject) {
+        if (typeof $(selector).prop("tagName") == "undefined") {
+          return false;
+        }
+        let trigger = false;
+        let tag = $(selector).prop("tagName").toLowerCase();
+        let type = $(selector).prop("type").toLowerCase();
+        let name = tag + ":" + type;
+        let value2 = $(selector).val();
+        let equalLike = typeof depObject.like == "undefined" ? false : true;
+        depObject.strict = typeof depObject.strict == "undefined" ? false : depObject.strict;
+        depObject.empty = typeof depObject.empty == "undefined" ? true : depObject.empty;
+        if (equalLike) {
+          var eqtag = $(depObject.like).prop("tagName").toLowerCase();
+          var eqtype = $(depObject.like).prop("type").toLowerCase();
+          var eqname = eqtag + ":" + eqtype;
+          if (eqname == "input:checkbox" || eqname == "input:radio") {
+            depObject.value = $(depObject.like + ":checked").map(function() {
+              return this.value;
+            }).get();
+          } else {
+            depObject.value = $(depObject.like).val();
+            if (!showOnEmptyValue) {
+              depObject.value = $.trim($(depObject.like).val()) == "" ? null : $(depObject.like).val();
+            }
+          }
+        }
+        switch (name) {
+          case "input:text":
+          case "input:password":
+          case "input:number":
+          case "input:date":
+          case "input:email":
+          case "input:url":
+          case "input:tel":
+          case "textarea:textarea":
+          case "select:select-one":
+            if (value2 == depObject.value) {
+              trigger = false;
+            } else if (stringInArraysHelper(value2, depObject.value)) {
+              trigger = false;
+            } else {
+              if ($.trim(value2) == "" && !depObject.empty) {
+                trigger = false;
+              } else {
+                trigger = true;
+              }
+            }
+            break;
+          case "input:checkbox":
+          case "input:radio":
+            value2 = $(selector + ":checked").map(function() {
+              return this.value;
+            }).get();
+            if (typeof depObject.strict == "undefined") {
+              depObject.strict = false;
+            }
+            if (value2 == depObject.value) {
+              trigger = false;
+            } else if (stringInArraysHelper(value2, depObject.value)) {
+              trigger = false;
+            } else if (arrayInArraysHelper(value2, depObject.value, depObject.strict)) {
+              trigger = false;
+            } else {
+              if (isEmpty(value2) && !depObject.empty) {
+                trigger = false;
+              } else {
+                trigger = true;
+              }
+            }
+            break;
+          case "select:select-multiple":
+            if (arrayInArraysHelper(value2, depObject.value, depObject.strict)) {
+              trigger = false;
+            } else {
+              if (value2 == null && !depObject.empty) {
+                trigger = false;
+              } else {
+                trigger = true;
+              }
+            }
+            break;
+        }
+        return trigger;
+      };
+      this.typeCompareDependency = function(selector, depObject) {
+        let trigger = false;
+        if (typeof $(selector).prop("tagName") == "undefined") {
+          return false;
+        }
+        $(selector).prop("tagName").toLowerCase();
+        $(selector).prop("type").toLowerCase();
+        let value2 = parseInt($(selector).val());
+        depObject.value = parseInt(depObject.value);
+        switch (depObject.sign) {
+          case "<":
+          case "lt":
+          case "lessthen":
+          case "less-then":
+          case "LessThen":
+            if (value2 < depObject.value) {
+              trigger = true;
+            }
+            break;
+          case "<=":
+          case "lteq":
+          case "lessthenequal":
+          case "less-then-equal":
+          case "LessThenEqual":
+          case "eqlt":
+            if (value2 <= depObject.value) {
+              trigger = true;
+            }
+            break;
+          case ">=":
+          case "gteq":
+          case "greaterthenequal":
+          case "greater-then-equal":
+          case "GreaterThenEqual":
+          case "eqgt":
+            if (value2 >= depObject.value) {
+              trigger = true;
+            }
+            break;
+          case ">":
+          case "gt":
+          case "greaterthen":
+          case "greater-then":
+          case "GreaterThen":
+            if (value2 > depObject.value) {
+              trigger = true;
+            }
+            break;
+        }
+        return trigger;
+      };
+      this.typeRangeDependency = function(selector, depObject) {
+        if (typeof $(selector).prop("tagName") == "undefined") {
+          return false;
+        }
+        let trigger = false;
+        $(selector).prop("tagName").toLowerCase();
+        $(selector).prop("type").toLowerCase();
+        let value2 = parseInt($(selector).val());
+        let min, max;
+        if ($.isArray(depObject.value)) {
+          min = parseInt(depObject.value[0]);
+          max = parseInt(depObject.value[1]);
+        }
+        if (typeof depObject.value == "undefined") {
+          min = parseInt(depObject.min);
+          max = parseInt(depObject.max);
+        }
+        if (min < value2 && value2 < max) {
+          trigger = true;
+        }
+        return trigger;
+      };
+      this.typeLengthDependency = function(selector, depObject) {
+        if (typeof $(parent).prop("tagName") == "undefined") {
+          return false;
+        }
+        let trigger = false;
+        $(parent).prop("tagName").toLowerCase();
+        $(parent).prop("type").toLowerCase();
+        let value2 = $(parent).val().length;
+        depObject.value = parseInt(depObject.value);
+        switch (depObject.sign) {
+          case "<":
+          case "lt":
+          case "lessthen":
+          case "less-then":
+          case "LessThen":
+            if (value2 < depObject.value) {
+              trigger = true;
+            }
+            break;
+          case "<=":
+          case "lteq":
+          case "lessthenequal":
+          case "less-then-equal":
+          case "LessThenEqual":
+          case "eqlt":
+            if (value2 <= depObject.value) {
+              trigger = true;
+            }
+            break;
+          case ">=":
+          case "gteq":
+          case "greaterthenequal":
+          case "greater-then-equal":
+          case "GreaterThenEqual":
+          case "eqgt":
+            if (value2 >= depObject.value) {
+              trigger = true;
+            }
+            break;
+          case ">":
+          case "gt":
+          case "greaterthen":
+          case "greater-then":
+          case "GreaterThen":
+            if (value2 > depObject.value) {
+              trigger = true;
+            }
+            break;
+        }
+        return trigger;
+      };
+      this.useRuleType = function(target, data) {
+        let trigger = false;
+        const that2 = this;
+        $.each(data.rules, function(selector, depObject) {
+          switch (depObject.type) {
+            case "empty":
+              trigger = that2.typeEmptyDependency(selector, depObject);
+              break;
+            case "notempty":
+            case "not-empty":
+            case "notEmpty":
+            case "!empty":
+              trigger = that2.typeNotEmptyDependency(selector, depObject);
+              break;
+            case "equal":
+            case "==":
+            case "=":
+              trigger = that2.typeEqualDependency(selector, depObject);
+              break;
+            case "!equal":
+            case "notequal":
+            case "!=":
+            case "not-equal":
+            case "notEqual":
+              trigger = that2.typeNotEqualDependency(selector, depObject);
+              break;
+            case "regexp":
+            case "expression":
+            case "reg":
+            case "exp":
+              trigger = that2.typeRegExpDependency(selector, depObject);
+              break;
+            case "compare":
+            case "comp":
+              trigger = that2.typeCompareDependency(selector, depObject);
+              break;
+            case "length":
+            case "lng":
+              trigger = that2.typeLengthDependency(selector, depObject);
+              break;
+            case "range":
+              trigger = that2.typeRangeDependency(selector, depObject);
+              break;
+          }
+          if (data.relation.toLocaleLowerCase() === "and" && trigger === true) {
+            return false;
+          }
+          if (data.relation.toLocaleLowerCase() === "or" && trigger === false) {
+            return false;
+          }
+        });
+        if (trigger) {
+          $(target).show("slow");
+        } else {
+          $(target).hide("slow");
+        }
+      };
+      return this._targets.each(function() {
+        const target = $(this);
+        const data = target.data(that._settings.attribute.replace("data-", "").trim());
+        if (data) {
+          target.addClass("has-dependent-data");
+          const options2 = $.extend({
+            "rules": {},
+            "relation": "or"
+          }, data);
+          const optionsKeys = Object.keys(options2.rules);
+          if (optionsKeys.length) {
+            that.useRuleType(target, options2);
+            $(document.body).on("input change", $(optionsKeys.join(",")), function(e) {
+              that.useRuleType(target, options2);
+            });
+          }
+        }
+      });
+    };
+  })(jQuery);
+})();

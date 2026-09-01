@@ -35,10 +35,14 @@ class AIImageController {
 			wp_send_json_error( [ "error" => esc_html__( "Given file is empty to upload.", "classified-listing" ) ] );
 		}
 
-		$attach_id = absint( Functions::request( "attach_id" ) );
-		$post_id   = absint( Functions::request( "post_id" ) );
+		$post_id = absint( Functions::request( "post_id" ) );
 
-		$attach = get_post( $attach_id );
+		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
+			wp_send_json_error( [ "error" => esc_html__( "You do not have permission to edit images for this listing.", "classified-listing" ) ] );
+		}
+
+		$attach_id = absint( Functions::request( "attach_id" ) );
+		$attach    = get_post( $attach_id );
 
 		if ( $attach->post_parent != $post_id ) {
 			wp_send_json_error( [

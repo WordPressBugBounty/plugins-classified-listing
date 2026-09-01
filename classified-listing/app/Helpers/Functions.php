@@ -5621,6 +5621,109 @@ class Functions {
 		return array_reverse( $date_array );
 	}
 
+	/**
+	 * Get revenue data for a given range.
+	 *
+	 * @param string $range One of 'weekly', 'monthly', 'yearly'.
+	 *
+	 * @return array Associative array keyed by label with revenue totals.
+	 */
+	public static function get_revenue_by_range( $range = 'weekly' ) {
+		$today = current_time( 'Y-m-d' );
+
+		switch ( $range ) {
+			case 'yearly':
+				$days_back    = 365;
+				$group_format = 'M Y';
+				$date_format  = 'M Y';
+				break;
+			case 'monthly':
+				$days_back    = 29;
+				$group_format = 'j M';
+				$date_format  = 'D, d M Y';
+				break;
+			default: // weekly
+				$days_back    = 6;
+				$group_format = 'D';
+				$date_format  = 'D, d M Y';
+				break;
+		}
+
+		// Build ordered buckets.
+		$labels  = [];
+		$dates   = [];
+		$buckets = [];
+		if ( 'yearly' === $range ) {
+			for ( $i = 11; $i >= 0; $i-- ) {
+				$ts              = strtotime( $today . " -{$i} months" );
+				$label           = gmdate( 'M Y', $ts );
+				$labels[]        = gmdate( 'M', $ts );
+				$dates[]         = $label;
+				$buckets[ $label ] = 0;
+			}
+		} else {
+			for ( $i = $days_back; $i >= 0; $i-- ) {
+				$date              = gmdate( 'Y-m-d', strtotime( $today . " -{$i} days" ) );
+				$ts                = strtotime( $date );
+				$label             = gmdate( $group_format, $ts );
+				$labels[]          = $label;
+				$dates[]           = gmdate( $date_format, $ts );
+				$buckets[ $label ] = 0;
+			}
+		}
+
+		// Query completed payments.
+		$from_date = gmdate( 'd-m-Y', strtotime( $today . " -{$days_back} days" ) );
+		$to_date   = gmdate( 'd-m-Y', strtotime( $today . ' +24 hours' ) );
+
+		if ( 'yearly' === $range ) {
+			$from_date = gmdate( 'd-m-Y', strtotime( gmdate( 'Y-m-01', strtotime( $today . ' -11 months' ) ) ) );
+		}
+
+		$args = [
+			'post_type'      => rtcl()->post_type_payment,
+			'post_status'    => 'rtcl-completed',
+			'posts_per_page' => -1,
+			'orderby'        => 'date',
+			'order'          => 'asc',
+			'date_query'     => [
+				[
+					'after'     => $from_date,
+					'before'    => $to_date,
+					'inclusive' => true,
+				],
+			],
+		];
+
+		$query = new \WP_Query( apply_filters( 'rtcl_chart_payment_args', $args ) );
+
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+				$order = rtcl()->factory->get_order( get_the_ID() );
+				$price = (int) $order->get_total();
+
+				if ( 'yearly' === $range ) {
+					$label = get_the_date( 'M Y' );
+				} else {
+					$label = get_the_date( $group_format );
+				}
+
+				if ( isset( $buckets[ $label ] ) ) {
+					$buckets[ $label ] += $price;
+				}
+			}
+		}
+
+		wp_reset_postdata();
+
+		return [
+			'labels' => $labels,
+			'values' => array_values( $buckets ),
+			'dates'  => $dates,
+		];
+	}
+
 	public static function get_last_week_order_price() {
 		$week_days = self::get_last_week_days( 14, 'd-m-Y' );
 
@@ -5676,6 +5779,361 @@ class Functions {
 		}
 
 		return $last_week_order_price;
+	}
+
+	/**
+	 * Get aggregate ad views for a given range from the stats table.
+	 *
+	 * @param string $range One of 'weekly' (last 7 days), 'monthly' (last 30 days),
+	 *                      or 'yearly' (last 12 months). Default 'weekly'.
+	 *
+	 * @return array Associative array keyed by human-readable labels
+	 *               with integer view counts as values.
+	 */
+	public static function get_ad_views_by_range( $range = 'weekly' ) {
+		global $wpdb;
+
+		$today = current_time( 'Y-m-d' );
+
+		if ( 'yearly' === $range ) {
+			return self::get_ad_views_yearly( $wpdb, $today );
+		}
+
+		if ( 'monthly' === $range ) {
+			return self::get_ad_views_daily( $wpdb, $today, 29, 'j M' );
+		}
+
+		// Default: weekly (last 7 days).
+		return self::get_ad_views_daily( $wpdb, $today, 6, 'D' );
+	}
+
+	/**
+	 * Get ad views for a custom date range.
+	 *
+	 * @param string $start_date Start date (any strtotime-parseable format).
+	 * @param string $end_date   End date.
+	 *
+	 * @return array { labels: [], values: [], dates: [] }
+	 */
+	public static function get_ad_views_by_custom_range( $start_date, $end_date ) {
+		global $wpdb;
+
+		$from = gmdate( 'Y-m-d', strtotime( $start_date ) );
+		$to   = gmdate( 'Y-m-d', strtotime( $end_date ) );
+
+		if ( ! $from || ! $to || $from > $to ) {
+			return [ 'labels' => [], 'values' => [], 'dates' => [] ];
+		}
+
+		$day_diff = ( strtotime( $to ) - strtotime( $from ) ) / 86400;
+
+		$labels = [];
+		$values = [];
+		$dates  = [];
+
+		if ( $day_diff > 120 ) {
+			// Group by month.
+			$buckets = [];
+			$current = strtotime( gmdate( 'Y-m-01', strtotime( $from ) ) );
+			$end_ts  = strtotime( $to );
+			while ( $current <= $end_ts ) {
+				$label            = gmdate( 'M Y', $current );
+				$buckets[ $label ] = 0;
+				$labels[]         = gmdate( 'M', $current );
+				$dates[]          = $label;
+				$current          = strtotime( '+1 month', $current );
+			}
+
+			if ( ListingStats::table_exists() ) {
+				$table = ListingStats::table();
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+				$rows = $wpdb->get_results(
+					$wpdb->prepare(
+						"SELECT DATE_FORMAT(stat_date, '%%Y-%%m') AS ym, SUM(stat_count) AS total
+						FROM {$table}
+						WHERE stat_key = 'view' AND stat_date BETWEEN %s AND %s
+						GROUP BY ym ORDER BY ym ASC",
+						$from,
+						$to
+					)
+				);
+				if ( $rows ) {
+					$ym_map = [];
+					foreach ( array_keys( $buckets ) as $bl ) {
+						$ts              = strtotime( '1 ' . $bl );
+						$ym_map[ gmdate( 'Y-m', $ts ) ] = $bl;
+					}
+					foreach ( $rows as $row ) {
+						if ( isset( $ym_map[ $row->ym ], $buckets[ $ym_map[ $row->ym ] ] ) ) {
+							$buckets[ $ym_map[ $row->ym ] ] = absint( $row->total );
+						}
+					}
+				}
+			}
+
+			$values = array_values( $buckets );
+		} else {
+			// Group by day.
+			$views      = [];
+			$current    = strtotime( $from );
+			$end_ts     = strtotime( $to );
+			while ( $current <= $end_ts ) {
+				$d           = gmdate( 'Y-m-d', $current );
+				$views[ $d ] = 0;
+				$labels[]    = gmdate( 'j M', $current );
+				$dates[]     = gmdate( 'D, d M Y', $current );
+				$current     = strtotime( '+1 day', $current );
+			}
+
+			if ( ListingStats::table_exists() ) {
+				$table = ListingStats::table();
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+				$rows = $wpdb->get_results(
+					$wpdb->prepare(
+						"SELECT stat_date, SUM(stat_count) AS total
+						FROM {$table}
+						WHERE stat_key = 'view' AND stat_date BETWEEN %s AND %s
+						GROUP BY stat_date ORDER BY stat_date ASC",
+						$from,
+						$to
+					)
+				);
+				if ( $rows ) {
+					foreach ( $rows as $row ) {
+						if ( isset( $views[ $row->stat_date ] ) ) {
+							$views[ $row->stat_date ] = absint( $row->total );
+						}
+					}
+				}
+			}
+
+			$values = array_values( $views );
+		}
+
+		return [
+			'labels' => $labels,
+			'values' => $values,
+			'dates'  => $dates,
+		];
+	}
+
+	/**
+	 * Get daily ad views for the last N days.
+	 *
+	 * @param \wpdb  $wpdb         Global database object.
+	 * @param string $today        Current date (Y-m-d).
+	 * @param int    $days_back    Number of days back from today (inclusive).
+	 * @param string $label_format PHP date() format for labels.
+	 *
+	 * @return array
+	 */
+	private static function get_ad_views_daily( $wpdb, $today, $days_back, $label_format ) {
+		$from = gmdate( 'Y-m-d', strtotime( $today . " -{$days_back} days" ) );
+
+		$day_labels = [];
+		$full_dates = [];
+		$views      = [];
+		for ( $i = $days_back; $i >= 0; $i-- ) {
+			$date                = gmdate( 'Y-m-d', strtotime( $today . " -{$i} days" ) );
+			$day_labels[ $date ] = gmdate( $label_format, strtotime( $date ) );
+			$full_dates[ $date ] = gmdate( 'D, d M Y', strtotime( $date ) );
+			$views[ $date ]      = 0;
+		}
+
+		if ( ListingStats::table_exists() ) {
+			$table = ListingStats::table();
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+			$rows = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT stat_date, SUM(stat_count) AS total
+					FROM {$table}
+					WHERE stat_key = 'view' AND stat_date BETWEEN %s AND %s
+					GROUP BY stat_date
+					ORDER BY stat_date ASC",
+					$from,
+					$today
+				)
+			);
+
+			if ( $rows ) {
+				foreach ( $rows as $row ) {
+					if ( isset( $views[ $row->stat_date ] ) ) {
+						$views[ $row->stat_date ] = absint( $row->total );
+					}
+				}
+			}
+		}
+
+		$labels = [];
+		$values = [];
+		$dates  = [];
+		foreach ( $day_labels as $date => $label ) {
+			$labels[] = $label;
+			$values[] = $views[ $date ];
+			$dates[]  = $full_dates[ $date ];
+		}
+
+		return [
+			'labels' => $labels,
+			'values' => $values,
+			'dates'  => $dates,
+		];
+	}
+
+	/**
+	 * Get monthly ad views for the last 12 months.
+	 *
+	 * @param \wpdb  $wpdb  Global database object.
+	 * @param string $today Current date (Y-m-d).
+	 *
+	 * @return array
+	 */
+	private static function get_ad_views_yearly( $wpdb, $today ) {
+		$labels = [];
+		$values = [];
+		$dates  = [];
+
+		// Build 12 months of labels (oldest first).
+		$months     = [];
+		$month_vals = [];
+		for ( $i = 11; $i >= 0; $i-- ) {
+			$month_start              = gmdate( 'Y-m-01', strtotime( $today . " -{$i} months" ) );
+			$label                    = gmdate( 'M', strtotime( $month_start ) );
+			$months[]                 = $month_start;
+			$labels[]                 = $label;
+			$dates[]                  = gmdate( 'M Y', strtotime( $month_start ) );
+			$month_vals[ $label ]     = 0;
+		}
+
+		if ( ListingStats::table_exists() ) {
+			$table = ListingStats::table();
+			$from  = $months[0]; // Earliest month start.
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+			$rows = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT DATE_FORMAT(stat_date, '%%Y-%%m') AS ym, SUM(stat_count) AS total
+					FROM {$table}
+					WHERE stat_key = 'view' AND stat_date >= %s AND stat_date <= %s
+					GROUP BY ym
+					ORDER BY ym ASC",
+					$from,
+					$today
+				)
+			);
+
+			if ( $rows ) {
+				// Map ym (e.g. 2026-08) back to month labels.
+				$ym_to_label = [];
+				foreach ( $months as $month_start ) {
+					$ym_to_label[ gmdate( 'Y-m', strtotime( $month_start ) ) ] = gmdate( 'M', strtotime( $month_start ) );
+				}
+
+				foreach ( $rows as $row ) {
+					if ( isset( $ym_to_label[ $row->ym ], $month_vals[ $ym_to_label[ $row->ym ] ] ) ) {
+						$month_vals[ $ym_to_label[ $row->ym ] ] = absint( $row->total );
+					}
+				}
+			}
+		}
+
+		$values = array_values( $month_vals );
+
+		return [
+			'labels' => $labels,
+			'values' => $values,
+			'dates'  => $dates,
+		];
+	}
+
+	/**
+	 * Get listing distribution by top-level category.
+	 *
+	 * Returns an array of objects with term_name and count for published
+	 * listings, sorted by count descending, limited to top 10.
+	 *
+	 * @return array [ { name: string, count: int } … ]
+	 */
+	public static function get_listings_distribution_by_category() {
+		$terms = get_terms( [
+			'taxonomy'   => rtcl()->category,
+			'parent'     => 0,
+			'hide_empty' => false,
+			'number'     => 10,
+		] );
+
+		if ( is_wp_error( $terms ) || empty( $terms ) ) {
+			return [];
+		}
+
+		$distribution = [];
+
+		foreach ( $terms as $term ) {
+			$count = absint( $term->count );
+
+			// Include child term counts.
+			$children = get_term_children( $term->term_id, rtcl()->category );
+			if ( ! is_wp_error( $children ) && ! empty( $children ) ) {
+				foreach ( $children as $child_id ) {
+					$child_term = get_term( $child_id, rtcl()->category );
+					if ( $child_term && ! is_wp_error( $child_term ) ) {
+						$count += absint( $child_term->count );
+					}
+				}
+			}
+
+			$distribution[] = [
+				'name'  => $term->name,
+				'count' => $count,
+			];
+		}
+
+		// Sort by count descending.
+		usort( $distribution, function ( $a, $b ) {
+			return $b['count'] - $a['count'];
+		} );
+
+		return $distribution;
+	}
+
+	/**
+	 * Get top listings ordered by view count.
+	 *
+	 * @param int $limit Number of listings to return.
+	 *
+	 * @return array [ { title: string, views: int } … ]
+	 */
+	public static function get_top_listings_by_views( $limit = 5 ) {
+		$args = [
+			'post_type'      => rtcl()->post_type,
+			'post_status'    => 'publish',
+			'posts_per_page' => $limit,
+			'meta_key'       => '_views', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			'orderby'        => 'meta_value_num',
+			'order'          => 'DESC',
+		];
+
+		$query  = new \WP_Query( $args );
+		$result = [];
+
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+				$title = get_the_title();
+				if ( mb_strlen( $title ) > 35 ) {
+					$title = mb_substr( $title, 0, 35 ) . '...';
+				}
+				$result[] = [
+					'title' => $title,
+					'views' => absint( get_post_meta( get_the_ID(), '_views', true ) ),
+				];
+			}
+		}
+
+		wp_reset_postdata();
+
+		return $result;
 	}
 
 	public static function get_order_total_by_date_range( $start_date = '', $end_date = '' ) {
@@ -6244,5 +6702,35 @@ class Functions {
 		}
 
 		return $list;
+	}
+
+	/**
+	 * Check whether the current user can edit a given listing.
+	 *
+	 * For existing listings the user must be the author or an administrator,
+	 * with a special exception for guest temp posts (post_status 'rtcl-temp',
+	 * author 0, unregistered posting enabled).
+	 *
+	 * @param int $post_id Listing post ID.
+	 *
+	 * @return bool
+	 */
+	public static function current_user_can_edit_listing( $post_id ) {
+		$post_id = absint( $post_id );
+
+		$listing = rtcl()->factory->get_listing( $post_id );
+		if ( ! $listing ) {
+			return false;
+		}
+
+		$post        = $listing->get_listing();
+		$post_author = (int) $post->post_author;
+
+		// Guest temp posts created during unregistered posting.
+		if ( 'rtcl-temp' === $post->post_status && 0 === $post_author && self::is_enable_post_for_unregister() ) {
+			return true;
+		}
+
+		return self::current_user_can( 'edit_' . rtcl()->post_type, $post_id );
 	}
 }

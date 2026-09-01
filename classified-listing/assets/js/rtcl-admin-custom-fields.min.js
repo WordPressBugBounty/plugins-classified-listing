@@ -1,1 +1,840 @@
-!function(){"use strict";!function(t){const e=function(){this.storage=[{type:"hasValue",operator:"!=empty",label:"Has any value",fieldTypes:["text","textarea","number","url","checkbox","radio","date","select"],choices:function(t){return'<input type="text" disabled="" />'}},{type:"hasNoValue",operator:"==empty",fieldTypes:["text","textarea","number","url","checkbox","radio","date","select"],label:"Has no value",choices:function(t){return'<input type="text" disabled="" />'}},{type:"contains",operator:"==contains",label:"Value contains",fieldTypes:["text","textarea","number","url","select"],choices:function(t){return'<input type="text" />'}},{type:"equalTo",operator:"==",label:"Value is equal to",fieldTypes:["text","textarea","number","url"],choices:function(t){return'<input type="text" />'}},{type:"notEqualTo",operator:"!=",fieldTypes:["text","textarea","number","url"],label:"Value is not equal to",choices:function(t){return'<input type="text" />'}},{type:"patternMatch",operator:"==pattern",label:"Value matches pattern",fieldTypes:["text","textarea","url"],choices:function(t){return'<input type="text" placeholder="[a-z0-9]" />'}},{type:"selectEqualTo",operator:"==",label:"Value is equal to",fieldTypes:["select","checkbox","radio"],choices:function(t){return t.options}},{type:"selectNotEqualTo",operator:"!=",label:"Value is not equal to"},{type:"greaterThan",operator:">",label:"Value is greater than",fieldTypes:["number"],choices:function(t){return'<input type="number" />'}},{type:"lessThan",operator:"<",label:"Value is less than",fieldTypes:["number"],choices:function(t){return'<input type="number" />'}},{type:"selectionGreaterThan",operator:">",label:"Selection is greater than",fieldTypes:["checkbox","select"],choices:function(t){return'<input type="number" />'}},{type:"selectionLessThan",operator:"<",label:"Selection is less than",fieldTypes:["checkbox","select"],choices:function(t){return'<input type="number" />'}}]},n=function(){this.data=t.extend(!0,{},this.data)};n.prototype={id:"",$el:null,data:{},busy:!1,changed:!1,events:{},actions:{},filters:{},eventScope:"",wait:!1,priority:10,extend:function(e){const n=t.extend({},this,e);return t.each(n.events,function(t,e){n._add_event(t,e)}),setTimeout(function(){n.initialize()},10),n},$:function(t){return this.$el.find(t)},get:function(t,e){return e=e||null,void 0!==this[t]&&(e=this[t]),e},set:function(t,e){return this[t]=e,"function"==typeof this["_set_"+t]&&this["_set_"+t].apply(this),this},_add_event:function(e,n){const i=this,o=e.substr(0,e.indexOf(" ")),l=e.substr(e.indexOf(" ")+1),r=i.field.context_id;t(document).on(o,r+" "+l,function(t){i[n].apply(i,[t])})}};const i={name:"conditional_logic",events:{"change .conditions-toggle":"onChangeToggle","click .add-conditional-group":"onClickAddGroup","focus .condition-rule-field":"onFocusField","change .condition-rule-field":"onChangeField","change .condition-rule-operator":"onChangeOperator","click .add-conditional-rule":"onClickAdd","click .remove-conditional-rule":"onClickRemove"},$rule:!1,scope:function(t){return this.$rule=t,this},initialize:function(){this.render()},ruleData:function(t,e){return this.$rule.data.apply(this.$rule,arguments)},$input:function(t){return this.$rule.find(".condition-rule-"+t)},$td:function(t){return this.$rule.find("td."+t)},$hiddenField:function(){return t('<input type="hidden" data-disable="'+this.name+'" name="rtcl[fields]['+this.field.id+"][_"+this.name+']" value="0" />')},$toggle:function(){return this.$(".conditions-toggle")},$control:function(){return this.$(".rule-groups")},$groups:function(){return this.$(".rule-group")},$rules:function(){return this.$(".rule")},open:function(){const e=this.$control();e.find("[name]").each(function(){t(this).prop("disabled",!1)}),e.find('input[data-disable="conditional_logic"]').remove(),e.show()},close:function(){const e=this.$control();e.find("[name]").each(function(){t(this).prop("disabled",!0)}),e.find('input[data-disable="conditional_logic"]').length||e.append(this.$hiddenField()),e.hide()},render:function(){this.$toggle().prop("checked")?(this.renderRules(),this.open()):this.close()},renderRules:function(){const e=this;this.$rules().each(function(){e.renderRule(t(this))})},renderRule:function(t){this.scope(t),this.renderField(),this.renderOperator(),this.renderValue()},renderField:function(){const t=[],e=this.field.id,n=this.$input("field");l.getFieldObjects().map(function(n){const i={id:n.id,text:n.label};n.id===e&&(i.text+="(this field)",i.disabled=!0),t.push(i)}),t.length||t.push({id:"",text:"No toggle fields available"}),l.renderSelect(n,t),this.ruleData("field",n.val())},renderOperator:function(){if(!this.ruleData("field"))return;const t=this.$input("operator");t.val();const e=[];null===t.val()&&l.renderSelect(t,[{id:this.ruleData("operator"),text:""}]);l.getConditionTypes(this.ruleData("field")).map(function(t){e.push({id:t.operator,text:t.label})}),l.renderSelect(t,e),this.ruleData("operator",t.val())},renderValue:function(){if(!this.ruleData("field")||!this.ruleData("operator"))return;const e=this.$input("value"),n=this.$td("value"),i=e.val(),o=l.getFieldObjects(this.ruleData("field")),r=l.getConditionTypes(this.ruleData("field"),this.ruleData("operator")),s=r?r[0]:null,c=s?s.choices(o):null;let a="";c instanceof Array?(a=t("<select></select>"),l.renderSelect(a,c)):a=t(c),e.detach(),n.html(a),setTimeout(function(){["class","name","id"].map(function(t){a.attr(t,e.attr(t))})},0),a.prop("disabled")||l.val(a,i,!0),this.ruleData("value",a.val())},onChangeToggle:function(){this.render()},onClickAddGroup:function(t,e){t.preventDefault(),this.addGroup()},addGroup:function(){const t=this.$(".rule-group:last"),e=l.duplicate(t);e.find("h4").text(l.__("or")),e.find("tr").not(":first").remove(),e.insertAfter(t)},onFocusField:function(t,e){this.renderField()},onChangeField:function(e){const n=t(e.target);this.scope(n.closest(".rule")),this.ruleData("field",n.val()),this.renderOperator(),this.renderValue()},onChangeOperator:function(e){const n=t(e.target);this.scope(n.closest(".rule")),this.ruleData("operator",n.val()),this.renderValue()},onClickAdd:function(e){e.preventDefault();const n=t(e.target).closest(".rule");l.duplicate(n).insertAfter(n),this.renderRule(n)},onClickRemove:function(e){e.preventDefault();const n=t(e.target).closest(".rule");0===n.siblings(".rule").length&&n.closest(".rule-group").remove(),n.remove()}},o=function(){this.$field_group=t("#rtcl-cfg"),this.uniqidSeed=null,this.fields={},this.models={},this.tempModels={},this.conditions=[],this.init()};o.prototype={__:function(t){return t},init:function(){const o=this;this.conditions=(new e).storage,this.models[i.name]=i,this.generateFieldData(),t.each(this.fields,function(e,i){t.each(i,function(e,l){const r=o.models[e];if(r&&Object.keys(r).length){const l=t.extend(r,{$el:i.$el,field:i}),s=new n;o.tempModels[e]=s.extend(l)}})})},getFieldObjects:function(e){if(e)return this.fields[e];const n=[];return t.each(this.fields,function(t,e){n.push(e)}),n},getConditionTypes:function(t,e){if(t){const n=this.fields[t]||null;if(n)return this.conditions.filter(t=>!(n.type&&(!t.fieldTypes||-1===t.fieldTypes.indexOf(n.type)))&&!(e&&(!t.operator||e!==t.operator)))}return this.conditions},generateFieldData:function(e){const n=this;n.fields={},n.$field_group.find(".rtcl-cf-postbox").each(function(){const i=t(this),o={$el:i,context_id:"#"+i.attr("id"),id:i.data("id"),type:i.attr("id").replace("rtcl-custom-field-","").split("-")[0]};e&&o.id!==e||(i.find(".rtcl-cfg-field-group").each(function(){const e=t(this),i=e.data("field_item");if(i)if(-1!==["label","slug","description"].indexOf(i))o[i]=e.find(".widefat").val(),"label"!==i||o[i]||(o[i]=n.__("Untitled"));else if(-1!==["required","searchable","listable","conditional_logic"].indexOf(i))o[i]=!!e.find("input[type=radio]").val();else if("options"===i){const n=[];e.find("table tbody tr").each(function(){const e=t(this),i={text:e.find("td.label input").val(),id:e.find("td.value input").val()};n.push(i)}),o[i]=n}}),n.fields[o.id]=o,i.data("rtcl_cf",o))})},val:function(t,e,n){const i=t.val();return e!==i&&(t.val(e),t.is("select")&&null===t.val()?(t.val(i),!1):(!0!==n&&t.trigger("change"),!0))},_add_event:function(e,n,i){const o=e.substr(0,e.indexOf(" ")),l=e.substr(e.indexOf(" ")+1),r=i.field.context_id;t(document).on(o,r+" "+l,function(e){e.$el=t(this),e.$field=e.$el.closest(".rtcl-cf-postbox"),i.set("$field",e.$field),i[n].apply(i,[e])})},renderSelect:function(t,e){const n=t.val(),i=[],o=function(t){let e="";return t.map(function(t){const n=t.text||t.label||"",r=t.id||t.value||"";i.push(r.toString()),t.children?e+='<optgroup label="'+l.escAttr(n)+'">'+o(t.children)+"</optgroup>":e+='<option value="'+l.escAttr(r)+'"'+(t.disabled?' disabled="disabled"':"")+">"+l.strEscape(n)+"</option>"}),e};return t.html(o(e)),i.indexOf(n)>-1&&t.val(n),t.val()},strEscape:function(t){const e={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"};return(""+t).replace(/[&<>"']/g,function(t){return e[t]})},escAttr:function(t){return this.strEscape(t)},escHtml:function(t){return(""+t).replace(/<script|<\/script/g,function(t){return l.strEscape(t)})},duplicate:function(t){t instanceof jQuery&&(t={target:t});const e=function(e){return function(n,i){return t.replacer(e,i,t.search,t.replace)}};(t=Object.assign({},{target:!1,search:"",replacer:function(t,e,n,i){return e.replace(n,i)}},t)).target=t.target||t.$el;const n=t.target;t.search=t.search||n.attr("data-id"),t.replace=t.replace||this.uniqid();const i=n.clone();return i.attr("data-id",t.replace),i.find('[id*="'+t.search+'"]').attr("id",e("id")),i.find('[for*="'+t.search+'"]').attr("for",e("for")),i.find('[name*="'+t.search+'"]').attr("name",e("name")),i},uniqid:function(t,e){let n;void 0===t&&(t="");const i=function(t,e){return e<(t=parseInt(t,10).toString(16)).length?t.slice(t.length-e):e>t.length?Array(e-t.length+1).join("0")+t:t};return this.uniqidSeed||(this.uniqidSeed=Math.floor(123456789*Math.random())),this.uniqidSeed++,n=t,n+=i(parseInt((new Date).getTime()/1e3,10),8),n+=i(this.uniqidSeed,5),e&&(n+=(10*Math.random()).toFixed(8).toString()),n}};const l=new o;function r(){t(document).on("blur focus click",".js-rtcl-slugize",function(){let e=t(this).val();if(""===e&&(e=jQuery(".js-rtcl-slugize-source",t(this).closest(".postbox")).val()),""!==e){let n=function(t){if("string"!=typeof t||""===t)return;return t=(t=(t=(t=(t=t.toLowerCase()).replace(/[^a-z0-9A-Z_]+/g,"-")).replace(/\-+/g,"-")).replace(/^\-/g,"")).replace(/\-$/g,"")}(e);n===e&&""!==t(this).val()||t(this).val(n.substring(0,200))}})}function s(){if(t.fn.select2){let e=function(e){const n=e.element;return'<i class="rtcl-icon rtcl-icon-'+t(n).data("icon")+'"></i> '+e.text};t(".rtcl-select2").select2({dropdownAutoWidth:!0,width:"100%"}),t(".rtcl-select2-icon").select2({dropdownAutoWidth:!0,width:"100%",templateSelection:e,templateResult:e,escapeMarkup:function(t){return t}})}}function c(){t("#rtcl-cfg").sortable({cursor:"ns-resize",axis:"y",handle:"h2.hndle",forcePlaceholderSize:!0,tolerance:"pointer",start:function(t,e){e.placeholder.height(e.item.height()+23)}})}void 0===window.rtclCf&&(window.rtclCf=l),t(function(){c(),r(),s()}),t(document).on("click",".rtcl-cf-add-new",function(e){e.preventDefault(),console.log("clicked");const n=t(this),i=t('<div style="display:none;height:450px;" class="rtcl-choose-field">'+n.data("message-loading")+"</div>").appendTo("body");function o(e){t("#post-body-content #rtcl-cfg").append(e);const n=t("#post-body-content #rtcl-cfg .postbox").last();t("html, body").animate({scrollTop:n.offset().top-50},1e3),i.dialog("close"),r(),t(".postbox .hndle, .postbox .handlediv").unbind("click.postboxes"),postboxes.add_postbox_toggles(),s(),n.typesFieldOptionsSortable(),n.typesMarkExistingField(),c()}return i.dialog({close:function(t,e){i.remove()},closeText:!1,modal:!0,minWidth:810,maxHeight:.9*t(window).height(),title:n.data("dialog-title"),position:{my:"center top+50",at:"center top",of:window}}),i.load(ajaxurl,{action:"rtcl_edit_field_choose",__rtcl_wpnonce:rtcl_cfg.__rtcl_wpnonce},function(e,n,r){t(i).on("click","span.rtcl-field-button-insert",function(){const e=t(this),n=e.data("type");t.ajax({url:ajaxurl,method:"POST",data:{action:"rtcl_edit_field_insert",type:n,id:parseInt(t("#post_ID").val(),10),__rtcl_wpnonce:rtcl_cfg.__rtcl_wpnonce},beforeSend:function(){e.rtclBlock()},success:function(t){e.rtclUnblock(),t.error?alert(t.msg):(o(t.data),l.init())},error:function(t,n){e.rtclUnblock(),alert("Uncaught Error.\n"+t.responseText)}})})}),!1}).on("click",".js-rtcl-field-remove",function(){if(confirm(t(this).data("message-confirm"))){const e=t(this).closest(".postbox"),n=parseInt(e.data("id"),10);n?t.ajax({url:ajaxurl,method:"POST",data:{action:"rtcl_edit_field_delete",id:n,__rtcl_wpnonce:rtcl_cfg.__rtcl_wpnonce},beforeSend:function(){e.rtclBlock()},success:function(n){e.rtclUnblock(),n.error?alert(n.msg):e.slideUp(function(){t(this).remove(),l.init()})},error:function(t,n){e.rtclUnblock(),alert("Uncaught Error.\n"+t.responseText)}}):alert("Field id not selected")}return!1}).on("click",".rtcl-cfg-field .rtcl-select-options-wrap .rtcl-add-new-option",function(e){e.preventDefault();const n=t(this),i=n.parent(".rtcl-select-options-wrap"),o=t("table.rtcl-fields-field-value-options tbody",i),l=i.data("type")||"select",r=n.data("name"),s=t("<tr />"),c=Number(new Date),a=t("tr",o).length+1;let u=r+"[default]",d="radio";return"checkbox"===l&&(u=r+"[default][]",d="checkbox"),s.append("<td class='num'><span class='js-types-sort-button hndle dashicons dashicons-menu'></span></td>"),s.append("<td class='label'><input type='text' name='"+r+"[choices]["+c+"][title]' value='Option title "+a+"' ></td>"),s.append("<td class='value'><input type='text' name='"+r+"[choices]["+c+"][value]' value='option-title-"+a+"' ></td>"),s.append("<td><input type='"+d+"' name='"+u+"' value='"+c+"' ></td>"),s.append("<td class='num'><span class='rtcl-delete-option dashicons dashicons-trash'></span></td>"),o.append(s),o.typesFieldOptionsSortable(),!1}).on("click",".rtcl-cfg-field .rtcl-select-options-wrap .rtcl-delete-option",function(e){return e.preventDefault(),confirm("Are you sure?")&&t(this).parents("tr").remove(),!1}).on("change",".is_pro .rtcl-switch-toggle",function(t){return t.preventDefault(),alert("This is pro feature."),t.target.checked=!1,!1}),t.fn.typesFieldOptionsSortable=function(){t(".rtcl-fields-radio-sortable, .rtcl-fields-select-sortable, .rtcl-fields-checkboxes-sortable",this).sortable({cursor:"ns-resize",axis:"y",handle:".js-types-sort-button",start:function(t,e){e.placeholder.height(e.item.height()-2)}}),t(".rtcl-fields-checkboxes-sortable",this).sortable({start:function(t,e){e.placeholder.height(e.item.height()+13)}})},t.fn.typesMarkExistingField=function(){const e=t(".rtcl-forms-field-slug",this);e.length&&""!==e.val()&&e.attr("data-types-existing-field",e.val())},t("body").on("keyup",".rtcl-forms-set-legend",function(){let e=t(this).val();e&&(e=e.replace(/</,"&lt;"),e=e.replace(/>/,"&gt;"),e=e.replace(/'/,"&#39;"),e=e.replace(/"/,"&quot;")),t(this).parents(".postbox").find(".rtcl-legend-update").html(e)}).typesFieldOptionsSortable()}(jQuery),function(t){let e;function n(){t(".ui-dialog").each(function(){t(this).css({maxWidth:"100%",top:t(window).scrollTop()+50+"px",left:(t("body").innerWidth()-t(this).outerWidth())/2+"px"})})}t(document).on("dialogopen",".ui-dialog",function(e,n){t("button.button-primary, button.wpcf-ui-dialog-cancel").blur().addClass("button").removeClass("ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only")}),t(window).on("resize scroll",function(){clearTimeout(e),e=setTimeout(n,200)})}(jQuery)}();
+(function() {
+  "use strict";
+  (function($) {
+    const __ = function(text) {
+      return text;
+    };
+    const Conditions = function() {
+      this.storage = [
+        {
+          type: "hasValue",
+          operator: "!=empty",
+          label: __("Has any value"),
+          fieldTypes: ["text", "textarea", "number", "url", "checkbox", "radio", "date", "select"],
+          choices: function(field) {
+            return '<input type="text" disabled="" />';
+          }
+        },
+        {
+          type: "hasNoValue",
+          operator: "==empty",
+          fieldTypes: ["text", "textarea", "number", "url", "checkbox", "radio", "date", "select"],
+          label: __("Has no value"),
+          choices: function(field) {
+            return '<input type="text" disabled="" />';
+          }
+        },
+        {
+          type: "contains",
+          operator: "==contains",
+          label: __("Value contains"),
+          fieldTypes: ["text", "textarea", "number", "url", "select"],
+          choices: function(fieldObject) {
+            return '<input type="text" />';
+          }
+        },
+        {
+          type: "equalTo",
+          operator: "==",
+          label: __("Value is equal to"),
+          fieldTypes: ["text", "textarea", "number", "url"],
+          choices: function(fieldObject) {
+            return '<input type="text" />';
+          }
+        },
+        {
+          type: "notEqualTo",
+          operator: "!=",
+          fieldTypes: ["text", "textarea", "number", "url"],
+          label: __("Value is not equal to"),
+          choices: function(fieldObject) {
+            return '<input type="text" />';
+          }
+        },
+        {
+          type: "patternMatch",
+          operator: "==pattern",
+          label: __("Value matches pattern"),
+          fieldTypes: ["text", "textarea", "url"],
+          choices: function(fieldObject) {
+            return '<input type="text" placeholder="[a-z0-9]" />';
+          }
+        },
+        {
+          type: "selectEqualTo",
+          operator: "==",
+          label: __("Value is equal to"),
+          fieldTypes: ["select", "checkbox", "radio"],
+          choices: function(field) {
+            return field.options;
+          }
+        },
+        {
+          type: "selectNotEqualTo",
+          operator: "!=",
+          label: __("Value is not equal to")
+        },
+        {
+          type: "greaterThan",
+          operator: ">",
+          label: __("Value is greater than"),
+          fieldTypes: ["number"],
+          choices: function(fieldObject) {
+            return '<input type="number" />';
+          }
+        },
+        {
+          type: "lessThan",
+          operator: "<",
+          label: __("Value is less than"),
+          fieldTypes: ["number"],
+          choices: function(fieldObject) {
+            return '<input type="number" />';
+          }
+        },
+        {
+          type: "selectionGreaterThan",
+          operator: ">",
+          label: __("Selection is greater than"),
+          fieldTypes: ["checkbox", "select"],
+          choices: function(fieldObject) {
+            return '<input type="number" />';
+          }
+        },
+        {
+          type: "selectionLessThan",
+          operator: "<",
+          label: __("Selection is less than"),
+          fieldTypes: ["checkbox", "select"],
+          choices: function(fieldObject) {
+            return '<input type="number" />';
+          }
+        }
+      ];
+    };
+    const Model = function() {
+      this.data = $.extend(true, {}, this.data);
+    };
+    Model.prototype = {
+      id: "",
+      $el: null,
+      data: {},
+      busy: false,
+      changed: false,
+      events: {},
+      actions: {},
+      filters: {},
+      eventScope: "",
+      wait: false,
+      priority: 10,
+      extend: function(args) {
+        const model = $.extend({}, this, args);
+        $.each(model.events, function(name, callback) {
+          model._add_event(name, callback);
+        });
+        setTimeout(function() {
+          model.initialize();
+        }, 10);
+        return model;
+      },
+      $: function(selector) {
+        return this.$el.find(selector);
+      },
+      get: function(name, value) {
+        value = value || null;
+        if (typeof this[name] !== "undefined") {
+          value = this[name];
+        }
+        return value;
+      },
+      set: function(name, value) {
+        this[name] = value;
+        if (typeof this["_set_" + name] === "function") {
+          this["_set_" + name].apply(this);
+        }
+        return this;
+      },
+      _add_event: function(name, callback) {
+        const model = this, event = name.substr(0, name.indexOf(" ")), selector = name.substr(name.indexOf(" ") + 1), context = model.field.context_id;
+        $(document).on(event, context + " " + selector, function(e) {
+          model[callback].apply(model, [e]);
+        });
+      }
+    };
+    const CFConditionalModel = {
+      name: "conditional_logic",
+      events: {
+        "change .conditions-toggle": "onChangeToggle",
+        "click .add-conditional-group": "onClickAddGroup",
+        "focus .condition-rule-field": "onFocusField",
+        "change .condition-rule-field": "onChangeField",
+        "change .condition-rule-operator": "onChangeOperator",
+        "click .add-conditional-rule": "onClickAdd",
+        "click .remove-conditional-rule": "onClickRemove"
+      },
+      $rule: false,
+      scope: function($rule) {
+        this.$rule = $rule;
+        return this;
+      },
+      initialize: function() {
+        this.render();
+      },
+      ruleData: function(name, value) {
+        return this.$rule.data.apply(this.$rule, arguments);
+      },
+      $input: function(name) {
+        return this.$rule.find(".condition-rule-" + name);
+      },
+      $td: function(name) {
+        return this.$rule.find("td." + name);
+      },
+      $hiddenField: function() {
+        return $('<input type="hidden" data-disable="' + this.name + '" name="rtcl[fields][' + this.field.id + "][_" + this.name + ']" value="0" />');
+      },
+      $toggle: function() {
+        return this.$(".conditions-toggle");
+      },
+      $control: function() {
+        return this.$(".rule-groups");
+      },
+      $groups: function() {
+        return this.$(".rule-group");
+      },
+      $rules: function() {
+        return this.$(".rule");
+      },
+      open: function() {
+        const $div = this.$control();
+        $div.find("[name]").each(function() {
+          $(this).prop("disabled", false);
+        });
+        $div.find('input[data-disable="conditional_logic"]').remove();
+        $div.show();
+      },
+      close: function() {
+        const $div = this.$control();
+        $div.find("[name]").each(function() {
+          $(this).prop("disabled", true);
+        });
+        if (!$div.find('input[data-disable="conditional_logic"]').length) {
+          $div.append(this.$hiddenField());
+        }
+        $div.hide();
+      },
+      render: function() {
+        if (this.$toggle().prop("checked")) {
+          this.renderRules();
+          this.open();
+        } else {
+          this.close();
+        }
+      },
+      renderRules: function() {
+        const self = this;
+        this.$rules().each(function() {
+          self.renderRule($(this));
+        });
+      },
+      renderRule: function($rule) {
+        this.scope($rule);
+        this.renderField();
+        this.renderOperator();
+        this.renderValue();
+      },
+      renderField: function() {
+        const choices = [];
+        const cid = this.field.id;
+        const $select = this.$input("field");
+        const fieldObjects = rtclCf.getFieldObjects();
+        fieldObjects.map(function(field) {
+          const choice = {
+            id: field.id,
+            text: field.label
+          };
+          if (field.id === cid) {
+            choice.text += "(this field)";
+            choice.disabled = true;
+          }
+          choices.push(choice);
+        });
+        if (!choices.length) {
+          choices.push({
+            id: "",
+            text: "No toggle fields available"
+          });
+        }
+        rtclCf.renderSelect($select, choices);
+        this.ruleData("field", $select.val());
+      },
+      renderOperator: function() {
+        if (!this.ruleData("field")) {
+          return;
+        }
+        const $select = this.$input("operator");
+        $select.val();
+        const choices = [];
+        if ($select.val() === null) {
+          rtclCf.renderSelect($select, [{
+            id: this.ruleData("operator"),
+            text: ""
+          }]);
+        }
+        const conditionTypes = rtclCf.getConditionTypes(this.ruleData("field"));
+        conditionTypes.map(function(condition) {
+          choices.push({
+            id: condition.operator,
+            text: condition.label
+          });
+        });
+        rtclCf.renderSelect($select, choices);
+        this.ruleData("operator", $select.val());
+      },
+      renderValue: function() {
+        if (!this.ruleData("field") || !this.ruleData("operator")) {
+          return;
+        }
+        const $select = this.$input("value");
+        const $td = this.$td("value");
+        const val = $select.val();
+        const field = rtclCf.getFieldObjects(this.ruleData("field"));
+        const conditionTypes = rtclCf.getConditionTypes(this.ruleData("field"), this.ruleData("operator"));
+        const conditionType = conditionTypes ? conditionTypes[0] : null;
+        const choices = conditionType ? conditionType.choices(field) : null;
+        let $newSelect = "";
+        if (choices instanceof Array) {
+          $newSelect = $("<select></select>");
+          rtclCf.renderSelect($newSelect, choices);
+        } else {
+          $newSelect = $(choices);
+        }
+        $select.detach();
+        $td.html($newSelect);
+        setTimeout(function() {
+          ["class", "name", "id"].map(function(attr) {
+            $newSelect.attr(attr, $select.attr(attr));
+          });
+        }, 0);
+        if (!$newSelect.prop("disabled")) {
+          rtclCf.val($newSelect, val, true);
+        }
+        this.ruleData("value", $newSelect.val());
+      },
+      onChangeToggle: function() {
+        this.render();
+      },
+      onClickAddGroup: function(e, $el) {
+        e.preventDefault();
+        this.addGroup();
+      },
+      addGroup: function() {
+        const $group = this.$(".rule-group:last");
+        const $group2 = rtclCf.duplicate($group);
+        $group2.find("h4").text(rtclCf.__("or"));
+        $group2.find("tr").not(":first").remove();
+        $group2.insertAfter($group);
+      },
+      onFocusField: function(e, $el) {
+        this.renderField();
+      },
+      onChangeField: function(e) {
+        const $el = $(e.target);
+        this.scope($el.closest(".rule"));
+        this.ruleData("field", $el.val());
+        this.renderOperator();
+        this.renderValue();
+      },
+      onChangeOperator: function(e) {
+        const $el = $(e.target);
+        this.scope($el.closest(".rule"));
+        this.ruleData("operator", $el.val());
+        this.renderValue();
+      },
+      onClickAdd: function(e) {
+        e.preventDefault();
+        const $el = $(e.target);
+        const $rule = $el.closest(".rule");
+        const $rule2 = rtclCf.duplicate($rule);
+        $rule2.insertAfter($rule);
+        this.renderRule($rule);
+      },
+      onClickRemove: function(e) {
+        e.preventDefault();
+        const $el = $(e.target);
+        const $rule = $el.closest(".rule");
+        if ($rule.siblings(".rule").length === 0) {
+          $rule.closest(".rule-group").remove();
+        }
+        $rule.remove();
+      }
+    };
+    const RtclCf = function() {
+      this.$field_group = $("#rtcl-cfg");
+      this.uniqidSeed = null;
+      this.fields = {};
+      this.models = {};
+      this.tempModels = {};
+      this.conditions = [];
+      this.init();
+    };
+    RtclCf.prototype = {
+      __: function(text) {
+        return text;
+      },
+      init: function() {
+        const cf = this;
+        this.conditions = new Conditions().storage;
+        this.models[CFConditionalModel.name] = CFConditionalModel;
+        this.generateFieldData();
+        $.each(this.fields, function(field_id, field) {
+          $.each(field, function(field_item_key, field_item_value) {
+            const item_model = cf.models[field_item_key];
+            if (item_model && Object.keys(item_model).length) {
+              const modal_extended = $.extend(item_model, { $el: field.$el, field });
+              const model = new Model();
+              cf.tempModels[field_item_key] = model.extend(modal_extended);
+            }
+          });
+        });
+      },
+      getFieldObjects: function(field_id) {
+        if (field_id) {
+          return this.fields[field_id];
+        }
+        const fields = [];
+        $.each(this.fields, function(field_id2, field) {
+          fields.push(field);
+        });
+        return fields;
+      },
+      getConditionTypes: function(field_id, operator) {
+        if (field_id) {
+          const field = this.fields[field_id] || null;
+          if (field) {
+            return this.conditions.filter((item) => {
+              if (field.type && (!item.fieldTypes || item.fieldTypes.indexOf(field.type) === -1)) {
+                return false;
+              }
+              return !(operator && (!item.operator || operator !== item.operator));
+            });
+          }
+        }
+        return this.conditions;
+      },
+      generateFieldData: function(field_id) {
+        const cf = this;
+        cf.fields = {};
+        cf.$field_group.find(".rtcl-cf-postbox").each(function() {
+          const $field = $(this);
+          const field = {
+            $el: $field,
+            context_id: "#" + $field.attr("id"),
+            id: $field.data("id"),
+            type: $field.attr("id").replace("rtcl-custom-field-", "").split("-")[0]
+          };
+          if (field_id && field.id !== field_id) return;
+          $field.find(".rtcl-cfg-field-group").each(function() {
+            const $field_item = $(this);
+            const field_item = $field_item.data("field_item");
+            if (field_item) {
+              if (["label", "slug", "description"].indexOf(field_item) !== -1) {
+                field[field_item] = $field_item.find(".widefat").val();
+                if (field_item === "label" && !field[field_item]) {
+                  field[field_item] = cf.__("Untitled");
+                }
+              } else if (["required", "searchable", "listable", "conditional_logic"].indexOf(field_item) !== -1) {
+                field[field_item] = !!$field_item.find("input[type=radio]").val();
+              } else if (field_item === "options") {
+                const options = [];
+                $field_item.find("table tbody tr").each(function() {
+                  const tr = $(this);
+                  const option = {
+                    text: tr.find("td.label input").val(),
+                    id: tr.find("td.value input").val()
+                  };
+                  options.push(option);
+                });
+                field[field_item] = options;
+              }
+            }
+          });
+          cf.fields[field.id] = field;
+          $field.data("rtcl_cf", field);
+        });
+      },
+      val: function($input, value, silent) {
+        const prevValue = $input.val();
+        if (value === prevValue) {
+          return false;
+        }
+        $input.val(value);
+        if ($input.is("select") && $input.val() === null) {
+          $input.val(prevValue);
+          return false;
+        }
+        if (silent !== true) {
+          $input.trigger("change");
+        }
+        return true;
+      },
+      _add_event: function(name, callback, model) {
+        const event = name.substr(0, name.indexOf(" ")), selector = name.substr(name.indexOf(" ") + 1), context = model.field.context_id;
+        $(document).on(event, context + " " + selector, function(e) {
+          e.$el = $(this);
+          e.$field = e.$el.closest(".rtcl-cf-postbox");
+          model.set("$field", e.$field);
+          model[callback].apply(model, [e]);
+        });
+      },
+      renderSelect: function($select, choices) {
+        const value = $select.val();
+        const values = [];
+        const crawl = function(items) {
+          let itemsHtml = "";
+          items.map(function(item) {
+            const text = item.text || item.label || "";
+            const id = item.id || item.value || "";
+            values.push(id.toString());
+            if (item.children) {
+              itemsHtml += '<optgroup label="' + rtclCf.escAttr(text) + '">' + crawl(item.children) + "</optgroup>";
+            } else {
+              itemsHtml += '<option value="' + rtclCf.escAttr(id) + '"' + (item.disabled ? ' disabled="disabled"' : "") + ">" + rtclCf.strEscape(text) + "</option>";
+            }
+          });
+          return itemsHtml;
+        };
+        $select.html(crawl(choices));
+        if (values.indexOf(value) > -1) {
+          $select.val(value);
+        }
+        return $select.val();
+      },
+      strEscape: function(string) {
+        const htmlEscapes = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        };
+        return ("" + string).replace(/[&<>"']/g, function(chr) {
+          return htmlEscapes[chr];
+        });
+      },
+      escAttr: function(string) {
+        return this.strEscape(string);
+      },
+      escHtml: function(string) {
+        return ("" + string).replace(/<script|<\/script/g, function(html) {
+          return rtclCf.strEscape(html);
+        });
+      },
+      duplicate: function(args) {
+        if (args instanceof jQuery) {
+          args = {
+            target: args
+          };
+        }
+        args = Object.assign({}, {
+          target: false,
+          search: "",
+          replacer: function(name, value, search, replace) {
+            return value.replace(search, replace);
+          }
+        }, args);
+        const withReplacer = function(name) {
+          return function(i, value) {
+            return args.replacer(name, value, args.search, args.replace);
+          };
+        };
+        args.target = args.target || args.$el;
+        const $el = args.target;
+        args.search = args.search || $el.attr("data-id");
+        args.replace = args.replace || this.uniqid();
+        const $el2 = $el.clone();
+        $el2.attr("data-id", args.replace);
+        $el2.find('[id*="' + args.search + '"]').attr("id", withReplacer("id"));
+        $el2.find('[for*="' + args.search + '"]').attr("for", withReplacer("for"));
+        $el2.find('[name*="' + args.search + '"]').attr("name", withReplacer("name"));
+        return $el2;
+      },
+      uniqid: function(prefix, moreEntropy) {
+        if (typeof prefix === "undefined") {
+          prefix = "";
+        }
+        let retId;
+        const formatSeed = function(seed, reqWidth) {
+          seed = parseInt(seed, 10).toString(16);
+          if (reqWidth < seed.length) {
+            return seed.slice(seed.length - reqWidth);
+          }
+          if (reqWidth > seed.length) {
+            return Array(1 + (reqWidth - seed.length)).join("0") + seed;
+          }
+          return seed;
+        };
+        if (!this.uniqidSeed) {
+          this.uniqidSeed = Math.floor(Math.random() * 123456789);
+        }
+        this.uniqidSeed++;
+        retId = prefix;
+        retId += formatSeed(parseInt((/* @__PURE__ */ new Date()).getTime() / 1e3, 10), 8);
+        retId += formatSeed(this.uniqidSeed, 5);
+        if (moreEntropy) {
+          retId += (Math.random() * 10).toFixed(8).toString();
+        }
+        return retId;
+      }
+    };
+    const rtclCf = new RtclCf();
+    if (window.rtclCf === void 0) {
+      window.rtclCf = rtclCf;
+    }
+    $(function() {
+      rtclFieldSortable();
+      rtclBindAutoCreateSlugs();
+      rtclRenderIconSelect2();
+    });
+    $(document).on("click", ".rtcl-cf-add-new", function(e) {
+      e.preventDefault();
+      console.log("clicked");
+      const it = $(this);
+      const dialog = $('<div style="display:none;height:450px;" class="rtcl-choose-field">' + it.data("message-loading") + "</div>").appendTo("body");
+      dialog.dialog({
+        close: function(event, ui) {
+          dialog.remove();
+        },
+        closeText: false,
+        modal: true,
+        minWidth: 810,
+        maxHeight: 0.9 * $(window).height(),
+        title: it.data("dialog-title"),
+        position: { my: "center top+50", at: "center top", of: window }
+      });
+      function add_field_to_fields_list(html) {
+        $("#post-body-content #rtcl-cfg").append(html);
+        const newField = $("#post-body-content #rtcl-cfg .postbox").last();
+        $("html, body").animate({
+          scrollTop: newField.offset().top - 50
+        }, 1e3);
+        dialog.dialog("close");
+        rtclBindAutoCreateSlugs();
+        rtclAddPostboxToggles();
+        rtclRenderIconSelect2();
+        newField.typesFieldOptionsSortable();
+        newField.typesMarkExistingField();
+        rtclFieldSortable();
+      }
+      dialog.load(
+        ajaxurl,
+        { action: "rtcl_edit_field_choose", __rtcl_wpnonce: rtcl_cfg.__rtcl_wpnonce },
+        function(responseText, textStatus, XMLHttpRequest) {
+          $(dialog).on("click", "span.rtcl-field-button-insert", function() {
+            const _it = $(this), type = _it.data("type");
+            $.ajax({
+              url: ajaxurl,
+              method: "POST",
+              data: {
+                action: "rtcl_edit_field_insert",
+                type,
+                id: parseInt($("#post_ID").val(), 10),
+                __rtcl_wpnonce: rtcl_cfg.__rtcl_wpnonce
+              },
+              beforeSend: function() {
+                _it.rtclBlock();
+              },
+              success: function(data) {
+                _it.rtclUnblock();
+                if (!data.error) {
+                  add_field_to_fields_list(data.data);
+                  rtclCf.init();
+                } else {
+                  alert(data.msg);
+                }
+              },
+              error: function(jqXHR, exception) {
+                _it.rtclUnblock();
+                alert("Uncaught Error.\n" + jqXHR.responseText);
+              }
+            });
+          });
+        }
+      );
+      return false;
+    }).on("click", ".js-rtcl-field-remove", function() {
+      if (confirm($(this).data("message-confirm"))) {
+        const _it = $(this), target = _it.closest(".postbox"), id = parseInt(target.data("id"), 10);
+        if (id) {
+          $.ajax({
+            url: ajaxurl,
+            method: "POST",
+            data: {
+              action: "rtcl_edit_field_delete",
+              id,
+              __rtcl_wpnonce: rtcl_cfg.__rtcl_wpnonce
+            },
+            beforeSend: function() {
+              target.rtclBlock();
+            },
+            success: function(data) {
+              target.rtclUnblock();
+              if (!data.error) {
+                target.slideUp(function() {
+                  $(this).remove();
+                  rtclCf.init();
+                });
+              } else {
+                alert(data.msg);
+              }
+            },
+            error: function(jqXHR, exception) {
+              target.rtclUnblock();
+              alert("Uncaught Error.\n" + jqXHR.responseText);
+            }
+          });
+        } else {
+          alert("Field id not selected");
+        }
+      }
+      return false;
+    }).on("click", ".rtcl-cfg-field .rtcl-select-options-wrap .rtcl-add-new-option", function(e) {
+      e.preventDefault();
+      const _self = $(this), wrap = _self.parent(".rtcl-select-options-wrap"), target = $("table.rtcl-fields-field-value-options tbody", wrap), type = wrap.data("type") || "select", name = _self.data("name"), item = $("<tr />"), id = Number(/* @__PURE__ */ new Date()), count = $("tr", target).length + 1;
+      let default_name = name + "[default]", default_type = "radio";
+      if (type === "checkbox") {
+        default_name = name + "[default][]";
+        default_type = "checkbox";
+      }
+      item.append("<td class='num'><span class='js-types-sort-button hndle dashicons dashicons-menu'></span></td>");
+      item.append("<td class='label'><input type='text' name='" + name + "[choices][" + id + "][title]' value='Option title " + count + "' ></td>");
+      item.append("<td class='value'><input type='text' name='" + name + "[choices][" + id + "][value]' value='option-title-" + count + "' ></td>");
+      item.append("<td><input type='" + default_type + "' name='" + default_name + "' value='" + id + "' ></td>");
+      item.append("<td class='num'><span class='rtcl-delete-option dashicons dashicons-trash'></span></td>");
+      target.append(item);
+      target.typesFieldOptionsSortable();
+      return false;
+    }).on("click", ".rtcl-cfg-field .rtcl-select-options-wrap .rtcl-delete-option", function(e) {
+      e.preventDefault();
+      if (confirm("Are you sure?")) {
+        $(this).parents("tr").remove();
+      }
+      return false;
+    }).on("change", ".is_pro .rtcl-switch-toggle", function(e) {
+      e.preventDefault();
+      alert("This is pro feature.");
+      e.target.checked = false;
+      return false;
+    });
+    function rtclBindAutoCreateSlugs() {
+      $(document).on("blur focus click", ".js-rtcl-slugize", function() {
+        let slug = $(this).val();
+        if ("" === slug) {
+          slug = jQuery(".js-rtcl-slugize-source", $(this).closest(".postbox")).val();
+        }
+        if ("" !== slug) {
+          let validSlug = rtcl_slugize(slug);
+          if (validSlug !== slug || $(this).val() === "") {
+            $(this).val(validSlug.substring(0, 200));
+          }
+        }
+      });
+    }
+    function rtclRenderIconSelect2() {
+      if ($.fn.select2) {
+        let iformat = function(icon) {
+          const originalOption = icon.element;
+          return '<i class="rtcl-icon rtcl-icon-' + $(originalOption).data("icon") + '"></i> ' + icon.text;
+        };
+        $(".rtcl-select2").select2({
+          dropdownAutoWidth: true,
+          width: "100%"
+        });
+        $(".rtcl-select2-icon").select2({
+          dropdownAutoWidth: true,
+          width: "100%",
+          templateSelection: iformat,
+          templateResult: iformat,
+          escapeMarkup: function(text) {
+            return text;
+          }
+        });
+      }
+    }
+    function rtcl_slugize(val) {
+      if ("string" != typeof val || "" === val) {
+        return;
+      }
+      val = val.toLowerCase();
+      val = val.replace(/[^a-z0-9A-Z_]+/g, "-");
+      val = val.replace(/\-+/g, "-");
+      val = val.replace(/^\-/g, "");
+      val = val.replace(/\-$/g, "");
+      return val;
+    }
+    function rtclFieldSortable() {
+      $("#rtcl-cfg").sortable({
+        cursor: "ns-resize",
+        axis: "y",
+        handle: "h2.hndle",
+        forcePlaceholderSize: true,
+        tolerance: "pointer",
+        start: function(e, ui) {
+          ui.placeholder.height(ui.item.height() + 23);
+        }
+      });
+    }
+    $.fn.typesFieldOptionsSortable = function() {
+      $(".rtcl-fields-radio-sortable, .rtcl-fields-select-sortable, .rtcl-fields-checkboxes-sortable", this).sortable({
+        cursor: "ns-resize",
+        axis: "y",
+        handle: ".js-types-sort-button",
+        start: function(e, ui) {
+          ui.placeholder.height(ui.item.height() - 2);
+        }
+      });
+      $(".rtcl-fields-checkboxes-sortable", this).sortable({
+        start: function(e, ui) {
+          ui.placeholder.height(ui.item.height() + 13);
+        }
+      });
+    };
+    $.fn.typesMarkExistingField = function() {
+      const slug = $(".rtcl-forms-field-slug", this);
+      if (slug.length && slug.val() !== "")
+        slug.attr("data-types-existing-field", slug.val());
+    };
+    function rtclAddPostboxToggles() {
+      $(".postbox .hndle, .postbox .handlediv").unbind("click.postboxes");
+      postboxes.add_postbox_toggles();
+    }
+    $("body").on("keyup", ".rtcl-forms-set-legend", function() {
+      let val = $(this).val();
+      if (val) {
+        val = val.replace(/</, "&lt;");
+        val = val.replace(/>/, "&gt;");
+        val = val.replace(/'/, "&#39;");
+        val = val.replace(/"/, "&quot;");
+      }
+      $(this).parents(".postbox").find(".rtcl-legend-update").html(val);
+    }).typesFieldOptionsSortable();
+  })(jQuery);
+  (function($) {
+    $(document).on("dialogopen", ".ui-dialog", function(e, ui) {
+      $("button.button-primary, button.wpcf-ui-dialog-cancel").blur().addClass("button").removeClass("ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only");
+    });
+    let resizeTimeout;
+    $(window).on("resize scroll", function() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(dialogResize, 200);
+    });
+    function dialogResize() {
+      $(".ui-dialog").each(function() {
+        $(this).css({
+          "maxWidth": "100%",
+          "top": $(window).scrollTop() + 50 + "px",
+          "left": ($("body").innerWidth() - $(this).outerWidth()) / 2 + "px"
+        });
+      });
+    }
+  })(jQuery);
+})();

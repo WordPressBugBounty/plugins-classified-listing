@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory 6.0.3\n"
+"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory 6.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-23T09:59:14+00:00\n"
+"POT-Creation-Date: 2026-09-01T04:01:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: classified-listing\n"
@@ -1195,15 +1195,18 @@ msgstr ""
 #: app/Controllers/BlockController.php:79
 #: app/Controllers/BlockController.php:200
 #: app/Controllers/BlockController.php:234
-#: app/Controllers/Blocks/AdminAjaxController.php:44
-#: app/Controllers/Blocks/AdminAjaxController.php:85
-#: app/Controllers/Blocks/AdminAjaxController.php:209
-#: app/Controllers/Blocks/AdminAjaxController.php:224
-#: app/Controllers/Blocks/AdminAjaxController.php:257
+#: app/Controllers/Blocks/AdminAjaxController.php:47
+#: app/Controllers/Blocks/AdminAjaxController.php:71
+#: app/Controllers/Blocks/AdminAjaxController.php:87
+#: app/Controllers/Blocks/AdminAjaxController.php:103
+#: app/Controllers/Blocks/AdminAjaxController.php:144
 #: app/Controllers/Blocks/AdminAjaxController.php:268
-#: app/Controllers/Blocks/AdminAjaxController.php:289
-#: app/Controllers/Blocks/AdminAjaxController.php:447
-#: app/Controllers/Blocks/AdminAjaxController.php:461
+#: app/Controllers/Blocks/AdminAjaxController.php:283
+#: app/Controllers/Blocks/AdminAjaxController.php:316
+#: app/Controllers/Blocks/AdminAjaxController.php:327
+#: app/Controllers/Blocks/AdminAjaxController.php:348
+#: app/Controllers/Blocks/AdminAjaxController.php:506
+#: app/Controllers/Blocks/AdminAjaxController.php:520
 #: app/Controllers/Blocks/ListingsAjaxController.php:257
 msgid "Session Expired!!"
 msgstr ""
@@ -1648,7 +1651,7 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:1451
+#: app/Controllers/Admin/ScriptLoader.php:1455
 #: app/Controllers/Hooks/TemplateHooks.php:257
 #: templates/block/listing-search/search.php:291
 #: templates/widgets/search/inline.php:168
@@ -1661,25 +1664,25 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:1452
+#: app/Controllers/Admin/ScriptLoader.php:1456
 #: src/form-builder/frontend/components/elements/Phone.jsx:40
 #: src/form-builder/frontend/components/Form.jsx:75
 msgid "Please select a country code."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:1453
+#: app/Controllers/Admin/ScriptLoader.php:1457
 #: src/form-builder/frontend/components/elements/Phone.jsx:55
 #: src/form-builder/frontend/components/elements/Phone.jsx:61
 msgid "Please enter a valid phone number for the selected country."
 msgstr ""
 
-#: app/Controllers/Admin/ScriptLoader.php:1454
+#: app/Controllers/Admin/ScriptLoader.php:1458
 #: app/Controllers/Ajax/PublicUser.php:794
 msgid "Telegram ID must start with @ and be 5–32 characters (letters, numbers and underscore)."
 msgstr ""
 
 #. translators: %s: social platform name, e.g. Facebook
-#: app/Controllers/Admin/ScriptLoader.php:1456
+#: app/Controllers/Admin/ScriptLoader.php:1460
 #: app/Controllers/Ajax/PublicUser.php:826
 #: app/Services/FormBuilder/FBHelper.php:1047
 #: app/Services/FormBuilder/LocalizedString.php:29
@@ -1951,20 +1954,20 @@ msgid "Plugin activation was interrupted."
 msgstr ""
 
 #: app/Controllers/AIImageController.php:24
-#: app/Controllers/Ajax/AjaxGallery.php:68
+#: app/Controllers/Ajax/AjaxGallery.php:38
+#: app/Controllers/Ajax/AjaxGallery.php:103
 #: app/Controllers/Ajax/AjaxGallery.php:133
-#: app/Controllers/Ajax/AjaxGallery.php:163
-#: app/Controllers/Ajax/AjaxGallery.php:283
-#: app/Controllers/Ajax/AjaxGallery.php:512
-#: app/Controllers/Ajax/AjaxGallery.php:603
-#: app/Controllers/Ajax/AjaxGallery.php:678
+#: app/Controllers/Ajax/AjaxGallery.php:253
+#: app/Controllers/Ajax/AjaxGallery.php:482
+#: app/Controllers/Ajax/AjaxGallery.php:573
+#: app/Controllers/Ajax/AjaxGallery.php:648
 msgid "Invalid Session. Please refresh the page and try again."
 msgstr ""
 
 #: app/Controllers/AIImageController.php:30
-#: app/Controllers/Ajax/AjaxGallery.php:310
-#: app/Controllers/Ajax/AjaxGallery.php:539
-#: app/Controllers/Ajax/AjaxGallery.php:705
+#: app/Controllers/Ajax/AjaxGallery.php:280
+#: app/Controllers/Ajax/AjaxGallery.php:509
+#: app/Controllers/Ajax/AjaxGallery.php:675
 msgid "You cannot edit images."
 msgstr ""
 
@@ -1974,15 +1977,20 @@ msgstr ""
 msgid "Given file is empty to upload."
 msgstr ""
 
-#: app/Controllers/AIImageController.php:45
-#: app/Controllers/Ajax/AjaxGallery.php:339
-#: app/Controllers/Ajax/AjaxGallery.php:563
-#: app/Controllers/Ajax/AjaxGallery.php:646
-#: app/Controllers/Ajax/AjaxGallery.php:729
+#: app/Controllers/AIImageController.php:41
+#: app/Controllers/Ajax/AjaxGallery.php:290
+msgid "You do not have permission to edit images for this listing."
+msgstr ""
+
+#: app/Controllers/AIImageController.php:49
+#: app/Controllers/Ajax/AjaxGallery.php:309
+#: app/Controllers/Ajax/AjaxGallery.php:533
+#: app/Controllers/Ajax/AjaxGallery.php:616
+#: app/Controllers/Ajax/AjaxGallery.php:699
 msgid "Incorrect Post or Attachment ID."
 msgstr ""
 
-#: app/Controllers/AIImageController.php:92
+#: app/Controllers/AIImageController.php:96
 msgid "Image updated successfully."
 msgstr ""
 
@@ -2068,15 +2076,15 @@ msgstr ""
 msgid "Select a field type"
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:77
+#: app/Controllers/Ajax/AjaxGallery.php:47
 msgid "Registration required to delete listing image."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:87
+#: app/Controllers/Ajax/AjaxGallery.php:57
 msgid "You do not have permission to delete images for this listing."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:99
+#: app/Controllers/Ajax/AjaxGallery.php:69
 #: app/Controllers/Ajax/FormBuilderAjax.php:559
 #: app/Controllers/Ajax/FormBuilderAjax.php:620
 #: app/Controllers/Ajax/FormBuilderAjax.php:816
@@ -2085,11 +2093,11 @@ msgstr ""
 msgid "Attachment does not exist."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:108
+#: app/Controllers/Ajax/AjaxGallery.php:78
 msgid "You are not allowed to delete listing images."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:117
+#: app/Controllers/Ajax/AjaxGallery.php:87
 #: app/Controllers/Ajax/FormBuilderAjax.php:565
 #: app/Controllers/Ajax/FormBuilderAjax.php:634
 #: app/Controllers/Ajax/FormBuilderAjax.php:824
@@ -2098,89 +2106,85 @@ msgstr ""
 msgid "Incorrect attachment ID."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:124
+#: app/Controllers/Ajax/AjaxGallery.php:94
 #: app/Controllers/Ajax/FormBuilderAjax.php:576
 #: app/Controllers/Ajax/FormBuilderAjax.php:1272
 #: app/Controllers/Ajax/PublicUser.php:440
 msgid "File could not be deleted."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:137
+#: app/Controllers/Ajax/AjaxGallery.php:107
 msgid "Registration required to reorder listing image."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:141
+#: app/Controllers/Ajax/AjaxGallery.php:111
 msgid "You are not allowed to reorder listing images."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:147
+#: app/Controllers/Ajax/AjaxGallery.php:117
 msgid "You do not have permission to reorder images for this listing."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:172
+#: app/Controllers/Ajax/AjaxGallery.php:142
 #: app/Controllers/Ajax/FormBuilderAjax.php:686
 msgid "Registration required to upload listing image."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:181
+#: app/Controllers/Ajax/AjaxGallery.php:151
 msgid "You are not allowed to upload listing images."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:191
+#: app/Controllers/Ajax/AjaxGallery.php:161
 msgid "You do not have permission to upload images for this listing."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:257
+#: app/Controllers/Ajax/AjaxGallery.php:227
 #: app/Controllers/Ajax/FormBuilderAjax.php:750
 #: app/Controllers/Ajax/FormBuilderAjax.php:1098
 msgid "RTCL Auto Temp"
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:292
+#: app/Controllers/Ajax/AjaxGallery.php:262
 msgid "Registration required to save listing image."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:301
+#: app/Controllers/Ajax/AjaxGallery.php:271
 msgid "You are not allowed to save listing images."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:320
-msgid "You do not have permission to edit images for this listing."
-msgstr ""
-
-#: app/Controllers/Ajax/AjaxGallery.php:521
+#: app/Controllers/Ajax/AjaxGallery.php:491
 msgid "Registration required to restore listing image."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:530
+#: app/Controllers/Ajax/AjaxGallery.php:500
 msgid "You are not allowed to restore listing images."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:552
+#: app/Controllers/Ajax/AjaxGallery.php:522
 msgid "You do not have permission to restore images for this listing."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:612
+#: app/Controllers/Ajax/AjaxGallery.php:582
 msgid "Registration required to update listing image."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:621
+#: app/Controllers/Ajax/AjaxGallery.php:591
 msgid "You are not allowed to update listing images."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:631
+#: app/Controllers/Ajax/AjaxGallery.php:601
 msgid "You do not have permission to update images for this listing."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:687
+#: app/Controllers/Ajax/AjaxGallery.php:657
 msgid "Registration required to edit listing image."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:696
+#: app/Controllers/Ajax/AjaxGallery.php:666
 msgid "You are not allowed to edit listing images."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:719
+#: app/Controllers/Ajax/AjaxGallery.php:689
 msgid "You do not have permission to access images for this listing."
 msgstr ""
 
@@ -3304,11 +3308,14 @@ msgstr ""
 msgid "Style 2"
 msgstr ""
 
-#: app/Controllers/Blocks/AdminAjaxController.php:48
+#: app/Controllers/Blocks/AdminAjaxController.php:51
+#: app/Controllers/Blocks/AdminAjaxController.php:75
+#: app/Controllers/Blocks/AdminAjaxController.php:91
+#: app/Controllers/Blocks/AdminAjaxController.php:107
 msgid "You do not have permission to access it."
 msgstr ""
 
-#: app/Controllers/Blocks/AdminAjaxController.php:75
+#: app/Controllers/Blocks/AdminAjaxController.php:134
 msgid "Please Select a Location and Background"
 msgstr ""
 
@@ -4778,7 +4785,7 @@ msgstr ""
 msgid "Choose an option"
 msgstr ""
 
-#: app/Helpers/Functions.php:5894
+#: app/Helpers/Functions.php:6352
 msgid "Location search is temporarily unavailable. Please wait a moment and try again."
 msgstr ""
 
@@ -6105,6 +6112,8 @@ msgstr ""
 #: app/Resources/Options.php:328
 #: app/Resources/Options.php:2659
 #: app/Services/FormBuilder/ElementCustomization.php:1505
+#: views/settings/reports.php:178
+#: views/settings/reports.php:219
 #: views/widgets/categories.php:40
 msgid "Custom"
 msgstr ""
@@ -8231,7 +8240,6 @@ msgid "Date & Time"
 msgstr ""
 
 #: app/Resources/Options.php:2943
-#: views/settings/reports.php:164
 msgid "Date Range"
 msgstr ""
 
@@ -13676,6 +13684,8 @@ msgid "Daily"
 msgstr ""
 
 #: views/settings/import-rss.php:28
+#: views/settings/reports.php:175
+#: views/settings/reports.php:216
 msgid "Weekly"
 msgstr ""
 
@@ -13926,6 +13936,49 @@ msgstr ""
 
 #: views/settings/reports.php:146
 msgid "Total Users"
+msgstr ""
+
+#: views/settings/reports.php:166
+msgid "Revenue"
+msgstr ""
+
+#: views/settings/reports.php:171
+#: views/settings/reports.php:212
+msgid "Select date range"
+msgstr ""
+
+#: views/settings/reports.php:176
+#: views/settings/reports.php:217
+msgid "Monthly"
+msgstr ""
+
+#: views/settings/reports.php:177
+#: views/settings/reports.php:218
+msgid "Yearly"
+msgstr ""
+
+#: views/settings/reports.php:190
+msgid "Listings Distribution"
+msgstr ""
+
+#: views/settings/reports.php:207
+msgid "Listing Views"
+msgstr ""
+
+#: views/settings/reports.php:231
+msgid "Top Listings by Views"
+msgstr ""
+
+#: views/settings/reports.php:233
+msgid "Show 5"
+msgstr ""
+
+#: views/settings/reports.php:234
+msgid "Show 10"
+msgstr ""
+
+#: views/settings/reports.php:235
+msgid "Show 15"
 msgstr ""
 
 #: views/settings/single_listing-settings.php:22

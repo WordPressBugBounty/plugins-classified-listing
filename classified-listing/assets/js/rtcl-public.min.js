@@ -1,1 +1,3470 @@
-var __defProp=Object.defineProperty,__defProps=Object.defineProperties,__getOwnPropDescs=Object.getOwnPropertyDescriptors,__getOwnPropSymbols=Object.getOwnPropertySymbols,__hasOwnProp=Object.prototype.hasOwnProperty,__propIsEnum=Object.prototype.propertyIsEnumerable,__defNormalProp=(t,e,a)=>e in t?__defProp(t,e,{enumerable:!0,configurable:!0,writable:!0,value:a}):t[e]=a,__spreadValues=(t,e)=>{for(var a in e||(e={}))__hasOwnProp.call(e,a)&&__defNormalProp(t,a,e[a]);if(__getOwnPropSymbols)for(var a of __getOwnPropSymbols(e))__propIsEnum.call(e,a)&&__defNormalProp(t,a,e[a]);return t},__spreadProps=(t,e)=>__defProps(t,__getOwnPropDescs(e)),__publicField=(t,e,a)=>__defNormalProp(t,"symbol"!=typeof e?e+"":e,a);!function(){"use strict";class t{constructor(){var t,e;__publicField(this,"onLoadUpdateParams",()=>{var t;const e=new URL(window.location.href);if((null==(t=this.options)?void 0:t.items)&&Array.isArray(this.options.items)){const t=this;this.options.items.map(a=>{if("price_range"===a.id){if(e.searchParams.has("filter_price")){let t=decodeURI(e.searchParams.get("filter_price"));t.includes(",")&&(t=t.split(",")),this.data.params.filter_price=t}}else if("radius_filter"===a.id)e.searchParams.has("center_lat")&&(this.data.params.center_lat=e.searchParams.get("center_lat")),e.searchParams.has("center_lng")&&(this.data.params.center_lng=e.searchParams.get("center_lng")),e.searchParams.has("geo_address")&&(this.data.params.geo_address=e.searchParams.get("geo_address")),e.searchParams.has("distance")&&(this.data.params.distancem=e.searchParams.get("distance"));else if(t.withOutFilterPrefix.includes(a.id))e.searchParams.has(a.id)?this.data.params[a.id]=decodeURI(e.searchParams.get(a.id)).split(","):a.selected&&(t.initLoading=!1,this.data.params[a.id]=Array.isArray(a.selected)?a.selected:e.searchParams.get(a.selected).split(","),this.addParam(a.id,this.data.params[a.id],!0));else{let r=null;if(["location","category","tag"].includes(a.id)&&Array.isArray(rtcl.activeTerms)&&rtcl.activeTerms.length&&(r=rtcl.activeTerms.find(t=>t.taxonomy.replace("rtcl_","")===a.id))){const t="filter_"+a.id;let i;e.searchParams.has(t)?(i=decodeURI(e.searchParams.get(t)).split(","),i.push(r.term_id),this.addParam(t,r.term_id,!0)):(i=[r.term_id],this.addParam(t,r.term_id,!0)),this.data.params[t]=i}else{const r="filter_"+a.id;if(e.searchParams.has(r))this.data.params[r]=["checkbox","radio"].includes(a.type)?decodeURI(e.searchParams.get(r)).split(","):e.searchParams.get(r);else if(a.selected)t.initLoading=!1,["checkbox","radio"].includes(a.type)?(this.data.params[a.id]=Array.isArray(a.selected)?a.selected:e.searchParams.get(a.selected).split(","),this.addParam(a.id,this.data.params[a.id],!0)):(this.data.params[a.id]=e.searchParams.get(a.selected),this.addParam(a.id,this.data.params[a.id]));else if("ad_type"===a.id&&e.searchParams.has("filters[ad_type]")){t.initLoading=!1;const a=e.searchParams.get("filters[ad_type]");this.data.params[r]=a,this.addParam(r,a)}}}})}e.searchParams.has("page")&&(this.data.params.page=e.searchParams.get("page")),e.searchParams.has("orderby")&&(this.data.params.orderby=e.searchParams.get("orderby")),e.searchParams.has("view")&&(this.data.params.view=e.searchParams.get("view")),e.searchParams.has("q")&&(this.data.params.q=e.searchParams.get("q")),Array.from(e.searchParams).map(([t,a])=>{t.startsWith("cf_")&&((a=decodeURI(e.searchParams.get(t))).includes(",")&&(a=a.split(",")),this.data.params[t]=a)}),this.renderActiveFilter()}),__publicField(this,"init",()=>{this.$(this.filterWraperClass).length&&(this.onLoadUpdateParams(),this.handleEvents(),this.loadAjaxData(),this.priceRangeSliderInit(),this.cfRangeSliderInit(),this.radiusDistanceSliderInit(),this.dateInit(),this.loadInitData())}),__publicField(this,"loadInitData",()=>{if(this.isArchive&&(this.$(this.archivePaginationClass).remove(),this.$(this.noListingFoundClass).remove()),this.isTaxArchive){const t=this.$("body").hasClass("tax-rtcl_category")?"rtcl-filter_category":this.$("body").hasClass("tax-rtcl_location")?"rtcl-filter_location":this.$("body").hasClass("tax-rtcl_tag")?"rtcl-filter_tag":"",e=this.$("body").find("."+t);if(e.length){const t=e.find(".rtcl-filter-content").data("options");if(t&&"checkbox"===t.field_type){const t=this.$('<div class="rtcl-show-all">'+rtclAjaxFilterObj.show_all+"</div>");t.on("click",t=>{window.location.replace(rtclAjaxFilterObj.listings_archive_url)}),e.append(t)}}}this.callAjax()}),__publicField(this,"scrollToTop",()=>{if(this.$(this.filterContainerClass).hasClass("no-scroll-mode"))return!1;const t=this.$("body .rtclScrollTarget"),e=parseInt(rtclAjaxFilterObj.filter_scroll_offset,10),a=isNaN(e)?50:e;let r;r=t.length?t.offset().top-a:this.$(this.filterContainerClass).parent().offset().top-a,this.smoothScrollTo(r,1200)}),__publicField(this,"handleEvents",()=>{this.$(this.filterContainerClass).on("click",".rtcl-reset",t=>{t.stopPropagation();const e=this.$(t.currentTarget).closest(".rtcl-ajax-filter-item"),a=e.find(".rtcl-filter-content"),r=a.data("options");e.hasClass("rtcl-filter_radius_filter")?(e.removeClass("is-active"),this.reset=!0,this.$(document).trigger("rtcl_ajax_filter_reset_radius_distance"),this.$(document).trigger("rtcl_ajax_filter_update_params")):e.hasClass("rtcl-filter_price_range")?(this.reset=!0,this.$(document).trigger("rtcl_ajax_filter_reset_price_range"),this.$(document).trigger("rtcl_ajax_filter_update_params")):e.hasClass("rtcl-filter_rating")?(e.removeClass("is-active"),a.find(".rtcl-filter-ratings-item").removeClass("selected"),this.removeParam(r.name),this.$(document).trigger("rtcl_ajax_filter_update_params")):(this.removeParam(r.name),e.removeClass("is-active"),a.find("input.rtcl-filter-number-field, input.rtcl-filter-date-field, input.rtcl-filter-text-field").val(""),this.$(document).trigger("rtcl_ajax_filter_update_params"))}).on("click keydown",".rtcl-more-less-btn",t=>{if("keydown"===t.type&&"Enter"!==t.key)return;const e=this.$(t.currentTarget),a=e.closest(".rtcl-ajax-filter-data"),r=e.closest(".rtcl-filter-content").data("options"),i=(null==r?void 0:r.name)||(null==r?void 0:r.filter_key)||"";e.hasClass("active")?(a.find(".rtcl-ajax-filter-data-item.hideAble").removeClass("active"),e.removeClass("active"),i&&this.expandedFields.delete(i)):(a.find(".rtcl-ajax-filter-data-item.hideAble").addClass("active"),e.addClass("active"),i&&this.expandedFields.add(i))}).on("keydown",".rtcl-ajax-filter-data .rtcl-filter-checkbox-label",function(t){if("Enter"===t.key){const t=this.getAttribute("for"),e=jQuery("#"+t);e.length&&e.trigger("click").trigger("change")}}).on("change","input.rtcl-filter-checkbox, select.rtcl-filter-select-item",this.handleFilter).on("click",".rtcl-filter-ratings-item",this.handleFilter).on("click keydown",".rtcl-ajax-filter-data.filter-list .is-parent.has-sub .rtcl-load-sub-list",t=>{"keydown"===t.type&&"Enter"!==t.key||this.loadSubListData(t)}),this.$(".rtcl-listings-actions .rtcl-view-switcher a.rtcl-view-trigger",document).on("click",t=>{t.preventDefault();const e=this.$(t.currentTarget).data("type")||"list";this.addParam("view",e),location.replace(location.href)}),this.$("body").off("change",".rtcl-ordering select.orderby"),this.$(".rtcl-listings-actions .rtcl-ordering select.orderby",document).off("change").on("change",t=>{const e=this.$(t.currentTarget).val();delete this.data.params.page,this.removeParam("page"),e?(this.data.params.orderby=e,this.addParam("orderby",e)):(delete this.data.params.orderby,this.removeParam("orderby")),this.$(document).trigger("rtcl_ajax_filter_update_params")}),this.$(document).on("keydown",".rtcl-ajax-pagination-container .rtcl-ajax-pagination-item.page-item:not(.active)",function(t){"Enter"===t.key&&jQuery(this).trigger("click")}),this.$(document).on("keyup",".rtcl-ajax-filter-item .rtcl-ajax-filter-text input[type=text]",this.handleFilter).on("keyup",".rtcl-ajax-filter-item .rtcl-filter-number-field-wrap input[type=number]",this.handleFilter).on("click",".rtcl-ajax-filter-text .rtcl-clear-text",t=>{const e=this.$(t.currentTarget),a=e.closest(".rtcl-ajax-filter-item"),r=e.closest(".rtcl-filter-content"),i=e.closest(".rtcl-ajax-filter-text").find("input[type=text]"),s=r.data("options");a.removeClass("is-active"),i.val("");const n=s.filter_key||s.name;n&&this.data.params[n]&&(delete this.data.params[n],this.$(document).trigger("rtcl_ajax_filter_update_params"))}).on("click",".rtcl-ajax-pagination-container .rtcl-ajax-pagination-item.page-item:not(.active)",this.handlePagination).on("click keydown",".rtcl-active-filters-container .rtcl-clear-filters",t=>{"keydown"===t.type&&"Enter"!==t.key||this.resetFilter(t)}).on("click",".rtcl-ajax-filter-text-search .rtcl-ajax-filter-search-icon",t=>{this.handleFilter(t)}).on("click keydown",".rtcl-active-filters-container .af-items .afi",t=>{"keydown"===t.type&&"Enter"!==t.key||this.removeFilterItem(t)}).on("click",this.filterTitleWrapClass,t=>{const e=this.$(t.currentTarget).closest(".rtcl-ajax-filter-item"),a=e.find(".rtcl-filter-content");e.hasClass("is-open")?a.slideUp(()=>{e.removeClass("is-open")}):a.slideDown(()=>{e.addClass("is-open")})}).on("rtcl_ajax_filter_update_params",(t,e)=>{delete this.data.params.page,this.removeParam("page"),this.callAjax()}).on("rtcl_ajax_filter_reset",()=>{this.reset=!0,this.$(this.filterContainerClass).find("input.rtcl-filter-checkbox").prop("checked",!1).end().find("select.rtcl-filter-select-item").val("").end().find("input.rtcl-filter-text-field").val("").closest(".rtcl-ajax-filter-item").removeClass("is-active").end().end().find(".rtcl-geo-address-field input").val("").closest(".rtcl-ajax-filter-item").removeClass("is-active").end().end().find(".rtcl-filter_rating").removeClass("is-active").find(".rtcl-filter-ratings .rtcl-filter-ratings-item").removeClass("selected"),this.$(".rtcl-filter-text-field",".rtcl-ajax-filter-date-field",document).val("").closest(".rtcl-ajax-filter-item").removeClass("is-active"),this.$(".rtcl-number-field-wrap input",document).val("").closest(".rtcl-ajax-filter-item").removeClass("is-active"),this.$(document).trigger("rtcl_ajax_filter_reset_price_range"),this.$(document).trigger("rtcl_ajax_filter_reset_radius_distance"),this.callAjax()}).on("rtcl_map_retrieve_geocode",(t,e)=>{if(e.target){const t=this.$(e.target).closest(".rtcl-filter_radius_filter"),a=t.find(".rtcl-radius-distance-slider");if(t.length&&a.length){const r=a[0].noUiSlider.get(),i=Number(r),s=a.attr("data-unit")||"miles";this.data.params=__spreadProps(__spreadValues({},this.data.params),{center_lat:e.lat,center_lng:e.lng,distance:i,distance_unit:s}),this.addParam("center_lat",e.lat),this.addParam("center_lng",e.lng),this.addParam("distance",i),this.addParam("distance_unit",s),this.addParam("geo_address",e.address),t.addClass("is-active"),this.$(document).trigger("rtcl_ajax_filter_update_params",[this.data.params])}}})}),__publicField(this,"loadSubListData",t=>{t.preventDefault();const e=jQuery(t.currentTarget),a=e.closest(".rtcl-ajax-filter-data-item"),r=e.closest(".rtcl-filter-content"),i=r.hasClass("rtcl-ajax"),s=r.data("options")||{},n=a.find("> .sub-list");a.hasClass("is-open")?n.slideUp(function(){a.removeClass("is-open")}):i&&s.taxonomy&&a.hasClass("has-sub")&&!a.hasClass("is-loaded")?r.hasClass("rtcl-loading")||(s.parent=a.data("id")||0,s.__rtcl_wpnonce=rtcl.__rtcl_wpnonce,s.action="rtcl_ajax_filter_get_sub_terms_html",this.$.ajax({url:rtcl.ajaxurl,type:"POST",dataType:"json",data:s,beforeSend:()=>{r.rtclBlock()},success:t=>{a.append(t.data),r.rtclUnblock(),a.addClass("is-open is-loaded"),a.find("> .sub-list").slideDown("slow",function(){jQuery(this).css("display","flex")})},complete:()=>{r.rtclUnblock()},error:(t,e,a)=>{console.error(a)}})):(n.slideDown(),a.addClass("is-open"))}),__publicField(this,"loadAjaxData",()=>{this.$(this.filterContainerClass).find(".rtcl-ajax-filter-item .rtcl-filter-content.rtcl-ajax").each((t,e)=>{var a;let r=this.$(e),i=r.data("options")||{};i.action="rtcl_ajax_filter_get_sub_terms_html",i.__rtcl_wpnonce=rtcl.__rtcl_wpnonce,(null==(a=rtcl.listing_term)?void 0:a.taxonomy)===i.taxonomy&&Array.isArray(i.values)&&!i.values.includes(rtcl.listing_term.term_id.toString())&&i.values.push(rtcl.listing_term.term_id),this.$.ajax({url:rtcl.ajaxurl,type:"POST",dataType:"json",data:i,beforeSend:()=>{r.rtclBlock()},success:t=>{r.html(t.data).rtclUnblock(),r.closest(this.filterContainerClass)},complete:()=>{r.rtclUnblock()},error:(t,e,a)=>{r.rtclUnblock(),500===e?console.error("Error while adding comment"):"timeout"===e&&console.error("Error: Server doesn't respond.")}})})}),__publicField(this,"addParam",(t,e,a)=>{if(!t)return;if(!e)return void this.removeParam(t);const r=new URL(window.location.href);let i=e;if(r.searchParams.has(t)){let s=decodeURI(r.searchParams.get(t));a&&(i=Array.from(new Set(s.split(","))),i.push(e))}this.data.params[t]=i,r.searchParams.set(t,Array.isArray(i)?i.join(","):i),window.history.pushState("",document.title,r.toString())}),__publicField(this,"removeParam",(t,e,a)=>{if(!t)return;const r=new URL(window.location.href);if(e&&a){let a=e;if(r.searchParams.has(t)){let i=decodeURI(r.searchParams.get(t));a=Array.from(new Set(i.split(","))).filter(t=>t.toString()!==e.toString()),a.length?(this.data.params[t]=a,r.searchParams.set(t,Array.isArray(a)?a.join(","):a)):(delete this.data.params[t],r.searchParams.delete(t))}}else delete this.data.params[t],r.searchParams.delete(t);window.history.pushState("",document.title,r.toString())}),__publicField(this,"handleFilter",(t,e)=>{if(this.reset)return;const a=this.$(t.currentTarget),r=a.closest(".rtcl-ajax-filter-item"),i=a.closest(".rtcl-filter-content").data("options"),s=i.filter_key||i.name;if("change"===t.type){if(s){const e=t.currentTarget.value;if("text"===t.currentTarget.type)e?(this.data.params[s]=e,r.addClass("is-active"),this.addParam(s,e)):(delete this.data.params[s],r.removeClass("is-active"),this.removeParam(s));else if("checkbox"===t.currentTarget.type){const a=t.currentTarget.checked;let i=Array.isArray(this.data.params[s])?this.data.params[s].map(String):this.data.params[s]?[String(this.data.params[s])]:[];a?i.includes(String(e))||i.push(String(e)):i=i.filter(t=>t!==String(e));const n=new URL(window.location.href);i.length?(this.data.params[s]=i,n.searchParams.set(s,i.join(",")),r.addClass("is-active")):(delete this.data.params[s],n.searchParams.delete(s),r.removeClass("is-active")),window.history.pushState("",document.title,n.toString())}else i&&["radio","select"].includes(i.field_type)?t.currentTarget.checked?this.addParam(s,e):"select"===i.field_type?e?this.addParam(s,e):this.removeParam(s):this.removeParam(s,e):this.addParam(s,e);this.$(document).trigger("rtcl_ajax_filter_update_params")}}else if("keyup"===t.type){if("INPUT"===t.currentTarget.tagName)if("number"===t.currentTarget.type&&r.find(".rtcl-filter-number-field-wrap").hasClass("min-max")){const e=this.$(t.currentTarget).closest(".rtcl-filter-number-field-wrap"),a=e.find("input.max").val()||null,r=e.find("input.min").val()||0;if("Enter"===t.key||13===t.keyCode){const t=[r,a];this.data.params[s]=t,this.addParam(s,t),this.$(document).trigger("rtcl_ajax_filter_update_params")}else r||a?e.addClass("is-active"):e.removeClass("is-active")}else{const e=t.currentTarget.value;"Enter"===t.key||13===t.keyCode?(this.data.params[s]=t.currentTarget.value,this.addParam(s,e),this.$(document).trigger("rtcl_ajax_filter_update_params")):e?r.addClass("is-active"):r.removeClass("is-active")}}else if("click"===t.type){const e=this.$(t.currentTarget);if(e.hasClass("rtcl-filter-ratings-item")){const t=parseFloat(e.data("id"));isNaN(t)||(e.closest(".rtcl-filter-ratings").find(".rtcl-filter-ratings-item").removeClass("selected"),e.addClass("selected"),r.addClass("is-active"),this.addParam(s,t),this.$(document).trigger("rtcl_ajax_filter_update_params",[this.data.params]))}if(e.closest(".rtcl-ajax-filter-text-search").length){const t=e.closest(".rtcl-ajax-filter-text").find("input[type=text]");this.addParam(s,t.val()),this.$(document).trigger("rtcl_ajax_filter_update_params",[this.data.params])}}}),__publicField(this,"dateInit",()=>{this.$.fn.daterangepicker&&this.$(".rtcl-filter-date-field",this.$(this.filterWraperClass)).each((t,e)=>{var a;let r=this.$(e),i=r.data("options")||{};i=rtclFilter.apply("dateRangePickerOptions",i),window.innerWidth<=767&&(i.opens=i.opens||"center",i.drops=i.drops||"auto",i.autoApply=null!=(a=i.autoApply)&&a),Array.isArray(i.invalidDateList)&&i.invalidDateList.length&&(i.isInvalidDate=function(t){return i.invalidDateList.includes(t.format(i.locale.format))}),r.daterangepicker(i),!1===i.autoUpdateInput&&(r.on("apply.daterangepicker",(t,e)=>{const a=this.$(t.currentTarget),r=a.closest(".rtcl-ajax-filter-item"),i=a.closest(".rtcl-filter-content").data("options").name;let s;e.singleDatePicker?(s=e.startDate.format(e.locale.format),a.val(s)):(s=e.startDate.format(e.locale.format)+e.locale.separator+e.endDate.format(e.locale.format),a.val(s)),this.addParam(i,s),this.data.params[i]=s,r.addClass("is-active"),this.$(document).trigger("rtcl_ajax_filter_update_params")}),r.on("cancel.daterangepicker",(t,e)=>{this.$(t.currentTarget).val("")}))})}),__publicField(this,"priceRangeSliderInit",()=>{const t=this.$(this.filterContainerClass+" .rtcl-price-range-wrap");if(!t.length)return!1;const e=t.closest(".rtcl-ajax-filter-item");t.each((t,a)=>{const r=this.$(a),i=r.find(".rtcl-price-range-slider"),s=i[0],n=r.find(".rtcl-range-slider-input-wrap"),l=n.find(".rtcl-range-slider-input.max"),c=n.find(".rtcl-range-slider-input.min"),o=parseInt(i.attr("data-max"),10)||5e4,d=parseInt(i.attr("data-min"),10)||0,p=parseInt(l.val(),10)||o,h=parseInt(c.val(),10)||d,u=parseInt(i.attr("data-step"),10)||1e3;function f(t,e){const a=[null,null];a[t]=e,s.noUiSlider.set(a)}noUiSlider.create(s,{range:{min:d,max:o},behaviour:"drag",connect:!0,start:[h,p],step:u}),s.noUiSlider.on("update",(t,e)=>{(0===e?c:l).val(Number(t[e]))}),s.noUiSlider.on("change",(t,a)=>{if(!this.reset){e.addClass("is-active");const a=[Number(t[0]),Number(t[1])];this.data.params=__spreadProps(__spreadValues({},this.data.params),{filter_price:a}),this.addParam("filter_price",a.filter(t=>0===t||t).join(",")),this.$(document).trigger("rtcl_ajax_filter_update_params",[this.data.params])}}),this.$(document).on("rtcl_ajax_filter_reset_price_range",()=>{c.val(d).trigger("change"),l.val(o).trigger("change"),delete this.data.params.filter_price,this.removeParam("filter_price"),e.removeClass("is-active")}),n.find(".rtcl-range-slider-input").on("change",t=>{let e=t.currentTarget.value;e=Number(e),e=parseInt(e,10),(isNaN(e)||e<0)&&(e=0,t.currentTarget.value=e);f(this.$(t.currentTarget).hasClass("min")?0:1,e);let a=s.noUiSlider.get();if(!this.reset){const t=[Number(a[0]),Number(a[1])];this.data.params=__spreadProps(__spreadValues({},this.data.params),{filter_price:t}),this.addParam("filter_price",t.filter(t=>0===t||t).join(",")),this.$(document).trigger("rtcl_ajax_filter_update_params",[this.data.params])}}).on("keydown",function(t){if(["-","e","E","+"].includes(t.key))return void t.preventDefault();let e=s.noUiSlider.get();const a=jQuery(this).hasClass("min")?0:1;let r=Number(e[a]);const i=s.noUiSlider.steps()[a];let n;switch(t.which){case 13:this.dirty&&(this.dirty=!1,this.trigger("change"));break;case 38:n=i[1],!1===n&&(n=1),null!==n&&(this.dirty=!0,f(a,r+n));break;case 40:n=i[0],!1===n&&(t=1),null!==n&&(this.dirty=!0,f(a,r-n))}}).on("blur",function(){this.dirty&&jQuery(this).trigger("change"),this.dirty=!1}).on("paste",function(t){setTimeout(()=>{let t=this.value.replace(/[^0-9]/g,"");this.value=t},0)})})}),__publicField(this,"cfRangeSliderInit",()=>{const t=this.$(".rtcl-cf-range-wrap");t.length&&t.each((t,e)=>{const a=this.$(e),r=a.find(".rtcl-cf-range-slider")[0];if(!r||r.noUiSlider)return;const i=a.closest(".rtcl-ajax-filter-item"),s=a.find(".rtcl-range-slider-input-wrap"),n=s.find(".rtcl-range-slider-input.min"),l=s.find(".rtcl-range-slider-input.max"),c=a.data("field-name"),o=parseFloat(r.dataset.min)||0,d=parseFloat(r.dataset.max)||100,p=parseFloat(r.dataset.step)||1,h=parseFloat(n.val())||o,u=parseFloat(l.val())||d;noUiSlider.create(r,{range:{min:o,max:d},start:[h,u],step:p,connect:!0,behaviour:"drag"}),r.noUiSlider.on("update",(t,e)=>{(0===e?n:l).val(Number(t[e]))}),r.noUiSlider.on("change",t=>{if(!this.reset){i.addClass("is-active");const e=[Number(t[0]),Number(t[1])].join(",");this.data.params[c]=e,this.addParam(c,e),this.$(document).trigger("rtcl_ajax_filter_update_params",[this.data.params])}}),s.find(".rtcl-range-slider-input").on("change",t=>{const e=this.$(t.currentTarget).hasClass("min")?0:1,a=parseFloat(t.currentTarget.value)||(0===e?o:d),i=[null,null];if(i[e]=a,r.noUiSlider.set(i),!this.reset){const t=r.noUiSlider.get(),e=[Number(t[0]),Number(t[1])].join(",");this.data.params[c]=e,this.addParam(c,e),this.$(document).trigger("rtcl_ajax_filter_update_params",[this.data.params])}}),this.$(document).on("rtcl_ajax_filter_reset",()=>{r.noUiSlider.set([o,d]),n.val(o),l.val(d),delete this.data.params[c],this.removeParam(c),i.removeClass("is-active")})})}),__publicField(this,"radiusDistanceSliderInit",()=>{const t=this.$(this.filterContainerClass+" .rtcl-radius-distance-slider-wrap");if(!t.length)return!1;const e=t.closest(".rtcl-ajax-filter-item");t.each((t,a)=>{const r=this.$(a),i=r.find(".rtcl-radius-distance-slider"),s=i[0];r.find(".rtcl-radius-distance-input");const n=parseInt(i.attr("data-default"),10)||30,l=parseInt(i.attr("data-current"),10)||n,c=parseInt(i.attr("data-max"),10)||300,o=parseInt(i.attr("data-min"),10)||0,d=parseInt(i.attr("data-step"),10)||5,p=i.attr("data-unit")||"miles";noUiSlider.create(s,{range:{min:o,max:c},behaviour:"drag",connect:[!0,!1],start:l,step:d}),s.noUiSlider.on("change",(t,a)=>{if(!this.reset&&this.data.params.center_lat&&this.data.params.center_lng){e.addClass("is-active");const r=Number(t[a]);this.data.params=__spreadProps(__spreadValues({},this.data.params),{distance:r,distance_unit:p}),this.addParam("distance",r),this.addParam("distance_unit",p),this.$(document).trigger("rtcl_ajax_filter_update_params",[this.data.params])}}),s.noUiSlider.on("update",(t,e)=>{const a=Number(t[e]);r.find(".rtcl-range-value").text(a)}),this.$(document).on("rtcl_ajax_filter_reset_radius_distance",()=>{delete this.data.params.distance,delete this.data.params.distance_unit,delete this.data.params.center_lat,delete this.data.params.center_lng,delete this.data.params.geo_address,this.removeParam("distance"),this.removeParam("distance_unit"),this.removeParam("center_lat"),this.removeParam("center_lng"),this.removeParam("geo_address"),e.find(".rtcl-geo-address-input").val(""),e.removeClass("is-active"),s.noUiSlider.set([n,null])})})}),__publicField(this,"callAjax",()=>{const t=this.$(this.filterWraperClass),e=this.$(this.listingsContainerClass);this.$.ajax({type:"POST",url:rtcl.ajaxurl,data:this.data,beforeSend:()=>{t.rtclBlock(),e.rtclBlock()},success:t=>{t.success&&(this.data.params.page=t.data.pagination.current_page,this.renderData(__spreadProps(__spreadValues({},t.data),{actionData:this.data})),delete this.data.filterData.initLoad)},error:(t,e,a)=>{console.error(a)},complete:()=>{t.rtclUnblock(),e.rtclUnblock(),this.reset=!1,this.initLoading=!1}})}),__publicField(this,"removeFilterItem",t=>{const e=this.$(t.currentTarget),a=e.data("item-id"),r=e.data("filter-name"),i=e.data("filter-value"),s=this.withOutFilterPrefix.includes(a)?this.$(".rtcl-ajax-filter-item.rtcl-"+a):this.$(".rtcl-ajax-filter-item.rtcl-filter_"+a),n=s.find(".rtcl-filter-content").data("options");if(!s.length)return;let l=!1;"price_range"===a?(this.removeParam("filter_price"),this.reset=!0,this.$(document).trigger("rtcl_ajax_filter_reset_price_range"),l=!0):"radius_filter"===a?(this.removeParam("distance"),this.removeParam("center_lat"),this.removeParam("center_lng"),this.removeParam("geo_address"),this.reset=!0,this.$(document).trigger("rtcl_ajax_filter_reset_radius_distance"),l=!0):"rating"===a?(this.removeParam(r),s.removeClass("is-active"),s.find(".rtcl-filter-ratings-item").removeClass("selected"),l=!0):n&&(["checkbox","radio"].includes(n.field_type)?(this.removeParam(r,i,!0),s.find('input[value="'+i+'"]').prop("checked",!1)):"number"===n.field_type?(this.removeParam(r),s.removeClass("is-active"),s.find("input.rtcl-filter-number-field").val("")):(this.removeParam(r),s.find('input[name="'+r+'"], select[name="'+r+'"]').val(""),s.removeClass("is-active")),l=!0),l&&(delete this.data.params.page,this.removeParam("page"),this.$(document).trigger("rtcl_ajax_filter_update_params"))}),__publicField(this,"resetFilter",()=>{const t=this,e=this.data.params.view;this.data.params={},e&&(this.data.params.view=e);const a=new URL(window.location.href);this.options.items&&Array.isArray(this.options.items)&&this.options.items.map(e=>{if("price_range"===e.id)a.searchParams.delete("filter_price");else if("radius_filter"===e.id)a.searchParams.delete("center_lat"),a.searchParams.delete("center_lng"),a.searchParams.delete("geo_address"),a.searchParams.delete("distance");else{const r=t.withOutFilterPrefix.includes(e.id)?e.id:"filter_"+e.id;a.searchParams.delete(r)}}),a.searchParams.delete("page"),a.searchParams.delete("orderby"),a.searchParams.delete("q"),Array.from(a.searchParams).map(([t])=>{t.startsWith("cf_")&&a.searchParams.delete(t)}),window.history.pushState("",document.title,a.toString()),this.$(document).trigger("rtcl_ajax_filter_reset")}),__publicField(this,"handlePagination",t=>{let e;e="SPAN"===t.target.tagName?t.target.parentNode:t.target;const a=this.$(e).data("id")||1;this.data.params.page=a,this.addParam("page",a),this.scrollToTop(),this.callAjax()}),__publicField(this,"renderData",t=>{this.renderActiveFilter(t.active_filters),this.renderCfFilterItems(t.cf_items),this.renderListings(t.listings),this.renderPagination(t.pagination),this.renderResultCount(t.pagination),this.$(document).trigger("rtcl_ajax_filter_after_render",[t])}),__publicField(this,"renderListings",t=>{if(this.isArchive&&this.initLoading&&!this.$(this.resultWrapClass).length)return;let e=this.$(document).find(this.listingsContainerClass);!e.length&&this.$(this.resultWrapClass).length&&(e=this.$('<div class="rtcl-ajax-listings"></div>'),this.$(this.resultWrapClass).append(e)),t?e.removeClass("no-listing-found"):(e.addClass("no-listing-found"),(t=this.$('<div class="rtcl-info no-listing-found"></div>')).text(rtclAjaxFilterObj.no_result_found)),e.html(t)}),__publicField(this,"renderCfFilterItems",t=>{if(this.initLoading)return;const e=this.$(this.cfWrapperClass);e.empty(),t&&Array.isArray(t)&&e.length&&(t.map(t=>{e.append(this.$(t.html))}),this.restoreExpandedState(),this.restoreCfCheckedState(),this.dateInit(),this.cfRangeSliderInit())}),__publicField(this,"restoreExpandedState",()=>{this.expandedFields.size&&this.$(this.cfWrapperClass).find(".rtcl-filter-content").each((t,e)=>{const a=this.$(e),r=a.data("options"),i=(null==r?void 0:r.name)||(null==r?void 0:r.filter_key)||"";i&&this.expandedFields.has(i)&&(a.find(".rtcl-ajax-filter-data-item.hideAble").addClass("active"),a.find(".rtcl-more-less-btn").addClass("active"))})}),__publicField(this,"restoreCfCheckedState",()=>{this.$(this.cfWrapperClass).find(".rtcl-filter-content").each((t,e)=>{const a=this.$(e),r=a.data("options");if(!r)return;const i=r.filter_key||r.name||"";if(!i||!this.data.params.hasOwnProperty(i))return;const s=this.data.params[i],n=Array.isArray(s)?s.map(String):[String(s)],l=a.find('input.rtcl-filter-checkbox[type="checkbox"]');l.length?(n.forEach(t=>{l.filter('[value="'+t+'"]').prop("checked",!0)}),n.length&&a.closest(".rtcl-ajax-filter-item").addClass("is-active")):["radio"].includes(r.field_type)?(n.forEach(t=>{a.find('input[value="'+t+'"]').prop("checked",!0)}),n.length&&a.closest(".rtcl-ajax-filter-item").addClass("is-active")):"select"===r.field_type&&(a.find("select.rtcl-filter-select-item").val(s),s&&a.closest(".rtcl-ajax-filter-item").addClass("is-active"))})}),__publicField(this,"renderActiveFilter",t=>{const e=this.$('<div class="rtcl-active-filters-container"></div>');if(t&&Array.isArray(t)&&t.length){const a=this.$('<div class="rtcl-active-filters-wrap"></div>'),r=this.$('<div class="rtcl-active-filters"></div>');t.map(t=>{const e=this.$('<div class="rtcl-active-filter"><div class="af-name"></div><div class="af-items"></div></div>');e.find(".af-name").text(t.label),Object.keys(t.selected).map(a=>{const r=this.$('<div class="afi" tabindex="0"><span class="rtcl-remove-filter"><i class="remove-icon"></i></span></div>');r.attr("data-item-id",t.itemId),r.attr("data-filter-name",t.id),r.attr("data-filter-value",a),r.prepend(document.createTextNode(t.selected[a])),e.find(".af-items").append(r)}),r.append(e)});const i=this.$('<div class="rtcl-clear-filters" tabindex="0"><span class="icon-wrap"><i class="rtcl-icon rtcl-icon-trash"></i></span><span></span></div>');i.find("span:last").text(rtclAjaxFilterObj.clear_all_filter),a.append(r,i),e.append(a)}const a=this.$(document).find(".rtcl-active-filters-container");a.length?a.replaceWith(e):this.$(this.listingsContainerClass).length?e.insertBefore(this.$(this.listingsContainerClass)):this.$(this.resultWrapClass).length&&e.insertBefore(this.$(this.resultWrapClass).find(".rtcl-listings"))}),__publicField(this,"range",(t,e)=>{let a=e-t+1;return Array.from({length:a},(e,a)=>a+t)}),__publicField(this,"getPageNumberArray",(t,e)=>{const a=e,r="...";if(6>=a)return this.range(1,a);const i=Math.max(t-1,1),s=Math.min(t+1,a),n=i>2,l=s<a-2,c=a;if(!n&&l){let t=5;return[...this.range(1,t),r,a]}if(n&&!l){let t=5;return[1,r,...this.range(a-t+1,a)]}if(n&&l){return[1,r,...this.range(i,s),r,c]}}),__publicField(this,"renderPagination",t=>{const e=this.$('<div class="rtcl-ajax-pagination-container"></div>');if(t&&t.pages>1){const a=this.getPageNumberArray(t.current_page,t.pages),r=this.$('<div class="rtcl-ajax-pagination-wrap"></div>'),i=this.$('<ul class="rtcl-ajax-pagination"></ul>');a.map((e,a)=>{let r;"..."===e?r=this.$('<li class="rtcl-ajax-pagination-item dots"><span>&#8230;</span></li>'):(r=this.$('<li class="rtcl-ajax-pagination-item page-item" data-id="'+e+'"><span>'+e+"</span></li>"),e===t.current_page?r.addClass("active").attr("aria-current","page"):r.attr("tabindex","0")),i.append(r)}),r.append(i),e.append(r)}const a=this.$(document).find(".rtcl-ajax-pagination-container");a.length?a.replaceWith(e):this.$(this.listingsContainerClass).length?e.insertAfter(this.$(this.listingsContainerClass)):this.$(this.resultWrapClass).length&&e.insertAfter(this.$(this.resultWrapClass).find(this.listingsContainerClass))}),__publicField(this,"renderResultCount",t=>{const e=this.$(".rtcl-listings-actions");if(!e.length)return;const a=e.find(".rtcl-result-count");if(a.attr("data-options",JSON.stringify({items:t.items})),!t.current_items||t.items<=t.per_page)a.text(rtclAjaxFilterObj.result_count.all.replace("%",t.items));else{const e=(t.current_page-1)*t.per_page;let r=`${e+1}–${e+t.current_items}`;a.text(rtclAjaxFilterObj.result_count.part.replace("_",r).replace("%",t.items))}}),__publicField(this,"smoothScrollTo",(t,e)=>{const a=window.scrollY||window.pageYOffset,r="now"in window.performance?performance.now():(new Date).getTime();requestAnimationFrame(function i(s){const n=s-r,l=Math.min(1,n/e),c=0===(o=l)?0:1===o?1:o<.5?Math.pow(2,20*o-10)/2:(2-Math.pow(2,-20*o+10))/2;var o;window.scrollTo(0,a+(t-a)*c),l<1&&requestAnimationFrame(i)})}),this.$=jQuery,this.filterWraperClass=".rtcl-widget-ajax-filter-wrapper",this.filterContainerClass=".rtcl-ajax-filter-wrap",this.filterTitleWrapClass=".rtcl-filter-title-wrap",this.resultWrapClass=".rtcl-ajax-filter-result-wrap",this.listingsContainerClass=".rtcl-ajax-listings",this.archivePaginationClass=".rtcl-pagination",this.noListingFoundClass=".no-listing-found",this.cfWrapperClass=".rtcl-ajax-filter-cf-wrap",this.options=this.$(this.filterWraperClass).data("options"),this.isTaxArchive=this.$("body").hasClass("tax-rtcl_category")||this.$("body").hasClass("tax-rtcl_location")||this.$("body").hasClass("tax-rtcl_tag"),this.isListingArchive=this.$("body").hasClass("post-type-archive-rtcl_listing"),this.isStoreSingle=this.$("body").hasClass("single-store"),this.isArchive=this.isListingArchive||this.isTaxArchive||this.isStoreSingle,this.store_id=this.$("body.single-store").find("#rtcl_store_id").val(),this.initLoading=!0,this.withOutFilterPrefix=["directory"],this.expandedFields=new Set,this.reset=!1,this.data={filterData:__spreadProps(__spreadValues({},this.options),{itemKeys:null==(e=null==(t=this.options)?void 0:t.items)?void 0:e.map(t=>t.id),initLoad:!0}),params:{},is_listings:rtcl.is_listings,is_listing:rtcl.is_listing,listing_term:rtcl.listing_term,rtcl_store_id:this.store_id,activeTerms:rtcl.active_terms||[],hasMap:this.$(".rtcl-map-view").length?1:"",action:"rtcl_ajax_filter_load_data",__rtcl_wpnonce:rtcl.__rtcl_wpnonce}}}!function(e){function a(t){var e,a,r=decodeURIComponent(window.location.search.substring(1)).split("&");for(a=0;a<r.length;a++)if((e=r[a].split("="))[0]===t)return void 0===e[1]||e[1]}function r(t=1){let a=e(".rtcl-my-listings-content"),r=e(".rtcl-my-listings-search-form form").find('input[name="u"]').val(),i=e("#rtcl-my-listings-directory").val(),s=e("#rtcl-my-listings-status").val();e.ajax({url:rtcl.ajaxurl,type:"POST",data:{action:"rtcl_my_listings_search",search:r,directory:i,status:s,rtcl_my_listing_page:t,__rtcl_wpnonce:rtcl.__rtcl_wpnonce},beforeSend:function(){a.rtclBlock()},success:function(t){t.success&&a.html(t.data.html)},complete:function(){a.rtclUnblock()}})}e(document).on("submit","#rtcl-user-profile-settings",function(t){t.preventDefault();const a=e(this),r=a.find("button[type=submit]"),i=a.find(".rtcl-response"),s=e("<div class='alert'></div>"),n=new FormData(this);n.append("action","rtcl_update_profile_settings"),n.append("__rtcl_wpnonce",rtcl.__rtcl_wpnonce),e.ajax({url:rtcl.ajaxurl,data:n,dataType:"json",cache:!1,processData:!1,contentType:!1,type:"POST",beforeSend:function(){a.addClass("rtcl-loading"),r.prop("disabled",!0),i.html(""),e('<span class="rtcl-icon-spinner animate-spin"></span>').insertAfter(r)},success:function(t){r.prop("disabled",!1).next(".rtcl-icon-spinner").remove(),a.removeClass("rtcl-loading"),t.success?(s.removeClass("alert-danger").addClass("alert-success").html(t.data.message).appendTo(i),setTimeout(function(){i.html("")},1e3)):s.removeClass("alert-success").addClass("alert-danger").html(t.data.error).appendTo(i)},error:function(t){s.removeClass("alert-success").addClass("alert-danger").html(t.responseText).appendTo(i),r.prop("disabled",!1).next(".rtcl-icon-spinner").remove(),a.removeClass("rtcl-loading")}})}),e("body").on("init","#rating",function(){e(".single-rtcl_listing #rating").hide().before('<p class="stars"><span><a class="star-1" href="#">1</a><a class="star-2" href="#">2</a><a class="star-3" href="#">3</a><a class="star-4" href="#">4</a><a class="star-5" href="#">5</a></span></p>')}).on("click","#respond p.stars a",function(){var t=e(this),a=t.closest("#respond").find("#rating"),r=a.parent(".form-group"),i=t.closest(".stars");return a.val(t.text()),t.siblings("a").removeClass("active"),t.addClass("active"),i.addClass("selected"),r.removeClass("has-danger"),r.find(".with-errors").remove(),!1}).on("change",".rtcl-ordering select.orderby",function(){e(this).closest("form").submit()}).on("click",".rtcl-animate",function(t){t.preventDefault();const a=e(e(this).attr("href")).offset();e("html,body").stop().animate({scrollTop:a.top-120},500)}).on("input",".rtcl-password",function(){var t,a,r,i,s,n=e(this),l=n.val(),c=n.closest(".rtcl-user-pass-wrap"),o=c.next(".rtcl-pass-strength-result");o.length||(o=e('<div class="rtcl-pass-strength-result" />'),c.after(o)),o.removeClass("short bad good strong empty"),l&&""!==l.trim()?(i=(a=(t=rtclCheckPasswordStrength(l)).strength)<=2?"bad":a<=4?"good":"strong",s='<div class="rtcl-pass-bar"><span style="width:'+a/5*100+'%"></span></div>',(r=t.missing).length&&(s+='<div class="rtcl-pass-hints">'+rtcl_validator.pwsL10n.hint_missing+" "+r.join(", ")+"</div>"),o.addClass(i).html(s)):o.addClass("empty").html("&nbsp;")}).on("click",".rtcl-toggle-pass",function(t){t.preventDefault(),t.stopPropagation();const a=e(this),r=a.closest(".rtcl-user-pass-wrap").find("input"),i=a.hasClass("rtcl-icon-eye-off");r.length&&(i?(r.attr("type","text"),a.removeClass("rtcl-icon-eye-off").addClass("rtcl-icon-eye")):(r.attr("type","password"),a.removeClass("rtcl-icon-eye").addClass("rtcl-icon-eye-off")))}).on("input focusout",".confirm-password-wrap input",function(){const t=e(this);setTimeout(function(){let e=void 0!==t.attr("aria-invalid")&&"true"!=t.attr("aria-invalid");t.closest(".confirm-password-wrap").find(".rtcl-checkmark").toggle(t.val().length>0&&e)},100)}).on("click",".rtcl-renew-btn",function(t){t.preventDefault();var a=e(this),r=a.data("id")||0;if(!r)return toastr.error(rtcl_store.lng.error),!1;var i=a.parents(".rtcl-listing-item");return confirm(rtcl.confirm_text)&&e.ajax({url:rtcl.ajaxurl,type:"POST",data:{listingId:r,__rtcl_wpnonce:rtcl.__rtcl_wpnonce,action:"rtcl_ajax_renew_listing"},beforeSend:function(){i.rtclBlock()},success:function(t){t.success?(a.slideUp(),i.find(".rtcl-status-wrap .rtcl-status").html(t.data.status),i.find(".rtcl-expire-wrap .rtcl-expire").html(t.data.expire_at),toastr.success(t.data.message)):toastr.error(t.data),i.rtclUnblock()},error:function(t){i.rtclUnblock(),toastr.error("Server Error.")}}),!1}),e("#rating").trigger("init"),e("#rtcl-toggle-filter-mobile").on("click",function(t){t.preventDefault(),e(this).closest(".rtcl-widget-filter-wrapper").find(".rtcl-widget-filter-class").toggle()}),e(document).on("click","#rtcl-resend-verify-link",function(t){if(t.preventDefault(),confirm(rtcl.re_send_confirm_text)){let t=e(this).data("login"),a=e(this).parent();e.ajax({url:rtcl.ajaxurl,data:{action:"rtcl_resend_verify",user_login:t,__rtcl_wpnonce:rtcl.__rtcl_wpnonce},type:"POST",dataType:"JSON",beforeSend:function(){a.rtclBlock()},success:function(t){a.rtclUnblock(),alert(t.data.message)},error:function(t){a.rtclUnblock(),alert("Server Error!!!")}})}return!1}),e(document).on("click",function(t){let a=e(".rtcl-ai-search-result-container");a.is(t.target)||0!==a.has(t.target).length||e(t.target).closest(".rtcl-ai-quick-search").length||a.slideUp(300)}),e(document).on("click",".rtcl-tab-nav li a",function(t){t.preventDefault();var a=e(this).data("target");e(this).closest("li").addClass("active").siblings().removeClass("active"),e("#"+a).addClass("active").siblings(".rtcl-tab-pane").removeClass("active")}),e(document).on("click",".rtcl-ai-quick-search-inner",function(){let t=e(this),a=t.closest(".rtcl-ai-search-field"),r=a.next(".rtcl-ai-search-result-container"),i=a.find("input[name='q']").val(),s={action:"rtcl_ai_quick_search",__rtcl_wpnonce:rtcl.__rtcl_wpnonce,keyword:i};e.ajax({url:rtcl.ajaxurl,data:s,type:"POST",dataType:"JSON",beforeSend:function(){r.addClass("loading"),r.find(".rtcl-ai-search-result-header h4").text(rtcl.i18n.ai_quick_search_loading),r.find(".rtcl-ai-search-result-content").html(""),r.slideDown(250),t.css("cursor","wait")},success:function(e){t.css("cursor","pointer"),e.success?(r.find(".rtcl-ai-search-result-header h4").text(rtcl.i18n.ai_quick_search_heading+i),r.find(".rtcl-ai-search-result-content").html(e.data.html)):r.find(".rtcl-ai-search-result-header h4").text(e.data.message),r.removeClass("loading")},error:function(e){t.css("cursor","pointer"),r.removeClass("loading"),r.find(".rtcl-ai-search-result-header h4").text(e.errorText)}})}),e(document).on("click",".rtcl-payment-table-wrap .rtcl-payment-popup-link",function(t){t.preventDefault();let a=e(this),r=a.closest(".rtcl-payment-history-wrap").find(".rtcl-popup-wrapper"),i=a.data("order-id"),s={action:"rtcl_payment_details_popup",__rtcl_wpnonce:rtcl.__rtcl_wpnonce,order_id:i};e.ajax({url:rtcl.ajaxurl,data:s,type:"POST",dataType:"JSON",beforeSend:function(){r.animate({opacity:0},10),r.removeClass("show")},success:function(t){t.success&&(r.find(".rtcl-popup-body").html(t.data.html),r.animate({opacity:1},300),r.addClass("show"))},error:function(t){console.log(t.errorText)}})}).on("click","#rtcl-report-abuse-modal-link",function(t){t.preventDefault();let a=e(this).closest(".single-listing-custom-fields-action").find("#rtcl-report-abuse-modal");a.length&&(e("#rtcl-report-abuse-message").val(""),e("#rtcl-report-abuse-message-display").html(""),a.animate({opacity:1},300),a.addClass("show"))}).on("click",".rtcl-popup-close",function(t){t.preventDefault();let a=e(this).closest(".rtcl-popup-wrapper");a.animate({opacity:0},300),setTimeout(function(){a.removeClass("show")},500)}).on("click",".rtcl-MyAccount-open-menu",function(t){t.preventDefault();let a=e(this),r=e(".rtcl-MyAccount-navigation"),i=e(".rtcl-MyAccount-content");a.hasClass("sidebar-open")?(r.css("left","-350px"),i.find(".sidebar-menu-opened").remove()):(r.css("left","0"),i.prepend('<div class="sidebar-menu-opened"></div>')),a.toggleClass("sidebar-open")}).on("click",".rtcl-MyAccount-content .sidebar-menu-opened",function(t){let a=e(".rtcl-MyAccount-navigation"),r=e(".rtcl-MyAccount-open-menu");a.css("left","-350px"),e(this).remove(),r.removeClass("sidebar-open")}).on("click",".rtcl-ajax-filter-floating-mobile .rtcl-ajax-filter-open-filter",function(t){t.preventDefault();let a=e(this).closest(".rtcl-ajax-filter-floating-mobile").closest(".rtcl-widget-ajax-filter-wrapper"),r=a.find(".rtcl-widget-ajax-filter-class"),i=e("body");a.hasClass("sidebar-filter-open")?(r.css("left","-265px"),i.find(".sidebar-ajax-filter-opened").remove()):(r.css("left","0"),i.prepend('<div class="sidebar-ajax-filter-opened"></div>')),a.toggleClass("sidebar-filter-open")}).on("click",".sidebar-ajax-filter-opened",function(t){t.preventDefault();let a=e(".rtcl-widget-ajax-filter-class"),r=e(".rtcl-widget-ajax-filter-wrapper");a.css("left","-265px"),e(this).remove(),r.removeClass("sidebar-filter-open")}).on("submit",".rtcl-my-listings-search-form form",function(t){t.preventDefault(),r()}).on("change","#rtcl-my-listings-directory",function(){r()}).on("change","#rtcl-my-listings-status",function(){r()}).on("click",".rtcl-my-listings-content .rtcl-pagination a",function(t){t.preventDefault();let a,i=e(this),s=i.closest(".rtcl-my-listings-content"),n=parseInt(s.find(".current").text())||1;a=i.hasClass("next")?n+1:i.hasClass("prev")?n-1:parseInt(i.text()),a<1&&(a=1),r(a)}).on("click",".rtcl-my-listing-table .rtcl-actions-wrap .actions-dot",function(t){e(".rtcl-my-listing-table").find(".rtcl-actions").removeClass("opened").addClass("closed"),e(this).closest(".rtcl-actions-wrap").find(".rtcl-actions").removeClass("closed").addClass("opened")}).on("click",function(t){0===e(t.target).closest(".rtcl-actions-wrap").find(".rtcl-actions").length&&e(".rtcl-my-listing-table").find(".rtcl-actions").removeClass("opened")}).on("click",".rtcl-my-listings-table-toggle-info",function(t){let a=e(this).closest("tr");a.find(".list-on-responsive").toggleClass("show"),a.find(".title-cell").toggleClass("showed-info")}),window.rtcl_make_checkout_request=function(t,a){let r=e(t),i=e("button[type=submit]",r),s=e("<div class='alert rtcl-response'></div>"),n=r.serialize();e.ajax({url:rtcl.ajaxurl,data:n,type:"POST",dataType:"JSON",beforeSend:function(){i.prop("disabled",!0),r.find(".alert.rtcl-response").remove(),r.rtclBlock()},success:function(t){i.prop("disabled",!1),r.rtclUnblock();let e="";t.success?(t.success_message.length&&t.success_message.map(function(t){e+="<p>"+t+"</p>"}),e&&s.removeClass("alert-danger").addClass("alert-success").html(e).appendTo(r)):(t.error_message.length&&t.error_message.map(function(t){e+="<p>"+t+"</p>"}),e&&s.removeClass("alert-success").addClass("alert-danger").html(e).appendTo(r)),"function"==typeof a?a(t):setTimeout(function(){t.redirect_url&&(window.location=t.redirect_url)},600)},error:function(t){i.prop("disabled",!1),r.rtclUnblock(),"function"==typeof a&&a(t)}})},window.rtcl_on_recaptcha_load=function(){if(rtcl.recaptcha&&2===rtcl.recaptcha.v){rtcl.recaptcha.response={};const t={sitekey:rtcl.recaptcha.site_key},a=e("form.rtcl-login-form, form#rtcl-login-form");a.length&&-1!==e.inArray("login",rtcl.recaptcha.on)&&a.each((a,r)=>{const i=e(r);i.data("reCaptchaId")||(i.find("#rtcl-login-g-recaptcha").length?i.data("reCaptchaId",grecaptcha.render(i.find("#rtcl-login-g-recaptcha")[0],t)):i.find(".rtcl-g-recaptcha-wrap").length&&i.data("reCaptchaId",grecaptcha.render(i.find(".rtcl-g-recaptcha-wrap")[0],t)))});const r=e("form#rtcl-register-form, form.rtcl-register-form");r.length&&-1!==e.inArray("registration",rtcl.recaptcha.on)&&r.each((a,r)=>{const i=e(r);i.data("reCaptchaId")||(i.find("#rtcl-registration-g-recaptcha").length?i.data("reCaptchaId",grecaptcha.render(i.find("#rtcl-registration-g-recaptcha")[0],t)):i.find(".rtcl-g-recaptcha-wrap").length&&i.data("reCaptchaId",grecaptcha.render(i.find(".rtcl-g-recaptcha-wrap")[0],t)))});const i=e("form#rtcl-post-form");i.length&&-1!==e.inArray("listing",rtcl.recaptcha.on)&&(i.data("reCaptchaId")||(i.find("#rtcl-listing-g-recaptcha").length?i.data("reCaptchaId",grecaptcha.render(i.find("#rtcl-listing-g-recaptcha")[0],t)):i.find(".rtcl-g-recaptcha-wrap").length&&i.data("reCaptchaId",grecaptcha.render(i.find(".rtcl-g-recaptcha-wrap")[0],t))));const s=e("form.rtcl-contact-form, form#rtcl-contact-form");s.length&&-1!==e.inArray("contact",rtcl.recaptcha.on)&&s.each((a,r)=>{const i=e(r);i.data("reCaptchaId")||(i.find("#rtcl-contact-g-recaptcha").length?i.data("reCaptchaId",grecaptcha.render(i.find("#rtcl-contact-g-recaptcha")[0],t)):i.find(".rtcl-g-recaptcha-wrap").length&&i.data("reCaptchaId",grecaptcha.render(i.find(".rtcl-g-recaptcha-wrap")[0],t)))});const n=e("form.rtcl-report-abuse-form, form#rtcl-report-abuse-form");n.length&&-1!==e.inArray("report_abuse",rtcl.recaptcha.on)&&n.each((a,r)=>{const i=e(r);i.data("reCaptchaId")||(i.find("#rtcl-report-abuse-g-recaptcha").length?i.data("reCaptchaId",grecaptcha.render(i.find("#rtcl-report-abuse-g-recaptcha")[0],t)):i.find(".rtcl-g-recaptcha-wrap").length&&i.data("reCaptchaId",grecaptcha.render(i.find(".rtcl-g-recaptcha-wrap")[0],t)))}),e(document).trigger("rtcl_recaptcha_loaded")}},e(function(){e("#rtcl-reg-confirm-password").on("cut copy paste",function(t){t.preventDefault()}),e(document).on("click",".rtcl-delete-listing",function(t){if(t.preventDefault(),confirm(rtcl.confirm_text)){var a=e(this),r=a.closest("tr"),i={action:"rtcl_delete_listing",post_id:parseInt(a.attr("data-id"),10),__rtcl_wpnonce:rtcl.__rtcl_wpnonce};i.post_id&&e.ajax({url:rtcl.ajaxurl,data:i,type:"POST",beforeSend:function(){r.rtclBlock()},success:function(t){r.rtclUnblock(),t.success&&r.animate({height:0,opacity:0},"slow",function(){e(this).remove()})},error:function(){r.rtclUnblock()}})}return!1}),e(document).on("click",".rtcl-delete-favourite-listing",function(t){if(t.preventDefault(),confirm(rtcl.confirm_text)){const t=this,a=e(t),r={action:"rtcl_public_add_remove_favorites",post_id:parseInt(a.attr("data-id"),10),__rtcl_wpnonce:rtcl.__rtcl_wpnonce};r.post_id&&e.ajax({url:rtcl.ajaxurl,data:r,type:"POST",beforeSend:function(){e("<span class='rtcl-icon-spinner animate-spin'></span>").insertAfter(a)},success:function(r){r.target=t,a.next(".rtcl-icon-spinner").remove(),r.success?(a.closest("tr").animate({height:0,opacity:0},"slow",function(){e(this).remove()}),toastr.success(r.message)):toastr.error(r.message),e(document).trigger("rtcl.favorite",r)},error:function(i){e(document).trigger("rtcl.favorite.error",{action:"remove",post_id:r.post_id,target:t}),a.next(".rtcl-icon-spinner").remove()}})}return!1}),e(document).ready(function(){e("#rtcl-checkout-form").find("#rtcl-payment-methods").hide()}),e("#rtcl-checkout-form").on("click",'input[name="pricing_id"]',function(t){e(this).data("price")+0===0?(e("#rtcl-billing-fields").slideUp(250),e("#rtcl-payment-methods").slideUp(250),e("#rtcl-checkout-store-gateway").slideDown(250)):(e("#rtcl-billing-fields").slideDown(250),e("#rtcl-payment-methods").slideDown(250),e("#rtcl-checkout-store-gateway").slideUp(250))}).on("change",'input[name="payment_method"]',function(t){var a=e("div.payment_box.payment_method_"+e(this).val());e(this).is(":checked")&&!a.is(":visible")&&(e("#rtcl-checkout-form div.payment_box").filter(":visible").slideUp(250),e(this).is(":checked")&&a.slideDown(250))}),e(".rtcl-media-upload-pp .rtcl-media-action").on("click","span.add",function(){const t=e(this),a=e("<input type='file' style='position:absolute;left:-9999px' />");e("body").append(a),navigator.userAgent.match(/MSIE ([0-9]+)\./)?a.trigger("change"):a.trigger("click"),a.on("change",function(){const a=e(this),r=t.parents(".rtcl-media-upload-pp"),i=e(".rtcl-media-item",r),s=new FormData,n=a[0].files[0],l=rtcl.image_allowed_type.map(function(t){return"image/"+t}),c=parseInt(rtcl.max_image_size);-1!==e.inArray(n.type,l)?n.size<=c?(s.append("pp",n),s.append("__rtcl_wpnonce",rtcl.__rtcl_wpnonce),s.append("action","rtcl_ajax_user_profile_picture_upload"),e.ajax({url:rtcl.ajaxurl,data:s,cache:!1,contentType:!1,processData:!1,type:"POST",beforeSend:function(){r.rtclBlock()},success:function(t){r.rtclUnblock(),t.error||(r.removeClass("no-media").addClass("has-media").parents(".rtcl-profile-picture-wrap").find(".rtcl-gravatar-wrap").hide(),i.html("<img class='rtcl-thumbnail' src='"+t.data.src+"'/>"))},error:function(t,e,a){r.rtclUnblock()}})):alert(rtcl.error_image_size):alert(rtcl.error_image_extension)})}).on("click","span.remove",function(){const t=e(this).parents(".rtcl-media-upload-pp"),a=e(".rtcl-media-item",t);confirm(rtcl.confirm_text)&&e.ajax({url:rtcl.ajaxurl,data:{action:"rtcl_ajax_user_profile_picture_delete",__rtcl_wpnonce:rtcl.__rtcl_wpnonce},type:"POST",beforeSend:function(){t.rtclBlock()},success:function(e){t.rtclUnblock(),e.error||(t.removeClass("has-media").addClass("no-media").parents(".rtcl-profile-picture-wrap").find(".rtcl-gravatar-wrap").show(),a.html(""))},error:function(e,a,r){t.rtclUnblock()}})}),e("#rtcl-change-password").on("change",function(){e(this).is(":checked")?e(".rtcl-password-fields").show().find('input[type="password"]').attr("disabled",!1):e(".rtcl-password-fields").hide().find('input[type="password"]').attr("disabled","disabled")}).trigger("change"),e(".rtcl-require-login").on("click",function(t){t.preventDefault(),alert(rtcl.user_login_alert_message)}),e(".rtcl-do-email").on("click","a",function(t){t.preventDefault();var a=e(this).parents(".rtcl-do-email");return e("#rtcl-contact-form",a).slideToggle("slow"),!1}),e(document).on("click","a.rtcl-favourites",function(t){t.preventDefault();const a=this,r=e(a),i=r.parent(),s={action:"rtcl_public_add_remove_favorites",post_id:parseInt(r.attr("data-id"),10),__rtcl_wpnonce:rtcl.__rtcl_wpnonce};s.post_id&&e.ajax({url:rtcl.ajaxurl,data:s,type:"POST",beforeSend:function(){e("<span class='rtcl-icon-spinner animate-spin'></span>").insertAfter(r),i.addClass("is-loading")},success:function(t){t.target=a,r.next(".rtcl-icon-spinner").remove(),t.success?(r.replaceWith(t.html),toastr.success(t.message)):toastr.error(t.message),e(document).trigger("rtcl.favorite",t),i.removeClass("is-loading")},error:function(t){e(document).trigger("rtcl.favorite.error",{action:"remove",post_id:s.post_id,target:a}),r.next(".rtcl-icon-spinner").remove(),i.removeClass("is-loading")}})});const t=function(t){this.$slider=t,this.slider=this.$slider.get(0),this.swiperSlider=this.slider.swiper||null,this.defaultOptions={breakpointsInverse:!0,observer:!0,navigation:{nextEl:this.$slider.find(".swiper-button-next").get(0),prevEl:this.$slider.find(".swiper-button-prev").get(0)}},this.slider_enabled="function"==typeof Swiper,this.options=Object.assign({},this.defaultOptions,this.$slider.data("options")||{}),this.initSlider=function(){this.slider_enabled&&(this.options.rtl&&this.$slider.attr("dir","rtl"),this.swiperSlider?(this.swiperSlider.parents=this.options,this.swiperSlider.update()):this.swiperSlider=new Swiper(this.$slider.get(0),this.options))},this.imagesLoaded=function(){const t=this;if(!e.isFunction(e.fn.imagesLoaded)||e.fn.imagesLoaded.done)return this.$slider.trigger("rtcl_slider_loading",this),void this.$slider.trigger("rtcl_slider_loaded",this);this.$slider.imagesLoaded().progress(function(e,a){t.$slider.trigger("rtcl_slider_loading",[t])}).done(function(e){t.$slider.trigger("rtcl_slider_loaded",[t])})},this.start=function(){const t=this;this.$slider.on("rtcl_slider_loaded",this.init.bind(this)),setTimeout(function(){t.imagesLoaded()},1)},this.init=function(){this.initSlider()},this.start()};e.fn.rtcl_slider=function(){return new t(this),this},e(".rtcl-carousel-slider").each(function(){e(this).rtcl_slider()}),e(".rtcl-terms").on("change","select",function(t){t.preventDefault();let a=e(this),r=a.data("taxonomy"),i=a.data("parent"),s=a.val(),n=a.find(":selected").attr("data-slug")||"",l=a.attr("class"),c=a.closest(".rtcl-terms").find("input.rtcl-term-hidden"),o=a.closest(".rtcl-terms").find("input.rtcl-term-hidden-value");if(c.val(s).attr("data-slug",n),o.val(n),a.parent().find("div:first").remove(),i!=s){a.parent().append('<div class="rtcl-spinner"><span class="rtcl-icon-spinner animate-spin"></span></div>');var d={action:"rtcl_child_dropdown_terms",taxonomy:r,parent:s,class:l,__rtcl_wpnonce:rtcl.__rtcl_wpnonce};e.post(rtcl.ajaxurl,d,function(t){a.parent().find("div:first").remove(),t.success&&a.parent().append(t.data)})}});const r={active:null,target:null,loc:{items:[],selected:null,parents:[],text:rtcl.location_text},cat:{items:[],selected:null,parents:[],text:rtcl.category_text}};e(".rtcl-widget-search-form .rtcl-search-input-category").on("click",function(){r.active="cat",r.target=e(this);const t=new RtclModal({footer:!1,wrapClass:"no-heading"});r.cat.items.length?(t.addModal(),t.content(n())):e.ajax({url:rtcl.ajaxurl,type:"POST",data:{action:"rtcl_get_all_cat_list_for_modal"},beforeSend:function(){t.addModal().addLoading()},success:function(e){t.removeLoading(),e.success&&(r.cat.items=e.categories,r.cat.selected=null,r.cat.parent=null,t.content(n()))},error:function(e){t.removeLoading(),t.content(rtcl_validator.server_error)}})}),e(".rtcl-widget-search-form .rtcl-search-input-location").on("click",function(){r.active="loc",r.target=e(this);const t=new RtclModal({footer:!1,wrapClass:"no-heading"});r.loc.items.length?(t.addModal(),t.content(n())):e.ajax({url:rtcl.ajaxurl,type:"POST",data:{action:"rtcl_get_all_location_list_for_modal"},beforeSend:function(){t.addModal().addLoading()},success:function(e){t.removeLoading(),e.success?(r.loc.items=e.locations,r.loc.selected=null,r.loc.parent=null,t.content(n())):t.content(rtcl_validator.server_error)},error:function(e){t.removeLoading(),t.content(rtcl_validator.server_error)}})});const i=e(".rtcl-widget-search-form .rtcl-autocomplete");function n(){const t=r.active,a=l(r[t].items),i=e('<div class="rtcl-ui-select-list-wrap"><h4>'+r[t].text+'</h4><div class="rtcl-select-action"></div><div class="rtcl-ui-select-list"></div></div>');return i.find(".rtcl-ui-select-list").append(a),i}function l(t){var a=e("<ul />");return t.forEach(function(t){var r=e('<a href="javascript:;" />'),i=e("<li />");t.hasOwnProperty("sub")&&i.addClass("has-sub"),t.hasOwnProperty("icon")&&r.html(t.icon),r.append(t.name),r.attr("data-item",JSON.stringify(c(t))),i.append(r),a.append(i)}),a}function c(t){let e=Object.assign({icon:"",sub:""},t);return delete e.icon,delete e.sub,e}e.fn.autocomplete&&i.length&&(i.autocomplete({minChars:2,search:function(t,a){if(!e(t.target).parent().find(".rtcl-icon-spinner").length){e("<span class='rtcl-icon-spinner animate-spin'></span>").insertAfter(t.target);e(t.target).closest(".rtcl-ai-search-field").length&&e("<div class='rtcl-ai-searching-data loading'><h4>"+rtcl.i18n.ai_quick_search_loading+"</h4></div>").insertAfter(t.target)}},response:function(t,a){e(t.target).parent().find(".rtcl-icon-spinner").remove(),e(t.target).parent().find(".rtcl-ai-searching-data").remove()},source:function(t,a){t.location_slug=rtcl.rtcl_location||"",t.category_slug=rtcl.rtcl_category||"",t.type=e(this.element).data("type")||"listing",t.action="rtcl_inline_search_autocomplete",e.ajax({dataType:"json",type:"POST",url:rtcl.ajaxurl,data:t,success:a})},select:function(t,a){e(t.target).next("input").val(a.item.target).change()}}).data("ui-autocomplete")._renderItem=function(t,a){return e("<li />").data("item.autocomplete",a).append(a.label).appendTo(t)}),e(".rtcl-ajax-load").each(function(){let t=e(this),a=t.data("settings")||{};a.action="rtcl_ajax_taxonomy_filter_get_sub_level_html",a.__rtcl_wpnonce=rtcl.__rtcl_wpnonce,t.hasClass("have-query-var")?(a.query_var_location=t.attr("data-query-var-location"),a.query_var_category=t.attr("data-query-var-category"),a.query_var_tag=t.attr("data-query-var-tag")):(a.query_var_location="",a.query_var_category="",a.query_var_tag="");var r=new URLSearchParams(decodeURIComponent(window.location.search));if(r.size){var i={};r.forEach(function(t,e){if(t&&e.startsWith("filters[")){var a=e.replace("filters","");if((a=(a=a.replace(/^\[+/,"")).replace(/]$/,"")).includes("][")){var r=a.split("][");i=function(t,e,a,r){var i=e.slice(0,r),s=i.pop();return i.reduce((t,e)=>t[e]=t[e]||{},t)[s]=a,t}(i,r,t)}else i[a]=t}}),Object.keys(i).length&&(a.filters=i)}e.ajax({url:rtcl.ajaxurl,type:"POST",dataType:"json",data:a,beforeSend:function(){t.rtclBlock()},success:function(e){t.html(e.data).rtclUnblock()},complete:function(){t.rtclUnblock()},error:function(e,a,r){if(t.rtclUnblock(),500===a)console.error("Error while adding comment");else if("timeout"===a)console.error("Error: Server doesn't respond.");else{var i=e.responseText.split("<p>")[1].split("</p>");console.error(i[0])}}})}),e(document).on("click",".rtcl-ui-select-list li.has-sub a",function(t){t.preventDefault();let a,i=r.active,s=r[i].items,n=e(this),o=n.data("item"),d=n.parents(".rtcl-ui-select-list-wrap"),p=e(".rtcl-ui-select-list",d),h=e(".rtcl-select-action",d),u=e("h4",d),f=n.parents("ul"),m=parseInt(o.id,10);if(r[i].selected?(a=r[i].selected.sub.find(function(t){return t.id===m}),r[i].parent=r[i].selected.id):a=s.find(function(t){return t.id===m}),r[i].selected=a,a.parent&&r[i].parents.push(a.parent),a.hasOwnProperty("sub")&&a.sub.length){f.remove();const t=l(a.sub),r=rtcl.i18n.all_of_.replace("%s",a.name),i=e('<a href="javascript:;" />'),s=e("<li class='rtcl-ui-sl-all-of' />");a.hasOwnProperty("icon")&&i.html(a.icon),i.append(r);const n=JSON.parse(JSON.stringify(a));delete n.sub,i.attr("data-item",JSON.stringify(c(n)));const o=i.clone();if(s.append(i),t.prepend(s),p.html(t),u.find("span").length)u.find("span").html(o);else{const t=e('<span class="rtcl-icon-angle-right rtcl-selected-term-item" />').append(o);u.append(t)}h.html("<div class='go-back'>"+rtcl.i18n.go_back+"</div>")}}).on("click",".rtcl-select-action .go-back",function(t){t.preventDefault();let a,i,s=r.active,n=e(this).parents(".rtcl-ui-select-list-wrap"),o=e(".rtcl-ui-select-list",n),d=e("h4",n),p=e(".rtcl-select-action",n),h=0;if(r[s].parents.length?(i=function(t,e){function a(t){return r.sub&&(r=r.sub),r.find(function(e){return t===e.id})}let r=e;if(t.length)for(let i=0;i<t.length;i++)r=a(t[i]);return r}(r[s].parents,r[s].items),a=i.sub,r[s].parents.pop(),r[s].selected=i,h=1):(r[s].selected=null,a=r[s].items),o.html(""),o.append(l(a)),h){var u=e('<a href="javascript:;" />');if(u.append(i.name),u.attr("data-item",JSON.stringify(c(i))),d.find("span").length)d.find("span").html(u);else{var f=e('<span class="rtcl-icon-angle-right rtcl-selected-term-item" />').append(u);d.append(f)}}else d.find("span").remove(),p.find(".go-back").remove()}).on("click",".rtcl-ui-select-list li:not(.has-sub) a, .rtcl-selected-term-item a",function(t){t.preventDefault();let a=e(this).data("item")||null;return a&&r.target.length&&(r.target.find(".search-input-label").text(a.name),r.target.find("input.rtcl-term-field").val(a.slug).change(),e("body > .rtcl-ui-modal").remove(),e("body").removeClass("rtcl-modal-open"),rtcl.popup_search_widget_auto_form_submission&&r.target.closest("form").submit()),!1}).on("click",".ul-list-group.is-parent > ul > li > a",function(t){t.preventDefault();const a=e(this),r=a.parent("li"),i=r.parent("ul"),s=e(".col-md-6.sub-wrapper"),n=e("<li />"),l=r.find(".ul-list-group.is-sub").clone()||"",c=a.clone(),o=n.append(c);return l.find("ul").prepend(o),s.addClass("is-active"),s.html(l),i.find("> li").removeClass("is-active"),r.addClass("is-active"),!1}).on("click",".rtcl-filter-form .filter-list .is-parent.has-sub .arrow",function(t){t.preventDefault();const a=e(this),r=a.closest("li"),i=a.closest(".ui-accordion-content"),s=i.hasClass("rtcl-ajax-load"),n=i.data("settings")||{},l=r.find("> ul.sub-list");r.hasClass("is-open")?l.slideUp(function(){r.removeClass("is-open")}):s&&n.taxonomy&&r.hasClass("has-sub")&&!r.hasClass("is-loaded")?i.hasClass("rtcl-loading")||(n.parent=r.data("id")||-1,n.action="rtcl_ajax_taxonomy_filter_get_sub_level_html",e.ajax({url:rtcl.ajaxurl,type:"POST",dataType:"json",data:n,beforeSend:function(){i.rtclBlock()},success:function(t){r.append(t.data),i.rtclUnblock(),l.slideDown(),r.addClass("is-open is-loaded")},complete:function(){i.rtclUnblock()},error:function(t,e,a){if(i.rtclUnblock(),500===e)console.error("Error while adding comment");else if("timeout"===e)console.error("Error: Server doesn't respond.");else{var r=t.responseText.split("<p>")[1].split("</p>");console.error(r[0])}}})):(l.slideDown(),r.addClass("is-open"))}).on("click","ul.filter-list.is-collapsed li.is-opener, ul.sub-list.is-collapsed li.is-opener, ul.ui-link-tree.is-collapsed li.is-opener",function(){e(this).parent("ul").removeClass("is-collapsed").addClass("is-open")}).on("change",".rtcl-widget-search-form",function(){let t=e(this),a=t.find("[name='rtcl_location']").val(),r=t.find("[name='rtcl_category']").val(),i=rtcl.rtcl_listing_base;a&&r?(i=i+rtcl.rtcl_category_base+"/"+r+"/"+rtcl.rtcl_location_base+"/"+a,t.attr("action",i)):a?(i=i+rtcl.rtcl_location_base+"/"+a,t.attr("action",i)):r?(i=i+rtcl.rtcl_category_base+"/"+r,t.attr("action",i)):t.attr("action",i)}),e("#rtcl-checkout-form").on("change","#billing_country, #billing_state, input[name='pricing_id']",function(){var t=e(this).closest("#rtcl-checkout-form"),a=t.find("#billing_country").val(),r=t.find("#billing_state").val(),i=t.find("#billing_postcode").val(),n=t.find("#billing_city").val();rtcl.is_enable_tax&&s(a,r,i,n)}),e(document).on("rtcl_recalculate_tax",function(){if(rtcl.is_enable_tax){var t=e("#rtcl-checkout-form");s(t.find("#billing_country").val(),t.find("#billing_state").val(),t.find("#billing_postcode").val(),t.find("#billing_city").val())}}),e(".rtcl-filter-form .ui-accordion-item, .rtcl-ajax-filter-form .ui-accordion-item").on("click",".ui-accordion-title",function(){const t=e(this).parents(".ui-accordion-item"),a=e(".ui-accordion-content",t);t.hasClass("is-open")?a.slideUp(function(){t.removeClass("is-open")}):(a.slideDown(),t.addClass("is-open"))}),e(".rtcl-filter-form").on("click",".filter-submit-trigger",function(t){let a,r,i=e(this);i.is(":checkbox")||(t.preventDefault(),a=i.siblings("input"),r=a.prop("checked"),a.prop("checked",!r)),(i.is(":radio")||!i.is(":radio")&&i.siblings("input").is(":radio"))&&i.closest("form").submit()}),e(document).on("click keydown",".reveal-phone",function(t){if("keydown"===t.type&&13!==t.keyCode)return;const a=e(this),r=a.hasClass("rtcl-mobile");if(a.hasClass("revealed")){if(r){const t=a.attr("data-tel");t&&(window.location=t)}}else{t.preventDefault();const r=a.data("options")||{},i=a.find(".numbers");let s="",n="";if(r.safe_phone&&r.phone_hidden){const t=r.safe_phone.replace(rtcl.phone_number_placeholder,r.phone_hidden);s=e('<a class="revealed-phone-number" href="#" />').attr("href","tel:"+t).html('<i class="rtcl-icon rtcl-icon-phone"></i>').append(t),a.attr("data-tel","tel:"+t)}if(r.safe_whatsapp_number&&r.whatsapp_hidden){const t=r.safe_whatsapp_number.replace(rtcl.phone_number_placeholder,r.whatsapp_hidden);n=e('<a class="revealed-whatsapp-number" href="#" />').attr("href","https://wa.me/"+t.replace(/\D/g,"").replace(/^0+/,"")+"/?text="+rtcl.wa_message).html('<i class="rtcl-icon rtcl-icon-whatsapp"></i>').append(t)}i.html(s).append(n),a.addClass("revealed"),e.ajax({url:rtcl.ajaxurl,type:"POST",dataType:"json",data:{listing_id:a.attr("data-id"),action:"rtcl_phone_whatsapp_revealed",__rtcl_wpnonce:rtcl.__rtcl_wpnonce},success:function(t){console.log(t)},error:function(t){console.log(t)}})}}),e(document).on("click",".reveal-phone.revealed a.revealed-phone-number",function(t){t.preventDefault();const a=e(this),r=a.closest(".reveal-phone.revealed");e.ajax({url:rtcl.ajaxurl,type:"POST",dataType:"json",data:{listing_id:r.attr("data-id"),action:"rtcl_phone_click",__rtcl_wpnonce:rtcl.__rtcl_wpnonce},success:function(t){t.success&&(window.location=a.attr("href"))},error:function(t){console.log(t)}})}),e(document).on("click",".reveal-phone.revealed a.revealed-whatsapp-number",function(t){t.preventDefault();const a=e(this),r=a.closest(".reveal-phone.revealed");e.ajax({url:rtcl.ajaxurl,type:"POST",dataType:"json",data:{listing_id:r.attr("data-id"),action:"rtcl_whatsapp_click",__rtcl_wpnonce:rtcl.__rtcl_wpnonce},success:function(t){t.success&&window.open(a.attr("href"),"_blank")},error:function(t){console.log(t)}})});let o=a("option")||"",d=a("gateway")||"";o?e("input[name='pricing_id'][value='"+o+"']").prop("checked",!0):e("input[name='pricing_id'][value='0']").prop("checked",!0),d&&e("label[for='gateway-"+d+"']").trigger("click"),rtclInitDateField()}),e.fn.validate&&(e("#rtcl-lost-password-form, #rtcl-password-reset-form").each(function(){e(this).validate()}),e("#rtcl-checkout-form").validate({submitHandler:function(t){return e(document.body).trigger("rtcl_before_checkout_request",[t]),rtcl_make_checkout_request(t),!1}}),e("form#rtcl-login-form, form.rtcl-login-form").each(function(){e(this).validate({submitHandler:function(t){const a=e(t);if(console.log(a.data("reCaptchaId")),rtcl.recaptcha&&"undefined"!=typeof grecaptcha&&rtcl.recaptcha.on&&-1!==e.inArray("login",rtcl.recaptcha.on)){if(2===rtcl.recaptcha.v&&void 0!==a.data("reCaptchaId")){const t=grecaptcha.getResponse(a.data("reCaptchaId"));console.log(t);const e=a.find("#rtcl-login-g-recaptcha-message");return e.html(""),0===t.length?(e.addClass("text-danger").html(rtcl.recaptcha.msg.invalid),grecaptcha.reset(a.data("reCaptchaId")),!1):!a.hasClass("rtcl-ajax-login")||(r(),!1)}if(3===rtcl.recaptcha.v)return grecaptcha.ready(function(){a.rtclBlock(),grecaptcha.execute(rtcl.recaptcha.site_key,{action:"login"}).then(function(t){return a.hasClass("rtcl-ajax-login")?(r(t),!1):(a.append('<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" value="'+t+'" />'),a.append('<input type="hidden" name="rtcl-login" value="login" />'),a.off("submit").trigger("submit"),!0)})}),!1}return!a.hasClass("rtcl-ajax-login")||(r(),!1);function r(r){const i=new FormData(t),s=i.get("username").trim(),n=i.get("password");i.delete("username"),i.delete("password"),i.set("username",rtclCipher(rtcl.__rtcl_wpnonce)(s)),i.set("password",rtclCipher(rtcl.__rtcl_wpnonce)(n)),r&&i.set("g-recaptcha-response",r),i.append("action","rtcl_login_request"),i.append("__rtcl_wpnonce",rtcl.__rtcl_wpnonce),e.ajax({url:rtcl.ajaxurl,type:"POST",dataType:"json",cache:!1,processData:!1,contentType:!1,data:i,beforeSend:function(){a.find(".rtcl-error").remove(),a.rtclBlock()},success:function(t){t.success?(toastr.success(t.data.message),a.append('<div class="rtcl-error alert alert-success" role="alert"><p>'+t.data.message+"</p></div>"),a[0].reset(),window.location.reload(!0)):(a.rtclUnblock(),toastr.error(t.data),a.append('<div class="rtcl-error alert alert-danger" role="alert"><p>'+t.data+"</p></div>"))},error:function(){a.rtclUnblock().append('<div class="rtcl-error alert alert-danger" role="alert"><p>'+rtcl_validator.messages.server_error+"</p></div>"),toastr.error(rtcl_validator.messages.server_error)}})}}})}),e("form#rtcl-register-form, form.rtcl-register-form").each(function(){var t={};e(this).find('input[name="rtcl_user_type"]').length&&(t.rtcl_user_type={required:!0}),e(this).validate({rules:t,submitHandler:function(t){const a=e(t);if(rtcl.recaptcha&&"undefined"!=typeof grecaptcha&&rtcl.recaptcha.on&&-1!==e.inArray("registration",rtcl.recaptcha.on)){if(2===rtcl.recaptcha.v&&void 0!==a.data("reCaptchaId")){const t=grecaptcha.getResponse(a.data("reCaptchaId")),i=e("#rtcl-registration-g-recaptcha-message");return i.html(""),0===t.length?(i.addClass("text-danger").html(rtcl.recaptcha.msg.invalid),grecaptcha.reset(a.data("reCaptchaId")),!1):!a.hasClass("rtcl-ajax-registration")||(r(),!1)}if(3===rtcl.recaptcha.v)return grecaptcha.ready(function(){a.rtclBlock(),grecaptcha.execute(rtcl.recaptcha.site_key,{action:"registration"}).then(function(t){return a.hasClass("rtcl-ajax-registration")?(r(t),!1):(a.append('<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" value="'+t+'" />'),a.append('<input type="hidden" name="rtcl-register" value="register" />'),a.off("submit").trigger("submit"),!0)})}),!1}return!a.hasClass("rtcl-ajax-registration")||(r(),!1);function r(r){const i=new FormData(t);r&&i.append("g-recaptcha-response",r),i.append("action","rtcl_registration_request"),i.append("__rtcl_wpnonce",rtcl.__rtcl_wpnonce),e.ajax({url:rtcl.ajaxurl,type:"POST",dataType:"json",cache:!1,processData:!1,contentType:!1,data:i,beforeSend:function(){a.find(".rtcl-error").remove(),a.rtclBlock()},success:function(t){a.rtclUnblock(),t.success?(a.append('<div class="rtcl-error alert alert-success" role="alert"><p>'+t.data.message+"</p></div>"),a[0].reset(),t.data.redirect_url&&t.data.redirect_utl!==window.location.href&&(window.location=t.data.redirect_url+"?t="+(new Date).getTime())):a.append('<div class="rtcl-error alert alert-danger" role="alert"><p>'+t.data+"</p></div>")},error:function(){a.rtclUnblock().append('<div class="rtcl-error alert alert-danger" role="alert"><p>'+rtcl_validator.messages.server_error+"</p></div>")}})}}})}),e("form.rtcl-report-abuse-form, form#rtcl-report-abuse-form").each(function(){e(this).validate({submitHandler:function(t){const a=e(t);if(rtcl.recaptcha&&"undefined"!=typeof grecaptcha&&rtcl.recaptcha.on&&-1!==e.inArray("report_abuse",rtcl.recaptcha.on)){if(2===rtcl.recaptcha.v&&void 0!==a.data("reCaptchaId")){const t=grecaptcha.getResponse(a.data("reCaptchaId")),e=a.find("#rtcl-report-abuse-message-display");return e.html(""),0===t.length?(e.removeClass("text-success").addClass("text-danger").html(rtcl.recaptcha.msg.invalid),grecaptcha.reset(rtcl.recaptcha.response.report_abuse),!1):(r(t),!1)}if(3===rtcl.recaptcha.v)return grecaptcha.ready(function(){grecaptcha.execute(rtcl.recaptcha.site_key,{action:"reportAbuse"}).then(function(t){r(t)})}),!1}return r(),!1;function r(r){const i=new FormData(t);i.append("action","rtcl_public_report_abuse"),i.append("post_id",rtcl.post_id||0),i.append("__rtcl_wpnonce",rtcl.__rtcl_wpnonce),r&&i.append("g-recaptcha-response",r);const s=a.find(".rtcl-btn.rtcl-btn-primary");e.ajax({url:rtcl.ajaxurl,data:i,dataType:"json",cache:!1,processData:!1,contentType:!1,type:"POST",beforeSend:function(){e('<span class="rtcl-icon-spinner animate-spin"></span>').insertAfter(s)},success:function(e){s.next(".rtcl-icon-spinner").remove(),e.success?(t.reset(),a.find("#rtcl-report-abuse-message-display").removeClass("text-danger").addClass("text-success").html(e.data.message),setTimeout(function(){a.parents("#rtcl-report-abuse-modal").removeClass("show")},1500)):a.find("#rtcl-report-abuse-message-display").removeClass("text-success").addClass("text-danger").html(e.data.error),rtcl.recaptcha&&2===rtcl.recaptcha.v&&void 0!==a.data("reCaptchaId")&&grecaptcha.reset(a.data("reCaptchaId"))},error:function(t){e("#rtcl-report-abuse-message-display").removeClass("text-success").addClass("text-danger").html(t),s.next(".rtcl-icon-spinner").remove()}})}}})}),e("form.rtcl-contact-form, form#rtcl-contact-form").each(function(){e(this).validate({submitHandler:function(t){const a=e(t),r=a.find("#rtcl-contact-message-display"),i=a.data("reCaptchaId");if(rtcl.recaptcha&&"undefined"!=typeof grecaptcha&&rtcl.recaptcha.on&&-1!==e.inArray("contact",rtcl.recaptcha.on)){if(2===rtcl.recaptcha.v&&void 0!==i){var s=grecaptcha.getResponse(i);return r.html(""),0===s.length?(r.removeClass("text-success").addClass("text-danger").html(rtcl.recaptcha.msg.invalid),grecaptcha.reset(i),!1):(n(s),!1)}if(3===rtcl.recaptcha.v)return grecaptcha.ready(function(){a.rtclBlock(),grecaptcha.execute(rtcl.recaptcha.site_key,{action:"contact"}).then(function(t){a.rtclUnblock(),n(t)})}),!1}return n(),!1;function n(s){const n=new FormData(t);s&&n.append("g-recaptcha-response",s),n.append("action","rtcl_public_send_contact_email"),n.append("post_id",rtcl.post_id||0),n.append("__rtcl_wpnonce",rtcl.__rtcl_wpnonce),e.ajax({url:rtcl.ajaxurl,type:"POST",dataType:"json",cache:!1,processData:!1,contentType:!1,data:n,beforeSend:function(){a.rtclBlock(),r.removeClass("d-block").html(""),e('<span class="rtcl-icon-spinner animate-spin"></span>').insertAfter(a.find(".btn"))},success:function(e){a.rtclUnblock(),a.find(".btn").next(".rtcl-icon-spinner").remove(),r.addClass("d-block"),e.success?(t.reset(),r.removeClass("text-danger").addClass("d-block text-success").html(e.data.message),0!==a.parent().data("hide")&&setTimeout(function(){a.slideUp()},800)):r.removeClass("text-success").addClass("d-block text-danger").html(e.data.error),rtcl.recaptcha&&2===rtcl.recaptcha.v&&void 0!==i&&grecaptcha.reset(i)},error:function(t){a.rtclUnblock(),r.removeClass("text-success").addClass("d-block text-danger").html(t),a.find(".btn").next(".rtcl-icon-spinner").remove()}})}}})}),e("#rtcl-user-account").validate({submitHandler:function(t){const a=e(t),r=a.find("input[type=submit]"),i=a.find(".rtcl-response"),s=e("<div class='alert'></div>"),n=new FormData(t);n.append("action","rtcl_update_user_account"),n.append("__rtcl_wpnonce",rtcl.__rtcl_wpnonce),e.ajax({url:rtcl.ajaxurl,data:n,dataType:"json",cache:!1,processData:!1,contentType:!1,type:"POST",beforeSend:function(){a.addClass("rtcl-loading"),r.prop("disabled",!0),i.html(""),e('<span class="rtcl-icon-spinner animate-spin"></span>').insertAfter(r)},success:function(t){r.prop("disabled",!1).next(".rtcl-icon-spinner").remove(),a.removeClass("rtcl-loading"),t.success?(a.find("input[name=pass1]").val(""),a.find("input[name=pass2]").val(""),s.removeClass("alert-danger").addClass("alert-success").html(t.data.message).appendTo(i),setTimeout(function(){i.html("")},1e3)):s.removeClass("alert-success").addClass("alert-danger").html(t.data.error).appendTo(i)},error:function(t){s.removeClass("alert-success").addClass("alert-danger").html(t.responseText).appendTo(i),r.prop("disabled",!1).next(".rtcl-icon-spinner").remove(),a.removeClass("rtcl-loading")}})}})),window.rtclInitDateField=function(){e.fn.daterangepicker&&e(".rtcl-date").each(function(){let t=e(this),a=t.data("options")||{};if(a=rtclFilter.apply("dateRangePickerOptions",a),Array.isArray(a.invalidDateList)&&a.invalidDateList.length){const t=a.invalidDateList.map(t=>moment(t).format(a.locale.format));a.isInvalidDate=function(e){return t.includes(e.format(a.locale.format))}}e(this).daterangepicker(a),!1===a.autoUpdateInput&&(t.on("apply.daterangepicker",function(t,a){a.singleDatePicker?e(this).val(a.startDate.format(a.locale.format)):e(this).val(a.startDate.format(a.locale.format)+a.locale.separator+a.endDate.format(a.locale.format))}),t.on("cancel.daterangepicker",function(t,a){e(this).val("")}))})},e(function(){e(".rtcl-phone-reveal").on("click",function(){var t;e(this).hasClass("revealed")&&((t=e(this).attr("href"))&&(window.location.href=t));if(e(this).hasClass("not-revealed")){e(this).removeClass("not-revealed").addClass("revealed");var a=e(this).data("phone");e(this).find("span").text(a)}return!1});var t,a=e(".rtcl-user-ad-listing-wrapper");if(a.length){var r=e(".rtcl-listing-wrapper",a);(t=r.data("pagination")||{}).disable=!1,t.loading=!1,e(window).on("scroll load",function(){!function(r){var i=a.offset().top+a.outerHeight(!0),s=e(window).scrollTop()+e(window).height();if(i<=s&&i+e(window).height()>s&&t.max_num_pages>t.current_page&&!t.loading&&!t.disable){var n={action:"rtcl_user_ad_load_more",current_page:t.current_page,max_num_pages:t.max_num_pages,found_posts:t.found_posts,posts_per_page:t.posts_per_page,user_id:rtcl.user_id};e.ajax({url:rtcl.ajaxurl,data:n,type:"POST",beforeSend:function(){t.loading=!0,e('<span class="rtcl-icon-spinner animate-spin"></span>').insertAfter(r)},success:function(e){r.next(".rtcl-icon-spinner").remove(),t.loading=!1,t.current_page=e.current_page,t.max_num_pages===e.current_page&&(t.disable=!0),e.complete&&e.html&&r.append(e.html)},error:function(e){t.loading=!1,r.next(".rtcl-icon-spinner").remove()}})}}(r)})}});const i=new t;function s(t,a,r,i){var s=e(".rtcl-checkout-content"),n=s.find("#rtcl-checkout-form"),l=n.find("#rtcl-payment-overview"),c=n.find("input[name='type']").val(),o=n.find("input[name='pricing_id']:checked").val(),d="";e.ajax({type:"POST",url:rtcl.ajaxurl,data:{action:"rtcl_calculate_checkout_tax",country_code:t,state_code:a,postcode:r,city:i,type:c,pricing_id:o,__rtcl_wpnonce:rtcl.__rtcl_wpnonce},beforeSend:function(){s.rtclBlock()},success:function(t){if(s.rtclUnblock(),!t.error){const a=t.hasOwnProperty("available_tax")?t.available_tax:[];l.find(".cart-subtotal .checkout-price").text(t.pricing_price),l.find(".order-total .checkout-price").text(t.total_amount),Array.isArray(a)&&(l.find("tr.tax-rate td").html(""),e.each(a,function(e,a){if(d+='<span class="price-amount">',d+='<span class="checkout-price-currency-symbol">'+rtcl.payment_currency_symbol+"</span>",d+='<span class="checkout-price"> '+a.amount+"</span>",d+='<span class="checkout-tax-label">('+a.label+")</span>",d+="</span>",!t.enable_multiple_tax)return!1}),l.find("tr.tax-rate td").append(d))}},error:function(t,e){s.rtclUnblock()}})}e(document).ready(()=>{i.init()}),e(window).on("resize load",function(){e(".rtcl-equal-height").each(function(){var t=e(this).find(".equal-item");if(t.height("auto"),e(window).width()>767){var a=0;t.each(function(){var t=e(this).outerHeight();t>a&&(a=t)}),t.height(a+"px")}else t.height("auto")})}).on("load",function(){e(".rtcl-range-slider-input").on("input",function(){e(this).parent().find("span.rtcl-range-value").text(this.value)})}),e(document).on("rtcl.favorite",function(t,a){var r=e(".rt-el-header-favourite-count").first(),i=e(".rt-el-header-favourite-count"),s=parseInt(r.text(),10);s=isNaN(s)?0:s,"added"===a.action?(s++,i.text(s)):"removed"===a.action&&(s--,i.text(s))}),e(document).on("rtcl.compare.added",function(t,a){e(".rtcl-el-compare-count").text(a.current_listings)}),e(document).on("rtcl.compare.removed",function(t,a){e(".rtcl-el-compare-count").text(a.current_listings)}),e(document).on("click",".rtcl-compare-btn-clear",function(){e(".rtcl-el-compare-count").text("0")}),e(window).on("load",function(){e(".builder-content").removeClass("content-invisible")}),jQuery(document).ready(function(t){var e=t(".rtcl-is-collapsable");e.length&&e.each(function(){t(this).find(".rtcl-cfp-repeater-item").each(function(e){console.log(t(this));var a=t(this),r=a.find("> .rtcl-cfp-repeater-field");if(r.length){var i=r.first(),s=r.slice(1),n=t('<div class="rtcl-repeater-content"></div>');s.appendTo(n),a.append(n),i.css("cursor","pointer"),i.addClass("item-heading item-"+e),0===e?(n.show(),a.addClass("open")):n.hide(),i.on("click",function(){n.slideToggle(200),a.toggleClass("open")})}})})})}(jQuery)}();
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+(function() {
+  "use strict";
+  class RtclAjaxFilter {
+    constructor() {
+      __publicField(this, "onLoadUpdateParams", () => {
+        var _a;
+        const url = new URL(window.location.href);
+        if (((_a = this.options) == null ? void 0 : _a.items) && Array.isArray(this.options.items)) {
+          const that = this;
+          this.options.items.map((_item) => {
+            if (_item.id === "price_range") {
+              if (url.searchParams.has("filter_price")) {
+                let filter_price = decodeURI(url.searchParams.get("filter_price"));
+                if (filter_price.includes(",")) {
+                  filter_price = filter_price.split(",");
+                }
+                this.data.params.filter_price = filter_price;
+              }
+            } else if (_item.id === "radius_filter") {
+              if (url.searchParams.has("center_lat")) {
+                this.data.params.center_lat = url.searchParams.get("center_lat");
+              }
+              if (url.searchParams.has("center_lng")) {
+                this.data.params.center_lng = url.searchParams.get("center_lng");
+              }
+              if (url.searchParams.has("geo_address")) {
+                this.data.params.geo_address = url.searchParams.get("geo_address");
+              }
+              if (url.searchParams.has("distance")) {
+                this.data.params.distancem = url.searchParams.get("distance");
+              }
+            } else if (that.withOutFilterPrefix.includes(_item.id)) {
+              if (url.searchParams.has(_item.id)) {
+                this.data.params[_item.id] = decodeURI(url.searchParams.get(_item.id)).split(",");
+              } else {
+                if (_item.selected) {
+                  that.initLoading = false;
+                  this.data.params[_item.id] = Array.isArray(_item.selected) ? _item.selected : url.searchParams.get(_item.selected).split(",");
+                  this.addParam(_item.id, this.data.params[_item.id], true);
+                }
+              }
+            } else {
+              let foundTerm = null;
+              if (["location", "category", "tag"].includes(_item.id) && Array.isArray(rtcl.activeTerms) && rtcl.activeTerms.length && (foundTerm = rtcl.activeTerms.find(
+                (element) => element.taxonomy.replace("rtcl_", "") === _item.id
+              ))) {
+                const filterName = "filter_" + _item.id;
+                let terms;
+                if (url.searchParams.has(filterName)) {
+                  terms = decodeURI(url.searchParams.get(filterName)).split(",");
+                  terms.push(foundTerm.term_id);
+                  this.addParam(filterName, foundTerm.term_id, true);
+                } else {
+                  terms = [foundTerm.term_id];
+                  this.addParam(filterName, foundTerm.term_id, true);
+                }
+                this.data.params[filterName] = terms;
+              } else {
+                const paramName = "filter_" + _item.id;
+                if (url.searchParams.has(paramName)) {
+                  this.data.params[paramName] = ["checkbox", "radio"].includes(_item.type) ? decodeURI(url.searchParams.get(paramName)).split(",") : url.searchParams.get(paramName);
+                } else {
+                  if (_item.selected) {
+                    that.initLoading = false;
+                    if (["checkbox", "radio"].includes(_item.type)) {
+                      this.data.params[_item.id] = Array.isArray(_item.selected) ? _item.selected : url.searchParams.get(_item.selected).split(",");
+                      this.addParam(_item.id, this.data.params[_item.id], true);
+                    } else {
+                      this.data.params[_item.id] = url.searchParams.get(_item.selected);
+                      this.addParam(_item.id, this.data.params[_item.id]);
+                    }
+                  } else {
+                    if ("ad_type" === _item.id && url.searchParams.has("filters[ad_type]")) {
+                      that.initLoading = false;
+                      const adType = url.searchParams.get("filters[ad_type]");
+                      this.data.params[paramName] = adType;
+                      this.addParam(paramName, adType);
+                    }
+                  }
+                }
+              }
+            }
+          });
+        }
+        if (url.searchParams.has("page")) {
+          this.data.params["page"] = url.searchParams.get("page");
+        }
+        if (url.searchParams.has("orderby")) {
+          this.data.params["orderby"] = url.searchParams.get("orderby");
+        }
+        if (url.searchParams.has("view")) {
+          this.data.params["view"] = url.searchParams.get("view");
+        }
+        if (url.searchParams.has("q")) {
+          this.data.params["q"] = url.searchParams.get("q");
+        }
+        Array.from(url.searchParams).map(([_key, _value]) => {
+          if (_key.startsWith("cf_")) {
+            _value = decodeURI(url.searchParams.get(_key));
+            if (_value.includes(",")) {
+              _value = _value.split(",");
+            }
+            this.data.params[_key] = _value;
+          }
+        });
+        this.renderActiveFilter();
+      });
+      __publicField(this, "init", () => {
+        if (!this.$(this.filterWraperClass).length) {
+          return;
+        }
+        this.onLoadUpdateParams();
+        this.handleEvents();
+        this.loadAjaxData();
+        this.priceRangeSliderInit();
+        this.cfRangeSliderInit();
+        this.radiusDistanceSliderInit();
+        this.dateInit();
+        this.loadInitData();
+      });
+      __publicField(this, "loadInitData", () => {
+        if (this.isArchive) {
+          this.$(this.archivePaginationClass).remove();
+          this.$(this.noListingFoundClass).remove();
+        }
+        if (this.isTaxArchive) {
+          const targetSelector = this.$("body").hasClass("tax-rtcl_category") ? "rtcl-filter_category" : this.$("body").hasClass("tax-rtcl_location") ? "rtcl-filter_location" : this.$("body").hasClass("tax-rtcl_tag") ? "rtcl-filter_tag" : "";
+          const $targetSelector = this.$("body").find("." + targetSelector);
+          if ($targetSelector.length) {
+            const targetOptions = $targetSelector.find(".rtcl-filter-content").data("options");
+            if (targetOptions && targetOptions.field_type === "checkbox") {
+              const $showAll = this.$('<div class="rtcl-show-all">' + rtclAjaxFilterObj.show_all + "</div>");
+              $showAll.on("click", (e) => {
+                window.location.replace(rtclAjaxFilterObj.listings_archive_url);
+              });
+              $targetSelector.append($showAll);
+            }
+          }
+        }
+        this.callAjax();
+      });
+      /**
+       * Scrolls the page to the top of the products' container.
+       *
+       * @function
+       */
+      __publicField(this, "scrollToTop", () => {
+        if (this.$(this.filterContainerClass).hasClass("no-scroll-mode")) {
+          return false;
+        }
+        const scrollTarget = this.$("body .rtclScrollTarget");
+        const dataScrollOffset = parseInt(rtclAjaxFilterObj.filter_scroll_offset, 10);
+        const scrollOffset = isNaN(dataScrollOffset) ? 50 : dataScrollOffset;
+        let targetPosition;
+        if (scrollTarget.length) {
+          targetPosition = scrollTarget.offset().top - scrollOffset;
+        } else {
+          targetPosition = this.$(this.filterContainerClass).parent().offset().top - scrollOffset;
+        }
+        this.smoothScrollTo(targetPosition, 1200);
+      });
+      __publicField(this, "handleEvents", () => {
+        this.$(this.filterContainerClass).on("click", ".rtcl-reset", (e) => {
+          e.stopPropagation();
+          const $self = this.$(e.currentTarget), $wrap = $self.closest(".rtcl-ajax-filter-item"), $content = $wrap.find(".rtcl-filter-content"), options = $content.data("options");
+          if ($wrap.hasClass("rtcl-filter_radius_filter")) {
+            $wrap.removeClass("is-active");
+            this.reset = true;
+            this.$(document).trigger("rtcl_ajax_filter_reset_radius_distance");
+            this.$(document).trigger("rtcl_ajax_filter_update_params");
+          } else if ($wrap.hasClass("rtcl-filter_price_range")) {
+            this.reset = true;
+            this.$(document).trigger("rtcl_ajax_filter_reset_price_range");
+            this.$(document).trigger("rtcl_ajax_filter_update_params");
+          } else if ($wrap.hasClass("rtcl-filter_rating")) {
+            $wrap.removeClass("is-active");
+            $content.find(".rtcl-filter-ratings-item").removeClass("selected");
+            this.removeParam(options.name);
+            this.$(document).trigger("rtcl_ajax_filter_update_params");
+          } else {
+            this.removeParam(options.name);
+            $wrap.removeClass("is-active");
+            $content.find("input.rtcl-filter-number-field, input.rtcl-filter-date-field, input.rtcl-filter-text-field").val("");
+            this.$(document).trigger("rtcl_ajax_filter_update_params");
+          }
+        }).on("click keydown", ".rtcl-more-less-btn", (e) => {
+          if (e.type === "keydown" && e.key !== "Enter") {
+            return;
+          }
+          const $self = this.$(e.currentTarget);
+          const $wrap = $self.closest(".rtcl-ajax-filter-data");
+          const $filterContent = $self.closest(".rtcl-filter-content");
+          const contentOptions = $filterContent.data("options");
+          const fieldName = (contentOptions == null ? void 0 : contentOptions.name) || (contentOptions == null ? void 0 : contentOptions.filter_key) || "";
+          if ($self.hasClass("active")) {
+            $wrap.find(".rtcl-ajax-filter-data-item.hideAble").removeClass("active");
+            $self.removeClass("active");
+            if (fieldName) {
+              this.expandedFields.delete(fieldName);
+            }
+          } else {
+            $wrap.find(".rtcl-ajax-filter-data-item.hideAble").addClass("active");
+            $self.addClass("active");
+            if (fieldName) {
+              this.expandedFields.add(fieldName);
+            }
+          }
+        }).on("keydown", ".rtcl-ajax-filter-data .rtcl-filter-checkbox-label", function(e) {
+          if (e.key === "Enter") {
+            const inputId = this.getAttribute("for");
+            const $input = jQuery("#" + inputId);
+            if ($input.length) {
+              $input.trigger("click").trigger("change");
+            }
+          }
+        }).on("change", "input.rtcl-filter-checkbox, select.rtcl-filter-select-item", this.handleFilter).on("click", ".rtcl-filter-ratings-item", this.handleFilter).on("click keydown", ".rtcl-ajax-filter-data.filter-list .is-parent.has-sub .rtcl-load-sub-list", (e) => {
+          if (e.type === "keydown" && e.key !== "Enter") {
+            return;
+          }
+          this.loadSubListData(e);
+        });
+        this.$(".rtcl-listings-actions .rtcl-view-switcher a.rtcl-view-trigger", document).on("click", (event) => {
+          event.preventDefault();
+          const $self = this.$(event.currentTarget);
+          const view = $self.data("type") || "list";
+          this.addParam("view", view);
+          location.replace(location.href);
+        });
+        this.$("body").off("change", ".rtcl-ordering select.orderby");
+        this.$(".rtcl-listings-actions .rtcl-ordering select.orderby", document).off("change").on("change", (event) => {
+          const $self = this.$(event.currentTarget);
+          const orderBy = $self.val();
+          delete this.data.params.page;
+          this.removeParam("page");
+          if (orderBy) {
+            this.data.params.orderby = orderBy;
+            this.addParam("orderby", orderBy);
+          } else {
+            delete this.data.params.orderby;
+            this.removeParam("orderby");
+          }
+          this.$(document).trigger("rtcl_ajax_filter_update_params");
+        });
+        this.$(document).on("keydown", ".rtcl-ajax-pagination-container .rtcl-ajax-pagination-item.page-item:not(.active)", function(e) {
+          if (e.key === "Enter") {
+            jQuery(this).trigger("click");
+          }
+        });
+        this.$(document).on("keyup", ".rtcl-ajax-filter-item .rtcl-ajax-filter-text input[type=text]", this.handleFilter).on("keyup", ".rtcl-ajax-filter-item .rtcl-filter-number-field-wrap input[type=number]", this.handleFilter).on("click", ".rtcl-ajax-filter-text .rtcl-clear-text", (e) => {
+          const $self = this.$(e.currentTarget), $wrap = $self.closest(".rtcl-ajax-filter-item"), $content = $self.closest(".rtcl-filter-content"), $textField = $self.closest(".rtcl-ajax-filter-text").find("input[type=text]"), options = $content.data("options");
+          $wrap.removeClass("is-active");
+          $textField.val("");
+          const filterName = options.filter_key || options.name;
+          if (filterName && this.data.params[filterName]) {
+            delete this.data.params[filterName];
+            this.$(document).trigger("rtcl_ajax_filter_update_params");
+          }
+        }).on("click", ".rtcl-ajax-pagination-container .rtcl-ajax-pagination-item.page-item:not(.active)", this.handlePagination).on("click keydown", ".rtcl-active-filters-container .rtcl-clear-filters", (e) => {
+          if (e.type === "keydown" && e.key !== "Enter") {
+            return;
+          }
+          this.resetFilter(e);
+        }).on("click", ".rtcl-ajax-filter-text-search .rtcl-ajax-filter-search-icon", (e) => {
+          this.handleFilter(e);
+        }).on("click keydown", ".rtcl-active-filters-container .af-items .afi", (e) => {
+          if (e.type === "keydown" && e.key !== "Enter") {
+            return;
+          }
+          this.removeFilterItem(e);
+        }).on("click", this.filterTitleWrapClass, (e) => {
+          const $self = this.$(e.currentTarget), $wrap = $self.closest(".rtcl-ajax-filter-item"), $content = $wrap.find(".rtcl-filter-content");
+          if ($wrap.hasClass("is-open")) {
+            $content.slideUp(() => {
+              $wrap.removeClass("is-open");
+            });
+          } else {
+            $content.slideDown(() => {
+              $wrap.addClass("is-open");
+            });
+          }
+        }).on("rtcl_ajax_filter_update_params", (event, data) => {
+          delete this.data.params.page;
+          this.removeParam("page");
+          this.callAjax();
+        }).on("rtcl_ajax_filter_reset", () => {
+          this.reset = true;
+          this.$(this.filterContainerClass).find("input.rtcl-filter-checkbox").prop("checked", false).end().find("select.rtcl-filter-select-item").val("").end().find("input.rtcl-filter-text-field").val("").closest(".rtcl-ajax-filter-item").removeClass("is-active").end().end().find(".rtcl-geo-address-field input").val("").closest(".rtcl-ajax-filter-item").removeClass("is-active").end().end().find(".rtcl-filter_rating").removeClass("is-active").find(".rtcl-filter-ratings .rtcl-filter-ratings-item").removeClass("selected");
+          this.$(".rtcl-filter-text-field", ".rtcl-ajax-filter-date-field", document).val("").closest(".rtcl-ajax-filter-item").removeClass("is-active");
+          this.$(".rtcl-number-field-wrap input", document).val("").closest(".rtcl-ajax-filter-item").removeClass("is-active");
+          this.$(document).trigger("rtcl_ajax_filter_reset_price_range");
+          this.$(document).trigger("rtcl_ajax_filter_reset_radius_distance");
+          this.callAjax();
+        }).on("rtcl_map_retrieve_geocode", (e, data) => {
+          if (data.target) {
+            const $target = this.$(data.target);
+            const $itemWrap = $target.closest(".rtcl-filter_radius_filter"), $distanceSlider = $itemWrap.find(".rtcl-radius-distance-slider");
+            if ($itemWrap.length && $distanceSlider.length) {
+              const distance = $distanceSlider[0].noUiSlider.get();
+              const _distance = Number(distance);
+              const _unit = $distanceSlider.attr("data-unit") || "miles";
+              this.data.params = __spreadProps(__spreadValues({}, this.data.params), {
+                center_lat: data.lat,
+                center_lng: data.lng,
+                distance: _distance,
+                distance_unit: _unit
+              });
+              this.addParam("center_lat", data.lat);
+              this.addParam("center_lng", data.lng);
+              this.addParam("distance", _distance);
+              this.addParam("distance_unit", _unit);
+              this.addParam("geo_address", data.address);
+              $itemWrap.addClass("is-active");
+              this.$(document).trigger("rtcl_ajax_filter_update_params", [this.data.params]);
+            }
+          }
+        });
+      });
+      __publicField(this, "loadSubListData", (e) => {
+        e.preventDefault();
+        const self = jQuery(e.currentTarget), item = self.closest(".rtcl-ajax-filter-data-item"), parent = self.closest(".rtcl-filter-content"), is_ajax_load = parent.hasClass("rtcl-ajax"), options = parent.data("options") || {}, target = item.find("> .sub-list");
+        if (item.hasClass("is-open")) {
+          target.slideUp(function() {
+            item.removeClass("is-open");
+          });
+        } else {
+          if (is_ajax_load && options.taxonomy && item.hasClass("has-sub") && !item.hasClass("is-loaded")) {
+            if (!parent.hasClass("rtcl-loading")) {
+              options.parent = item.data("id") || 0;
+              options.__rtcl_wpnonce = rtcl.__rtcl_wpnonce;
+              options.action = "rtcl_ajax_filter_get_sub_terms_html";
+              this.$.ajax({
+                url: rtcl.ajaxurl,
+                type: "POST",
+                dataType: "json",
+                data: options,
+                beforeSend: () => {
+                  parent.rtclBlock();
+                },
+                success: (response) => {
+                  item.append(response.data);
+                  parent.rtclUnblock();
+                  item.addClass("is-open is-loaded");
+                  item.find("> .sub-list").slideDown("slow", function() {
+                    jQuery(this).css("display", "flex");
+                  });
+                },
+                complete: () => {
+                  parent.rtclUnblock();
+                },
+                error: (request, status, error) => {
+                  console.error(error);
+                }
+              });
+            }
+          } else {
+            target.slideDown();
+            item.addClass("is-open");
+          }
+        }
+      });
+      __publicField(this, "loadAjaxData", () => {
+        this.$(this.filterContainerClass).find(".rtcl-ajax-filter-item .rtcl-filter-content.rtcl-ajax").each((index, item) => {
+          var _a;
+          let _self = this.$(item), options = _self.data("options") || {};
+          options.action = "rtcl_ajax_filter_get_sub_terms_html";
+          options.__rtcl_wpnonce = rtcl.__rtcl_wpnonce;
+          if (((_a = rtcl.listing_term) == null ? void 0 : _a.taxonomy) === options.taxonomy && Array.isArray(options.values) && !options.values.includes(rtcl.listing_term.term_id.toString())) {
+            options.values.push(rtcl.listing_term.term_id);
+          }
+          this.$.ajax({
+            url: rtcl.ajaxurl,
+            type: "POST",
+            dataType: "json",
+            data: options,
+            beforeSend: () => {
+              _self.rtclBlock();
+            },
+            success: (response) => {
+              _self.html(response.data).rtclUnblock();
+              _self.closest(this.filterContainerClass);
+            },
+            complete: () => {
+              _self.rtclUnblock();
+            },
+            error: (request, status, error) => {
+              _self.rtclUnblock();
+              if (status === 500) {
+                console.error("Error while adding comment");
+              } else if (status === "timeout") {
+                console.error("Error: Server doesn't respond.");
+              } else ;
+            }
+          });
+        });
+      });
+      __publicField(this, "addParam", (filterName, value, multiple) => {
+        if (!filterName) {
+          return;
+        }
+        if (!value) {
+          this.removeParam(filterName);
+          return;
+        }
+        const url = new URL(window.location.href);
+        let filterValue = value;
+        if (url.searchParams.has(filterName)) {
+          let _value = decodeURI(url.searchParams.get(filterName));
+          if (multiple) {
+            filterValue = Array.from(new Set(_value.split(",")));
+            filterValue.push(value);
+          }
+        }
+        this.data.params[filterName] = filterValue;
+        url.searchParams.set(filterName, Array.isArray(filterValue) ? filterValue.join(",") : filterValue);
+        window.history.pushState("", document.title, url.toString());
+      });
+      __publicField(this, "removeParam", (filterName, value, multiple) => {
+        if (!filterName) {
+          return;
+        }
+        const url = new URL(window.location.href);
+        if (!value || !multiple) {
+          delete this.data.params[filterName];
+          url.searchParams.delete(filterName);
+        } else {
+          let filterValue = value;
+          if (url.searchParams.has(filterName)) {
+            let _value = decodeURI(url.searchParams.get(filterName));
+            filterValue = Array.from(new Set(_value.split(","))).filter((_i) => _i.toString() !== value.toString());
+            if (filterValue.length) {
+              this.data.params[filterName] = filterValue;
+              url.searchParams.set(filterName, Array.isArray(filterValue) ? filterValue.join(",") : filterValue);
+            } else {
+              delete this.data.params[filterName];
+              url.searchParams.delete(filterName);
+            }
+          }
+        }
+        window.history.pushState("", document.title, url.toString());
+      });
+      __publicField(this, "handleFilter", (event, data) => {
+        if (this.reset) {
+          return;
+        }
+        const $self = this.$(event.currentTarget), $wrap = $self.closest(".rtcl-ajax-filter-item"), $targetContainer = $self.closest(".rtcl-filter-content"), options = $targetContainer.data("options"), option_name = options.filter_key || options.name;
+        if (event.type === "change") {
+          if (option_name) {
+            const inputValue = event.currentTarget.value;
+            if (event.currentTarget.type === "text") {
+              if (inputValue) {
+                this.data.params[option_name] = inputValue;
+                $wrap.addClass("is-active");
+                this.addParam(option_name, inputValue);
+              } else {
+                delete this.data.params[option_name];
+                $wrap.removeClass("is-active");
+                this.removeParam(option_name);
+              }
+            } else if (event.currentTarget.type === "checkbox") {
+              const isChecked = event.currentTarget.checked;
+              let currentValues = Array.isArray(this.data.params[option_name]) ? this.data.params[option_name].map(String) : this.data.params[option_name] ? [String(this.data.params[option_name])] : [];
+              if (isChecked) {
+                if (!currentValues.includes(String(inputValue))) {
+                  currentValues.push(String(inputValue));
+                }
+              } else {
+                currentValues = currentValues.filter((v) => v !== String(inputValue));
+              }
+              const url = new URL(window.location.href);
+              if (currentValues.length) {
+                this.data.params[option_name] = currentValues;
+                url.searchParams.set(option_name, currentValues.join(","));
+                $wrap.addClass("is-active");
+              } else {
+                delete this.data.params[option_name];
+                url.searchParams.delete(option_name);
+                $wrap.removeClass("is-active");
+              }
+              window.history.pushState("", document.title, url.toString());
+            } else {
+              if (options && ["radio", "select"].includes(options.field_type)) {
+                if (event.currentTarget.checked) {
+                  this.addParam(option_name, inputValue);
+                } else if ("select" === options.field_type) {
+                  if (inputValue) {
+                    this.addParam(option_name, inputValue);
+                  } else {
+                    this.removeParam(option_name);
+                  }
+                } else {
+                  this.removeParam(option_name, inputValue);
+                }
+              } else {
+                this.addParam(option_name, inputValue);
+              }
+            }
+            this.$(document).trigger("rtcl_ajax_filter_update_params");
+          }
+        } else if (event.type === "keyup") {
+          if (event.currentTarget.tagName === "INPUT") {
+            if (event.currentTarget.type === "number" && $wrap.find(".rtcl-filter-number-field-wrap").hasClass("min-max")) {
+              const $self2 = this.$(event.currentTarget);
+              const $wrap2 = $self2.closest(".rtcl-filter-number-field-wrap");
+              const maxValue = $wrap2.find("input.max").val() || null;
+              const minValue = $wrap2.find("input.min").val() || 0;
+              if (event.key === "Enter" || event.keyCode === 13) {
+                const _value = [minValue, maxValue];
+                this.data.params[option_name] = _value;
+                this.addParam(option_name, _value);
+                this.$(document).trigger("rtcl_ajax_filter_update_params");
+              } else {
+                if (minValue || maxValue) {
+                  $wrap2.addClass("is-active");
+                } else {
+                  $wrap2.removeClass("is-active");
+                }
+              }
+            } else {
+              const _value = event.currentTarget.value;
+              if (event.key === "Enter" || event.keyCode === 13) {
+                this.data.params[option_name] = event.currentTarget.value;
+                this.addParam(option_name, _value);
+                this.$(document).trigger("rtcl_ajax_filter_update_params");
+              } else {
+                if (_value) {
+                  $wrap.addClass("is-active");
+                } else {
+                  $wrap.removeClass("is-active");
+                }
+              }
+            }
+          }
+        } else if (event.type === "click") {
+          const $self2 = this.$(event.currentTarget);
+          if ($self2.hasClass("rtcl-filter-ratings-item")) {
+            const rating = parseFloat($self2.data("id"));
+            if (!isNaN(rating)) {
+              $self2.closest(".rtcl-filter-ratings").find(".rtcl-filter-ratings-item").removeClass("selected");
+              $self2.addClass("selected");
+              $wrap.addClass("is-active");
+              this.addParam(option_name, rating);
+              this.$(document).trigger("rtcl_ajax_filter_update_params", [this.data.params]);
+            }
+          }
+          if ($self2.closest(".rtcl-ajax-filter-text-search").length) {
+            const $textField = $self2.closest(".rtcl-ajax-filter-text").find("input[type=text]");
+            this.addParam(option_name, $textField.val());
+            this.$(document).trigger("rtcl_ajax_filter_update_params", [this.data.params]);
+          }
+        }
+      });
+      __publicField(this, "dateInit", () => {
+        if (this.$.fn.daterangepicker) {
+          this.$(".rtcl-filter-date-field", this.$(this.filterWraperClass)).each((_i, _item) => {
+            var _a;
+            let $input = this.$(_item);
+            let options = $input.data("options") || {};
+            options = rtclFilter.apply("dateRangePickerOptions", options);
+            if (window.innerWidth <= 767) {
+              options.opens = options.opens || "center";
+              options.drops = options.drops || "auto";
+              options.autoApply = (_a = options.autoApply) != null ? _a : false;
+            }
+            if (Array.isArray(options.invalidDateList) && options.invalidDateList.length) {
+              options.isInvalidDate = function(param) {
+                return options.invalidDateList.includes(param.format(options.locale.format));
+              };
+            }
+            $input.daterangepicker(options);
+            if (options.autoUpdateInput === false) {
+              $input.on("apply.daterangepicker", (event, picker) => {
+                const $self = this.$(event.currentTarget), $wrap = $self.closest(".rtcl-ajax-filter-item"), $targetContainer = $self.closest(".rtcl-filter-content"), options2 = $targetContainer.data("options"), option_name = options2.name;
+                let inputValue;
+                if (picker.singleDatePicker) {
+                  inputValue = picker.startDate.format(picker.locale.format);
+                  $self.val(inputValue);
+                } else {
+                  inputValue = picker.startDate.format(picker.locale.format) + picker.locale.separator + picker.endDate.format(picker.locale.format);
+                  $self.val(inputValue);
+                }
+                this.addParam(option_name, inputValue);
+                this.data.params[option_name] = inputValue;
+                $wrap.addClass("is-active");
+                this.$(document).trigger("rtcl_ajax_filter_update_params");
+              });
+              $input.on("cancel.daterangepicker", (event, picker) => {
+                this.$(event.currentTarget).val("");
+              });
+            }
+          });
+        }
+      });
+      __publicField(this, "priceRangeSliderInit", () => {
+        const priceContainers = this.$(this.filterContainerClass + " .rtcl-price-range-wrap");
+        if (!priceContainers.length) {
+          return false;
+        }
+        const $itemWrap = priceContainers.closest(".rtcl-ajax-filter-item");
+        priceContainers.each((i, container) => {
+          const $container = this.$(container), $priceRangeSlider = $container.find(".rtcl-price-range-slider"), priceRangeSlider = $priceRangeSlider[0], $filterPriceInputWrap = $container.find(".rtcl-range-slider-input-wrap"), $maxPriceInput = $filterPriceInputWrap.find(".rtcl-range-slider-input.max"), $minPriceInput = $filterPriceInputWrap.find(".rtcl-range-slider-input.min");
+          const maxPrice = parseInt($priceRangeSlider.attr("data-max"), 10) || 5e4;
+          const minPrice = parseInt($priceRangeSlider.attr("data-min"), 10) || 0;
+          const currentMaxPrice = parseInt($maxPriceInput.val(), 10) || maxPrice;
+          const currentMinPrice = parseInt($minPriceInput.val(), 10) || minPrice;
+          const filterStep = parseInt($priceRangeSlider.attr("data-step"), 10) || 1e3;
+          noUiSlider.create(priceRangeSlider, {
+            range: {
+              min: minPrice,
+              max: maxPrice
+            },
+            behaviour: "drag",
+            connect: true,
+            start: [currentMinPrice, currentMaxPrice],
+            step: filterStep
+          });
+          priceRangeSlider.noUiSlider.on("update", (values, e) => {
+            const $targetInput = e === 0 ? $minPriceInput : $maxPriceInput;
+            $targetInput.val(Number(values[e]));
+          });
+          priceRangeSlider.noUiSlider.on("change", (values, e) => {
+            if (!this.reset) {
+              $itemWrap.addClass("is-active");
+              const prices = [Number(values[0]), Number(values[1])];
+              this.data.params = __spreadProps(__spreadValues({}, this.data.params), { filter_price: prices });
+              this.addParam("filter_price", prices.filter((e2) => e2 === 0 ? true : e2).join(","));
+              this.$(document).trigger("rtcl_ajax_filter_update_params", [this.data.params]);
+            }
+          });
+          this.$(document).on("rtcl_ajax_filter_reset_price_range", () => {
+            $minPriceInput.val(minPrice).trigger("change");
+            $maxPriceInput.val(maxPrice).trigger("change");
+            delete this.data.params["filter_price"];
+            this.removeParam("filter_price");
+            $itemWrap.removeClass("is-active");
+          });
+          function setSliderValue(index, value) {
+            const values = [null, null];
+            values[index] = value;
+            priceRangeSlider.noUiSlider.set(values);
+          }
+          $filterPriceInputWrap.find(".rtcl-range-slider-input").on("change", (event) => {
+            let value = event.currentTarget.value;
+            value = Number(value);
+            value = parseInt(value, 10);
+            if (isNaN(value) || value < 0) {
+              value = 0;
+              event.currentTarget.value = value;
+            }
+            const e = this.$(event.currentTarget).hasClass("min") ? 0 : 1;
+            setSliderValue(e, value);
+            let values = priceRangeSlider.noUiSlider.get();
+            if (!this.reset) {
+              const prices = [Number(values[0]), Number(values[1])];
+              this.data.params = __spreadProps(__spreadValues({}, this.data.params), { filter_price: prices });
+              this.addParam("filter_price", prices.filter((e2) => e2 === 0 ? true : e2).join(","));
+              this.$(document).trigger("rtcl_ajax_filter_update_params", [this.data.params]);
+            }
+          }).on("keydown", function(c) {
+            const blockedKeys = ["-", "e", "E", "+"];
+            if (blockedKeys.includes(c.key)) {
+              c.preventDefault();
+              return;
+            }
+            let values = priceRangeSlider.noUiSlider.get();
+            const index = jQuery(this).hasClass("min") ? 0 : 1;
+            let value = Number(values[index]);
+            const steps = priceRangeSlider.noUiSlider.steps()[index];
+            let step;
+            switch (c.which) {
+              case 13:
+                if (this.dirty) {
+                  this.dirty = false;
+                  this.trigger("change");
+                }
+                break;
+              case 38:
+                step = steps[1];
+                if (false === step) {
+                  step = 1;
+                }
+                if (null !== step) {
+                  this.dirty = true;
+                  setSliderValue(index, value + step);
+                }
+                break;
+              case 40:
+                step = steps[0];
+                if (false === step) {
+                  c = 1;
+                }
+                if (null !== step) {
+                  this.dirty = true;
+                  setSliderValue(index, value - step);
+                }
+            }
+          }).on("blur", function() {
+            if (this.dirty) {
+              jQuery(this).trigger("change");
+            }
+            this.dirty = false;
+          }).on("paste", function(e) {
+            setTimeout(() => {
+              let val = this.value.replace(/[^0-9]/g, "");
+              this.value = val;
+            }, 0);
+          });
+        });
+      });
+      __publicField(this, "cfRangeSliderInit", () => {
+        const cfRangeContainers = this.$(".rtcl-cf-range-wrap");
+        if (!cfRangeContainers.length) {
+          return;
+        }
+        cfRangeContainers.each((_idx, wrap) => {
+          const $wrap = this.$(wrap);
+          const sliderEl = $wrap.find(".rtcl-cf-range-slider")[0];
+          if (!sliderEl || sliderEl.noUiSlider) {
+            return;
+          }
+          const $itemWrap = $wrap.closest(".rtcl-ajax-filter-item");
+          const $inputWrap = $wrap.find(".rtcl-range-slider-input-wrap");
+          const $minInput = $inputWrap.find(".rtcl-range-slider-input.min");
+          const $maxInput = $inputWrap.find(".rtcl-range-slider-input.max");
+          const fieldName = $wrap.data("field-name");
+          const min = parseFloat(sliderEl.dataset.min) || 0;
+          const max = parseFloat(sliderEl.dataset.max) || 100;
+          const step = parseFloat(sliderEl.dataset.step) || 1;
+          const curMin = parseFloat($minInput.val()) || min;
+          const curMax = parseFloat($maxInput.val()) || max;
+          noUiSlider.create(sliderEl, {
+            range: { min, max },
+            start: [curMin, curMax],
+            step,
+            connect: true,
+            behaviour: "drag"
+          });
+          sliderEl.noUiSlider.on("update", (values, e) => {
+            const $input = e === 0 ? $minInput : $maxInput;
+            $input.val(Number(values[e]));
+          });
+          sliderEl.noUiSlider.on("change", (values) => {
+            if (!this.reset) {
+              $itemWrap.addClass("is-active");
+              const rangeVal = [Number(values[0]), Number(values[1])].join(",");
+              this.data.params[fieldName] = rangeVal;
+              this.addParam(fieldName, rangeVal);
+              this.$(document).trigger("rtcl_ajax_filter_update_params", [this.data.params]);
+            }
+          });
+          $inputWrap.find(".rtcl-range-slider-input").on("change", (event) => {
+            const $el = this.$(event.currentTarget);
+            const idx = $el.hasClass("min") ? 0 : 1;
+            const val = parseFloat(event.currentTarget.value) || (idx === 0 ? min : max);
+            const vals = [null, null];
+            vals[idx] = val;
+            sliderEl.noUiSlider.set(vals);
+            if (!this.reset) {
+              const current = sliderEl.noUiSlider.get();
+              const rangeVal = [Number(current[0]), Number(current[1])].join(",");
+              this.data.params[fieldName] = rangeVal;
+              this.addParam(fieldName, rangeVal);
+              this.$(document).trigger("rtcl_ajax_filter_update_params", [this.data.params]);
+            }
+          });
+          this.$(document).on("rtcl_ajax_filter_reset", () => {
+            sliderEl.noUiSlider.set([min, max]);
+            $minInput.val(min);
+            $maxInput.val(max);
+            delete this.data.params[fieldName];
+            this.removeParam(fieldName);
+            $itemWrap.removeClass("is-active");
+          });
+        });
+      });
+      __publicField(this, "radiusDistanceSliderInit", () => {
+        const distanceContainers = this.$(this.filterContainerClass + " .rtcl-radius-distance-slider-wrap");
+        if (!distanceContainers.length) {
+          return false;
+        }
+        const $itemWrap = distanceContainers.closest(".rtcl-ajax-filter-item");
+        distanceContainers.each((i, container) => {
+          const $container = this.$(container), $distanceSlider = $container.find(".rtcl-radius-distance-slider"), distanceSlider = $distanceSlider[0];
+          $container.find(".rtcl-radius-distance-input");
+          const rangeDefault = parseInt($distanceSlider.attr("data-default"), 10) || 30, currentDistance = parseInt($distanceSlider.attr("data-current"), 10) || rangeDefault, rangeMax = parseInt($distanceSlider.attr("data-max"), 10) || 300, rangeMin = parseInt($distanceSlider.attr("data-min"), 10) || 0, rangeStep = parseInt($distanceSlider.attr("data-step"), 10) || 5, rangeUnit = $distanceSlider.attr("data-unit") || "miles";
+          noUiSlider.create(distanceSlider, {
+            range: {
+              min: rangeMin,
+              max: rangeMax
+            },
+            behaviour: "drag",
+            connect: [true, false],
+            start: currentDistance,
+            step: rangeStep
+          });
+          distanceSlider.noUiSlider.on("change", (values, index) => {
+            if (!this.reset && this.data.params.center_lat && this.data.params.center_lng) {
+              $itemWrap.addClass("is-active");
+              const distance = Number(values[index]);
+              this.data.params = __spreadProps(__spreadValues({}, this.data.params), { distance, distance_unit: rangeUnit });
+              this.addParam("distance", distance);
+              this.addParam("distance_unit", rangeUnit);
+              this.$(document).trigger("rtcl_ajax_filter_update_params", [this.data.params]);
+            }
+          });
+          distanceSlider.noUiSlider.on("update", (values, index) => {
+            const value = Number(values[index]);
+            $container.find(".rtcl-range-value").text(value);
+          });
+          this.$(document).on("rtcl_ajax_filter_reset_radius_distance", () => {
+            delete this.data.params["distance"];
+            delete this.data.params["distance_unit"];
+            delete this.data.params["center_lat"];
+            delete this.data.params["center_lng"];
+            delete this.data.params["geo_address"];
+            this.removeParam("distance");
+            this.removeParam("distance_unit");
+            this.removeParam("center_lat");
+            this.removeParam("center_lng");
+            this.removeParam("geo_address");
+            $itemWrap.find(".rtcl-geo-address-input").val("");
+            $itemWrap.removeClass("is-active");
+            distanceSlider.noUiSlider.set([rangeDefault, null]);
+          });
+        });
+      });
+      __publicField(this, "callAjax", () => {
+        const $filterWrap = this.$(this.filterWraperClass);
+        const $listingWrap = this.$(this.listingsContainerClass);
+        this.$.ajax({
+          type: "POST",
+          url: rtcl.ajaxurl,
+          data: this.data,
+          beforeSend: () => {
+            $filterWrap.rtclBlock();
+            $listingWrap.rtclBlock();
+          },
+          success: (res) => {
+            if (res.success) {
+              this.data.params.page = res.data.pagination.current_page;
+              this.renderData(__spreadProps(__spreadValues({}, res.data), { actionData: this.data }));
+              delete this.data.filterData.initLoad;
+            }
+          },
+          error: (jqXHR, exception, error) => {
+            console.error(error);
+          },
+          complete: () => {
+            $filterWrap.rtclUnblock();
+            $listingWrap.rtclUnblock();
+            this.reset = false;
+            this.initLoading = false;
+          }
+        });
+      });
+      __publicField(this, "removeFilterItem", (event) => {
+        const $self = this.$(event.currentTarget), itemId = $self.data("item-id"), filterName = $self.data("filter-name"), filterValue = $self.data("filter-value"), $item = this.withOutFilterPrefix.includes(itemId) ? this.$(".rtcl-ajax-filter-item.rtcl-" + itemId) : this.$(".rtcl-ajax-filter-item.rtcl-filter_" + itemId), $container = $item.find(".rtcl-filter-content"), options = $container.data("options");
+        if (!$item.length) {
+          return;
+        }
+        let needToTrigger = false;
+        if ("price_range" === itemId) {
+          this.removeParam("filter_price");
+          this.reset = true;
+          this.$(document).trigger("rtcl_ajax_filter_reset_price_range");
+          needToTrigger = true;
+        } else if ("radius_filter" === itemId) {
+          this.removeParam("distance");
+          this.removeParam("center_lat");
+          this.removeParam("center_lng");
+          this.removeParam("geo_address");
+          this.reset = true;
+          this.$(document).trigger("rtcl_ajax_filter_reset_radius_distance");
+          needToTrigger = true;
+        } else if ("rating" === itemId) {
+          this.removeParam(filterName);
+          $item.removeClass("is-active");
+          $item.find(".rtcl-filter-ratings-item").removeClass("selected");
+          needToTrigger = true;
+        } else {
+          if (options) {
+            if (["checkbox", "radio"].includes(options.field_type)) {
+              this.removeParam(filterName, filterValue, true);
+              $item.find('input[value="' + filterValue + '"]').prop("checked", false);
+            } else {
+              if (options.field_type === "number") {
+                this.removeParam(filterName);
+                $item.removeClass("is-active");
+                $item.find("input.rtcl-filter-number-field").val("");
+              } else {
+                this.removeParam(filterName);
+                $item.find('input[name="' + filterName + '"], select[name="' + filterName + '"]').val("");
+                $item.removeClass("is-active");
+              }
+            }
+            needToTrigger = true;
+          }
+        }
+        if (needToTrigger) {
+          delete this.data.params.page;
+          this.removeParam("page");
+          this.$(document).trigger("rtcl_ajax_filter_update_params");
+        }
+      });
+      __publicField(this, "resetFilter", () => {
+        const that = this;
+        const view = this.data.params.view;
+        this.data.params = {};
+        if (view) {
+          this.data.params.view = view;
+        }
+        const url = new URL(window.location.href);
+        if (this.options.items && Array.isArray(this.options.items)) {
+          this.options.items.map((_item) => {
+            if (_item.id === "price_range") {
+              url.searchParams.delete("filter_price");
+            } else if (_item.id === "radius_filter") {
+              url.searchParams.delete("center_lat");
+              url.searchParams.delete("center_lng");
+              url.searchParams.delete("geo_address");
+              url.searchParams.delete("distance");
+            } else {
+              const paramName = that.withOutFilterPrefix.includes(_item.id) ? _item.id : "filter_" + _item.id;
+              url.searchParams.delete(paramName);
+            }
+          });
+        }
+        url.searchParams.delete("page");
+        url.searchParams.delete("orderby");
+        url.searchParams.delete("q");
+        Array.from(url.searchParams).map(([_key]) => {
+          if (_key.startsWith("cf_")) {
+            url.searchParams.delete(_key);
+          }
+        });
+        window.history.pushState("", document.title, url.toString());
+        this.$(document).trigger("rtcl_ajax_filter_reset");
+      });
+      __publicField(this, "handlePagination", (e) => {
+        let target;
+        if (e.target.tagName === "SPAN") {
+          target = e.target.parentNode;
+        } else {
+          target = e.target;
+        }
+        const pageNumber = this.$(target).data("id") || 1;
+        this.data.params["page"] = pageNumber;
+        this.addParam("page", pageNumber);
+        this.scrollToTop();
+        this.callAjax();
+      });
+      __publicField(this, "renderData", (data) => {
+        this.renderActiveFilter(data.active_filters);
+        this.renderCfFilterItems(data.cf_items);
+        this.renderListings(data.listings);
+        this.renderPagination(data.pagination);
+        this.renderResultCount(data.pagination);
+        this.$(document).trigger("rtcl_ajax_filter_after_render", [data]);
+      });
+      __publicField(this, "renderListings", (listings) => {
+        if (this.isArchive && this.initLoading && !this.$(this.resultWrapClass).length) {
+          return;
+        }
+        let $wrap = this.$(document).find(this.listingsContainerClass);
+        if (!$wrap.length && this.$(this.resultWrapClass).length) {
+          $wrap = this.$('<div class="rtcl-ajax-listings"></div>');
+          this.$(this.resultWrapClass).append($wrap);
+        }
+        if (!listings) {
+          $wrap.addClass("no-listing-found");
+          listings = this.$('<div class="rtcl-info no-listing-found"></div>');
+          listings.text(rtclAjaxFilterObj.no_result_found);
+        } else {
+          $wrap.removeClass("no-listing-found");
+        }
+        $wrap.html(listings);
+      });
+      __publicField(this, "renderCfFilterItems", (cfItems) => {
+        if (this.initLoading) {
+          return;
+        }
+        const cfWrap = this.$(this.cfWrapperClass);
+        cfWrap.empty();
+        if (cfItems && Array.isArray(cfItems) && cfWrap.length) {
+          cfItems.map((_cfItem) => {
+            cfWrap.append(this.$(_cfItem.html));
+          });
+          this.restoreExpandedState();
+          this.restoreCfCheckedState();
+          this.dateInit();
+          this.cfRangeSliderInit();
+        }
+      });
+      __publicField(this, "restoreExpandedState", () => {
+        if (!this.expandedFields.size) {
+          return;
+        }
+        this.$(this.cfWrapperClass).find(".rtcl-filter-content").each((_, el) => {
+          const $content = this.$(el);
+          const options = $content.data("options");
+          const fieldName = (options == null ? void 0 : options.name) || (options == null ? void 0 : options.filter_key) || "";
+          if (fieldName && this.expandedFields.has(fieldName)) {
+            $content.find(".rtcl-ajax-filter-data-item.hideAble").addClass("active");
+            $content.find(".rtcl-more-less-btn").addClass("active");
+          }
+        });
+      });
+      __publicField(this, "restoreCfCheckedState", () => {
+        this.$(this.cfWrapperClass).find(".rtcl-filter-content").each((_, el) => {
+          const $content = this.$(el);
+          const options = $content.data("options");
+          if (!options) return;
+          const fieldName = options.filter_key || options.name || "";
+          if (!fieldName || !this.data.params.hasOwnProperty(fieldName)) return;
+          const paramValue = this.data.params[fieldName];
+          const values = Array.isArray(paramValue) ? paramValue.map(String) : [String(paramValue)];
+          const $checkboxes = $content.find('input.rtcl-filter-checkbox[type="checkbox"]');
+          if ($checkboxes.length) {
+            values.forEach((val) => {
+              $checkboxes.filter('[value="' + val + '"]').prop("checked", true);
+            });
+            if (values.length) {
+              $content.closest(".rtcl-ajax-filter-item").addClass("is-active");
+            }
+          } else if (["radio"].includes(options.field_type)) {
+            values.forEach((val) => {
+              $content.find('input[value="' + val + '"]').prop("checked", true);
+            });
+            if (values.length) {
+              $content.closest(".rtcl-ajax-filter-item").addClass("is-active");
+            }
+          } else if (options.field_type === "select") {
+            $content.find("select.rtcl-filter-select-item").val(paramValue);
+            if (paramValue) {
+              $content.closest(".rtcl-ajax-filter-item").addClass("is-active");
+            }
+          }
+        });
+      });
+      __publicField(this, "renderActiveFilter", (filters) => {
+        const $filterContainer = this.$('<div class="rtcl-active-filters-container"></div>');
+        if (filters && Array.isArray(filters) && filters.length) {
+          const $filterWrap = this.$('<div class="rtcl-active-filters-wrap"></div>');
+          const $filters = this.$('<div class="rtcl-active-filters"></div>');
+          filters.map((_filter) => {
+            const $filter = this.$('<div class="rtcl-active-filter"><div class="af-name"></div><div class="af-items"></div></div>');
+            $filter.find(".af-name").text(_filter.label);
+            Object.keys(_filter.selected).map((_id) => {
+              const $item = this.$('<div class="afi" tabindex="0"><span class="rtcl-remove-filter"><i class="remove-icon"></i></span></div>');
+              $item.attr("data-item-id", _filter.itemId);
+              $item.attr("data-filter-name", _filter.id);
+              $item.attr("data-filter-value", _id);
+              $item.prepend(document.createTextNode(_filter.selected[_id]));
+              $filter.find(".af-items").append($item);
+            });
+            $filters.append($filter);
+          });
+          const $restBtn = this.$('<div class="rtcl-clear-filters" tabindex="0"><span class="icon-wrap"><i class="rtcl-icon rtcl-icon-trash"></i></span><span></span></div>');
+          $restBtn.find("span:last").text(rtclAjaxFilterObj.clear_all_filter);
+          $filterWrap.append($filters, $restBtn);
+          $filterContainer.append($filterWrap);
+        }
+        const $container = this.$(document).find(".rtcl-active-filters-container");
+        if ($container.length) {
+          $container.replaceWith($filterContainer);
+        } else {
+          if (this.$(this.listingsContainerClass).length) {
+            $filterContainer.insertBefore(this.$(this.listingsContainerClass));
+          } else if (this.$(this.resultWrapClass).length) {
+            $filterContainer.insertBefore(this.$(this.resultWrapClass).find(".rtcl-listings"));
+          }
+        }
+      });
+      __publicField(this, "range", (start, end) => {
+        let length = end - start + 1;
+        return Array.from({ length }, (_, idx) => idx + start);
+      });
+      __publicField(this, "getPageNumberArray", (currentPage, pages) => {
+        const totalPageCount = pages;
+        const siblingCount = 1;
+        const totalPageNumbers = siblingCount + 5;
+        const DOTS = "...";
+        if (totalPageNumbers >= totalPageCount) {
+          return this.range(1, totalPageCount);
+        }
+        const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
+        const rightSiblingIndex = Math.min(
+          currentPage + siblingCount,
+          totalPageCount
+        );
+        const shouldShowLeftDots = leftSiblingIndex > 2;
+        const shouldShowRightDots = rightSiblingIndex < totalPageCount - 2;
+        const firstPageIndex = 1;
+        const lastPageIndex = totalPageCount;
+        if (!shouldShowLeftDots && shouldShowRightDots) {
+          let leftItemCount = 3 + 2 * siblingCount;
+          let leftRange = this.range(1, leftItemCount);
+          return [...leftRange, DOTS, totalPageCount];
+        }
+        if (shouldShowLeftDots && !shouldShowRightDots) {
+          let rightItemCount = 3 + 2 * siblingCount;
+          let rightRange = this.range(
+            totalPageCount - rightItemCount + 1,
+            totalPageCount
+          );
+          return [firstPageIndex, DOTS, ...rightRange];
+        }
+        if (shouldShowLeftDots && shouldShowRightDots) {
+          let middleRange = this.range(leftSiblingIndex, rightSiblingIndex);
+          return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
+        }
+      });
+      __publicField(this, "renderPagination", (data) => {
+        const $paginationContainer = this.$('<div class="rtcl-ajax-pagination-container"></div>');
+        if (data && data.pages > 1) {
+          const pages = this.getPageNumberArray(data.current_page, data.pages);
+          const $paginationWrap = this.$('<div class="rtcl-ajax-pagination-wrap"></div>');
+          const $pagination = this.$('<ul class="rtcl-ajax-pagination"></ul>');
+          pages.map((i, index) => {
+            let $pageItem;
+            if (i === "...") {
+              $pageItem = this.$('<li class="rtcl-ajax-pagination-item dots"><span>&#8230;</span></li>');
+            } else {
+              $pageItem = this.$('<li class="rtcl-ajax-pagination-item page-item" data-id="' + i + '"><span>' + i + "</span></li>");
+              if (i === data.current_page) {
+                $pageItem.addClass("active").attr("aria-current", "page");
+              } else {
+                $pageItem.attr("tabindex", "0");
+              }
+            }
+            $pagination.append($pageItem);
+          });
+          $paginationWrap.append($pagination);
+          $paginationContainer.append($paginationWrap);
+        }
+        const $container = this.$(document).find(".rtcl-ajax-pagination-container");
+        if ($container.length) {
+          $container.replaceWith($paginationContainer);
+        } else {
+          if (this.$(this.listingsContainerClass).length) {
+            $paginationContainer.insertAfter(this.$(this.listingsContainerClass));
+          } else if (this.$(this.resultWrapClass).length) {
+            $paginationContainer.insertAfter(this.$(this.resultWrapClass).find(this.listingsContainerClass));
+          }
+        }
+      });
+      __publicField(this, "renderResultCount", (data) => {
+        const $listingResultWrap = this.$(".rtcl-listings-actions");
+        if (!$listingResultWrap.length) {
+          return;
+        }
+        const $resultCount = $listingResultWrap.find(".rtcl-result-count");
+        $resultCount.attr("data-options", JSON.stringify({
+          items: data.items
+        }));
+        if (!data.current_items || data.items <= data.per_page) {
+          $resultCount.text(rtclAjaxFilterObj.result_count.all.replace("%", data.items));
+        } else {
+          const fromCount = (data.current_page - 1) * data.per_page;
+          let showing = `${fromCount + 1}–${fromCount + data.current_items}`;
+          $resultCount.text(rtclAjaxFilterObj.result_count.part.replace("_", showing).replace("%", data.items));
+        }
+      });
+      /**
+       * Smoothly scrolls the page to a specified target position.
+       *
+       * @param {number} targetPosition - The target scroll position to scroll to.
+       * @param {number} duration       - The duration of the smooth scrolling animation in milliseconds.
+       */
+      __publicField(this, "smoothScrollTo", (targetPosition, duration) => {
+        const start = window.scrollY || window.pageYOffset;
+        const startTime = "now" in window.performance ? performance.now() : (/* @__PURE__ */ new Date()).getTime();
+        function easeInOutExpo(x) {
+          return x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ? Math.pow(2, 20 * x - 10) / 2 : (2 - Math.pow(2, -20 * x + 10)) / 2;
+        }
+        function scrollAnimation(currentTime) {
+          const timeElapsed = currentTime - startTime;
+          const scrollProgress = Math.min(1, timeElapsed / duration);
+          const easedProgress = easeInOutExpo(scrollProgress);
+          window.scrollTo(0, start + (targetPosition - start) * easedProgress);
+          if (scrollProgress < 1) {
+            requestAnimationFrame(scrollAnimation);
+          }
+        }
+        requestAnimationFrame(scrollAnimation);
+      });
+      var _a, _b;
+      this.$ = jQuery;
+      this.filterWraperClass = ".rtcl-widget-ajax-filter-wrapper";
+      this.filterContainerClass = ".rtcl-ajax-filter-wrap";
+      this.filterTitleWrapClass = ".rtcl-filter-title-wrap";
+      this.resultWrapClass = ".rtcl-ajax-filter-result-wrap";
+      this.listingsContainerClass = ".rtcl-ajax-listings";
+      this.archivePaginationClass = ".rtcl-pagination";
+      this.noListingFoundClass = ".no-listing-found";
+      this.cfWrapperClass = ".rtcl-ajax-filter-cf-wrap";
+      this.options = this.$(this.filterWraperClass).data("options");
+      this.isTaxArchive = this.$("body").hasClass("tax-rtcl_category") || this.$("body").hasClass("tax-rtcl_location") || this.$("body").hasClass("tax-rtcl_tag");
+      this.isListingArchive = this.$("body").hasClass("post-type-archive-rtcl_listing");
+      this.isStoreSingle = this.$("body").hasClass("single-store");
+      this.isArchive = this.isListingArchive || this.isTaxArchive || this.isStoreSingle;
+      this.store_id = this.$("body.single-store").find("#rtcl_store_id").val();
+      this.initLoading = true;
+      this.withOutFilterPrefix = ["directory"];
+      this.expandedFields = /* @__PURE__ */ new Set();
+      this.reset = false;
+      this.data = {
+        filterData: __spreadProps(__spreadValues({}, this.options), { itemKeys: (_b = (_a = this.options) == null ? void 0 : _a.items) == null ? void 0 : _b.map((_i) => _i.id), initLoad: true }),
+        params: {},
+        is_listings: rtcl.is_listings,
+        is_listing: rtcl.is_listing,
+        listing_term: rtcl.listing_term,
+        rtcl_store_id: this.store_id,
+        activeTerms: rtcl.active_terms || [],
+        hasMap: this.$(".rtcl-map-view").length ? 1 : "",
+        action: "rtcl_ajax_filter_load_data",
+        __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+      };
+    }
+  }
+  (function($) {
+    $(document).on("submit", "#rtcl-user-profile-settings", function(e) {
+      e.preventDefault();
+      const $form = $(this), targetBtn = $form.find("button[type=submit]"), responseHolder = $form.find(".rtcl-response"), msgHolder = $("<div class='alert'></div>"), fromData = new FormData(this);
+      fromData.append("action", "rtcl_update_profile_settings");
+      fromData.append("__rtcl_wpnonce", rtcl.__rtcl_wpnonce);
+      $.ajax({
+        url: rtcl.ajaxurl,
+        data: fromData,
+        dataType: "json",
+        cache: false,
+        processData: false,
+        contentType: false,
+        type: "POST",
+        beforeSend: function() {
+          $form.addClass("rtcl-loading");
+          targetBtn.prop("disabled", true);
+          responseHolder.html("");
+          $(
+            '<span class="rtcl-icon-spinner animate-spin"></span>'
+          ).insertAfter(targetBtn);
+        },
+        success: function(response) {
+          targetBtn.prop("disabled", false).next(".rtcl-icon-spinner").remove();
+          $form.removeClass("rtcl-loading");
+          if (response.success) {
+            msgHolder.removeClass("alert-danger").addClass("alert-success").html(response.data.message).appendTo(responseHolder);
+            setTimeout(function() {
+              responseHolder.html("");
+            }, 1e3);
+          } else {
+            msgHolder.removeClass("alert-success").addClass("alert-danger").html(response.data.error).appendTo(responseHolder);
+          }
+        },
+        error: function(e2) {
+          msgHolder.removeClass("alert-success").addClass("alert-danger").html(e2.responseText).appendTo(responseHolder);
+          targetBtn.prop("disabled", false).next(".rtcl-icon-spinner").remove();
+          $form.removeClass("rtcl-loading");
+        }
+      });
+    });
+    $("body").on("init", "#rating", function() {
+      $(".single-rtcl_listing #rating").hide().before(
+        '<p class="stars"><span><a class="star-1" href="#">1</a><a class="star-2" href="#">2</a><a class="star-3" href="#">3</a><a class="star-4" href="#">4</a><a class="star-5" href="#">5</a></span></p>'
+      );
+    }).on("click", "#respond p.stars a", function() {
+      var $star = $(this), $rating = $star.closest("#respond").find("#rating"), ratingWrap = $rating.parent(".form-group"), $container = $star.closest(".stars");
+      $rating.val($star.text());
+      $star.siblings("a").removeClass("active");
+      $star.addClass("active");
+      $container.addClass("selected");
+      ratingWrap.removeClass("has-danger");
+      ratingWrap.find(".with-errors").remove();
+      return false;
+    }).on("change", ".rtcl-ordering select.orderby", function() {
+      $(this).closest("form").submit();
+    }).on("click", ".rtcl-animate", function(e) {
+      e.preventDefault();
+      const position = $($(this).attr("href")).offset();
+      $("html,body").stop().animate({ scrollTop: position.top - 120 }, 500);
+    }).on("input", ".rtcl-password", function() {
+      var pass_input = $(this), pass = pass_input.val(), element_wrap = pass_input.closest(".rtcl-user-pass-wrap"), pass_status_wrap = element_wrap.next(
+        ".rtcl-pass-strength-result"
+      ), result, strength, missing, barWidth, cls, html;
+      if (!pass_status_wrap.length) {
+        pass_status_wrap = $(
+          '<div class="rtcl-pass-strength-result" />'
+        );
+        element_wrap.after(pass_status_wrap);
+      }
+      pass_status_wrap.removeClass("short bad good strong empty");
+      if (!pass || "" === pass.trim()) {
+        pass_status_wrap.addClass("empty").html("&nbsp;");
+        return;
+      }
+      result = rtclCheckPasswordStrength(pass);
+      strength = result.strength;
+      missing = result.missing;
+      barWidth = strength / 5 * 100;
+      if (strength <= 2) {
+        cls = "bad";
+      } else if (strength <= 4) {
+        cls = "good";
+      } else {
+        cls = "strong";
+      }
+      html = '<div class="rtcl-pass-bar"><span style="width:' + barWidth + '%"></span></div>';
+      if (missing.length) {
+        html += '<div class="rtcl-pass-hints">' + rtcl_validator.pwsL10n.hint_missing + " " + missing.join(", ") + "</div>";
+      }
+      pass_status_wrap.addClass(cls).html(html);
+    }).on("click", ".rtcl-toggle-pass", function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const $_self = $(this);
+      const $_input = $_self.closest(".rtcl-user-pass-wrap").find("input");
+      const isOff = $_self.hasClass("rtcl-icon-eye-off");
+      if (!$_input.length) {
+        return;
+      }
+      if (isOff) {
+        $_input.attr("type", "text");
+        $_self.removeClass("rtcl-icon-eye-off").addClass("rtcl-icon-eye");
+      } else {
+        $_input.attr("type", "password");
+        $_self.removeClass("rtcl-icon-eye").addClass("rtcl-icon-eye-off");
+      }
+    }).on("input focusout", ".confirm-password-wrap input", function() {
+      const $confirm_input = $(this);
+      setTimeout(function() {
+        let valid = $confirm_input.attr("aria-invalid") !== void 0 && $confirm_input.attr("aria-invalid") != "true";
+        const $element_wrap = $confirm_input.closest(".confirm-password-wrap");
+        const $checkmark = $element_wrap.find(".rtcl-checkmark");
+        $checkmark.toggle($confirm_input.val().length > 0 && valid);
+      }, 100);
+    }).on("click", ".rtcl-renew-btn", function(e) {
+      e.preventDefault();
+      var $self = $(this);
+      var listingId = $self.data("id") || 0;
+      if (!listingId) {
+        toastr.error(rtcl_store.lng.error);
+        return false;
+      }
+      var parentWrap = $self.parents(".rtcl-listing-item");
+      if (confirm(rtcl.confirm_text)) {
+        $.ajax({
+          url: rtcl.ajaxurl,
+          type: "POST",
+          data: {
+            listingId,
+            __rtcl_wpnonce: rtcl.__rtcl_wpnonce,
+            action: "rtcl_ajax_renew_listing"
+          },
+          beforeSend: function() {
+            parentWrap.rtclBlock();
+          },
+          success: function(res) {
+            if (res.success) {
+              $self.slideUp();
+              parentWrap.find(".rtcl-status-wrap .rtcl-status").html(res.data.status);
+              parentWrap.find(".rtcl-expire-wrap .rtcl-expire").html(res.data.expire_at);
+              toastr.success(res.data.message);
+            } else {
+              toastr.error(res.data);
+            }
+            parentWrap.rtclUnblock();
+          },
+          error: function(e2) {
+            parentWrap.rtclUnblock();
+            toastr.error("Server Error.");
+          }
+        });
+      }
+      return false;
+    });
+    $("#rating").trigger("init");
+    $("#rtcl-toggle-filter-mobile").on("click", function(e) {
+      e.preventDefault();
+      let $this = $(this), $filter = $this.closest(".rtcl-widget-filter-wrapper").find(".rtcl-widget-filter-class");
+      $filter.toggle();
+    });
+    $(document).on("click", "#rtcl-resend-verify-link", function(e) {
+      e.preventDefault();
+      if (confirm(rtcl.re_send_confirm_text)) {
+        let login = $(this).data("login"), parent = $(this).parent();
+        $.ajax({
+          url: rtcl.ajaxurl,
+          data: {
+            action: "rtcl_resend_verify",
+            user_login: login,
+            __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+          },
+          type: "POST",
+          dataType: "JSON",
+          beforeSend: function() {
+            parent.rtclBlock();
+          },
+          success: function(response) {
+            parent.rtclUnblock();
+            alert(response.data.message);
+          },
+          error: function(e2) {
+            parent.rtclUnblock();
+            alert("Server Error!!!");
+          }
+        });
+      }
+      return false;
+    });
+    $(document).on("click", function(e) {
+      let $container = $(".rtcl-ai-search-result-container");
+      if (!$container.is(e.target) && $container.has(e.target).length === 0 && !$(e.target).closest(".rtcl-ai-quick-search").length) {
+        $container.slideUp(300);
+      }
+    });
+    $(document).on("click", ".rtcl-tab-nav li a", function(e) {
+      e.preventDefault();
+      var tabId = $(this).data("target"), $li = $(this).closest("li");
+      $li.addClass("active").siblings().removeClass("active");
+      $("#" + tabId).addClass("active").siblings(".rtcl-tab-pane").removeClass("active");
+    });
+    $(document).on("click", ".rtcl-ai-quick-search-inner", function() {
+      let $this = $(this), $wrapper = $this.closest(".rtcl-ai-search-field"), $resultWrap = $wrapper.next(".rtcl-ai-search-result-container"), keyword = $wrapper.find("input[name='q']").val();
+      let data = {
+        action: "rtcl_ai_quick_search",
+        __rtcl_wpnonce: rtcl.__rtcl_wpnonce,
+        keyword
+      };
+      $.ajax({
+        url: rtcl.ajaxurl,
+        data,
+        type: "POST",
+        dataType: "JSON",
+        beforeSend: function() {
+          $resultWrap.addClass("loading");
+          $resultWrap.find(".rtcl-ai-search-result-header h4").text(rtcl.i18n.ai_quick_search_loading);
+          $resultWrap.find(".rtcl-ai-search-result-content").html("");
+          $resultWrap.slideDown(250);
+          $this.css("cursor", "wait");
+        },
+        success: function(res) {
+          $this.css("cursor", "pointer");
+          if (res.success) {
+            $resultWrap.find(".rtcl-ai-search-result-header h4").text(rtcl.i18n.ai_quick_search_heading + keyword);
+            $resultWrap.find(".rtcl-ai-search-result-content").html(res.data.html);
+          } else {
+            $resultWrap.find(".rtcl-ai-search-result-header h4").text(res.data.message);
+          }
+          $resultWrap.removeClass("loading");
+        },
+        error: function(e) {
+          $this.css("cursor", "pointer");
+          $resultWrap.removeClass("loading");
+          $resultWrap.find(".rtcl-ai-search-result-header h4").text(e.errorText);
+        }
+      });
+    });
+    $(document).on("click", ".rtcl-payment-table-wrap .rtcl-payment-popup-link", function(e) {
+      e.preventDefault();
+      let $this = $(this), $wrapper = $this.closest(".rtcl-payment-history-wrap"), $popupWrapper = $wrapper.find(".rtcl-popup-wrapper"), orderId = $this.data("order-id");
+      let data = {
+        action: "rtcl_payment_details_popup",
+        __rtcl_wpnonce: rtcl.__rtcl_wpnonce,
+        order_id: orderId
+      };
+      $.ajax({
+        url: rtcl.ajaxurl,
+        data,
+        type: "POST",
+        dataType: "JSON",
+        beforeSend: function() {
+          $popupWrapper.animate({ opacity: 0 }, 10);
+          $popupWrapper.removeClass("show");
+        },
+        success: function(response) {
+          if (response.success) {
+            $popupWrapper.find(".rtcl-popup-body").html(response.data.html);
+            $popupWrapper.animate({ opacity: 1 }, 300);
+            $popupWrapper.addClass("show");
+          }
+        },
+        error: function(e2) {
+          console.log(e2.errorText);
+        }
+      });
+    }).on("click", "#rtcl-report-abuse-modal-link", function(e) {
+      e.preventDefault();
+      let $this = $(this), $wrapper = $this.closest(".single-listing-custom-fields-action"), $popupWrapper = $wrapper.find("#rtcl-report-abuse-modal");
+      if ($popupWrapper.length) {
+        $("#rtcl-report-abuse-message").val("");
+        $("#rtcl-report-abuse-message-display").html("");
+        $popupWrapper.animate({ opacity: 1 }, 300);
+        $popupWrapper.addClass("show");
+      }
+    }).on("click", ".rtcl-popup-close", function(e) {
+      e.preventDefault();
+      let $wrapper = $(this).closest(".rtcl-popup-wrapper");
+      $wrapper.animate({ opacity: 0 }, 300);
+      setTimeout(function() {
+        $wrapper.removeClass("show");
+      }, 500);
+    }).on("click", ".rtcl-MyAccount-open-menu", function(e) {
+      e.preventDefault();
+      let $this = $(this), $navWrapper = $(".rtcl-MyAccount-navigation"), $contentWrapper = $(".rtcl-MyAccount-content"), $html = '<div class="sidebar-menu-opened"></div>';
+      if ($this.hasClass("sidebar-open")) {
+        $navWrapper.css("left", "-350px");
+        $contentWrapper.find(".sidebar-menu-opened").remove();
+      } else {
+        $navWrapper.css("left", "0");
+        $contentWrapper.prepend($html);
+      }
+      $this.toggleClass("sidebar-open");
+    }).on("click", ".rtcl-MyAccount-content .sidebar-menu-opened", function(e) {
+      let $navWrapper = $(".rtcl-MyAccount-navigation"), $collapseButton = $(".rtcl-MyAccount-open-menu");
+      $navWrapper.css("left", "-350px");
+      $(this).remove();
+      $collapseButton.removeClass("sidebar-open");
+    }).on("click", ".rtcl-ajax-filter-floating-mobile .rtcl-ajax-filter-open-filter", function(e) {
+      e.preventDefault();
+      let $this = $(this), $floatingWrapper = $this.closest(".rtcl-ajax-filter-floating-mobile"), $mainWrapper = $floatingWrapper.closest(".rtcl-widget-ajax-filter-wrapper"), $filterWrapper = $mainWrapper.find(".rtcl-widget-ajax-filter-class"), $body = $("body"), $html = '<div class="sidebar-ajax-filter-opened"></div>';
+      if ($mainWrapper.hasClass("sidebar-filter-open")) {
+        $filterWrapper.css("left", "-265px");
+        $body.find(".sidebar-ajax-filter-opened").remove();
+      } else {
+        $filterWrapper.css("left", "0");
+        $body.prepend($html);
+      }
+      $mainWrapper.toggleClass("sidebar-filter-open");
+    }).on("click", ".sidebar-ajax-filter-opened", function(e) {
+      e.preventDefault();
+      let $filterWrapper = $(".rtcl-widget-ajax-filter-class"), $wrapper = $(".rtcl-widget-ajax-filter-wrapper");
+      $filterWrapper.css("left", "-265px");
+      $(this).remove();
+      $wrapper.removeClass("sidebar-filter-open");
+    }).on("submit", ".rtcl-my-listings-search-form form", function(e) {
+      e.preventDefault();
+      my_account_listings_ajax();
+    }).on("change", "#rtcl-my-listings-directory", function() {
+      my_account_listings_ajax();
+    }).on("change", "#rtcl-my-listings-status", function() {
+      my_account_listings_ajax();
+    }).on("click", ".rtcl-my-listings-content .rtcl-pagination a", function(e) {
+      e.preventDefault();
+      let $this = $(this), $wrapper = $this.closest(".rtcl-my-listings-content"), currentPage = parseInt($wrapper.find(".current").text()) || 1, page;
+      if ($this.hasClass("next")) {
+        page = currentPage + 1;
+      } else if ($this.hasClass("prev")) {
+        page = currentPage - 1;
+      } else {
+        page = parseInt($this.text());
+      }
+      if (page < 1) {
+        page = 1;
+      }
+      my_account_listings_ajax(page);
+    }).on("click", ".rtcl-my-listing-table .rtcl-actions-wrap .actions-dot", function(e) {
+      $(".rtcl-my-listing-table").find(".rtcl-actions").removeClass("opened").addClass("closed");
+      $(this).closest(".rtcl-actions-wrap").find(".rtcl-actions").removeClass("closed").addClass("opened");
+    }).on("click", function(e) {
+      if ($(e.target).closest(".rtcl-actions-wrap").find(".rtcl-actions").length === 0) {
+        $(".rtcl-my-listing-table").find(".rtcl-actions").removeClass("opened");
+      }
+    }).on("click", ".rtcl-my-listings-table-toggle-info", function(e) {
+      let $this = $(this), $tr = $this.closest("tr"), $hideCell = $tr.find(".list-on-responsive");
+      $hideCell.toggleClass("show");
+      $tr.find(".title-cell").toggleClass("showed-info");
+    });
+    window.rtcl_make_checkout_request = function(form, callback) {
+      let $form = $(form), $submitBtn = $("button[type=submit]", $form), msgHolder = $("<div class='alert rtcl-response'></div>"), data = $form.serialize();
+      $.ajax({
+        url: rtcl.ajaxurl,
+        data,
+        type: "POST",
+        dataType: "JSON",
+        beforeSend: function() {
+          $submitBtn.prop("disabled", true);
+          $form.find(".alert.rtcl-response").remove();
+          $form.rtclBlock();
+        },
+        success: function(response) {
+          $submitBtn.prop("disabled", false);
+          $form.rtclUnblock();
+          let msg = "";
+          if (response.success) {
+            if (response.success_message.length) {
+              response.success_message.map(function(message) {
+                msg += "<p>" + message + "</p>";
+              });
+            }
+            if (msg) {
+              msgHolder.removeClass("alert-danger").addClass("alert-success").html(msg).appendTo($form);
+            }
+          } else {
+            if (response.error_message.length) {
+              response.error_message.map(function(message) {
+                msg += "<p>" + message + "</p>";
+              });
+            }
+            if (msg) {
+              msgHolder.removeClass("alert-success").addClass("alert-danger").html(msg).appendTo($form);
+            }
+          }
+          if (typeof callback === "function") {
+            callback(response);
+          } else {
+            setTimeout(function() {
+              if (response.redirect_url) {
+                window.location = response.redirect_url;
+              }
+            }, 600);
+          }
+        },
+        error: function(e) {
+          $submitBtn.prop("disabled", false);
+          $form.rtclUnblock();
+          if (typeof callback === "function") {
+            callback(e);
+          }
+        }
+      });
+    };
+    window.rtcl_on_recaptcha_load = function() {
+      if (rtcl.recaptcha && rtcl.recaptcha.v === 2) {
+        rtcl.recaptcha.response = {};
+        const args = { sitekey: rtcl.recaptcha.site_key };
+        const $loginForms = $("form.rtcl-login-form, form#rtcl-login-form");
+        if ($loginForms.length && $.inArray("login", rtcl.recaptcha.on) !== -1) {
+          $loginForms.each((index, form) => {
+            const $form = $(form);
+            if (!$form.data("reCaptchaId")) {
+              if ($form.find("#rtcl-login-g-recaptcha").length) {
+                $form.data(
+                  "reCaptchaId",
+                  grecaptcha.render(
+                    $form.find("#rtcl-login-g-recaptcha")[0],
+                    args
+                  )
+                );
+              } else if ($form.find(".rtcl-g-recaptcha-wrap").length) {
+                $form.data(
+                  "reCaptchaId",
+                  grecaptcha.render(
+                    $form.find(".rtcl-g-recaptcha-wrap")[0],
+                    args
+                  )
+                );
+              }
+            }
+          });
+        }
+        const $regForms = $(
+          "form#rtcl-register-form, form.rtcl-register-form"
+        );
+        if ($regForms.length && $.inArray("registration", rtcl.recaptcha.on) !== -1) {
+          $regForms.each((index, form) => {
+            const $form = $(form);
+            if (!$form.data("reCaptchaId")) {
+              if ($form.find("#rtcl-registration-g-recaptcha").length) {
+                $form.data(
+                  "reCaptchaId",
+                  grecaptcha.render(
+                    $form.find(
+                      "#rtcl-registration-g-recaptcha"
+                    )[0],
+                    args
+                  )
+                );
+              } else if ($form.find(".rtcl-g-recaptcha-wrap").length) {
+                $form.data(
+                  "reCaptchaId",
+                  grecaptcha.render(
+                    $form.find(".rtcl-g-recaptcha-wrap")[0],
+                    args
+                  )
+                );
+              }
+            }
+          });
+        }
+        const $submitForm = $("form#rtcl-post-form");
+        if ($submitForm.length && $.inArray("listing", rtcl.recaptcha.on) !== -1) {
+          if (!$submitForm.data("reCaptchaId")) {
+            if ($submitForm.find("#rtcl-listing-g-recaptcha").length) {
+              $submitForm.data(
+                "reCaptchaId",
+                grecaptcha.render(
+                  $submitForm.find(
+                    "#rtcl-listing-g-recaptcha"
+                  )[0],
+                  args
+                )
+              );
+            } else if ($submitForm.find(".rtcl-g-recaptcha-wrap").length) {
+              $submitForm.data(
+                "reCaptchaId",
+                grecaptcha.render(
+                  $submitForm.find(".rtcl-g-recaptcha-wrap")[0],
+                  args
+                )
+              );
+            }
+          }
+        }
+        const $contactForms = $(
+          "form.rtcl-contact-form, form#rtcl-contact-form"
+        );
+        if ($contactForms.length && $.inArray("contact", rtcl.recaptcha.on) !== -1) {
+          $contactForms.each((index, form) => {
+            const $form = $(form);
+            if (!$form.data("reCaptchaId")) {
+              if ($form.find("#rtcl-contact-g-recaptcha").length) {
+                $form.data(
+                  "reCaptchaId",
+                  grecaptcha.render(
+                    $form.find("#rtcl-contact-g-recaptcha")[0],
+                    args
+                  )
+                );
+              } else if ($form.find(".rtcl-g-recaptcha-wrap").length) {
+                $form.data(
+                  "reCaptchaId",
+                  grecaptcha.render(
+                    $form.find(".rtcl-g-recaptcha-wrap")[0],
+                    args
+                  )
+                );
+              }
+            }
+          });
+        }
+        const $reportForms = $(
+          "form.rtcl-report-abuse-form, form#rtcl-report-abuse-form"
+        );
+        if ($reportForms.length && $.inArray("report_abuse", rtcl.recaptcha.on) !== -1) {
+          $reportForms.each((index, form) => {
+            const $form = $(form);
+            if (!$form.data("reCaptchaId")) {
+              if ($form.find("#rtcl-report-abuse-g-recaptcha").length) {
+                $form.data(
+                  "reCaptchaId",
+                  grecaptcha.render(
+                    $form.find(
+                      "#rtcl-report-abuse-g-recaptcha"
+                    )[0],
+                    args
+                  )
+                );
+              } else if ($form.find(".rtcl-g-recaptcha-wrap").length) {
+                $form.data(
+                  "reCaptchaId",
+                  grecaptcha.render(
+                    $form.find(".rtcl-g-recaptcha-wrap")[0],
+                    args
+                  )
+                );
+              }
+            }
+          });
+        }
+        $(document).trigger("rtcl_recaptcha_loaded");
+      }
+    };
+    function getUrlParameter(sParam) {
+      var sPageURL = decodeURIComponent(window.location.search.substring(1)), sURLVariables = sPageURL.split("&"), sParameterName, i;
+      for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split("=");
+        if (sParameterName[0] === sParam) {
+          return sParameterName[1] === void 0 ? true : sParameterName[1];
+        }
+      }
+    }
+    function my_account_listings_ajax(page = 1) {
+      let $wrapper = $(".rtcl-my-listings-content"), $form = $(".rtcl-my-listings-search-form form"), q = $form.find('input[name="u"]').val(), directory = $("#rtcl-my-listings-directory").val(), status = $("#rtcl-my-listings-status").val();
+      $.ajax({
+        url: rtcl.ajaxurl,
+        type: "POST",
+        data: {
+          action: "rtcl_my_listings_search",
+          search: q,
+          directory,
+          status,
+          rtcl_my_listing_page: page,
+          __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+        },
+        beforeSend: function() {
+          $wrapper.rtclBlock();
+        },
+        success: function(response) {
+          if (response.success) {
+            $wrapper.html(response.data.html);
+          }
+        },
+        complete: function() {
+          $wrapper.rtclUnblock();
+        }
+      });
+    }
+    function equalHeight() {
+      $(".rtcl-equal-height").each(function() {
+        var $equalItemWrap = $(this), equalItems = $equalItemWrap.find(".equal-item");
+        equalItems.height("auto");
+        if ($(window).width() > 767) {
+          var maxH = 0;
+          equalItems.each(function() {
+            var itemH = $(this).outerHeight();
+            if (itemH > maxH) {
+              maxH = itemH;
+            }
+          });
+          equalItems.height(maxH + "px");
+        } else {
+          equalItems.height("auto");
+        }
+      });
+    }
+    $(function() {
+      $("#rtcl-reg-confirm-password").on("cut copy paste", function(e) {
+        e.preventDefault();
+      });
+      $(document).on("click", ".rtcl-delete-listing", function(e) {
+        e.preventDefault();
+        if (confirm(rtcl.confirm_text)) {
+          var _self = $(this), wrapper = _self.closest("tr"), data = {
+            action: "rtcl_delete_listing",
+            post_id: parseInt(_self.attr("data-id"), 10),
+            __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+          };
+          if (data.post_id) {
+            $.ajax({
+              url: rtcl.ajaxurl,
+              data,
+              type: "POST",
+              beforeSend: function() {
+                wrapper.rtclBlock();
+              },
+              success: function(data2) {
+                wrapper.rtclUnblock();
+                if (data2.success) {
+                  wrapper.animate(
+                    {
+                      height: 0,
+                      opacity: 0
+                    },
+                    "slow",
+                    function() {
+                      $(this).remove();
+                    }
+                  );
+                }
+              },
+              error: function() {
+                wrapper.rtclUnblock();
+              }
+            });
+          }
+        }
+        return false;
+      });
+      $(document).on("click", ".rtcl-delete-favourite-listing", function(e) {
+        e.preventDefault();
+        if (confirm(rtcl.confirm_text)) {
+          const _target = this, _self = $(_target), data = {
+            action: "rtcl_public_add_remove_favorites",
+            post_id: parseInt(_self.attr("data-id"), 10),
+            __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+          };
+          if (data.post_id) {
+            $.ajax({
+              url: rtcl.ajaxurl,
+              data,
+              type: "POST",
+              beforeSend: function() {
+                $("<span class='rtcl-icon-spinner animate-spin'></span>").insertAfter(_self);
+              },
+              success: function(res) {
+                res.target = _target;
+                _self.next(".rtcl-icon-spinner").remove();
+                if (res.success) {
+                  _self.closest("tr").animate(
+                    {
+                      height: 0,
+                      opacity: 0
+                    },
+                    "slow",
+                    function() {
+                      $(this).remove();
+                    }
+                  );
+                  toastr.success(res.message);
+                } else {
+                  toastr.error(res.message);
+                }
+                $(document).trigger("rtcl.favorite", res);
+              },
+              error: function(e2) {
+                $(document).trigger("rtcl.favorite.error", {
+                  action: "remove",
+                  post_id: data.post_id,
+                  target: _target
+                });
+                _self.next(".rtcl-icon-spinner").remove();
+              }
+            });
+          }
+        }
+        return false;
+      });
+      $(document).ready(function() {
+        $("#rtcl-checkout-form").find("#rtcl-payment-methods").hide();
+      });
+      $("#rtcl-checkout-form").on("click", 'input[name="pricing_id"]', function(e) {
+        if ($(this).data("price") + 0 === 0) {
+          $("#rtcl-billing-fields").slideUp(250);
+          $("#rtcl-payment-methods").slideUp(250);
+          $("#rtcl-checkout-store-gateway").slideDown(250);
+        } else {
+          $("#rtcl-billing-fields").slideDown(250);
+          $("#rtcl-payment-methods").slideDown(250);
+          $("#rtcl-checkout-store-gateway").slideUp(250);
+        }
+      }).on("change", 'input[name="payment_method"]', function(e) {
+        var target_payment_box = $("div.payment_box.payment_method_" + $(this).val());
+        if ($(this).is(":checked") && !target_payment_box.is(":visible")) {
+          $("#rtcl-checkout-form div.payment_box").filter(":visible").slideUp(250);
+          if ($(this).is(":checked")) {
+            target_payment_box.slideDown(250);
+          }
+        }
+      });
+      $(".rtcl-media-upload-pp .rtcl-media-action").on("click", "span.add", function() {
+        const addBtn = $(this);
+        const ppFile = $(
+          "<input type='file' style='position:absolute;left:-9999px' />"
+        );
+        $("body").append(ppFile);
+        if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+          ppFile.trigger("change");
+        } else {
+          ppFile.trigger("click");
+        }
+        ppFile.on("change", function() {
+          const fileItem = $(this);
+          const pp_wrap = addBtn.parents(".rtcl-media-upload-pp");
+          const pp_thumb_holder = $(".rtcl-media-item", pp_wrap);
+          const form = new FormData();
+          const pp = fileItem[0].files[0];
+          const allowed_image_types = rtcl.image_allowed_type.map(
+            function(type) {
+              return "image/" + type;
+            }
+          );
+          const max_image_size = parseInt(rtcl.max_image_size);
+          if ($.inArray(pp.type, allowed_image_types) !== -1) {
+            if (pp.size <= max_image_size) {
+              form.append("pp", pp);
+              form.append("__rtcl_wpnonce", rtcl.__rtcl_wpnonce);
+              form.append(
+                "action",
+                "rtcl_ajax_user_profile_picture_upload"
+              );
+              $.ajax({
+                url: rtcl.ajaxurl,
+                data: form,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: "POST",
+                beforeSend: function() {
+                  pp_wrap.rtclBlock();
+                },
+                success: function(response) {
+                  pp_wrap.rtclUnblock();
+                  if (!response.error) {
+                    pp_wrap.removeClass("no-media").addClass("has-media").parents(
+                      ".rtcl-profile-picture-wrap"
+                    ).find(".rtcl-gravatar-wrap").hide();
+                    pp_thumb_holder.html(
+                      "<img class='rtcl-thumbnail' src='" + response.data.src + "'/>"
+                    );
+                  }
+                },
+                error: function(jqXhr, json, errorThrown) {
+                  pp_wrap.rtclUnblock();
+                }
+              });
+            } else {
+              alert(rtcl.error_image_size);
+            }
+          } else {
+            alert(rtcl.error_image_extension);
+          }
+        });
+      }).on("click", "span.remove", function() {
+        const self = $(this);
+        const pp_wrap = self.parents(".rtcl-media-upload-pp");
+        const media_holder = $(".rtcl-media-item", pp_wrap);
+        if (confirm(rtcl.confirm_text)) {
+          $.ajax({
+            url: rtcl.ajaxurl,
+            data: {
+              action: "rtcl_ajax_user_profile_picture_delete",
+              __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+            },
+            type: "POST",
+            beforeSend: function() {
+              pp_wrap.rtclBlock();
+            },
+            success: function(response) {
+              pp_wrap.rtclUnblock();
+              if (!response.error) {
+                pp_wrap.removeClass("has-media").addClass("no-media").parents(".rtcl-profile-picture-wrap").find(".rtcl-gravatar-wrap").show();
+                media_holder.html("");
+              }
+            },
+            error: function(jqXhr, json, errorThrown) {
+              pp_wrap.rtclUnblock();
+            }
+          });
+        }
+      });
+      $("#rtcl-change-password").on("change", function() {
+        var $checked = $(this).is(":checked");
+        if ($checked) {
+          $(".rtcl-password-fields").show().find('input[type="password"]').attr("disabled", false);
+        } else {
+          $(".rtcl-password-fields").hide().find('input[type="password"]').attr("disabled", "disabled");
+        }
+      }).trigger("change");
+      $(".rtcl-require-login").on("click", function(e) {
+        e.preventDefault();
+        alert(rtcl.user_login_alert_message);
+      });
+      $(".rtcl-do-email").on("click", "a", function(e) {
+        e.preventDefault();
+        var _self = $(this), wrap = _self.parents(".rtcl-do-email");
+        $("#rtcl-contact-form", wrap).slideToggle("slow");
+        return false;
+      });
+      $(document).on("click", "a.rtcl-favourites", function(e) {
+        e.preventDefault();
+        const _target = this, _self = $(_target), _parentEl = _self.parent(), data = {
+          action: "rtcl_public_add_remove_favorites",
+          post_id: parseInt(_self.attr("data-id"), 10),
+          __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+        };
+        if (data.post_id) {
+          $.ajax({
+            url: rtcl.ajaxurl,
+            data,
+            type: "POST",
+            beforeSend: function() {
+              $(
+                "<span class='rtcl-icon-spinner animate-spin'></span>"
+              ).insertAfter(_self);
+              _parentEl.addClass("is-loading");
+            },
+            success: function(res) {
+              res.target = _target;
+              _self.next(".rtcl-icon-spinner").remove();
+              if (res.success) {
+                _self.replaceWith(res.html);
+                toastr.success(res.message);
+              } else {
+                toastr.error(res.message);
+              }
+              $(document).trigger("rtcl.favorite", res);
+              _parentEl.removeClass("is-loading");
+            },
+            error: function(e2) {
+              $(document).trigger("rtcl.favorite.error", {
+                action: "remove",
+                post_id: data.post_id,
+                target: _target
+              });
+              _self.next(".rtcl-icon-spinner").remove();
+              _parentEl.removeClass("is-loading");
+            }
+          });
+        }
+      });
+      const RtclSlider = function($slider) {
+        this.$slider = $slider;
+        this.slider = this.$slider.get(0);
+        this.swiperSlider = this.slider.swiper || null;
+        this.defaultOptions = {
+          breakpointsInverse: true,
+          observer: true,
+          navigation: {
+            nextEl: this.$slider.find(".swiper-button-next").get(0),
+            prevEl: this.$slider.find(".swiper-button-prev").get(0)
+          }
+        };
+        this.slider_enabled = "function" === typeof Swiper;
+        this.options = Object.assign(
+          {},
+          this.defaultOptions,
+          this.$slider.data("options") || {}
+        );
+        this.initSlider = function() {
+          if (!this.slider_enabled) {
+            return;
+          }
+          if (this.options.rtl) {
+            this.$slider.attr("dir", "rtl");
+          }
+          if (this.swiperSlider) {
+            this.swiperSlider.parents = this.options;
+            this.swiperSlider.update();
+          } else {
+            this.swiperSlider = new Swiper(
+              this.$slider.get(0),
+              this.options
+            );
+          }
+        };
+        this.imagesLoaded = function() {
+          const that = this;
+          if (!$.isFunction($.fn.imagesLoaded) || $.fn.imagesLoaded.done) {
+            this.$slider.trigger("rtcl_slider_loading", this);
+            this.$slider.trigger("rtcl_slider_loaded", this);
+            return;
+          }
+          this.$slider.imagesLoaded().progress(function(instance, image) {
+            that.$slider.trigger("rtcl_slider_loading", [that]);
+          }).done(function(instance) {
+            that.$slider.trigger("rtcl_slider_loaded", [that]);
+          });
+        };
+        this.start = function() {
+          const that = this;
+          this.$slider.on("rtcl_slider_loaded", this.init.bind(this));
+          setTimeout(function() {
+            that.imagesLoaded();
+          }, 1);
+        };
+        this.init = function() {
+          this.initSlider();
+        };
+        this.start();
+      };
+      $.fn.rtcl_slider = function() {
+        new RtclSlider(this);
+        return this;
+      };
+      $(".rtcl-carousel-slider").each(function() {
+        $(this).rtcl_slider();
+      });
+      $(".rtcl-terms").on("change", "select", function(e) {
+        e.preventDefault();
+        let $this = $(this), taxonomy = $this.data("taxonomy"), parent = $this.data("parent"), value = $this.val(), slug = $this.find(":selected").attr("data-slug") || "", classes = $this.attr("class"), termHolder = $this.closest(".rtcl-terms").find("input.rtcl-term-hidden"), termValueHolder = $this.closest(".rtcl-terms").find("input.rtcl-term-hidden-value");
+        termHolder.val(value).attr("data-slug", slug);
+        termValueHolder.val(slug);
+        $this.parent().find("div:first").remove();
+        if (parent != value) {
+          $this.parent().append(
+            '<div class="rtcl-spinner"><span class="rtcl-icon-spinner animate-spin"></span></div>'
+          );
+          var data = {
+            action: "rtcl_child_dropdown_terms",
+            taxonomy,
+            parent: value,
+            class: classes,
+            __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+          };
+          $.post(rtcl.ajaxurl, data, function(response) {
+            $this.parent().find("div:first").remove();
+            if (response.success) {
+              $this.parent().append(response.data);
+            }
+          });
+        }
+      });
+      const listObj = {
+        active: null,
+        target: null,
+        loc: {
+          items: [],
+          selected: null,
+          parents: [],
+          text: rtcl.location_text
+        },
+        cat: {
+          items: [],
+          selected: null,
+          parents: [],
+          text: rtcl.category_text
+        }
+      };
+      $(".rtcl-widget-search-form .rtcl-search-input-category").on("click", function() {
+        listObj.active = "cat";
+        listObj.target = $(this);
+        const modal = new RtclModal({
+          footer: false,
+          wrapClass: "no-heading"
+        });
+        if (!listObj.cat.items.length) {
+          $.ajax({
+            url: rtcl.ajaxurl,
+            type: "POST",
+            data: {
+              action: "rtcl_get_all_cat_list_for_modal"
+            },
+            beforeSend: function() {
+              modal.addModal().addLoading();
+            },
+            success: function(response) {
+              modal.removeLoading();
+              if (response.success) {
+                listObj.cat.items = response.categories;
+                listObj.cat.selected = null;
+                listObj.cat.parent = null;
+                modal.content(generate_list());
+              }
+            },
+            error: function(e) {
+              modal.removeLoading();
+              modal.content(rtcl_validator.server_error);
+            }
+          });
+        } else {
+          modal.addModal();
+          modal.content(generate_list());
+        }
+      });
+      $(".rtcl-widget-search-form .rtcl-search-input-location").on("click", function() {
+        listObj.active = "loc";
+        listObj.target = $(this);
+        const modal = new RtclModal({
+          footer: false,
+          wrapClass: "no-heading"
+        });
+        if (!listObj.loc.items.length) {
+          $.ajax({
+            url: rtcl.ajaxurl,
+            type: "POST",
+            data: {
+              action: "rtcl_get_all_location_list_for_modal"
+            },
+            beforeSend: function() {
+              modal.addModal().addLoading();
+            },
+            success: function(response) {
+              modal.removeLoading();
+              if (response.success) {
+                listObj.loc.items = response.locations;
+                listObj.loc.selected = null;
+                listObj.loc.parent = null;
+                modal.content(generate_list());
+              } else {
+                modal.content(rtcl_validator.server_error);
+              }
+            },
+            error: function(e) {
+              modal.removeLoading();
+              modal.content(rtcl_validator.server_error);
+            }
+          });
+        } else {
+          modal.addModal();
+          modal.content(generate_list());
+        }
+      });
+      const autocomplete_item = $(".rtcl-widget-search-form .rtcl-autocomplete");
+      if ($.fn.autocomplete && autocomplete_item.length) {
+        autocomplete_item.autocomplete({
+          minChars: 2,
+          search: function(event, ui) {
+            if (!$(event.target).parent().find(".rtcl-icon-spinner").length) {
+              $(
+                "<span class='rtcl-icon-spinner animate-spin'></span>"
+              ).insertAfter(event.target);
+              const aiResult = $(event.target).closest(".rtcl-ai-search-field");
+              if (aiResult.length) {
+                $(
+                  "<div class='rtcl-ai-searching-data loading'><h4>" + rtcl.i18n.ai_quick_search_loading + "</h4></div>"
+                ).insertAfter(event.target);
+              }
+            }
+          },
+          response: function(event, ui) {
+            $(event.target).parent().find(".rtcl-icon-spinner").remove();
+            $(event.target).parent().find(".rtcl-ai-searching-data").remove();
+          },
+          source: function source(req, response) {
+            req.location_slug = rtcl.rtcl_location || "";
+            req.category_slug = rtcl.rtcl_category || "";
+            req.type = $(this.element).data("type") || "listing";
+            req.action = "rtcl_inline_search_autocomplete";
+            $.ajax({
+              dataType: "json",
+              type: "POST",
+              url: rtcl.ajaxurl,
+              data: req,
+              success: response
+            });
+          },
+          select: function select(event, ui) {
+            const _self = $(event.target);
+            _self.next("input").val(ui.item.target).change();
+          }
+        }).data("ui-autocomplete")._renderItem = function(ul, item) {
+          return $("<li />").data("item.autocomplete", item).append(item.label).appendTo(ul);
+        };
+      }
+      $(".rtcl-ajax-load").each(function() {
+        let _self = $(this), settings = _self.data("settings") || {};
+        settings.action = "rtcl_ajax_taxonomy_filter_get_sub_level_html";
+        settings.__rtcl_wpnonce = rtcl.__rtcl_wpnonce;
+        if (_self.hasClass("have-query-var")) {
+          settings.query_var_location = _self.attr("data-query-var-location");
+          settings.query_var_category = _self.attr("data-query-var-category");
+          settings.query_var_tag = _self.attr("data-query-var-tag");
+        } else {
+          settings.query_var_location = "";
+          settings.query_var_category = "";
+          settings.query_var_tag = "";
+        }
+        function setValue(object, path, value, limit) {
+          var keys = path.slice(0, limit), last = keys.pop();
+          keys.reduce((o, k) => o[k] = o[k] || {}, object)[last] = value;
+          return object;
+        }
+        var searchParams = new URLSearchParams(decodeURIComponent(window.location.search));
+        if (searchParams.size) {
+          var filters = {};
+          searchParams.forEach(function(value, key) {
+            if (value && key.startsWith("filters[")) {
+              var _key = key.replace("filters", "");
+              _key = _key.replace(/^\[+/, "");
+              _key = _key.replace(/]$/, "");
+              if (_key.includes("][")) {
+                var arrayKeys = _key.split("][");
+                filters = setValue(filters, arrayKeys, value);
+              } else {
+                filters[_key] = value;
+              }
+            }
+          });
+          if (Object.keys(filters).length) {
+            settings.filters = filters;
+          }
+        }
+        $.ajax({
+          url: rtcl.ajaxurl,
+          type: "POST",
+          dataType: "json",
+          data: settings,
+          beforeSend: function() {
+            _self.rtclBlock();
+          },
+          success: function(response) {
+            _self.html(response.data).rtclUnblock();
+          },
+          complete: function() {
+            _self.rtclUnblock();
+          },
+          error: function(request, status, error) {
+            _self.rtclUnblock();
+            if (status === 500) {
+              console.error("Error while adding comment");
+            } else if (status === "timeout") {
+              console.error("Error: Server doesn't respond.");
+            } else {
+              var wpErrorHtml = request.responseText.split("<p>"), wpErrorStr = wpErrorHtml[1].split("</p>");
+              console.error(wpErrorStr[0]);
+            }
+          }
+        });
+      });
+      function findSelectedItemFromListByIds(ids, list) {
+        function findSelectedItem(id) {
+          if (selectedItem.sub) {
+            selectedItem = selectedItem.sub;
+          }
+          return selectedItem.find(function(item) {
+            return id === item.id;
+          });
+        }
+        let selectedItem = list;
+        if (ids.length) {
+          for (let i = 0; i < ids.length; i++) {
+            selectedItem = findSelectedItem(ids[i]);
+          }
+        }
+        return selectedItem;
+      }
+      function generate_list() {
+        const type = listObj.active, items = listObj[type].items, ul = get_list(items);
+        const container = $('<div class="rtcl-ui-select-list-wrap"><h4>' + listObj[type].text + '</h4><div class="rtcl-select-action"></div><div class="rtcl-ui-select-list"></div></div>');
+        container.find(".rtcl-ui-select-list").append(ul);
+        return container;
+      }
+      function get_list(items) {
+        var ul = $("<ul />");
+        items.forEach(function(item) {
+          var a = $('<a href="javascript:;" />'), li = $("<li />");
+          if (item.hasOwnProperty("sub")) {
+            li.addClass("has-sub");
+          }
+          if (item.hasOwnProperty("icon")) {
+            a.html(item.icon);
+          }
+          a.append(item.name);
+          a.attr("data-item", JSON.stringify(get_safe_term_item(item)));
+          li.append(a);
+          ul.append(li);
+        });
+        return ul;
+      }
+      function get_safe_term_item(item) {
+        let safe_item = Object.assign({ icon: "", sub: "" }, item);
+        delete safe_item["icon"];
+        delete safe_item["sub"];
+        return safe_item;
+      }
+      $(document).on("click", ".rtcl-ui-select-list li.has-sub a", function(e) {
+        e.preventDefault();
+        let type = listObj.active, items = listObj[type].items, _self = $(this), _item = _self.data("item"), wrap = _self.parents(".rtcl-ui-select-list-wrap"), list_wrap = $(".rtcl-ui-select-list", wrap), action = $(".rtcl-select-action", wrap), title = $("h4", wrap), ul = _self.parents("ul"), selectedItemId = parseInt(_item.id, 10), selectedItem;
+        if (listObj[type].selected) {
+          selectedItem = listObj[type].selected.sub.find(function(item) {
+            return item.id === selectedItemId;
+          });
+          listObj[type].parent = listObj[type].selected.id;
+        } else {
+          selectedItem = items.find(function(item) {
+            return item.id === selectedItemId;
+          });
+        }
+        listObj[type].selected = selectedItem;
+        if (selectedItem.parent) {
+          listObj[type].parents.push(selectedItem.parent);
+        }
+        if (selectedItem.hasOwnProperty("sub") && selectedItem.sub.length) {
+          ul.remove();
+          const updatedUl = get_list(selectedItem.sub);
+          const allOfText = rtcl.i18n.all_of_.replace("%s", selectedItem.name);
+          const allLink = $('<a href="javascript:;" />'), allLi = $("<li class='rtcl-ui-sl-all-of' />");
+          if (selectedItem.hasOwnProperty("icon")) {
+            allLink.html(selectedItem.icon);
+          }
+          allLink.append(allOfText);
+          const newSelectedItem = JSON.parse(JSON.stringify(selectedItem));
+          delete newSelectedItem.sub;
+          allLink.attr("data-item", JSON.stringify(get_safe_term_item(newSelectedItem)));
+          const _allLink = allLink.clone();
+          allLi.append(allLink);
+          updatedUl.prepend(allLi);
+          list_wrap.html(updatedUl);
+          if (title.find("span").length) {
+            title.find("span").html(_allLink);
+          } else {
+            const wrapItem = $('<span class="rtcl-icon-angle-right rtcl-selected-term-item" />').append(_allLink);
+            title.append(wrapItem);
+          }
+          action.html(
+            "<div class='go-back'>" + rtcl.i18n.go_back + "</div>"
+          );
+        }
+      }).on("click", ".rtcl-select-action .go-back", function(e) {
+        e.preventDefault();
+        let type = listObj.active, _self = $(this), wrap = _self.parents(".rtcl-ui-select-list-wrap"), list_wrap = $(".rtcl-ui-select-list", wrap), title = $("h4", wrap), action = $(".rtcl-select-action", wrap), list, selectedItem, level = 0;
+        if (listObj[type].parents.length) {
+          selectedItem = findSelectedItemFromListByIds(
+            listObj[type].parents,
+            listObj[type].items
+          );
+          list = selectedItem.sub;
+          listObj[type].parents.pop();
+          listObj[type].selected = selectedItem;
+          level = 1;
+        } else {
+          listObj[type].selected = null;
+          list = listObj[type].items;
+        }
+        list_wrap.html("");
+        list_wrap.append(get_list(list));
+        if (level) {
+          var a = $('<a href="javascript:;" />');
+          a.append(selectedItem.name);
+          a.attr(
+            "data-item",
+            JSON.stringify(get_safe_term_item(selectedItem))
+          );
+          if (title.find("span").length) {
+            title.find("span").html(a);
+          } else {
+            var wrapItem = $(
+              '<span class="rtcl-icon-angle-right rtcl-selected-term-item" />'
+            ).append(a);
+            title.append(wrapItem);
+          }
+        } else {
+          title.find("span").remove();
+          action.find(".go-back").remove();
+        }
+      }).on(
+        "click",
+        ".rtcl-ui-select-list li:not(.has-sub) a, .rtcl-selected-term-item a",
+        function(e) {
+          e.preventDefault();
+          let _self = $(this), _item = _self.data("item") || null;
+          if (_item && listObj.target.length) {
+            listObj.target.find(".search-input-label").text(_item.name);
+            listObj.target.find("input.rtcl-term-field").val(_item.slug).change();
+            $("body > .rtcl-ui-modal").remove();
+            $("body").removeClass("rtcl-modal-open");
+            if (rtcl.popup_search_widget_auto_form_submission) {
+              listObj.target.closest("form").submit();
+            }
+          }
+          return false;
+        }
+      ).on(
+        "click",
+        ".ul-list-group.is-parent > ul > li > a",
+        function(e) {
+          e.preventDefault();
+          const self = $(this), li = self.parent("li"), parent = li.parent("ul"), target = $(".col-md-6.sub-wrapper"), wrap = $("<li />"), list = li.find(".ul-list-group.is-sub").clone() || "", a_clone = self.clone(), a = wrap.append(a_clone);
+          list.find("ul").prepend(a);
+          target.addClass("is-active");
+          target.html(list);
+          parent.find("> li").removeClass("is-active");
+          li.addClass("is-active");
+          return false;
+        }
+      ).on(
+        "click",
+        ".rtcl-filter-form .filter-list .is-parent.has-sub .arrow",
+        function(e) {
+          e.preventDefault();
+          const self = $(this), li = self.closest("li"), parent = self.closest(".ui-accordion-content"), is_ajax_load = parent.hasClass("rtcl-ajax-load"), settings = parent.data("settings") || {}, target = li.find("> ul.sub-list");
+          if (li.hasClass("is-open")) {
+            target.slideUp(function() {
+              li.removeClass("is-open");
+            });
+          } else {
+            if (is_ajax_load && settings.taxonomy && li.hasClass("has-sub") && !li.hasClass("is-loaded")) {
+              if (!parent.hasClass("rtcl-loading")) {
+                settings.parent = li.data("id") || -1;
+                settings.action = "rtcl_ajax_taxonomy_filter_get_sub_level_html";
+                $.ajax({
+                  url: rtcl.ajaxurl,
+                  type: "POST",
+                  dataType: "json",
+                  data: settings,
+                  beforeSend: function() {
+                    parent.rtclBlock();
+                  },
+                  success: function(response) {
+                    li.append(response.data);
+                    parent.rtclUnblock();
+                    target.slideDown();
+                    li.addClass("is-open is-loaded");
+                  },
+                  complete: function() {
+                    parent.rtclUnblock();
+                  },
+                  error: function(request, status, error) {
+                    parent.rtclUnblock();
+                    if (status === 500) {
+                      console.error(
+                        "Error while adding comment"
+                      );
+                    } else if (status === "timeout") {
+                      console.error(
+                        "Error: Server doesn't respond."
+                      );
+                    } else {
+                      var wpErrorHtml = request.responseText.split(
+                        "<p>"
+                      ), wpErrorStr = wpErrorHtml[1].split(
+                        "</p>"
+                      );
+                      console.error(wpErrorStr[0]);
+                    }
+                  }
+                });
+              }
+            } else {
+              target.slideDown();
+              li.addClass("is-open");
+            }
+          }
+        }
+      ).on(
+        "click",
+        "ul.filter-list.is-collapsed li.is-opener, ul.sub-list.is-collapsed li.is-opener, ul.ui-link-tree.is-collapsed li.is-opener",
+        function() {
+          $(this).parent("ul").removeClass("is-collapsed").addClass("is-open");
+        }
+      ).on("change", ".rtcl-widget-search-form", function() {
+        let $form = $(this), location2 = $form.find("[name='rtcl_location']").val(), category = $form.find("[name='rtcl_category']").val(), actionLink = rtcl.rtcl_listing_base;
+        if (location2 && category) {
+          actionLink = actionLink + rtcl.rtcl_category_base + "/" + category + "/" + rtcl.rtcl_location_base + "/" + location2;
+          $form.attr("action", actionLink);
+        } else if (location2) {
+          actionLink = actionLink + rtcl.rtcl_location_base + "/" + location2;
+          $form.attr("action", actionLink);
+        } else if (category) {
+          actionLink = actionLink + rtcl.rtcl_category_base + "/" + category;
+          $form.attr("action", actionLink);
+        } else {
+          $form.attr("action", actionLink);
+        }
+      });
+      $("#rtcl-checkout-form").on("change", "#billing_country, #billing_state, input[name='pricing_id']", function() {
+        var $this = $(this), $form = $this.closest("#rtcl-checkout-form"), country = $form.find("#billing_country").val(), state = $form.find("#billing_state").val(), postcode = $form.find("#billing_postcode").val(), city = $form.find("#billing_city").val();
+        if (rtcl.is_enable_tax) {
+          checkout_tax_pricing(country, state, postcode, city);
+        }
+      });
+      $(document).on("rtcl_recalculate_tax", function() {
+        if (rtcl.is_enable_tax) {
+          var $form = $("#rtcl-checkout-form"), country = $form.find("#billing_country").val(), state = $form.find("#billing_state").val(), postcode = $form.find("#billing_postcode").val(), city = $form.find("#billing_city").val();
+          checkout_tax_pricing(country, state, postcode, city);
+        }
+      });
+      $(".rtcl-filter-form .ui-accordion-item, .rtcl-ajax-filter-form .ui-accordion-item").on(
+        "click",
+        ".ui-accordion-title",
+        function() {
+          const self = $(this), holder = self.parents(".ui-accordion-item"), target = $(".ui-accordion-content", holder);
+          if (holder.hasClass("is-open")) {
+            target.slideUp(function() {
+              holder.removeClass("is-open");
+            });
+          } else {
+            target.slideDown();
+            holder.addClass("is-open");
+          }
+        }
+      );
+      $(".rtcl-filter-form").on(
+        "click",
+        ".filter-submit-trigger",
+        function(e) {
+          let r, i, self = $(this);
+          if (!self.is(":checkbox")) {
+            e.preventDefault();
+            r = self.siblings("input");
+            i = r.prop("checked");
+            r.prop("checked", !i);
+          }
+          if (self.is(":radio") || !self.is(":radio") && self.siblings("input").is(":radio")) {
+            self.closest("form").submit();
+          }
+        }
+      );
+      $(document).on("click keydown", ".reveal-phone", function(e) {
+        if (e.type === "keydown" && e.keyCode !== 13) {
+          return;
+        }
+        const $this = $(this), isMobile = $this.hasClass("rtcl-mobile");
+        if (!$this.hasClass("revealed")) {
+          e.preventDefault();
+          const options = $this.data("options") || {};
+          const $numbers = $this.find(".numbers");
+          let aPhone = "";
+          let wPhone = "";
+          if (options.safe_phone && options.phone_hidden) {
+            const purePhone = options.safe_phone.replace(
+              rtcl.phone_number_placeholder,
+              options.phone_hidden
+            );
+            aPhone = $('<a class="revealed-phone-number" href="#" />').attr("href", "tel:" + purePhone).html('<i class="rtcl-icon rtcl-icon-phone"></i>').append(purePhone);
+            $this.attr("data-tel", "tel:" + purePhone);
+          }
+          if (options.safe_whatsapp_number && options.whatsapp_hidden) {
+            const pureWPhone = options.safe_whatsapp_number.replace(
+              rtcl.phone_number_placeholder,
+              options.whatsapp_hidden
+            );
+            wPhone = $(
+              '<a class="revealed-whatsapp-number" href="#" />'
+            ).attr(
+              "href",
+              "https://wa.me/" + pureWPhone.replace(/\D/g, "").replace(/^0+/, "") + "/?text=" + rtcl.wa_message
+            ).html('<i class="rtcl-icon rtcl-icon-whatsapp"></i>').append(pureWPhone);
+          }
+          $numbers.html(aPhone).append(wPhone);
+          $this.addClass("revealed");
+          $.ajax({
+            url: rtcl.ajaxurl,
+            type: "POST",
+            dataType: "json",
+            data: {
+              listing_id: $this.attr("data-id"),
+              action: "rtcl_phone_whatsapp_revealed",
+              __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+            },
+            success: function(res) {
+              console.log(res);
+            },
+            error: function(e2) {
+              console.log(e2);
+            }
+          });
+        } else {
+          if (isMobile) {
+            const tel = $this.attr("data-tel");
+            if (tel) {
+              window.location = tel;
+            }
+          }
+        }
+      });
+      $(document).on("click", ".reveal-phone.revealed a.revealed-phone-number", function(e) {
+        e.preventDefault();
+        const $this = $(this), $wrapper = $this.closest(".reveal-phone.revealed");
+        $.ajax({
+          url: rtcl.ajaxurl,
+          type: "POST",
+          dataType: "json",
+          data: {
+            listing_id: $wrapper.attr("data-id"),
+            action: "rtcl_phone_click",
+            __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+          },
+          success: function(res) {
+            if (res.success) {
+              window.location = $this.attr("href");
+            }
+          },
+          error: function(e2) {
+            console.log(e2);
+          }
+        });
+      });
+      $(document).on("click", ".reveal-phone.revealed a.revealed-whatsapp-number", function(e) {
+        e.preventDefault();
+        const $this = $(this), $wrapper = $this.closest(".reveal-phone.revealed");
+        $.ajax({
+          url: rtcl.ajaxurl,
+          type: "POST",
+          dataType: "json",
+          data: {
+            listing_id: $wrapper.attr("data-id"),
+            action: "rtcl_whatsapp_click",
+            __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+          },
+          success: function(res) {
+            if (res.success) {
+              window.open($this.attr("href"), "_blank");
+            }
+          },
+          error: function(e2) {
+            console.log(e2);
+          }
+        });
+      });
+      let option = getUrlParameter("option") || "", gateway = getUrlParameter("gateway") || "";
+      if (option) {
+        $("input[name='pricing_id'][value='" + option + "']").prop(
+          "checked",
+          true
+        );
+      } else {
+        $("input[name='pricing_id'][value='0']").prop("checked", true);
+      }
+      if (gateway) {
+        $("label[for='gateway-" + gateway + "']").trigger("click");
+      }
+      rtclInitDateField();
+    });
+    if ($.fn.validate) {
+      $("#rtcl-lost-password-form, #rtcl-password-reset-form").each(
+        function() {
+          $(this).validate();
+        }
+      );
+      $("#rtcl-checkout-form").validate({
+        submitHandler: function(form) {
+          $(document.body).trigger("rtcl_before_checkout_request", [form]);
+          rtcl_make_checkout_request(form);
+          return false;
+        }
+      });
+      $("form#rtcl-login-form, form.rtcl-login-form").each(function() {
+        $(this).validate({
+          submitHandler: function(form) {
+            const $form = $(form);
+            console.log($form.data("reCaptchaId"));
+            if (rtcl.recaptcha && typeof grecaptcha !== "undefined" && rtcl.recaptcha.on && $.inArray("login", rtcl.recaptcha.on) !== -1) {
+              if (rtcl.recaptcha.v === 2 && $form.data("reCaptchaId") !== void 0) {
+                const response = grecaptcha.getResponse(
+                  $form.data("reCaptchaId")
+                );
+                console.log(response);
+                const $captcha_msg = $form.find(
+                  "#rtcl-login-g-recaptcha-message"
+                );
+                $captcha_msg.html("");
+                if (0 === response.length) {
+                  $captcha_msg.addClass("text-danger").html(rtcl.recaptcha.msg.invalid);
+                  grecaptcha.reset($form.data("reCaptchaId"));
+                  return false;
+                }
+                if ($form.hasClass("rtcl-ajax-login")) {
+                  submit_form_data_ajax();
+                  return false;
+                }
+                return true;
+              } else if (rtcl.recaptcha.v === 3) {
+                grecaptcha.ready(function() {
+                  $form.rtclBlock();
+                  grecaptcha.execute(rtcl.recaptcha.site_key, {
+                    action: "login"
+                  }).then(function(token) {
+                    if ($form.hasClass("rtcl-ajax-login")) {
+                      submit_form_data_ajax(token);
+                      return false;
+                    } else {
+                      $form.append(
+                        '<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" value="' + token + '" />'
+                      );
+                      $form.append(
+                        '<input type="hidden" name="rtcl-login" value="login" />'
+                      );
+                      $form.off("submit").trigger("submit");
+                      return true;
+                    }
+                  });
+                });
+                return false;
+              }
+            }
+            if ($form.hasClass("rtcl-ajax-login")) {
+              submit_form_data_ajax();
+              return false;
+            } else {
+              return true;
+            }
+            function submit_form_data_ajax(token) {
+              const fromData = new FormData(form);
+              const temp_user = fromData.get("username").trim();
+              const temp_pass = fromData.get("password");
+              fromData.delete("username");
+              fromData.delete("password");
+              fromData.set(
+                "username",
+                rtclCipher(rtcl.__rtcl_wpnonce)(temp_user)
+              );
+              fromData.set(
+                "password",
+                rtclCipher(rtcl.__rtcl_wpnonce)(temp_pass)
+              );
+              if (token) {
+                fromData.set("g-recaptcha-response", token);
+              }
+              fromData.append("action", "rtcl_login_request");
+              fromData.append("__rtcl_wpnonce", rtcl.__rtcl_wpnonce);
+              $.ajax({
+                url: rtcl.ajaxurl,
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                processData: false,
+                contentType: false,
+                data: fromData,
+                beforeSend: function() {
+                  $form.find(".rtcl-error").remove();
+                  $form.rtclBlock();
+                },
+                success: function(res) {
+                  if (res.success) {
+                    toastr.success(res.data.message);
+                    $form.append(
+                      '<div class="rtcl-error alert alert-success" role="alert"><p>' + res.data.message + "</p></div>"
+                    );
+                    $form[0].reset();
+                    window.location.reload(true);
+                  } else {
+                    $form.rtclUnblock();
+                    toastr.error(res.data);
+                    $form.append(
+                      '<div class="rtcl-error alert alert-danger" role="alert"><p>' + res.data + "</p></div>"
+                    );
+                  }
+                },
+                error: function() {
+                  $form.rtclUnblock().append(
+                    '<div class="rtcl-error alert alert-danger" role="alert"><p>' + rtcl_validator.messages.server_error + "</p></div>"
+                  );
+                  toastr.error(
+                    rtcl_validator.messages.server_error
+                  );
+                }
+              });
+            }
+          }
+        });
+      });
+      $("form#rtcl-register-form, form.rtcl-register-form").each(function() {
+        var regFormRules = {};
+        if ($(this).find('input[name="rtcl_user_type"]').length) {
+          regFormRules.rtcl_user_type = { required: true };
+        }
+        $(this).validate({
+          rules: regFormRules,
+          submitHandler: function(form) {
+            const $form = $(form);
+            if (rtcl.recaptcha && typeof grecaptcha !== "undefined" && rtcl.recaptcha.on && $.inArray("registration", rtcl.recaptcha.on) !== -1) {
+              if (rtcl.recaptcha.v === 2 && $form.data("reCaptchaId") !== void 0) {
+                const response = grecaptcha.getResponse(
+                  $form.data("reCaptchaId")
+                );
+                const $captcha_msg = $(
+                  "#rtcl-registration-g-recaptcha-message"
+                );
+                $captcha_msg.html("");
+                if (0 === response.length) {
+                  $captcha_msg.addClass("text-danger").html(rtcl.recaptcha.msg.invalid);
+                  grecaptcha.reset($form.data("reCaptchaId"));
+                  return false;
+                }
+                if ($form.hasClass("rtcl-ajax-registration")) {
+                  submit_form_data_ajax();
+                  return false;
+                }
+                return true;
+              } else if (rtcl.recaptcha.v === 3) {
+                grecaptcha.ready(function() {
+                  $form.rtclBlock();
+                  grecaptcha.execute(rtcl.recaptcha.site_key, {
+                    action: "registration"
+                  }).then(function(token) {
+                    if ($form.hasClass(
+                      "rtcl-ajax-registration"
+                    )) {
+                      submit_form_data_ajax(token);
+                      return false;
+                    } else {
+                      $form.append(
+                        '<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" value="' + token + '" />'
+                      );
+                      $form.append(
+                        '<input type="hidden" name="rtcl-register" value="register" />'
+                      );
+                      $form.off("submit").trigger("submit");
+                      return true;
+                    }
+                  });
+                });
+                return false;
+              }
+            }
+            if ($form.hasClass("rtcl-ajax-registration")) {
+              submit_form_data_ajax();
+              return false;
+            } else {
+              return true;
+            }
+            function submit_form_data_ajax(recaptcha_token) {
+              const fromData = new FormData(form);
+              if (recaptcha_token) {
+                fromData.append(
+                  "g-recaptcha-response",
+                  recaptcha_token
+                );
+              }
+              fromData.append("action", "rtcl_registration_request");
+              fromData.append("__rtcl_wpnonce", rtcl.__rtcl_wpnonce);
+              $.ajax({
+                url: rtcl.ajaxurl,
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                processData: false,
+                contentType: false,
+                data: fromData,
+                beforeSend: function() {
+                  $form.find(".rtcl-error").remove();
+                  $form.rtclBlock();
+                },
+                success: function(res) {
+                  $form.rtclUnblock();
+                  if (res.success) {
+                    $form.append(
+                      '<div class="rtcl-error alert alert-success" role="alert"><p>' + res.data.message + "</p></div>"
+                    );
+                    $form[0].reset();
+                    if (res.data.redirect_url && res.data.redirect_utl !== window.location.href) {
+                      window.location = res.data.redirect_url + "?t=" + (/* @__PURE__ */ new Date()).getTime();
+                    }
+                  } else {
+                    $form.append(
+                      '<div class="rtcl-error alert alert-danger" role="alert"><p>' + res.data + "</p></div>"
+                    );
+                  }
+                },
+                error: function() {
+                  $form.rtclUnblock().append(
+                    '<div class="rtcl-error alert alert-danger" role="alert"><p>' + rtcl_validator.messages.server_error + "</p></div>"
+                  );
+                }
+              });
+            }
+          }
+          /*messages: {
+          	pass2: {
+          		equalTo: 'ggjggjj'
+          	}
+          }*/
+        });
+      });
+      $("form.rtcl-report-abuse-form, form#rtcl-report-abuse-form").each(
+        function() {
+          $(this).validate({
+            submitHandler: function(form) {
+              const $form = $(form);
+              if (rtcl.recaptcha && typeof grecaptcha !== "undefined" && rtcl.recaptcha.on && $.inArray("report_abuse", rtcl.recaptcha.on) !== -1) {
+                if (rtcl.recaptcha.v === 2 && $form.data("reCaptchaId") !== void 0) {
+                  const response = grecaptcha.getResponse(
+                    $form.data("reCaptchaId")
+                  );
+                  const $captcha_msg = $form.find(
+                    "#rtcl-report-abuse-message-display"
+                  );
+                  $captcha_msg.html("");
+                  if (0 === response.length) {
+                    $captcha_msg.removeClass("text-success").addClass("text-danger").html(rtcl.recaptcha.msg.invalid);
+                    grecaptcha.reset(
+                      rtcl.recaptcha.response["report_abuse"]
+                    );
+                    return false;
+                  }
+                  submit_form_data_ajax(response);
+                  return false;
+                } else if (rtcl.recaptcha.v === 3) {
+                  grecaptcha.ready(function() {
+                    grecaptcha.execute(rtcl.recaptcha.site_key, {
+                      action: "reportAbuse"
+                    }).then(function(token) {
+                      submit_form_data_ajax(token);
+                    });
+                  });
+                  return false;
+                }
+              }
+              submit_form_data_ajax();
+              return false;
+              function submit_form_data_ajax(reCaptchaToken) {
+                const fromData = new FormData(form);
+                fromData.append(
+                  "action",
+                  "rtcl_public_report_abuse"
+                );
+                fromData.append("post_id", rtcl.post_id || 0);
+                fromData.append(
+                  "__rtcl_wpnonce",
+                  rtcl.__rtcl_wpnonce
+                );
+                if (reCaptchaToken) {
+                  fromData.append(
+                    "g-recaptcha-response",
+                    reCaptchaToken
+                  );
+                }
+                const targetBtn = $form.find(".rtcl-btn.rtcl-btn-primary");
+                $.ajax({
+                  url: rtcl.ajaxurl,
+                  data: fromData,
+                  dataType: "json",
+                  cache: false,
+                  processData: false,
+                  contentType: false,
+                  type: "POST",
+                  beforeSend: function() {
+                    $(
+                      '<span class="rtcl-icon-spinner animate-spin"></span>'
+                    ).insertAfter(targetBtn);
+                  },
+                  success: function(response) {
+                    targetBtn.next(".rtcl-icon-spinner").remove();
+                    if (response.success) {
+                      form.reset();
+                      $form.find(
+                        "#rtcl-report-abuse-message-display"
+                      ).removeClass("text-danger").addClass("text-success").html(response.data.message);
+                      setTimeout(function() {
+                        $form.parents(
+                          "#rtcl-report-abuse-modal"
+                        ).removeClass("show");
+                      }, 1500);
+                    } else {
+                      $form.find(
+                        "#rtcl-report-abuse-message-display"
+                      ).removeClass("text-success").addClass("text-danger").html(response.data.error);
+                    }
+                    if (rtcl.recaptcha && rtcl.recaptcha.v === 2 && $form.data("reCaptchaId") !== void 0) {
+                      grecaptcha.reset(
+                        $form.data("reCaptchaId")
+                      );
+                    }
+                  },
+                  error: function(e) {
+                    $("#rtcl-report-abuse-message-display").removeClass("text-success").addClass("text-danger").html(e);
+                    targetBtn.next(".rtcl-icon-spinner").remove();
+                  }
+                });
+              }
+            }
+          });
+        }
+      );
+      $("form.rtcl-contact-form, form#rtcl-contact-form").each(function() {
+        $(this).validate({
+          submitHandler: function(form) {
+            const $form = $(form);
+            const $captcha_msg = $form.find(
+              "#rtcl-contact-message-display"
+            );
+            const recaptchaId = $form.data("reCaptchaId");
+            if (rtcl.recaptcha && typeof grecaptcha !== "undefined" && rtcl.recaptcha.on && $.inArray("contact", rtcl.recaptcha.on) !== -1) {
+              if (rtcl.recaptcha.v === 2 && recaptchaId !== void 0) {
+                var response = grecaptcha.getResponse(recaptchaId);
+                $captcha_msg.html("");
+                if (0 === response.length) {
+                  $captcha_msg.removeClass("text-success").addClass("text-danger").html(rtcl.recaptcha.msg.invalid);
+                  grecaptcha.reset(recaptchaId);
+                  return false;
+                }
+                submit_form_data_ajax(response);
+                return false;
+              } else if (rtcl.recaptcha.v === 3) {
+                grecaptcha.ready(function() {
+                  $form.rtclBlock();
+                  grecaptcha.execute(rtcl.recaptcha.site_key, {
+                    action: "contact"
+                  }).then(function(token) {
+                    $form.rtclUnblock();
+                    submit_form_data_ajax(token);
+                  });
+                });
+                return false;
+              }
+            }
+            submit_form_data_ajax();
+            return false;
+            function submit_form_data_ajax(reCaptchaToken) {
+              const fromData = new FormData(form);
+              if (reCaptchaToken) {
+                fromData.append(
+                  "g-recaptcha-response",
+                  reCaptchaToken
+                );
+              }
+              fromData.append("action", "rtcl_public_send_contact_email");
+              fromData.append("post_id", rtcl.post_id || 0);
+              fromData.append("__rtcl_wpnonce", rtcl.__rtcl_wpnonce);
+              $.ajax({
+                url: rtcl.ajaxurl,
+                type: "POST",
+                dataType: "json",
+                cache: false,
+                processData: false,
+                contentType: false,
+                data: fromData,
+                beforeSend: function() {
+                  $form.rtclBlock();
+                  $captcha_msg.removeClass("d-block").html("");
+                  $(
+                    '<span class="rtcl-icon-spinner animate-spin"></span>'
+                  ).insertAfter($form.find(".btn"));
+                },
+                success: function(response2) {
+                  $form.rtclUnblock();
+                  $form.find(".btn").next(".rtcl-icon-spinner").remove();
+                  $captcha_msg.addClass("d-block");
+                  if (response2.success) {
+                    form.reset();
+                    $captcha_msg.removeClass("text-danger").addClass("d-block text-success").html(response2.data.message);
+                    if ($form.parent().data("hide") !== 0) {
+                      setTimeout(function() {
+                        $form.slideUp();
+                      }, 800);
+                    }
+                  } else {
+                    $captcha_msg.removeClass("text-success").addClass("d-block text-danger").html(response2.data.error);
+                  }
+                  if (rtcl.recaptcha && rtcl.recaptcha.v === 2 && recaptchaId !== void 0) {
+                    grecaptcha.reset(recaptchaId);
+                  }
+                },
+                error: function(e) {
+                  $form.rtclUnblock();
+                  $captcha_msg.removeClass("text-success").addClass("d-block text-danger").html(e);
+                  $form.find(".btn").next(".rtcl-icon-spinner").remove();
+                }
+              });
+            }
+          }
+        });
+      });
+      $("#rtcl-user-account").validate({
+        submitHandler: function(form) {
+          const $form = $(form), targetBtn = $form.find("input[type=submit]"), responseHolder = $form.find(".rtcl-response"), msgHolder = $("<div class='alert'></div>"), fromData = new FormData(form);
+          fromData.append("action", "rtcl_update_user_account");
+          fromData.append("__rtcl_wpnonce", rtcl.__rtcl_wpnonce);
+          $.ajax({
+            url: rtcl.ajaxurl,
+            data: fromData,
+            dataType: "json",
+            cache: false,
+            processData: false,
+            contentType: false,
+            type: "POST",
+            beforeSend: function() {
+              $form.addClass("rtcl-loading");
+              targetBtn.prop("disabled", true);
+              responseHolder.html("");
+              $(
+                '<span class="rtcl-icon-spinner animate-spin"></span>'
+              ).insertAfter(targetBtn);
+            },
+            success: function(response) {
+              targetBtn.prop("disabled", false).next(".rtcl-icon-spinner").remove();
+              $form.removeClass("rtcl-loading");
+              if (response.success) {
+                $form.find("input[name=pass1]").val("");
+                $form.find("input[name=pass2]").val("");
+                msgHolder.removeClass("alert-danger").addClass("alert-success").html(response.data.message).appendTo(responseHolder);
+                setTimeout(function() {
+                  responseHolder.html("");
+                }, 1e3);
+              } else {
+                msgHolder.removeClass("alert-success").addClass("alert-danger").html(response.data.error).appendTo(responseHolder);
+              }
+            },
+            error: function(e) {
+              msgHolder.removeClass("alert-success").addClass("alert-danger").html(e.responseText).appendTo(responseHolder);
+              targetBtn.prop("disabled", false).next(".rtcl-icon-spinner").remove();
+              $form.removeClass("rtcl-loading");
+            }
+          });
+        }
+      });
+    }
+    window.rtclInitDateField = function() {
+      if ($.fn.daterangepicker) {
+        $(".rtcl-date").each(function() {
+          let input = $(this);
+          let options = input.data("options") || {};
+          options = rtclFilter.apply("dateRangePickerOptions", options);
+          if (Array.isArray(options.invalidDateList) && options.invalidDateList.length) {
+            const formattedDates = options.invalidDateList.map((dateStr) => {
+              return moment(dateStr).format(options.locale.format);
+            });
+            options.isInvalidDate = function(param) {
+              return formattedDates.includes(param.format(options.locale.format));
+            };
+          }
+          $(this).daterangepicker(options);
+          if (options.autoUpdateInput === false) {
+            input.on("apply.daterangepicker", function(ev, picker) {
+              if (picker.singleDatePicker) {
+                $(this).val(
+                  picker.startDate.format(picker.locale.format)
+                );
+              } else {
+                $(this).val(
+                  picker.startDate.format(picker.locale.format) + picker.locale.separator + picker.endDate.format(picker.locale.format)
+                );
+              }
+            });
+            input.on("cancel.daterangepicker", function(ev, picker) {
+              $(this).val("");
+            });
+          }
+        });
+      }
+    };
+    $(function() {
+      $(".rtcl-phone-reveal").on("click", function() {
+        if ($(this).hasClass("revealed")) {
+          var $link;
+          $link = $(this).attr("href");
+          if ($link) {
+            window.location.href = $link;
+          }
+        }
+        if ($(this).hasClass("not-revealed")) {
+          $(this).removeClass("not-revealed").addClass("revealed");
+          var phone = $(this).data("phone");
+          $(this).find("span").text(phone);
+        }
+        return false;
+      });
+      var user_ads_wrapper = $(".rtcl-user-ad-listing-wrapper"), pagination;
+      if (user_ads_wrapper.length) {
+        var wrapper = $(".rtcl-listing-wrapper", user_ads_wrapper);
+        pagination = wrapper.data("pagination") || {};
+        pagination.disable = false;
+        pagination.loading = false;
+        $(window).on("scroll load", function() {
+          infinite_scroll(wrapper);
+        });
+      }
+      function infinite_scroll(wrapper2) {
+        var ajaxVisible = user_ads_wrapper.offset().top + user_ads_wrapper.outerHeight(true), ajaxScrollTop = $(window).scrollTop() + $(window).height();
+        if (ajaxVisible <= ajaxScrollTop && ajaxVisible + $(window).height() > ajaxScrollTop) {
+          if (pagination.max_num_pages > pagination.current_page && !pagination.loading && !pagination.disable) {
+            var data = {
+              action: "rtcl_user_ad_load_more",
+              current_page: pagination.current_page,
+              max_num_pages: pagination.max_num_pages,
+              found_posts: pagination.found_posts,
+              posts_per_page: pagination.posts_per_page,
+              user_id: rtcl.user_id
+            };
+            $.ajax({
+              url: rtcl.ajaxurl,
+              data,
+              type: "POST",
+              beforeSend: function() {
+                pagination.loading = true;
+                $(
+                  '<span class="rtcl-icon-spinner animate-spin"></span>'
+                ).insertAfter(wrapper2);
+              },
+              success: function(response) {
+                wrapper2.next(".rtcl-icon-spinner").remove();
+                pagination.loading = false;
+                pagination.current_page = response.current_page;
+                if (pagination.max_num_pages === response.current_page) {
+                  pagination.disable = true;
+                }
+                if (response.complete && response.html) {
+                  wrapper2.append(response.html);
+                }
+              },
+              error: function(e) {
+                pagination.loading = false;
+                wrapper2.next(".rtcl-icon-spinner").remove();
+              }
+            });
+          }
+        }
+      }
+    });
+    const rtclAjaxFilter = new RtclAjaxFilter();
+    $(document).ready(() => {
+      rtclAjaxFilter.init();
+    });
+    $(window).on("resize load", equalHeight).on("load", function() {
+      $(".rtcl-range-slider-input").on("input", function() {
+        const field_wrap = $(this).parent();
+        field_wrap.find("span.rtcl-range-value").text(this.value);
+      });
+    });
+    $(document).on("rtcl.favorite", function(e, data) {
+      var $favCount = $(".rt-el-header-favourite-count").first();
+      var $favCountAll = $(".rt-el-header-favourite-count");
+      var favCountVal = parseInt($favCount.text(), 10);
+      favCountVal = isNaN(favCountVal) ? 0 : favCountVal;
+      if ("added" === data.action) {
+        favCountVal++;
+        $favCountAll.text(favCountVal);
+      } else if ("removed" === data.action) {
+        favCountVal--;
+        $favCountAll.text(favCountVal);
+      }
+    });
+    $(document).on("rtcl.compare.added", function(e, data) {
+      $(".rtcl-el-compare-count").text(data.current_listings);
+    });
+    $(document).on("rtcl.compare.removed", function(e, data) {
+      $(".rtcl-el-compare-count").text(data.current_listings);
+    });
+    $(document).on("click", ".rtcl-compare-btn-clear", function() {
+      $(".rtcl-el-compare-count").text("0");
+    });
+    $(window).on("load", function() {
+      $(".builder-content").removeClass("content-invisible");
+    });
+    function checkout_tax_pricing(country, state, postcode, city) {
+      var $wrapper = $(".rtcl-checkout-content"), $form = $wrapper.find("#rtcl-checkout-form"), $overview = $form.find("#rtcl-payment-overview"), type = $form.find("input[name='type']").val(), pricing_id = $form.find("input[name='pricing_id']:checked").val(), $content = "";
+      $.ajax({
+        type: "POST",
+        url: rtcl.ajaxurl,
+        data: {
+          action: "rtcl_calculate_checkout_tax",
+          country_code: country,
+          state_code: state,
+          postcode,
+          city,
+          type,
+          pricing_id,
+          __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+        },
+        beforeSend: function() {
+          $wrapper.rtclBlock();
+        },
+        success: function(response) {
+          $wrapper.rtclUnblock();
+          if (!response.error) {
+            const taxData = response.hasOwnProperty("available_tax") ? response.available_tax : [];
+            $overview.find(".cart-subtotal .checkout-price").text(response.pricing_price);
+            $overview.find(".order-total .checkout-price").text(response.total_amount);
+            if (Array.isArray(taxData)) {
+              $overview.find("tr.tax-rate td").html("");
+              $.each(taxData, function(index, singleTax) {
+                $content += '<span class="price-amount">';
+                $content += '<span class="checkout-price-currency-symbol">' + rtcl.payment_currency_symbol + "</span>";
+                $content += '<span class="checkout-price"> ' + singleTax.amount + "</span>";
+                $content += '<span class="checkout-tax-label">(' + singleTax.label + ")</span>";
+                $content += "</span>";
+                if (!response.enable_multiple_tax) {
+                  return false;
+                }
+              });
+              $overview.find("tr.tax-rate td").append($content);
+            }
+          }
+        },
+        error: function(jqXHR, exception) {
+          $wrapper.rtclUnblock();
+        }
+      });
+    }
+    jQuery(document).ready(function($2) {
+      var $repeater = $2(".rtcl-is-collapsable");
+      if (!$repeater.length) return;
+      $repeater.each(function() {
+        $2(this).find(".rtcl-cfp-repeater-item").each(function(index) {
+          console.log($2(this));
+          var $item = $2(this);
+          var $fields = $item.find("> .rtcl-cfp-repeater-field");
+          if (!$fields.length) return;
+          var $title = $fields.first();
+          var $contents = $fields.slice(1);
+          var $contentWrapper = $2('<div class="rtcl-repeater-content"></div>');
+          $contents.appendTo($contentWrapper);
+          $item.append($contentWrapper);
+          $title.css("cursor", "pointer");
+          $title.addClass("item-heading item-" + index);
+          if (index === 0) {
+            $contentWrapper.show();
+            $item.addClass("open");
+          } else {
+            $contentWrapper.hide();
+          }
+          $title.on("click", function() {
+            $contentWrapper.slideToggle(200);
+            $item.toggleClass("open");
+          });
+        });
+      });
+    });
+  })(jQuery);
+})();

@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.0.3
+Stable tag: 6.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -329,9 +329,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
+= 6.1.0 ( Sep 01, 2026 ) =
+* Fixed: AI image save capability check issue. Thanks to Usama Arshad for reporting the issue.
+* Added: Top listings and listing views chart in the admin dashboard.
+
 = 6.0.3 ( Aug 23, 2026 ) =
 * Fixed: AJAX filter custom field different date format filter issue.
-* Fixed: AI image save capability check issue. Thanks to Usama Arshad for reporting the issue.
 * Added: Cancel/Reset button for App push-notification sending queue with live progress.
 * Added: Directory filter dropdown on admin listings page.
 * Added: Clear Filters button on admin listings page when any filter is active.

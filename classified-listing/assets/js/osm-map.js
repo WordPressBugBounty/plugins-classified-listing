@@ -1,1 +1,11906 @@
-var __pow=Math.pow;!function(){"use strict";function t(t){return t&&t.__esModule&&Object.prototype.hasOwnProperty.call(t,"default")?t.default:t}var e,i={exports:{}};var n,o=(e||(e=1,function(t){var e="1.9.4";function i(t){var e,i,n,o;for(i=1,n=arguments.length;i<n;i++)for(e in o=arguments[i])t[e]=o[e];return t}var n=Object.create||function(){function t(){}return function(e){return t.prototype=e,new t}}();function o(t,e){var i=Array.prototype.slice;if(t.bind)return t.bind.apply(t,i.call(arguments,1));var n=i.call(arguments,2);return function(){return t.apply(e,n.length?n.concat(i.call(arguments)):arguments)}}var s=0;function r(t){return"_leaflet_id"in t||(t._leaflet_id=++s),t._leaflet_id}function a(t,e,i){var n,o,s,r;return r=function(){n=!1,o&&(s.apply(i,o),o=!1)},s=function(){n?o=arguments:(t.apply(i,arguments),setTimeout(r,e),n=!0)},s}function l(t,e,i){var n=e[1],o=e[0],s=n-o;return t===n&&i?t:((t-o)%s+s)%s+o}function h(){return!1}function u(t,e){if(!1===e)return t;var i=Math.pow(10,void 0===e?6:e);return Math.round(t*i)/i}function c(t){return t.trim?t.trim():t.replace(/^\s+|\s+$/g,"")}function d(t){return c(t).split(/\s+/)}function p(t,e){for(var i in Object.prototype.hasOwnProperty.call(t,"options")||(t.options=t.options?n(t.options):{}),e)t.options[i]=e[i];return t.options}function _(t,e,i){var n=[];for(var o in t)n.push(encodeURIComponent(i?o.toUpperCase():o)+"="+encodeURIComponent(t[o]));return(e&&-1!==e.indexOf("?")?"&":"?")+n.join("&")}var f=/\{ *([\w_ -]+) *\}/g;function m(t,e){return t.replace(f,function(t,i){var n=e[i];if(void 0===n)throw new Error("No value provided for variable "+t);return"function"==typeof n&&(n=n(e)),n})}var g=Array.isArray||function(t){return"[object Array]"===Object.prototype.toString.call(t)};function v(t,e){for(var i=0;i<t.length;i++)if(t[i]===e)return i;return-1}var y="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";function x(t){return window["webkit"+t]||window["moz"+t]||window["ms"+t]}var b=0;function w(t){var e=+new Date,i=Math.max(0,16-(e-b));return b=e+i,window.setTimeout(t,i)}var P=window.requestAnimationFrame||x("RequestAnimationFrame")||w,C=window.cancelAnimationFrame||x("CancelAnimationFrame")||x("CancelRequestAnimationFrame")||function(t){window.clearTimeout(t)};function M(t,e,i){if(!i||P!==w)return P.call(window,o(t,e));t.call(e)}function T(t){t&&C.call(window,t)}var k={__proto__:null,extend:i,create:n,bind:o,get lastId(){return s},stamp:r,throttle:a,wrapNum:l,falseFn:h,formatNum:u,trim:c,splitWords:d,setOptions:p,getParamString:_,template:m,isArray:g,indexOf:v,emptyImageUrl:y,requestFn:P,cancelFn:C,requestAnimFrame:M,cancelAnimFrame:T};function z(){}function S(t){if("undefined"!=typeof L&&L&&L.Mixin){t=g(t)?t:[t];for(var e=0;e<t.length;e++)t[e]===L.Mixin.Events&&console.warn("Deprecated include of L.Mixin.Events: this property will be removed in future releases, please inherit from L.Evented instead.",(new Error).stack)}}z.extend=function(t){var e=function(){p(this),this.initialize&&this.initialize.apply(this,arguments),this.callInitHooks()},o=e.__super__=this.prototype,s=n(o);for(var r in s.constructor=e,e.prototype=s,this)Object.prototype.hasOwnProperty.call(this,r)&&"prototype"!==r&&"__super__"!==r&&(e[r]=this[r]);return t.statics&&i(e,t.statics),t.includes&&(S(t.includes),i.apply(null,[s].concat(t.includes))),i(s,t),delete s.statics,delete s.includes,s.options&&(s.options=o.options?n(o.options):{},i(s.options,t.options)),s._initHooks=[],s.callInitHooks=function(){if(!this._initHooksCalled){o.callInitHooks&&o.callInitHooks.call(this),this._initHooksCalled=!0;for(var t=0,e=s._initHooks.length;t<e;t++)s._initHooks[t].call(this)}},e},z.include=function(t){var e=this.prototype.options;return i(this.prototype,t),t.options&&(this.prototype.options=e,this.mergeOptions(t.options)),this},z.mergeOptions=function(t){return i(this.prototype.options,t),this},z.addInitHook=function(t){var e=Array.prototype.slice.call(arguments,1),i="function"==typeof t?t:function(){this[t].apply(this,e)};return this.prototype._initHooks=this.prototype._initHooks||[],this.prototype._initHooks.push(i),this};var A={on:function(t,e,i){if("object"==typeof t)for(var n in t)this._on(n,t[n],e);else for(var o=0,s=(t=d(t)).length;o<s;o++)this._on(t[o],e,i);return this},off:function(t,e,i){if(arguments.length)if("object"==typeof t)for(var n in t)this._off(n,t[n],e);else{t=d(t);for(var o=1===arguments.length,s=0,r=t.length;s<r;s++)o?this._off(t[s]):this._off(t[s],e,i)}else delete this._events;return this},_on:function(t,e,i,n){if("function"==typeof e){if(!1===this._listens(t,e,i)){i===this&&(i=void 0);var o={fn:e,ctx:i};n&&(o.once=!0),this._events=this._events||{},this._events[t]=this._events[t]||[],this._events[t].push(o)}}else console.warn("wrong listener type: "+typeof e)},_off:function(t,e,i){var n,o,s;if(this._events&&(n=this._events[t]))if(1!==arguments.length)if("function"==typeof e){var r=this._listens(t,e,i);if(!1!==r){var a=n[r];this._firingCount&&(a.fn=h,this._events[t]=n=n.slice()),n.splice(r,1)}}else console.warn("wrong listener type: "+typeof e);else{if(this._firingCount)for(o=0,s=n.length;o<s;o++)n[o].fn=h;delete this._events[t]}},fire:function(t,e,n){if(!this.listens(t,n))return this;var o=i({},e,{type:t,target:this,sourceTarget:e&&e.sourceTarget||this});if(this._events){var s=this._events[t];if(s){this._firingCount=this._firingCount+1||1;for(var r=0,a=s.length;r<a;r++){var l=s[r],h=l.fn;l.once&&this.off(t,h,l.ctx),h.call(l.ctx||this,o)}this._firingCount--}}return n&&this._propagateEvent(o),this},listens:function(t,e,i,n){"string"!=typeof t&&console.warn('"string" type argument expected');var o=e;"function"!=typeof e&&(n=!!e,o=void 0,i=void 0);var s=this._events&&this._events[t];if(s&&s.length&&!1!==this._listens(t,o,i))return!0;if(n)for(var r in this._eventParents)if(this._eventParents[r].listens(t,e,i,n))return!0;return!1},_listens:function(t,e,i){if(!this._events)return!1;var n=this._events[t]||[];if(!e)return!!n.length;i===this&&(i=void 0);for(var o=0,s=n.length;o<s;o++)if(n[o].fn===e&&n[o].ctx===i)return o;return!1},once:function(t,e,i){if("object"==typeof t)for(var n in t)this._on(n,t[n],e,!0);else for(var o=0,s=(t=d(t)).length;o<s;o++)this._on(t[o],e,i,!0);return this},addEventParent:function(t){return this._eventParents=this._eventParents||{},this._eventParents[r(t)]=t,this},removeEventParent:function(t){return this._eventParents&&delete this._eventParents[r(t)],this},_propagateEvent:function(t){for(var e in this._eventParents)this._eventParents[e].fire(t.type,i({layer:t.target,propagatedFrom:t.target},t),!0)}};A.addEventListener=A.on,A.removeEventListener=A.clearAllEventListeners=A.off,A.addOneTimeEventListener=A.once,A.fireEvent=A.fire,A.hasEventListeners=A.listens;var E=z.extend(A);function Z(t,e,i){this.x=i?Math.round(t):t,this.y=i?Math.round(e):e}var O=Math.trunc||function(t){return t>0?Math.floor(t):Math.ceil(t)};function I(t,e,i){return t instanceof Z?t:g(t)?new Z(t[0],t[1]):null==t?t:"object"==typeof t&&"x"in t&&"y"in t?new Z(t.x,t.y):new Z(t,e,i)}function B(t,e){if(t)for(var i=e?[t,e]:t,n=0,o=i.length;n<o;n++)this.extend(i[n])}function N(t,e){return!t||t instanceof B?t:new B(t,e)}function R(t,e){if(t)for(var i=e?[t,e]:t,n=0,o=i.length;n<o;n++)this.extend(i[n])}function D(t,e){return t instanceof R?t:new R(t,e)}function j(t,e,i){if(isNaN(t)||isNaN(e))throw new Error("Invalid LatLng object: ("+t+", "+e+")");this.lat=+t,this.lng=+e,void 0!==i&&(this.alt=+i)}function H(t,e,i){return t instanceof j?t:g(t)&&"object"!=typeof t[0]?3===t.length?new j(t[0],t[1],t[2]):2===t.length?new j(t[0],t[1]):null:null==t?t:"object"==typeof t&&"lat"in t?new j(t.lat,"lng"in t?t.lng:t.lon,t.alt):void 0===e?null:new j(t,e,i)}Z.prototype={clone:function(){return new Z(this.x,this.y)},add:function(t){return this.clone()._add(I(t))},_add:function(t){return this.x+=t.x,this.y+=t.y,this},subtract:function(t){return this.clone()._subtract(I(t))},_subtract:function(t){return this.x-=t.x,this.y-=t.y,this},divideBy:function(t){return this.clone()._divideBy(t)},_divideBy:function(t){return this.x/=t,this.y/=t,this},multiplyBy:function(t){return this.clone()._multiplyBy(t)},_multiplyBy:function(t){return this.x*=t,this.y*=t,this},scaleBy:function(t){return new Z(this.x*t.x,this.y*t.y)},unscaleBy:function(t){return new Z(this.x/t.x,this.y/t.y)},round:function(){return this.clone()._round()},_round:function(){return this.x=Math.round(this.x),this.y=Math.round(this.y),this},floor:function(){return this.clone()._floor()},_floor:function(){return this.x=Math.floor(this.x),this.y=Math.floor(this.y),this},ceil:function(){return this.clone()._ceil()},_ceil:function(){return this.x=Math.ceil(this.x),this.y=Math.ceil(this.y),this},trunc:function(){return this.clone()._trunc()},_trunc:function(){return this.x=O(this.x),this.y=O(this.y),this},distanceTo:function(t){var e=(t=I(t)).x-this.x,i=t.y-this.y;return Math.sqrt(e*e+i*i)},equals:function(t){return(t=I(t)).x===this.x&&t.y===this.y},contains:function(t){return t=I(t),Math.abs(t.x)<=Math.abs(this.x)&&Math.abs(t.y)<=Math.abs(this.y)},toString:function(){return"Point("+u(this.x)+", "+u(this.y)+")"}},B.prototype={extend:function(t){var e,i;if(!t)return this;if(t instanceof Z||"number"==typeof t[0]||"x"in t)e=i=I(t);else if(e=(t=N(t)).min,i=t.max,!e||!i)return this;return this.min||this.max?(this.min.x=Math.min(e.x,this.min.x),this.max.x=Math.max(i.x,this.max.x),this.min.y=Math.min(e.y,this.min.y),this.max.y=Math.max(i.y,this.max.y)):(this.min=e.clone(),this.max=i.clone()),this},getCenter:function(t){return I((this.min.x+this.max.x)/2,(this.min.y+this.max.y)/2,t)},getBottomLeft:function(){return I(this.min.x,this.max.y)},getTopRight:function(){return I(this.max.x,this.min.y)},getTopLeft:function(){return this.min},getBottomRight:function(){return this.max},getSize:function(){return this.max.subtract(this.min)},contains:function(t){var e,i;return(t="number"==typeof t[0]||t instanceof Z?I(t):N(t))instanceof B?(e=t.min,i=t.max):e=i=t,e.x>=this.min.x&&i.x<=this.max.x&&e.y>=this.min.y&&i.y<=this.max.y},intersects:function(t){t=N(t);var e=this.min,i=this.max,n=t.min,o=t.max,s=o.x>=e.x&&n.x<=i.x,r=o.y>=e.y&&n.y<=i.y;return s&&r},overlaps:function(t){t=N(t);var e=this.min,i=this.max,n=t.min,o=t.max,s=o.x>e.x&&n.x<i.x,r=o.y>e.y&&n.y<i.y;return s&&r},isValid:function(){return!(!this.min||!this.max)},pad:function(t){var e=this.min,i=this.max,n=Math.abs(e.x-i.x)*t,o=Math.abs(e.y-i.y)*t;return N(I(e.x-n,e.y-o),I(i.x+n,i.y+o))},equals:function(t){return!!t&&(t=N(t),this.min.equals(t.getTopLeft())&&this.max.equals(t.getBottomRight()))}},R.prototype={extend:function(t){var e,i,n=this._southWest,o=this._northEast;if(t instanceof j)e=t,i=t;else{if(!(t instanceof R))return t?this.extend(H(t)||D(t)):this;if(e=t._southWest,i=t._northEast,!e||!i)return this}return n||o?(n.lat=Math.min(e.lat,n.lat),n.lng=Math.min(e.lng,n.lng),o.lat=Math.max(i.lat,o.lat),o.lng=Math.max(i.lng,o.lng)):(this._southWest=new j(e.lat,e.lng),this._northEast=new j(i.lat,i.lng)),this},pad:function(t){var e=this._southWest,i=this._northEast,n=Math.abs(e.lat-i.lat)*t,o=Math.abs(e.lng-i.lng)*t;return new R(new j(e.lat-n,e.lng-o),new j(i.lat+n,i.lng+o))},getCenter:function(){return new j((this._southWest.lat+this._northEast.lat)/2,(this._southWest.lng+this._northEast.lng)/2)},getSouthWest:function(){return this._southWest},getNorthEast:function(){return this._northEast},getNorthWest:function(){return new j(this.getNorth(),this.getWest())},getSouthEast:function(){return new j(this.getSouth(),this.getEast())},getWest:function(){return this._southWest.lng},getSouth:function(){return this._southWest.lat},getEast:function(){return this._northEast.lng},getNorth:function(){return this._northEast.lat},contains:function(t){t="number"==typeof t[0]||t instanceof j||"lat"in t?H(t):D(t);var e,i,n=this._southWest,o=this._northEast;return t instanceof R?(e=t.getSouthWest(),i=t.getNorthEast()):e=i=t,e.lat>=n.lat&&i.lat<=o.lat&&e.lng>=n.lng&&i.lng<=o.lng},intersects:function(t){t=D(t);var e=this._southWest,i=this._northEast,n=t.getSouthWest(),o=t.getNorthEast(),s=o.lat>=e.lat&&n.lat<=i.lat,r=o.lng>=e.lng&&n.lng<=i.lng;return s&&r},overlaps:function(t){t=D(t);var e=this._southWest,i=this._northEast,n=t.getSouthWest(),o=t.getNorthEast(),s=o.lat>e.lat&&n.lat<i.lat,r=o.lng>e.lng&&n.lng<i.lng;return s&&r},toBBoxString:function(){return[this.getWest(),this.getSouth(),this.getEast(),this.getNorth()].join(",")},equals:function(t,e){return!!t&&(t=D(t),this._southWest.equals(t.getSouthWest(),e)&&this._northEast.equals(t.getNorthEast(),e))},isValid:function(){return!(!this._southWest||!this._northEast)}},j.prototype={equals:function(t,e){return!!t&&(t=H(t),Math.max(Math.abs(this.lat-t.lat),Math.abs(this.lng-t.lng))<=(void 0===e?1e-9:e))},toString:function(t){return"LatLng("+u(this.lat,t)+", "+u(this.lng,t)+")"},distanceTo:function(t){return W.distance(this,H(t))},wrap:function(){return W.wrapLatLng(this)},toBounds:function(t){var e=180*t/40075017,i=e/Math.cos(Math.PI/180*this.lat);return D([this.lat-e,this.lng-i],[this.lat+e,this.lng+i])},clone:function(){return new j(this.lat,this.lng,this.alt)}};var F,G={latLngToPoint:function(t,e){var i=this.projection.project(t),n=this.scale(e);return this.transformation._transform(i,n)},pointToLatLng:function(t,e){var i=this.scale(e),n=this.transformation.untransform(t,i);return this.projection.unproject(n)},project:function(t){return this.projection.project(t)},unproject:function(t){return this.projection.unproject(t)},scale:function(t){return 256*Math.pow(2,t)},zoom:function(t){return Math.log(t/256)/Math.LN2},getProjectedBounds:function(t){if(this.infinite)return null;var e=this.projection.bounds,i=this.scale(t);return new B(this.transformation.transform(e.min,i),this.transformation.transform(e.max,i))},infinite:!1,wrapLatLng:function(t){var e=this.wrapLng?l(t.lng,this.wrapLng,!0):t.lng;return new j(this.wrapLat?l(t.lat,this.wrapLat,!0):t.lat,e,t.alt)},wrapLatLngBounds:function(t){var e=t.getCenter(),i=this.wrapLatLng(e),n=e.lat-i.lat,o=e.lng-i.lng;if(0===n&&0===o)return t;var s=t.getSouthWest(),r=t.getNorthEast();return new R(new j(s.lat-n,s.lng-o),new j(r.lat-n,r.lng-o))}},W=i({},G,{wrapLng:[-180,180],R:6371e3,distance:function(t,e){var i=Math.PI/180,n=t.lat*i,o=e.lat*i,s=Math.sin((e.lat-t.lat)*i/2),r=Math.sin((e.lng-t.lng)*i/2),a=s*s+Math.cos(n)*Math.cos(o)*r*r,l=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));return this.R*l}}),U=6378137,q={R:U,MAX_LATITUDE:85.0511287798,project:function(t){var e=Math.PI/180,i=this.MAX_LATITUDE,n=Math.max(Math.min(i,t.lat),-i),o=Math.sin(n*e);return new Z(this.R*t.lng*e,this.R*Math.log((1+o)/(1-o))/2)},unproject:function(t){var e=180/Math.PI;return new j((2*Math.atan(Math.exp(t.y/this.R))-Math.PI/2)*e,t.x*e/this.R)},bounds:(F=U*Math.PI,new B([-F,-F],[F,F]))};function V(t,e,i,n){if(g(t))return this._a=t[0],this._b=t[1],this._c=t[2],void(this._d=t[3]);this._a=t,this._b=e,this._c=i,this._d=n}function Y(t,e,i,n){return new V(t,e,i,n)}V.prototype={transform:function(t,e){return this._transform(t.clone(),e)},_transform:function(t,e){return e=e||1,t.x=e*(this._a*t.x+this._b),t.y=e*(this._c*t.y+this._d),t},untransform:function(t,e){return e=e||1,new Z((t.x/e-this._b)/this._a,(t.y/e-this._d)/this._c)}};var K,J=i({},W,{code:"EPSG:3857",projection:q,transformation:(K=.5/(Math.PI*q.R),Y(K,.5,-K,.5))}),X=i({},J,{code:"EPSG:900913"});function Q(t){return document.createElementNS("http://www.w3.org/2000/svg",t)}function $(t,e){var i,n,o,s,r,a,l="";for(i=0,o=t.length;i<o;i++){for(n=0,s=(r=t[i]).length;n<s;n++)l+=(n?"L":"M")+(a=r[n]).x+" "+a.y;l+=e?Dt.svg?"z":"x":""}return l||"M0 0"}var tt,et=document.documentElement.style,it="ActiveXObject"in window,nt=it&&!document.addEventListener,ot="msLaunchUri"in navigator&&!("documentMode"in document),st=Rt("webkit"),rt=Rt("android"),at=Rt("android 2")||Rt("android 3"),lt=parseInt(/WebKit\/([0-9]+)|$/.exec(navigator.userAgent)[1],10),ht=rt&&Rt("Google")&&lt<537&&!("AudioNode"in window),ut=!!window.opera,ct=!ot&&Rt("chrome"),dt=Rt("gecko")&&!st&&!ut&&!it,pt=!ct&&Rt("safari"),_t=Rt("phantom"),ft="OTransition"in et,mt=0===navigator.platform.indexOf("Win"),gt=it&&"transition"in et,vt="WebKitCSSMatrix"in window&&"m11"in new window.WebKitCSSMatrix&&!at,yt="MozPerspective"in et,xt=!window.L_DISABLE_3D&&(gt||vt||yt)&&!ft&&!_t,Lt="undefined"!=typeof orientation||Rt("mobile"),bt=Lt&&st,wt=Lt&&vt,Pt=!window.PointerEvent&&window.MSPointerEvent,Ct=!(!window.PointerEvent&&!Pt),Mt="ontouchstart"in window||!!window.TouchEvent,Tt=!window.L_NO_TOUCH&&(Mt||Ct),kt=Lt&&ut,zt=Lt&&dt,St=(window.devicePixelRatio||window.screen.deviceXDPI/window.screen.logicalXDPI)>1,At=function(){var t=!1;try{var e=Object.defineProperty({},"passive",{get:function(){t=!0}});window.addEventListener("testPassiveEventSupport",h,e),window.removeEventListener("testPassiveEventSupport",h,e)}catch(i){}return t}(),Et=!!document.createElement("canvas").getContext,Zt=!(!document.createElementNS||!Q("svg").createSVGRect),Ot=!!Zt&&((tt=document.createElement("div")).innerHTML="<svg/>","http://www.w3.org/2000/svg"===(tt.firstChild&&tt.firstChild.namespaceURI)),It=!Zt&&function(){try{var t=document.createElement("div");t.innerHTML='<v:shape adj="1"/>';var e=t.firstChild;return e.style.behavior="url(#default#VML)",e&&"object"==typeof e.adj}catch(i){return!1}}(),Bt=0===navigator.platform.indexOf("Mac"),Nt=0===navigator.platform.indexOf("Linux");function Rt(t){return navigator.userAgent.toLowerCase().indexOf(t)>=0}var Dt={ie:it,ielt9:nt,edge:ot,webkit:st,android:rt,android23:at,androidStock:ht,opera:ut,chrome:ct,gecko:dt,safari:pt,phantom:_t,opera12:ft,win:mt,ie3d:gt,webkit3d:vt,gecko3d:yt,any3d:xt,mobile:Lt,mobileWebkit:bt,mobileWebkit3d:wt,msPointer:Pt,pointer:Ct,touch:Tt,touchNative:Mt,mobileOpera:kt,mobileGecko:zt,retina:St,passiveEvents:At,canvas:Et,svg:Zt,vml:It,inlineSvg:Ot,mac:Bt,linux:Nt},jt=Dt.msPointer?"MSPointerDown":"pointerdown",Ht=Dt.msPointer?"MSPointerMove":"pointermove",Ft=Dt.msPointer?"MSPointerUp":"pointerup",Gt=Dt.msPointer?"MSPointerCancel":"pointercancel",Wt={touchstart:jt,touchmove:Ht,touchend:Ft,touchcancel:Gt},Ut={touchstart:ee,touchmove:te,touchend:te,touchcancel:te},qt={},Vt=!1;function Yt(t,e,i){return"touchstart"===e&&$t(),Ut[e]?(i=Ut[e].bind(this,i),t.addEventListener(Wt[e],i,!1),i):(console.warn("wrong event specified:",e),h)}function Kt(t,e,i){Wt[e]?t.removeEventListener(Wt[e],i,!1):console.warn("wrong event specified:",e)}function Jt(t){qt[t.pointerId]=t}function Xt(t){qt[t.pointerId]&&(qt[t.pointerId]=t)}function Qt(t){delete qt[t.pointerId]}function $t(){Vt||(document.addEventListener(jt,Jt,!0),document.addEventListener(Ht,Xt,!0),document.addEventListener(Ft,Qt,!0),document.addEventListener(Gt,Qt,!0),Vt=!0)}function te(t,e){if(e.pointerType!==(e.MSPOINTER_TYPE_MOUSE||"mouse")){for(var i in e.touches=[],qt)e.touches.push(qt[i]);e.changedTouches=[e],t(e)}}function ee(t,e){e.MSPOINTER_TYPE_TOUCH&&e.pointerType===e.MSPOINTER_TYPE_TOUCH&&Je(e),te(t,e)}function ie(t){var e,i,n={};for(i in t)e=t[i],n[i]=e&&e.bind?e.bind(t):e;return t=n,n.type="dblclick",n.detail=2,n.isTrusted=!1,n._simulated=!0,n}var ne=200;function oe(t,e){t.addEventListener("dblclick",e);var i,n=0;function o(t){if(1===t.detail){if("mouse"!==t.pointerType&&(!t.sourceCapabilities||t.sourceCapabilities.firesTouchEvents)){var o=Qe(t);if(!o.some(function(t){return t instanceof HTMLLabelElement&&t.attributes.for})||o.some(function(t){return t instanceof HTMLInputElement||t instanceof HTMLSelectElement})){var s=Date.now();s-n<=ne?2===++i&&e(ie(t)):i=1,n=s}}}else i=t.detail}return t.addEventListener("click",o),{dblclick:e,simDblclick:o}}function se(t,e){t.removeEventListener("dblclick",e.dblclick),t.removeEventListener("click",e.simDblclick)}var re,ae,le,he,ue,ce=ke(["transform","webkitTransform","OTransform","MozTransform","msTransform"]),de=ke(["webkitTransition","transition","OTransition","MozTransition","msTransition"]),pe="webkitTransition"===de||"OTransition"===de?de+"End":"transitionend";function _e(t){return"string"==typeof t?document.getElementById(t):t}function fe(t,e){var i=t.style[e]||t.currentStyle&&t.currentStyle[e];if((!i||"auto"===i)&&document.defaultView){var n=document.defaultView.getComputedStyle(t,null);i=n?n[e]:null}return"auto"===i?null:i}function me(t,e,i){var n=document.createElement(t);return n.className=e||"",i&&i.appendChild(n),n}function ge(t){var e=t.parentNode;e&&e.removeChild(t)}function ve(t){for(;t.firstChild;)t.removeChild(t.firstChild)}function ye(t){var e=t.parentNode;e&&e.lastChild!==t&&e.appendChild(t)}function xe(t){var e=t.parentNode;e&&e.firstChild!==t&&e.insertBefore(t,e.firstChild)}function Le(t,e){if(void 0!==t.classList)return t.classList.contains(e);var i=Ce(t);return i.length>0&&new RegExp("(^|\\s)"+e+"(\\s|$)").test(i)}function be(t,e){if(void 0!==t.classList)for(var i=d(e),n=0,o=i.length;n<o;n++)t.classList.add(i[n]);else if(!Le(t,e)){var s=Ce(t);Pe(t,(s?s+" ":"")+e)}}function we(t,e){void 0!==t.classList?t.classList.remove(e):Pe(t,c((" "+Ce(t)+" ").replace(" "+e+" "," ")))}function Pe(t,e){void 0===t.className.baseVal?t.className=e:t.className.baseVal=e}function Ce(t){return t.correspondingElement&&(t=t.correspondingElement),void 0===t.className.baseVal?t.className:t.className.baseVal}function Me(t,e){"opacity"in t.style?t.style.opacity=e:"filter"in t.style&&Te(t,e)}function Te(t,e){var i=!1,n="DXImageTransform.Microsoft.Alpha";try{i=t.filters.item(n)}catch(o){if(1===e)return}e=Math.round(100*e),i?(i.Enabled=100!==e,i.Opacity=e):t.style.filter+=" progid:"+n+"(opacity="+e+")"}function ke(t){for(var e=document.documentElement.style,i=0;i<t.length;i++)if(t[i]in e)return t[i];return!1}function ze(t,e,i){var n=e||new Z(0,0);t.style[ce]=(Dt.ie3d?"translate("+n.x+"px,"+n.y+"px)":"translate3d("+n.x+"px,"+n.y+"px,0)")+(i?" scale("+i+")":"")}function Se(t,e){t._leaflet_pos=e,Dt.any3d?ze(t,e):(t.style.left=e.x+"px",t.style.top=e.y+"px")}function Ae(t){return t._leaflet_pos||new Z(0,0)}if("onselectstart"in document)re=function(){je(window,"selectstart",Je)},ae=function(){Fe(window,"selectstart",Je)};else{var Ee=ke(["userSelect","WebkitUserSelect","OUserSelect","MozUserSelect","msUserSelect"]);re=function(){if(Ee){var t=document.documentElement.style;le=t[Ee],t[Ee]="none"}},ae=function(){Ee&&(document.documentElement.style[Ee]=le,le=void 0)}}function Ze(){je(window,"dragstart",Je)}function Oe(){Fe(window,"dragstart",Je)}function Ie(t){for(;-1===t.tabIndex;)t=t.parentNode;t.style&&(Be(),he=t,ue=t.style.outlineStyle,t.style.outlineStyle="none",je(window,"keydown",Be))}function Be(){he&&(he.style.outlineStyle=ue,he=void 0,ue=void 0,Fe(window,"keydown",Be))}function Ne(t){do{t=t.parentNode}while(!(t.offsetWidth&&t.offsetHeight||t===document.body));return t}function Re(t){var e=t.getBoundingClientRect();return{x:e.width/t.offsetWidth||1,y:e.height/t.offsetHeight||1,boundingClientRect:e}}var De={__proto__:null,TRANSFORM:ce,TRANSITION:de,TRANSITION_END:pe,get:_e,getStyle:fe,create:me,remove:ge,empty:ve,toFront:ye,toBack:xe,hasClass:Le,addClass:be,removeClass:we,setClass:Pe,getClass:Ce,setOpacity:Me,testProp:ke,setTransform:ze,setPosition:Se,getPosition:Ae,get disableTextSelection(){return re},get enableTextSelection(){return ae},disableImageDrag:Ze,enableImageDrag:Oe,preventOutline:Ie,restoreOutline:Be,getSizedParentNode:Ne,getScale:Re};function je(t,e,i,n){if(e&&"object"==typeof e)for(var o in e)Ue(t,o,e[o],i);else for(var s=0,r=(e=d(e)).length;s<r;s++)Ue(t,e[s],i,n);return this}var He="_leaflet_events";function Fe(t,e,i,n){if(1===arguments.length)Ge(t),delete t[He];else if(e&&"object"==typeof e)for(var o in e)qe(t,o,e[o],i);else if(e=d(e),2===arguments.length)Ge(t,function(t){return-1!==v(e,t)});else for(var s=0,r=e.length;s<r;s++)qe(t,e[s],i,n);return this}function Ge(t,e){for(var i in t[He]){var n=i.split(/\d/)[0];e&&!e(n)||qe(t,n,null,null,i)}}var We={mouseenter:"mouseover",mouseleave:"mouseout",wheel:!("onwheel"in window)&&"mousewheel"};function Ue(t,e,i,n){var o=e+r(i)+(n?"_"+r(n):"");if(t[He]&&t[He][o])return this;var s=function(e){return i.call(n||t,e||window.event)},a=s;!Dt.touchNative&&Dt.pointer&&0===e.indexOf("touch")?s=Yt(t,e,s):Dt.touch&&"dblclick"===e?s=oe(t,s):"addEventListener"in t?"touchstart"===e||"touchmove"===e||"wheel"===e||"mousewheel"===e?t.addEventListener(We[e]||e,s,!!Dt.passiveEvents&&{passive:!1}):"mouseenter"===e||"mouseleave"===e?(s=function(e){e=e||window.event,ii(t,e)&&a(e)},t.addEventListener(We[e],s,!1)):t.addEventListener(e,a,!1):t.attachEvent("on"+e,s),t[He]=t[He]||{},t[He][o]=s}function qe(t,e,i,n,o){o=o||e+r(i)+(n?"_"+r(n):"");var s=t[He]&&t[He][o];if(!s)return this;!Dt.touchNative&&Dt.pointer&&0===e.indexOf("touch")?Kt(t,e,s):Dt.touch&&"dblclick"===e?se(t,s):"removeEventListener"in t?t.removeEventListener(We[e]||e,s,!1):t.detachEvent("on"+e,s),t[He][o]=null}function Ve(t){return t.stopPropagation?t.stopPropagation():t.originalEvent?t.originalEvent._stopped=!0:t.cancelBubble=!0,this}function Ye(t){return Ue(t,"wheel",Ve),this}function Ke(t){return je(t,"mousedown touchstart dblclick contextmenu",Ve),t._leaflet_disable_click=!0,this}function Je(t){return t.preventDefault?t.preventDefault():t.returnValue=!1,this}function Xe(t){return Je(t),Ve(t),this}function Qe(t){if(t.composedPath)return t.composedPath();for(var e=[],i=t.target;i;)e.push(i),i=i.parentNode;return e}function $e(t,e){if(!e)return new Z(t.clientX,t.clientY);var i=Re(e),n=i.boundingClientRect;return new Z((t.clientX-n.left)/i.x-e.clientLeft,(t.clientY-n.top)/i.y-e.clientTop)}var ti=Dt.linux&&Dt.chrome?window.devicePixelRatio:Dt.mac?3*window.devicePixelRatio:window.devicePixelRatio>0?2*window.devicePixelRatio:1;function ei(t){return Dt.edge?t.wheelDeltaY/2:t.deltaY&&0===t.deltaMode?-t.deltaY/ti:t.deltaY&&1===t.deltaMode?20*-t.deltaY:t.deltaY&&2===t.deltaMode?60*-t.deltaY:t.deltaX||t.deltaZ?0:t.wheelDelta?(t.wheelDeltaY||t.wheelDelta)/2:t.detail&&Math.abs(t.detail)<32765?20*-t.detail:t.detail?t.detail/-32765*60:0}function ii(t,e){var i=e.relatedTarget;if(!i)return!0;try{for(;i&&i!==t;)i=i.parentNode}catch(n){return!1}return i!==t}var ni={__proto__:null,on:je,off:Fe,stopPropagation:Ve,disableScrollPropagation:Ye,disableClickPropagation:Ke,preventDefault:Je,stop:Xe,getPropagationPath:Qe,getMousePosition:$e,getWheelDelta:ei,isExternalTarget:ii,addListener:je,removeListener:Fe},oi=E.extend({run:function(t,e,i,n){this.stop(),this._el=t,this._inProgress=!0,this._duration=i||.25,this._easeOutPower=1/Math.max(n||.5,.2),this._startPos=Ae(t),this._offset=e.subtract(this._startPos),this._startTime=+new Date,this.fire("start"),this._animate()},stop:function(){this._inProgress&&(this._step(!0),this._complete())},_animate:function(){this._animId=M(this._animate,this),this._step()},_step:function(t){var e=+new Date-this._startTime,i=1e3*this._duration;e<i?this._runFrame(this._easeOut(e/i),t):(this._runFrame(1),this._complete())},_runFrame:function(t,e){var i=this._startPos.add(this._offset.multiplyBy(t));e&&i._round(),Se(this._el,i),this.fire("step")},_complete:function(){T(this._animId),this._inProgress=!1,this.fire("end")},_easeOut:function(t){return 1-Math.pow(1-t,this._easeOutPower)}}),si=E.extend({options:{crs:J,center:void 0,zoom:void 0,minZoom:void 0,maxZoom:void 0,layers:[],maxBounds:void 0,renderer:void 0,zoomAnimation:!0,zoomAnimationThreshold:4,fadeAnimation:!0,markerZoomAnimation:!0,transform3DLimit:8388608,zoomSnap:1,zoomDelta:1,trackResize:!0},initialize:function(t,e){e=p(this,e),this._handlers=[],this._layers={},this._zoomBoundLayers={},this._sizeChanged=!0,this._initContainer(t),this._initLayout(),this._onResize=o(this._onResize,this),this._initEvents(),e.maxBounds&&this.setMaxBounds(e.maxBounds),void 0!==e.zoom&&(this._zoom=this._limitZoom(e.zoom)),e.center&&void 0!==e.zoom&&this.setView(H(e.center),e.zoom,{reset:!0}),this.callInitHooks(),this._zoomAnimated=de&&Dt.any3d&&!Dt.mobileOpera&&this.options.zoomAnimation,this._zoomAnimated&&(this._createAnimProxy(),je(this._proxy,pe,this._catchTransitionEnd,this)),this._addLayers(this.options.layers)},setView:function(t,e,n){return e=void 0===e?this._zoom:this._limitZoom(e),t=this._limitCenter(H(t),e,this.options.maxBounds),n=n||{},this._stop(),this._loaded&&!n.reset&&!0!==n&&(void 0!==n.animate&&(n.zoom=i({animate:n.animate},n.zoom),n.pan=i({animate:n.animate,duration:n.duration},n.pan)),this._zoom!==e?this._tryAnimatedZoom&&this._tryAnimatedZoom(t,e,n.zoom):this._tryAnimatedPan(t,n.pan))?(clearTimeout(this._sizeTimer),this):(this._resetView(t,e,n.pan&&n.pan.noMoveStart),this)},setZoom:function(t,e){return this._loaded?this.setView(this.getCenter(),t,{zoom:e}):(this._zoom=t,this)},zoomIn:function(t,e){return t=t||(Dt.any3d?this.options.zoomDelta:1),this.setZoom(this._zoom+t,e)},zoomOut:function(t,e){return t=t||(Dt.any3d?this.options.zoomDelta:1),this.setZoom(this._zoom-t,e)},setZoomAround:function(t,e,i){var n=this.getZoomScale(e),o=this.getSize().divideBy(2),s=(t instanceof Z?t:this.latLngToContainerPoint(t)).subtract(o).multiplyBy(1-1/n),r=this.containerPointToLatLng(o.add(s));return this.setView(r,e,{zoom:i})},_getBoundsCenterZoom:function(t,e){e=e||{},t=t.getBounds?t.getBounds():D(t);var i=I(e.paddingTopLeft||e.padding||[0,0]),n=I(e.paddingBottomRight||e.padding||[0,0]),o=this.getBoundsZoom(t,!1,i.add(n));if((o="number"==typeof e.maxZoom?Math.min(e.maxZoom,o):o)===1/0)return{center:t.getCenter(),zoom:o};var s=n.subtract(i).divideBy(2),r=this.project(t.getSouthWest(),o),a=this.project(t.getNorthEast(),o);return{center:this.unproject(r.add(a).divideBy(2).add(s),o),zoom:o}},fitBounds:function(t,e){if(!(t=D(t)).isValid())throw new Error("Bounds are not valid.");var i=this._getBoundsCenterZoom(t,e);return this.setView(i.center,i.zoom,e)},fitWorld:function(t){return this.fitBounds([[-90,-180],[90,180]],t)},panTo:function(t,e){return this.setView(t,this._zoom,{pan:e})},panBy:function(t,e){if(e=e||{},!(t=I(t).round()).x&&!t.y)return this.fire("moveend");if(!0!==e.animate&&!this.getSize().contains(t))return this._resetView(this.unproject(this.project(this.getCenter()).add(t)),this.getZoom()),this;if(this._panAnim||(this._panAnim=new oi,this._panAnim.on({step:this._onPanTransitionStep,end:this._onPanTransitionEnd},this)),e.noMoveStart||this.fire("movestart"),!1!==e.animate){be(this._mapPane,"leaflet-pan-anim");var i=this._getMapPanePos().subtract(t).round();this._panAnim.run(this._mapPane,i,e.duration||.25,e.easeLinearity)}else this._rawPanBy(t),this.fire("move").fire("moveend");return this},flyTo:function(t,e,i){if(!1===(i=i||{}).animate||!Dt.any3d)return this.setView(t,e,i);this._stop();var n=this.project(this.getCenter()),o=this.project(t),s=this.getSize(),r=this._zoom;t=H(t),e=void 0===e?r:e;var a=Math.max(s.x,s.y),l=a*this.getZoomScale(r,e),h=o.distanceTo(n)||1,u=1.42,c=u*u;function d(t){var e=(l*l-a*a+(t?-1:1)*c*c*h*h)/(2*(t?l:a)*c*h),i=Math.sqrt(e*e+1)-e;return i<1e-9?-18:Math.log(i)}function p(t){return(Math.exp(t)-Math.exp(-t))/2}function _(t){return(Math.exp(t)+Math.exp(-t))/2}function f(t){return p(t)/_(t)}var m=d(0);function g(t){return a*(_(m)/_(m+u*t))}function v(t){return a*(_(m)*f(m+u*t)-p(m))/c}function y(t){return 1-Math.pow(1-t,1.5)}var x=Date.now(),L=(d(1)-m)/u,b=i.duration?1e3*i.duration:1e3*L*.8;function w(){var i=(Date.now()-x)/b,s=y(i)*L;i<=1?(this._flyToFrame=M(w,this),this._move(this.unproject(n.add(o.subtract(n).multiplyBy(v(s)/h)),r),this.getScaleZoom(a/g(s),r),{flyTo:!0})):this._move(t,e)._moveEnd(!0)}return this._moveStart(!0,i.noMoveStart),w.call(this),this},flyToBounds:function(t,e){var i=this._getBoundsCenterZoom(t,e);return this.flyTo(i.center,i.zoom,e)},setMaxBounds:function(t){return t=D(t),this.listens("moveend",this._panInsideMaxBounds)&&this.off("moveend",this._panInsideMaxBounds),t.isValid()?(this.options.maxBounds=t,this._loaded&&this._panInsideMaxBounds(),this.on("moveend",this._panInsideMaxBounds)):(this.options.maxBounds=null,this)},setMinZoom:function(t){var e=this.options.minZoom;return this.options.minZoom=t,this._loaded&&e!==t&&(this.fire("zoomlevelschange"),this.getZoom()<this.options.minZoom)?this.setZoom(t):this},setMaxZoom:function(t){var e=this.options.maxZoom;return this.options.maxZoom=t,this._loaded&&e!==t&&(this.fire("zoomlevelschange"),this.getZoom()>this.options.maxZoom)?this.setZoom(t):this},panInsideBounds:function(t,e){this._enforcingBounds=!0;var i=this.getCenter(),n=this._limitCenter(i,this._zoom,D(t));return i.equals(n)||this.panTo(n,e),this._enforcingBounds=!1,this},panInside:function(t,e){var i=I((e=e||{}).paddingTopLeft||e.padding||[0,0]),n=I(e.paddingBottomRight||e.padding||[0,0]),o=this.project(this.getCenter()),s=this.project(t),r=this.getPixelBounds(),a=N([r.min.add(i),r.max.subtract(n)]),l=a.getSize();if(!a.contains(s)){this._enforcingBounds=!0;var h=s.subtract(a.getCenter()),u=a.extend(s).getSize().subtract(l);o.x+=h.x<0?-u.x:u.x,o.y+=h.y<0?-u.y:u.y,this.panTo(this.unproject(o),e),this._enforcingBounds=!1}return this},invalidateSize:function(t){if(!this._loaded)return this;t=i({animate:!1,pan:!0},!0===t?{animate:!0}:t);var e=this.getSize();this._sizeChanged=!0,this._lastCenter=null;var n=this.getSize(),s=e.divideBy(2).round(),r=n.divideBy(2).round(),a=s.subtract(r);return a.x||a.y?(t.animate&&t.pan?this.panBy(a):(t.pan&&this._rawPanBy(a),this.fire("move"),t.debounceMoveend?(clearTimeout(this._sizeTimer),this._sizeTimer=setTimeout(o(this.fire,this,"moveend"),200)):this.fire("moveend")),this.fire("resize",{oldSize:e,newSize:n})):this},stop:function(){return this.setZoom(this._limitZoom(this._zoom)),this.options.zoomSnap||this.fire("viewreset"),this._stop()},locate:function(t){if(t=this._locateOptions=i({timeout:1e4,watch:!1},t),!("geolocation"in navigator))return this._handleGeolocationError({code:0,message:"Geolocation not supported."}),this;var e=o(this._handleGeolocationResponse,this),n=o(this._handleGeolocationError,this);return t.watch?this._locationWatchId=navigator.geolocation.watchPosition(e,n,t):navigator.geolocation.getCurrentPosition(e,n,t),this},stopLocate:function(){return navigator.geolocation&&navigator.geolocation.clearWatch&&navigator.geolocation.clearWatch(this._locationWatchId),this._locateOptions&&(this._locateOptions.setView=!1),this},_handleGeolocationError:function(t){if(this._container._leaflet_id){var e=t.code,i=t.message||(1===e?"permission denied":2===e?"position unavailable":"timeout");this._locateOptions.setView&&!this._loaded&&this.fitWorld(),this.fire("locationerror",{code:e,message:"Geolocation error: "+i+"."})}},_handleGeolocationResponse:function(t){if(this._container._leaflet_id){var e=new j(t.coords.latitude,t.coords.longitude),i=e.toBounds(2*t.coords.accuracy),n=this._locateOptions;if(n.setView){var o=this.getBoundsZoom(i);this.setView(e,n.maxZoom?Math.min(o,n.maxZoom):o)}var s={latlng:e,bounds:i,timestamp:t.timestamp};for(var r in t.coords)"number"==typeof t.coords[r]&&(s[r]=t.coords[r]);this.fire("locationfound",s)}},addHandler:function(t,e){if(!e)return this;var i=this[t]=new e(this);return this._handlers.push(i),this.options[t]&&i.enable(),this},remove:function(){if(this._initEvents(!0),this.options.maxBounds&&this.off("moveend",this._panInsideMaxBounds),this._containerId!==this._container._leaflet_id)throw new Error("Map container is being reused by another instance");try{delete this._container._leaflet_id,delete this._containerId}catch(e){this._container._leaflet_id=void 0,this._containerId=void 0}var t;for(t in void 0!==this._locationWatchId&&this.stopLocate(),this._stop(),ge(this._mapPane),this._clearControlPos&&this._clearControlPos(),this._resizeRequest&&(T(this._resizeRequest),this._resizeRequest=null),this._clearHandlers(),this._loaded&&this.fire("unload"),this._layers)this._layers[t].remove();for(t in this._panes)ge(this._panes[t]);return this._layers=[],this._panes=[],delete this._mapPane,delete this._renderer,this},createPane:function(t,e){var i=me("div","leaflet-pane"+(t?" leaflet-"+t.replace("Pane","")+"-pane":""),e||this._mapPane);return t&&(this._panes[t]=i),i},getCenter:function(){return this._checkIfLoaded(),this._lastCenter&&!this._moved()?this._lastCenter.clone():this.layerPointToLatLng(this._getCenterLayerPoint())},getZoom:function(){return this._zoom},getBounds:function(){var t=this.getPixelBounds();return new R(this.unproject(t.getBottomLeft()),this.unproject(t.getTopRight()))},getMinZoom:function(){return void 0===this.options.minZoom?this._layersMinZoom||0:this.options.minZoom},getMaxZoom:function(){return void 0===this.options.maxZoom?void 0===this._layersMaxZoom?1/0:this._layersMaxZoom:this.options.maxZoom},getBoundsZoom:function(t,e,i){t=D(t),i=I(i||[0,0]);var n=this.getZoom()||0,o=this.getMinZoom(),s=this.getMaxZoom(),r=t.getNorthWest(),a=t.getSouthEast(),l=this.getSize().subtract(i),h=N(this.project(a,n),this.project(r,n)).getSize(),u=Dt.any3d?this.options.zoomSnap:1,c=l.x/h.x,d=l.y/h.y,p=e?Math.max(c,d):Math.min(c,d);return n=this.getScaleZoom(p,n),u&&(n=Math.round(n/(u/100))*(u/100),n=e?Math.ceil(n/u)*u:Math.floor(n/u)*u),Math.max(o,Math.min(s,n))},getSize:function(){return this._size&&!this._sizeChanged||(this._size=new Z(this._container.clientWidth||0,this._container.clientHeight||0),this._sizeChanged=!1),this._size.clone()},getPixelBounds:function(t,e){var i=this._getTopLeftPoint(t,e);return new B(i,i.add(this.getSize()))},getPixelOrigin:function(){return this._checkIfLoaded(),this._pixelOrigin},getPixelWorldBounds:function(t){return this.options.crs.getProjectedBounds(void 0===t?this.getZoom():t)},getPane:function(t){return"string"==typeof t?this._panes[t]:t},getPanes:function(){return this._panes},getContainer:function(){return this._container},getZoomScale:function(t,e){var i=this.options.crs;return e=void 0===e?this._zoom:e,i.scale(t)/i.scale(e)},getScaleZoom:function(t,e){var i=this.options.crs;e=void 0===e?this._zoom:e;var n=i.zoom(t*i.scale(e));return isNaN(n)?1/0:n},project:function(t,e){return e=void 0===e?this._zoom:e,this.options.crs.latLngToPoint(H(t),e)},unproject:function(t,e){return e=void 0===e?this._zoom:e,this.options.crs.pointToLatLng(I(t),e)},layerPointToLatLng:function(t){var e=I(t).add(this.getPixelOrigin());return this.unproject(e)},latLngToLayerPoint:function(t){return this.project(H(t))._round()._subtract(this.getPixelOrigin())},wrapLatLng:function(t){return this.options.crs.wrapLatLng(H(t))},wrapLatLngBounds:function(t){return this.options.crs.wrapLatLngBounds(D(t))},distance:function(t,e){return this.options.crs.distance(H(t),H(e))},containerPointToLayerPoint:function(t){return I(t).subtract(this._getMapPanePos())},layerPointToContainerPoint:function(t){return I(t).add(this._getMapPanePos())},containerPointToLatLng:function(t){var e=this.containerPointToLayerPoint(I(t));return this.layerPointToLatLng(e)},latLngToContainerPoint:function(t){return this.layerPointToContainerPoint(this.latLngToLayerPoint(H(t)))},mouseEventToContainerPoint:function(t){return $e(t,this._container)},mouseEventToLayerPoint:function(t){return this.containerPointToLayerPoint(this.mouseEventToContainerPoint(t))},mouseEventToLatLng:function(t){return this.layerPointToLatLng(this.mouseEventToLayerPoint(t))},_initContainer:function(t){var e=this._container=_e(t);if(!e)throw new Error("Map container not found.");if(e._leaflet_id)throw new Error("Map container is already initialized.");je(e,"scroll",this._onScroll,this),this._containerId=r(e)},_initLayout:function(){var t=this._container;this._fadeAnimated=this.options.fadeAnimation&&Dt.any3d,be(t,"leaflet-container"+(Dt.touch?" leaflet-touch":"")+(Dt.retina?" leaflet-retina":"")+(Dt.ielt9?" leaflet-oldie":"")+(Dt.safari?" leaflet-safari":"")+(this._fadeAnimated?" leaflet-fade-anim":""));var e=fe(t,"position");"absolute"!==e&&"relative"!==e&&"fixed"!==e&&"sticky"!==e&&(t.style.position="relative"),this._initPanes(),this._initControlPos&&this._initControlPos()},_initPanes:function(){var t=this._panes={};this._paneRenderers={},this._mapPane=this.createPane("mapPane",this._container),Se(this._mapPane,new Z(0,0)),this.createPane("tilePane"),this.createPane("overlayPane"),this.createPane("shadowPane"),this.createPane("markerPane"),this.createPane("tooltipPane"),this.createPane("popupPane"),this.options.markerZoomAnimation||(be(t.markerPane,"leaflet-zoom-hide"),be(t.shadowPane,"leaflet-zoom-hide"))},_resetView:function(t,e,i){Se(this._mapPane,new Z(0,0));var n=!this._loaded;this._loaded=!0,e=this._limitZoom(e),this.fire("viewprereset");var o=this._zoom!==e;this._moveStart(o,i)._move(t,e)._moveEnd(o),this.fire("viewreset"),n&&this.fire("load")},_moveStart:function(t,e){return t&&this.fire("zoomstart"),e||this.fire("movestart"),this},_move:function(t,e,i,n){void 0===e&&(e=this._zoom);var o=this._zoom!==e;return this._zoom=e,this._lastCenter=t,this._pixelOrigin=this._getNewPixelOrigin(t),n?i&&i.pinch&&this.fire("zoom",i):((o||i&&i.pinch)&&this.fire("zoom",i),this.fire("move",i)),this},_moveEnd:function(t){return t&&this.fire("zoomend"),this.fire("moveend")},_stop:function(){return T(this._flyToFrame),this._panAnim&&this._panAnim.stop(),this},_rawPanBy:function(t){Se(this._mapPane,this._getMapPanePos().subtract(t))},_getZoomSpan:function(){return this.getMaxZoom()-this.getMinZoom()},_panInsideMaxBounds:function(){this._enforcingBounds||this.panInsideBounds(this.options.maxBounds)},_checkIfLoaded:function(){if(!this._loaded)throw new Error("Set map center and zoom first.")},_initEvents:function(t){this._targets={},this._targets[r(this._container)]=this;var e=t?Fe:je;e(this._container,"click dblclick mousedown mouseup mouseover mouseout mousemove contextmenu keypress keydown keyup",this._handleDOMEvent,this),this.options.trackResize&&e(window,"resize",this._onResize,this),Dt.any3d&&this.options.transform3DLimit&&(t?this.off:this.on).call(this,"moveend",this._onMoveEnd)},_onResize:function(){T(this._resizeRequest),this._resizeRequest=M(function(){this.invalidateSize({debounceMoveend:!0})},this)},_onScroll:function(){this._container.scrollTop=0,this._container.scrollLeft=0},_onMoveEnd:function(){var t=this._getMapPanePos();Math.max(Math.abs(t.x),Math.abs(t.y))>=this.options.transform3DLimit&&this._resetView(this.getCenter(),this.getZoom())},_findEventTargets:function(t,e){for(var i,n=[],o="mouseout"===e||"mouseover"===e,s=t.target||t.srcElement,a=!1;s;){if((i=this._targets[r(s)])&&("click"===e||"preclick"===e)&&this._draggableMoved(i)){a=!0;break}if(i&&i.listens(e,!0)){if(o&&!ii(s,t))break;if(n.push(i),o)break}if(s===this._container)break;s=s.parentNode}return n.length||a||o||!this.listens(e,!0)||(n=[this]),n},_isClickDisabled:function(t){for(;t&&t!==this._container;){if(t._leaflet_disable_click)return!0;t=t.parentNode}},_handleDOMEvent:function(t){var e=t.target||t.srcElement;if(!(!this._loaded||e._leaflet_disable_events||"click"===t.type&&this._isClickDisabled(e))){var i=t.type;"mousedown"===i&&Ie(e),this._fireDOMEvent(t,i)}},_mouseEvents:["click","dblclick","mouseover","mouseout","contextmenu"],_fireDOMEvent:function(t,e,n){if("click"===t.type){var o=i({},t);o.type="preclick",this._fireDOMEvent(o,o.type,n)}var s=this._findEventTargets(t,e);if(n){for(var r=[],a=0;a<n.length;a++)n[a].listens(e,!0)&&r.push(n[a]);s=r.concat(s)}if(s.length){"contextmenu"===e&&Je(t);var l=s[0],h={originalEvent:t};if("keypress"!==t.type&&"keydown"!==t.type&&"keyup"!==t.type){var u=l.getLatLng&&(!l._radius||l._radius<=10);h.containerPoint=u?this.latLngToContainerPoint(l.getLatLng()):this.mouseEventToContainerPoint(t),h.layerPoint=this.containerPointToLayerPoint(h.containerPoint),h.latlng=u?l.getLatLng():this.layerPointToLatLng(h.layerPoint)}for(a=0;a<s.length;a++)if(s[a].fire(e,h,!0),h.originalEvent._stopped||!1===s[a].options.bubblingMouseEvents&&-1!==v(this._mouseEvents,e))return}},_draggableMoved:function(t){return(t=t.dragging&&t.dragging.enabled()?t:this).dragging&&t.dragging.moved()||this.boxZoom&&this.boxZoom.moved()},_clearHandlers:function(){for(var t=0,e=this._handlers.length;t<e;t++)this._handlers[t].disable()},whenReady:function(t,e){return this._loaded?t.call(e||this,{target:this}):this.on("load",t,e),this},_getMapPanePos:function(){return Ae(this._mapPane)||new Z(0,0)},_moved:function(){var t=this._getMapPanePos();return t&&!t.equals([0,0])},_getTopLeftPoint:function(t,e){return(t&&void 0!==e?this._getNewPixelOrigin(t,e):this.getPixelOrigin()).subtract(this._getMapPanePos())},_getNewPixelOrigin:function(t,e){var i=this.getSize()._divideBy(2);return this.project(t,e)._subtract(i)._add(this._getMapPanePos())._round()},_latLngToNewLayerPoint:function(t,e,i){var n=this._getNewPixelOrigin(i,e);return this.project(t,e)._subtract(n)},_latLngBoundsToNewLayerBounds:function(t,e,i){var n=this._getNewPixelOrigin(i,e);return N([this.project(t.getSouthWest(),e)._subtract(n),this.project(t.getNorthWest(),e)._subtract(n),this.project(t.getSouthEast(),e)._subtract(n),this.project(t.getNorthEast(),e)._subtract(n)])},_getCenterLayerPoint:function(){return this.containerPointToLayerPoint(this.getSize()._divideBy(2))},_getCenterOffset:function(t){return this.latLngToLayerPoint(t).subtract(this._getCenterLayerPoint())},_limitCenter:function(t,e,i){if(!i)return t;var n=this.project(t,e),o=this.getSize().divideBy(2),s=new B(n.subtract(o),n.add(o)),r=this._getBoundsOffset(s,i,e);return Math.abs(r.x)<=1&&Math.abs(r.y)<=1?t:this.unproject(n.add(r),e)},_limitOffset:function(t,e){if(!e)return t;var i=this.getPixelBounds(),n=new B(i.min.add(t),i.max.add(t));return t.add(this._getBoundsOffset(n,e))},_getBoundsOffset:function(t,e,i){var n=N(this.project(e.getNorthEast(),i),this.project(e.getSouthWest(),i)),o=n.min.subtract(t.min),s=n.max.subtract(t.max);return new Z(this._rebound(o.x,-s.x),this._rebound(o.y,-s.y))},_rebound:function(t,e){return t+e>0?Math.round(t-e)/2:Math.max(0,Math.ceil(t))-Math.max(0,Math.floor(e))},_limitZoom:function(t){var e=this.getMinZoom(),i=this.getMaxZoom(),n=Dt.any3d?this.options.zoomSnap:1;return n&&(t=Math.round(t/n)*n),Math.max(e,Math.min(i,t))},_onPanTransitionStep:function(){this.fire("move")},_onPanTransitionEnd:function(){we(this._mapPane,"leaflet-pan-anim"),this.fire("moveend")},_tryAnimatedPan:function(t,e){var i=this._getCenterOffset(t)._trunc();return!(!0!==(e&&e.animate)&&!this.getSize().contains(i)||(this.panBy(i,e),0))},_createAnimProxy:function(){var t=this._proxy=me("div","leaflet-proxy leaflet-zoom-animated");this._panes.mapPane.appendChild(t),this.on("zoomanim",function(t){var e=ce,i=this._proxy.style[e];ze(this._proxy,this.project(t.center,t.zoom),this.getZoomScale(t.zoom,1)),i===this._proxy.style[e]&&this._animatingZoom&&this._onZoomTransitionEnd()},this),this.on("load moveend",this._animMoveEnd,this),this._on("unload",this._destroyAnimProxy,this)},_destroyAnimProxy:function(){ge(this._proxy),this.off("load moveend",this._animMoveEnd,this),delete this._proxy},_animMoveEnd:function(){var t=this.getCenter(),e=this.getZoom();ze(this._proxy,this.project(t,e),this.getZoomScale(e,1))},_catchTransitionEnd:function(t){this._animatingZoom&&t.propertyName.indexOf("transform")>=0&&this._onZoomTransitionEnd()},_nothingToAnimate:function(){return!this._container.getElementsByClassName("leaflet-zoom-animated").length},_tryAnimatedZoom:function(t,e,i){if(this._animatingZoom)return!0;if(i=i||{},!this._zoomAnimated||!1===i.animate||this._nothingToAnimate()||Math.abs(e-this._zoom)>this.options.zoomAnimationThreshold)return!1;var n=this.getZoomScale(e),o=this._getCenterOffset(t)._divideBy(1-1/n);return!(!0!==i.animate&&!this.getSize().contains(o)||(M(function(){this._moveStart(!0,i.noMoveStart||!1)._animateZoom(t,e,!0)},this),0))},_animateZoom:function(t,e,i,n){this._mapPane&&(i&&(this._animatingZoom=!0,this._animateToCenter=t,this._animateToZoom=e,be(this._mapPane,"leaflet-zoom-anim")),this.fire("zoomanim",{center:t,zoom:e,noUpdate:n}),this._tempFireZoomEvent||(this._tempFireZoomEvent=this._zoom!==this._animateToZoom),this._move(this._animateToCenter,this._animateToZoom,void 0,!0),setTimeout(o(this._onZoomTransitionEnd,this),250))},_onZoomTransitionEnd:function(){this._animatingZoom&&(this._mapPane&&we(this._mapPane,"leaflet-zoom-anim"),this._animatingZoom=!1,this._move(this._animateToCenter,this._animateToZoom,void 0,!0),this._tempFireZoomEvent&&this.fire("zoom"),delete this._tempFireZoomEvent,this.fire("move"),this._moveEnd(!0))}});function ri(t,e){return new si(t,e)}var ai=z.extend({options:{position:"topright"},initialize:function(t){p(this,t)},getPosition:function(){return this.options.position},setPosition:function(t){var e=this._map;return e&&e.removeControl(this),this.options.position=t,e&&e.addControl(this),this},getContainer:function(){return this._container},addTo:function(t){this.remove(),this._map=t;var e=this._container=this.onAdd(t),i=this.getPosition(),n=t._controlCorners[i];return be(e,"leaflet-control"),-1!==i.indexOf("bottom")?n.insertBefore(e,n.firstChild):n.appendChild(e),this._map.on("unload",this.remove,this),this},remove:function(){return this._map?(ge(this._container),this.onRemove&&this.onRemove(this._map),this._map.off("unload",this.remove,this),this._map=null,this):this},_refocusOnMap:function(t){this._map&&t&&t.screenX>0&&t.screenY>0&&this._map.getContainer().focus()}}),li=function(t){return new ai(t)};si.include({addControl:function(t){return t.addTo(this),this},removeControl:function(t){return t.remove(),this},_initControlPos:function(){var t=this._controlCorners={},e="leaflet-",i=this._controlContainer=me("div",e+"control-container",this._container);function n(n,o){var s=e+n+" "+e+o;t[n+o]=me("div",s,i)}n("top","left"),n("top","right"),n("bottom","left"),n("bottom","right")},_clearControlPos:function(){for(var t in this._controlCorners)ge(this._controlCorners[t]);ge(this._controlContainer),delete this._controlCorners,delete this._controlContainer}});var hi=ai.extend({options:{collapsed:!0,position:"topright",autoZIndex:!0,hideSingleBase:!1,sortLayers:!1,sortFunction:function(t,e,i,n){return i<n?-1:n<i?1:0}},initialize:function(t,e,i){for(var n in p(this,i),this._layerControlInputs=[],this._layers=[],this._lastZIndex=0,this._handlingClick=!1,this._preventClick=!1,t)this._addLayer(t[n],n);for(n in e)this._addLayer(e[n],n,!0)},onAdd:function(t){this._initLayout(),this._update(),this._map=t,t.on("zoomend",this._checkDisabledLayers,this);for(var e=0;e<this._layers.length;e++)this._layers[e].layer.on("add remove",this._onLayerChange,this);return this._container},addTo:function(t){return ai.prototype.addTo.call(this,t),this._expandIfNotCollapsed()},onRemove:function(){this._map.off("zoomend",this._checkDisabledLayers,this);for(var t=0;t<this._layers.length;t++)this._layers[t].layer.off("add remove",this._onLayerChange,this)},addBaseLayer:function(t,e){return this._addLayer(t,e),this._map?this._update():this},addOverlay:function(t,e){return this._addLayer(t,e,!0),this._map?this._update():this},removeLayer:function(t){t.off("add remove",this._onLayerChange,this);var e=this._getLayer(r(t));return e&&this._layers.splice(this._layers.indexOf(e),1),this._map?this._update():this},expand:function(){be(this._container,"leaflet-control-layers-expanded"),this._section.style.height=null;var t=this._map.getSize().y-(this._container.offsetTop+50);return t<this._section.clientHeight?(be(this._section,"leaflet-control-layers-scrollbar"),this._section.style.height=t+"px"):we(this._section,"leaflet-control-layers-scrollbar"),this._checkDisabledLayers(),this},collapse:function(){return we(this._container,"leaflet-control-layers-expanded"),this},_initLayout:function(){var t="leaflet-control-layers",e=this._container=me("div",t),i=this.options.collapsed;e.setAttribute("aria-haspopup",!0),Ke(e),Ye(e);var n=this._section=me("section",t+"-list");i&&(this._map.on("click",this.collapse,this),je(e,{mouseenter:this._expandSafely,mouseleave:this.collapse},this));var o=this._layersLink=me("a",t+"-toggle",e);o.href="#",o.title="Layers",o.setAttribute("role","button"),je(o,{keydown:function(t){13===t.keyCode&&this._expandSafely()},click:function(t){Je(t),this._expandSafely()}},this),i||this.expand(),this._baseLayersList=me("div",t+"-base",n),this._separator=me("div",t+"-separator",n),this._overlaysList=me("div",t+"-overlays",n),e.appendChild(n)},_getLayer:function(t){for(var e=0;e<this._layers.length;e++)if(this._layers[e]&&r(this._layers[e].layer)===t)return this._layers[e]},_addLayer:function(t,e,i){this._map&&t.on("add remove",this._onLayerChange,this),this._layers.push({layer:t,name:e,overlay:i}),this.options.sortLayers&&this._layers.sort(o(function(t,e){return this.options.sortFunction(t.layer,e.layer,t.name,e.name)},this)),this.options.autoZIndex&&t.setZIndex&&(this._lastZIndex++,t.setZIndex(this._lastZIndex)),this._expandIfNotCollapsed()},_update:function(){if(!this._container)return this;ve(this._baseLayersList),ve(this._overlaysList),this._layerControlInputs=[];var t,e,i,n,o=0;for(i=0;i<this._layers.length;i++)n=this._layers[i],this._addItem(n),e=e||n.overlay,t=t||!n.overlay,o+=n.overlay?0:1;return this.options.hideSingleBase&&(t=t&&o>1,this._baseLayersList.style.display=t?"":"none"),this._separator.style.display=e&&t?"":"none",this},_onLayerChange:function(t){this._handlingClick||this._update();var e=this._getLayer(r(t.target)),i=e.overlay?"add"===t.type?"overlayadd":"overlayremove":"add"===t.type?"baselayerchange":null;i&&this._map.fire(i,e)},_createRadioElement:function(t,e){var i='<input type="radio" class="leaflet-control-layers-selector" name="'+t+'"'+(e?' checked="checked"':"")+"/>",n=document.createElement("div");return n.innerHTML=i,n.firstChild},_addItem:function(t){var e,i=document.createElement("label"),n=this._map.hasLayer(t.layer);t.overlay?((e=document.createElement("input")).type="checkbox",e.className="leaflet-control-layers-selector",e.defaultChecked=n):e=this._createRadioElement("leaflet-base-layers_"+r(this),n),this._layerControlInputs.push(e),e.layerId=r(t.layer),je(e,"click",this._onInputClick,this);var o=document.createElement("span");o.innerHTML=" "+t.name;var s=document.createElement("span");return i.appendChild(s),s.appendChild(e),s.appendChild(o),(t.overlay?this._overlaysList:this._baseLayersList).appendChild(i),this._checkDisabledLayers(),i},_onInputClick:function(){if(!this._preventClick){var t,e,i=this._layerControlInputs,n=[],o=[];this._handlingClick=!0;for(var s=i.length-1;s>=0;s--)t=i[s],e=this._getLayer(t.layerId).layer,t.checked?n.push(e):t.checked||o.push(e);for(s=0;s<o.length;s++)this._map.hasLayer(o[s])&&this._map.removeLayer(o[s]);for(s=0;s<n.length;s++)this._map.hasLayer(n[s])||this._map.addLayer(n[s]);this._handlingClick=!1,this._refocusOnMap()}},_checkDisabledLayers:function(){for(var t,e,i=this._layerControlInputs,n=this._map.getZoom(),o=i.length-1;o>=0;o--)t=i[o],e=this._getLayer(t.layerId).layer,t.disabled=void 0!==e.options.minZoom&&n<e.options.minZoom||void 0!==e.options.maxZoom&&n>e.options.maxZoom},_expandIfNotCollapsed:function(){return this._map&&!this.options.collapsed&&this.expand(),this},_expandSafely:function(){var t=this._section;this._preventClick=!0,je(t,"click",Je),this.expand();var e=this;setTimeout(function(){Fe(t,"click",Je),e._preventClick=!1})}}),ui=function(t,e,i){return new hi(t,e,i)},ci=ai.extend({options:{position:"topleft",zoomInText:'<span aria-hidden="true">+</span>',zoomInTitle:"Zoom in",zoomOutText:'<span aria-hidden="true">&#x2212;</span>',zoomOutTitle:"Zoom out"},onAdd:function(t){var e="leaflet-control-zoom",i=me("div",e+" leaflet-bar"),n=this.options;return this._zoomInButton=this._createButton(n.zoomInText,n.zoomInTitle,e+"-in",i,this._zoomIn),this._zoomOutButton=this._createButton(n.zoomOutText,n.zoomOutTitle,e+"-out",i,this._zoomOut),this._updateDisabled(),t.on("zoomend zoomlevelschange",this._updateDisabled,this),i},onRemove:function(t){t.off("zoomend zoomlevelschange",this._updateDisabled,this)},disable:function(){return this._disabled=!0,this._updateDisabled(),this},enable:function(){return this._disabled=!1,this._updateDisabled(),this},_zoomIn:function(t){!this._disabled&&this._map._zoom<this._map.getMaxZoom()&&this._map.zoomIn(this._map.options.zoomDelta*(t.shiftKey?3:1))},_zoomOut:function(t){!this._disabled&&this._map._zoom>this._map.getMinZoom()&&this._map.zoomOut(this._map.options.zoomDelta*(t.shiftKey?3:1))},_createButton:function(t,e,i,n,o){var s=me("a",i,n);return s.innerHTML=t,s.href="#",s.title=e,s.setAttribute("role","button"),s.setAttribute("aria-label",e),Ke(s),je(s,"click",Xe),je(s,"click",o,this),je(s,"click",this._refocusOnMap,this),s},_updateDisabled:function(){var t=this._map,e="leaflet-disabled";we(this._zoomInButton,e),we(this._zoomOutButton,e),this._zoomInButton.setAttribute("aria-disabled","false"),this._zoomOutButton.setAttribute("aria-disabled","false"),(this._disabled||t._zoom===t.getMinZoom())&&(be(this._zoomOutButton,e),this._zoomOutButton.setAttribute("aria-disabled","true")),(this._disabled||t._zoom===t.getMaxZoom())&&(be(this._zoomInButton,e),this._zoomInButton.setAttribute("aria-disabled","true"))}});si.mergeOptions({zoomControl:!0}),si.addInitHook(function(){this.options.zoomControl&&(this.zoomControl=new ci,this.addControl(this.zoomControl))});var di=function(t){return new ci(t)},pi=ai.extend({options:{position:"bottomleft",maxWidth:100,metric:!0,imperial:!0},onAdd:function(t){var e="leaflet-control-scale",i=me("div",e),n=this.options;return this._addScales(n,e+"-line",i),t.on(n.updateWhenIdle?"moveend":"move",this._update,this),t.whenReady(this._update,this),i},onRemove:function(t){t.off(this.options.updateWhenIdle?"moveend":"move",this._update,this)},_addScales:function(t,e,i){t.metric&&(this._mScale=me("div",e,i)),t.imperial&&(this._iScale=me("div",e,i))},_update:function(){var t=this._map,e=t.getSize().y/2,i=t.distance(t.containerPointToLatLng([0,e]),t.containerPointToLatLng([this.options.maxWidth,e]));this._updateScales(i)},_updateScales:function(t){this.options.metric&&t&&this._updateMetric(t),this.options.imperial&&t&&this._updateImperial(t)},_updateMetric:function(t){var e=this._getRoundNum(t),i=e<1e3?e+" m":e/1e3+" km";this._updateScale(this._mScale,i,e/t)},_updateImperial:function(t){var e,i,n,o=3.2808399*t;o>5280?(e=o/5280,i=this._getRoundNum(e),this._updateScale(this._iScale,i+" mi",i/e)):(n=this._getRoundNum(o),this._updateScale(this._iScale,n+" ft",n/o))},_updateScale:function(t,e,i){t.style.width=Math.round(this.options.maxWidth*i)+"px",t.innerHTML=e},_getRoundNum:function(t){var e=Math.pow(10,(Math.floor(t)+"").length-1),i=t/e;return e*(i=i>=10?10:i>=5?5:i>=3?3:i>=2?2:1)}}),_i=function(t){return new pi(t)},fi='<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"/><path fill="#FFD500" d="M0 4h12v3H0z"/><path fill="#E0BC00" d="M0 7h12v1H0z"/></svg>',mi=ai.extend({options:{position:"bottomright",prefix:'<a href="https://leafletjs.com" title="A JavaScript library for interactive maps">'+(Dt.inlineSvg?fi+" ":"")+"Leaflet</a>"},initialize:function(t){p(this,t),this._attributions={}},onAdd:function(t){for(var e in t.attributionControl=this,this._container=me("div","leaflet-control-attribution"),Ke(this._container),t._layers)t._layers[e].getAttribution&&this.addAttribution(t._layers[e].getAttribution());return this._update(),t.on("layeradd",this._addAttribution,this),this._container},onRemove:function(t){t.off("layeradd",this._addAttribution,this)},_addAttribution:function(t){t.layer.getAttribution&&(this.addAttribution(t.layer.getAttribution()),t.layer.once("remove",function(){this.removeAttribution(t.layer.getAttribution())},this))},setPrefix:function(t){return this.options.prefix=t,this._update(),this},addAttribution:function(t){return t?(this._attributions[t]||(this._attributions[t]=0),this._attributions[t]++,this._update(),this):this},removeAttribution:function(t){return t?(this._attributions[t]&&(this._attributions[t]--,this._update()),this):this},_update:function(){if(this._map){var t=[];for(var e in this._attributions)this._attributions[e]&&t.push(e);var i=[];this.options.prefix&&i.push(this.options.prefix),t.length&&i.push(t.join(", ")),this._container.innerHTML=i.join(' <span aria-hidden="true">|</span> ')}}});si.mergeOptions({attributionControl:!0}),si.addInitHook(function(){this.options.attributionControl&&(new mi).addTo(this)});var gi=function(t){return new mi(t)};ai.Layers=hi,ai.Zoom=ci,ai.Scale=pi,ai.Attribution=mi,li.layers=ui,li.zoom=di,li.scale=_i,li.attribution=gi;var vi=z.extend({initialize:function(t){this._map=t},enable:function(){return this._enabled||(this._enabled=!0,this.addHooks()),this},disable:function(){return this._enabled?(this._enabled=!1,this.removeHooks(),this):this},enabled:function(){return!!this._enabled}});vi.addTo=function(t,e){return t.addHandler(e,this),this};var yi={Events:A},xi=Dt.touch?"touchstart mousedown":"mousedown",Li=E.extend({options:{clickTolerance:3},initialize:function(t,e,i,n){p(this,n),this._element=t,this._dragStartTarget=e||t,this._preventOutline=i},enable:function(){this._enabled||(je(this._dragStartTarget,xi,this._onDown,this),this._enabled=!0)},disable:function(){this._enabled&&(Li._dragging===this&&this.finishDrag(!0),Fe(this._dragStartTarget,xi,this._onDown,this),this._enabled=!1,this._moved=!1)},_onDown:function(t){if(this._enabled&&(this._moved=!1,!Le(this._element,"leaflet-zoom-anim")))if(t.touches&&1!==t.touches.length)Li._dragging===this&&this.finishDrag();else if(!(Li._dragging||t.shiftKey||1!==t.which&&1!==t.button&&!t.touches||(Li._dragging=this,this._preventOutline&&Ie(this._element),Ze(),re(),this._moving))){this.fire("down");var e=t.touches?t.touches[0]:t,i=Ne(this._element);this._startPoint=new Z(e.clientX,e.clientY),this._startPos=Ae(this._element),this._parentScale=Re(i);var n="mousedown"===t.type;je(document,n?"mousemove":"touchmove",this._onMove,this),je(document,n?"mouseup":"touchend touchcancel",this._onUp,this)}},_onMove:function(t){if(this._enabled)if(t.touches&&t.touches.length>1)this._moved=!0;else{var e=t.touches&&1===t.touches.length?t.touches[0]:t,i=new Z(e.clientX,e.clientY)._subtract(this._startPoint);(i.x||i.y)&&(Math.abs(i.x)+Math.abs(i.y)<this.options.clickTolerance||(i.x/=this._parentScale.x,i.y/=this._parentScale.y,Je(t),this._moved||(this.fire("dragstart"),this._moved=!0,be(document.body,"leaflet-dragging"),this._lastTarget=t.target||t.srcElement,window.SVGElementInstance&&this._lastTarget instanceof window.SVGElementInstance&&(this._lastTarget=this._lastTarget.correspondingUseElement),be(this._lastTarget,"leaflet-drag-target")),this._newPos=this._startPos.add(i),this._moving=!0,this._lastEvent=t,this._updatePosition()))}},_updatePosition:function(){var t={originalEvent:this._lastEvent};this.fire("predrag",t),Se(this._element,this._newPos),this.fire("drag",t)},_onUp:function(){this._enabled&&this.finishDrag()},finishDrag:function(t){we(document.body,"leaflet-dragging"),this._lastTarget&&(we(this._lastTarget,"leaflet-drag-target"),this._lastTarget=null),Fe(document,"mousemove touchmove",this._onMove,this),Fe(document,"mouseup touchend touchcancel",this._onUp,this),Oe(),ae();var e=this._moved&&this._moving;this._moving=!1,Li._dragging=!1,e&&this.fire("dragend",{noInertia:t,distance:this._newPos.distanceTo(this._startPos)})}});function bi(t,e,i){var n,o,s,r,a,l,h,u,c,d=[1,4,2,8];for(o=0,h=t.length;o<h;o++)t[o]._code=Ii(t[o],e);for(r=0;r<4;r++){for(u=d[r],n=[],o=0,s=(h=t.length)-1;o<h;s=o++)a=t[o],l=t[s],a._code&u?l._code&u||((c=Oi(l,a,u,e,i))._code=Ii(c,e),n.push(c)):(l._code&u&&((c=Oi(l,a,u,e,i))._code=Ii(c,e),n.push(c)),n.push(a));t=n}return t}function wi(t,e){var i,n,o,s,r,a,l,h,u;if(!t||0===t.length)throw new Error("latlngs not passed");Ri(t)||(console.warn("latlngs are not flat! Only the first ring will be used"),t=t[0]);var c=H([0,0]),d=D(t);d.getNorthWest().distanceTo(d.getSouthWest())*d.getNorthEast().distanceTo(d.getNorthWest())<1700&&(c=Pi(t));var p=t.length,_=[];for(i=0;i<p;i++){var f=H(t[i]);_.push(e.project(H([f.lat-c.lat,f.lng-c.lng])))}for(a=l=h=0,i=0,n=p-1;i<p;n=i++)o=_[i],s=_[n],r=o.y*s.x-s.y*o.x,l+=(o.x+s.x)*r,h+=(o.y+s.y)*r,a+=3*r;u=0===a?_[0]:[l/a,h/a];var m=e.unproject(I(u));return H([m.lat+c.lat,m.lng+c.lng])}function Pi(t){for(var e=0,i=0,n=0,o=0;o<t.length;o++){var s=H(t[o]);e+=s.lat,i+=s.lng,n++}return H([e/n,i/n])}var Ci,Mi={__proto__:null,clipPolygon:bi,polygonCenter:wi,centroid:Pi};function Ti(t,e){if(!e||!t.length)return t.slice();var i=e*e;return t=Si(t=Ei(t,i),i)}function ki(t,e,i){return Math.sqrt(Ni(t,e,i,!0))}function zi(t,e,i){return Ni(t,e,i)}function Si(t,e){var i=t.length,n=new("undefined"!=typeof Uint8Array?Uint8Array:Array)(i);n[0]=n[i-1]=1,Ai(t,n,e,0,i-1);var o,s=[];for(o=0;o<i;o++)n[o]&&s.push(t[o]);return s}function Ai(t,e,i,n,o){var s,r,a,l=0;for(r=n+1;r<=o-1;r++)(a=Ni(t[r],t[n],t[o],!0))>l&&(s=r,l=a);l>i&&(e[s]=1,Ai(t,e,i,n,s),Ai(t,e,i,s,o))}function Ei(t,e){for(var i=[t[0]],n=1,o=0,s=t.length;n<s;n++)Bi(t[n],t[o])>e&&(i.push(t[n]),o=n);return o<s-1&&i.push(t[s-1]),i}function Zi(t,e,i,n,o){var s,r,a,l=n?Ci:Ii(t,i),h=Ii(e,i);for(Ci=h;;){if(!(l|h))return[t,e];if(l&h)return!1;a=Ii(r=Oi(t,e,s=l||h,i,o),i),s===l?(t=r,l=a):(e=r,h=a)}}function Oi(t,e,i,n,o){var s,r,a=e.x-t.x,l=e.y-t.y,h=n.min,u=n.max;return 8&i?(s=t.x+a*(u.y-t.y)/l,r=u.y):4&i?(s=t.x+a*(h.y-t.y)/l,r=h.y):2&i?(s=u.x,r=t.y+l*(u.x-t.x)/a):1&i&&(s=h.x,r=t.y+l*(h.x-t.x)/a),new Z(s,r,o)}function Ii(t,e){var i=0;return t.x<e.min.x?i|=1:t.x>e.max.x&&(i|=2),t.y<e.min.y?i|=4:t.y>e.max.y&&(i|=8),i}function Bi(t,e){var i=e.x-t.x,n=e.y-t.y;return i*i+n*n}function Ni(t,e,i,n){var o,s=e.x,r=e.y,a=i.x-s,l=i.y-r,h=a*a+l*l;return h>0&&((o=((t.x-s)*a+(t.y-r)*l)/h)>1?(s=i.x,r=i.y):o>0&&(s+=a*o,r+=l*o)),a=t.x-s,l=t.y-r,n?a*a+l*l:new Z(s,r)}function Ri(t){return!g(t[0])||"object"!=typeof t[0][0]&&void 0!==t[0][0]}function Di(t){return console.warn("Deprecated use of _flat, please use L.LineUtil.isFlat instead."),Ri(t)}function ji(t,e){var i,n,o,s,r,a,l,h;if(!t||0===t.length)throw new Error("latlngs not passed");Ri(t)||(console.warn("latlngs are not flat! Only the first ring will be used"),t=t[0]);var u=H([0,0]),c=D(t);c.getNorthWest().distanceTo(c.getSouthWest())*c.getNorthEast().distanceTo(c.getNorthWest())<1700&&(u=Pi(t));var d=t.length,p=[];for(i=0;i<d;i++){var _=H(t[i]);p.push(e.project(H([_.lat-u.lat,_.lng-u.lng])))}for(i=0,n=0;i<d-1;i++)n+=p[i].distanceTo(p[i+1])/2;if(0===n)h=p[0];else for(i=0,s=0;i<d-1;i++)if(r=p[i],a=p[i+1],(s+=o=r.distanceTo(a))>n){l=(s-n)/o,h=[a.x-l*(a.x-r.x),a.y-l*(a.y-r.y)];break}var f=e.unproject(I(h));return H([f.lat+u.lat,f.lng+u.lng])}var Hi={__proto__:null,simplify:Ti,pointToSegmentDistance:ki,closestPointOnSegment:zi,clipSegment:Zi,_getEdgeIntersection:Oi,_getBitCode:Ii,_sqClosestPointOnSegment:Ni,isFlat:Ri,_flat:Di,polylineCenter:ji},Fi={project:function(t){return new Z(t.lng,t.lat)},unproject:function(t){return new j(t.y,t.x)},bounds:new B([-180,-90],[180,90])},Gi={R:6378137,R_MINOR:6356752.314245179,bounds:new B([-20037508.34279,-15496570.73972],[20037508.34279,18764656.23138]),project:function(t){var e=Math.PI/180,i=this.R,n=t.lat*e,o=this.R_MINOR/i,s=Math.sqrt(1-o*o),r=s*Math.sin(n),a=Math.tan(Math.PI/4-n/2)/Math.pow((1-r)/(1+r),s/2);return n=-i*Math.log(Math.max(a,1e-10)),new Z(t.lng*e*i,n)},unproject:function(t){for(var e,i=180/Math.PI,n=this.R,o=this.R_MINOR/n,s=Math.sqrt(1-o*o),r=Math.exp(-t.y/n),a=Math.PI/2-2*Math.atan(r),l=0,h=.1;l<15&&Math.abs(h)>1e-7;l++)e=s*Math.sin(a),e=Math.pow((1-e)/(1+e),s/2),a+=h=Math.PI/2-2*Math.atan(r*e)-a;return new j(a*i,t.x*i/n)}},Wi={__proto__:null,LonLat:Fi,Mercator:Gi,SphericalMercator:q},Ui=i({},W,{code:"EPSG:3395",projection:Gi,transformation:function(){var t=.5/(Math.PI*Gi.R);return Y(t,.5,-t,.5)}()}),qi=i({},W,{code:"EPSG:4326",projection:Fi,transformation:Y(1/180,1,-1/180,.5)}),Vi=i({},G,{projection:Fi,transformation:Y(1,0,-1,0),scale:function(t){return Math.pow(2,t)},zoom:function(t){return Math.log(t)/Math.LN2},distance:function(t,e){var i=e.lng-t.lng,n=e.lat-t.lat;return Math.sqrt(i*i+n*n)},infinite:!0});G.Earth=W,G.EPSG3395=Ui,G.EPSG3857=J,G.EPSG900913=X,G.EPSG4326=qi,G.Simple=Vi;var Yi=E.extend({options:{pane:"overlayPane",attribution:null,bubblingMouseEvents:!0},addTo:function(t){return t.addLayer(this),this},remove:function(){return this.removeFrom(this._map||this._mapToAdd)},removeFrom:function(t){return t&&t.removeLayer(this),this},getPane:function(t){return this._map.getPane(t?this.options[t]||t:this.options.pane)},addInteractiveTarget:function(t){return this._map._targets[r(t)]=this,this},removeInteractiveTarget:function(t){return delete this._map._targets[r(t)],this},getAttribution:function(){return this.options.attribution},_layerAdd:function(t){var e=t.target;if(e.hasLayer(this)){if(this._map=e,this._zoomAnimated=e._zoomAnimated,this.getEvents){var i=this.getEvents();e.on(i,this),this.once("remove",function(){e.off(i,this)},this)}this.onAdd(e),this.fire("add"),e.fire("layeradd",{layer:this})}}});si.include({addLayer:function(t){if(!t._layerAdd)throw new Error("The provided object is not a Layer.");var e=r(t);return this._layers[e]||(this._layers[e]=t,t._mapToAdd=this,t.beforeAdd&&t.beforeAdd(this),this.whenReady(t._layerAdd,t)),this},removeLayer:function(t){var e=r(t);return this._layers[e]?(this._loaded&&t.onRemove(this),delete this._layers[e],this._loaded&&(this.fire("layerremove",{layer:t}),t.fire("remove")),t._map=t._mapToAdd=null,this):this},hasLayer:function(t){return r(t)in this._layers},eachLayer:function(t,e){for(var i in this._layers)t.call(e,this._layers[i]);return this},_addLayers:function(t){for(var e=0,i=(t=t?g(t)?t:[t]:[]).length;e<i;e++)this.addLayer(t[e])},_addZoomLimit:function(t){isNaN(t.options.maxZoom)&&isNaN(t.options.minZoom)||(this._zoomBoundLayers[r(t)]=t,this._updateZoomLevels())},_removeZoomLimit:function(t){var e=r(t);this._zoomBoundLayers[e]&&(delete this._zoomBoundLayers[e],this._updateZoomLevels())},_updateZoomLevels:function(){var t=1/0,e=-1/0,i=this._getZoomSpan();for(var n in this._zoomBoundLayers){var o=this._zoomBoundLayers[n].options;t=void 0===o.minZoom?t:Math.min(t,o.minZoom),e=void 0===o.maxZoom?e:Math.max(e,o.maxZoom)}this._layersMaxZoom=e===-1/0?void 0:e,this._layersMinZoom=t===1/0?void 0:t,i!==this._getZoomSpan()&&this.fire("zoomlevelschange"),void 0===this.options.maxZoom&&this._layersMaxZoom&&this.getZoom()>this._layersMaxZoom&&this.setZoom(this._layersMaxZoom),void 0===this.options.minZoom&&this._layersMinZoom&&this.getZoom()<this._layersMinZoom&&this.setZoom(this._layersMinZoom)}});var Ki=Yi.extend({initialize:function(t,e){var i,n;if(p(this,e),this._layers={},t)for(i=0,n=t.length;i<n;i++)this.addLayer(t[i])},addLayer:function(t){var e=this.getLayerId(t);return this._layers[e]=t,this._map&&this._map.addLayer(t),this},removeLayer:function(t){var e=t in this._layers?t:this.getLayerId(t);return this._map&&this._layers[e]&&this._map.removeLayer(this._layers[e]),delete this._layers[e],this},hasLayer:function(t){return("number"==typeof t?t:this.getLayerId(t))in this._layers},clearLayers:function(){return this.eachLayer(this.removeLayer,this)},invoke:function(t){var e,i,n=Array.prototype.slice.call(arguments,1);for(e in this._layers)(i=this._layers[e])[t]&&i[t].apply(i,n);return this},onAdd:function(t){this.eachLayer(t.addLayer,t)},onRemove:function(t){this.eachLayer(t.removeLayer,t)},eachLayer:function(t,e){for(var i in this._layers)t.call(e,this._layers[i]);return this},getLayer:function(t){return this._layers[t]},getLayers:function(){var t=[];return this.eachLayer(t.push,t),t},setZIndex:function(t){return this.invoke("setZIndex",t)},getLayerId:function(t){return r(t)}}),Ji=function(t,e){return new Ki(t,e)},Xi=Ki.extend({addLayer:function(t){return this.hasLayer(t)?this:(t.addEventParent(this),Ki.prototype.addLayer.call(this,t),this.fire("layeradd",{layer:t}))},removeLayer:function(t){return this.hasLayer(t)?(t in this._layers&&(t=this._layers[t]),t.removeEventParent(this),Ki.prototype.removeLayer.call(this,t),this.fire("layerremove",{layer:t})):this},setStyle:function(t){return this.invoke("setStyle",t)},bringToFront:function(){return this.invoke("bringToFront")},bringToBack:function(){return this.invoke("bringToBack")},getBounds:function(){var t=new R;for(var e in this._layers){var i=this._layers[e];t.extend(i.getBounds?i.getBounds():i.getLatLng())}return t}}),Qi=function(t,e){return new Xi(t,e)},$i=z.extend({options:{popupAnchor:[0,0],tooltipAnchor:[0,0],crossOrigin:!1},initialize:function(t){p(this,t)},createIcon:function(t){return this._createIcon("icon",t)},createShadow:function(t){return this._createIcon("shadow",t)},_createIcon:function(t,e){var i=this._getIconUrl(t);if(!i){if("icon"===t)throw new Error("iconUrl not set in Icon options (see the docs).");return null}var n=this._createImg(i,e&&"IMG"===e.tagName?e:null);return this._setIconStyles(n,t),(this.options.crossOrigin||""===this.options.crossOrigin)&&(n.crossOrigin=!0===this.options.crossOrigin?"":this.options.crossOrigin),n},_setIconStyles:function(t,e){var i=this.options,n=i[e+"Size"];"number"==typeof n&&(n=[n,n]);var o=I(n),s=I("shadow"===e&&i.shadowAnchor||i.iconAnchor||o&&o.divideBy(2,!0));t.className="leaflet-marker-"+e+" "+(i.className||""),s&&(t.style.marginLeft=-s.x+"px",t.style.marginTop=-s.y+"px"),o&&(t.style.width=o.x+"px",t.style.height=o.y+"px")},_createImg:function(t,e){return(e=e||document.createElement("img")).src=t,e},_getIconUrl:function(t){return Dt.retina&&this.options[t+"RetinaUrl"]||this.options[t+"Url"]}});function tn(t){return new $i(t)}var en=$i.extend({options:{iconUrl:"marker-icon.png",iconRetinaUrl:"marker-icon-2x.png",shadowUrl:"marker-shadow.png",iconSize:[25,41],iconAnchor:[12,41],popupAnchor:[1,-34],tooltipAnchor:[16,-28],shadowSize:[41,41]},_getIconUrl:function(t){return"string"!=typeof en.imagePath&&(en.imagePath=this._detectIconPath()),(this.options.imagePath||en.imagePath)+$i.prototype._getIconUrl.call(this,t)},_stripUrl:function(t){var e=function(t,e,i){var n=e.exec(t);return n&&n[i]};return(t=e(t,/^url\((['"])?(.+)\1\)$/,2))&&e(t,/^(.*)marker-icon\.png$/,1)},_detectIconPath:function(){var t=me("div","leaflet-default-icon-path",document.body),e=fe(t,"background-image")||fe(t,"backgroundImage");if(document.body.removeChild(t),e=this._stripUrl(e))return e;var i=document.querySelector('link[href$="leaflet.css"]');return i?i.href.substring(0,i.href.length-11-1):""}}),nn=vi.extend({initialize:function(t){this._marker=t},addHooks:function(){var t=this._marker._icon;this._draggable||(this._draggable=new Li(t,t,!0)),this._draggable.on({dragstart:this._onDragStart,predrag:this._onPreDrag,drag:this._onDrag,dragend:this._onDragEnd},this).enable(),be(t,"leaflet-marker-draggable")},removeHooks:function(){this._draggable.off({dragstart:this._onDragStart,predrag:this._onPreDrag,drag:this._onDrag,dragend:this._onDragEnd},this).disable(),this._marker._icon&&we(this._marker._icon,"leaflet-marker-draggable")},moved:function(){return this._draggable&&this._draggable._moved},_adjustPan:function(t){var e=this._marker,i=e._map,n=this._marker.options.autoPanSpeed,o=this._marker.options.autoPanPadding,s=Ae(e._icon),r=i.getPixelBounds(),a=i.getPixelOrigin(),l=N(r.min._subtract(a).add(o),r.max._subtract(a).subtract(o));if(!l.contains(s)){var h=I((Math.max(l.max.x,s.x)-l.max.x)/(r.max.x-l.max.x)-(Math.min(l.min.x,s.x)-l.min.x)/(r.min.x-l.min.x),(Math.max(l.max.y,s.y)-l.max.y)/(r.max.y-l.max.y)-(Math.min(l.min.y,s.y)-l.min.y)/(r.min.y-l.min.y)).multiplyBy(n);i.panBy(h,{animate:!1}),this._draggable._newPos._add(h),this._draggable._startPos._add(h),Se(e._icon,this._draggable._newPos),this._onDrag(t),this._panRequest=M(this._adjustPan.bind(this,t))}},_onDragStart:function(){this._oldLatLng=this._marker.getLatLng(),this._marker.closePopup&&this._marker.closePopup(),this._marker.fire("movestart").fire("dragstart")},_onPreDrag:function(t){this._marker.options.autoPan&&(T(this._panRequest),this._panRequest=M(this._adjustPan.bind(this,t)))},_onDrag:function(t){var e=this._marker,i=e._shadow,n=Ae(e._icon),o=e._map.layerPointToLatLng(n);i&&Se(i,n),e._latlng=o,t.latlng=o,t.oldLatLng=this._oldLatLng,e.fire("move",t).fire("drag",t)},_onDragEnd:function(t){T(this._panRequest),delete this._oldLatLng,this._marker.fire("moveend").fire("dragend",t)}}),on=Yi.extend({options:{icon:new en,interactive:!0,keyboard:!0,title:"",alt:"Marker",zIndexOffset:0,opacity:1,riseOnHover:!1,riseOffset:250,pane:"markerPane",shadowPane:"shadowPane",bubblingMouseEvents:!1,autoPanOnFocus:!0,draggable:!1,autoPan:!1,autoPanPadding:[50,50],autoPanSpeed:10},initialize:function(t,e){p(this,e),this._latlng=H(t)},onAdd:function(t){this._zoomAnimated=this._zoomAnimated&&t.options.markerZoomAnimation,this._zoomAnimated&&t.on("zoomanim",this._animateZoom,this),this._initIcon(),this.update()},onRemove:function(t){this.dragging&&this.dragging.enabled()&&(this.options.draggable=!0,this.dragging.removeHooks()),delete this.dragging,this._zoomAnimated&&t.off("zoomanim",this._animateZoom,this),this._removeIcon(),this._removeShadow()},getEvents:function(){return{zoom:this.update,viewreset:this.update}},getLatLng:function(){return this._latlng},setLatLng:function(t){var e=this._latlng;return this._latlng=H(t),this.update(),this.fire("move",{oldLatLng:e,latlng:this._latlng})},setZIndexOffset:function(t){return this.options.zIndexOffset=t,this.update()},getIcon:function(){return this.options.icon},setIcon:function(t){return this.options.icon=t,this._map&&(this._initIcon(),this.update()),this._popup&&this.bindPopup(this._popup,this._popup.options),this},getElement:function(){return this._icon},update:function(){if(this._icon&&this._map){var t=this._map.latLngToLayerPoint(this._latlng).round();this._setPos(t)}return this},_initIcon:function(){var t=this.options,e="leaflet-zoom-"+(this._zoomAnimated?"animated":"hide"),i=t.icon.createIcon(this._icon),n=!1;i!==this._icon&&(this._icon&&this._removeIcon(),n=!0,t.title&&(i.title=t.title),"IMG"===i.tagName&&(i.alt=t.alt||"")),be(i,e),t.keyboard&&(i.tabIndex="0",i.setAttribute("role","button")),this._icon=i,t.riseOnHover&&this.on({mouseover:this._bringToFront,mouseout:this._resetZIndex}),this.options.autoPanOnFocus&&je(i,"focus",this._panOnFocus,this);var o=t.icon.createShadow(this._shadow),s=!1;o!==this._shadow&&(this._removeShadow(),s=!0),o&&(be(o,e),o.alt=""),this._shadow=o,t.opacity<1&&this._updateOpacity(),n&&this.getPane().appendChild(this._icon),this._initInteraction(),o&&s&&this.getPane(t.shadowPane).appendChild(this._shadow)},_removeIcon:function(){this.options.riseOnHover&&this.off({mouseover:this._bringToFront,mouseout:this._resetZIndex}),this.options.autoPanOnFocus&&Fe(this._icon,"focus",this._panOnFocus,this),ge(this._icon),this.removeInteractiveTarget(this._icon),this._icon=null},_removeShadow:function(){this._shadow&&ge(this._shadow),this._shadow=null},_setPos:function(t){this._icon&&Se(this._icon,t),this._shadow&&Se(this._shadow,t),this._zIndex=t.y+this.options.zIndexOffset,this._resetZIndex()},_updateZIndex:function(t){this._icon&&(this._icon.style.zIndex=this._zIndex+t)},_animateZoom:function(t){var e=this._map._latLngToNewLayerPoint(this._latlng,t.zoom,t.center).round();this._setPos(e)},_initInteraction:function(){if(this.options.interactive&&(be(this._icon,"leaflet-interactive"),this.addInteractiveTarget(this._icon),nn)){var t=this.options.draggable;this.dragging&&(t=this.dragging.enabled(),this.dragging.disable()),this.dragging=new nn(this),t&&this.dragging.enable()}},setOpacity:function(t){return this.options.opacity=t,this._map&&this._updateOpacity(),this},_updateOpacity:function(){var t=this.options.opacity;this._icon&&Me(this._icon,t),this._shadow&&Me(this._shadow,t)},_bringToFront:function(){this._updateZIndex(this.options.riseOffset)},_resetZIndex:function(){this._updateZIndex(0)},_panOnFocus:function(){var t=this._map;if(t){var e=this.options.icon.options,i=e.iconSize?I(e.iconSize):I(0,0),n=e.iconAnchor?I(e.iconAnchor):I(0,0);t.panInside(this._latlng,{paddingTopLeft:n,paddingBottomRight:i.subtract(n)})}},_getPopupAnchor:function(){return this.options.icon.options.popupAnchor},_getTooltipAnchor:function(){return this.options.icon.options.tooltipAnchor}});function sn(t,e){return new on(t,e)}var rn=Yi.extend({options:{stroke:!0,color:"#3388ff",weight:3,opacity:1,lineCap:"round",lineJoin:"round",dashArray:null,dashOffset:null,fill:!1,fillColor:null,fillOpacity:.2,fillRule:"evenodd",interactive:!0,bubblingMouseEvents:!0},beforeAdd:function(t){this._renderer=t.getRenderer(this)},onAdd:function(){this._renderer._initPath(this),this._reset(),this._renderer._addPath(this)},onRemove:function(){this._renderer._removePath(this)},redraw:function(){return this._map&&this._renderer._updatePath(this),this},setStyle:function(t){return p(this,t),this._renderer&&(this._renderer._updateStyle(this),this.options.stroke&&t&&Object.prototype.hasOwnProperty.call(t,"weight")&&this._updateBounds()),this},bringToFront:function(){return this._renderer&&this._renderer._bringToFront(this),this},bringToBack:function(){return this._renderer&&this._renderer._bringToBack(this),this},getElement:function(){return this._path},_reset:function(){this._project(),this._update()},_clickTolerance:function(){return(this.options.stroke?this.options.weight/2:0)+(this._renderer.options.tolerance||0)}}),an=rn.extend({options:{fill:!0,radius:10},initialize:function(t,e){p(this,e),this._latlng=H(t),this._radius=this.options.radius},setLatLng:function(t){var e=this._latlng;return this._latlng=H(t),this.redraw(),this.fire("move",{oldLatLng:e,latlng:this._latlng})},getLatLng:function(){return this._latlng},setRadius:function(t){return this.options.radius=this._radius=t,this.redraw()},getRadius:function(){return this._radius},setStyle:function(t){var e=t&&t.radius||this._radius;return rn.prototype.setStyle.call(this,t),this.setRadius(e),this},_project:function(){this._point=this._map.latLngToLayerPoint(this._latlng),this._updateBounds()},_updateBounds:function(){var t=this._radius,e=this._radiusY||t,i=this._clickTolerance(),n=[t+i,e+i];this._pxBounds=new B(this._point.subtract(n),this._point.add(n))},_update:function(){this._map&&this._updatePath()},_updatePath:function(){this._renderer._updateCircle(this)},_empty:function(){return this._radius&&!this._renderer._bounds.intersects(this._pxBounds)},_containsPoint:function(t){return t.distanceTo(this._point)<=this._radius+this._clickTolerance()}});function ln(t,e){return new an(t,e)}var hn=an.extend({initialize:function(t,e,n){if("number"==typeof e&&(e=i({},n,{radius:e})),p(this,e),this._latlng=H(t),isNaN(this.options.radius))throw new Error("Circle radius cannot be NaN");this._mRadius=this.options.radius},setRadius:function(t){return this._mRadius=t,this.redraw()},getRadius:function(){return this._mRadius},getBounds:function(){var t=[this._radius,this._radiusY||this._radius];return new R(this._map.layerPointToLatLng(this._point.subtract(t)),this._map.layerPointToLatLng(this._point.add(t)))},setStyle:rn.prototype.setStyle,_project:function(){var t=this._latlng.lng,e=this._latlng.lat,i=this._map,n=i.options.crs;if(n.distance===W.distance){var o=Math.PI/180,s=this._mRadius/W.R/o,r=i.project([e+s,t]),a=i.project([e-s,t]),l=r.add(a).divideBy(2),h=i.unproject(l).lat,u=Math.acos((Math.cos(s*o)-Math.sin(e*o)*Math.sin(h*o))/(Math.cos(e*o)*Math.cos(h*o)))/o;(isNaN(u)||0===u)&&(u=s/Math.cos(Math.PI/180*e)),this._point=l.subtract(i.getPixelOrigin()),this._radius=isNaN(u)?0:l.x-i.project([h,t-u]).x,this._radiusY=l.y-r.y}else{var c=n.unproject(n.project(this._latlng).subtract([this._mRadius,0]));this._point=i.latLngToLayerPoint(this._latlng),this._radius=this._point.x-i.latLngToLayerPoint(c).x}this._updateBounds()}});function un(t,e,i){return new hn(t,e,i)}var cn=rn.extend({options:{smoothFactor:1,noClip:!1},initialize:function(t,e){p(this,e),this._setLatLngs(t)},getLatLngs:function(){return this._latlngs},setLatLngs:function(t){return this._setLatLngs(t),this.redraw()},isEmpty:function(){return!this._latlngs.length},closestLayerPoint:function(t){for(var e,i,n=1/0,o=null,s=Ni,r=0,a=this._parts.length;r<a;r++)for(var l=this._parts[r],h=1,u=l.length;h<u;h++){var c=s(t,e=l[h-1],i=l[h],!0);c<n&&(n=c,o=s(t,e,i))}return o&&(o.distance=Math.sqrt(n)),o},getCenter:function(){if(!this._map)throw new Error("Must add layer to map before using getCenter()");return ji(this._defaultShape(),this._map.options.crs)},getBounds:function(){return this._bounds},addLatLng:function(t,e){return e=e||this._defaultShape(),t=H(t),e.push(t),this._bounds.extend(t),this.redraw()},_setLatLngs:function(t){this._bounds=new R,this._latlngs=this._convertLatLngs(t)},_defaultShape:function(){return Ri(this._latlngs)?this._latlngs:this._latlngs[0]},_convertLatLngs:function(t){for(var e=[],i=Ri(t),n=0,o=t.length;n<o;n++)i?(e[n]=H(t[n]),this._bounds.extend(e[n])):e[n]=this._convertLatLngs(t[n]);return e},_project:function(){var t=new B;this._rings=[],this._projectLatlngs(this._latlngs,this._rings,t),this._bounds.isValid()&&t.isValid()&&(this._rawPxBounds=t,this._updateBounds())},_updateBounds:function(){var t=this._clickTolerance(),e=new Z(t,t);this._rawPxBounds&&(this._pxBounds=new B([this._rawPxBounds.min.subtract(e),this._rawPxBounds.max.add(e)]))},_projectLatlngs:function(t,e,i){var n,o,s=t[0]instanceof j,r=t.length;if(s){for(o=[],n=0;n<r;n++)o[n]=this._map.latLngToLayerPoint(t[n]),i.extend(o[n]);e.push(o)}else for(n=0;n<r;n++)this._projectLatlngs(t[n],e,i)},_clipPoints:function(){var t=this._renderer._bounds;if(this._parts=[],this._pxBounds&&this._pxBounds.intersects(t))if(this.options.noClip)this._parts=this._rings;else{var e,i,n,o,s,r,a,l=this._parts;for(e=0,n=0,o=this._rings.length;e<o;e++)for(i=0,s=(a=this._rings[e]).length;i<s-1;i++)(r=Zi(a[i],a[i+1],t,i,!0))&&(l[n]=l[n]||[],l[n].push(r[0]),r[1]===a[i+1]&&i!==s-2||(l[n].push(r[1]),n++))}},_simplifyPoints:function(){for(var t=this._parts,e=this.options.smoothFactor,i=0,n=t.length;i<n;i++)t[i]=Ti(t[i],e)},_update:function(){this._map&&(this._clipPoints(),this._simplifyPoints(),this._updatePath())},_updatePath:function(){this._renderer._updatePoly(this)},_containsPoint:function(t,e){var i,n,o,s,r,a,l=this._clickTolerance();if(!this._pxBounds||!this._pxBounds.contains(t))return!1;for(i=0,s=this._parts.length;i<s;i++)for(n=0,o=(r=(a=this._parts[i]).length)-1;n<r;o=n++)if((e||0!==n)&&ki(t,a[o],a[n])<=l)return!0;return!1}});function dn(t,e){return new cn(t,e)}cn._flat=Di;var pn=cn.extend({options:{fill:!0},isEmpty:function(){return!this._latlngs.length||!this._latlngs[0].length},getCenter:function(){if(!this._map)throw new Error("Must add layer to map before using getCenter()");return wi(this._defaultShape(),this._map.options.crs)},_convertLatLngs:function(t){var e=cn.prototype._convertLatLngs.call(this,t),i=e.length;return i>=2&&e[0]instanceof j&&e[0].equals(e[i-1])&&e.pop(),e},_setLatLngs:function(t){cn.prototype._setLatLngs.call(this,t),Ri(this._latlngs)&&(this._latlngs=[this._latlngs])},_defaultShape:function(){return Ri(this._latlngs[0])?this._latlngs[0]:this._latlngs[0][0]},_clipPoints:function(){var t=this._renderer._bounds,e=this.options.weight,i=new Z(e,e);if(t=new B(t.min.subtract(i),t.max.add(i)),this._parts=[],this._pxBounds&&this._pxBounds.intersects(t))if(this.options.noClip)this._parts=this._rings;else for(var n,o=0,s=this._rings.length;o<s;o++)(n=bi(this._rings[o],t,!0)).length&&this._parts.push(n)},_updatePath:function(){this._renderer._updatePoly(this,!0)},_containsPoint:function(t){var e,i,n,o,s,r,a,l,h=!1;if(!this._pxBounds||!this._pxBounds.contains(t))return!1;for(o=0,a=this._parts.length;o<a;o++)for(s=0,r=(l=(e=this._parts[o]).length)-1;s<l;r=s++)i=e[s],n=e[r],i.y>t.y!=n.y>t.y&&t.x<(n.x-i.x)*(t.y-i.y)/(n.y-i.y)+i.x&&(h=!h);return h||cn.prototype._containsPoint.call(this,t,!0)}});function _n(t,e){return new pn(t,e)}var fn=Xi.extend({initialize:function(t,e){p(this,e),this._layers={},t&&this.addData(t)},addData:function(t){var e,i,n,o=g(t)?t:t.features;if(o){for(e=0,i=o.length;e<i;e++)((n=o[e]).geometries||n.geometry||n.features||n.coordinates)&&this.addData(n);return this}var s=this.options;if(s.filter&&!s.filter(t))return this;var r=mn(t,s);return r?(r.feature=wn(t),r.defaultOptions=r.options,this.resetStyle(r),s.onEachFeature&&s.onEachFeature(t,r),this.addLayer(r)):this},resetStyle:function(t){return void 0===t?this.eachLayer(this.resetStyle,this):(t.options=i({},t.defaultOptions),this._setLayerStyle(t,this.options.style),this)},setStyle:function(t){return this.eachLayer(function(e){this._setLayerStyle(e,t)},this)},_setLayerStyle:function(t,e){t.setStyle&&("function"==typeof e&&(e=e(t.feature)),t.setStyle(e))}});function mn(t,e){var i,n,o,s,r="Feature"===t.type?t.geometry:t,a=r?r.coordinates:null,l=[],h=e&&e.pointToLayer,u=e&&e.coordsToLatLng||vn;if(!a&&!r)return null;switch(r.type){case"Point":return gn(h,t,i=u(a),e);case"MultiPoint":for(o=0,s=a.length;o<s;o++)i=u(a[o]),l.push(gn(h,t,i,e));return new Xi(l);case"LineString":case"MultiLineString":return n=yn(a,"LineString"===r.type?0:1,u),new cn(n,e);case"Polygon":case"MultiPolygon":return n=yn(a,"Polygon"===r.type?1:2,u),new pn(n,e);case"GeometryCollection":for(o=0,s=r.geometries.length;o<s;o++){var c=mn({geometry:r.geometries[o],type:"Feature",properties:t.properties},e);c&&l.push(c)}return new Xi(l);case"FeatureCollection":for(o=0,s=r.features.length;o<s;o++){var d=mn(r.features[o],e);d&&l.push(d)}return new Xi(l);default:throw new Error("Invalid GeoJSON object.")}}function gn(t,e,i,n){return t?t(e,i):new on(i,n&&n.markersInheritOptions&&n)}function vn(t){return new j(t[1],t[0],t[2])}function yn(t,e,i){for(var n,o=[],s=0,r=t.length;s<r;s++)n=e?yn(t[s],e-1,i):(i||vn)(t[s]),o.push(n);return o}function xn(t,e){return void 0!==(t=H(t)).alt?[u(t.lng,e),u(t.lat,e),u(t.alt,e)]:[u(t.lng,e),u(t.lat,e)]}function Ln(t,e,i,n){for(var o=[],s=0,r=t.length;s<r;s++)o.push(e?Ln(t[s],Ri(t[s])?0:e-1,i,n):xn(t[s],n));return!e&&i&&o.length>0&&o.push(o[0].slice()),o}function bn(t,e){return t.feature?i({},t.feature,{geometry:e}):wn(e)}function wn(t){return"Feature"===t.type||"FeatureCollection"===t.type?t:{type:"Feature",properties:{},geometry:t}}var Pn={toGeoJSON:function(t){return bn(this,{type:"Point",coordinates:xn(this.getLatLng(),t)})}};function Cn(t,e){return new fn(t,e)}on.include(Pn),hn.include(Pn),an.include(Pn),cn.include({toGeoJSON:function(t){var e=!Ri(this._latlngs);return bn(this,{type:(e?"Multi":"")+"LineString",coordinates:Ln(this._latlngs,e?1:0,!1,t)})}}),pn.include({toGeoJSON:function(t){var e=!Ri(this._latlngs),i=e&&!Ri(this._latlngs[0]),n=Ln(this._latlngs,i?2:e?1:0,!0,t);return e||(n=[n]),bn(this,{type:(i?"Multi":"")+"Polygon",coordinates:n})}}),Ki.include({toMultiPoint:function(t){var e=[];return this.eachLayer(function(i){e.push(i.toGeoJSON(t).geometry.coordinates)}),bn(this,{type:"MultiPoint",coordinates:e})},toGeoJSON:function(t){var e=this.feature&&this.feature.geometry&&this.feature.geometry.type;if("MultiPoint"===e)return this.toMultiPoint(t);var i="GeometryCollection"===e,n=[];return this.eachLayer(function(e){if(e.toGeoJSON){var o=e.toGeoJSON(t);if(i)n.push(o.geometry);else{var s=wn(o);"FeatureCollection"===s.type?n.push.apply(n,s.features):n.push(s)}}}),i?bn(this,{geometries:n,type:"GeometryCollection"}):{type:"FeatureCollection",features:n}}});var Mn=Cn,Tn=Yi.extend({options:{opacity:1,alt:"",interactive:!1,crossOrigin:!1,errorOverlayUrl:"",zIndex:1,className:""},initialize:function(t,e,i){this._url=t,this._bounds=D(e),p(this,i)},onAdd:function(){this._image||(this._initImage(),this.options.opacity<1&&this._updateOpacity()),this.options.interactive&&(be(this._image,"leaflet-interactive"),this.addInteractiveTarget(this._image)),this.getPane().appendChild(this._image),this._reset()},onRemove:function(){ge(this._image),this.options.interactive&&this.removeInteractiveTarget(this._image)},setOpacity:function(t){return this.options.opacity=t,this._image&&this._updateOpacity(),this},setStyle:function(t){return t.opacity&&this.setOpacity(t.opacity),this},bringToFront:function(){return this._map&&ye(this._image),this},bringToBack:function(){return this._map&&xe(this._image),this},setUrl:function(t){return this._url=t,this._image&&(this._image.src=t),this},setBounds:function(t){return this._bounds=D(t),this._map&&this._reset(),this},getEvents:function(){var t={zoom:this._reset,viewreset:this._reset};return this._zoomAnimated&&(t.zoomanim=this._animateZoom),t},setZIndex:function(t){return this.options.zIndex=t,this._updateZIndex(),this},getBounds:function(){return this._bounds},getElement:function(){return this._image},_initImage:function(){var t="IMG"===this._url.tagName,e=this._image=t?this._url:me("img");be(e,"leaflet-image-layer"),this._zoomAnimated&&be(e,"leaflet-zoom-animated"),this.options.className&&be(e,this.options.className),e.onselectstart=h,e.onmousemove=h,e.onload=o(this.fire,this,"load"),e.onerror=o(this._overlayOnError,this,"error"),(this.options.crossOrigin||""===this.options.crossOrigin)&&(e.crossOrigin=!0===this.options.crossOrigin?"":this.options.crossOrigin),this.options.zIndex&&this._updateZIndex(),t?this._url=e.src:(e.src=this._url,e.alt=this.options.alt)},_animateZoom:function(t){var e=this._map.getZoomScale(t.zoom),i=this._map._latLngBoundsToNewLayerBounds(this._bounds,t.zoom,t.center).min;ze(this._image,i,e)},_reset:function(){var t=this._image,e=new B(this._map.latLngToLayerPoint(this._bounds.getNorthWest()),this._map.latLngToLayerPoint(this._bounds.getSouthEast())),i=e.getSize();Se(t,e.min),t.style.width=i.x+"px",t.style.height=i.y+"px"},_updateOpacity:function(){Me(this._image,this.options.opacity)},_updateZIndex:function(){this._image&&void 0!==this.options.zIndex&&null!==this.options.zIndex&&(this._image.style.zIndex=this.options.zIndex)},_overlayOnError:function(){this.fire("error");var t=this.options.errorOverlayUrl;t&&this._url!==t&&(this._url=t,this._image.src=t)},getCenter:function(){return this._bounds.getCenter()}}),kn=function(t,e,i){return new Tn(t,e,i)},zn=Tn.extend({options:{autoplay:!0,loop:!0,keepAspectRatio:!0,muted:!1,playsInline:!0},_initImage:function(){var t="VIDEO"===this._url.tagName,e=this._image=t?this._url:me("video");if(be(e,"leaflet-image-layer"),this._zoomAnimated&&be(e,"leaflet-zoom-animated"),this.options.className&&be(e,this.options.className),e.onselectstart=h,e.onmousemove=h,e.onloadeddata=o(this.fire,this,"load"),t){for(var i=e.getElementsByTagName("source"),n=[],s=0;s<i.length;s++)n.push(i[s].src);this._url=i.length>0?n:[e.src]}else{g(this._url)||(this._url=[this._url]),!this.options.keepAspectRatio&&Object.prototype.hasOwnProperty.call(e.style,"objectFit")&&(e.style.objectFit="fill"),e.autoplay=!!this.options.autoplay,e.loop=!!this.options.loop,e.muted=!!this.options.muted,e.playsInline=!!this.options.playsInline;for(var r=0;r<this._url.length;r++){var a=me("source");a.src=this._url[r],e.appendChild(a)}}}});function Sn(t,e,i){return new zn(t,e,i)}var An=Tn.extend({_initImage:function(){var t=this._image=this._url;be(t,"leaflet-image-layer"),this._zoomAnimated&&be(t,"leaflet-zoom-animated"),this.options.className&&be(t,this.options.className),t.onselectstart=h,t.onmousemove=h}});function En(t,e,i){return new An(t,e,i)}var Zn=Yi.extend({options:{interactive:!1,offset:[0,0],className:"",pane:void 0,content:""},initialize:function(t,e){t&&(t instanceof j||g(t))?(this._latlng=H(t),p(this,e)):(p(this,t),this._source=e),this.options.content&&(this._content=this.options.content)},openOn:function(t){return(t=arguments.length?t:this._source._map).hasLayer(this)||t.addLayer(this),this},close:function(){return this._map&&this._map.removeLayer(this),this},toggle:function(t){return this._map?this.close():(arguments.length?this._source=t:t=this._source,this._prepareOpen(),this.openOn(t._map)),this},onAdd:function(t){this._zoomAnimated=t._zoomAnimated,this._container||this._initLayout(),t._fadeAnimated&&Me(this._container,0),clearTimeout(this._removeTimeout),this.getPane().appendChild(this._container),this.update(),t._fadeAnimated&&Me(this._container,1),this.bringToFront(),this.options.interactive&&(be(this._container,"leaflet-interactive"),this.addInteractiveTarget(this._container))},onRemove:function(t){t._fadeAnimated?(Me(this._container,0),this._removeTimeout=setTimeout(o(ge,void 0,this._container),200)):ge(this._container),this.options.interactive&&(we(this._container,"leaflet-interactive"),this.removeInteractiveTarget(this._container))},getLatLng:function(){return this._latlng},setLatLng:function(t){return this._latlng=H(t),this._map&&(this._updatePosition(),this._adjustPan()),this},getContent:function(){return this._content},setContent:function(t){return this._content=t,this.update(),this},getElement:function(){return this._container},update:function(){this._map&&(this._container.style.visibility="hidden",this._updateContent(),this._updateLayout(),this._updatePosition(),this._container.style.visibility="",this._adjustPan())},getEvents:function(){var t={zoom:this._updatePosition,viewreset:this._updatePosition};return this._zoomAnimated&&(t.zoomanim=this._animateZoom),t},isOpen:function(){return!!this._map&&this._map.hasLayer(this)},bringToFront:function(){return this._map&&ye(this._container),this},bringToBack:function(){return this._map&&xe(this._container),this},_prepareOpen:function(t){var e=this._source;if(!e._map)return!1;if(e instanceof Xi){e=null;var i=this._source._layers;for(var n in i)if(i[n]._map){e=i[n];break}if(!e)return!1;this._source=e}if(!t)if(e.getCenter)t=e.getCenter();else if(e.getLatLng)t=e.getLatLng();else{if(!e.getBounds)throw new Error("Unable to get source layer LatLng.");t=e.getBounds().getCenter()}return this.setLatLng(t),this._map&&this.update(),!0},_updateContent:function(){if(this._content){var t=this._contentNode,e="function"==typeof this._content?this._content(this._source||this):this._content;if("string"==typeof e)t.innerHTML=e;else{for(;t.hasChildNodes();)t.removeChild(t.firstChild);t.appendChild(e)}this.fire("contentupdate")}},_updatePosition:function(){if(this._map){var t=this._map.latLngToLayerPoint(this._latlng),e=I(this.options.offset),i=this._getAnchor();this._zoomAnimated?Se(this._container,t.add(i)):e=e.add(t).add(i);var n=this._containerBottom=-e.y,o=this._containerLeft=-Math.round(this._containerWidth/2)+e.x;this._container.style.bottom=n+"px",this._container.style.left=o+"px"}},_getAnchor:function(){return[0,0]}});si.include({_initOverlay:function(t,e,i,n){var o=e;return o instanceof t||(o=new t(n).setContent(e)),i&&o.setLatLng(i),o}}),Yi.include({_initOverlay:function(t,e,i,n){var o=i;return o instanceof t?(p(o,n),o._source=this):(o=e&&!n?e:new t(n,this)).setContent(i),o}});var On=Zn.extend({options:{pane:"popupPane",offset:[0,7],maxWidth:300,minWidth:50,maxHeight:null,autoPan:!0,autoPanPaddingTopLeft:null,autoPanPaddingBottomRight:null,autoPanPadding:[5,5],keepInView:!1,closeButton:!0,autoClose:!0,closeOnEscapeKey:!0,className:""},openOn:function(t){return!(t=arguments.length?t:this._source._map).hasLayer(this)&&t._popup&&t._popup.options.autoClose&&t.removeLayer(t._popup),t._popup=this,Zn.prototype.openOn.call(this,t)},onAdd:function(t){Zn.prototype.onAdd.call(this,t),t.fire("popupopen",{popup:this}),this._source&&(this._source.fire("popupopen",{popup:this},!0),this._source instanceof rn||this._source.on("preclick",Ve))},onRemove:function(t){Zn.prototype.onRemove.call(this,t),t.fire("popupclose",{popup:this}),this._source&&(this._source.fire("popupclose",{popup:this},!0),this._source instanceof rn||this._source.off("preclick",Ve))},getEvents:function(){var t=Zn.prototype.getEvents.call(this);return(void 0!==this.options.closeOnClick?this.options.closeOnClick:this._map.options.closePopupOnClick)&&(t.preclick=this.close),this.options.keepInView&&(t.moveend=this._adjustPan),t},_initLayout:function(){var t="leaflet-popup",e=this._container=me("div",t+" "+(this.options.className||"")+" leaflet-zoom-animated"),i=this._wrapper=me("div",t+"-content-wrapper",e);if(this._contentNode=me("div",t+"-content",i),Ke(e),Ye(this._contentNode),je(e,"contextmenu",Ve),this._tipContainer=me("div",t+"-tip-container",e),this._tip=me("div",t+"-tip",this._tipContainer),this.options.closeButton){var n=this._closeButton=me("a",t+"-close-button",e);n.setAttribute("role","button"),n.setAttribute("aria-label","Close popup"),n.href="#close",n.innerHTML='<span aria-hidden="true">&#215;</span>',je(n,"click",function(t){Je(t),this.close()},this)}},_updateLayout:function(){var t=this._contentNode,e=t.style;e.width="",e.whiteSpace="nowrap";var i=t.offsetWidth;i=Math.min(i,this.options.maxWidth),i=Math.max(i,this.options.minWidth),e.width=i+1+"px",e.whiteSpace="",e.height="";var n=t.offsetHeight,o=this.options.maxHeight,s="leaflet-popup-scrolled";o&&n>o?(e.height=o+"px",be(t,s)):we(t,s),this._containerWidth=this._container.offsetWidth},_animateZoom:function(t){var e=this._map._latLngToNewLayerPoint(this._latlng,t.zoom,t.center),i=this._getAnchor();Se(this._container,e.add(i))},_adjustPan:function(){if(this.options.autoPan)if(this._map._panAnim&&this._map._panAnim.stop(),this._autopanning)this._autopanning=!1;else{var t=this._map,e=parseInt(fe(this._container,"marginBottom"),10)||0,i=this._container.offsetHeight+e,n=this._containerWidth,o=new Z(this._containerLeft,-i-this._containerBottom);o._add(Ae(this._container));var s=t.layerPointToContainerPoint(o),r=I(this.options.autoPanPadding),a=I(this.options.autoPanPaddingTopLeft||r),l=I(this.options.autoPanPaddingBottomRight||r),h=t.getSize(),u=0,c=0;s.x+n+l.x>h.x&&(u=s.x+n-h.x+l.x),s.x-u-a.x<0&&(u=s.x-a.x),s.y+i+l.y>h.y&&(c=s.y+i-h.y+l.y),s.y-c-a.y<0&&(c=s.y-a.y),(u||c)&&(this.options.keepInView&&(this._autopanning=!0),t.fire("autopanstart").panBy([u,c]))}},_getAnchor:function(){return I(this._source&&this._source._getPopupAnchor?this._source._getPopupAnchor():[0,0])}}),In=function(t,e){return new On(t,e)};si.mergeOptions({closePopupOnClick:!0}),si.include({openPopup:function(t,e,i){return this._initOverlay(On,t,e,i).openOn(this),this},closePopup:function(t){return(t=arguments.length?t:this._popup)&&t.close(),this}}),Yi.include({bindPopup:function(t,e){return this._popup=this._initOverlay(On,this._popup,t,e),this._popupHandlersAdded||(this.on({click:this._openPopup,keypress:this._onKeyPress,remove:this.closePopup,move:this._movePopup}),this._popupHandlersAdded=!0),this},unbindPopup:function(){return this._popup&&(this.off({click:this._openPopup,keypress:this._onKeyPress,remove:this.closePopup,move:this._movePopup}),this._popupHandlersAdded=!1,this._popup=null),this},openPopup:function(t){return this._popup&&(this instanceof Xi||(this._popup._source=this),this._popup._prepareOpen(t||this._latlng)&&this._popup.openOn(this._map)),this},closePopup:function(){return this._popup&&this._popup.close(),this},togglePopup:function(){return this._popup&&this._popup.toggle(this),this},isPopupOpen:function(){return!!this._popup&&this._popup.isOpen()},setPopupContent:function(t){return this._popup&&this._popup.setContent(t),this},getPopup:function(){return this._popup},_openPopup:function(t){if(this._popup&&this._map){Xe(t);var e=t.layer||t.target;this._popup._source!==e||e instanceof rn?(this._popup._source=e,this.openPopup(t.latlng)):this._map.hasLayer(this._popup)?this.closePopup():this.openPopup(t.latlng)}},_movePopup:function(t){this._popup.setLatLng(t.latlng)},_onKeyPress:function(t){13===t.originalEvent.keyCode&&this._openPopup(t)}});var Bn=Zn.extend({options:{pane:"tooltipPane",offset:[0,0],direction:"auto",permanent:!1,sticky:!1,opacity:.9},onAdd:function(t){Zn.prototype.onAdd.call(this,t),this.setOpacity(this.options.opacity),t.fire("tooltipopen",{tooltip:this}),this._source&&(this.addEventParent(this._source),this._source.fire("tooltipopen",{tooltip:this},!0))},onRemove:function(t){Zn.prototype.onRemove.call(this,t),t.fire("tooltipclose",{tooltip:this}),this._source&&(this.removeEventParent(this._source),this._source.fire("tooltipclose",{tooltip:this},!0))},getEvents:function(){var t=Zn.prototype.getEvents.call(this);return this.options.permanent||(t.preclick=this.close),t},_initLayout:function(){var t="leaflet-tooltip "+(this.options.className||"")+" leaflet-zoom-"+(this._zoomAnimated?"animated":"hide");this._contentNode=this._container=me("div",t),this._container.setAttribute("role","tooltip"),this._container.setAttribute("id","leaflet-tooltip-"+r(this))},_updateLayout:function(){},_adjustPan:function(){},_setPosition:function(t){var e,i,n=this._map,o=this._container,s=n.latLngToContainerPoint(n.getCenter()),r=n.layerPointToContainerPoint(t),a=this.options.direction,l=o.offsetWidth,h=o.offsetHeight,u=I(this.options.offset),c=this._getAnchor();"top"===a?(e=l/2,i=h):"bottom"===a?(e=l/2,i=0):"center"===a?(e=l/2,i=h/2):"right"===a?(e=0,i=h/2):"left"===a?(e=l,i=h/2):r.x<s.x?(a="right",e=0,i=h/2):(a="left",e=l+2*(u.x+c.x),i=h/2),t=t.subtract(I(e,i,!0)).add(u).add(c),we(o,"leaflet-tooltip-right"),we(o,"leaflet-tooltip-left"),we(o,"leaflet-tooltip-top"),we(o,"leaflet-tooltip-bottom"),be(o,"leaflet-tooltip-"+a),Se(o,t)},_updatePosition:function(){var t=this._map.latLngToLayerPoint(this._latlng);this._setPosition(t)},setOpacity:function(t){this.options.opacity=t,this._container&&Me(this._container,t)},_animateZoom:function(t){var e=this._map._latLngToNewLayerPoint(this._latlng,t.zoom,t.center);this._setPosition(e)},_getAnchor:function(){return I(this._source&&this._source._getTooltipAnchor&&!this.options.sticky?this._source._getTooltipAnchor():[0,0])}}),Nn=function(t,e){return new Bn(t,e)};si.include({openTooltip:function(t,e,i){return this._initOverlay(Bn,t,e,i).openOn(this),this},closeTooltip:function(t){return t.close(),this}}),Yi.include({bindTooltip:function(t,e){return this._tooltip&&this.isTooltipOpen()&&this.unbindTooltip(),this._tooltip=this._initOverlay(Bn,this._tooltip,t,e),this._initTooltipInteractions(),this._tooltip.options.permanent&&this._map&&this._map.hasLayer(this)&&this.openTooltip(),this},unbindTooltip:function(){return this._tooltip&&(this._initTooltipInteractions(!0),this.closeTooltip(),this._tooltip=null),this},_initTooltipInteractions:function(t){if(t||!this._tooltipHandlersAdded){var e=t?"off":"on",i={remove:this.closeTooltip,move:this._moveTooltip};this._tooltip.options.permanent?i.add=this._openTooltip:(i.mouseover=this._openTooltip,i.mouseout=this.closeTooltip,i.click=this._openTooltip,this._map?this._addFocusListeners():i.add=this._addFocusListeners),this._tooltip.options.sticky&&(i.mousemove=this._moveTooltip),this[e](i),this._tooltipHandlersAdded=!t}},openTooltip:function(t){return this._tooltip&&(this instanceof Xi||(this._tooltip._source=this),this._tooltip._prepareOpen(t)&&(this._tooltip.openOn(this._map),this.getElement?this._setAriaDescribedByOnLayer(this):this.eachLayer&&this.eachLayer(this._setAriaDescribedByOnLayer,this))),this},closeTooltip:function(){if(this._tooltip)return this._tooltip.close()},toggleTooltip:function(){return this._tooltip&&this._tooltip.toggle(this),this},isTooltipOpen:function(){return this._tooltip.isOpen()},setTooltipContent:function(t){return this._tooltip&&this._tooltip.setContent(t),this},getTooltip:function(){return this._tooltip},_addFocusListeners:function(){this.getElement?this._addFocusListenersOnLayer(this):this.eachLayer&&this.eachLayer(this._addFocusListenersOnLayer,this)},_addFocusListenersOnLayer:function(t){var e="function"==typeof t.getElement&&t.getElement();e&&(je(e,"focus",function(){this._tooltip._source=t,this.openTooltip()},this),je(e,"blur",this.closeTooltip,this))},_setAriaDescribedByOnLayer:function(t){var e="function"==typeof t.getElement&&t.getElement();e&&e.setAttribute("aria-describedby",this._tooltip._container.id)},_openTooltip:function(t){if(this._tooltip&&this._map)if(this._map.dragging&&this._map.dragging.moving()&&!this._openOnceFlag){this._openOnceFlag=!0;var e=this;this._map.once("moveend",function(){e._openOnceFlag=!1,e._openTooltip(t)})}else this._tooltip._source=t.layer||t.target,this.openTooltip(this._tooltip.options.sticky?t.latlng:void 0)},_moveTooltip:function(t){var e,i,n=t.latlng;this._tooltip.options.sticky&&t.originalEvent&&(e=this._map.mouseEventToContainerPoint(t.originalEvent),i=this._map.containerPointToLayerPoint(e),n=this._map.layerPointToLatLng(i)),this._tooltip.setLatLng(n)}});var Rn=$i.extend({options:{iconSize:[12,12],html:!1,bgPos:null,className:"leaflet-div-icon"},createIcon:function(t){var e=t&&"DIV"===t.tagName?t:document.createElement("div"),i=this.options;if(i.html instanceof Element?(ve(e),e.appendChild(i.html)):e.innerHTML=!1!==i.html?i.html:"",i.bgPos){var n=I(i.bgPos);e.style.backgroundPosition=-n.x+"px "+-n.y+"px"}return this._setIconStyles(e,"icon"),e},createShadow:function(){return null}});function Dn(t){return new Rn(t)}$i.Default=en;var jn=Yi.extend({options:{tileSize:256,opacity:1,updateWhenIdle:Dt.mobile,updateWhenZooming:!0,updateInterval:200,zIndex:1,bounds:null,minZoom:0,maxZoom:void 0,maxNativeZoom:void 0,minNativeZoom:void 0,noWrap:!1,pane:"tilePane",className:"",keepBuffer:2},initialize:function(t){p(this,t)},onAdd:function(){this._initContainer(),this._levels={},this._tiles={},this._resetView()},beforeAdd:function(t){t._addZoomLimit(this)},onRemove:function(t){this._removeAllTiles(),ge(this._container),t._removeZoomLimit(this),this._container=null,this._tileZoom=void 0},bringToFront:function(){return this._map&&(ye(this._container),this._setAutoZIndex(Math.max)),this},bringToBack:function(){return this._map&&(xe(this._container),this._setAutoZIndex(Math.min)),this},getContainer:function(){return this._container},setOpacity:function(t){return this.options.opacity=t,this._updateOpacity(),this},setZIndex:function(t){return this.options.zIndex=t,this._updateZIndex(),this},isLoading:function(){return this._loading},redraw:function(){if(this._map){this._removeAllTiles();var t=this._clampZoom(this._map.getZoom());t!==this._tileZoom&&(this._tileZoom=t,this._updateLevels()),this._update()}return this},getEvents:function(){var t={viewprereset:this._invalidateAll,viewreset:this._resetView,zoom:this._resetView,moveend:this._onMoveEnd};return this.options.updateWhenIdle||(this._onMove||(this._onMove=a(this._onMoveEnd,this.options.updateInterval,this)),t.move=this._onMove),this._zoomAnimated&&(t.zoomanim=this._animateZoom),t},createTile:function(){return document.createElement("div")},getTileSize:function(){var t=this.options.tileSize;return t instanceof Z?t:new Z(t,t)},_updateZIndex:function(){this._container&&void 0!==this.options.zIndex&&null!==this.options.zIndex&&(this._container.style.zIndex=this.options.zIndex)},_setAutoZIndex:function(t){for(var e,i=this.getPane().children,n=-t(-1/0,1/0),o=0,s=i.length;o<s;o++)e=i[o].style.zIndex,i[o]!==this._container&&e&&(n=t(n,+e));isFinite(n)&&(this.options.zIndex=n+t(-1,1),this._updateZIndex())},_updateOpacity:function(){if(this._map&&!Dt.ielt9){Me(this._container,this.options.opacity);var t=+new Date,e=!1,i=!1;for(var n in this._tiles){var o=this._tiles[n];if(o.current&&o.loaded){var s=Math.min(1,(t-o.loaded)/200);Me(o.el,s),s<1?e=!0:(o.active?i=!0:this._onOpaqueTile(o),o.active=!0)}}i&&!this._noPrune&&this._pruneTiles(),e&&(T(this._fadeFrame),this._fadeFrame=M(this._updateOpacity,this))}},_onOpaqueTile:h,_initContainer:function(){this._container||(this._container=me("div","leaflet-layer "+(this.options.className||"")),this._updateZIndex(),this.options.opacity<1&&this._updateOpacity(),this.getPane().appendChild(this._container))},_updateLevels:function(){var t=this._tileZoom,e=this.options.maxZoom;if(void 0!==t){for(var i in this._levels)i=Number(i),this._levels[i].el.children.length||i===t?(this._levels[i].el.style.zIndex=e-Math.abs(t-i),this._onUpdateLevel(i)):(ge(this._levels[i].el),this._removeTilesAtZoom(i),this._onRemoveLevel(i),delete this._levels[i]);var n=this._levels[t],o=this._map;return n||((n=this._levels[t]={}).el=me("div","leaflet-tile-container leaflet-zoom-animated",this._container),n.el.style.zIndex=e,n.origin=o.project(o.unproject(o.getPixelOrigin()),t).round(),n.zoom=t,this._setZoomTransform(n,o.getCenter(),o.getZoom()),h(n.el.offsetWidth),this._onCreateLevel(n)),this._level=n,n}},_onUpdateLevel:h,_onRemoveLevel:h,_onCreateLevel:h,_pruneTiles:function(){if(this._map){var t,e,i=this._map.getZoom();if(i>this.options.maxZoom||i<this.options.minZoom)this._removeAllTiles();else{for(t in this._tiles)(e=this._tiles[t]).retain=e.current;for(t in this._tiles)if((e=this._tiles[t]).current&&!e.active){var n=e.coords;this._retainParent(n.x,n.y,n.z,n.z-5)||this._retainChildren(n.x,n.y,n.z,n.z+2)}for(t in this._tiles)this._tiles[t].retain||this._removeTile(t)}}},_removeTilesAtZoom:function(t){for(var e in this._tiles)this._tiles[e].coords.z===t&&this._removeTile(e)},_removeAllTiles:function(){for(var t in this._tiles)this._removeTile(t)},_invalidateAll:function(){for(var t in this._levels)ge(this._levels[t].el),this._onRemoveLevel(Number(t)),delete this._levels[t];this._removeAllTiles(),this._tileZoom=void 0},_retainParent:function(t,e,i,n){var o=Math.floor(t/2),s=Math.floor(e/2),r=i-1,a=new Z(+o,+s);a.z=+r;var l=this._tileCoordsToKey(a),h=this._tiles[l];return h&&h.active?(h.retain=!0,!0):(h&&h.loaded&&(h.retain=!0),r>n&&this._retainParent(o,s,r,n))},_retainChildren:function(t,e,i,n){for(var o=2*t;o<2*t+2;o++)for(var s=2*e;s<2*e+2;s++){var r=new Z(o,s);r.z=i+1;var a=this._tileCoordsToKey(r),l=this._tiles[a];l&&l.active?l.retain=!0:(l&&l.loaded&&(l.retain=!0),i+1<n&&this._retainChildren(o,s,i+1,n))}},_resetView:function(t){var e=t&&(t.pinch||t.flyTo);this._setView(this._map.getCenter(),this._map.getZoom(),e,e)},_animateZoom:function(t){this._setView(t.center,t.zoom,!0,t.noUpdate)},_clampZoom:function(t){var e=this.options;return void 0!==e.minNativeZoom&&t<e.minNativeZoom?e.minNativeZoom:void 0!==e.maxNativeZoom&&e.maxNativeZoom<t?e.maxNativeZoom:t},_setView:function(t,e,i,n){var o=Math.round(e);o=void 0!==this.options.maxZoom&&o>this.options.maxZoom||void 0!==this.options.minZoom&&o<this.options.minZoom?void 0:this._clampZoom(o);var s=this.options.updateWhenZooming&&o!==this._tileZoom;n&&!s||(this._tileZoom=o,this._abortLoading&&this._abortLoading(),this._updateLevels(),this._resetGrid(),void 0!==o&&this._update(t),i||this._pruneTiles(),this._noPrune=!!i),this._setZoomTransforms(t,e)},_setZoomTransforms:function(t,e){for(var i in this._levels)this._setZoomTransform(this._levels[i],t,e)},_setZoomTransform:function(t,e,i){var n=this._map.getZoomScale(i,t.zoom),o=t.origin.multiplyBy(n).subtract(this._map._getNewPixelOrigin(e,i)).round();Dt.any3d?ze(t.el,o,n):Se(t.el,o)},_resetGrid:function(){var t=this._map,e=t.options.crs,i=this._tileSize=this.getTileSize(),n=this._tileZoom,o=this._map.getPixelWorldBounds(this._tileZoom);o&&(this._globalTileRange=this._pxBoundsToTileRange(o)),this._wrapX=e.wrapLng&&!this.options.noWrap&&[Math.floor(t.project([0,e.wrapLng[0]],n).x/i.x),Math.ceil(t.project([0,e.wrapLng[1]],n).x/i.y)],this._wrapY=e.wrapLat&&!this.options.noWrap&&[Math.floor(t.project([e.wrapLat[0],0],n).y/i.x),Math.ceil(t.project([e.wrapLat[1],0],n).y/i.y)]},_onMoveEnd:function(){this._map&&!this._map._animatingZoom&&this._update()},_getTiledPixelBounds:function(t){var e=this._map,i=e._animatingZoom?Math.max(e._animateToZoom,e.getZoom()):e.getZoom(),n=e.getZoomScale(i,this._tileZoom),o=e.project(t,this._tileZoom).floor(),s=e.getSize().divideBy(2*n);return new B(o.subtract(s),o.add(s))},_update:function(t){var e=this._map;if(e){var i=this._clampZoom(e.getZoom());if(void 0===t&&(t=e.getCenter()),void 0!==this._tileZoom){var n=this._getTiledPixelBounds(t),o=this._pxBoundsToTileRange(n),s=o.getCenter(),r=[],a=this.options.keepBuffer,l=new B(o.getBottomLeft().subtract([a,-a]),o.getTopRight().add([a,-a]));if(!(isFinite(o.min.x)&&isFinite(o.min.y)&&isFinite(o.max.x)&&isFinite(o.max.y)))throw new Error("Attempted to load an infinite number of tiles");for(var h in this._tiles){var u=this._tiles[h].coords;u.z===this._tileZoom&&l.contains(new Z(u.x,u.y))||(this._tiles[h].current=!1)}if(Math.abs(i-this._tileZoom)>1)this._setView(t,i);else{for(var c=o.min.y;c<=o.max.y;c++)for(var d=o.min.x;d<=o.max.x;d++){var p=new Z(d,c);if(p.z=this._tileZoom,this._isValidTile(p)){var _=this._tiles[this._tileCoordsToKey(p)];_?_.current=!0:r.push(p)}}if(r.sort(function(t,e){return t.distanceTo(s)-e.distanceTo(s)}),0!==r.length){this._loading||(this._loading=!0,this.fire("loading"));var f=document.createDocumentFragment();for(d=0;d<r.length;d++)this._addTile(r[d],f);this._level.el.appendChild(f)}}}}},_isValidTile:function(t){var e=this._map.options.crs;if(!e.infinite){var i=this._globalTileRange;if(!e.wrapLng&&(t.x<i.min.x||t.x>i.max.x)||!e.wrapLat&&(t.y<i.min.y||t.y>i.max.y))return!1}if(!this.options.bounds)return!0;var n=this._tileCoordsToBounds(t);return D(this.options.bounds).overlaps(n)},_keyToBounds:function(t){return this._tileCoordsToBounds(this._keyToTileCoords(t))},_tileCoordsToNwSe:function(t){var e=this._map,i=this.getTileSize(),n=t.scaleBy(i),o=n.add(i);return[e.unproject(n,t.z),e.unproject(o,t.z)]},_tileCoordsToBounds:function(t){var e=this._tileCoordsToNwSe(t),i=new R(e[0],e[1]);return this.options.noWrap||(i=this._map.wrapLatLngBounds(i)),i},_tileCoordsToKey:function(t){return t.x+":"+t.y+":"+t.z},_keyToTileCoords:function(t){var e=t.split(":"),i=new Z(+e[0],+e[1]);return i.z=+e[2],i},_removeTile:function(t){var e=this._tiles[t];e&&(ge(e.el),delete this._tiles[t],this.fire("tileunload",{tile:e.el,coords:this._keyToTileCoords(t)}))},_initTile:function(t){be(t,"leaflet-tile");var e=this.getTileSize();t.style.width=e.x+"px",t.style.height=e.y+"px",t.onselectstart=h,t.onmousemove=h,Dt.ielt9&&this.options.opacity<1&&Me(t,this.options.opacity)},_addTile:function(t,e){var i=this._getTilePos(t),n=this._tileCoordsToKey(t),s=this.createTile(this._wrapCoords(t),o(this._tileReady,this,t));this._initTile(s),this.createTile.length<2&&M(o(this._tileReady,this,t,null,s)),Se(s,i),this._tiles[n]={el:s,coords:t,current:!0},e.appendChild(s),this.fire("tileloadstart",{tile:s,coords:t})},_tileReady:function(t,e,i){e&&this.fire("tileerror",{error:e,tile:i,coords:t});var n=this._tileCoordsToKey(t);(i=this._tiles[n])&&(i.loaded=+new Date,this._map._fadeAnimated?(Me(i.el,0),T(this._fadeFrame),this._fadeFrame=M(this._updateOpacity,this)):(i.active=!0,this._pruneTiles()),e||(be(i.el,"leaflet-tile-loaded"),this.fire("tileload",{tile:i.el,coords:t})),this._noTilesToLoad()&&(this._loading=!1,this.fire("load"),Dt.ielt9||!this._map._fadeAnimated?M(this._pruneTiles,this):setTimeout(o(this._pruneTiles,this),250)))},_getTilePos:function(t){return t.scaleBy(this.getTileSize()).subtract(this._level.origin)},_wrapCoords:function(t){var e=new Z(this._wrapX?l(t.x,this._wrapX):t.x,this._wrapY?l(t.y,this._wrapY):t.y);return e.z=t.z,e},_pxBoundsToTileRange:function(t){var e=this.getTileSize();return new B(t.min.unscaleBy(e).floor(),t.max.unscaleBy(e).ceil().subtract([1,1]))},_noTilesToLoad:function(){for(var t in this._tiles)if(!this._tiles[t].loaded)return!1;return!0}});function Hn(t){return new jn(t)}var Fn=jn.extend({options:{minZoom:0,maxZoom:18,subdomains:"abc",errorTileUrl:"",zoomOffset:0,tms:!1,zoomReverse:!1,detectRetina:!1,crossOrigin:!1,referrerPolicy:!1},initialize:function(t,e){this._url=t,(e=p(this,e)).detectRetina&&Dt.retina&&e.maxZoom>0?(e.tileSize=Math.floor(e.tileSize/2),e.zoomReverse?(e.zoomOffset--,e.minZoom=Math.min(e.maxZoom,e.minZoom+1)):(e.zoomOffset++,e.maxZoom=Math.max(e.minZoom,e.maxZoom-1)),e.minZoom=Math.max(0,e.minZoom)):e.zoomReverse?e.minZoom=Math.min(e.maxZoom,e.minZoom):e.maxZoom=Math.max(e.minZoom,e.maxZoom),"string"==typeof e.subdomains&&(e.subdomains=e.subdomains.split("")),this.on("tileunload",this._onTileRemove)},setUrl:function(t,e){return this._url===t&&void 0===e&&(e=!0),this._url=t,e||this.redraw(),this},createTile:function(t,e){var i=document.createElement("img");return je(i,"load",o(this._tileOnLoad,this,e,i)),je(i,"error",o(this._tileOnError,this,e,i)),(this.options.crossOrigin||""===this.options.crossOrigin)&&(i.crossOrigin=!0===this.options.crossOrigin?"":this.options.crossOrigin),"string"==typeof this.options.referrerPolicy&&(i.referrerPolicy=this.options.referrerPolicy),i.alt="",i.src=this.getTileUrl(t),i},getTileUrl:function(t){var e={r:Dt.retina?"@2x":"",s:this._getSubdomain(t),x:t.x,y:t.y,z:this._getZoomForUrl()};if(this._map&&!this._map.options.crs.infinite){var n=this._globalTileRange.max.y-t.y;this.options.tms&&(e.y=n),e["-y"]=n}return m(this._url,i(e,this.options))},_tileOnLoad:function(t,e){Dt.ielt9?setTimeout(o(t,this,null,e),0):t(null,e)},_tileOnError:function(t,e,i){var n=this.options.errorTileUrl;n&&e.getAttribute("src")!==n&&(e.src=n),t(i,e)},_onTileRemove:function(t){t.tile.onload=null},_getZoomForUrl:function(){var t=this._tileZoom,e=this.options.maxZoom;return this.options.zoomReverse&&(t=e-t),t+this.options.zoomOffset},_getSubdomain:function(t){var e=Math.abs(t.x+t.y)%this.options.subdomains.length;return this.options.subdomains[e]},_abortLoading:function(){var t,e;for(t in this._tiles)if(this._tiles[t].coords.z!==this._tileZoom&&((e=this._tiles[t].el).onload=h,e.onerror=h,!e.complete)){e.src=y;var i=this._tiles[t].coords;ge(e),delete this._tiles[t],this.fire("tileabort",{tile:e,coords:i})}},_removeTile:function(t){var e=this._tiles[t];if(e)return e.el.setAttribute("src",y),jn.prototype._removeTile.call(this,t)},_tileReady:function(t,e,i){if(this._map&&(!i||i.getAttribute("src")!==y))return jn.prototype._tileReady.call(this,t,e,i)}});function Gn(t,e){return new Fn(t,e)}var Wn=Fn.extend({defaultWmsParams:{service:"WMS",request:"GetMap",layers:"",styles:"",format:"image/jpeg",transparent:!1,version:"1.1.1"},options:{crs:null,uppercase:!1},initialize:function(t,e){this._url=t;var n=i({},this.defaultWmsParams);for(var o in e)o in this.options||(n[o]=e[o]);var s=(e=p(this,e)).detectRetina&&Dt.retina?2:1,r=this.getTileSize();n.width=r.x*s,n.height=r.y*s,this.wmsParams=n},onAdd:function(t){this._crs=this.options.crs||t.options.crs,this._wmsVersion=parseFloat(this.wmsParams.version);var e=this._wmsVersion>=1.3?"crs":"srs";this.wmsParams[e]=this._crs.code,Fn.prototype.onAdd.call(this,t)},getTileUrl:function(t){var e=this._tileCoordsToNwSe(t),i=this._crs,n=N(i.project(e[0]),i.project(e[1])),o=n.min,s=n.max,r=(this._wmsVersion>=1.3&&this._crs===qi?[o.y,o.x,s.y,s.x]:[o.x,o.y,s.x,s.y]).join(","),a=Fn.prototype.getTileUrl.call(this,t);return a+_(this.wmsParams,a,this.options.uppercase)+(this.options.uppercase?"&BBOX=":"&bbox=")+r},setParams:function(t,e){return i(this.wmsParams,t),e||this.redraw(),this}});function Un(t,e){return new Wn(t,e)}Fn.WMS=Wn,Gn.wms=Un;var qn=Yi.extend({options:{padding:.1},initialize:function(t){p(this,t),r(this),this._layers=this._layers||{}},onAdd:function(){this._container||(this._initContainer(),be(this._container,"leaflet-zoom-animated")),this.getPane().appendChild(this._container),this._update(),this.on("update",this._updatePaths,this)},onRemove:function(){this.off("update",this._updatePaths,this),this._destroyContainer()},getEvents:function(){var t={viewreset:this._reset,zoom:this._onZoom,moveend:this._update,zoomend:this._onZoomEnd};return this._zoomAnimated&&(t.zoomanim=this._onAnimZoom),t},_onAnimZoom:function(t){this._updateTransform(t.center,t.zoom)},_onZoom:function(){this._updateTransform(this._map.getCenter(),this._map.getZoom())},_updateTransform:function(t,e){var i=this._map.getZoomScale(e,this._zoom),n=this._map.getSize().multiplyBy(.5+this.options.padding),o=this._map.project(this._center,e),s=n.multiplyBy(-i).add(o).subtract(this._map._getNewPixelOrigin(t,e));Dt.any3d?ze(this._container,s,i):Se(this._container,s)},_reset:function(){for(var t in this._update(),this._updateTransform(this._center,this._zoom),this._layers)this._layers[t]._reset()},_onZoomEnd:function(){for(var t in this._layers)this._layers[t]._project()},_updatePaths:function(){for(var t in this._layers)this._layers[t]._update()},_update:function(){var t=this.options.padding,e=this._map.getSize(),i=this._map.containerPointToLayerPoint(e.multiplyBy(-t)).round();this._bounds=new B(i,i.add(e.multiplyBy(1+2*t)).round()),this._center=this._map.getCenter(),this._zoom=this._map.getZoom()}}),Vn=qn.extend({options:{tolerance:0},getEvents:function(){var t=qn.prototype.getEvents.call(this);return t.viewprereset=this._onViewPreReset,t},_onViewPreReset:function(){this._postponeUpdatePaths=!0},onAdd:function(){qn.prototype.onAdd.call(this),this._draw()},_initContainer:function(){var t=this._container=document.createElement("canvas");je(t,"mousemove",this._onMouseMove,this),je(t,"click dblclick mousedown mouseup contextmenu",this._onClick,this),je(t,"mouseout",this._handleMouseOut,this),t._leaflet_disable_events=!0,this._ctx=t.getContext("2d")},_destroyContainer:function(){T(this._redrawRequest),delete this._ctx,ge(this._container),Fe(this._container),delete this._container},_updatePaths:function(){if(!this._postponeUpdatePaths){for(var t in this._redrawBounds=null,this._layers)this._layers[t]._update();this._redraw()}},_update:function(){if(!this._map._animatingZoom||!this._bounds){qn.prototype._update.call(this);var t=this._bounds,e=this._container,i=t.getSize(),n=Dt.retina?2:1;Se(e,t.min),e.width=n*i.x,e.height=n*i.y,e.style.width=i.x+"px",e.style.height=i.y+"px",Dt.retina&&this._ctx.scale(2,2),this._ctx.translate(-t.min.x,-t.min.y),this.fire("update")}},_reset:function(){qn.prototype._reset.call(this),this._postponeUpdatePaths&&(this._postponeUpdatePaths=!1,this._updatePaths())},_initPath:function(t){this._updateDashArray(t),this._layers[r(t)]=t;var e=t._order={layer:t,prev:this._drawLast,next:null};this._drawLast&&(this._drawLast.next=e),this._drawLast=e,this._drawFirst=this._drawFirst||this._drawLast},_addPath:function(t){this._requestRedraw(t)},_removePath:function(t){var e=t._order,i=e.next,n=e.prev;i?i.prev=n:this._drawLast=n,n?n.next=i:this._drawFirst=i,delete t._order,delete this._layers[r(t)],this._requestRedraw(t)},_updatePath:function(t){this._extendRedrawBounds(t),t._project(),t._update(),this._requestRedraw(t)},_updateStyle:function(t){this._updateDashArray(t),this._requestRedraw(t)},_updateDashArray:function(t){if("string"==typeof t.options.dashArray){var e,i,n=t.options.dashArray.split(/[, ]+/),o=[];for(i=0;i<n.length;i++){if(e=Number(n[i]),isNaN(e))return;o.push(e)}t.options._dashArray=o}else t.options._dashArray=t.options.dashArray},_requestRedraw:function(t){this._map&&(this._extendRedrawBounds(t),this._redrawRequest=this._redrawRequest||M(this._redraw,this))},_extendRedrawBounds:function(t){if(t._pxBounds){var e=(t.options.weight||0)+1;this._redrawBounds=this._redrawBounds||new B,this._redrawBounds.extend(t._pxBounds.min.subtract([e,e])),this._redrawBounds.extend(t._pxBounds.max.add([e,e]))}},_redraw:function(){this._redrawRequest=null,this._redrawBounds&&(this._redrawBounds.min._floor(),this._redrawBounds.max._ceil()),this._clear(),this._draw(),this._redrawBounds=null},_clear:function(){var t=this._redrawBounds;if(t){var e=t.getSize();this._ctx.clearRect(t.min.x,t.min.y,e.x,e.y)}else this._ctx.save(),this._ctx.setTransform(1,0,0,1,0,0),this._ctx.clearRect(0,0,this._container.width,this._container.height),this._ctx.restore()},_draw:function(){var t,e=this._redrawBounds;if(this._ctx.save(),e){var i=e.getSize();this._ctx.beginPath(),this._ctx.rect(e.min.x,e.min.y,i.x,i.y),this._ctx.clip()}this._drawing=!0;for(var n=this._drawFirst;n;n=n.next)t=n.layer,(!e||t._pxBounds&&t._pxBounds.intersects(e))&&t._updatePath();this._drawing=!1,this._ctx.restore()},_updatePoly:function(t,e){if(this._drawing){var i,n,o,s,r=t._parts,a=r.length,l=this._ctx;if(a){for(l.beginPath(),i=0;i<a;i++){for(n=0,o=r[i].length;n<o;n++)s=r[i][n],l[n?"lineTo":"moveTo"](s.x,s.y);e&&l.closePath()}this._fillStroke(l,t)}}},_updateCircle:function(t){if(this._drawing&&!t._empty()){var e=t._point,i=this._ctx,n=Math.max(Math.round(t._radius),1),o=(Math.max(Math.round(t._radiusY),1)||n)/n;1!==o&&(i.save(),i.scale(1,o)),i.beginPath(),i.arc(e.x,e.y/o,n,0,2*Math.PI,!1),1!==o&&i.restore(),this._fillStroke(i,t)}},_fillStroke:function(t,e){var i=e.options;i.fill&&(t.globalAlpha=i.fillOpacity,t.fillStyle=i.fillColor||i.color,t.fill(i.fillRule||"evenodd")),i.stroke&&0!==i.weight&&(t.setLineDash&&t.setLineDash(e.options&&e.options._dashArray||[]),t.globalAlpha=i.opacity,t.lineWidth=i.weight,t.strokeStyle=i.color,t.lineCap=i.lineCap,t.lineJoin=i.lineJoin,t.stroke())},_onClick:function(t){for(var e,i,n=this._map.mouseEventToLayerPoint(t),o=this._drawFirst;o;o=o.next)(e=o.layer).options.interactive&&e._containsPoint(n)&&("click"!==t.type&&"preclick"!==t.type||!this._map._draggableMoved(e))&&(i=e);this._fireEvent(!!i&&[i],t)},_onMouseMove:function(t){if(this._map&&!this._map.dragging.moving()&&!this._map._animatingZoom){var e=this._map.mouseEventToLayerPoint(t);this._handleMouseHover(t,e)}},_handleMouseOut:function(t){var e=this._hoveredLayer;e&&(we(this._container,"leaflet-interactive"),this._fireEvent([e],t,"mouseout"),this._hoveredLayer=null,this._mouseHoverThrottled=!1)},_handleMouseHover:function(t,e){if(!this._mouseHoverThrottled){for(var i,n,s=this._drawFirst;s;s=s.next)(i=s.layer).options.interactive&&i._containsPoint(e)&&(n=i);n!==this._hoveredLayer&&(this._handleMouseOut(t),n&&(be(this._container,"leaflet-interactive"),this._fireEvent([n],t,"mouseover"),this._hoveredLayer=n)),this._fireEvent(!!this._hoveredLayer&&[this._hoveredLayer],t),this._mouseHoverThrottled=!0,setTimeout(o(function(){this._mouseHoverThrottled=!1},this),32)}},_fireEvent:function(t,e,i){this._map._fireDOMEvent(e,i||e.type,t)},_bringToFront:function(t){var e=t._order;if(e){var i=e.next,n=e.prev;i&&(i.prev=n,n?n.next=i:i&&(this._drawFirst=i),e.prev=this._drawLast,this._drawLast.next=e,e.next=null,this._drawLast=e,this._requestRedraw(t))}},_bringToBack:function(t){var e=t._order;if(e){var i=e.next,n=e.prev;n&&(n.next=i,i?i.prev=n:n&&(this._drawLast=n),e.prev=null,e.next=this._drawFirst,this._drawFirst.prev=e,this._drawFirst=e,this._requestRedraw(t))}}});function Yn(t){return Dt.canvas?new Vn(t):null}var Kn=function(){try{return document.namespaces.add("lvml","urn:schemas-microsoft-com:vml"),function(t){return document.createElement("<lvml:"+t+' class="lvml">')}}catch(t){}return function(t){return document.createElement("<"+t+' xmlns="urn:schemas-microsoft.com:vml" class="lvml">')}}(),Jn={_initContainer:function(){this._container=me("div","leaflet-vml-container")},_update:function(){this._map._animatingZoom||(qn.prototype._update.call(this),this.fire("update"))},_initPath:function(t){var e=t._container=Kn("shape");be(e,"leaflet-vml-shape "+(this.options.className||"")),e.coordsize="1 1",t._path=Kn("path"),e.appendChild(t._path),this._updateStyle(t),this._layers[r(t)]=t},_addPath:function(t){var e=t._container;this._container.appendChild(e),t.options.interactive&&t.addInteractiveTarget(e)},_removePath:function(t){var e=t._container;ge(e),t.removeInteractiveTarget(e),delete this._layers[r(t)]},_updateStyle:function(t){var e=t._stroke,i=t._fill,n=t.options,o=t._container;o.stroked=!!n.stroke,o.filled=!!n.fill,n.stroke?(e||(e=t._stroke=Kn("stroke")),o.appendChild(e),e.weight=n.weight+"px",e.color=n.color,e.opacity=n.opacity,n.dashArray?e.dashStyle=g(n.dashArray)?n.dashArray.join(" "):n.dashArray.replace(/( *, *)/g," "):e.dashStyle="",e.endcap=n.lineCap.replace("butt","flat"),e.joinstyle=n.lineJoin):e&&(o.removeChild(e),t._stroke=null),n.fill?(i||(i=t._fill=Kn("fill")),o.appendChild(i),i.color=n.fillColor||n.color,i.opacity=n.fillOpacity):i&&(o.removeChild(i),t._fill=null)},_updateCircle:function(t){var e=t._point.round(),i=Math.round(t._radius),n=Math.round(t._radiusY||i);this._setPath(t,t._empty()?"M0 0":"AL "+e.x+","+e.y+" "+i+","+n+" 0,23592600")},_setPath:function(t,e){t._path.v=e},_bringToFront:function(t){ye(t._container)},_bringToBack:function(t){xe(t._container)}},Xn=Dt.vml?Kn:Q,Qn=qn.extend({_initContainer:function(){this._container=Xn("svg"),this._container.setAttribute("pointer-events","none"),this._rootGroup=Xn("g"),this._container.appendChild(this._rootGroup)},_destroyContainer:function(){ge(this._container),Fe(this._container),delete this._container,delete this._rootGroup,delete this._svgSize},_update:function(){if(!this._map._animatingZoom||!this._bounds){qn.prototype._update.call(this);var t=this._bounds,e=t.getSize(),i=this._container;this._svgSize&&this._svgSize.equals(e)||(this._svgSize=e,i.setAttribute("width",e.x),i.setAttribute("height",e.y)),Se(i,t.min),i.setAttribute("viewBox",[t.min.x,t.min.y,e.x,e.y].join(" ")),this.fire("update")}},_initPath:function(t){var e=t._path=Xn("path");t.options.className&&be(e,t.options.className),t.options.interactive&&be(e,"leaflet-interactive"),this._updateStyle(t),this._layers[r(t)]=t},_addPath:function(t){this._rootGroup||this._initContainer(),this._rootGroup.appendChild(t._path),t.addInteractiveTarget(t._path)},_removePath:function(t){ge(t._path),t.removeInteractiveTarget(t._path),delete this._layers[r(t)]},_updatePath:function(t){t._project(),t._update()},_updateStyle:function(t){var e=t._path,i=t.options;e&&(i.stroke?(e.setAttribute("stroke",i.color),e.setAttribute("stroke-opacity",i.opacity),e.setAttribute("stroke-width",i.weight),e.setAttribute("stroke-linecap",i.lineCap),e.setAttribute("stroke-linejoin",i.lineJoin),i.dashArray?e.setAttribute("stroke-dasharray",i.dashArray):e.removeAttribute("stroke-dasharray"),i.dashOffset?e.setAttribute("stroke-dashoffset",i.dashOffset):e.removeAttribute("stroke-dashoffset")):e.setAttribute("stroke","none"),i.fill?(e.setAttribute("fill",i.fillColor||i.color),e.setAttribute("fill-opacity",i.fillOpacity),e.setAttribute("fill-rule",i.fillRule||"evenodd")):e.setAttribute("fill","none"))},_updatePoly:function(t,e){this._setPath(t,$(t._parts,e))},_updateCircle:function(t){var e=t._point,i=Math.max(Math.round(t._radius),1),n="a"+i+","+(Math.max(Math.round(t._radiusY),1)||i)+" 0 1,0 ",o=t._empty()?"M0 0":"M"+(e.x-i)+","+e.y+n+2*i+",0 "+n+2*-i+",0 ";this._setPath(t,o)},_setPath:function(t,e){t._path.setAttribute("d",e)},_bringToFront:function(t){ye(t._path)},_bringToBack:function(t){xe(t._path)}});function $n(t){return Dt.svg||Dt.vml?new Qn(t):null}Dt.vml&&Qn.include(Jn),si.include({getRenderer:function(t){var e=t.options.renderer||this._getPaneRenderer(t.options.pane)||this.options.renderer||this._renderer;return e||(e=this._renderer=this._createRenderer()),this.hasLayer(e)||this.addLayer(e),e},_getPaneRenderer:function(t){if("overlayPane"===t||void 0===t)return!1;var e=this._paneRenderers[t];return void 0===e&&(e=this._createRenderer({pane:t}),this._paneRenderers[t]=e),e},_createRenderer:function(t){return this.options.preferCanvas&&Yn(t)||$n(t)}});var to=pn.extend({initialize:function(t,e){pn.prototype.initialize.call(this,this._boundsToLatLngs(t),e)},setBounds:function(t){return this.setLatLngs(this._boundsToLatLngs(t))},_boundsToLatLngs:function(t){return[(t=D(t)).getSouthWest(),t.getNorthWest(),t.getNorthEast(),t.getSouthEast()]}});function eo(t,e){return new to(t,e)}Qn.create=Xn,Qn.pointsToPath=$,fn.geometryToLayer=mn,fn.coordsToLatLng=vn,fn.coordsToLatLngs=yn,fn.latLngToCoords=xn,fn.latLngsToCoords=Ln,fn.getFeature=bn,fn.asFeature=wn,si.mergeOptions({boxZoom:!0});var io=vi.extend({initialize:function(t){this._map=t,this._container=t._container,this._pane=t._panes.overlayPane,this._resetStateTimeout=0,t.on("unload",this._destroy,this)},addHooks:function(){je(this._container,"mousedown",this._onMouseDown,this)},removeHooks:function(){Fe(this._container,"mousedown",this._onMouseDown,this)},moved:function(){return this._moved},_destroy:function(){ge(this._pane),delete this._pane},_resetState:function(){this._resetStateTimeout=0,this._moved=!1},_clearDeferredResetState:function(){0!==this._resetStateTimeout&&(clearTimeout(this._resetStateTimeout),this._resetStateTimeout=0)},_onMouseDown:function(t){if(!t.shiftKey||1!==t.which&&1!==t.button)return!1;this._clearDeferredResetState(),this._resetState(),re(),Ze(),this._startPoint=this._map.mouseEventToContainerPoint(t),je(document,{contextmenu:Xe,mousemove:this._onMouseMove,mouseup:this._onMouseUp,keydown:this._onKeyDown},this)},_onMouseMove:function(t){this._moved||(this._moved=!0,this._box=me("div","leaflet-zoom-box",this._container),be(this._container,"leaflet-crosshair"),this._map.fire("boxzoomstart")),this._point=this._map.mouseEventToContainerPoint(t);var e=new B(this._point,this._startPoint),i=e.getSize();Se(this._box,e.min),this._box.style.width=i.x+"px",this._box.style.height=i.y+"px"},_finish:function(){this._moved&&(ge(this._box),we(this._container,"leaflet-crosshair")),ae(),Oe(),Fe(document,{contextmenu:Xe,mousemove:this._onMouseMove,mouseup:this._onMouseUp,keydown:this._onKeyDown},this)},_onMouseUp:function(t){if((1===t.which||1===t.button)&&(this._finish(),this._moved)){this._clearDeferredResetState(),this._resetStateTimeout=setTimeout(o(this._resetState,this),0);var e=new R(this._map.containerPointToLatLng(this._startPoint),this._map.containerPointToLatLng(this._point));this._map.fitBounds(e).fire("boxzoomend",{boxZoomBounds:e})}},_onKeyDown:function(t){27===t.keyCode&&(this._finish(),this._clearDeferredResetState(),this._resetState())}});si.addInitHook("addHandler","boxZoom",io),si.mergeOptions({doubleClickZoom:!0});var no=vi.extend({addHooks:function(){this._map.on("dblclick",this._onDoubleClick,this)},removeHooks:function(){this._map.off("dblclick",this._onDoubleClick,this)},_onDoubleClick:function(t){var e=this._map,i=e.getZoom(),n=e.options.zoomDelta,o=t.originalEvent.shiftKey?i-n:i+n;"center"===e.options.doubleClickZoom?e.setZoom(o):e.setZoomAround(t.containerPoint,o)}});si.addInitHook("addHandler","doubleClickZoom",no),si.mergeOptions({dragging:!0,inertia:!0,inertiaDeceleration:3400,inertiaMaxSpeed:1/0,easeLinearity:.2,worldCopyJump:!1,maxBoundsViscosity:0});var oo=vi.extend({addHooks:function(){if(!this._draggable){var t=this._map;this._draggable=new Li(t._mapPane,t._container),this._draggable.on({dragstart:this._onDragStart,drag:this._onDrag,dragend:this._onDragEnd},this),this._draggable.on("predrag",this._onPreDragLimit,this),t.options.worldCopyJump&&(this._draggable.on("predrag",this._onPreDragWrap,this),t.on("zoomend",this._onZoomEnd,this),t.whenReady(this._onZoomEnd,this))}be(this._map._container,"leaflet-grab leaflet-touch-drag"),this._draggable.enable(),this._positions=[],this._times=[]},removeHooks:function(){we(this._map._container,"leaflet-grab"),we(this._map._container,"leaflet-touch-drag"),this._draggable.disable()},moved:function(){return this._draggable&&this._draggable._moved},moving:function(){return this._draggable&&this._draggable._moving},_onDragStart:function(){var t=this._map;if(t._stop(),this._map.options.maxBounds&&this._map.options.maxBoundsViscosity){var e=D(this._map.options.maxBounds);this._offsetLimit=N(this._map.latLngToContainerPoint(e.getNorthWest()).multiplyBy(-1),this._map.latLngToContainerPoint(e.getSouthEast()).multiplyBy(-1).add(this._map.getSize())),this._viscosity=Math.min(1,Math.max(0,this._map.options.maxBoundsViscosity))}else this._offsetLimit=null;t.fire("movestart").fire("dragstart"),t.options.inertia&&(this._positions=[],this._times=[])},_onDrag:function(t){if(this._map.options.inertia){var e=this._lastTime=+new Date,i=this._lastPos=this._draggable._absPos||this._draggable._newPos;this._positions.push(i),this._times.push(e),this._prunePositions(e)}this._map.fire("move",t).fire("drag",t)},_prunePositions:function(t){for(;this._positions.length>1&&t-this._times[0]>50;)this._positions.shift(),this._times.shift()},_onZoomEnd:function(){var t=this._map.getSize().divideBy(2),e=this._map.latLngToLayerPoint([0,0]);this._initialWorldOffset=e.subtract(t).x,this._worldWidth=this._map.getPixelWorldBounds().getSize().x},_viscousLimit:function(t,e){return t-(t-e)*this._viscosity},_onPreDragLimit:function(){if(this._viscosity&&this._offsetLimit){var t=this._draggable._newPos.subtract(this._draggable._startPos),e=this._offsetLimit;t.x<e.min.x&&(t.x=this._viscousLimit(t.x,e.min.x)),t.y<e.min.y&&(t.y=this._viscousLimit(t.y,e.min.y)),t.x>e.max.x&&(t.x=this._viscousLimit(t.x,e.max.x)),t.y>e.max.y&&(t.y=this._viscousLimit(t.y,e.max.y)),this._draggable._newPos=this._draggable._startPos.add(t)}},_onPreDragWrap:function(){var t=this._worldWidth,e=Math.round(t/2),i=this._initialWorldOffset,n=this._draggable._newPos.x,o=(n-e+i)%t+e-i,s=(n+e+i)%t-e-i,r=Math.abs(o+i)<Math.abs(s+i)?o:s;this._draggable._absPos=this._draggable._newPos.clone(),this._draggable._newPos.x=r},_onDragEnd:function(t){var e=this._map,i=e.options,n=!i.inertia||t.noInertia||this._times.length<2;if(e.fire("dragend",t),n)e.fire("moveend");else{this._prunePositions(+new Date);var o=this._lastPos.subtract(this._positions[0]),s=(this._lastTime-this._times[0])/1e3,r=i.easeLinearity,a=o.multiplyBy(r/s),l=a.distanceTo([0,0]),h=Math.min(i.inertiaMaxSpeed,l),u=a.multiplyBy(h/l),c=h/(i.inertiaDeceleration*r),d=u.multiplyBy(-c/2).round();d.x||d.y?(d=e._limitOffset(d,e.options.maxBounds),M(function(){e.panBy(d,{duration:c,easeLinearity:r,noMoveStart:!0,animate:!0})})):e.fire("moveend")}}});si.addInitHook("addHandler","dragging",oo),si.mergeOptions({keyboard:!0,keyboardPanDelta:80});var so=vi.extend({keyCodes:{left:[37],right:[39],down:[40],up:[38],zoomIn:[187,107,61,171],zoomOut:[189,109,54,173]},initialize:function(t){this._map=t,this._setPanDelta(t.options.keyboardPanDelta),this._setZoomDelta(t.options.zoomDelta)},addHooks:function(){var t=this._map._container;t.tabIndex<=0&&(t.tabIndex="0"),je(t,{focus:this._onFocus,blur:this._onBlur,mousedown:this._onMouseDown},this),this._map.on({focus:this._addHooks,blur:this._removeHooks},this)},removeHooks:function(){this._removeHooks(),Fe(this._map._container,{focus:this._onFocus,blur:this._onBlur,mousedown:this._onMouseDown},this),this._map.off({focus:this._addHooks,blur:this._removeHooks},this)},_onMouseDown:function(){if(!this._focused){var t=document.body,e=document.documentElement,i=t.scrollTop||e.scrollTop,n=t.scrollLeft||e.scrollLeft;this._map._container.focus(),window.scrollTo(n,i)}},_onFocus:function(){this._focused=!0,this._map.fire("focus")},_onBlur:function(){this._focused=!1,this._map.fire("blur")},_setPanDelta:function(t){var e,i,n=this._panKeys={},o=this.keyCodes;for(e=0,i=o.left.length;e<i;e++)n[o.left[e]]=[-1*t,0];for(e=0,i=o.right.length;e<i;e++)n[o.right[e]]=[t,0];for(e=0,i=o.down.length;e<i;e++)n[o.down[e]]=[0,t];for(e=0,i=o.up.length;e<i;e++)n[o.up[e]]=[0,-1*t]},_setZoomDelta:function(t){var e,i,n=this._zoomKeys={},o=this.keyCodes;for(e=0,i=o.zoomIn.length;e<i;e++)n[o.zoomIn[e]]=t;for(e=0,i=o.zoomOut.length;e<i;e++)n[o.zoomOut[e]]=-t},_addHooks:function(){je(document,"keydown",this._onKeyDown,this)},_removeHooks:function(){Fe(document,"keydown",this._onKeyDown,this)},_onKeyDown:function(t){if(!(t.altKey||t.ctrlKey||t.metaKey)){var e,i=t.keyCode,n=this._map;if(i in this._panKeys){if(!n._panAnim||!n._panAnim._inProgress)if(e=this._panKeys[i],t.shiftKey&&(e=I(e).multiplyBy(3)),n.options.maxBounds&&(e=n._limitOffset(I(e),n.options.maxBounds)),n.options.worldCopyJump){var o=n.wrapLatLng(n.unproject(n.project(n.getCenter()).add(e)));n.panTo(o)}else n.panBy(e)}else if(i in this._zoomKeys)n.setZoom(n.getZoom()+(t.shiftKey?3:1)*this._zoomKeys[i]);else{if(27!==i||!n._popup||!n._popup.options.closeOnEscapeKey)return;n.closePopup()}Xe(t)}}});si.addInitHook("addHandler","keyboard",so),si.mergeOptions({scrollWheelZoom:!0,wheelDebounceTime:40,wheelPxPerZoomLevel:60});var ro=vi.extend({addHooks:function(){je(this._map._container,"wheel",this._onWheelScroll,this),this._delta=0},removeHooks:function(){Fe(this._map._container,"wheel",this._onWheelScroll,this)},_onWheelScroll:function(t){var e=ei(t),i=this._map.options.wheelDebounceTime;this._delta+=e,this._lastMousePos=this._map.mouseEventToContainerPoint(t),this._startTime||(this._startTime=+new Date);var n=Math.max(i-(+new Date-this._startTime),0);clearTimeout(this._timer),this._timer=setTimeout(o(this._performZoom,this),n),Xe(t)},_performZoom:function(){var t=this._map,e=t.getZoom(),i=this._map.options.zoomSnap||0;t._stop();var n=this._delta/(4*this._map.options.wheelPxPerZoomLevel),o=4*Math.log(2/(1+Math.exp(-Math.abs(n))))/Math.LN2,s=i?Math.ceil(o/i)*i:o,r=t._limitZoom(e+(this._delta>0?s:-s))-e;this._delta=0,this._startTime=null,r&&("center"===t.options.scrollWheelZoom?t.setZoom(e+r):t.setZoomAround(this._lastMousePos,e+r))}});si.addInitHook("addHandler","scrollWheelZoom",ro);var ao=600;si.mergeOptions({tapHold:Dt.touchNative&&Dt.safari&&Dt.mobile,tapTolerance:15});var lo=vi.extend({addHooks:function(){je(this._map._container,"touchstart",this._onDown,this)},removeHooks:function(){Fe(this._map._container,"touchstart",this._onDown,this)},_onDown:function(t){if(clearTimeout(this._holdTimeout),1===t.touches.length){var e=t.touches[0];this._startPos=this._newPos=new Z(e.clientX,e.clientY),this._holdTimeout=setTimeout(o(function(){this._cancel(),this._isTapValid()&&(je(document,"touchend",Je),je(document,"touchend touchcancel",this._cancelClickPrevent),this._simulateEvent("contextmenu",e))},this),ao),je(document,"touchend touchcancel contextmenu",this._cancel,this),je(document,"touchmove",this._onMove,this)}},_cancelClickPrevent:function t(){Fe(document,"touchend",Je),Fe(document,"touchend touchcancel",t)},_cancel:function(){clearTimeout(this._holdTimeout),Fe(document,"touchend touchcancel contextmenu",this._cancel,this),Fe(document,"touchmove",this._onMove,this)},_onMove:function(t){var e=t.touches[0];this._newPos=new Z(e.clientX,e.clientY)},_isTapValid:function(){return this._newPos.distanceTo(this._startPos)<=this._map.options.tapTolerance},_simulateEvent:function(t,e){var i=new MouseEvent(t,{bubbles:!0,cancelable:!0,view:window,screenX:e.screenX,screenY:e.screenY,clientX:e.clientX,clientY:e.clientY});i._simulated=!0,e.target.dispatchEvent(i)}});si.addInitHook("addHandler","tapHold",lo),si.mergeOptions({touchZoom:Dt.touch,bounceAtZoomLimits:!0});var ho=vi.extend({addHooks:function(){be(this._map._container,"leaflet-touch-zoom"),je(this._map._container,"touchstart",this._onTouchStart,this)},removeHooks:function(){we(this._map._container,"leaflet-touch-zoom"),Fe(this._map._container,"touchstart",this._onTouchStart,this)},_onTouchStart:function(t){var e=this._map;if(t.touches&&2===t.touches.length&&!e._animatingZoom&&!this._zooming){var i=e.mouseEventToContainerPoint(t.touches[0]),n=e.mouseEventToContainerPoint(t.touches[1]);this._centerPoint=e.getSize()._divideBy(2),this._startLatLng=e.containerPointToLatLng(this._centerPoint),"center"!==e.options.touchZoom&&(this._pinchStartLatLng=e.containerPointToLatLng(i.add(n)._divideBy(2))),this._startDist=i.distanceTo(n),this._startZoom=e.getZoom(),this._moved=!1,this._zooming=!0,e._stop(),je(document,"touchmove",this._onTouchMove,this),je(document,"touchend touchcancel",this._onTouchEnd,this),Je(t)}},_onTouchMove:function(t){if(t.touches&&2===t.touches.length&&this._zooming){var e=this._map,i=e.mouseEventToContainerPoint(t.touches[0]),n=e.mouseEventToContainerPoint(t.touches[1]),s=i.distanceTo(n)/this._startDist;if(this._zoom=e.getScaleZoom(s,this._startZoom),!e.options.bounceAtZoomLimits&&(this._zoom<e.getMinZoom()&&s<1||this._zoom>e.getMaxZoom()&&s>1)&&(this._zoom=e._limitZoom(this._zoom)),"center"===e.options.touchZoom){if(this._center=this._startLatLng,1===s)return}else{var r=i._add(n)._divideBy(2)._subtract(this._centerPoint);if(1===s&&0===r.x&&0===r.y)return;this._center=e.unproject(e.project(this._pinchStartLatLng,this._zoom).subtract(r),this._zoom)}this._moved||(e._moveStart(!0,!1),this._moved=!0),T(this._animRequest);var a=o(e._move,e,this._center,this._zoom,{pinch:!0,round:!1},void 0);this._animRequest=M(a,this,!0),Je(t)}},_onTouchEnd:function(){this._moved&&this._zooming?(this._zooming=!1,T(this._animRequest),Fe(document,"touchmove",this._onTouchMove,this),Fe(document,"touchend touchcancel",this._onTouchEnd,this),this._map.options.zoomAnimation?this._map._animateZoom(this._center,this._map._limitZoom(this._zoom),!0,this._map.options.zoomSnap):this._map._resetView(this._center,this._map._limitZoom(this._zoom))):this._zooming=!1}});si.addInitHook("addHandler","touchZoom",ho),si.BoxZoom=io,si.DoubleClickZoom=no,si.Drag=oo,si.Keyboard=so,si.ScrollWheelZoom=ro,si.TapHold=lo,si.TouchZoom=ho,t.Bounds=B,t.Browser=Dt,t.CRS=G,t.Canvas=Vn,t.Circle=hn,t.CircleMarker=an,t.Class=z,t.Control=ai,t.DivIcon=Rn,t.DivOverlay=Zn,t.DomEvent=ni,t.DomUtil=De,t.Draggable=Li,t.Evented=E,t.FeatureGroup=Xi,t.GeoJSON=fn,t.GridLayer=jn,t.Handler=vi,t.Icon=$i,t.ImageOverlay=Tn,t.LatLng=j,t.LatLngBounds=R,t.Layer=Yi,t.LayerGroup=Ki,t.LineUtil=Hi,t.Map=si,t.Marker=on,t.Mixin=yi,t.Path=rn,t.Point=Z,t.PolyUtil=Mi,t.Polygon=pn,t.Polyline=cn,t.Popup=On,t.PosAnimation=oi,t.Projection=Wi,t.Rectangle=to,t.Renderer=qn,t.SVG=Qn,t.SVGOverlay=An,t.TileLayer=Fn,t.Tooltip=Bn,t.Transformation=V,t.Util=k,t.VideoOverlay=zn,t.bind=o,t.bounds=N,t.canvas=Yn,t.circle=un,t.circleMarker=ln,t.control=li,t.divIcon=Dn,t.extend=i,t.featureGroup=Qi,t.geoJSON=Cn,t.geoJson=Mn,t.gridLayer=Hn,t.icon=tn,t.imageOverlay=kn,t.latLng=H,t.latLngBounds=D,t.layerGroup=Ji,t.map=ri,t.marker=sn,t.point=I,t.polygon=_n,t.polyline=dn,t.popup=In,t.rectangle=eo,t.setOptions=p,t.stamp=r,t.svg=$n,t.svgOverlay=En,t.tileLayer=Gn,t.tooltip=Nn,t.transformation=Y,t.version=e,t.videoOverlay=Sn;var uo=window.L;t.noConflict=function(){return window.L=uo,this},window.L=t}(i.exports)),i.exports),s={exports:{}};n||(n=1,function(t){var e=L.MarkerClusterGroup=L.FeatureGroup.extend({options:{maxClusterRadius:80,iconCreateFunction:null,clusterPane:L.Marker.prototype.options.pane,spiderfyOnEveryZoom:!1,spiderfyOnMaxZoom:!0,showCoverageOnHover:!0,zoomToBoundsOnClick:!0,singleMarkerMode:!1,disableClusteringAtZoom:null,removeOutsideVisibleBounds:!0,animate:!0,animateAddingMarkers:!1,spiderfyShapePositions:null,spiderfyDistanceMultiplier:1,spiderLegPolylineOptions:{weight:1.5,color:"#222",opacity:.5},chunkedLoading:!1,chunkInterval:200,chunkDelay:50,chunkProgress:null,polygonOptions:{}},initialize:function(t){L.Util.setOptions(this,t),this.options.iconCreateFunction||(this.options.iconCreateFunction=this._defaultIconCreateFunction),this._featureGroup=L.featureGroup(),this._featureGroup.addEventParent(this),this._nonPointGroup=L.featureGroup(),this._nonPointGroup.addEventParent(this),this._inZoomAnimation=0,this._needsClustering=[],this._needsRemoving=[],this._currentShownBounds=null,this._queue=[],this._childMarkerEventHandlers={dragstart:this._childMarkerDragStart,move:this._childMarkerMoved,dragend:this._childMarkerDragEnd};var e=L.DomUtil.TRANSITION&&this.options.animate;L.extend(this,e?this._withAnimation:this._noAnimation),this._markerCluster=e?L.MarkerCluster:L.MarkerClusterNonAnimated},addLayer:function(t){if(t instanceof L.LayerGroup)return this.addLayers([t]);if(!t.getLatLng)return this._nonPointGroup.addLayer(t),this.fire("layeradd",{layer:t}),this;if(!this._map)return this._needsClustering.push(t),this.fire("layeradd",{layer:t}),this;if(this.hasLayer(t))return this;this._unspiderfy&&this._unspiderfy(),this._addLayer(t,this._maxZoom),this.fire("layeradd",{layer:t}),this._topClusterLevel._recalculateBounds(),this._refreshClustersIcons();var e=t,i=this._zoom;if(t.__parent)for(;e.__parent._zoom>=i;)e=e.__parent;return this._currentShownBounds.contains(e.getLatLng())&&(this.options.animateAddingMarkers?this._animationAddLayer(t,e):this._animationAddLayerNonAnimated(t,e)),this},removeLayer:function(t){return t instanceof L.LayerGroup?this.removeLayers([t]):(t.getLatLng?this._map?t.__parent&&(this._unspiderfy&&(this._unspiderfy(),this._unspiderfyLayer(t)),this._removeLayer(t,!0),this.fire("layerremove",{layer:t}),this._topClusterLevel._recalculateBounds(),this._refreshClustersIcons(),t.off(this._childMarkerEventHandlers,this),this._featureGroup.hasLayer(t)&&(this._featureGroup.removeLayer(t),t.clusterShow&&t.clusterShow())):(!this._arraySplice(this._needsClustering,t)&&this.hasLayer(t)&&this._needsRemoving.push({layer:t,latlng:t._latlng}),this.fire("layerremove",{layer:t})):(this._nonPointGroup.removeLayer(t),this.fire("layerremove",{layer:t})),this)},addLayers:function(t,e){if(!L.Util.isArray(t))return this.addLayer(t);var i,n=this._featureGroup,o=this._nonPointGroup,s=this.options.chunkedLoading,r=this.options.chunkInterval,a=this.options.chunkProgress,l=t.length,h=0,u=!0;if(this._map){var c=(new Date).getTime(),d=L.bind(function(){var p=(new Date).getTime();for(this._map&&this._unspiderfy&&this._unspiderfy();h<l;h++){if(s&&h%200==0){var _=(new Date).getTime()-p;if(r<_)break}if((i=t[h])instanceof L.LayerGroup)u&&(t=t.slice(),u=!1),this._extractNonGroupLayers(i,t),l=t.length;else if(i.getLatLng){if(!this.hasLayer(i)&&(this._addLayer(i,this._maxZoom),e||this.fire("layeradd",{layer:i}),i.__parent&&2===i.__parent.getChildCount())){var f=i.__parent.getAllChildMarkers(),m=f[0]===i?f[1]:f[0];n.removeLayer(m)}}else o.addLayer(i),e||this.fire("layeradd",{layer:i})}a&&a(h,l,(new Date).getTime()-c),h===l?(this._topClusterLevel._recalculateBounds(),this._refreshClustersIcons(),this._topClusterLevel._recursivelyAddChildrenToMap(null,this._zoom,this._currentShownBounds)):setTimeout(d,this.options.chunkDelay)},this);d()}else for(var p=this._needsClustering;h<l;h++)(i=t[h])instanceof L.LayerGroup?(u&&(t=t.slice(),u=!1),this._extractNonGroupLayers(i,t),l=t.length):i.getLatLng?this.hasLayer(i)||p.push(i):o.addLayer(i);return this},removeLayers:function(t){var e,i,n=t.length,o=this._featureGroup,s=this._nonPointGroup,r=!0;if(!this._map){for(e=0;e<n;e++)(i=t[e])instanceof L.LayerGroup?(r&&(t=t.slice(),r=!1),this._extractNonGroupLayers(i,t),n=t.length):(this._arraySplice(this._needsClustering,i),s.removeLayer(i),this.hasLayer(i)&&this._needsRemoving.push({layer:i,latlng:i._latlng}),this.fire("layerremove",{layer:i}));return this}if(this._unspiderfy){this._unspiderfy();var a=t.slice(),l=n;for(e=0;e<l;e++)(i=a[e])instanceof L.LayerGroup?(this._extractNonGroupLayers(i,a),l=a.length):this._unspiderfyLayer(i)}for(e=0;e<n;e++)(i=t[e])instanceof L.LayerGroup?(r&&(t=t.slice(),r=!1),this._extractNonGroupLayers(i,t),n=t.length):i.__parent?(this._removeLayer(i,!0,!0),this.fire("layerremove",{layer:i}),o.hasLayer(i)&&(o.removeLayer(i),i.clusterShow&&i.clusterShow())):(s.removeLayer(i),this.fire("layerremove",{layer:i}));return this._topClusterLevel._recalculateBounds(),this._refreshClustersIcons(),this._topClusterLevel._recursivelyAddChildrenToMap(null,this._zoom,this._currentShownBounds),this},clearLayers:function(){return this._map||(this._needsClustering=[],this._needsRemoving=[],delete this._gridClusters,delete this._gridUnclustered),this._noanimationUnspiderfy&&this._noanimationUnspiderfy(),this._featureGroup.clearLayers(),this._nonPointGroup.clearLayers(),this.eachLayer(function(t){t.off(this._childMarkerEventHandlers,this),delete t.__parent},this),this._map&&this._generateInitialClusters(),this},getBounds:function(){var t=new L.LatLngBounds;this._topClusterLevel&&t.extend(this._topClusterLevel._bounds);for(var e=this._needsClustering.length-1;0<=e;e--)t.extend(this._needsClustering[e].getLatLng());return t.extend(this._nonPointGroup.getBounds()),t},eachLayer:function(t,e){var i,n,o,s=this._needsClustering.slice(),r=this._needsRemoving;for(this._topClusterLevel&&this._topClusterLevel.getAllChildMarkers(s),n=s.length-1;0<=n;n--){for(i=!0,o=r.length-1;0<=o;o--)if(r[o].layer===s[n]){i=!1;break}i&&t.call(e,s[n])}this._nonPointGroup.eachLayer(t,e)},getLayers:function(){var t=[];return this.eachLayer(function(e){t.push(e)}),t},getLayer:function(t){var e=null;return t=parseInt(t,10),this.eachLayer(function(i){L.stamp(i)===t&&(e=i)}),e},hasLayer:function(t){if(!t)return!1;var e,i=this._needsClustering;for(e=i.length-1;0<=e;e--)if(i[e]===t)return!0;for(e=(i=this._needsRemoving).length-1;0<=e;e--)if(i[e].layer===t)return!1;return!(!t.__parent||t.__parent._group!==this)||this._nonPointGroup.hasLayer(t)},zoomToShowLayer:function(t,e){var i=this._map;"function"!=typeof e&&(e=function(){});var n=function(){!i.hasLayer(t)&&!i.hasLayer(t.__parent)||this._inZoomAnimation||(this._map.off("moveend",n,this),this.off("animationend",n,this),i.hasLayer(t)?e():t.__parent._icon&&(this.once("spiderfied",e,this),t.__parent.spiderfy()))};t._icon&&this._map.getBounds().contains(t.getLatLng())?e():t.__parent._zoom<Math.round(this._map._zoom)?(this._map.on("moveend",n,this),this._map.panTo(t.getLatLng())):(this._map.on("moveend",n,this),this.on("animationend",n,this),t.__parent.zoomToBounds())},onAdd:function(t){var e,i,n;if(this._map=t,!isFinite(this._map.getMaxZoom()))throw"Map has no maxZoom specified";for(this._featureGroup.addTo(t),this._nonPointGroup.addTo(t),this._gridClusters||this._generateInitialClusters(),this._maxLat=t.options.crs.projection.MAX_LATITUDE,e=0,i=this._needsRemoving.length;e<i;e++)(n=this._needsRemoving[e]).newlatlng=n.layer._latlng,n.layer._latlng=n.latlng;for(e=0,i=this._needsRemoving.length;e<i;e++)n=this._needsRemoving[e],this._removeLayer(n.layer,!0),n.layer._latlng=n.newlatlng;this._needsRemoving=[],this._zoom=Math.round(this._map._zoom),this._currentShownBounds=this._getExpandedVisibleBounds(),this._map.on("zoomend",this._zoomEnd,this),this._map.on("moveend",this._moveEnd,this),this._spiderfierOnAdd&&this._spiderfierOnAdd(),this._bindEvents(),i=this._needsClustering,this._needsClustering=[],this.addLayers(i,!0)},onRemove:function(t){t.off("zoomend",this._zoomEnd,this),t.off("moveend",this._moveEnd,this),this._unbindEvents(),this._map._mapPane.className=this._map._mapPane.className.replace(" leaflet-cluster-anim",""),this._spiderfierOnRemove&&this._spiderfierOnRemove(),delete this._maxLat,this._hideCoverage(),this._featureGroup.remove(),this._nonPointGroup.remove(),this._featureGroup.clearLayers(),this._map=null},getVisibleParent:function(t){for(var e=t;e&&!e._icon;)e=e.__parent;return e||null},_arraySplice:function(t,e){for(var i=t.length-1;0<=i;i--)if(t[i]===e)return t.splice(i,1),!0},_removeFromGridUnclustered:function(t,e){for(var i=this._map,n=this._gridUnclustered,o=Math.floor(this._map.getMinZoom());o<=e&&n[e].removeObject(t,i.project(t.getLatLng(),e));e--);},_childMarkerDragStart:function(t){t.target.__dragStart=t.target._latlng},_childMarkerMoved:function(t){if(!this._ignoreMove&&!t.target.__dragStart){var e=t.target._popup&&t.target._popup.isOpen();this._moveChild(t.target,t.oldLatLng,t.latlng),e&&t.target.openPopup()}},_moveChild:function(t,e,i){t._latlng=e,this.removeLayer(t),t._latlng=i,this.addLayer(t)},_childMarkerDragEnd:function(t){var e=t.target.__dragStart;delete t.target.__dragStart,e&&this._moveChild(t.target,e,t.target._latlng)},_removeLayer:function(t,e,i){var n=this._gridClusters,o=this._gridUnclustered,s=this._featureGroup,r=this._map,a=Math.floor(this._map.getMinZoom());e&&this._removeFromGridUnclustered(t,this._maxZoom);var l,h=t.__parent,u=h._markers;for(this._arraySplice(u,t);h&&(h._childCount--,h._boundsNeedUpdate=!0,!(h._zoom<a));)e&&h._childCount<=1?(l=h._markers[0]===t?h._markers[1]:h._markers[0],n[h._zoom].removeObject(h,r.project(h._cLatLng,h._zoom)),o[h._zoom].addObject(l,r.project(l.getLatLng(),h._zoom)),this._arraySplice(h.__parent._childClusters,h),h.__parent._markers.push(l),l.__parent=h.__parent,h._icon&&(s.removeLayer(h),i||s.addLayer(l))):h._iconNeedsUpdate=!0,h=h.__parent;delete t.__parent},_isOrIsParent:function(t,e){for(;e;){if(t===e)return!0;e=e.parentNode}return!1},fire:function(t,e,i){if(e&&e.layer instanceof L.MarkerCluster){if(e.originalEvent&&this._isOrIsParent(e.layer._icon,e.originalEvent.relatedTarget))return;t="cluster"+t}L.FeatureGroup.prototype.fire.call(this,t,e,i)},listens:function(t,e){return L.FeatureGroup.prototype.listens.call(this,t,e)||L.FeatureGroup.prototype.listens.call(this,"cluster"+t,e)},_defaultIconCreateFunction:function(t){var e=t.getChildCount(),i=" marker-cluster-";return i+=e<10?"small":e<100?"medium":"large",new L.DivIcon({html:"<div><span>"+e+"</span></div>",className:"marker-cluster"+i,iconSize:new L.Point(40,40)})},_bindEvents:function(){var t=this._map,e=this.options.spiderfyOnMaxZoom,i=this.options.showCoverageOnHover,n=this.options.zoomToBoundsOnClick,o=this.options.spiderfyOnEveryZoom;(e||n||o)&&this.on("clusterclick clusterkeypress",this._zoomOrSpiderfy,this),i&&(this.on("clustermouseover",this._showCoverage,this),this.on("clustermouseout",this._hideCoverage,this),t.on("zoomend",this._hideCoverage,this))},_zoomOrSpiderfy:function(t){var e=t.layer,i=e;if("clusterkeypress"!==t.type||!t.originalEvent||13===t.originalEvent.keyCode){for(;1===i._childClusters.length;)i=i._childClusters[0];i._zoom===this._maxZoom&&i._childCount===e._childCount&&this.options.spiderfyOnMaxZoom?e.spiderfy():this.options.zoomToBoundsOnClick&&e.zoomToBounds(),this.options.spiderfyOnEveryZoom&&e.spiderfy(),t.originalEvent&&13===t.originalEvent.keyCode&&this._map._container.focus()}},_showCoverage:function(t){var e=this._map;this._inZoomAnimation||(this._shownPolygon&&e.removeLayer(this._shownPolygon),2<t.layer.getChildCount()&&t.layer!==this._spiderfied&&(this._shownPolygon=new L.Polygon(t.layer.getConvexHull(),this.options.polygonOptions),e.addLayer(this._shownPolygon)))},_hideCoverage:function(){this._shownPolygon&&(this._map.removeLayer(this._shownPolygon),this._shownPolygon=null)},_unbindEvents:function(){var t=this.options.spiderfyOnMaxZoom,e=this.options.showCoverageOnHover,i=this.options.zoomToBoundsOnClick,n=this.options.spiderfyOnEveryZoom,o=this._map;(t||i||n)&&this.off("clusterclick clusterkeypress",this._zoomOrSpiderfy,this),e&&(this.off("clustermouseover",this._showCoverage,this),this.off("clustermouseout",this._hideCoverage,this),o.off("zoomend",this._hideCoverage,this))},_zoomEnd:function(){this._map&&(this._mergeSplitClusters(),this._zoom=Math.round(this._map._zoom),this._currentShownBounds=this._getExpandedVisibleBounds())},_moveEnd:function(){if(!this._inZoomAnimation){var t=this._getExpandedVisibleBounds();this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds,Math.floor(this._map.getMinZoom()),this._zoom,t),this._topClusterLevel._recursivelyAddChildrenToMap(null,Math.round(this._map._zoom),t),this._currentShownBounds=t}},_generateInitialClusters:function(){var t=Math.ceil(this._map.getMaxZoom()),e=Math.floor(this._map.getMinZoom()),i=this.options.maxClusterRadius,n=i;"function"!=typeof i&&(n=function(){return i}),null!==this.options.disableClusteringAtZoom&&(t=this.options.disableClusteringAtZoom-1),this._maxZoom=t,this._gridClusters={},this._gridUnclustered={};for(var o=t;e<=o;o--)this._gridClusters[o]=new L.DistanceGrid(n(o)),this._gridUnclustered[o]=new L.DistanceGrid(n(o));this._topClusterLevel=new this._markerCluster(this,e-1)},_addLayer:function(t,e){var i,n,o=this._gridClusters,s=this._gridUnclustered,r=Math.floor(this._map.getMinZoom());for(this.options.singleMarkerMode&&this._overrideMarkerIcon(t),t.on(this._childMarkerEventHandlers,this);r<=e;e--){i=this._map.project(t.getLatLng(),e);var a=o[e].getNearObject(i);if(a)return a._addChild(t),void(t.__parent=a);if(a=s[e].getNearObject(i)){var l=a.__parent;l&&this._removeLayer(a,!1);var h=new this._markerCluster(this,e,a,t);o[e].addObject(h,this._map.project(h._cLatLng,e)),a.__parent=h;var u=t.__parent=h;for(n=e-1;n>l._zoom;n--)u=new this._markerCluster(this,n,u),o[n].addObject(u,this._map.project(a.getLatLng(),n));return l._addChild(u),void this._removeFromGridUnclustered(a,e)}s[e].addObject(t,i)}this._topClusterLevel._addChild(t),t.__parent=this._topClusterLevel},_refreshClustersIcons:function(){this._featureGroup.eachLayer(function(t){t instanceof L.MarkerCluster&&t._iconNeedsUpdate&&t._updateIcon()})},_enqueue:function(t){this._queue.push(t),this._queueTimeout||(this._queueTimeout=setTimeout(L.bind(this._processQueue,this),300))},_processQueue:function(){for(var t=0;t<this._queue.length;t++)this._queue[t].call(this);this._queue.length=0,clearTimeout(this._queueTimeout),this._queueTimeout=null},_mergeSplitClusters:function(){var t=Math.round(this._map._zoom);this._processQueue(),this._zoom<t&&this._currentShownBounds.intersects(this._getExpandedVisibleBounds())?(this._animationStart(),this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds,Math.floor(this._map.getMinZoom()),this._zoom,this._getExpandedVisibleBounds()),this._animationZoomIn(this._zoom,t)):this._zoom>t?(this._animationStart(),this._animationZoomOut(this._zoom,t)):this._moveEnd()},_getExpandedVisibleBounds:function(){return this.options.removeOutsideVisibleBounds?L.Browser.mobile?this._checkBoundsMaxLat(this._map.getBounds()):this._checkBoundsMaxLat(this._map.getBounds().pad(1)):this._mapBoundsInfinite},_checkBoundsMaxLat:function(t){var e=this._maxLat;return void 0!==e&&(t.getNorth()>=e&&(t._northEast.lat=1/0),t.getSouth()<=-e&&(t._southWest.lat=-1/0)),t},_animationAddLayerNonAnimated:function(t,e){if(e===t)this._featureGroup.addLayer(t);else if(2===e._childCount){e._addToMap();var i=e.getAllChildMarkers();this._featureGroup.removeLayer(i[0]),this._featureGroup.removeLayer(i[1])}else e._updateIcon()},_extractNonGroupLayers:function(t,e){var i,n=t.getLayers(),o=0;for(e=e||[];o<n.length;o++)(i=n[o])instanceof L.LayerGroup?this._extractNonGroupLayers(i,e):e.push(i);return e},_overrideMarkerIcon:function(t){return t.options.icon=this.options.iconCreateFunction({getChildCount:function(){return 1},getAllChildMarkers:function(){return[t]}})}});L.MarkerClusterGroup.include({_mapBoundsInfinite:new L.LatLngBounds(new L.LatLng(-1/0,-1/0),new L.LatLng(1/0,1/0))}),L.MarkerClusterGroup.include({_noAnimation:{_animationStart:function(){},_animationZoomIn:function(t,e){this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds,Math.floor(this._map.getMinZoom()),t),this._topClusterLevel._recursivelyAddChildrenToMap(null,e,this._getExpandedVisibleBounds()),this.fire("animationend")},_animationZoomOut:function(t,e){this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds,Math.floor(this._map.getMinZoom()),t),this._topClusterLevel._recursivelyAddChildrenToMap(null,e,this._getExpandedVisibleBounds()),this.fire("animationend")},_animationAddLayer:function(t,e){this._animationAddLayerNonAnimated(t,e)}},_withAnimation:{_animationStart:function(){this._map._mapPane.className+=" leaflet-cluster-anim",this._inZoomAnimation++},_animationZoomIn:function(t,e){var i,n=this._getExpandedVisibleBounds(),o=this._featureGroup,s=Math.floor(this._map.getMinZoom());this._ignoreMove=!0,this._topClusterLevel._recursively(n,t,s,function(s){var r,a=s._latlng,l=s._markers;for(n.contains(a)||(a=null),s._isSingleParent()&&t+1===e?(o.removeLayer(s),s._recursivelyAddChildrenToMap(null,e,n)):(s.clusterHide(),s._recursivelyAddChildrenToMap(a,e,n)),i=l.length-1;0<=i;i--)r=l[i],n.contains(r._latlng)||o.removeLayer(r)}),this._forceLayout(),this._topClusterLevel._recursivelyBecomeVisible(n,e),o.eachLayer(function(t){t instanceof L.MarkerCluster||!t._icon||t.clusterShow()}),this._topClusterLevel._recursively(n,t,e,function(t){t._recursivelyRestoreChildPositions(e)}),this._ignoreMove=!1,this._enqueue(function(){this._topClusterLevel._recursively(n,t,s,function(t){o.removeLayer(t),t.clusterShow()}),this._animationEnd()})},_animationZoomOut:function(t,e){this._animationZoomOutSingle(this._topClusterLevel,t-1,e),this._topClusterLevel._recursivelyAddChildrenToMap(null,e,this._getExpandedVisibleBounds()),this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds,Math.floor(this._map.getMinZoom()),t,this._getExpandedVisibleBounds())},_animationAddLayer:function(t,e){var i=this,n=this._featureGroup;n.addLayer(t),e!==t&&(2<e._childCount?(e._updateIcon(),this._forceLayout(),this._animationStart(),t._setPos(this._map.latLngToLayerPoint(e.getLatLng())),t.clusterHide(),this._enqueue(function(){n.removeLayer(t),t.clusterShow(),i._animationEnd()})):(this._forceLayout(),i._animationStart(),i._animationZoomOutSingle(e,this._map.getMaxZoom(),this._zoom)))}},_animationZoomOutSingle:function(t,e,i){var n=this._getExpandedVisibleBounds(),o=Math.floor(this._map.getMinZoom());t._recursivelyAnimateChildrenInAndAddSelfToMap(n,o,e+1,i);var s=this;this._forceLayout(),t._recursivelyBecomeVisible(n,i),this._enqueue(function(){if(1===t._childCount){var r=t._markers[0];this._ignoreMove=!0,r.setLatLng(r.getLatLng()),this._ignoreMove=!1,r.clusterShow&&r.clusterShow()}else t._recursively(n,i,o,function(t){t._recursivelyRemoveChildrenFromMap(n,o,e+1)});s._animationEnd()})},_animationEnd:function(){this._map&&(this._map._mapPane.className=this._map._mapPane.className.replace(" leaflet-cluster-anim","")),this._inZoomAnimation--,this.fire("animationend")},_forceLayout:function(){L.Util.falseFn(document.body.offsetWidth)}}),L.markerClusterGroup=function(t){return new L.MarkerClusterGroup(t)};var i=L.MarkerCluster=L.Marker.extend({options:L.Icon.prototype.options,initialize:function(t,e,i,n){L.Marker.prototype.initialize.call(this,i?i._cLatLng||i.getLatLng():new L.LatLng(0,0),{icon:this,pane:t.options.clusterPane}),this._group=t,this._zoom=e,this._markers=[],this._childClusters=[],this._childCount=0,this._iconNeedsUpdate=!0,this._boundsNeedUpdate=!0,this._bounds=new L.LatLngBounds,i&&this._addChild(i),n&&this._addChild(n)},getAllChildMarkers:function(t,e){t=t||[];for(var i=this._childClusters.length-1;0<=i;i--)this._childClusters[i].getAllChildMarkers(t,e);for(var n=this._markers.length-1;0<=n;n--)e&&this._markers[n].__dragStart||t.push(this._markers[n]);return t},getChildCount:function(){return this._childCount},zoomToBounds:function(t){for(var e,i=this._childClusters.slice(),n=this._group._map,o=n.getBoundsZoom(this._bounds),s=this._zoom+1,r=n.getZoom();0<i.length&&s<o;){s++;var a=[];for(e=0;e<i.length;e++)a=a.concat(i[e]._childClusters);i=a}s<o?this._group._map.setView(this._latlng,s):o<=r?this._group._map.setView(this._latlng,r+1):this._group._map.fitBounds(this._bounds,t)},getBounds:function(){var t=new L.LatLngBounds;return t.extend(this._bounds),t},_updateIcon:function(){this._iconNeedsUpdate=!0,this._icon&&this.setIcon(this)},createIcon:function(){return this._iconNeedsUpdate&&(this._iconObj=this._group.options.iconCreateFunction(this),this._iconNeedsUpdate=!1),this._iconObj.createIcon()},createShadow:function(){return this._iconObj.createShadow()},_addChild:function(t,e){this._iconNeedsUpdate=!0,this._boundsNeedUpdate=!0,this._setClusterCenter(t),t instanceof L.MarkerCluster?(e||(this._childClusters.push(t),t.__parent=this),this._childCount+=t._childCount):(e||this._markers.push(t),this._childCount++),this.__parent&&this.__parent._addChild(t,!0)},_setClusterCenter:function(t){this._cLatLng||(this._cLatLng=t._cLatLng||t._latlng)},_resetBounds:function(){var t=this._bounds;t._southWest&&(t._southWest.lat=1/0,t._southWest.lng=1/0),t._northEast&&(t._northEast.lat=-1/0,t._northEast.lng=-1/0)},_recalculateBounds:function(){var t,e,i,n,o=this._markers,s=this._childClusters,r=0,a=0,l=this._childCount;if(0!==l){for(this._resetBounds(),t=0;t<o.length;t++)i=o[t]._latlng,this._bounds.extend(i),r+=i.lat,a+=i.lng;for(t=0;t<s.length;t++)(e=s[t])._boundsNeedUpdate&&e._recalculateBounds(),this._bounds.extend(e._bounds),i=e._wLatLng,n=e._childCount,r+=i.lat*n,a+=i.lng*n;this._latlng=this._wLatLng=new L.LatLng(r/l,a/l),this._boundsNeedUpdate=!1}},_addToMap:function(t){t&&(this._backupLatlng=this._latlng,this.setLatLng(t)),this._group._featureGroup.addLayer(this)},_recursivelyAnimateChildrenIn:function(t,e,i){this._recursively(t,this._group._map.getMinZoom(),i-1,function(t){var i,n,o=t._markers;for(i=o.length-1;0<=i;i--)(n=o[i])._icon&&(n._setPos(e),n.clusterHide())},function(t){var i,n,o=t._childClusters;for(i=o.length-1;0<=i;i--)(n=o[i])._icon&&(n._setPos(e),n.clusterHide())})},_recursivelyAnimateChildrenInAndAddSelfToMap:function(t,e,i,n){this._recursively(t,n,e,function(o){o._recursivelyAnimateChildrenIn(t,o._group._map.latLngToLayerPoint(o.getLatLng()).round(),i),o._isSingleParent()&&i-1===n?(o.clusterShow(),o._recursivelyRemoveChildrenFromMap(t,e,i)):o.clusterHide(),o._addToMap()})},_recursivelyBecomeVisible:function(t,e){this._recursively(t,this._group._map.getMinZoom(),e,null,function(t){t.clusterShow()})},_recursivelyAddChildrenToMap:function(t,e,i){this._recursively(i,this._group._map.getMinZoom()-1,e,function(n){if(e!==n._zoom)for(var o=n._markers.length-1;0<=o;o--){var s=n._markers[o];i.contains(s._latlng)&&(t&&(s._backupLatlng=s.getLatLng(),s.setLatLng(t),s.clusterHide&&s.clusterHide()),n._group._featureGroup.addLayer(s))}},function(e){e._addToMap(t)})},_recursivelyRestoreChildPositions:function(t){for(var e=this._markers.length-1;0<=e;e--){var i=this._markers[e];i._backupLatlng&&(i.setLatLng(i._backupLatlng),delete i._backupLatlng)}if(t-1===this._zoom)for(var n=this._childClusters.length-1;0<=n;n--)this._childClusters[n]._restorePosition();else for(var o=this._childClusters.length-1;0<=o;o--)this._childClusters[o]._recursivelyRestoreChildPositions(t)},_restorePosition:function(){this._backupLatlng&&(this.setLatLng(this._backupLatlng),delete this._backupLatlng)},_recursivelyRemoveChildrenFromMap:function(t,e,i,n){var o,s;this._recursively(t,e-1,i-1,function(t){for(s=t._markers.length-1;0<=s;s--)o=t._markers[s],n&&n.contains(o._latlng)||(t._group._featureGroup.removeLayer(o),o.clusterShow&&o.clusterShow())},function(t){for(s=t._childClusters.length-1;0<=s;s--)o=t._childClusters[s],n&&n.contains(o._latlng)||(t._group._featureGroup.removeLayer(o),o.clusterShow&&o.clusterShow())})},_recursively:function(t,e,i,n,o){var s,r,a=this._childClusters,l=this._zoom;if(e<=l&&(n&&n(this),o&&l===i&&o(this)),l<e||l<i)for(s=a.length-1;0<=s;s--)(r=a[s])._boundsNeedUpdate&&r._recalculateBounds(),t.intersects(r._bounds)&&r._recursively(t,e,i,n,o)},_isSingleParent:function(){return 0<this._childClusters.length&&this._childClusters[0]._childCount===this._childCount}});L.Marker.include({clusterHide:function(){var t=this.options.opacity;return this.setOpacity(0),this.options.opacity=t,this},clusterShow:function(){return this.setOpacity(this.options.opacity)}}),L.DistanceGrid=function(t){this._cellSize=t,this._sqCellSize=t*t,this._grid={},this._objectPoint={}},L.DistanceGrid.prototype={addObject:function(t,e){var i=this._getCoord(e.x),n=this._getCoord(e.y),o=this._grid,s=o[n]=o[n]||{},r=s[i]=s[i]||[],a=L.Util.stamp(t);this._objectPoint[a]=e,r.push(t)},updateObject:function(t,e){this.removeObject(t),this.addObject(t,e)},removeObject:function(t,e){var i,n,o=this._getCoord(e.x),s=this._getCoord(e.y),r=this._grid,a=r[s]=r[s]||{},l=a[o]=a[o]||[];for(delete this._objectPoint[L.Util.stamp(t)],i=0,n=l.length;i<n;i++)if(l[i]===t)return l.splice(i,1),1===n&&delete a[o],!0},eachObject:function(t,e){var i,n,o,s,r,a,l=this._grid;for(i in l)for(n in r=l[i])for(o=0,s=(a=r[n]).length;o<s;o++)t.call(e,a[o])&&(o--,s--)},getNearObject:function(t){var e,i,n,o,s,r,a,l,h=this._getCoord(t.x),u=this._getCoord(t.y),c=this._objectPoint,d=this._sqCellSize,p=null;for(e=u-1;e<=u+1;e++)if(o=this._grid[e])for(i=h-1;i<=h+1;i++)if(s=o[i])for(n=0,r=s.length;n<r;n++)a=s[n],((l=this._sqDist(c[L.Util.stamp(a)],t))<d||l<=d&&null===p)&&(d=l,p=a);return p},_getCoord:function(t){var e=Math.floor(t/this._cellSize);return isFinite(e)?e:t},_sqDist:function(t,e){var i=e.x-t.x,n=e.y-t.y;return i*i+n*n}},L.QuickHull={getDistant:function(t,e){var i=e[1].lat-e[0].lat;return(e[0].lng-e[1].lng)*(t.lat-e[0].lat)+i*(t.lng-e[0].lng)},findMostDistantPointFromBaseLine:function(t,e){var i,n,o,s=0,r=null,a=[];for(i=e.length-1;0<=i;i--)n=e[i],0<(o=this.getDistant(n,t))&&(a.push(n),s<o&&(s=o,r=n));return{maxPoint:r,newPoints:a}},buildConvexHull:function(t,e){var i=[],n=this.findMostDistantPointFromBaseLine(t,e);return n.maxPoint?i=(i=i.concat(this.buildConvexHull([t[0],n.maxPoint],n.newPoints))).concat(this.buildConvexHull([n.maxPoint,t[1]],n.newPoints)):[t[0]]},getConvexHull:function(t){var e,i=!1,n=!1,o=!1,s=!1,r=null,a=null,l=null,h=null,u=null,c=null;for(e=t.length-1;0<=e;e--){var d=t[e];(!1===i||d.lat>i)&&(i=(r=d).lat),(!1===n||d.lat<n)&&(n=(a=d).lat),(!1===o||d.lng>o)&&(o=(l=d).lng),(!1===s||d.lng<s)&&(s=(h=d).lng)}return u=n!==i?(c=a,r):(c=h,l),[].concat(this.buildConvexHull([c,u],t),this.buildConvexHull([u,c],t))}},L.MarkerCluster.include({getConvexHull:function(){var t,e,i=this.getAllChildMarkers(),n=[];for(e=i.length-1;0<=e;e--)t=i[e].getLatLng(),n.push(t);return L.QuickHull.getConvexHull(n)}}),L.MarkerCluster.include({_2PI:2*Math.PI,_circleFootSeparation:25,_circleStartAngle:0,_spiralFootSeparation:28,_spiralLengthStart:11,_spiralLengthFactor:5,_circleSpiralSwitchover:9,spiderfy:function(){if(this._group._spiderfied!==this&&!this._group._inZoomAnimation){var t,e=this.getAllChildMarkers(null,!0),i=this._group._map.latLngToLayerPoint(this._latlng);this._group._unspiderfy(),t=(this._group._spiderfied=this)._group.options.spiderfyShapePositions?this._group.options.spiderfyShapePositions(e.length,i):e.length>=this._circleSpiralSwitchover?this._generatePointsSpiral(e.length,i):(i.y+=10,this._generatePointsCircle(e.length,i)),this._animationSpiderfy(e,t)}},unspiderfy:function(t){this._group._inZoomAnimation||(this._animationUnspiderfy(t),this._group._spiderfied=null)},_generatePointsCircle:function(t,e){var i,n,o=this._group.options.spiderfyDistanceMultiplier*this._circleFootSeparation*(2+t)/this._2PI,s=this._2PI/t,r=[];for(o=Math.max(o,35),r.length=t,i=0;i<t;i++)n=this._circleStartAngle+i*s,r[i]=new L.Point(e.x+o*Math.cos(n),e.y+o*Math.sin(n))._round();return r},_generatePointsSpiral:function(t,e){var i,n=this._group.options.spiderfyDistanceMultiplier,o=n*this._spiralLengthStart,s=n*this._spiralFootSeparation,r=n*this._spiralLengthFactor*this._2PI,a=0,l=[];for(i=l.length=t;0<=i;i--)i<t&&(l[i]=new L.Point(e.x+o*Math.cos(a),e.y+o*Math.sin(a))._round()),o+=r/(a+=s/o+5e-4*i);return l},_noanimationUnspiderfy:function(){var t,e,i=this._group,n=i._map,o=i._featureGroup,s=this.getAllChildMarkers(null,!0);for(i._ignoreMove=!0,this.setOpacity(1),e=s.length-1;0<=e;e--)t=s[e],o.removeLayer(t),t._preSpiderfyLatlng&&(t.setLatLng(t._preSpiderfyLatlng),delete t._preSpiderfyLatlng),t.setZIndexOffset&&t.setZIndexOffset(0),t._spiderLeg&&(n.removeLayer(t._spiderLeg),delete t._spiderLeg);i.fire("unspiderfied",{cluster:this,markers:s}),i._ignoreMove=!1,i._spiderfied=null}}),L.MarkerClusterNonAnimated=L.MarkerCluster.extend({_animationSpiderfy:function(t,e){var i,n,o,s,r=this._group,a=r._map,l=r._featureGroup,h=this._group.options.spiderLegPolylineOptions;for(r._ignoreMove=!0,i=0;i<t.length;i++)s=a.layerPointToLatLng(e[i]),n=t[i],o=new L.Polyline([this._latlng,s],h),a.addLayer(o),n._spiderLeg=o,n._preSpiderfyLatlng=n._latlng,n.setLatLng(s),n.setZIndexOffset&&n.setZIndexOffset(1e6),l.addLayer(n);this.setOpacity(.3),r._ignoreMove=!1,r.fire("spiderfied",{cluster:this,markers:t})},_animationUnspiderfy:function(){this._noanimationUnspiderfy()}}),L.MarkerCluster.include({_animationSpiderfy:function(t,e){var i,n,o,s,r,a,l=this,h=this._group,u=h._map,c=h._featureGroup,d=this._latlng,p=u.latLngToLayerPoint(d),_=L.Path.SVG,f=L.extend({},this._group.options.spiderLegPolylineOptions),m=f.opacity;for(void 0===m&&(m=L.MarkerClusterGroup.prototype.options.spiderLegPolylineOptions.opacity),_?(f.opacity=0,f.className=(f.className||"")+" leaflet-cluster-spider-leg"):f.opacity=m,h._ignoreMove=!0,i=0;i<t.length;i++)n=t[i],a=u.layerPointToLatLng(e[i]),o=new L.Polyline([d,a],f),u.addLayer(o),n._spiderLeg=o,_&&(r=(s=o._path).getTotalLength()+.1,s.style.strokeDasharray=r,s.style.strokeDashoffset=r),n.setZIndexOffset&&n.setZIndexOffset(1e6),n.clusterHide&&n.clusterHide(),c.addLayer(n),n._setPos&&n._setPos(p);for(h._forceLayout(),h._animationStart(),i=t.length-1;0<=i;i--)a=u.layerPointToLatLng(e[i]),(n=t[i])._preSpiderfyLatlng=n._latlng,n.setLatLng(a),n.clusterShow&&n.clusterShow(),_&&((s=(o=n._spiderLeg)._path).style.strokeDashoffset=0,o.setStyle({opacity:m}));this.setOpacity(.3),h._ignoreMove=!1,setTimeout(function(){h._animationEnd(),h.fire("spiderfied",{cluster:l,markers:t})},200)},_animationUnspiderfy:function(t){var e,i,n,o,s,r,a=this,l=this._group,h=l._map,u=l._featureGroup,c=t?h._latLngToNewLayerPoint(this._latlng,t.zoom,t.center):h.latLngToLayerPoint(this._latlng),d=this.getAllChildMarkers(null,!0),p=L.Path.SVG;for(l._ignoreMove=!0,l._animationStart(),this.setOpacity(1),i=d.length-1;0<=i;i--)(e=d[i])._preSpiderfyLatlng&&(e.closePopup(),e.setLatLng(e._preSpiderfyLatlng),delete e._preSpiderfyLatlng,r=!0,e._setPos&&(e._setPos(c),r=!1),e.clusterHide&&(e.clusterHide(),r=!1),r&&u.removeLayer(e),p&&(s=(o=(n=e._spiderLeg)._path).getTotalLength()+.1,o.style.strokeDashoffset=s,n.setStyle({opacity:0})));l._ignoreMove=!1,setTimeout(function(){var t=0;for(i=d.length-1;0<=i;i--)(e=d[i])._spiderLeg&&t++;for(i=d.length-1;0<=i;i--)(e=d[i])._spiderLeg&&(e.clusterShow&&e.clusterShow(),e.setZIndexOffset&&e.setZIndexOffset(0),1<t&&u.removeLayer(e),h.removeLayer(e._spiderLeg),delete e._spiderLeg);l._animationEnd(),l.fire("unspiderfied",{cluster:a,markers:d})},200)}}),L.MarkerClusterGroup.include({_spiderfied:null,unspiderfy:function(){this._unspiderfy.apply(this,arguments)},_spiderfierOnAdd:function(){this._map.on("click",this._unspiderfyWrapper,this),this._map.options.zoomAnimation&&this._map.on("zoomstart",this._unspiderfyZoomStart,this),this._map.on("zoomend",this._noanimationUnspiderfy,this),L.Browser.touch||this._map.getRenderer(this)},_spiderfierOnRemove:function(){this._map.off("click",this._unspiderfyWrapper,this),this._map.off("zoomstart",this._unspiderfyZoomStart,this),this._map.off("zoomanim",this._unspiderfyZoomAnim,this),this._map.off("zoomend",this._noanimationUnspiderfy,this),this._noanimationUnspiderfy()},_unspiderfyZoomStart:function(){this._map&&this._map.on("zoomanim",this._unspiderfyZoomAnim,this)},_unspiderfyZoomAnim:function(t){L.DomUtil.hasClass(this._map._mapPane,"leaflet-touching")||(this._map.off("zoomanim",this._unspiderfyZoomAnim,this),this._unspiderfy(t))},_unspiderfyWrapper:function(){this._unspiderfy()},_unspiderfy:function(t){this._spiderfied&&this._spiderfied.unspiderfy(t)},_noanimationUnspiderfy:function(){this._spiderfied&&this._spiderfied._noanimationUnspiderfy()},_unspiderfyLayer:function(t){t._spiderLeg&&(this._featureGroup.removeLayer(t),t.clusterShow&&t.clusterShow(),t.setZIndexOffset&&t.setZIndexOffset(0),this._map.removeLayer(t._spiderLeg),delete t._spiderLeg)}}),L.MarkerClusterGroup.include({refreshClusters:function(t){return t?t instanceof L.MarkerClusterGroup?t=t._topClusterLevel.getAllChildMarkers():t instanceof L.LayerGroup?t=t._layers:t instanceof L.MarkerCluster?t=t.getAllChildMarkers():t instanceof L.Marker&&(t=[t]):t=this._topClusterLevel.getAllChildMarkers(),this._flagParentsIconsNeedUpdate(t),this._refreshClustersIcons(),this.options.singleMarkerMode&&this._refreshSingleMarkerModeMarkers(t),this},_flagParentsIconsNeedUpdate:function(t){var e,i;for(e in t)for(i=t[e].__parent;i;)i._iconNeedsUpdate=!0,i=i.__parent},_refreshSingleMarkerModeMarkers:function(t){var e,i;for(e in t)i=t[e],this.hasLayer(i)&&i.setIcon(this._overrideMarkerIcon(i))}}),L.Marker.include({refreshIconOptions:function(t,e){var i=this.options.icon;return L.setOptions(i,t),this.setIcon(i),e&&this.__parent&&this.__parent._group.refreshClusters(this),this}}),t.MarkerClusterGroup=e,t.MarkerCluster=i,Object.defineProperty(t,"__esModule",{value:!0})}(s.exports));const r='.leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile-container,.leaflet-pane>svg,.leaflet-pane>canvas,.leaflet-zoom-box,.leaflet-image-layer,.leaflet-layer{position:absolute;left:0;top:0}.leaflet-container{overflow:hidden}.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-user-drag:none}.leaflet-tile::-moz-selection{background:transparent}.leaflet-tile::selection{background:transparent}.leaflet-safari .leaflet-tile{image-rendering:-webkit-optimize-contrast}.leaflet-safari .leaflet-tile-container{width:1600px;height:1600px;-webkit-transform-origin:0 0}.leaflet-marker-icon,.leaflet-marker-shadow{display:block}.leaflet-container .leaflet-overlay-pane svg{max-width:none!important;max-height:none!important}.leaflet-container .leaflet-marker-pane img,.leaflet-container .leaflet-shadow-pane img,.leaflet-container .leaflet-tile-pane img,.leaflet-container img.leaflet-image-layer,.leaflet-container .leaflet-tile{max-width:none!important;max-height:none!important;width:auto;padding:0}.leaflet-container img.leaflet-tile{mix-blend-mode:plus-lighter}.leaflet-container.leaflet-touch-zoom{touch-action:pan-x pan-y}.leaflet-container.leaflet-touch-drag{touch-action:none;touch-action:pinch-zoom}.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom{touch-action:none}.leaflet-container{-webkit-tap-highlight-color:transparent}.leaflet-container a{-webkit-tap-highlight-color:rgba(51,181,229,.4)}.leaflet-tile{filter:inherit;visibility:hidden}.leaflet-tile-loaded{visibility:inherit}.leaflet-zoom-box{width:0;height:0;box-sizing:border-box;z-index:800}.leaflet-overlay-pane svg{-moz-user-select:none}.leaflet-pane{z-index:400}.leaflet-tile-pane{z-index:200}.leaflet-overlay-pane{z-index:400}.leaflet-shadow-pane{z-index:500}.leaflet-marker-pane{z-index:600}.leaflet-tooltip-pane{z-index:650}.leaflet-popup-pane{z-index:700}.leaflet-map-pane canvas{z-index:100}.leaflet-map-pane svg{z-index:200}.leaflet-vml-shape{width:1px;height:1px}.lvml{behavior:url(#default#VML);display:inline-block;position:absolute}.leaflet-control{position:relative;z-index:800;pointer-events:visiblePainted;pointer-events:auto}.leaflet-top,.leaflet-bottom{position:absolute;z-index:1000;pointer-events:none}.leaflet-top{top:0}.leaflet-right{right:0}.leaflet-bottom{bottom:0}.leaflet-left{left:0}.leaflet-control{float:left;clear:both}.leaflet-right .leaflet-control{float:right}.leaflet-top .leaflet-control{margin-top:10px}.leaflet-bottom .leaflet-control{margin-bottom:10px}.leaflet-left .leaflet-control{margin-left:10px}.leaflet-right .leaflet-control{margin-right:10px}.leaflet-fade-anim .leaflet-popup{opacity:0;transition:opacity .2s linear}.leaflet-fade-anim .leaflet-map-pane .leaflet-popup{opacity:1}.leaflet-zoom-animated{transform-origin:0 0}svg.leaflet-zoom-animated{will-change:transform}.leaflet-zoom-anim .leaflet-zoom-animated{transition:transform .25s cubic-bezier(0,0,.25,1)}.leaflet-zoom-anim .leaflet-tile,.leaflet-pan-anim .leaflet-tile{transition:none}.leaflet-zoom-anim .leaflet-zoom-hide{visibility:hidden}.leaflet-interactive{cursor:pointer}.leaflet-grab{cursor:grab}.leaflet-crosshair,.leaflet-crosshair .leaflet-interactive{cursor:crosshair}.leaflet-popup-pane,.leaflet-control{cursor:auto}.leaflet-dragging .leaflet-grab,.leaflet-dragging .leaflet-grab .leaflet-interactive,.leaflet-dragging .leaflet-marker-draggable{cursor:move;cursor:grabbing}.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-image-layer,.leaflet-pane>svg path,.leaflet-tile-container{pointer-events:none}.leaflet-marker-icon.leaflet-interactive,.leaflet-image-layer.leaflet-interactive,.leaflet-pane>svg path.leaflet-interactive,svg.leaflet-image-layer.leaflet-interactive path{pointer-events:visiblePainted;pointer-events:auto}.leaflet-container{background:#ddd;outline-offset:1px}.leaflet-container a{color:#0078a8}.leaflet-zoom-box{border:2px dotted #38f;background:#ffffff80}.leaflet-container{font-family:Helvetica Neue,Arial,Helvetica,sans-serif;font-size:12px;font-size:.75rem;line-height:1.5}.leaflet-bar{box-shadow:0 1px 5px #000000a6;border-radius:4px}.leaflet-bar a{background-color:#fff;border-bottom:1px solid #ccc;width:26px;height:26px;line-height:26px;display:block;text-align:center;text-decoration:none;color:#000}.leaflet-bar a,.leaflet-control-layers-toggle{background-position:50% 50%;background-repeat:no-repeat;display:block}.leaflet-bar a:hover,.leaflet-bar a:focus{background-color:#f4f4f4}.leaflet-bar a:first-child{border-top-left-radius:4px;border-top-right-radius:4px}.leaflet-bar a:last-child{border-bottom-left-radius:4px;border-bottom-right-radius:4px;border-bottom:none}.leaflet-bar a.leaflet-disabled{cursor:default;background-color:#f4f4f4;color:#bbb}.leaflet-touch .leaflet-bar a{width:30px;height:30px;line-height:30px}.leaflet-touch .leaflet-bar a:first-child{border-top-left-radius:2px;border-top-right-radius:2px}.leaflet-touch .leaflet-bar a:last-child{border-bottom-left-radius:2px;border-bottom-right-radius:2px}.leaflet-control-zoom-in,.leaflet-control-zoom-out{font:700 18px Lucida Console,Monaco,monospace;text-indent:1px}.leaflet-touch .leaflet-control-zoom-in,.leaflet-touch .leaflet-control-zoom-out{font-size:22px}.leaflet-control-layers{box-shadow:0 1px 5px #0006;background:#fff;border-radius:5px}.leaflet-control-layers-toggle{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAQAAAADQ4RFAAACf0lEQVR4AY1UM3gkARTePdvdoTxXKc+qTl3aU5U6b2Kbkz3Gtq3Zw6ziLGNPzrYx7946Tr6/ee/XeCQ4D3ykPtL5tHno4n0d/h3+xfuWHGLX81cn7r0iTNzjr7LrlxCqPtkbTQEHeqOrTy4Yyt3VCi/IOB0v7rVC7q45Q3Gr5K6jt+3Gl5nCoDD4MtO+j96Wu8atmhGqcNGHObuf8OM/x3AMx38+4Z2sPqzCxRFK2aF2e5Jol56XTLyggAMTL56XOMoS1W4pOyjUcGGQdZxU6qRh7B9Zp+PfpOFlqt0zyDZckPi1ttmIp03jX8gyJ8a/PG2yutpS/Vol7peZIbZcKBAEEheEIAgFbDkz5H6Zrkm2hVWGiXKiF4Ycw0RWKdtC16Q7qe3X4iOMxruonzegJzWaXFrU9utOSsLUmrc0YjeWYjCW4PDMADElpJSSQ0vQvA1Tm6/JlKnqFs1EGyZiFCqnRZTEJJJiKRYzVYzJck2Rm6P4iH+cmSY0YzimYa8l0EtTODFWhcMIMVqdsI2uiTvKmTisIDHJ3od5GILVhBCarCfVRmo4uTjkhrhzkiBV7SsaqS+TzrzM1qpGGUFt28pIySQHR6h7F6KSwGWm97ay+Z+ZqMcEjEWebE7wxCSQwpkhJqoZA5ivCdZDjJepuJ9IQjGGUmuXJdBFUygxVqVsxFsLMbDe8ZbDYVCGKxs+W080max1hFCarCfV+C1KATwcnvE9gRRuMP2prdbWGowm1KB1y+zwMMENkM755cJ2yPDtqhTI6ED1M/82yIDtC/4j4BijjeObflpO9I9MwXTCsSX8jWAFeHr05WoLTJ5G8IQVS/7vwR6ohirYM7f6HzYpogfS3R2OAAAAAElFTkSuQmCC);width:36px;height:36px}.leaflet-retina .leaflet-control-layers-toggle{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAQAAABvcdNgAAAEsklEQVR4AWL4TydIhpZK1kpWOlg0w3ZXP6D2soBtG42jeI6ZmQTHzAxiTbSJsYLjO9HhP+WOmcuhciVnmHVQcJnp7DFvScowZorad/+V/fVzMdMT2g9Cv9guXGv/7pYOrXh2U+RRR3dSd9JRx6bIFc/ekqHI29JC6pJ5ZEh1yWkhkbcFeSjxgx3L2m1cb1C7bceyxA+CNjT/Ifff+/kDk2u/w/33/IeCMOSaWZ4glosqT3DNnNZQ7Cs58/3Ce5HL78iZH/vKVIaYlqzfdLu8Vi7dnvUbEza5Idt36tquZFldl6N5Z/POLof0XLK61mZCmJSWjVF9tEjUluu74IUXvgttuVIHE7YxSkaYhJZam7yiM9Pv82JYfl9nptxZaxMJE4YSPty+vF0+Y2up9d3wwijfjZbabqm/3bZ9ecKHsiGmRflnn1MW4pjHf9oLufyn2z3y1D6n8g8TZhxyzipLNPnAUpsOiuWimg52psrTZYnOWYNDTMuWBWa0tJb4rgq1UvmutpaYEbZlwU3CLJm/ayYjHW5/h7xWLn9Hh1vepDkyf7dE7MtT5LR4e7yYpHrkhOUpEfssBLq2pPhAqoSWKUkk7EDqkmK6RrCEzqDjhNDWNE+XSMvkJRDWlZTmCW0l0PHQGRZY5t1L83kT0Y3l2SItk5JAWHl2dCOBm+fPu3fo5/3v61RMCO9Jx2EEYYhb0rmNQMX/vm7gqOEJLcXTGw3CAuRNeyaPWwjR8PRqKQ1PDA/dpv+on9Shox52WFnx0KY8onHayrJzm87i5h9xGw/tfkev0jGsQizqezUKjk12hBMKJ4kbCqGPVNXudyyrShovGw5CgxsRICxF6aRmSjlBnHRzg7Gx8fKqEubI2rahQYdR1YgDIRQO7JvQyD52hoIQx0mxa0ODtW2Iozn1le2iIRdzwWewedyZzewidueOGqlsn1MvcnQpuVwLGG3/IR1hIKxCjelIDZ8ldqWz25jWAsnldEnK0Zxro19TGVb2ffIZEsIO89EIEDvKMPrzmBOQcKQ+rroye6NgRRxqR4U8EAkz0CL6uSGOm6KQCdWjvjRiSP1BPalCRS5iQYiEIvxuBMJEWgzSoHADcVMuN7IuqqTeyUPq22qFimFtxDyBBJEwNyt6TM88blFHao/6tWWhuuOM4SAK4EI4QmFHA+SEyWlp4EQoJ13cYGzMu7yszEIBOm2rVmHUNqwAIQabISNMRstmdhNWcFLsSm+0tjJH1MdRxO5Nx0WDMhCtgD6OKgZeljJqJKc9po8juskR9XN0Y1lZ3mWjLR9JCO1jRDMd0fpYC2VnvjBSEFg7wBENc0R9HFlb0xvF1+TBEpF68d+DHR6IOWVv2BECtxo46hOFUBd/APU57WIoEwJhIi2CdpyZX0m93BZicktMj1AS9dClteUFAUNUIEygRZCtik5zSxI9MubTBH1GOiHsiLJ3OCoSZkILa9PxiN0EbvhsAo8tdAf9Seepd36lGWHmtNANTv5Jd0z4QYyeo/UEJqxKRpg5LZx6btLPsOaEmdMyxYdlc8LMaJnikDlhclqmPiQnTEpLUIZEwkRagjYkEibQErwhkTAKCLQEbUgkzJQWc/0PstHHcfEdQ+UAAAAASUVORK5CYII=);background-size:26px 26px}.leaflet-touch .leaflet-control-layers-toggle{width:44px;height:44px}.leaflet-control-layers .leaflet-control-layers-list,.leaflet-control-layers-expanded .leaflet-control-layers-toggle{display:none}.leaflet-control-layers-expanded .leaflet-control-layers-list{display:block;position:relative}.leaflet-control-layers-expanded{padding:6px 10px 6px 6px;color:#333;background:#fff}.leaflet-control-layers-scrollbar{overflow-y:scroll;overflow-x:hidden;padding-right:5px}.leaflet-control-layers-selector{margin-top:2px;position:relative;top:1px}.leaflet-control-layers label{display:block;font-size:13px;font-size:1.08333em}.leaflet-control-layers-separator{height:0;border-top:1px solid #ddd;margin:5px -10px 5px -6px}.leaflet-default-icon-path{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAApCAYAAADAk4LOAAAFgUlEQVR4Aa1XA5BjWRTN2oW17d3YaZtr2962HUzbDNpjszW24mRt28p47v7zq/bXZtrp/lWnXr337j3nPCe85NcypgSFdugCpW5YoDAMRaIMqRi6aKq5E3YqDQO3qAwjVWrD8Ncq/RBpykd8oZUb/kaJutow8r1aP9II0WmLKLIsJyv1w/kqw9Ch2MYdB++12Onxee/QMwvf4/Dk/Lfp/i4nxTXtOoQ4pW5Aj7wpici1A9erdAN2OH64x8OSP9j3Ft3b7aWkTg/Fm91siTra0f9on5sQr9INejH6CUUUpavjFNq1B+Oadhxmnfa8RfEmN8VNAsQhPqF55xHkMzz3jSmChWU6f7/XZKNH+9+hBLOHYozuKQPxyMPUKkrX/K0uWnfFaJGS1QPRtZsOPtr3NsW0uyh6NNCOkU3Yz+bXbT3I8G3xE5EXLXtCXbbqwCO9zPQYPRTZ5vIDXD7U+w7rFDEoUUf7ibHIR4y6bLVPXrz8JVZEql13trxwue/uDivd3fkWRbS6/IA2bID4uk0UpF1N8qLlbBlXs4Ee7HLTfV1j54APvODnSfOWBqtKVvjgLKzF5YdEk5ewRkGlK0i33Eofffc7HT56jD7/6U+qH3Cx7SBLNntH5YIPvODnyfIXZYRVDPqgHtLs5ABHD3YzLuespb7t79FY34DjMwrVrcTuwlT55YMPvOBnRrJ4VXTdNnYug5ucHLBjEpt30701A3Ts+HEa73u6dT3FNWwflY86eMHPk+Yu+i6pzUpRrW7SNDg5JHR4KapmM5Wv2E8Tfcb1HoqqHMHU+uWDD7zg54mz5/2BSnizi9T1Dg4QQXLToGNCkb6tb1NU+QAlGr1++eADrzhn/u8Q2YZhQVlZ5+CAOtqfbhmaUCS1ezNFVm2imDbPmPng5wmz+gwh+oHDce0eUtQ6OGDIyR0uUhUsoO3vfDmmgOezH0mZN59x7MBi++WDL1g/eEiU3avlidO671bkLfwbw5XV2P8Pzo0ydy4t2/0eu33xYSOMOD8hTf4CrBtGMSoXfPLchX+J0ruSePw3LZeK0juPJbYzrhkH0io7B3k164hiGvawhOKMLkrQLyVpZg8rHFW7E2uHOL888IBPlNZ1FPzstSJM694fWr6RwpvcJK60+0HCILTBzZLFNdtAzJaohze60T8qBzyh5ZuOg5e7uwQppofEmf2++DYvmySqGBuKaicF1blQjhuHdvCIMvp8whTTfZzI7RldpwtSzL+F1+wkdZ2TBOW2gIF88PBTzD/gpeREAMEbxnJcaJHNHrpzji0gQCS6hdkEeYt9DF/2qPcEC8RM28Hwmr3sdNyht00byAut2k3gufWNtgtOEOFGUwcXWNDbdNbpgBGxEvKkOQsxivJx33iow0Vw5S6SVTrpVq11ysA2Rp7gTfPfktc6zhtXBBC+adRLshf6sG2RfHPZ5EAc4sVZ83yCN00Fk/4kggu40ZTvIEm5g24qtU4KjBrx/BTTH8ifVASAG7gKrnWxJDcU7x8X6Ecczhm3o6YicvsLXWfh3Ch1W0k8x0nXF+0fFxgt4phz8QvypiwCCFKMqXCnqXExjq10beH+UUA7+nG6mdG/Pu0f3LgFcGrl2s0kNNjpmoJ9o4B29CMO8dMT4Q5ox8uitF6fqsrJOr8qnwNbRzv6hSnG5wP+64C7h9lp30hKNtKdWjtdkbuPA19nJ7Tz3zR/ibgARbhb4AlhavcBebmTHcFl2fvYEnW0ox9xMxKBS8btJ+KiEbq9zA4RthQXDhPa0T9TEe69gWupwc6uBUphquXgf+/FrIjweHQS4/pduMe5ERUMHUd9xv8ZR98CxkS4F2n3EUrUZ10EYNw7BWm9x1GiPssi3GgiGRDKWRYZfXlON+dfNbM+GgIwYdwAAAAASUVORK5CYII=)}.leaflet-container .leaflet-control-attribution{background:#fff;background:#fffc;margin:0}.leaflet-control-attribution,.leaflet-control-scale-line{padding:0 5px;color:#333;line-height:1.4}.leaflet-control-attribution a{text-decoration:none}.leaflet-control-attribution a:hover,.leaflet-control-attribution a:focus{text-decoration:underline}.leaflet-attribution-flag{display:inline!important;vertical-align:baseline!important;width:1em;height:.6669em}.leaflet-left .leaflet-control-scale{margin-left:5px}.leaflet-bottom .leaflet-control-scale{margin-bottom:5px}.leaflet-control-scale-line{border:2px solid #777;border-top:none;line-height:1.1;padding:2px 5px 1px;white-space:nowrap;box-sizing:border-box;background:#fffc;text-shadow:1px 1px #fff}.leaflet-control-scale-line:not(:first-child){border-top:2px solid #777;border-bottom:none;margin-top:-2px}.leaflet-control-scale-line:not(:first-child):not(:last-child){border-bottom:2px solid #777}.leaflet-touch .leaflet-control-attribution,.leaflet-touch .leaflet-control-layers,.leaflet-touch .leaflet-bar{box-shadow:none}.leaflet-touch .leaflet-control-layers,.leaflet-touch .leaflet-bar{border:2px solid rgba(0,0,0,.2);background-clip:padding-box}.leaflet-popup{position:absolute;text-align:center;margin-bottom:20px}.leaflet-popup-content-wrapper{padding:1px;text-align:left;border-radius:12px}.leaflet-popup-content{margin:13px 24px 13px 20px;line-height:1.3;font-size:13px;font-size:1.08333em;min-height:1px}.leaflet-popup-content p{margin:1.3em 0}.leaflet-popup-tip-container{width:40px;height:20px;position:absolute;left:50%;margin-top:-1px;margin-left:-20px;overflow:hidden;pointer-events:none}.leaflet-popup-tip{width:17px;height:17px;padding:1px;margin:-10px auto 0;pointer-events:auto;transform:rotate(45deg)}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#fff;color:#333;box-shadow:0 3px 14px #0006}.leaflet-container a.leaflet-popup-close-button{position:absolute;top:0;right:0;border:none;text-align:center;width:24px;height:24px;font:16px/24px Tahoma,Verdana,sans-serif;color:#757575;text-decoration:none;background:transparent}.leaflet-container a.leaflet-popup-close-button:hover,.leaflet-container a.leaflet-popup-close-button:focus{color:#585858}.leaflet-popup-scrolled{overflow:auto}.leaflet-oldie .leaflet-popup-content-wrapper{-ms-zoom:1}.leaflet-oldie .leaflet-popup-tip{width:24px;margin:0 auto;-ms-filter:"progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";filter:progid:DXImageTransform.Microsoft.Matrix(M11=.70710678,M12=.70710678,M21=-.70710678,M22=.70710678)}.leaflet-oldie .leaflet-control-zoom,.leaflet-oldie .leaflet-control-layers,.leaflet-oldie .leaflet-popup-content-wrapper,.leaflet-oldie .leaflet-popup-tip{border:1px solid #999}.leaflet-div-icon{background:#fff;border:1px solid #666}.leaflet-tooltip{position:absolute;padding:6px;background-color:#fff;border:1px solid #fff;border-radius:3px;color:#222;white-space:nowrap;-webkit-user-select:none;-moz-user-select:none;user-select:none;pointer-events:none;box-shadow:0 1px 3px #0006}.leaflet-tooltip.leaflet-interactive{cursor:pointer;pointer-events:auto}.leaflet-tooltip-top:before,.leaflet-tooltip-bottom:before,.leaflet-tooltip-left:before,.leaflet-tooltip-right:before{position:absolute;pointer-events:none;border:6px solid transparent;background:transparent;content:""}.leaflet-tooltip-bottom{margin-top:6px}.leaflet-tooltip-top{margin-top:-6px}.leaflet-tooltip-bottom:before,.leaflet-tooltip-top:before{left:50%;margin-left:-6px}.leaflet-tooltip-top:before{bottom:0;margin-bottom:-12px;border-top-color:#fff}.leaflet-tooltip-bottom:before{top:0;margin-top:-12px;margin-left:-6px;border-bottom-color:#fff}.leaflet-tooltip-left{margin-left:-6px}.leaflet-tooltip-right{margin-left:6px}.leaflet-tooltip-left:before,.leaflet-tooltip-right:before{top:50%;margin-top:-6px}.leaflet-tooltip-left:before{right:0;margin-right:-12px;border-left-color:#fff}.leaflet-tooltip-right:before{left:0;margin-left:-12px;border-right-color:#fff}@media print{.leaflet-control{-webkit-print-color-adjust:exact;print-color-adjust:exact}}',a=".leaflet-cluster-anim .leaflet-marker-icon,.leaflet-cluster-anim .leaflet-marker-shadow{transition:transform .3s ease-out,opacity .3s ease-in}.leaflet-cluster-spider-leg{transition:stroke-dashoffset .3s ease-out,stroke-opacity .3s ease-in}",l=".marker-cluster-small{background-color:#b5e28c99}.marker-cluster-small div{background-color:#6ecc3999}.marker-cluster-medium{background-color:#f1d35799}.marker-cluster-medium div{background-color:#f0c20c99}.marker-cluster-large{background-color:#fd9c7399}.marker-cluster-large div{background-color:#f1801799}.leaflet-oldie .marker-cluster-small{background-color:#b5e28c}.leaflet-oldie .marker-cluster-small div{background-color:#6ecc39}.leaflet-oldie .marker-cluster-medium{background-color:#f1d357}.leaflet-oldie .marker-cluster-medium div{background-color:#f0c20c}.leaflet-oldie .marker-cluster-large{background-color:#fd9c73}.leaflet-oldie .marker-cluster-large div{background-color:#f18017}.marker-cluster{background-clip:padding-box;border-radius:20px}.marker-cluster div{width:30px;height:30px;margin-left:5px;margin-top:5px;text-align:center;border-radius:15px;font:12px Helvetica Neue,Arial,Helvetica,sans-serif}.marker-cluster span{line-height:30px}",h=/[&<>"'`]/g,u=/[&<>"'`]/,c={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#x27;","`":"&#x60;"};function d(t){return c[t]}function p(t,e,i,n){const o=new XMLHttpRequest;let s=!1;const r=function(){s||(s=!0,"function"==typeof n?n():i(""))};o.onreadystatechange=function(){if(4!==o.readyState)return;if(200!==o.status&&304!==o.status)return void r();if(s)return;let t;if(s=!0,"string"==typeof o.response)try{t=JSON.parse(o.response)}catch(e){t=o.response}else t=o.response;i(t)},o.onerror=r,o.ontimeout=r,o.open("GET",t+function(t){const e=[];for(const i in t){const n=encodeURIComponent(i),o=t[i];if(Array.isArray(o))for(let t=0;t<o.length;t++)e.push(n+"="+encodeURIComponent(o[t]));else e.push(n+"="+encodeURIComponent(String(o)))}return"?"+e.join("&")}(e),!0),o.responseType="json",o.setRequestHeader("Accept","application/json"),o.send(null)}function _(t,e){return t.replace(/\{ *([\w_]+) *\}/g,(t,i)=>{let n=e[i];return void 0===n?n="":"function"==typeof n&&(n=n(e)),null==(o=n)?"":o?(o=""+o,u.test(o)?o.replace(h,d):o):o+"";var o})}var f,m={exports:{}};const g=t((f||(f=1,m.exports=function(){function t(t){var e,i,n=document,o=t.container||n.createElement("div"),s=o.style,r=navigator.userAgent,a=~r.indexOf("Firefox")&&~r.indexOf("Mobile"),l=t.debounceWaitMs||0,h=t.preventSubmit||!1,u=t.disableAutoSelect||!1,c=a?"input":"keyup",d=[],p="",_=2,f=t.showOnFocus,m=0;if(void 0!==t.minLength&&(_=t.minLength),!t.input)throw new Error("input undefined");var g=t.input;function v(){var t=o.parentNode;t&&t.removeChild(o)}function y(){i&&window.clearTimeout(i)}function x(){o.parentNode||n.body.appendChild(o)}function L(){return!!o.parentNode}function b(){m++,d=[],p="",e=void 0,v()}function w(){if(L()){s.height="auto",s.width=g.offsetWidth+"px";var e,i=0;r(),r(),t.customize&&e&&t.customize(g,e,o,i)}function r(){var t=n.documentElement,o=t.clientTop||n.body.clientTop||0,r=t.clientLeft||n.body.clientLeft||0,a=window.pageYOffset||t.scrollTop,l=window.pageXOffset||t.scrollLeft,h=(e=g.getBoundingClientRect()).top+g.offsetHeight+a-o,u=e.left+l-r;s.top=h+"px",s.left=u+"px",(i=window.innerHeight-(e.top+g.offsetHeight))<0&&(i=0),s.top=h+"px",s.bottom="",s.left=u+"px",s.maxHeight=i+"px"}}function P(){for(;o.firstChild;)o.removeChild(o.firstChild);var i=function(t,e){var i=n.createElement("div");return i.textContent=t.label||"",i};t.render&&(i=t.render);var s=function(t,e){var i=n.createElement("div");return i.textContent=t,i};t.renderGroup&&(s=t.renderGroup);var r=n.createDocumentFragment(),a="#9?$";if(d.forEach(function(n){if(n.group&&n.group!==a){a=n.group;var o=s(n.group,p);o&&(o.className+=" group",r.appendChild(o))}var l=i(n,p);l&&(l.addEventListener("click",function(e){t.onSelect(n,g),b(),e.preventDefault(),e.stopPropagation()}),n===e&&(l.className+=" selected"),r.appendChild(l))}),o.appendChild(r),d.length<1){if(!t.emptyMsg)return void b();var l=n.createElement("div");l.className="empty",l.textContent=t.emptyMsg,o.appendChild(l)}x(),w(),z()}function C(){L()&&P()}function M(){C()}function T(t){t.target!==o?C():t.preventDefault()}function k(e){for(var i=e.which||e.keyCode||0,n=0,o=t.keysToIgnore||[38,13,27,39,37,16,17,18,20,91,9];n<o.length;n++)if(i===o[n])return;i>=112&&i<=123&&!t.keysToIgnore||40===i&&L()||O(0)}function z(){var t=o.getElementsByClassName("selected");if(t.length>0){var e=t[0],i=e.previousElementSibling;if(i&&-1!==i.className.indexOf("group")&&!i.previousElementSibling&&(e=i),e.offsetTop<o.scrollTop)o.scrollTop=e.offsetTop;else{var n=e.offsetTop+e.offsetHeight,s=o.scrollTop+o.offsetHeight;n>s&&(o.scrollTop+=n-s)}}}function S(){if(d.length<1)e=void 0;else if(e===d[0])e=d[d.length-1];else for(var t=d.length-1;t>0;t--)if(e===d[t]||1===t){e=d[t-1];break}}function A(){if(d.length<1&&(e=void 0),e&&e!==d[d.length-1]){for(var t=0;t<d.length-1;t++)if(e===d[t]){e=d[t+1];break}}else e=d[0]}function E(i){var n=i.which||i.keyCode||0;if(38===n||40===n||27===n){var o=L();if(27===n)b();else{if(!o||d.length<1)return;38===n?S():A(),P()}return i.preventDefault(),void(o&&i.stopPropagation())}13===n&&(e&&(t.onSelect(e,g),b()),h&&i.preventDefault())}function Z(){f&&O(1)}function O(n){var o=++m,s=g.value,r=g.selectionStart||0;s.length>=_||1===n?(y(),i=window.setTimeout(function(){t.fetch(s,function(t){m===o&&t&&(p=s,e=(d=t).length<1||u?void 0:d[0],P())},n,r)},0===n?l:0)):b()}function I(){setTimeout(function(){n.activeElement!==g&&b()},200)}function B(){g.removeEventListener("focus",Z),g.removeEventListener("keydown",E),g.removeEventListener(c,k),g.removeEventListener("blur",I),window.removeEventListener("resize",M),n.removeEventListener("scroll",T,!0),y(),b()}return o.className="autocomplete "+(t.className||""),s.position="absolute",o.addEventListener("mousedown",function(t){t.stopPropagation(),t.preventDefault()}),o.addEventListener("focus",function(){return g.focus()}),g.addEventListener("keydown",E),g.addEventListener(c,k),g.addEventListener("blur",I),g.addEventListener("focus",Z),window.addEventListener("resize",M),n.addEventListener("scroll",T,!0),{destroy:B}}return t}()),m.exports));class v{constructor(){this.serviceUrl="https://nominatim.openstreetmap.org/"}getFormattedAddress(t){const e=t.address,i=[];return(e.road||e.building)&&i.push("{building} {road} {house_number}"),(e.city||e.town||e.village||e.hamlet)&&i.push("{postcode} {city} {town} {village} {hamlet}"),(e.state||e.country)&&i.push("{state} {country}"),_(i.join(", "),e)}getHtmlAddress(t){const e=t.address,i=[];let n;return(e.road||e.building)&&i.push("{building} {road} {house_number}"),(e.city||e.town||e.village||e.hamlet)&&(n=i.length>0?"leaflet-control-geocoder-address-detail":"",i.push('<span class="'+n+'">{postcode} {city} {town} {village} {hamlet}</span>')),(e.state||e.country)&&(n=i.length>0?"leaflet-control-geocoder-address-context":"",i.push('<span class="'+n+'">{state} {country}</span>')),_(i.join(", "),e)}autocomplete(t){if(!(null==t?void 0:t.target))return;const e=t.target,i=this;g({input:e,minLength:3,debounceWaitMs:600,className:"rtcl-osm-autocomplete",preventSubmit:!0,fetch:function(t,n,o){e.classList.add("rtcl-osm-loading"),t=t.toLowerCase(),i.geocode(t,t=>{i.clearMessage(e),n(t),e.classList.remove("rtcl-osm-loading")},void 0,()=>{e.classList.remove("rtcl-osm-loading"),n(!1),i.showMessage(e)})},onSelect:function(n){if(e.value=n.label,null==t?void 0:t.map){t.map.fitBounds(n.bbox);let e=!1;t.map.eachLayer(t=>{!e&&t instanceof L.Marker&&(t.setLatLng(n.center).setPopupContent(i.getHtmlAddress(n.properties)).openPopup(),e=!0)})}(null==t?void 0:t.place_changed)&&"function"==typeof t.place_changed&&t.place_changed(n)}})}geocode(t,e,i,n){const s=function(t,e){return o.Util.extend(e,t.geocodingQueryParams)}({},{q:t,limit:5,format:"json",addressdetails:1,"accept-language":"en"});p(this.serviceUrl+"search",s,t=>{const n=[];if(Array.isArray(t))for(let e=t.length-1;e>=0;e--){const i=t[e].boundingbox;for(let t=0;t<4;t++)i[t]=+i[t];n[e]={icon:t[e].icon,value:t[e].display_name,label:this.getFormattedAddress(t[e]),bbox:L.latLngBounds([i[0],i[2]],[i[1],i[3]]),center:L.latLng(t[e].lat,t[e].lon),properties:t[e]}}e.call(i,n)},"function"==typeof n?()=>n.call(i):void 0)}getMessageEl(t,e){const i=t.closest&&t.closest(".rtcl-geo-address-field")||t.parentNode;if(!i||!i.parentNode)return null;let n=i.nextElementSibling;if(!n||!n.classList||!n.classList.contains("rtcl-geo-address-message")){if(!e)return null;n=document.createElement("div"),n.className="rtcl-geo-address-message",n.setAttribute("role","alert"),i.parentNode.insertBefore(n,i.nextSibling)}return n}showMessage(t){const e=this.getMessageEl(t,!0);if(!e)return;const i="undefined"!=typeof window&&window.rtcl_map&&window.rtcl_map.i18n||{};e.textContent=i.geocode_error||"Location search is temporarily unavailable. Please wait a moment and try again.",e.style.display=""}clearMessage(t){const e=this.getMessageEl(t,!1);e&&e.parentNode&&e.parentNode.removeChild(e)}reverse(t,e,i,n){const s=function(t,e){return o.Util.extend(e,t.reverseQueryParams)}({},{lat:t.lat,lon:t.lng,zoom:Math.round(Math.log(e/256)/Math.log(2)),addressdetails:1,format:"json","accept-language":"en"});p(this.serviceUrl+"reverse",s,t=>{const e=[];if(t&&t.lat&&t.lon){const i=L.latLng(t.lat,t.lon),n=L.latLngBounds(i,i);e.push({value:t.display_name,label:this.getFormattedAddress(t),center:i,bbox:n,properties:t})}i.call(n,e)})}}const y=/Chrome|CriOS/.test(navigator.userAgent)&&/Google Inc/.test(navigator.vendor),x=t=>{const e=(t=>{if(!t)return null;const e=document.querySelectorAll(".rtcl-listing-item");for(let n=0;n<e.length;++n)try{const i=JSON.parse(e[n].getAttribute("data-options")||"{}");if(i&&String(i.id)===String(t))return e[n]}catch(i){}return null})(t);if(!e)return;const i=e.getBoundingClientRect(),n=window.innerHeight||document.documentElement.clientHeight;i.top>=0&&i.bottom<=n||e.scrollIntoView({behavior:"smooth",block:"center"}),e.classList.add("rtcl-listing-focused"),clearTimeout(e._rtclFocusTimer),e._rtclFocusTimer=setTimeout(()=>{e.classList.remove("rtcl-listing-focused")},2500)};!function(){if("undefined"==typeof document||document.getElementById("rtcl-leaflet-css"))return;const t=document.createElement("style");t.id="rtcl-leaflet-css",t.textContent=[r,a,l].join("\n"),(document.head||document.documentElement).appendChild(t)}(),function(t){const e=new v,i={iconSize:[25,41],iconAnchor:[10,41],popupAnchor:[2,-40],iconUrl:"https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",shadowUrl:"https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"},n=o.icon(i),s=o.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}),r={};let a=null;function l(t){try{const e=JSON.parse(t.getAttribute("data-options")||"{}");return e&&e.id?String(e.id):""}catch(e){return""}}t(function(){rtcl_render_map_view(),t(".rtcl-map").each(function(){rtcl_render_map(this)}),rtcl_startGeoAutoSuggestion(),rtcl_getCurrentLocation(),t(document).on("rtcl_ajax_filter_after_render",function(){t(".rtcl-map-view").length&&rtcl_render_map_view()}),t(document).on("mouseenter",".rtcl-listing-item .listing-title, .rtcl-listing-item .rtcl-listing-title",function(){rtcl_focus_map_marker(l(t(this).closest(".rtcl-listing-item")[0]),!0)}).on("mouseleave",".rtcl-listing-item .listing-title, .rtcl-listing-item .rtcl-listing-title",function(){rtcl_focus_map_marker(l(t(this).closest(".rtcl-listing-item")[0]),!1)})}),window.rtcl_focus_map_marker=function(e,i){e&&t(".rtcl-map-view").each(function(){const n=t(this),s=n.data("mapInstance"),r=n.data("rtclMarkersById");if(!s||!r||!r[e])return;const a=r[e];if(a.rtclBaseIcon||(a.rtclBaseIcon=a.options.icon),function(t){const e=t.data("rtclFocusedMarker");e&&(e.setZIndexOffset(0),e.rtclBaseIcon&&e.setIcon(e.rtclBaseIcon),t.removeData("rtclFocusedMarker"));const i=t.data("rtclFocusedCluster");i&&i._icon&&i._icon.classList.remove("rtcl-cluster-focus"),i&&t.removeData("rtclFocusedCluster")}(n),!i)return;const l=n.data("rtclClusterGroup"),h=l&&l.getVisibleParent?l.getVisibleParent(a):a;h&&h!==a&&h._icon?(s.panTo(h.getLatLng()),h._icon.classList.add("rtcl-cluster-focus"),n.data("rtclFocusedCluster",h)):(s.panTo(a.getLatLng()),a.setZIndexOffset(1e3),a.setIcon(function(t,e){const i=t.options||{},n=i.iconSize||[25,41],s=i.iconAnchor||[n[0]/2,n[1]];return o.icon(Object.assign({},i,{iconSize:[n[0]*e,n[1]*e],iconAnchor:[s[0]*e,s[1]*e]}))}(a.rtclBaseIcon,1.28)),n.data("rtclFocusedMarker",a))})},window.rtcl_render_map_view=function(){const e=t(".rtcl-map-view");e.length&&e.each(function(){const e=t(this),i=e.data("mapInstance");i&&i.remove();const n=u(this);e.data("mapInstance",n)})};const h=function(t,e){const i=e.clientHeight||0;if(i<=0)return;const n=Math.ceil(Math.log2(i/256));isFinite(n)&&n>t.getMinZoom()&&t.setMinZoom(n)},u=function(e){const a={center:o.latLng(rtcl_map.cluster_options.center.lat,rtcl_map.cluster_options.center.lng),scrollWheelZoom:rtcl_map.cluster_options.scroll_wheel,maxZoom:rtcl_map.cluster_options.max_zoom,zoom:rtcl_map.cluster_options.zoom,layers:[s]},l=[],u=t(e),c=u.data("map-type")||"";let d=u.data("map-data")||[];const p=o.markerClusterGroup({chunkedLoading:!0});"search"===c&&(d=(()=>{const t=[],e=document.querySelectorAll(".rtcl-listing-item");if(e.length)for(let i=0;i<e.length;++i){const n=JSON.parse(e[i].getAttribute("data-options"));n&&t.push(n)}return t})());const _=o.map(u[0],a);h(_,u[0]);const f=[],m={};d&&d.length&&d.map((t,e)=>{const s=Object.assign({id:0,latitude:0,longitude:0,icon:"",content:""},t);if(!s.latitude||!s.longitude)return;const a=o.latLng(s.latitude,s.longitude);if(f.push(a),-1===l.indexOf(s.id))if(l.push(s.id),s.icon)(h=s.icon,new Promise(t=>{if(r[h])return t(r[h]);const e=new Image;e.src=h,e.onload=()=>{const i=o.icon({iconUrl:h,iconSize:[e.width,e.height],iconAnchor:[e.width/2,e.height]});r[h]=i,t(i)},e.onerror=()=>{t(o.icon(i))}})).then(t=>{const e=o.marker(a,{icon:t}).addTo(_).bindPopup(s.content);e.on("click",()=>x(s.id)),p.addLayer(e),m[s.id]=e}).then(t=>t);else{const t=o.marker(a,{icon:n}).addTo(_).bindPopup(s.content);t.on("click",()=>x(s.id)),p.addLayer(t),m[s.id]=t}var h}),_.addLayer(p),_.rtclMarkersById=m,u.data("rtclMarkersById",m),u.data("rtclClusterGroup",p);const g=rtcl_map.cluster_options.map_center_position;if(0===f.length){const t=rtcl_map.center||{},e=Number(t.lat)||0,i=Number(t.lng)||0,s=rtcl_map.zoom&&rtcl_map.zoom.default||12;if(e||i){const t=o.latLng(e,i);o.marker(t,{icon:n}).addTo(_),_.setView(t,s)}else _.setView(o.latLng(20,0),2)}else if("densest"===g){const t=function(t,e){let i=null,n=-1;return t.forEach(o=>{const s=t.filter(t=>function(t,e){const i=6371,n=t=>t*Math.PI/180,o=n(e.lat-t.lat),s=n(e.lng-t.lng),r=__pow(Math.sin(o/2),2)+__pow(Math.sin(s/2),2)*Math.cos(n(t.lat))*Math.cos(n(e.lat));return 2*i*Math.asin(Math.min(1,Math.sqrt(r)))}(o,t)<=e);s.length>n&&(n=s.length,i={center:o,points:s})}),i}(f,800);t&&t.points.length>1?_.fitBounds(o.latLngBounds(t.points),{padding:[40,40],maxZoom:14}):1===f.length?_.setView(f[0],rtcl_map.zoom.default||13):f.length>1&&_.fitBounds(o.latLngBounds(f),{padding:[30,30],maxZoom:15})}else 1===f.length?_.setView(f[0],rtcl_map.zoom.default||14):f.length>1&&rtcl_map.cluster_options.fit_bound&&_.fitBounds(o.latLngBounds(f),{padding:[30,30],maxZoom:15});return _.whenReady(function(){setTimeout(function(){_.invalidateSize({animate:!1}),h(_,u[0])},0)}),_};function c(t){const i=(()=>{let t=[];const e={},i=document.querySelectorAll(".rtcl-map-field");if(i.length)for(let n=0;n<i.length;++n){const t=i[n];if(null!==t.offsetParent){const i=t.type,n=t.name;"text"!==i&&"textarea"!==i||!t.value?"select-one"===i&&t.value&&t.options[t.selectedIndex].innerText&&(e[n]=t.options[t.selectedIndex].innerText):e[n]=t.value}}return["address","sub_sub_location","sub_location","location","zipcode"].map(function(i){void 0!==e[i]&&t.push(e[i])}),t=t.filter(function(t){return""!==t}),t=t.join(),t})();i&&e.geocode(i,i=>{if(i.length){const n=i[0];t.panTo(n.center),t.setZoom(rtcl_map.zoom.search||17),d(n.center);let s=!1;t.eachLayer(t=>{!s&&t instanceof o.Marker&&(t.setLatLng(n.center).setPopupContent(e.getHtmlAddress(n.properties)).openPopup(),s=!0)})}})}function d(e){t("#rtcl-latitude").val(e.lat),t("#rtcl-longitude").val(e.lng)}window.rtcl_render_map=function(r){const l=t(r),h=l.find(".marker"),u=o.latLng(rtcl_map.center.lat||0,rtcl_map.center.lng||0),p=Object.assign({},{zoom:rtcl_map.zoom.default,center:u},l.data("options")||{}),_=o.map(r,{zoom:parseInt(p.zoom)||10,center:u,scrollWheelZoom:!1,layers:[s]});_.type=l.data("type"),"input"===_.type&&(a=_);const f=p.icon?o.icon(Object.assign(i,{iconUrl:p.icon})):n;h.each(function(){const i=t(this),n=i.data("latitude")||u.lat,s=i.data("longitude")||u.lng,r=i.data("latitude")&&i.data("longitude")?"":i.data("address"),a=o.latLng(n,s),l=o.marker(a,{icon:f,draggable:"input"===_.type}).addTo(_);if(_.panTo(a),r&&e.geocode(r,i=>{if(i.length){const n=i[0];_.panTo(n.center),d(n.center),l.setLatLng(n.center).setPopupContent(e.getHtmlAddress(n.properties)).openPopup(),t(document).trigger("rtcl_map_retrieve_geocode",[{lat:n.center.lat,lng:n.center.lng,address:n.properties}])}}),"input"===_.type)l.on("dragend",function(i){const n=l.getLatLng();_.panTo(n),d(n);const o=t("input.rtcl_geo_address_input");if(o.length){e.reverse(n,_.options.crs.scale(_.getZoom()),t=>{t.length&&(l.setPopupContent(e.getHtmlAddress(t[0].properties)).openPopup(),o.val(t[0].label))});const t=o.parent();t.find("input.latitude").val(n.lat),t.find("input.longitude").val(n.lng)}}),"local"===rtcl_map.location&&(c(_),t(".rtcl-map-field").on("blur change keyup",function(t){c(_)}));else{i.html()&&l.bindPopup(i.html()).openPopup()}})},window.rtcl_startGeoAutoSuggestion=function(){t(document).find(".rtcl-geo-address-input").each(function(){const i=t(this);let n;this.autocomplete=y?"disabled":"off",a&&i.hasClass("rtcl_geo_address_input")&&(n=a),e.autocomplete({target:this,map:n,place_changed:s=>{if(!s)return;const r=i.parent();if(r.find("input.latitude").val(s.center.lat),r.find("input.longitude").val(s.center.lng),t(document).trigger("rtcl_map_retrieve_geocode",[{lat:s.center.lat,lng:s.center.lng,address:s.value,target:i[0]}]),i.hasClass("rtcl_geo_address_input")){if(n){n.panTo(s.center);let t=!1;n.eachLayer(i=>{!t&&i instanceof o.Marker&&(i.setLatLng(s.center).setPopupContent(e.getHtmlAddress(s.properties)).openPopup(),t=!0)})}d(s.center)}}})})},window.rtcl_getCurrentLocation=function(){t(".rtcl-get-location").on("click",function(){const i=t(this);i.hasClass("initiated")||(i.addClass("initiated"),navigator.geolocation?navigator.geolocation.getCurrentPosition(n=>{const s=n.coords.latitude,r=n.coords.longitude,a=i.parent(),l=a.find(".rtcl-geo-address-input");if(a.find("input.latitude").val(s),a.find("input.longitude").val(r),l.length){const n=o.latLng(s,r);e.reverse(n,1,e=>{if(e.length&&e[0]){const n=e[0];l.val(n.value),"geo"===rtcl_map.location&&"rtcl-geo-loc-form"===i.attr("id")&&d(n.center),t(document).trigger("rtcl_map_retrieve_geocode",[{lat:n.center.lat,lng:n.center.lng,address:n.value,target:i[0]}])}else toastr.error("Address not found")})}},function(t){switch(t.code){case t.PERMISSION_DENIED:toastr.error("User denied the request for Geolocation.");break;case t.POSITION_UNAVAILABLE:toastr.error("Location information is unavailable.");break;case t.TIMEOUT:toastr.error("The request to get user location timed out.");break;case t.UNKNOWN_ERROR:default:toastr.error("An unknown error occurred.")}}):toastr.error("Geolocation is not supported by this browser."))})}}(jQuery)}();
+var __pow = Math.pow;
+(function() {
+  "use strict";
+  function getDefaultExportFromCjs(x) {
+    return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
+  }
+  var leafletSrc$1 = { exports: {} };
+  var leafletSrc = leafletSrc$1.exports;
+  var hasRequiredLeafletSrc;
+  function requireLeafletSrc() {
+    if (hasRequiredLeafletSrc) return leafletSrc$1.exports;
+    hasRequiredLeafletSrc = 1;
+    (function(module, exports$1) {
+      (function(global, factory) {
+        factory(exports$1);
+      })(leafletSrc, (function(exports$12) {
+        var version = "1.9.4";
+        function extend(dest) {
+          var i, j, len, src;
+          for (j = 1, len = arguments.length; j < len; j++) {
+            src = arguments[j];
+            for (i in src) {
+              dest[i] = src[i];
+            }
+          }
+          return dest;
+        }
+        var create$2 = Object.create || /* @__PURE__ */ (function() {
+          function F() {
+          }
+          return function(proto) {
+            F.prototype = proto;
+            return new F();
+          };
+        })();
+        function bind(fn, obj) {
+          var slice = Array.prototype.slice;
+          if (fn.bind) {
+            return fn.bind.apply(fn, slice.call(arguments, 1));
+          }
+          var args = slice.call(arguments, 2);
+          return function() {
+            return fn.apply(obj, args.length ? args.concat(slice.call(arguments)) : arguments);
+          };
+        }
+        var lastId = 0;
+        function stamp(obj) {
+          if (!("_leaflet_id" in obj)) {
+            obj["_leaflet_id"] = ++lastId;
+          }
+          return obj._leaflet_id;
+        }
+        function throttle(fn, time, context) {
+          var lock, args, wrapperFn, later;
+          later = function() {
+            lock = false;
+            if (args) {
+              wrapperFn.apply(context, args);
+              args = false;
+            }
+          };
+          wrapperFn = function() {
+            if (lock) {
+              args = arguments;
+            } else {
+              fn.apply(context, arguments);
+              setTimeout(later, time);
+              lock = true;
+            }
+          };
+          return wrapperFn;
+        }
+        function wrapNum(x, range, includeMax) {
+          var max = range[1], min = range[0], d = max - min;
+          return x === max && includeMax ? x : ((x - min) % d + d) % d + min;
+        }
+        function falseFn() {
+          return false;
+        }
+        function formatNum(num, precision) {
+          if (precision === false) {
+            return num;
+          }
+          var pow = Math.pow(10, precision === void 0 ? 6 : precision);
+          return Math.round(num * pow) / pow;
+        }
+        function trim(str) {
+          return str.trim ? str.trim() : str.replace(/^\s+|\s+$/g, "");
+        }
+        function splitWords(str) {
+          return trim(str).split(/\s+/);
+        }
+        function setOptions(obj, options) {
+          if (!Object.prototype.hasOwnProperty.call(obj, "options")) {
+            obj.options = obj.options ? create$2(obj.options) : {};
+          }
+          for (var i in options) {
+            obj.options[i] = options[i];
+          }
+          return obj.options;
+        }
+        function getParamString2(obj, existingUrl, uppercase) {
+          var params = [];
+          for (var i in obj) {
+            params.push(encodeURIComponent(uppercase ? i.toUpperCase() : i) + "=" + encodeURIComponent(obj[i]));
+          }
+          return (!existingUrl || existingUrl.indexOf("?") === -1 ? "?" : "&") + params.join("&");
+        }
+        var templateRe = /\{ *([\w_ -]+) *\}/g;
+        function template2(str, data) {
+          return str.replace(templateRe, function(str2, key) {
+            var value = data[key];
+            if (value === void 0) {
+              throw new Error("No value provided for variable " + str2);
+            } else if (typeof value === "function") {
+              value = value(data);
+            }
+            return value;
+          });
+        }
+        var isArray = Array.isArray || function(obj) {
+          return Object.prototype.toString.call(obj) === "[object Array]";
+        };
+        function indexOf(array, el) {
+          for (var i = 0; i < array.length; i++) {
+            if (array[i] === el) {
+              return i;
+            }
+          }
+          return -1;
+        }
+        var emptyImageUrl = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+        function getPrefixed(name) {
+          return window["webkit" + name] || window["moz" + name] || window["ms" + name];
+        }
+        var lastTime = 0;
+        function timeoutDefer(fn) {
+          var time = +/* @__PURE__ */ new Date(), timeToCall = Math.max(0, 16 - (time - lastTime));
+          lastTime = time + timeToCall;
+          return window.setTimeout(fn, timeToCall);
+        }
+        var requestFn = window.requestAnimationFrame || getPrefixed("RequestAnimationFrame") || timeoutDefer;
+        var cancelFn = window.cancelAnimationFrame || getPrefixed("CancelAnimationFrame") || getPrefixed("CancelRequestAnimationFrame") || function(id) {
+          window.clearTimeout(id);
+        };
+        function requestAnimFrame(fn, context, immediate) {
+          if (immediate && requestFn === timeoutDefer) {
+            fn.call(context);
+          } else {
+            return requestFn.call(window, bind(fn, context));
+          }
+        }
+        function cancelAnimFrame(id) {
+          if (id) {
+            cancelFn.call(window, id);
+          }
+        }
+        var Util = {
+          __proto__: null,
+          extend,
+          create: create$2,
+          bind,
+          get lastId() {
+            return lastId;
+          },
+          stamp,
+          throttle,
+          wrapNum,
+          falseFn,
+          formatNum,
+          trim,
+          splitWords,
+          setOptions,
+          getParamString: getParamString2,
+          template: template2,
+          isArray,
+          indexOf,
+          emptyImageUrl,
+          requestFn,
+          cancelFn,
+          requestAnimFrame,
+          cancelAnimFrame
+        };
+        function Class() {
+        }
+        Class.extend = function(props) {
+          var NewClass = function() {
+            setOptions(this);
+            if (this.initialize) {
+              this.initialize.apply(this, arguments);
+            }
+            this.callInitHooks();
+          };
+          var parentProto = NewClass.__super__ = this.prototype;
+          var proto = create$2(parentProto);
+          proto.constructor = NewClass;
+          NewClass.prototype = proto;
+          for (var i in this) {
+            if (Object.prototype.hasOwnProperty.call(this, i) && i !== "prototype" && i !== "__super__") {
+              NewClass[i] = this[i];
+            }
+          }
+          if (props.statics) {
+            extend(NewClass, props.statics);
+          }
+          if (props.includes) {
+            checkDeprecatedMixinEvents(props.includes);
+            extend.apply(null, [proto].concat(props.includes));
+          }
+          extend(proto, props);
+          delete proto.statics;
+          delete proto.includes;
+          if (proto.options) {
+            proto.options = parentProto.options ? create$2(parentProto.options) : {};
+            extend(proto.options, props.options);
+          }
+          proto._initHooks = [];
+          proto.callInitHooks = function() {
+            if (this._initHooksCalled) {
+              return;
+            }
+            if (parentProto.callInitHooks) {
+              parentProto.callInitHooks.call(this);
+            }
+            this._initHooksCalled = true;
+            for (var i2 = 0, len = proto._initHooks.length; i2 < len; i2++) {
+              proto._initHooks[i2].call(this);
+            }
+          };
+          return NewClass;
+        };
+        Class.include = function(props) {
+          var parentOptions = this.prototype.options;
+          extend(this.prototype, props);
+          if (props.options) {
+            this.prototype.options = parentOptions;
+            this.mergeOptions(props.options);
+          }
+          return this;
+        };
+        Class.mergeOptions = function(options) {
+          extend(this.prototype.options, options);
+          return this;
+        };
+        Class.addInitHook = function(fn) {
+          var args = Array.prototype.slice.call(arguments, 1);
+          var init = typeof fn === "function" ? fn : function() {
+            this[fn].apply(this, args);
+          };
+          this.prototype._initHooks = this.prototype._initHooks || [];
+          this.prototype._initHooks.push(init);
+          return this;
+        };
+        function checkDeprecatedMixinEvents(includes) {
+          if (typeof L === "undefined" || !L || !L.Mixin) {
+            return;
+          }
+          includes = isArray(includes) ? includes : [includes];
+          for (var i = 0; i < includes.length; i++) {
+            if (includes[i] === L.Mixin.Events) {
+              console.warn("Deprecated include of L.Mixin.Events: this property will be removed in future releases, please inherit from L.Evented instead.", new Error().stack);
+            }
+          }
+        }
+        var Events = {
+          /* @method on(type: String, fn: Function, context?: Object): this
+           * Adds a listener function (`fn`) to a particular event type of the object. You can optionally specify the context of the listener (object the this keyword will point to). You can also pass several space-separated types (e.g. `'click dblclick'`).
+           *
+           * @alternative
+           * @method on(eventMap: Object): this
+           * Adds a set of type/listener pairs, e.g. `{click: onClick, mousemove: onMouseMove}`
+           */
+          on: function(types, fn, context) {
+            if (typeof types === "object") {
+              for (var type in types) {
+                this._on(type, types[type], fn);
+              }
+            } else {
+              types = splitWords(types);
+              for (var i = 0, len = types.length; i < len; i++) {
+                this._on(types[i], fn, context);
+              }
+            }
+            return this;
+          },
+          /* @method off(type: String, fn?: Function, context?: Object): this
+           * Removes a previously added listener function. If no function is specified, it will remove all the listeners of that particular event from the object. Note that if you passed a custom context to `on`, you must pass the same context to `off` in order to remove the listener.
+           *
+           * @alternative
+           * @method off(eventMap: Object): this
+           * Removes a set of type/listener pairs.
+           *
+           * @alternative
+           * @method off: this
+           * Removes all listeners to all events on the object. This includes implicitly attached events.
+           */
+          off: function(types, fn, context) {
+            if (!arguments.length) {
+              delete this._events;
+            } else if (typeof types === "object") {
+              for (var type in types) {
+                this._off(type, types[type], fn);
+              }
+            } else {
+              types = splitWords(types);
+              var removeAll = arguments.length === 1;
+              for (var i = 0, len = types.length; i < len; i++) {
+                if (removeAll) {
+                  this._off(types[i]);
+                } else {
+                  this._off(types[i], fn, context);
+                }
+              }
+            }
+            return this;
+          },
+          // attach listener (without syntactic sugar now)
+          _on: function(type, fn, context, _once) {
+            if (typeof fn !== "function") {
+              console.warn("wrong listener type: " + typeof fn);
+              return;
+            }
+            if (this._listens(type, fn, context) !== false) {
+              return;
+            }
+            if (context === this) {
+              context = void 0;
+            }
+            var newListener = { fn, ctx: context };
+            if (_once) {
+              newListener.once = true;
+            }
+            this._events = this._events || {};
+            this._events[type] = this._events[type] || [];
+            this._events[type].push(newListener);
+          },
+          _off: function(type, fn, context) {
+            var listeners, i, len;
+            if (!this._events) {
+              return;
+            }
+            listeners = this._events[type];
+            if (!listeners) {
+              return;
+            }
+            if (arguments.length === 1) {
+              if (this._firingCount) {
+                for (i = 0, len = listeners.length; i < len; i++) {
+                  listeners[i].fn = falseFn;
+                }
+              }
+              delete this._events[type];
+              return;
+            }
+            if (typeof fn !== "function") {
+              console.warn("wrong listener type: " + typeof fn);
+              return;
+            }
+            var index2 = this._listens(type, fn, context);
+            if (index2 !== false) {
+              var listener = listeners[index2];
+              if (this._firingCount) {
+                listener.fn = falseFn;
+                this._events[type] = listeners = listeners.slice();
+              }
+              listeners.splice(index2, 1);
+            }
+          },
+          // @method fire(type: String, data?: Object, propagate?: Boolean): this
+          // Fires an event of the specified type. You can optionally provide a data
+          // object — the first argument of the listener function will contain its
+          // properties. The event can optionally be propagated to event parents.
+          fire: function(type, data, propagate) {
+            if (!this.listens(type, propagate)) {
+              return this;
+            }
+            var event = extend({}, data, {
+              type,
+              target: this,
+              sourceTarget: data && data.sourceTarget || this
+            });
+            if (this._events) {
+              var listeners = this._events[type];
+              if (listeners) {
+                this._firingCount = this._firingCount + 1 || 1;
+                for (var i = 0, len = listeners.length; i < len; i++) {
+                  var l = listeners[i];
+                  var fn = l.fn;
+                  if (l.once) {
+                    this.off(type, fn, l.ctx);
+                  }
+                  fn.call(l.ctx || this, event);
+                }
+                this._firingCount--;
+              }
+            }
+            if (propagate) {
+              this._propagateEvent(event);
+            }
+            return this;
+          },
+          // @method listens(type: String, propagate?: Boolean): Boolean
+          // @method listens(type: String, fn: Function, context?: Object, propagate?: Boolean): Boolean
+          // Returns `true` if a particular event type has any listeners attached to it.
+          // The verification can optionally be propagated, it will return `true` if parents have the listener attached to it.
+          listens: function(type, fn, context, propagate) {
+            if (typeof type !== "string") {
+              console.warn('"string" type argument expected');
+            }
+            var _fn = fn;
+            if (typeof fn !== "function") {
+              propagate = !!fn;
+              _fn = void 0;
+              context = void 0;
+            }
+            var listeners = this._events && this._events[type];
+            if (listeners && listeners.length) {
+              if (this._listens(type, _fn, context) !== false) {
+                return true;
+              }
+            }
+            if (propagate) {
+              for (var id in this._eventParents) {
+                if (this._eventParents[id].listens(type, fn, context, propagate)) {
+                  return true;
+                }
+              }
+            }
+            return false;
+          },
+          // returns the index (number) or false
+          _listens: function(type, fn, context) {
+            if (!this._events) {
+              return false;
+            }
+            var listeners = this._events[type] || [];
+            if (!fn) {
+              return !!listeners.length;
+            }
+            if (context === this) {
+              context = void 0;
+            }
+            for (var i = 0, len = listeners.length; i < len; i++) {
+              if (listeners[i].fn === fn && listeners[i].ctx === context) {
+                return i;
+              }
+            }
+            return false;
+          },
+          // @method once(…): this
+          // Behaves as [`on(…)`](#evented-on), except the listener will only get fired once and then removed.
+          once: function(types, fn, context) {
+            if (typeof types === "object") {
+              for (var type in types) {
+                this._on(type, types[type], fn, true);
+              }
+            } else {
+              types = splitWords(types);
+              for (var i = 0, len = types.length; i < len; i++) {
+                this._on(types[i], fn, context, true);
+              }
+            }
+            return this;
+          },
+          // @method addEventParent(obj: Evented): this
+          // Adds an event parent - an `Evented` that will receive propagated events
+          addEventParent: function(obj) {
+            this._eventParents = this._eventParents || {};
+            this._eventParents[stamp(obj)] = obj;
+            return this;
+          },
+          // @method removeEventParent(obj: Evented): this
+          // Removes an event parent, so it will stop receiving propagated events
+          removeEventParent: function(obj) {
+            if (this._eventParents) {
+              delete this._eventParents[stamp(obj)];
+            }
+            return this;
+          },
+          _propagateEvent: function(e) {
+            for (var id in this._eventParents) {
+              this._eventParents[id].fire(e.type, extend({
+                layer: e.target,
+                propagatedFrom: e.target
+              }, e), true);
+            }
+          }
+        };
+        Events.addEventListener = Events.on;
+        Events.removeEventListener = Events.clearAllEventListeners = Events.off;
+        Events.addOneTimeEventListener = Events.once;
+        Events.fireEvent = Events.fire;
+        Events.hasEventListeners = Events.listens;
+        var Evented = Class.extend(Events);
+        function Point(x, y, round) {
+          this.x = round ? Math.round(x) : x;
+          this.y = round ? Math.round(y) : y;
+        }
+        var trunc = Math.trunc || function(v) {
+          return v > 0 ? Math.floor(v) : Math.ceil(v);
+        };
+        Point.prototype = {
+          // @method clone(): Point
+          // Returns a copy of the current point.
+          clone: function() {
+            return new Point(this.x, this.y);
+          },
+          // @method add(otherPoint: Point): Point
+          // Returns the result of addition of the current and the given points.
+          add: function(point) {
+            return this.clone()._add(toPoint(point));
+          },
+          _add: function(point) {
+            this.x += point.x;
+            this.y += point.y;
+            return this;
+          },
+          // @method subtract(otherPoint: Point): Point
+          // Returns the result of subtraction of the given point from the current.
+          subtract: function(point) {
+            return this.clone()._subtract(toPoint(point));
+          },
+          _subtract: function(point) {
+            this.x -= point.x;
+            this.y -= point.y;
+            return this;
+          },
+          // @method divideBy(num: Number): Point
+          // Returns the result of division of the current point by the given number.
+          divideBy: function(num) {
+            return this.clone()._divideBy(num);
+          },
+          _divideBy: function(num) {
+            this.x /= num;
+            this.y /= num;
+            return this;
+          },
+          // @method multiplyBy(num: Number): Point
+          // Returns the result of multiplication of the current point by the given number.
+          multiplyBy: function(num) {
+            return this.clone()._multiplyBy(num);
+          },
+          _multiplyBy: function(num) {
+            this.x *= num;
+            this.y *= num;
+            return this;
+          },
+          // @method scaleBy(scale: Point): Point
+          // Multiply each coordinate of the current point by each coordinate of
+          // `scale`. In linear algebra terms, multiply the point by the
+          // [scaling matrix](https://en.wikipedia.org/wiki/Scaling_%28geometry%29#Matrix_representation)
+          // defined by `scale`.
+          scaleBy: function(point) {
+            return new Point(this.x * point.x, this.y * point.y);
+          },
+          // @method unscaleBy(scale: Point): Point
+          // Inverse of `scaleBy`. Divide each coordinate of the current point by
+          // each coordinate of `scale`.
+          unscaleBy: function(point) {
+            return new Point(this.x / point.x, this.y / point.y);
+          },
+          // @method round(): Point
+          // Returns a copy of the current point with rounded coordinates.
+          round: function() {
+            return this.clone()._round();
+          },
+          _round: function() {
+            this.x = Math.round(this.x);
+            this.y = Math.round(this.y);
+            return this;
+          },
+          // @method floor(): Point
+          // Returns a copy of the current point with floored coordinates (rounded down).
+          floor: function() {
+            return this.clone()._floor();
+          },
+          _floor: function() {
+            this.x = Math.floor(this.x);
+            this.y = Math.floor(this.y);
+            return this;
+          },
+          // @method ceil(): Point
+          // Returns a copy of the current point with ceiled coordinates (rounded up).
+          ceil: function() {
+            return this.clone()._ceil();
+          },
+          _ceil: function() {
+            this.x = Math.ceil(this.x);
+            this.y = Math.ceil(this.y);
+            return this;
+          },
+          // @method trunc(): Point
+          // Returns a copy of the current point with truncated coordinates (rounded towards zero).
+          trunc: function() {
+            return this.clone()._trunc();
+          },
+          _trunc: function() {
+            this.x = trunc(this.x);
+            this.y = trunc(this.y);
+            return this;
+          },
+          // @method distanceTo(otherPoint: Point): Number
+          // Returns the cartesian distance between the current and the given points.
+          distanceTo: function(point) {
+            point = toPoint(point);
+            var x = point.x - this.x, y = point.y - this.y;
+            return Math.sqrt(x * x + y * y);
+          },
+          // @method equals(otherPoint: Point): Boolean
+          // Returns `true` if the given point has the same coordinates.
+          equals: function(point) {
+            point = toPoint(point);
+            return point.x === this.x && point.y === this.y;
+          },
+          // @method contains(otherPoint: Point): Boolean
+          // Returns `true` if both coordinates of the given point are less than the corresponding current point coordinates (in absolute values).
+          contains: function(point) {
+            point = toPoint(point);
+            return Math.abs(point.x) <= Math.abs(this.x) && Math.abs(point.y) <= Math.abs(this.y);
+          },
+          // @method toString(): String
+          // Returns a string representation of the point for debugging purposes.
+          toString: function() {
+            return "Point(" + formatNum(this.x) + ", " + formatNum(this.y) + ")";
+          }
+        };
+        function toPoint(x, y, round) {
+          if (x instanceof Point) {
+            return x;
+          }
+          if (isArray(x)) {
+            return new Point(x[0], x[1]);
+          }
+          if (x === void 0 || x === null) {
+            return x;
+          }
+          if (typeof x === "object" && "x" in x && "y" in x) {
+            return new Point(x.x, x.y);
+          }
+          return new Point(x, y, round);
+        }
+        function Bounds(a, b) {
+          if (!a) {
+            return;
+          }
+          var points = b ? [a, b] : a;
+          for (var i = 0, len = points.length; i < len; i++) {
+            this.extend(points[i]);
+          }
+        }
+        Bounds.prototype = {
+          // @method extend(point: Point): this
+          // Extends the bounds to contain the given point.
+          // @alternative
+          // @method extend(otherBounds: Bounds): this
+          // Extend the bounds to contain the given bounds
+          extend: function(obj) {
+            var min2, max2;
+            if (!obj) {
+              return this;
+            }
+            if (obj instanceof Point || typeof obj[0] === "number" || "x" in obj) {
+              min2 = max2 = toPoint(obj);
+            } else {
+              obj = toBounds(obj);
+              min2 = obj.min;
+              max2 = obj.max;
+              if (!min2 || !max2) {
+                return this;
+              }
+            }
+            if (!this.min && !this.max) {
+              this.min = min2.clone();
+              this.max = max2.clone();
+            } else {
+              this.min.x = Math.min(min2.x, this.min.x);
+              this.max.x = Math.max(max2.x, this.max.x);
+              this.min.y = Math.min(min2.y, this.min.y);
+              this.max.y = Math.max(max2.y, this.max.y);
+            }
+            return this;
+          },
+          // @method getCenter(round?: Boolean): Point
+          // Returns the center point of the bounds.
+          getCenter: function(round) {
+            return toPoint(
+              (this.min.x + this.max.x) / 2,
+              (this.min.y + this.max.y) / 2,
+              round
+            );
+          },
+          // @method getBottomLeft(): Point
+          // Returns the bottom-left point of the bounds.
+          getBottomLeft: function() {
+            return toPoint(this.min.x, this.max.y);
+          },
+          // @method getTopRight(): Point
+          // Returns the top-right point of the bounds.
+          getTopRight: function() {
+            return toPoint(this.max.x, this.min.y);
+          },
+          // @method getTopLeft(): Point
+          // Returns the top-left point of the bounds (i.e. [`this.min`](#bounds-min)).
+          getTopLeft: function() {
+            return this.min;
+          },
+          // @method getBottomRight(): Point
+          // Returns the bottom-right point of the bounds (i.e. [`this.max`](#bounds-max)).
+          getBottomRight: function() {
+            return this.max;
+          },
+          // @method getSize(): Point
+          // Returns the size of the given bounds
+          getSize: function() {
+            return this.max.subtract(this.min);
+          },
+          // @method contains(otherBounds: Bounds): Boolean
+          // Returns `true` if the rectangle contains the given one.
+          // @alternative
+          // @method contains(point: Point): Boolean
+          // Returns `true` if the rectangle contains the given point.
+          contains: function(obj) {
+            var min, max;
+            if (typeof obj[0] === "number" || obj instanceof Point) {
+              obj = toPoint(obj);
+            } else {
+              obj = toBounds(obj);
+            }
+            if (obj instanceof Bounds) {
+              min = obj.min;
+              max = obj.max;
+            } else {
+              min = max = obj;
+            }
+            return min.x >= this.min.x && max.x <= this.max.x && min.y >= this.min.y && max.y <= this.max.y;
+          },
+          // @method intersects(otherBounds: Bounds): Boolean
+          // Returns `true` if the rectangle intersects the given bounds. Two bounds
+          // intersect if they have at least one point in common.
+          intersects: function(bounds) {
+            bounds = toBounds(bounds);
+            var min = this.min, max = this.max, min2 = bounds.min, max2 = bounds.max, xIntersects = max2.x >= min.x && min2.x <= max.x, yIntersects = max2.y >= min.y && min2.y <= max.y;
+            return xIntersects && yIntersects;
+          },
+          // @method overlaps(otherBounds: Bounds): Boolean
+          // Returns `true` if the rectangle overlaps the given bounds. Two bounds
+          // overlap if their intersection is an area.
+          overlaps: function(bounds) {
+            bounds = toBounds(bounds);
+            var min = this.min, max = this.max, min2 = bounds.min, max2 = bounds.max, xOverlaps = max2.x > min.x && min2.x < max.x, yOverlaps = max2.y > min.y && min2.y < max.y;
+            return xOverlaps && yOverlaps;
+          },
+          // @method isValid(): Boolean
+          // Returns `true` if the bounds are properly initialized.
+          isValid: function() {
+            return !!(this.min && this.max);
+          },
+          // @method pad(bufferRatio: Number): Bounds
+          // Returns bounds created by extending or retracting the current bounds by a given ratio in each direction.
+          // For example, a ratio of 0.5 extends the bounds by 50% in each direction.
+          // Negative values will retract the bounds.
+          pad: function(bufferRatio) {
+            var min = this.min, max = this.max, heightBuffer = Math.abs(min.x - max.x) * bufferRatio, widthBuffer = Math.abs(min.y - max.y) * bufferRatio;
+            return toBounds(
+              toPoint(min.x - heightBuffer, min.y - widthBuffer),
+              toPoint(max.x + heightBuffer, max.y + widthBuffer)
+            );
+          },
+          // @method equals(otherBounds: Bounds): Boolean
+          // Returns `true` if the rectangle is equivalent to the given bounds.
+          equals: function(bounds) {
+            if (!bounds) {
+              return false;
+            }
+            bounds = toBounds(bounds);
+            return this.min.equals(bounds.getTopLeft()) && this.max.equals(bounds.getBottomRight());
+          }
+        };
+        function toBounds(a, b) {
+          if (!a || a instanceof Bounds) {
+            return a;
+          }
+          return new Bounds(a, b);
+        }
+        function LatLngBounds(corner1, corner2) {
+          if (!corner1) {
+            return;
+          }
+          var latlngs = corner2 ? [corner1, corner2] : corner1;
+          for (var i = 0, len = latlngs.length; i < len; i++) {
+            this.extend(latlngs[i]);
+          }
+        }
+        LatLngBounds.prototype = {
+          // @method extend(latlng: LatLng): this
+          // Extend the bounds to contain the given point
+          // @alternative
+          // @method extend(otherBounds: LatLngBounds): this
+          // Extend the bounds to contain the given bounds
+          extend: function(obj) {
+            var sw = this._southWest, ne = this._northEast, sw2, ne2;
+            if (obj instanceof LatLng) {
+              sw2 = obj;
+              ne2 = obj;
+            } else if (obj instanceof LatLngBounds) {
+              sw2 = obj._southWest;
+              ne2 = obj._northEast;
+              if (!sw2 || !ne2) {
+                return this;
+              }
+            } else {
+              return obj ? this.extend(toLatLng(obj) || toLatLngBounds(obj)) : this;
+            }
+            if (!sw && !ne) {
+              this._southWest = new LatLng(sw2.lat, sw2.lng);
+              this._northEast = new LatLng(ne2.lat, ne2.lng);
+            } else {
+              sw.lat = Math.min(sw2.lat, sw.lat);
+              sw.lng = Math.min(sw2.lng, sw.lng);
+              ne.lat = Math.max(ne2.lat, ne.lat);
+              ne.lng = Math.max(ne2.lng, ne.lng);
+            }
+            return this;
+          },
+          // @method pad(bufferRatio: Number): LatLngBounds
+          // Returns bounds created by extending or retracting the current bounds by a given ratio in each direction.
+          // For example, a ratio of 0.5 extends the bounds by 50% in each direction.
+          // Negative values will retract the bounds.
+          pad: function(bufferRatio) {
+            var sw = this._southWest, ne = this._northEast, heightBuffer = Math.abs(sw.lat - ne.lat) * bufferRatio, widthBuffer = Math.abs(sw.lng - ne.lng) * bufferRatio;
+            return new LatLngBounds(
+              new LatLng(sw.lat - heightBuffer, sw.lng - widthBuffer),
+              new LatLng(ne.lat + heightBuffer, ne.lng + widthBuffer)
+            );
+          },
+          // @method getCenter(): LatLng
+          // Returns the center point of the bounds.
+          getCenter: function() {
+            return new LatLng(
+              (this._southWest.lat + this._northEast.lat) / 2,
+              (this._southWest.lng + this._northEast.lng) / 2
+            );
+          },
+          // @method getSouthWest(): LatLng
+          // Returns the south-west point of the bounds.
+          getSouthWest: function() {
+            return this._southWest;
+          },
+          // @method getNorthEast(): LatLng
+          // Returns the north-east point of the bounds.
+          getNorthEast: function() {
+            return this._northEast;
+          },
+          // @method getNorthWest(): LatLng
+          // Returns the north-west point of the bounds.
+          getNorthWest: function() {
+            return new LatLng(this.getNorth(), this.getWest());
+          },
+          // @method getSouthEast(): LatLng
+          // Returns the south-east point of the bounds.
+          getSouthEast: function() {
+            return new LatLng(this.getSouth(), this.getEast());
+          },
+          // @method getWest(): Number
+          // Returns the west longitude of the bounds
+          getWest: function() {
+            return this._southWest.lng;
+          },
+          // @method getSouth(): Number
+          // Returns the south latitude of the bounds
+          getSouth: function() {
+            return this._southWest.lat;
+          },
+          // @method getEast(): Number
+          // Returns the east longitude of the bounds
+          getEast: function() {
+            return this._northEast.lng;
+          },
+          // @method getNorth(): Number
+          // Returns the north latitude of the bounds
+          getNorth: function() {
+            return this._northEast.lat;
+          },
+          // @method contains(otherBounds: LatLngBounds): Boolean
+          // Returns `true` if the rectangle contains the given one.
+          // @alternative
+          // @method contains (latlng: LatLng): Boolean
+          // Returns `true` if the rectangle contains the given point.
+          contains: function(obj) {
+            if (typeof obj[0] === "number" || obj instanceof LatLng || "lat" in obj) {
+              obj = toLatLng(obj);
+            } else {
+              obj = toLatLngBounds(obj);
+            }
+            var sw = this._southWest, ne = this._northEast, sw2, ne2;
+            if (obj instanceof LatLngBounds) {
+              sw2 = obj.getSouthWest();
+              ne2 = obj.getNorthEast();
+            } else {
+              sw2 = ne2 = obj;
+            }
+            return sw2.lat >= sw.lat && ne2.lat <= ne.lat && sw2.lng >= sw.lng && ne2.lng <= ne.lng;
+          },
+          // @method intersects(otherBounds: LatLngBounds): Boolean
+          // Returns `true` if the rectangle intersects the given bounds. Two bounds intersect if they have at least one point in common.
+          intersects: function(bounds) {
+            bounds = toLatLngBounds(bounds);
+            var sw = this._southWest, ne = this._northEast, sw2 = bounds.getSouthWest(), ne2 = bounds.getNorthEast(), latIntersects = ne2.lat >= sw.lat && sw2.lat <= ne.lat, lngIntersects = ne2.lng >= sw.lng && sw2.lng <= ne.lng;
+            return latIntersects && lngIntersects;
+          },
+          // @method overlaps(otherBounds: LatLngBounds): Boolean
+          // Returns `true` if the rectangle overlaps the given bounds. Two bounds overlap if their intersection is an area.
+          overlaps: function(bounds) {
+            bounds = toLatLngBounds(bounds);
+            var sw = this._southWest, ne = this._northEast, sw2 = bounds.getSouthWest(), ne2 = bounds.getNorthEast(), latOverlaps = ne2.lat > sw.lat && sw2.lat < ne.lat, lngOverlaps = ne2.lng > sw.lng && sw2.lng < ne.lng;
+            return latOverlaps && lngOverlaps;
+          },
+          // @method toBBoxString(): String
+          // Returns a string with bounding box coordinates in a 'southwest_lng,southwest_lat,northeast_lng,northeast_lat' format. Useful for sending requests to web services that return geo data.
+          toBBoxString: function() {
+            return [this.getWest(), this.getSouth(), this.getEast(), this.getNorth()].join(",");
+          },
+          // @method equals(otherBounds: LatLngBounds, maxMargin?: Number): Boolean
+          // Returns `true` if the rectangle is equivalent (within a small margin of error) to the given bounds. The margin of error can be overridden by setting `maxMargin` to a small number.
+          equals: function(bounds, maxMargin) {
+            if (!bounds) {
+              return false;
+            }
+            bounds = toLatLngBounds(bounds);
+            return this._southWest.equals(bounds.getSouthWest(), maxMargin) && this._northEast.equals(bounds.getNorthEast(), maxMargin);
+          },
+          // @method isValid(): Boolean
+          // Returns `true` if the bounds are properly initialized.
+          isValid: function() {
+            return !!(this._southWest && this._northEast);
+          }
+        };
+        function toLatLngBounds(a, b) {
+          if (a instanceof LatLngBounds) {
+            return a;
+          }
+          return new LatLngBounds(a, b);
+        }
+        function LatLng(lat, lng, alt) {
+          if (isNaN(lat) || isNaN(lng)) {
+            throw new Error("Invalid LatLng object: (" + lat + ", " + lng + ")");
+          }
+          this.lat = +lat;
+          this.lng = +lng;
+          if (alt !== void 0) {
+            this.alt = +alt;
+          }
+        }
+        LatLng.prototype = {
+          // @method equals(otherLatLng: LatLng, maxMargin?: Number): Boolean
+          // Returns `true` if the given `LatLng` point is at the same position (within a small margin of error). The margin of error can be overridden by setting `maxMargin` to a small number.
+          equals: function(obj, maxMargin) {
+            if (!obj) {
+              return false;
+            }
+            obj = toLatLng(obj);
+            var margin = Math.max(
+              Math.abs(this.lat - obj.lat),
+              Math.abs(this.lng - obj.lng)
+            );
+            return margin <= (maxMargin === void 0 ? 1e-9 : maxMargin);
+          },
+          // @method toString(): String
+          // Returns a string representation of the point (for debugging purposes).
+          toString: function(precision) {
+            return "LatLng(" + formatNum(this.lat, precision) + ", " + formatNum(this.lng, precision) + ")";
+          },
+          // @method distanceTo(otherLatLng: LatLng): Number
+          // Returns the distance (in meters) to the given `LatLng` calculated using the [Spherical Law of Cosines](https://en.wikipedia.org/wiki/Spherical_law_of_cosines).
+          distanceTo: function(other) {
+            return Earth.distance(this, toLatLng(other));
+          },
+          // @method wrap(): LatLng
+          // Returns a new `LatLng` object with the longitude wrapped so it's always between -180 and +180 degrees.
+          wrap: function() {
+            return Earth.wrapLatLng(this);
+          },
+          // @method toBounds(sizeInMeters: Number): LatLngBounds
+          // Returns a new `LatLngBounds` object in which each boundary is `sizeInMeters/2` meters apart from the `LatLng`.
+          toBounds: function(sizeInMeters) {
+            var latAccuracy = 180 * sizeInMeters / 40075017, lngAccuracy = latAccuracy / Math.cos(Math.PI / 180 * this.lat);
+            return toLatLngBounds(
+              [this.lat - latAccuracy, this.lng - lngAccuracy],
+              [this.lat + latAccuracy, this.lng + lngAccuracy]
+            );
+          },
+          clone: function() {
+            return new LatLng(this.lat, this.lng, this.alt);
+          }
+        };
+        function toLatLng(a, b, c) {
+          if (a instanceof LatLng) {
+            return a;
+          }
+          if (isArray(a) && typeof a[0] !== "object") {
+            if (a.length === 3) {
+              return new LatLng(a[0], a[1], a[2]);
+            }
+            if (a.length === 2) {
+              return new LatLng(a[0], a[1]);
+            }
+            return null;
+          }
+          if (a === void 0 || a === null) {
+            return a;
+          }
+          if (typeof a === "object" && "lat" in a) {
+            return new LatLng(a.lat, "lng" in a ? a.lng : a.lon, a.alt);
+          }
+          if (b === void 0) {
+            return null;
+          }
+          return new LatLng(a, b, c);
+        }
+        var CRS = {
+          // @method latLngToPoint(latlng: LatLng, zoom: Number): Point
+          // Projects geographical coordinates into pixel coordinates for a given zoom.
+          latLngToPoint: function(latlng, zoom2) {
+            var projectedPoint = this.projection.project(latlng), scale2 = this.scale(zoom2);
+            return this.transformation._transform(projectedPoint, scale2);
+          },
+          // @method pointToLatLng(point: Point, zoom: Number): LatLng
+          // The inverse of `latLngToPoint`. Projects pixel coordinates on a given
+          // zoom into geographical coordinates.
+          pointToLatLng: function(point, zoom2) {
+            var scale2 = this.scale(zoom2), untransformedPoint = this.transformation.untransform(point, scale2);
+            return this.projection.unproject(untransformedPoint);
+          },
+          // @method project(latlng: LatLng): Point
+          // Projects geographical coordinates into coordinates in units accepted for
+          // this CRS (e.g. meters for EPSG:3857, for passing it to WMS services).
+          project: function(latlng) {
+            return this.projection.project(latlng);
+          },
+          // @method unproject(point: Point): LatLng
+          // Given a projected coordinate returns the corresponding LatLng.
+          // The inverse of `project`.
+          unproject: function(point) {
+            return this.projection.unproject(point);
+          },
+          // @method scale(zoom: Number): Number
+          // Returns the scale used when transforming projected coordinates into
+          // pixel coordinates for a particular zoom. For example, it returns
+          // `256 * 2^zoom` for Mercator-based CRS.
+          scale: function(zoom2) {
+            return 256 * Math.pow(2, zoom2);
+          },
+          // @method zoom(scale: Number): Number
+          // Inverse of `scale()`, returns the zoom level corresponding to a scale
+          // factor of `scale`.
+          zoom: function(scale2) {
+            return Math.log(scale2 / 256) / Math.LN2;
+          },
+          // @method getProjectedBounds(zoom: Number): Bounds
+          // Returns the projection's bounds scaled and transformed for the provided `zoom`.
+          getProjectedBounds: function(zoom2) {
+            if (this.infinite) {
+              return null;
+            }
+            var b = this.projection.bounds, s = this.scale(zoom2), min = this.transformation.transform(b.min, s), max = this.transformation.transform(b.max, s);
+            return new Bounds(min, max);
+          },
+          // @method distance(latlng1: LatLng, latlng2: LatLng): Number
+          // Returns the distance between two geographical coordinates.
+          // @property code: String
+          // Standard code name of the CRS passed into WMS services (e.g. `'EPSG:3857'`)
+          //
+          // @property wrapLng: Number[]
+          // An array of two numbers defining whether the longitude (horizontal) coordinate
+          // axis wraps around a given range and how. Defaults to `[-180, 180]` in most
+          // geographical CRSs. If `undefined`, the longitude axis does not wrap around.
+          //
+          // @property wrapLat: Number[]
+          // Like `wrapLng`, but for the latitude (vertical) axis.
+          // wrapLng: [min, max],
+          // wrapLat: [min, max],
+          // @property infinite: Boolean
+          // If true, the coordinate space will be unbounded (infinite in both axes)
+          infinite: false,
+          // @method wrapLatLng(latlng: LatLng): LatLng
+          // Returns a `LatLng` where lat and lng has been wrapped according to the
+          // CRS's `wrapLat` and `wrapLng` properties, if they are outside the CRS's bounds.
+          wrapLatLng: function(latlng) {
+            var lng = this.wrapLng ? wrapNum(latlng.lng, this.wrapLng, true) : latlng.lng, lat = this.wrapLat ? wrapNum(latlng.lat, this.wrapLat, true) : latlng.lat, alt = latlng.alt;
+            return new LatLng(lat, lng, alt);
+          },
+          // @method wrapLatLngBounds(bounds: LatLngBounds): LatLngBounds
+          // Returns a `LatLngBounds` with the same size as the given one, ensuring
+          // that its center is within the CRS's bounds.
+          // Only accepts actual `L.LatLngBounds` instances, not arrays.
+          wrapLatLngBounds: function(bounds) {
+            var center = bounds.getCenter(), newCenter = this.wrapLatLng(center), latShift = center.lat - newCenter.lat, lngShift = center.lng - newCenter.lng;
+            if (latShift === 0 && lngShift === 0) {
+              return bounds;
+            }
+            var sw = bounds.getSouthWest(), ne = bounds.getNorthEast(), newSw = new LatLng(sw.lat - latShift, sw.lng - lngShift), newNe = new LatLng(ne.lat - latShift, ne.lng - lngShift);
+            return new LatLngBounds(newSw, newNe);
+          }
+        };
+        var Earth = extend({}, CRS, {
+          wrapLng: [-180, 180],
+          // Mean Earth Radius, as recommended for use by
+          // the International Union of Geodesy and Geophysics,
+          // see https://rosettacode.org/wiki/Haversine_formula
+          R: 6371e3,
+          // distance between two geographical points using spherical law of cosines approximation
+          distance: function(latlng1, latlng2) {
+            var rad = Math.PI / 180, lat1 = latlng1.lat * rad, lat2 = latlng2.lat * rad, sinDLat = Math.sin((latlng2.lat - latlng1.lat) * rad / 2), sinDLon = Math.sin((latlng2.lng - latlng1.lng) * rad / 2), a = sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon, c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return this.R * c;
+          }
+        });
+        var earthRadius = 6378137;
+        var SphericalMercator = {
+          R: earthRadius,
+          MAX_LATITUDE: 85.0511287798,
+          project: function(latlng) {
+            var d = Math.PI / 180, max = this.MAX_LATITUDE, lat = Math.max(Math.min(max, latlng.lat), -max), sin = Math.sin(lat * d);
+            return new Point(
+              this.R * latlng.lng * d,
+              this.R * Math.log((1 + sin) / (1 - sin)) / 2
+            );
+          },
+          unproject: function(point) {
+            var d = 180 / Math.PI;
+            return new LatLng(
+              (2 * Math.atan(Math.exp(point.y / this.R)) - Math.PI / 2) * d,
+              point.x * d / this.R
+            );
+          },
+          bounds: (function() {
+            var d = earthRadius * Math.PI;
+            return new Bounds([-d, -d], [d, d]);
+          })()
+        };
+        function Transformation(a, b, c, d) {
+          if (isArray(a)) {
+            this._a = a[0];
+            this._b = a[1];
+            this._c = a[2];
+            this._d = a[3];
+            return;
+          }
+          this._a = a;
+          this._b = b;
+          this._c = c;
+          this._d = d;
+        }
+        Transformation.prototype = {
+          // @method transform(point: Point, scale?: Number): Point
+          // Returns a transformed point, optionally multiplied by the given scale.
+          // Only accepts actual `L.Point` instances, not arrays.
+          transform: function(point, scale2) {
+            return this._transform(point.clone(), scale2);
+          },
+          // destructive transform (faster)
+          _transform: function(point, scale2) {
+            scale2 = scale2 || 1;
+            point.x = scale2 * (this._a * point.x + this._b);
+            point.y = scale2 * (this._c * point.y + this._d);
+            return point;
+          },
+          // @method untransform(point: Point, scale?: Number): Point
+          // Returns the reverse transformation of the given point, optionally divided
+          // by the given scale. Only accepts actual `L.Point` instances, not arrays.
+          untransform: function(point, scale2) {
+            scale2 = scale2 || 1;
+            return new Point(
+              (point.x / scale2 - this._b) / this._a,
+              (point.y / scale2 - this._d) / this._c
+            );
+          }
+        };
+        function toTransformation(a, b, c, d) {
+          return new Transformation(a, b, c, d);
+        }
+        var EPSG3857 = extend({}, Earth, {
+          code: "EPSG:3857",
+          projection: SphericalMercator,
+          transformation: (function() {
+            var scale2 = 0.5 / (Math.PI * SphericalMercator.R);
+            return toTransformation(scale2, 0.5, -scale2, 0.5);
+          })()
+        });
+        var EPSG900913 = extend({}, EPSG3857, {
+          code: "EPSG:900913"
+        });
+        function svgCreate(name) {
+          return document.createElementNS("http://www.w3.org/2000/svg", name);
+        }
+        function pointsToPath(rings, closed) {
+          var str = "", i, j, len, len2, points, p;
+          for (i = 0, len = rings.length; i < len; i++) {
+            points = rings[i];
+            for (j = 0, len2 = points.length; j < len2; j++) {
+              p = points[j];
+              str += (j ? "L" : "M") + p.x + " " + p.y;
+            }
+            str += closed ? Browser.svg ? "z" : "x" : "";
+          }
+          return str || "M0 0";
+        }
+        var style = document.documentElement.style;
+        var ie = "ActiveXObject" in window;
+        var ielt9 = ie && !document.addEventListener;
+        var edge = "msLaunchUri" in navigator && !("documentMode" in document);
+        var webkit = userAgentContains("webkit");
+        var android = userAgentContains("android");
+        var android23 = userAgentContains("android 2") || userAgentContains("android 3");
+        var webkitVer = parseInt(/WebKit\/([0-9]+)|$/.exec(navigator.userAgent)[1], 10);
+        var androidStock = android && userAgentContains("Google") && webkitVer < 537 && !("AudioNode" in window);
+        var opera = !!window.opera;
+        var chrome = !edge && userAgentContains("chrome");
+        var gecko = userAgentContains("gecko") && !webkit && !opera && !ie;
+        var safari = !chrome && userAgentContains("safari");
+        var phantom = userAgentContains("phantom");
+        var opera12 = "OTransition" in style;
+        var win = navigator.platform.indexOf("Win") === 0;
+        var ie3d = ie && "transition" in style;
+        var webkit3d = "WebKitCSSMatrix" in window && "m11" in new window.WebKitCSSMatrix() && !android23;
+        var gecko3d = "MozPerspective" in style;
+        var any3d = !window.L_DISABLE_3D && (ie3d || webkit3d || gecko3d) && !opera12 && !phantom;
+        var mobile = typeof orientation !== "undefined" || userAgentContains("mobile");
+        var mobileWebkit = mobile && webkit;
+        var mobileWebkit3d = mobile && webkit3d;
+        var msPointer = !window.PointerEvent && window.MSPointerEvent;
+        var pointer = !!(window.PointerEvent || msPointer);
+        var touchNative = "ontouchstart" in window || !!window.TouchEvent;
+        var touch = !window.L_NO_TOUCH && (touchNative || pointer);
+        var mobileOpera = mobile && opera;
+        var mobileGecko = mobile && gecko;
+        var retina = (window.devicePixelRatio || window.screen.deviceXDPI / window.screen.logicalXDPI) > 1;
+        var passiveEvents = (function() {
+          var supportsPassiveOption = false;
+          try {
+            var opts = Object.defineProperty({}, "passive", {
+              get: function() {
+                supportsPassiveOption = true;
+              }
+            });
+            window.addEventListener("testPassiveEventSupport", falseFn, opts);
+            window.removeEventListener("testPassiveEventSupport", falseFn, opts);
+          } catch (e) {
+          }
+          return supportsPassiveOption;
+        })();
+        var canvas$1 = (function() {
+          return !!document.createElement("canvas").getContext;
+        })();
+        var svg$1 = !!(document.createElementNS && svgCreate("svg").createSVGRect);
+        var inlineSvg = !!svg$1 && (function() {
+          var div = document.createElement("div");
+          div.innerHTML = "<svg/>";
+          return (div.firstChild && div.firstChild.namespaceURI) === "http://www.w3.org/2000/svg";
+        })();
+        var vml = !svg$1 && (function() {
+          try {
+            var div = document.createElement("div");
+            div.innerHTML = '<v:shape adj="1"/>';
+            var shape = div.firstChild;
+            shape.style.behavior = "url(#default#VML)";
+            return shape && typeof shape.adj === "object";
+          } catch (e) {
+            return false;
+          }
+        })();
+        var mac = navigator.platform.indexOf("Mac") === 0;
+        var linux = navigator.platform.indexOf("Linux") === 0;
+        function userAgentContains(str) {
+          return navigator.userAgent.toLowerCase().indexOf(str) >= 0;
+        }
+        var Browser = {
+          ie,
+          ielt9,
+          edge,
+          webkit,
+          android,
+          android23,
+          androidStock,
+          opera,
+          chrome,
+          gecko,
+          safari,
+          phantom,
+          opera12,
+          win,
+          ie3d,
+          webkit3d,
+          gecko3d,
+          any3d,
+          mobile,
+          mobileWebkit,
+          mobileWebkit3d,
+          msPointer,
+          pointer,
+          touch,
+          touchNative,
+          mobileOpera,
+          mobileGecko,
+          retina,
+          passiveEvents,
+          canvas: canvas$1,
+          svg: svg$1,
+          vml,
+          inlineSvg,
+          mac,
+          linux
+        };
+        var POINTER_DOWN = Browser.msPointer ? "MSPointerDown" : "pointerdown";
+        var POINTER_MOVE = Browser.msPointer ? "MSPointerMove" : "pointermove";
+        var POINTER_UP = Browser.msPointer ? "MSPointerUp" : "pointerup";
+        var POINTER_CANCEL = Browser.msPointer ? "MSPointerCancel" : "pointercancel";
+        var pEvent = {
+          touchstart: POINTER_DOWN,
+          touchmove: POINTER_MOVE,
+          touchend: POINTER_UP,
+          touchcancel: POINTER_CANCEL
+        };
+        var handle = {
+          touchstart: _onPointerStart,
+          touchmove: _handlePointer,
+          touchend: _handlePointer,
+          touchcancel: _handlePointer
+        };
+        var _pointers = {};
+        var _pointerDocListener = false;
+        function addPointerListener(obj, type, handler) {
+          if (type === "touchstart") {
+            _addPointerDocListener();
+          }
+          if (!handle[type]) {
+            console.warn("wrong event specified:", type);
+            return falseFn;
+          }
+          handler = handle[type].bind(this, handler);
+          obj.addEventListener(pEvent[type], handler, false);
+          return handler;
+        }
+        function removePointerListener(obj, type, handler) {
+          if (!pEvent[type]) {
+            console.warn("wrong event specified:", type);
+            return;
+          }
+          obj.removeEventListener(pEvent[type], handler, false);
+        }
+        function _globalPointerDown(e) {
+          _pointers[e.pointerId] = e;
+        }
+        function _globalPointerMove(e) {
+          if (_pointers[e.pointerId]) {
+            _pointers[e.pointerId] = e;
+          }
+        }
+        function _globalPointerUp(e) {
+          delete _pointers[e.pointerId];
+        }
+        function _addPointerDocListener() {
+          if (!_pointerDocListener) {
+            document.addEventListener(POINTER_DOWN, _globalPointerDown, true);
+            document.addEventListener(POINTER_MOVE, _globalPointerMove, true);
+            document.addEventListener(POINTER_UP, _globalPointerUp, true);
+            document.addEventListener(POINTER_CANCEL, _globalPointerUp, true);
+            _pointerDocListener = true;
+          }
+        }
+        function _handlePointer(handler, e) {
+          if (e.pointerType === (e.MSPOINTER_TYPE_MOUSE || "mouse")) {
+            return;
+          }
+          e.touches = [];
+          for (var i in _pointers) {
+            e.touches.push(_pointers[i]);
+          }
+          e.changedTouches = [e];
+          handler(e);
+        }
+        function _onPointerStart(handler, e) {
+          if (e.MSPOINTER_TYPE_TOUCH && e.pointerType === e.MSPOINTER_TYPE_TOUCH) {
+            preventDefault(e);
+          }
+          _handlePointer(handler, e);
+        }
+        function makeDblclick(event) {
+          var newEvent = {}, prop, i;
+          for (i in event) {
+            prop = event[i];
+            newEvent[i] = prop && prop.bind ? prop.bind(event) : prop;
+          }
+          event = newEvent;
+          newEvent.type = "dblclick";
+          newEvent.detail = 2;
+          newEvent.isTrusted = false;
+          newEvent._simulated = true;
+          return newEvent;
+        }
+        var delay = 200;
+        function addDoubleTapListener(obj, handler) {
+          obj.addEventListener("dblclick", handler);
+          var last = 0, detail;
+          function simDblclick(e) {
+            if (e.detail !== 1) {
+              detail = e.detail;
+              return;
+            }
+            if (e.pointerType === "mouse" || e.sourceCapabilities && !e.sourceCapabilities.firesTouchEvents) {
+              return;
+            }
+            var path = getPropagationPath(e);
+            if (path.some(function(el) {
+              return el instanceof HTMLLabelElement && el.attributes.for;
+            }) && !path.some(function(el) {
+              return el instanceof HTMLInputElement || el instanceof HTMLSelectElement;
+            })) {
+              return;
+            }
+            var now = Date.now();
+            if (now - last <= delay) {
+              detail++;
+              if (detail === 2) {
+                handler(makeDblclick(e));
+              }
+            } else {
+              detail = 1;
+            }
+            last = now;
+          }
+          obj.addEventListener("click", simDblclick);
+          return {
+            dblclick: handler,
+            simDblclick
+          };
+        }
+        function removeDoubleTapListener(obj, handlers) {
+          obj.removeEventListener("dblclick", handlers.dblclick);
+          obj.removeEventListener("click", handlers.simDblclick);
+        }
+        var TRANSFORM = testProp(
+          ["transform", "webkitTransform", "OTransform", "MozTransform", "msTransform"]
+        );
+        var TRANSITION = testProp(
+          ["webkitTransition", "transition", "OTransition", "MozTransition", "msTransition"]
+        );
+        var TRANSITION_END = TRANSITION === "webkitTransition" || TRANSITION === "OTransition" ? TRANSITION + "End" : "transitionend";
+        function get(id) {
+          return typeof id === "string" ? document.getElementById(id) : id;
+        }
+        function getStyle(el, style2) {
+          var value = el.style[style2] || el.currentStyle && el.currentStyle[style2];
+          if ((!value || value === "auto") && document.defaultView) {
+            var css = document.defaultView.getComputedStyle(el, null);
+            value = css ? css[style2] : null;
+          }
+          return value === "auto" ? null : value;
+        }
+        function create$1(tagName, className, container) {
+          var el = document.createElement(tagName);
+          el.className = className || "";
+          if (container) {
+            container.appendChild(el);
+          }
+          return el;
+        }
+        function remove(el) {
+          var parent = el.parentNode;
+          if (parent) {
+            parent.removeChild(el);
+          }
+        }
+        function empty(el) {
+          while (el.firstChild) {
+            el.removeChild(el.firstChild);
+          }
+        }
+        function toFront(el) {
+          var parent = el.parentNode;
+          if (parent && parent.lastChild !== el) {
+            parent.appendChild(el);
+          }
+        }
+        function toBack(el) {
+          var parent = el.parentNode;
+          if (parent && parent.firstChild !== el) {
+            parent.insertBefore(el, parent.firstChild);
+          }
+        }
+        function hasClass(el, name) {
+          if (el.classList !== void 0) {
+            return el.classList.contains(name);
+          }
+          var className = getClass(el);
+          return className.length > 0 && new RegExp("(^|\\s)" + name + "(\\s|$)").test(className);
+        }
+        function addClass(el, name) {
+          if (el.classList !== void 0) {
+            var classes = splitWords(name);
+            for (var i = 0, len = classes.length; i < len; i++) {
+              el.classList.add(classes[i]);
+            }
+          } else if (!hasClass(el, name)) {
+            var className = getClass(el);
+            setClass(el, (className ? className + " " : "") + name);
+          }
+        }
+        function removeClass(el, name) {
+          if (el.classList !== void 0) {
+            el.classList.remove(name);
+          } else {
+            setClass(el, trim((" " + getClass(el) + " ").replace(" " + name + " ", " ")));
+          }
+        }
+        function setClass(el, name) {
+          if (el.className.baseVal === void 0) {
+            el.className = name;
+          } else {
+            el.className.baseVal = name;
+          }
+        }
+        function getClass(el) {
+          if (el.correspondingElement) {
+            el = el.correspondingElement;
+          }
+          return el.className.baseVal === void 0 ? el.className : el.className.baseVal;
+        }
+        function setOpacity(el, value) {
+          if ("opacity" in el.style) {
+            el.style.opacity = value;
+          } else if ("filter" in el.style) {
+            _setOpacityIE(el, value);
+          }
+        }
+        function _setOpacityIE(el, value) {
+          var filter = false, filterName = "DXImageTransform.Microsoft.Alpha";
+          try {
+            filter = el.filters.item(filterName);
+          } catch (e) {
+            if (value === 1) {
+              return;
+            }
+          }
+          value = Math.round(value * 100);
+          if (filter) {
+            filter.Enabled = value !== 100;
+            filter.Opacity = value;
+          } else {
+            el.style.filter += " progid:" + filterName + "(opacity=" + value + ")";
+          }
+        }
+        function testProp(props) {
+          var style2 = document.documentElement.style;
+          for (var i = 0; i < props.length; i++) {
+            if (props[i] in style2) {
+              return props[i];
+            }
+          }
+          return false;
+        }
+        function setTransform(el, offset, scale2) {
+          var pos = offset || new Point(0, 0);
+          el.style[TRANSFORM] = (Browser.ie3d ? "translate(" + pos.x + "px," + pos.y + "px)" : "translate3d(" + pos.x + "px," + pos.y + "px,0)") + (scale2 ? " scale(" + scale2 + ")" : "");
+        }
+        function setPosition(el, point) {
+          el._leaflet_pos = point;
+          if (Browser.any3d) {
+            setTransform(el, point);
+          } else {
+            el.style.left = point.x + "px";
+            el.style.top = point.y + "px";
+          }
+        }
+        function getPosition(el) {
+          return el._leaflet_pos || new Point(0, 0);
+        }
+        var disableTextSelection;
+        var enableTextSelection;
+        var _userSelect;
+        if ("onselectstart" in document) {
+          disableTextSelection = function() {
+            on(window, "selectstart", preventDefault);
+          };
+          enableTextSelection = function() {
+            off(window, "selectstart", preventDefault);
+          };
+        } else {
+          var userSelectProperty = testProp(
+            ["userSelect", "WebkitUserSelect", "OUserSelect", "MozUserSelect", "msUserSelect"]
+          );
+          disableTextSelection = function() {
+            if (userSelectProperty) {
+              var style2 = document.documentElement.style;
+              _userSelect = style2[userSelectProperty];
+              style2[userSelectProperty] = "none";
+            }
+          };
+          enableTextSelection = function() {
+            if (userSelectProperty) {
+              document.documentElement.style[userSelectProperty] = _userSelect;
+              _userSelect = void 0;
+            }
+          };
+        }
+        function disableImageDrag() {
+          on(window, "dragstart", preventDefault);
+        }
+        function enableImageDrag() {
+          off(window, "dragstart", preventDefault);
+        }
+        var _outlineElement, _outlineStyle;
+        function preventOutline(element) {
+          while (element.tabIndex === -1) {
+            element = element.parentNode;
+          }
+          if (!element.style) {
+            return;
+          }
+          restoreOutline();
+          _outlineElement = element;
+          _outlineStyle = element.style.outlineStyle;
+          element.style.outlineStyle = "none";
+          on(window, "keydown", restoreOutline);
+        }
+        function restoreOutline() {
+          if (!_outlineElement) {
+            return;
+          }
+          _outlineElement.style.outlineStyle = _outlineStyle;
+          _outlineElement = void 0;
+          _outlineStyle = void 0;
+          off(window, "keydown", restoreOutline);
+        }
+        function getSizedParentNode(element) {
+          do {
+            element = element.parentNode;
+          } while ((!element.offsetWidth || !element.offsetHeight) && element !== document.body);
+          return element;
+        }
+        function getScale(element) {
+          var rect = element.getBoundingClientRect();
+          return {
+            x: rect.width / element.offsetWidth || 1,
+            y: rect.height / element.offsetHeight || 1,
+            boundingClientRect: rect
+          };
+        }
+        var DomUtil = {
+          __proto__: null,
+          TRANSFORM,
+          TRANSITION,
+          TRANSITION_END,
+          get,
+          getStyle,
+          create: create$1,
+          remove,
+          empty,
+          toFront,
+          toBack,
+          hasClass,
+          addClass,
+          removeClass,
+          setClass,
+          getClass,
+          setOpacity,
+          testProp,
+          setTransform,
+          setPosition,
+          getPosition,
+          get disableTextSelection() {
+            return disableTextSelection;
+          },
+          get enableTextSelection() {
+            return enableTextSelection;
+          },
+          disableImageDrag,
+          enableImageDrag,
+          preventOutline,
+          restoreOutline,
+          getSizedParentNode,
+          getScale
+        };
+        function on(obj, types, fn, context) {
+          if (types && typeof types === "object") {
+            for (var type in types) {
+              addOne(obj, type, types[type], fn);
+            }
+          } else {
+            types = splitWords(types);
+            for (var i = 0, len = types.length; i < len; i++) {
+              addOne(obj, types[i], fn, context);
+            }
+          }
+          return this;
+        }
+        var eventsKey = "_leaflet_events";
+        function off(obj, types, fn, context) {
+          if (arguments.length === 1) {
+            batchRemove(obj);
+            delete obj[eventsKey];
+          } else if (types && typeof types === "object") {
+            for (var type in types) {
+              removeOne(obj, type, types[type], fn);
+            }
+          } else {
+            types = splitWords(types);
+            if (arguments.length === 2) {
+              batchRemove(obj, function(type2) {
+                return indexOf(types, type2) !== -1;
+              });
+            } else {
+              for (var i = 0, len = types.length; i < len; i++) {
+                removeOne(obj, types[i], fn, context);
+              }
+            }
+          }
+          return this;
+        }
+        function batchRemove(obj, filterFn) {
+          for (var id in obj[eventsKey]) {
+            var type = id.split(/\d/)[0];
+            if (!filterFn || filterFn(type)) {
+              removeOne(obj, type, null, null, id);
+            }
+          }
+        }
+        var mouseSubst = {
+          mouseenter: "mouseover",
+          mouseleave: "mouseout",
+          wheel: !("onwheel" in window) && "mousewheel"
+        };
+        function addOne(obj, type, fn, context) {
+          var id = type + stamp(fn) + (context ? "_" + stamp(context) : "");
+          if (obj[eventsKey] && obj[eventsKey][id]) {
+            return this;
+          }
+          var handler = function(e) {
+            return fn.call(context || obj, e || window.event);
+          };
+          var originalHandler = handler;
+          if (!Browser.touchNative && Browser.pointer && type.indexOf("touch") === 0) {
+            handler = addPointerListener(obj, type, handler);
+          } else if (Browser.touch && type === "dblclick") {
+            handler = addDoubleTapListener(obj, handler);
+          } else if ("addEventListener" in obj) {
+            if (type === "touchstart" || type === "touchmove" || type === "wheel" || type === "mousewheel") {
+              obj.addEventListener(mouseSubst[type] || type, handler, Browser.passiveEvents ? { passive: false } : false);
+            } else if (type === "mouseenter" || type === "mouseleave") {
+              handler = function(e) {
+                e = e || window.event;
+                if (isExternalTarget(obj, e)) {
+                  originalHandler(e);
+                }
+              };
+              obj.addEventListener(mouseSubst[type], handler, false);
+            } else {
+              obj.addEventListener(type, originalHandler, false);
+            }
+          } else {
+            obj.attachEvent("on" + type, handler);
+          }
+          obj[eventsKey] = obj[eventsKey] || {};
+          obj[eventsKey][id] = handler;
+        }
+        function removeOne(obj, type, fn, context, id) {
+          id = id || type + stamp(fn) + (context ? "_" + stamp(context) : "");
+          var handler = obj[eventsKey] && obj[eventsKey][id];
+          if (!handler) {
+            return this;
+          }
+          if (!Browser.touchNative && Browser.pointer && type.indexOf("touch") === 0) {
+            removePointerListener(obj, type, handler);
+          } else if (Browser.touch && type === "dblclick") {
+            removeDoubleTapListener(obj, handler);
+          } else if ("removeEventListener" in obj) {
+            obj.removeEventListener(mouseSubst[type] || type, handler, false);
+          } else {
+            obj.detachEvent("on" + type, handler);
+          }
+          obj[eventsKey][id] = null;
+        }
+        function stopPropagation(e) {
+          if (e.stopPropagation) {
+            e.stopPropagation();
+          } else if (e.originalEvent) {
+            e.originalEvent._stopped = true;
+          } else {
+            e.cancelBubble = true;
+          }
+          return this;
+        }
+        function disableScrollPropagation(el) {
+          addOne(el, "wheel", stopPropagation);
+          return this;
+        }
+        function disableClickPropagation(el) {
+          on(el, "mousedown touchstart dblclick contextmenu", stopPropagation);
+          el["_leaflet_disable_click"] = true;
+          return this;
+        }
+        function preventDefault(e) {
+          if (e.preventDefault) {
+            e.preventDefault();
+          } else {
+            e.returnValue = false;
+          }
+          return this;
+        }
+        function stop(e) {
+          preventDefault(e);
+          stopPropagation(e);
+          return this;
+        }
+        function getPropagationPath(ev) {
+          if (ev.composedPath) {
+            return ev.composedPath();
+          }
+          var path = [];
+          var el = ev.target;
+          while (el) {
+            path.push(el);
+            el = el.parentNode;
+          }
+          return path;
+        }
+        function getMousePosition(e, container) {
+          if (!container) {
+            return new Point(e.clientX, e.clientY);
+          }
+          var scale2 = getScale(container), offset = scale2.boundingClientRect;
+          return new Point(
+            // offset.left/top values are in page scale (like clientX/Y),
+            // whereas clientLeft/Top (border width) values are the original values (before CSS scale applies).
+            (e.clientX - offset.left) / scale2.x - container.clientLeft,
+            (e.clientY - offset.top) / scale2.y - container.clientTop
+          );
+        }
+        var wheelPxFactor = Browser.linux && Browser.chrome ? window.devicePixelRatio : Browser.mac ? window.devicePixelRatio * 3 : window.devicePixelRatio > 0 ? 2 * window.devicePixelRatio : 1;
+        function getWheelDelta(e) {
+          return Browser.edge ? e.wheelDeltaY / 2 : (
+            // Don't trust window-geometry-based delta
+            e.deltaY && e.deltaMode === 0 ? -e.deltaY / wheelPxFactor : (
+              // Pixels
+              e.deltaY && e.deltaMode === 1 ? -e.deltaY * 20 : (
+                // Lines
+                e.deltaY && e.deltaMode === 2 ? -e.deltaY * 60 : (
+                  // Pages
+                  e.deltaX || e.deltaZ ? 0 : (
+                    // Skip horizontal/depth wheel events
+                    e.wheelDelta ? (e.wheelDeltaY || e.wheelDelta) / 2 : (
+                      // Legacy IE pixels
+                      e.detail && Math.abs(e.detail) < 32765 ? -e.detail * 20 : (
+                        // Legacy Moz lines
+                        e.detail ? e.detail / -32765 * 60 : (
+                          // Legacy Moz pages
+                          0
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          );
+        }
+        function isExternalTarget(el, e) {
+          var related = e.relatedTarget;
+          if (!related) {
+            return true;
+          }
+          try {
+            while (related && related !== el) {
+              related = related.parentNode;
+            }
+          } catch (err) {
+            return false;
+          }
+          return related !== el;
+        }
+        var DomEvent = {
+          __proto__: null,
+          on,
+          off,
+          stopPropagation,
+          disableScrollPropagation,
+          disableClickPropagation,
+          preventDefault,
+          stop,
+          getPropagationPath,
+          getMousePosition,
+          getWheelDelta,
+          isExternalTarget,
+          addListener: on,
+          removeListener: off
+        };
+        var PosAnimation = Evented.extend({
+          // @method run(el: HTMLElement, newPos: Point, duration?: Number, easeLinearity?: Number)
+          // Run an animation of a given element to a new position, optionally setting
+          // duration in seconds (`0.25` by default) and easing linearity factor (3rd
+          // argument of the [cubic bezier curve](https://cubic-bezier.com/#0,0,.5,1),
+          // `0.5` by default).
+          run: function(el, newPos, duration, easeLinearity) {
+            this.stop();
+            this._el = el;
+            this._inProgress = true;
+            this._duration = duration || 0.25;
+            this._easeOutPower = 1 / Math.max(easeLinearity || 0.5, 0.2);
+            this._startPos = getPosition(el);
+            this._offset = newPos.subtract(this._startPos);
+            this._startTime = +/* @__PURE__ */ new Date();
+            this.fire("start");
+            this._animate();
+          },
+          // @method stop()
+          // Stops the animation (if currently running).
+          stop: function() {
+            if (!this._inProgress) {
+              return;
+            }
+            this._step(true);
+            this._complete();
+          },
+          _animate: function() {
+            this._animId = requestAnimFrame(this._animate, this);
+            this._step();
+          },
+          _step: function(round) {
+            var elapsed = +/* @__PURE__ */ new Date() - this._startTime, duration = this._duration * 1e3;
+            if (elapsed < duration) {
+              this._runFrame(this._easeOut(elapsed / duration), round);
+            } else {
+              this._runFrame(1);
+              this._complete();
+            }
+          },
+          _runFrame: function(progress, round) {
+            var pos = this._startPos.add(this._offset.multiplyBy(progress));
+            if (round) {
+              pos._round();
+            }
+            setPosition(this._el, pos);
+            this.fire("step");
+          },
+          _complete: function() {
+            cancelAnimFrame(this._animId);
+            this._inProgress = false;
+            this.fire("end");
+          },
+          _easeOut: function(t) {
+            return 1 - Math.pow(1 - t, this._easeOutPower);
+          }
+        });
+        var Map = Evented.extend({
+          options: {
+            // @section Map State Options
+            // @option crs: CRS = L.CRS.EPSG3857
+            // The [Coordinate Reference System](#crs) to use. Don't change this if you're not
+            // sure what it means.
+            crs: EPSG3857,
+            // @option center: LatLng = undefined
+            // Initial geographic center of the map
+            center: void 0,
+            // @option zoom: Number = undefined
+            // Initial map zoom level
+            zoom: void 0,
+            // @option minZoom: Number = *
+            // Minimum zoom level of the map.
+            // If not specified and at least one `GridLayer` or `TileLayer` is in the map,
+            // the lowest of their `minZoom` options will be used instead.
+            minZoom: void 0,
+            // @option maxZoom: Number = *
+            // Maximum zoom level of the map.
+            // If not specified and at least one `GridLayer` or `TileLayer` is in the map,
+            // the highest of their `maxZoom` options will be used instead.
+            maxZoom: void 0,
+            // @option layers: Layer[] = []
+            // Array of layers that will be added to the map initially
+            layers: [],
+            // @option maxBounds: LatLngBounds = null
+            // When this option is set, the map restricts the view to the given
+            // geographical bounds, bouncing the user back if the user tries to pan
+            // outside the view. To set the restriction dynamically, use
+            // [`setMaxBounds`](#map-setmaxbounds) method.
+            maxBounds: void 0,
+            // @option renderer: Renderer = *
+            // The default method for drawing vector layers on the map. `L.SVG`
+            // or `L.Canvas` by default depending on browser support.
+            renderer: void 0,
+            // @section Animation Options
+            // @option zoomAnimation: Boolean = true
+            // Whether the map zoom animation is enabled. By default it's enabled
+            // in all browsers that support CSS3 Transitions except Android.
+            zoomAnimation: true,
+            // @option zoomAnimationThreshold: Number = 4
+            // Won't animate zoom if the zoom difference exceeds this value.
+            zoomAnimationThreshold: 4,
+            // @option fadeAnimation: Boolean = true
+            // Whether the tile fade animation is enabled. By default it's enabled
+            // in all browsers that support CSS3 Transitions except Android.
+            fadeAnimation: true,
+            // @option markerZoomAnimation: Boolean = true
+            // Whether markers animate their zoom with the zoom animation, if disabled
+            // they will disappear for the length of the animation. By default it's
+            // enabled in all browsers that support CSS3 Transitions except Android.
+            markerZoomAnimation: true,
+            // @option transform3DLimit: Number = 2^23
+            // Defines the maximum size of a CSS translation transform. The default
+            // value should not be changed unless a web browser positions layers in
+            // the wrong place after doing a large `panBy`.
+            transform3DLimit: 8388608,
+            // Precision limit of a 32-bit float
+            // @section Interaction Options
+            // @option zoomSnap: Number = 1
+            // Forces the map's zoom level to always be a multiple of this, particularly
+            // right after a [`fitBounds()`](#map-fitbounds) or a pinch-zoom.
+            // By default, the zoom level snaps to the nearest integer; lower values
+            // (e.g. `0.5` or `0.1`) allow for greater granularity. A value of `0`
+            // means the zoom level will not be snapped after `fitBounds` or a pinch-zoom.
+            zoomSnap: 1,
+            // @option zoomDelta: Number = 1
+            // Controls how much the map's zoom level will change after a
+            // [`zoomIn()`](#map-zoomin), [`zoomOut()`](#map-zoomout), pressing `+`
+            // or `-` on the keyboard, or using the [zoom controls](#control-zoom).
+            // Values smaller than `1` (e.g. `0.5`) allow for greater granularity.
+            zoomDelta: 1,
+            // @option trackResize: Boolean = true
+            // Whether the map automatically handles browser window resize to update itself.
+            trackResize: true
+          },
+          initialize: function(id, options) {
+            options = setOptions(this, options);
+            this._handlers = [];
+            this._layers = {};
+            this._zoomBoundLayers = {};
+            this._sizeChanged = true;
+            this._initContainer(id);
+            this._initLayout();
+            this._onResize = bind(this._onResize, this);
+            this._initEvents();
+            if (options.maxBounds) {
+              this.setMaxBounds(options.maxBounds);
+            }
+            if (options.zoom !== void 0) {
+              this._zoom = this._limitZoom(options.zoom);
+            }
+            if (options.center && options.zoom !== void 0) {
+              this.setView(toLatLng(options.center), options.zoom, { reset: true });
+            }
+            this.callInitHooks();
+            this._zoomAnimated = TRANSITION && Browser.any3d && !Browser.mobileOpera && this.options.zoomAnimation;
+            if (this._zoomAnimated) {
+              this._createAnimProxy();
+              on(this._proxy, TRANSITION_END, this._catchTransitionEnd, this);
+            }
+            this._addLayers(this.options.layers);
+          },
+          // @section Methods for modifying map state
+          // @method setView(center: LatLng, zoom: Number, options?: Zoom/pan options): this
+          // Sets the view of the map (geographical center and zoom) with the given
+          // animation options.
+          setView: function(center, zoom2, options) {
+            zoom2 = zoom2 === void 0 ? this._zoom : this._limitZoom(zoom2);
+            center = this._limitCenter(toLatLng(center), zoom2, this.options.maxBounds);
+            options = options || {};
+            this._stop();
+            if (this._loaded && !options.reset && options !== true) {
+              if (options.animate !== void 0) {
+                options.zoom = extend({ animate: options.animate }, options.zoom);
+                options.pan = extend({ animate: options.animate, duration: options.duration }, options.pan);
+              }
+              var moved = this._zoom !== zoom2 ? this._tryAnimatedZoom && this._tryAnimatedZoom(center, zoom2, options.zoom) : this._tryAnimatedPan(center, options.pan);
+              if (moved) {
+                clearTimeout(this._sizeTimer);
+                return this;
+              }
+            }
+            this._resetView(center, zoom2, options.pan && options.pan.noMoveStart);
+            return this;
+          },
+          // @method setZoom(zoom: Number, options?: Zoom/pan options): this
+          // Sets the zoom of the map.
+          setZoom: function(zoom2, options) {
+            if (!this._loaded) {
+              this._zoom = zoom2;
+              return this;
+            }
+            return this.setView(this.getCenter(), zoom2, { zoom: options });
+          },
+          // @method zoomIn(delta?: Number, options?: Zoom options): this
+          // Increases the zoom of the map by `delta` ([`zoomDelta`](#map-zoomdelta) by default).
+          zoomIn: function(delta, options) {
+            delta = delta || (Browser.any3d ? this.options.zoomDelta : 1);
+            return this.setZoom(this._zoom + delta, options);
+          },
+          // @method zoomOut(delta?: Number, options?: Zoom options): this
+          // Decreases the zoom of the map by `delta` ([`zoomDelta`](#map-zoomdelta) by default).
+          zoomOut: function(delta, options) {
+            delta = delta || (Browser.any3d ? this.options.zoomDelta : 1);
+            return this.setZoom(this._zoom - delta, options);
+          },
+          // @method setZoomAround(latlng: LatLng, zoom: Number, options: Zoom options): this
+          // Zooms the map while keeping a specified geographical point on the map
+          // stationary (e.g. used internally for scroll zoom and double-click zoom).
+          // @alternative
+          // @method setZoomAround(offset: Point, zoom: Number, options: Zoom options): this
+          // Zooms the map while keeping a specified pixel on the map (relative to the top-left corner) stationary.
+          setZoomAround: function(latlng, zoom2, options) {
+            var scale2 = this.getZoomScale(zoom2), viewHalf = this.getSize().divideBy(2), containerPoint = latlng instanceof Point ? latlng : this.latLngToContainerPoint(latlng), centerOffset = containerPoint.subtract(viewHalf).multiplyBy(1 - 1 / scale2), newCenter = this.containerPointToLatLng(viewHalf.add(centerOffset));
+            return this.setView(newCenter, zoom2, { zoom: options });
+          },
+          _getBoundsCenterZoom: function(bounds, options) {
+            options = options || {};
+            bounds = bounds.getBounds ? bounds.getBounds() : toLatLngBounds(bounds);
+            var paddingTL = toPoint(options.paddingTopLeft || options.padding || [0, 0]), paddingBR = toPoint(options.paddingBottomRight || options.padding || [0, 0]), zoom2 = this.getBoundsZoom(bounds, false, paddingTL.add(paddingBR));
+            zoom2 = typeof options.maxZoom === "number" ? Math.min(options.maxZoom, zoom2) : zoom2;
+            if (zoom2 === Infinity) {
+              return {
+                center: bounds.getCenter(),
+                zoom: zoom2
+              };
+            }
+            var paddingOffset = paddingBR.subtract(paddingTL).divideBy(2), swPoint = this.project(bounds.getSouthWest(), zoom2), nePoint = this.project(bounds.getNorthEast(), zoom2), center = this.unproject(swPoint.add(nePoint).divideBy(2).add(paddingOffset), zoom2);
+            return {
+              center,
+              zoom: zoom2
+            };
+          },
+          // @method fitBounds(bounds: LatLngBounds, options?: fitBounds options): this
+          // Sets a map view that contains the given geographical bounds with the
+          // maximum zoom level possible.
+          fitBounds: function(bounds, options) {
+            bounds = toLatLngBounds(bounds);
+            if (!bounds.isValid()) {
+              throw new Error("Bounds are not valid.");
+            }
+            var target = this._getBoundsCenterZoom(bounds, options);
+            return this.setView(target.center, target.zoom, options);
+          },
+          // @method fitWorld(options?: fitBounds options): this
+          // Sets a map view that mostly contains the whole world with the maximum
+          // zoom level possible.
+          fitWorld: function(options) {
+            return this.fitBounds([[-90, -180], [90, 180]], options);
+          },
+          // @method panTo(latlng: LatLng, options?: Pan options): this
+          // Pans the map to a given center.
+          panTo: function(center, options) {
+            return this.setView(center, this._zoom, { pan: options });
+          },
+          // @method panBy(offset: Point, options?: Pan options): this
+          // Pans the map by a given number of pixels (animated).
+          panBy: function(offset, options) {
+            offset = toPoint(offset).round();
+            options = options || {};
+            if (!offset.x && !offset.y) {
+              return this.fire("moveend");
+            }
+            if (options.animate !== true && !this.getSize().contains(offset)) {
+              this._resetView(this.unproject(this.project(this.getCenter()).add(offset)), this.getZoom());
+              return this;
+            }
+            if (!this._panAnim) {
+              this._panAnim = new PosAnimation();
+              this._panAnim.on({
+                "step": this._onPanTransitionStep,
+                "end": this._onPanTransitionEnd
+              }, this);
+            }
+            if (!options.noMoveStart) {
+              this.fire("movestart");
+            }
+            if (options.animate !== false) {
+              addClass(this._mapPane, "leaflet-pan-anim");
+              var newPos = this._getMapPanePos().subtract(offset).round();
+              this._panAnim.run(this._mapPane, newPos, options.duration || 0.25, options.easeLinearity);
+            } else {
+              this._rawPanBy(offset);
+              this.fire("move").fire("moveend");
+            }
+            return this;
+          },
+          // @method flyTo(latlng: LatLng, zoom?: Number, options?: Zoom/pan options): this
+          // Sets the view of the map (geographical center and zoom) performing a smooth
+          // pan-zoom animation.
+          flyTo: function(targetCenter, targetZoom, options) {
+            options = options || {};
+            if (options.animate === false || !Browser.any3d) {
+              return this.setView(targetCenter, targetZoom, options);
+            }
+            this._stop();
+            var from = this.project(this.getCenter()), to = this.project(targetCenter), size = this.getSize(), startZoom = this._zoom;
+            targetCenter = toLatLng(targetCenter);
+            targetZoom = targetZoom === void 0 ? startZoom : targetZoom;
+            var w0 = Math.max(size.x, size.y), w1 = w0 * this.getZoomScale(startZoom, targetZoom), u1 = to.distanceTo(from) || 1, rho = 1.42, rho2 = rho * rho;
+            function r(i) {
+              var s1 = i ? -1 : 1, s2 = i ? w1 : w0, t1 = w1 * w1 - w0 * w0 + s1 * rho2 * rho2 * u1 * u1, b1 = 2 * s2 * rho2 * u1, b = t1 / b1, sq = Math.sqrt(b * b + 1) - b;
+              var log = sq < 1e-9 ? -18 : Math.log(sq);
+              return log;
+            }
+            function sinh(n) {
+              return (Math.exp(n) - Math.exp(-n)) / 2;
+            }
+            function cosh(n) {
+              return (Math.exp(n) + Math.exp(-n)) / 2;
+            }
+            function tanh(n) {
+              return sinh(n) / cosh(n);
+            }
+            var r0 = r(0);
+            function w(s) {
+              return w0 * (cosh(r0) / cosh(r0 + rho * s));
+            }
+            function u(s) {
+              return w0 * (cosh(r0) * tanh(r0 + rho * s) - sinh(r0)) / rho2;
+            }
+            function easeOut(t) {
+              return 1 - Math.pow(1 - t, 1.5);
+            }
+            var start = Date.now(), S = (r(1) - r0) / rho, duration = options.duration ? 1e3 * options.duration : 1e3 * S * 0.8;
+            function frame() {
+              var t = (Date.now() - start) / duration, s = easeOut(t) * S;
+              if (t <= 1) {
+                this._flyToFrame = requestAnimFrame(frame, this);
+                this._move(
+                  this.unproject(from.add(to.subtract(from).multiplyBy(u(s) / u1)), startZoom),
+                  this.getScaleZoom(w0 / w(s), startZoom),
+                  { flyTo: true }
+                );
+              } else {
+                this._move(targetCenter, targetZoom)._moveEnd(true);
+              }
+            }
+            this._moveStart(true, options.noMoveStart);
+            frame.call(this);
+            return this;
+          },
+          // @method flyToBounds(bounds: LatLngBounds, options?: fitBounds options): this
+          // Sets the view of the map with a smooth animation like [`flyTo`](#map-flyto),
+          // but takes a bounds parameter like [`fitBounds`](#map-fitbounds).
+          flyToBounds: function(bounds, options) {
+            var target = this._getBoundsCenterZoom(bounds, options);
+            return this.flyTo(target.center, target.zoom, options);
+          },
+          // @method setMaxBounds(bounds: LatLngBounds): this
+          // Restricts the map view to the given bounds (see the [maxBounds](#map-maxbounds) option).
+          setMaxBounds: function(bounds) {
+            bounds = toLatLngBounds(bounds);
+            if (this.listens("moveend", this._panInsideMaxBounds)) {
+              this.off("moveend", this._panInsideMaxBounds);
+            }
+            if (!bounds.isValid()) {
+              this.options.maxBounds = null;
+              return this;
+            }
+            this.options.maxBounds = bounds;
+            if (this._loaded) {
+              this._panInsideMaxBounds();
+            }
+            return this.on("moveend", this._panInsideMaxBounds);
+          },
+          // @method setMinZoom(zoom: Number): this
+          // Sets the lower limit for the available zoom levels (see the [minZoom](#map-minzoom) option).
+          setMinZoom: function(zoom2) {
+            var oldZoom = this.options.minZoom;
+            this.options.minZoom = zoom2;
+            if (this._loaded && oldZoom !== zoom2) {
+              this.fire("zoomlevelschange");
+              if (this.getZoom() < this.options.minZoom) {
+                return this.setZoom(zoom2);
+              }
+            }
+            return this;
+          },
+          // @method setMaxZoom(zoom: Number): this
+          // Sets the upper limit for the available zoom levels (see the [maxZoom](#map-maxzoom) option).
+          setMaxZoom: function(zoom2) {
+            var oldZoom = this.options.maxZoom;
+            this.options.maxZoom = zoom2;
+            if (this._loaded && oldZoom !== zoom2) {
+              this.fire("zoomlevelschange");
+              if (this.getZoom() > this.options.maxZoom) {
+                return this.setZoom(zoom2);
+              }
+            }
+            return this;
+          },
+          // @method panInsideBounds(bounds: LatLngBounds, options?: Pan options): this
+          // Pans the map to the closest view that would lie inside the given bounds (if it's not already), controlling the animation using the options specific, if any.
+          panInsideBounds: function(bounds, options) {
+            this._enforcingBounds = true;
+            var center = this.getCenter(), newCenter = this._limitCenter(center, this._zoom, toLatLngBounds(bounds));
+            if (!center.equals(newCenter)) {
+              this.panTo(newCenter, options);
+            }
+            this._enforcingBounds = false;
+            return this;
+          },
+          // @method panInside(latlng: LatLng, options?: padding options): this
+          // Pans the map the minimum amount to make the `latlng` visible. Use
+          // padding options to fit the display to more restricted bounds.
+          // If `latlng` is already within the (optionally padded) display bounds,
+          // the map will not be panned.
+          panInside: function(latlng, options) {
+            options = options || {};
+            var paddingTL = toPoint(options.paddingTopLeft || options.padding || [0, 0]), paddingBR = toPoint(options.paddingBottomRight || options.padding || [0, 0]), pixelCenter = this.project(this.getCenter()), pixelPoint = this.project(latlng), pixelBounds = this.getPixelBounds(), paddedBounds = toBounds([pixelBounds.min.add(paddingTL), pixelBounds.max.subtract(paddingBR)]), paddedSize = paddedBounds.getSize();
+            if (!paddedBounds.contains(pixelPoint)) {
+              this._enforcingBounds = true;
+              var centerOffset = pixelPoint.subtract(paddedBounds.getCenter());
+              var offset = paddedBounds.extend(pixelPoint).getSize().subtract(paddedSize);
+              pixelCenter.x += centerOffset.x < 0 ? -offset.x : offset.x;
+              pixelCenter.y += centerOffset.y < 0 ? -offset.y : offset.y;
+              this.panTo(this.unproject(pixelCenter), options);
+              this._enforcingBounds = false;
+            }
+            return this;
+          },
+          // @method invalidateSize(options: Zoom/pan options): this
+          // Checks if the map container size changed and updates the map if so —
+          // call it after you've changed the map size dynamically, also animating
+          // pan by default. If `options.pan` is `false`, panning will not occur.
+          // If `options.debounceMoveend` is `true`, it will delay `moveend` event so
+          // that it doesn't happen often even if the method is called many
+          // times in a row.
+          // @alternative
+          // @method invalidateSize(animate: Boolean): this
+          // Checks if the map container size changed and updates the map if so —
+          // call it after you've changed the map size dynamically, also animating
+          // pan by default.
+          invalidateSize: function(options) {
+            if (!this._loaded) {
+              return this;
+            }
+            options = extend({
+              animate: false,
+              pan: true
+            }, options === true ? { animate: true } : options);
+            var oldSize = this.getSize();
+            this._sizeChanged = true;
+            this._lastCenter = null;
+            var newSize = this.getSize(), oldCenter = oldSize.divideBy(2).round(), newCenter = newSize.divideBy(2).round(), offset = oldCenter.subtract(newCenter);
+            if (!offset.x && !offset.y) {
+              return this;
+            }
+            if (options.animate && options.pan) {
+              this.panBy(offset);
+            } else {
+              if (options.pan) {
+                this._rawPanBy(offset);
+              }
+              this.fire("move");
+              if (options.debounceMoveend) {
+                clearTimeout(this._sizeTimer);
+                this._sizeTimer = setTimeout(bind(this.fire, this, "moveend"), 200);
+              } else {
+                this.fire("moveend");
+              }
+            }
+            return this.fire("resize", {
+              oldSize,
+              newSize
+            });
+          },
+          // @section Methods for modifying map state
+          // @method stop(): this
+          // Stops the currently running `panTo` or `flyTo` animation, if any.
+          stop: function() {
+            this.setZoom(this._limitZoom(this._zoom));
+            if (!this.options.zoomSnap) {
+              this.fire("viewreset");
+            }
+            return this._stop();
+          },
+          // @section Geolocation methods
+          // @method locate(options?: Locate options): this
+          // Tries to locate the user using the Geolocation API, firing a [`locationfound`](#map-locationfound)
+          // event with location data on success or a [`locationerror`](#map-locationerror) event on failure,
+          // and optionally sets the map view to the user's location with respect to
+          // detection accuracy (or to the world view if geolocation failed).
+          // Note that, if your page doesn't use HTTPS, this method will fail in
+          // modern browsers ([Chrome 50 and newer](https://sites.google.com/a/chromium.org/dev/Home/chromium-security/deprecating-powerful-features-on-insecure-origins))
+          // See `Locate options` for more details.
+          locate: function(options) {
+            options = this._locateOptions = extend({
+              timeout: 1e4,
+              watch: false
+              // setView: false
+              // maxZoom: <Number>
+              // maximumAge: 0
+              // enableHighAccuracy: false
+            }, options);
+            if (!("geolocation" in navigator)) {
+              this._handleGeolocationError({
+                code: 0,
+                message: "Geolocation not supported."
+              });
+              return this;
+            }
+            var onResponse = bind(this._handleGeolocationResponse, this), onError = bind(this._handleGeolocationError, this);
+            if (options.watch) {
+              this._locationWatchId = navigator.geolocation.watchPosition(onResponse, onError, options);
+            } else {
+              navigator.geolocation.getCurrentPosition(onResponse, onError, options);
+            }
+            return this;
+          },
+          // @method stopLocate(): this
+          // Stops watching location previously initiated by `map.locate({watch: true})`
+          // and aborts resetting the map view if map.locate was called with
+          // `{setView: true}`.
+          stopLocate: function() {
+            if (navigator.geolocation && navigator.geolocation.clearWatch) {
+              navigator.geolocation.clearWatch(this._locationWatchId);
+            }
+            if (this._locateOptions) {
+              this._locateOptions.setView = false;
+            }
+            return this;
+          },
+          _handleGeolocationError: function(error) {
+            if (!this._container._leaflet_id) {
+              return;
+            }
+            var c = error.code, message = error.message || (c === 1 ? "permission denied" : c === 2 ? "position unavailable" : "timeout");
+            if (this._locateOptions.setView && !this._loaded) {
+              this.fitWorld();
+            }
+            this.fire("locationerror", {
+              code: c,
+              message: "Geolocation error: " + message + "."
+            });
+          },
+          _handleGeolocationResponse: function(pos) {
+            if (!this._container._leaflet_id) {
+              return;
+            }
+            var lat = pos.coords.latitude, lng = pos.coords.longitude, latlng = new LatLng(lat, lng), bounds = latlng.toBounds(pos.coords.accuracy * 2), options = this._locateOptions;
+            if (options.setView) {
+              var zoom2 = this.getBoundsZoom(bounds);
+              this.setView(latlng, options.maxZoom ? Math.min(zoom2, options.maxZoom) : zoom2);
+            }
+            var data = {
+              latlng,
+              bounds,
+              timestamp: pos.timestamp
+            };
+            for (var i in pos.coords) {
+              if (typeof pos.coords[i] === "number") {
+                data[i] = pos.coords[i];
+              }
+            }
+            this.fire("locationfound", data);
+          },
+          // TODO Appropriate docs section?
+          // @section Other Methods
+          // @method addHandler(name: String, HandlerClass: Function): this
+          // Adds a new `Handler` to the map, given its name and constructor function.
+          addHandler: function(name, HandlerClass) {
+            if (!HandlerClass) {
+              return this;
+            }
+            var handler = this[name] = new HandlerClass(this);
+            this._handlers.push(handler);
+            if (this.options[name]) {
+              handler.enable();
+            }
+            return this;
+          },
+          // @method remove(): this
+          // Destroys the map and clears all related event listeners.
+          remove: function() {
+            this._initEvents(true);
+            if (this.options.maxBounds) {
+              this.off("moveend", this._panInsideMaxBounds);
+            }
+            if (this._containerId !== this._container._leaflet_id) {
+              throw new Error("Map container is being reused by another instance");
+            }
+            try {
+              delete this._container._leaflet_id;
+              delete this._containerId;
+            } catch (e) {
+              this._container._leaflet_id = void 0;
+              this._containerId = void 0;
+            }
+            if (this._locationWatchId !== void 0) {
+              this.stopLocate();
+            }
+            this._stop();
+            remove(this._mapPane);
+            if (this._clearControlPos) {
+              this._clearControlPos();
+            }
+            if (this._resizeRequest) {
+              cancelAnimFrame(this._resizeRequest);
+              this._resizeRequest = null;
+            }
+            this._clearHandlers();
+            if (this._loaded) {
+              this.fire("unload");
+            }
+            var i;
+            for (i in this._layers) {
+              this._layers[i].remove();
+            }
+            for (i in this._panes) {
+              remove(this._panes[i]);
+            }
+            this._layers = [];
+            this._panes = [];
+            delete this._mapPane;
+            delete this._renderer;
+            return this;
+          },
+          // @section Other Methods
+          // @method createPane(name: String, container?: HTMLElement): HTMLElement
+          // Creates a new [map pane](#map-pane) with the given name if it doesn't exist already,
+          // then returns it. The pane is created as a child of `container`, or
+          // as a child of the main map pane if not set.
+          createPane: function(name, container) {
+            var className = "leaflet-pane" + (name ? " leaflet-" + name.replace("Pane", "") + "-pane" : ""), pane = create$1("div", className, container || this._mapPane);
+            if (name) {
+              this._panes[name] = pane;
+            }
+            return pane;
+          },
+          // @section Methods for Getting Map State
+          // @method getCenter(): LatLng
+          // Returns the geographical center of the map view
+          getCenter: function() {
+            this._checkIfLoaded();
+            if (this._lastCenter && !this._moved()) {
+              return this._lastCenter.clone();
+            }
+            return this.layerPointToLatLng(this._getCenterLayerPoint());
+          },
+          // @method getZoom(): Number
+          // Returns the current zoom level of the map view
+          getZoom: function() {
+            return this._zoom;
+          },
+          // @method getBounds(): LatLngBounds
+          // Returns the geographical bounds visible in the current map view
+          getBounds: function() {
+            var bounds = this.getPixelBounds(), sw = this.unproject(bounds.getBottomLeft()), ne = this.unproject(bounds.getTopRight());
+            return new LatLngBounds(sw, ne);
+          },
+          // @method getMinZoom(): Number
+          // Returns the minimum zoom level of the map (if set in the `minZoom` option of the map or of any layers), or `0` by default.
+          getMinZoom: function() {
+            return this.options.minZoom === void 0 ? this._layersMinZoom || 0 : this.options.minZoom;
+          },
+          // @method getMaxZoom(): Number
+          // Returns the maximum zoom level of the map (if set in the `maxZoom` option of the map or of any layers).
+          getMaxZoom: function() {
+            return this.options.maxZoom === void 0 ? this._layersMaxZoom === void 0 ? Infinity : this._layersMaxZoom : this.options.maxZoom;
+          },
+          // @method getBoundsZoom(bounds: LatLngBounds, inside?: Boolean, padding?: Point): Number
+          // Returns the maximum zoom level on which the given bounds fit to the map
+          // view in its entirety. If `inside` (optional) is set to `true`, the method
+          // instead returns the minimum zoom level on which the map view fits into
+          // the given bounds in its entirety.
+          getBoundsZoom: function(bounds, inside, padding) {
+            bounds = toLatLngBounds(bounds);
+            padding = toPoint(padding || [0, 0]);
+            var zoom2 = this.getZoom() || 0, min = this.getMinZoom(), max = this.getMaxZoom(), nw = bounds.getNorthWest(), se = bounds.getSouthEast(), size = this.getSize().subtract(padding), boundsSize = toBounds(this.project(se, zoom2), this.project(nw, zoom2)).getSize(), snap = Browser.any3d ? this.options.zoomSnap : 1, scalex = size.x / boundsSize.x, scaley = size.y / boundsSize.y, scale2 = inside ? Math.max(scalex, scaley) : Math.min(scalex, scaley);
+            zoom2 = this.getScaleZoom(scale2, zoom2);
+            if (snap) {
+              zoom2 = Math.round(zoom2 / (snap / 100)) * (snap / 100);
+              zoom2 = inside ? Math.ceil(zoom2 / snap) * snap : Math.floor(zoom2 / snap) * snap;
+            }
+            return Math.max(min, Math.min(max, zoom2));
+          },
+          // @method getSize(): Point
+          // Returns the current size of the map container (in pixels).
+          getSize: function() {
+            if (!this._size || this._sizeChanged) {
+              this._size = new Point(
+                this._container.clientWidth || 0,
+                this._container.clientHeight || 0
+              );
+              this._sizeChanged = false;
+            }
+            return this._size.clone();
+          },
+          // @method getPixelBounds(): Bounds
+          // Returns the bounds of the current map view in projected pixel
+          // coordinates (sometimes useful in layer and overlay implementations).
+          getPixelBounds: function(center, zoom2) {
+            var topLeftPoint = this._getTopLeftPoint(center, zoom2);
+            return new Bounds(topLeftPoint, topLeftPoint.add(this.getSize()));
+          },
+          // TODO: Check semantics - isn't the pixel origin the 0,0 coord relative to
+          // the map pane? "left point of the map layer" can be confusing, specially
+          // since there can be negative offsets.
+          // @method getPixelOrigin(): Point
+          // Returns the projected pixel coordinates of the top left point of
+          // the map layer (useful in custom layer and overlay implementations).
+          getPixelOrigin: function() {
+            this._checkIfLoaded();
+            return this._pixelOrigin;
+          },
+          // @method getPixelWorldBounds(zoom?: Number): Bounds
+          // Returns the world's bounds in pixel coordinates for zoom level `zoom`.
+          // If `zoom` is omitted, the map's current zoom level is used.
+          getPixelWorldBounds: function(zoom2) {
+            return this.options.crs.getProjectedBounds(zoom2 === void 0 ? this.getZoom() : zoom2);
+          },
+          // @section Other Methods
+          // @method getPane(pane: String|HTMLElement): HTMLElement
+          // Returns a [map pane](#map-pane), given its name or its HTML element (its identity).
+          getPane: function(pane) {
+            return typeof pane === "string" ? this._panes[pane] : pane;
+          },
+          // @method getPanes(): Object
+          // Returns a plain object containing the names of all [panes](#map-pane) as keys and
+          // the panes as values.
+          getPanes: function() {
+            return this._panes;
+          },
+          // @method getContainer: HTMLElement
+          // Returns the HTML element that contains the map.
+          getContainer: function() {
+            return this._container;
+          },
+          // @section Conversion Methods
+          // @method getZoomScale(toZoom: Number, fromZoom: Number): Number
+          // Returns the scale factor to be applied to a map transition from zoom level
+          // `fromZoom` to `toZoom`. Used internally to help with zoom animations.
+          getZoomScale: function(toZoom, fromZoom) {
+            var crs = this.options.crs;
+            fromZoom = fromZoom === void 0 ? this._zoom : fromZoom;
+            return crs.scale(toZoom) / crs.scale(fromZoom);
+          },
+          // @method getScaleZoom(scale: Number, fromZoom: Number): Number
+          // Returns the zoom level that the map would end up at, if it is at `fromZoom`
+          // level and everything is scaled by a factor of `scale`. Inverse of
+          // [`getZoomScale`](#map-getZoomScale).
+          getScaleZoom: function(scale2, fromZoom) {
+            var crs = this.options.crs;
+            fromZoom = fromZoom === void 0 ? this._zoom : fromZoom;
+            var zoom2 = crs.zoom(scale2 * crs.scale(fromZoom));
+            return isNaN(zoom2) ? Infinity : zoom2;
+          },
+          // @method project(latlng: LatLng, zoom: Number): Point
+          // Projects a geographical coordinate `LatLng` according to the projection
+          // of the map's CRS, then scales it according to `zoom` and the CRS's
+          // `Transformation`. The result is pixel coordinate relative to
+          // the CRS origin.
+          project: function(latlng, zoom2) {
+            zoom2 = zoom2 === void 0 ? this._zoom : zoom2;
+            return this.options.crs.latLngToPoint(toLatLng(latlng), zoom2);
+          },
+          // @method unproject(point: Point, zoom: Number): LatLng
+          // Inverse of [`project`](#map-project).
+          unproject: function(point, zoom2) {
+            zoom2 = zoom2 === void 0 ? this._zoom : zoom2;
+            return this.options.crs.pointToLatLng(toPoint(point), zoom2);
+          },
+          // @method layerPointToLatLng(point: Point): LatLng
+          // Given a pixel coordinate relative to the [origin pixel](#map-getpixelorigin),
+          // returns the corresponding geographical coordinate (for the current zoom level).
+          layerPointToLatLng: function(point) {
+            var projectedPoint = toPoint(point).add(this.getPixelOrigin());
+            return this.unproject(projectedPoint);
+          },
+          // @method latLngToLayerPoint(latlng: LatLng): Point
+          // Given a geographical coordinate, returns the corresponding pixel coordinate
+          // relative to the [origin pixel](#map-getpixelorigin).
+          latLngToLayerPoint: function(latlng) {
+            var projectedPoint = this.project(toLatLng(latlng))._round();
+            return projectedPoint._subtract(this.getPixelOrigin());
+          },
+          // @method wrapLatLng(latlng: LatLng): LatLng
+          // Returns a `LatLng` where `lat` and `lng` has been wrapped according to the
+          // map's CRS's `wrapLat` and `wrapLng` properties, if they are outside the
+          // CRS's bounds.
+          // By default this means longitude is wrapped around the dateline so its
+          // value is between -180 and +180 degrees.
+          wrapLatLng: function(latlng) {
+            return this.options.crs.wrapLatLng(toLatLng(latlng));
+          },
+          // @method wrapLatLngBounds(bounds: LatLngBounds): LatLngBounds
+          // Returns a `LatLngBounds` with the same size as the given one, ensuring that
+          // its center is within the CRS's bounds.
+          // By default this means the center longitude is wrapped around the dateline so its
+          // value is between -180 and +180 degrees, and the majority of the bounds
+          // overlaps the CRS's bounds.
+          wrapLatLngBounds: function(latlng) {
+            return this.options.crs.wrapLatLngBounds(toLatLngBounds(latlng));
+          },
+          // @method distance(latlng1: LatLng, latlng2: LatLng): Number
+          // Returns the distance between two geographical coordinates according to
+          // the map's CRS. By default this measures distance in meters.
+          distance: function(latlng1, latlng2) {
+            return this.options.crs.distance(toLatLng(latlng1), toLatLng(latlng2));
+          },
+          // @method containerPointToLayerPoint(point: Point): Point
+          // Given a pixel coordinate relative to the map container, returns the corresponding
+          // pixel coordinate relative to the [origin pixel](#map-getpixelorigin).
+          containerPointToLayerPoint: function(point) {
+            return toPoint(point).subtract(this._getMapPanePos());
+          },
+          // @method layerPointToContainerPoint(point: Point): Point
+          // Given a pixel coordinate relative to the [origin pixel](#map-getpixelorigin),
+          // returns the corresponding pixel coordinate relative to the map container.
+          layerPointToContainerPoint: function(point) {
+            return toPoint(point).add(this._getMapPanePos());
+          },
+          // @method containerPointToLatLng(point: Point): LatLng
+          // Given a pixel coordinate relative to the map container, returns
+          // the corresponding geographical coordinate (for the current zoom level).
+          containerPointToLatLng: function(point) {
+            var layerPoint = this.containerPointToLayerPoint(toPoint(point));
+            return this.layerPointToLatLng(layerPoint);
+          },
+          // @method latLngToContainerPoint(latlng: LatLng): Point
+          // Given a geographical coordinate, returns the corresponding pixel coordinate
+          // relative to the map container.
+          latLngToContainerPoint: function(latlng) {
+            return this.layerPointToContainerPoint(this.latLngToLayerPoint(toLatLng(latlng)));
+          },
+          // @method mouseEventToContainerPoint(ev: MouseEvent): Point
+          // Given a MouseEvent object, returns the pixel coordinate relative to the
+          // map container where the event took place.
+          mouseEventToContainerPoint: function(e) {
+            return getMousePosition(e, this._container);
+          },
+          // @method mouseEventToLayerPoint(ev: MouseEvent): Point
+          // Given a MouseEvent object, returns the pixel coordinate relative to
+          // the [origin pixel](#map-getpixelorigin) where the event took place.
+          mouseEventToLayerPoint: function(e) {
+            return this.containerPointToLayerPoint(this.mouseEventToContainerPoint(e));
+          },
+          // @method mouseEventToLatLng(ev: MouseEvent): LatLng
+          // Given a MouseEvent object, returns geographical coordinate where the
+          // event took place.
+          mouseEventToLatLng: function(e) {
+            return this.layerPointToLatLng(this.mouseEventToLayerPoint(e));
+          },
+          // map initialization methods
+          _initContainer: function(id) {
+            var container = this._container = get(id);
+            if (!container) {
+              throw new Error("Map container not found.");
+            } else if (container._leaflet_id) {
+              throw new Error("Map container is already initialized.");
+            }
+            on(container, "scroll", this._onScroll, this);
+            this._containerId = stamp(container);
+          },
+          _initLayout: function() {
+            var container = this._container;
+            this._fadeAnimated = this.options.fadeAnimation && Browser.any3d;
+            addClass(container, "leaflet-container" + (Browser.touch ? " leaflet-touch" : "") + (Browser.retina ? " leaflet-retina" : "") + (Browser.ielt9 ? " leaflet-oldie" : "") + (Browser.safari ? " leaflet-safari" : "") + (this._fadeAnimated ? " leaflet-fade-anim" : ""));
+            var position = getStyle(container, "position");
+            if (position !== "absolute" && position !== "relative" && position !== "fixed" && position !== "sticky") {
+              container.style.position = "relative";
+            }
+            this._initPanes();
+            if (this._initControlPos) {
+              this._initControlPos();
+            }
+          },
+          _initPanes: function() {
+            var panes = this._panes = {};
+            this._paneRenderers = {};
+            this._mapPane = this.createPane("mapPane", this._container);
+            setPosition(this._mapPane, new Point(0, 0));
+            this.createPane("tilePane");
+            this.createPane("overlayPane");
+            this.createPane("shadowPane");
+            this.createPane("markerPane");
+            this.createPane("tooltipPane");
+            this.createPane("popupPane");
+            if (!this.options.markerZoomAnimation) {
+              addClass(panes.markerPane, "leaflet-zoom-hide");
+              addClass(panes.shadowPane, "leaflet-zoom-hide");
+            }
+          },
+          // private methods that modify map state
+          // @section Map state change events
+          _resetView: function(center, zoom2, noMoveStart) {
+            setPosition(this._mapPane, new Point(0, 0));
+            var loading = !this._loaded;
+            this._loaded = true;
+            zoom2 = this._limitZoom(zoom2);
+            this.fire("viewprereset");
+            var zoomChanged = this._zoom !== zoom2;
+            this._moveStart(zoomChanged, noMoveStart)._move(center, zoom2)._moveEnd(zoomChanged);
+            this.fire("viewreset");
+            if (loading) {
+              this.fire("load");
+            }
+          },
+          _moveStart: function(zoomChanged, noMoveStart) {
+            if (zoomChanged) {
+              this.fire("zoomstart");
+            }
+            if (!noMoveStart) {
+              this.fire("movestart");
+            }
+            return this;
+          },
+          _move: function(center, zoom2, data, supressEvent) {
+            if (zoom2 === void 0) {
+              zoom2 = this._zoom;
+            }
+            var zoomChanged = this._zoom !== zoom2;
+            this._zoom = zoom2;
+            this._lastCenter = center;
+            this._pixelOrigin = this._getNewPixelOrigin(center);
+            if (!supressEvent) {
+              if (zoomChanged || data && data.pinch) {
+                this.fire("zoom", data);
+              }
+              this.fire("move", data);
+            } else if (data && data.pinch) {
+              this.fire("zoom", data);
+            }
+            return this;
+          },
+          _moveEnd: function(zoomChanged) {
+            if (zoomChanged) {
+              this.fire("zoomend");
+            }
+            return this.fire("moveend");
+          },
+          _stop: function() {
+            cancelAnimFrame(this._flyToFrame);
+            if (this._panAnim) {
+              this._panAnim.stop();
+            }
+            return this;
+          },
+          _rawPanBy: function(offset) {
+            setPosition(this._mapPane, this._getMapPanePos().subtract(offset));
+          },
+          _getZoomSpan: function() {
+            return this.getMaxZoom() - this.getMinZoom();
+          },
+          _panInsideMaxBounds: function() {
+            if (!this._enforcingBounds) {
+              this.panInsideBounds(this.options.maxBounds);
+            }
+          },
+          _checkIfLoaded: function() {
+            if (!this._loaded) {
+              throw new Error("Set map center and zoom first.");
+            }
+          },
+          // DOM event handling
+          // @section Interaction events
+          _initEvents: function(remove2) {
+            this._targets = {};
+            this._targets[stamp(this._container)] = this;
+            var onOff = remove2 ? off : on;
+            onOff(this._container, "click dblclick mousedown mouseup mouseover mouseout mousemove contextmenu keypress keydown keyup", this._handleDOMEvent, this);
+            if (this.options.trackResize) {
+              onOff(window, "resize", this._onResize, this);
+            }
+            if (Browser.any3d && this.options.transform3DLimit) {
+              (remove2 ? this.off : this.on).call(this, "moveend", this._onMoveEnd);
+            }
+          },
+          _onResize: function() {
+            cancelAnimFrame(this._resizeRequest);
+            this._resizeRequest = requestAnimFrame(
+              function() {
+                this.invalidateSize({ debounceMoveend: true });
+              },
+              this
+            );
+          },
+          _onScroll: function() {
+            this._container.scrollTop = 0;
+            this._container.scrollLeft = 0;
+          },
+          _onMoveEnd: function() {
+            var pos = this._getMapPanePos();
+            if (Math.max(Math.abs(pos.x), Math.abs(pos.y)) >= this.options.transform3DLimit) {
+              this._resetView(this.getCenter(), this.getZoom());
+            }
+          },
+          _findEventTargets: function(e, type) {
+            var targets = [], target, isHover = type === "mouseout" || type === "mouseover", src = e.target || e.srcElement, dragging = false;
+            while (src) {
+              target = this._targets[stamp(src)];
+              if (target && (type === "click" || type === "preclick") && this._draggableMoved(target)) {
+                dragging = true;
+                break;
+              }
+              if (target && target.listens(type, true)) {
+                if (isHover && !isExternalTarget(src, e)) {
+                  break;
+                }
+                targets.push(target);
+                if (isHover) {
+                  break;
+                }
+              }
+              if (src === this._container) {
+                break;
+              }
+              src = src.parentNode;
+            }
+            if (!targets.length && !dragging && !isHover && this.listens(type, true)) {
+              targets = [this];
+            }
+            return targets;
+          },
+          _isClickDisabled: function(el) {
+            while (el && el !== this._container) {
+              if (el["_leaflet_disable_click"]) {
+                return true;
+              }
+              el = el.parentNode;
+            }
+          },
+          _handleDOMEvent: function(e) {
+            var el = e.target || e.srcElement;
+            if (!this._loaded || el["_leaflet_disable_events"] || e.type === "click" && this._isClickDisabled(el)) {
+              return;
+            }
+            var type = e.type;
+            if (type === "mousedown") {
+              preventOutline(el);
+            }
+            this._fireDOMEvent(e, type);
+          },
+          _mouseEvents: ["click", "dblclick", "mouseover", "mouseout", "contextmenu"],
+          _fireDOMEvent: function(e, type, canvasTargets) {
+            if (e.type === "click") {
+              var synth = extend({}, e);
+              synth.type = "preclick";
+              this._fireDOMEvent(synth, synth.type, canvasTargets);
+            }
+            var targets = this._findEventTargets(e, type);
+            if (canvasTargets) {
+              var filtered = [];
+              for (var i = 0; i < canvasTargets.length; i++) {
+                if (canvasTargets[i].listens(type, true)) {
+                  filtered.push(canvasTargets[i]);
+                }
+              }
+              targets = filtered.concat(targets);
+            }
+            if (!targets.length) {
+              return;
+            }
+            if (type === "contextmenu") {
+              preventDefault(e);
+            }
+            var target = targets[0];
+            var data = {
+              originalEvent: e
+            };
+            if (e.type !== "keypress" && e.type !== "keydown" && e.type !== "keyup") {
+              var isMarker = target.getLatLng && (!target._radius || target._radius <= 10);
+              data.containerPoint = isMarker ? this.latLngToContainerPoint(target.getLatLng()) : this.mouseEventToContainerPoint(e);
+              data.layerPoint = this.containerPointToLayerPoint(data.containerPoint);
+              data.latlng = isMarker ? target.getLatLng() : this.layerPointToLatLng(data.layerPoint);
+            }
+            for (i = 0; i < targets.length; i++) {
+              targets[i].fire(type, data, true);
+              if (data.originalEvent._stopped || targets[i].options.bubblingMouseEvents === false && indexOf(this._mouseEvents, type) !== -1) {
+                return;
+              }
+            }
+          },
+          _draggableMoved: function(obj) {
+            obj = obj.dragging && obj.dragging.enabled() ? obj : this;
+            return obj.dragging && obj.dragging.moved() || this.boxZoom && this.boxZoom.moved();
+          },
+          _clearHandlers: function() {
+            for (var i = 0, len = this._handlers.length; i < len; i++) {
+              this._handlers[i].disable();
+            }
+          },
+          // @section Other Methods
+          // @method whenReady(fn: Function, context?: Object): this
+          // Runs the given function `fn` when the map gets initialized with
+          // a view (center and zoom) and at least one layer, or immediately
+          // if it's already initialized, optionally passing a function context.
+          whenReady: function(callback, context) {
+            if (this._loaded) {
+              callback.call(context || this, { target: this });
+            } else {
+              this.on("load", callback, context);
+            }
+            return this;
+          },
+          // private methods for getting map state
+          _getMapPanePos: function() {
+            return getPosition(this._mapPane) || new Point(0, 0);
+          },
+          _moved: function() {
+            var pos = this._getMapPanePos();
+            return pos && !pos.equals([0, 0]);
+          },
+          _getTopLeftPoint: function(center, zoom2) {
+            var pixelOrigin = center && zoom2 !== void 0 ? this._getNewPixelOrigin(center, zoom2) : this.getPixelOrigin();
+            return pixelOrigin.subtract(this._getMapPanePos());
+          },
+          _getNewPixelOrigin: function(center, zoom2) {
+            var viewHalf = this.getSize()._divideBy(2);
+            return this.project(center, zoom2)._subtract(viewHalf)._add(this._getMapPanePos())._round();
+          },
+          _latLngToNewLayerPoint: function(latlng, zoom2, center) {
+            var topLeft = this._getNewPixelOrigin(center, zoom2);
+            return this.project(latlng, zoom2)._subtract(topLeft);
+          },
+          _latLngBoundsToNewLayerBounds: function(latLngBounds, zoom2, center) {
+            var topLeft = this._getNewPixelOrigin(center, zoom2);
+            return toBounds([
+              this.project(latLngBounds.getSouthWest(), zoom2)._subtract(topLeft),
+              this.project(latLngBounds.getNorthWest(), zoom2)._subtract(topLeft),
+              this.project(latLngBounds.getSouthEast(), zoom2)._subtract(topLeft),
+              this.project(latLngBounds.getNorthEast(), zoom2)._subtract(topLeft)
+            ]);
+          },
+          // layer point of the current center
+          _getCenterLayerPoint: function() {
+            return this.containerPointToLayerPoint(this.getSize()._divideBy(2));
+          },
+          // offset of the specified place to the current center in pixels
+          _getCenterOffset: function(latlng) {
+            return this.latLngToLayerPoint(latlng).subtract(this._getCenterLayerPoint());
+          },
+          // adjust center for view to get inside bounds
+          _limitCenter: function(center, zoom2, bounds) {
+            if (!bounds) {
+              return center;
+            }
+            var centerPoint = this.project(center, zoom2), viewHalf = this.getSize().divideBy(2), viewBounds = new Bounds(centerPoint.subtract(viewHalf), centerPoint.add(viewHalf)), offset = this._getBoundsOffset(viewBounds, bounds, zoom2);
+            if (Math.abs(offset.x) <= 1 && Math.abs(offset.y) <= 1) {
+              return center;
+            }
+            return this.unproject(centerPoint.add(offset), zoom2);
+          },
+          // adjust offset for view to get inside bounds
+          _limitOffset: function(offset, bounds) {
+            if (!bounds) {
+              return offset;
+            }
+            var viewBounds = this.getPixelBounds(), newBounds = new Bounds(viewBounds.min.add(offset), viewBounds.max.add(offset));
+            return offset.add(this._getBoundsOffset(newBounds, bounds));
+          },
+          // returns offset needed for pxBounds to get inside maxBounds at a specified zoom
+          _getBoundsOffset: function(pxBounds, maxBounds, zoom2) {
+            var projectedMaxBounds = toBounds(
+              this.project(maxBounds.getNorthEast(), zoom2),
+              this.project(maxBounds.getSouthWest(), zoom2)
+            ), minOffset = projectedMaxBounds.min.subtract(pxBounds.min), maxOffset = projectedMaxBounds.max.subtract(pxBounds.max), dx = this._rebound(minOffset.x, -maxOffset.x), dy = this._rebound(minOffset.y, -maxOffset.y);
+            return new Point(dx, dy);
+          },
+          _rebound: function(left, right) {
+            return left + right > 0 ? Math.round(left - right) / 2 : Math.max(0, Math.ceil(left)) - Math.max(0, Math.floor(right));
+          },
+          _limitZoom: function(zoom2) {
+            var min = this.getMinZoom(), max = this.getMaxZoom(), snap = Browser.any3d ? this.options.zoomSnap : 1;
+            if (snap) {
+              zoom2 = Math.round(zoom2 / snap) * snap;
+            }
+            return Math.max(min, Math.min(max, zoom2));
+          },
+          _onPanTransitionStep: function() {
+            this.fire("move");
+          },
+          _onPanTransitionEnd: function() {
+            removeClass(this._mapPane, "leaflet-pan-anim");
+            this.fire("moveend");
+          },
+          _tryAnimatedPan: function(center, options) {
+            var offset = this._getCenterOffset(center)._trunc();
+            if ((options && options.animate) !== true && !this.getSize().contains(offset)) {
+              return false;
+            }
+            this.panBy(offset, options);
+            return true;
+          },
+          _createAnimProxy: function() {
+            var proxy = this._proxy = create$1("div", "leaflet-proxy leaflet-zoom-animated");
+            this._panes.mapPane.appendChild(proxy);
+            this.on("zoomanim", function(e) {
+              var prop = TRANSFORM, transform = this._proxy.style[prop];
+              setTransform(this._proxy, this.project(e.center, e.zoom), this.getZoomScale(e.zoom, 1));
+              if (transform === this._proxy.style[prop] && this._animatingZoom) {
+                this._onZoomTransitionEnd();
+              }
+            }, this);
+            this.on("load moveend", this._animMoveEnd, this);
+            this._on("unload", this._destroyAnimProxy, this);
+          },
+          _destroyAnimProxy: function() {
+            remove(this._proxy);
+            this.off("load moveend", this._animMoveEnd, this);
+            delete this._proxy;
+          },
+          _animMoveEnd: function() {
+            var c = this.getCenter(), z = this.getZoom();
+            setTransform(this._proxy, this.project(c, z), this.getZoomScale(z, 1));
+          },
+          _catchTransitionEnd: function(e) {
+            if (this._animatingZoom && e.propertyName.indexOf("transform") >= 0) {
+              this._onZoomTransitionEnd();
+            }
+          },
+          _nothingToAnimate: function() {
+            return !this._container.getElementsByClassName("leaflet-zoom-animated").length;
+          },
+          _tryAnimatedZoom: function(center, zoom2, options) {
+            if (this._animatingZoom) {
+              return true;
+            }
+            options = options || {};
+            if (!this._zoomAnimated || options.animate === false || this._nothingToAnimate() || Math.abs(zoom2 - this._zoom) > this.options.zoomAnimationThreshold) {
+              return false;
+            }
+            var scale2 = this.getZoomScale(zoom2), offset = this._getCenterOffset(center)._divideBy(1 - 1 / scale2);
+            if (options.animate !== true && !this.getSize().contains(offset)) {
+              return false;
+            }
+            requestAnimFrame(function() {
+              this._moveStart(true, options.noMoveStart || false)._animateZoom(center, zoom2, true);
+            }, this);
+            return true;
+          },
+          _animateZoom: function(center, zoom2, startAnim, noUpdate) {
+            if (!this._mapPane) {
+              return;
+            }
+            if (startAnim) {
+              this._animatingZoom = true;
+              this._animateToCenter = center;
+              this._animateToZoom = zoom2;
+              addClass(this._mapPane, "leaflet-zoom-anim");
+            }
+            this.fire("zoomanim", {
+              center,
+              zoom: zoom2,
+              noUpdate
+            });
+            if (!this._tempFireZoomEvent) {
+              this._tempFireZoomEvent = this._zoom !== this._animateToZoom;
+            }
+            this._move(this._animateToCenter, this._animateToZoom, void 0, true);
+            setTimeout(bind(this._onZoomTransitionEnd, this), 250);
+          },
+          _onZoomTransitionEnd: function() {
+            if (!this._animatingZoom) {
+              return;
+            }
+            if (this._mapPane) {
+              removeClass(this._mapPane, "leaflet-zoom-anim");
+            }
+            this._animatingZoom = false;
+            this._move(this._animateToCenter, this._animateToZoom, void 0, true);
+            if (this._tempFireZoomEvent) {
+              this.fire("zoom");
+            }
+            delete this._tempFireZoomEvent;
+            this.fire("move");
+            this._moveEnd(true);
+          }
+        });
+        function createMap(id, options) {
+          return new Map(id, options);
+        }
+        var Control = Class.extend({
+          // @section
+          // @aka Control Options
+          options: {
+            // @option position: String = 'topright'
+            // The position of the control (one of the map corners). Possible values are `'topleft'`,
+            // `'topright'`, `'bottomleft'` or `'bottomright'`
+            position: "topright"
+          },
+          initialize: function(options) {
+            setOptions(this, options);
+          },
+          /* @section
+           * Classes extending L.Control will inherit the following methods:
+           *
+           * @method getPosition: string
+           * Returns the position of the control.
+           */
+          getPosition: function() {
+            return this.options.position;
+          },
+          // @method setPosition(position: string): this
+          // Sets the position of the control.
+          setPosition: function(position) {
+            var map = this._map;
+            if (map) {
+              map.removeControl(this);
+            }
+            this.options.position = position;
+            if (map) {
+              map.addControl(this);
+            }
+            return this;
+          },
+          // @method getContainer: HTMLElement
+          // Returns the HTMLElement that contains the control.
+          getContainer: function() {
+            return this._container;
+          },
+          // @method addTo(map: Map): this
+          // Adds the control to the given map.
+          addTo: function(map) {
+            this.remove();
+            this._map = map;
+            var container = this._container = this.onAdd(map), pos = this.getPosition(), corner = map._controlCorners[pos];
+            addClass(container, "leaflet-control");
+            if (pos.indexOf("bottom") !== -1) {
+              corner.insertBefore(container, corner.firstChild);
+            } else {
+              corner.appendChild(container);
+            }
+            this._map.on("unload", this.remove, this);
+            return this;
+          },
+          // @method remove: this
+          // Removes the control from the map it is currently active on.
+          remove: function() {
+            if (!this._map) {
+              return this;
+            }
+            remove(this._container);
+            if (this.onRemove) {
+              this.onRemove(this._map);
+            }
+            this._map.off("unload", this.remove, this);
+            this._map = null;
+            return this;
+          },
+          _refocusOnMap: function(e) {
+            if (this._map && e && e.screenX > 0 && e.screenY > 0) {
+              this._map.getContainer().focus();
+            }
+          }
+        });
+        var control = function(options) {
+          return new Control(options);
+        };
+        Map.include({
+          // @method addControl(control: Control): this
+          // Adds the given control to the map
+          addControl: function(control2) {
+            control2.addTo(this);
+            return this;
+          },
+          // @method removeControl(control: Control): this
+          // Removes the given control from the map
+          removeControl: function(control2) {
+            control2.remove();
+            return this;
+          },
+          _initControlPos: function() {
+            var corners = this._controlCorners = {}, l = "leaflet-", container = this._controlContainer = create$1("div", l + "control-container", this._container);
+            function createCorner(vSide, hSide) {
+              var className = l + vSide + " " + l + hSide;
+              corners[vSide + hSide] = create$1("div", className, container);
+            }
+            createCorner("top", "left");
+            createCorner("top", "right");
+            createCorner("bottom", "left");
+            createCorner("bottom", "right");
+          },
+          _clearControlPos: function() {
+            for (var i in this._controlCorners) {
+              remove(this._controlCorners[i]);
+            }
+            remove(this._controlContainer);
+            delete this._controlCorners;
+            delete this._controlContainer;
+          }
+        });
+        var Layers = Control.extend({
+          // @section
+          // @aka Control.Layers options
+          options: {
+            // @option collapsed: Boolean = true
+            // If `true`, the control will be collapsed into an icon and expanded on mouse hover, touch, or keyboard activation.
+            collapsed: true,
+            position: "topright",
+            // @option autoZIndex: Boolean = true
+            // If `true`, the control will assign zIndexes in increasing order to all of its layers so that the order is preserved when switching them on/off.
+            autoZIndex: true,
+            // @option hideSingleBase: Boolean = false
+            // If `true`, the base layers in the control will be hidden when there is only one.
+            hideSingleBase: false,
+            // @option sortLayers: Boolean = false
+            // Whether to sort the layers. When `false`, layers will keep the order
+            // in which they were added to the control.
+            sortLayers: false,
+            // @option sortFunction: Function = *
+            // A [compare function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+            // that will be used for sorting the layers, when `sortLayers` is `true`.
+            // The function receives both the `L.Layer` instances and their names, as in
+            // `sortFunction(layerA, layerB, nameA, nameB)`.
+            // By default, it sorts layers alphabetically by their name.
+            sortFunction: function(layerA, layerB, nameA, nameB) {
+              return nameA < nameB ? -1 : nameB < nameA ? 1 : 0;
+            }
+          },
+          initialize: function(baseLayers, overlays, options) {
+            setOptions(this, options);
+            this._layerControlInputs = [];
+            this._layers = [];
+            this._lastZIndex = 0;
+            this._handlingClick = false;
+            this._preventClick = false;
+            for (var i in baseLayers) {
+              this._addLayer(baseLayers[i], i);
+            }
+            for (i in overlays) {
+              this._addLayer(overlays[i], i, true);
+            }
+          },
+          onAdd: function(map) {
+            this._initLayout();
+            this._update();
+            this._map = map;
+            map.on("zoomend", this._checkDisabledLayers, this);
+            for (var i = 0; i < this._layers.length; i++) {
+              this._layers[i].layer.on("add remove", this._onLayerChange, this);
+            }
+            return this._container;
+          },
+          addTo: function(map) {
+            Control.prototype.addTo.call(this, map);
+            return this._expandIfNotCollapsed();
+          },
+          onRemove: function() {
+            this._map.off("zoomend", this._checkDisabledLayers, this);
+            for (var i = 0; i < this._layers.length; i++) {
+              this._layers[i].layer.off("add remove", this._onLayerChange, this);
+            }
+          },
+          // @method addBaseLayer(layer: Layer, name: String): this
+          // Adds a base layer (radio button entry) with the given name to the control.
+          addBaseLayer: function(layer, name) {
+            this._addLayer(layer, name);
+            return this._map ? this._update() : this;
+          },
+          // @method addOverlay(layer: Layer, name: String): this
+          // Adds an overlay (checkbox entry) with the given name to the control.
+          addOverlay: function(layer, name) {
+            this._addLayer(layer, name, true);
+            return this._map ? this._update() : this;
+          },
+          // @method removeLayer(layer: Layer): this
+          // Remove the given layer from the control.
+          removeLayer: function(layer) {
+            layer.off("add remove", this._onLayerChange, this);
+            var obj = this._getLayer(stamp(layer));
+            if (obj) {
+              this._layers.splice(this._layers.indexOf(obj), 1);
+            }
+            return this._map ? this._update() : this;
+          },
+          // @method expand(): this
+          // Expand the control container if collapsed.
+          expand: function() {
+            addClass(this._container, "leaflet-control-layers-expanded");
+            this._section.style.height = null;
+            var acceptableHeight = this._map.getSize().y - (this._container.offsetTop + 50);
+            if (acceptableHeight < this._section.clientHeight) {
+              addClass(this._section, "leaflet-control-layers-scrollbar");
+              this._section.style.height = acceptableHeight + "px";
+            } else {
+              removeClass(this._section, "leaflet-control-layers-scrollbar");
+            }
+            this._checkDisabledLayers();
+            return this;
+          },
+          // @method collapse(): this
+          // Collapse the control container if expanded.
+          collapse: function() {
+            removeClass(this._container, "leaflet-control-layers-expanded");
+            return this;
+          },
+          _initLayout: function() {
+            var className = "leaflet-control-layers", container = this._container = create$1("div", className), collapsed = this.options.collapsed;
+            container.setAttribute("aria-haspopup", true);
+            disableClickPropagation(container);
+            disableScrollPropagation(container);
+            var section = this._section = create$1("section", className + "-list");
+            if (collapsed) {
+              this._map.on("click", this.collapse, this);
+              on(container, {
+                mouseenter: this._expandSafely,
+                mouseleave: this.collapse
+              }, this);
+            }
+            var link = this._layersLink = create$1("a", className + "-toggle", container);
+            link.href = "#";
+            link.title = "Layers";
+            link.setAttribute("role", "button");
+            on(link, {
+              keydown: function(e) {
+                if (e.keyCode === 13) {
+                  this._expandSafely();
+                }
+              },
+              // Certain screen readers intercept the key event and instead send a click event
+              click: function(e) {
+                preventDefault(e);
+                this._expandSafely();
+              }
+            }, this);
+            if (!collapsed) {
+              this.expand();
+            }
+            this._baseLayersList = create$1("div", className + "-base", section);
+            this._separator = create$1("div", className + "-separator", section);
+            this._overlaysList = create$1("div", className + "-overlays", section);
+            container.appendChild(section);
+          },
+          _getLayer: function(id) {
+            for (var i = 0; i < this._layers.length; i++) {
+              if (this._layers[i] && stamp(this._layers[i].layer) === id) {
+                return this._layers[i];
+              }
+            }
+          },
+          _addLayer: function(layer, name, overlay) {
+            if (this._map) {
+              layer.on("add remove", this._onLayerChange, this);
+            }
+            this._layers.push({
+              layer,
+              name,
+              overlay
+            });
+            if (this.options.sortLayers) {
+              this._layers.sort(bind(function(a, b) {
+                return this.options.sortFunction(a.layer, b.layer, a.name, b.name);
+              }, this));
+            }
+            if (this.options.autoZIndex && layer.setZIndex) {
+              this._lastZIndex++;
+              layer.setZIndex(this._lastZIndex);
+            }
+            this._expandIfNotCollapsed();
+          },
+          _update: function() {
+            if (!this._container) {
+              return this;
+            }
+            empty(this._baseLayersList);
+            empty(this._overlaysList);
+            this._layerControlInputs = [];
+            var baseLayersPresent, overlaysPresent, i, obj, baseLayersCount = 0;
+            for (i = 0; i < this._layers.length; i++) {
+              obj = this._layers[i];
+              this._addItem(obj);
+              overlaysPresent = overlaysPresent || obj.overlay;
+              baseLayersPresent = baseLayersPresent || !obj.overlay;
+              baseLayersCount += !obj.overlay ? 1 : 0;
+            }
+            if (this.options.hideSingleBase) {
+              baseLayersPresent = baseLayersPresent && baseLayersCount > 1;
+              this._baseLayersList.style.display = baseLayersPresent ? "" : "none";
+            }
+            this._separator.style.display = overlaysPresent && baseLayersPresent ? "" : "none";
+            return this;
+          },
+          _onLayerChange: function(e) {
+            if (!this._handlingClick) {
+              this._update();
+            }
+            var obj = this._getLayer(stamp(e.target));
+            var type = obj.overlay ? e.type === "add" ? "overlayadd" : "overlayremove" : e.type === "add" ? "baselayerchange" : null;
+            if (type) {
+              this._map.fire(type, obj);
+            }
+          },
+          // IE7 bugs out if you create a radio dynamically, so you have to do it this hacky way (see https://stackoverflow.com/a/119079)
+          _createRadioElement: function(name, checked) {
+            var radioHtml = '<input type="radio" class="leaflet-control-layers-selector" name="' + name + '"' + (checked ? ' checked="checked"' : "") + "/>";
+            var radioFragment = document.createElement("div");
+            radioFragment.innerHTML = radioHtml;
+            return radioFragment.firstChild;
+          },
+          _addItem: function(obj) {
+            var label = document.createElement("label"), checked = this._map.hasLayer(obj.layer), input;
+            if (obj.overlay) {
+              input = document.createElement("input");
+              input.type = "checkbox";
+              input.className = "leaflet-control-layers-selector";
+              input.defaultChecked = checked;
+            } else {
+              input = this._createRadioElement("leaflet-base-layers_" + stamp(this), checked);
+            }
+            this._layerControlInputs.push(input);
+            input.layerId = stamp(obj.layer);
+            on(input, "click", this._onInputClick, this);
+            var name = document.createElement("span");
+            name.innerHTML = " " + obj.name;
+            var holder = document.createElement("span");
+            label.appendChild(holder);
+            holder.appendChild(input);
+            holder.appendChild(name);
+            var container = obj.overlay ? this._overlaysList : this._baseLayersList;
+            container.appendChild(label);
+            this._checkDisabledLayers();
+            return label;
+          },
+          _onInputClick: function() {
+            if (this._preventClick) {
+              return;
+            }
+            var inputs = this._layerControlInputs, input, layer;
+            var addedLayers = [], removedLayers = [];
+            this._handlingClick = true;
+            for (var i = inputs.length - 1; i >= 0; i--) {
+              input = inputs[i];
+              layer = this._getLayer(input.layerId).layer;
+              if (input.checked) {
+                addedLayers.push(layer);
+              } else if (!input.checked) {
+                removedLayers.push(layer);
+              }
+            }
+            for (i = 0; i < removedLayers.length; i++) {
+              if (this._map.hasLayer(removedLayers[i])) {
+                this._map.removeLayer(removedLayers[i]);
+              }
+            }
+            for (i = 0; i < addedLayers.length; i++) {
+              if (!this._map.hasLayer(addedLayers[i])) {
+                this._map.addLayer(addedLayers[i]);
+              }
+            }
+            this._handlingClick = false;
+            this._refocusOnMap();
+          },
+          _checkDisabledLayers: function() {
+            var inputs = this._layerControlInputs, input, layer, zoom2 = this._map.getZoom();
+            for (var i = inputs.length - 1; i >= 0; i--) {
+              input = inputs[i];
+              layer = this._getLayer(input.layerId).layer;
+              input.disabled = layer.options.minZoom !== void 0 && zoom2 < layer.options.minZoom || layer.options.maxZoom !== void 0 && zoom2 > layer.options.maxZoom;
+            }
+          },
+          _expandIfNotCollapsed: function() {
+            if (this._map && !this.options.collapsed) {
+              this.expand();
+            }
+            return this;
+          },
+          _expandSafely: function() {
+            var section = this._section;
+            this._preventClick = true;
+            on(section, "click", preventDefault);
+            this.expand();
+            var that = this;
+            setTimeout(function() {
+              off(section, "click", preventDefault);
+              that._preventClick = false;
+            });
+          }
+        });
+        var layers = function(baseLayers, overlays, options) {
+          return new Layers(baseLayers, overlays, options);
+        };
+        var Zoom = Control.extend({
+          // @section
+          // @aka Control.Zoom options
+          options: {
+            position: "topleft",
+            // @option zoomInText: String = '<span aria-hidden="true">+</span>'
+            // The text set on the 'zoom in' button.
+            zoomInText: '<span aria-hidden="true">+</span>',
+            // @option zoomInTitle: String = 'Zoom in'
+            // The title set on the 'zoom in' button.
+            zoomInTitle: "Zoom in",
+            // @option zoomOutText: String = '<span aria-hidden="true">&#x2212;</span>'
+            // The text set on the 'zoom out' button.
+            zoomOutText: '<span aria-hidden="true">&#x2212;</span>',
+            // @option zoomOutTitle: String = 'Zoom out'
+            // The title set on the 'zoom out' button.
+            zoomOutTitle: "Zoom out"
+          },
+          onAdd: function(map) {
+            var zoomName = "leaflet-control-zoom", container = create$1("div", zoomName + " leaflet-bar"), options = this.options;
+            this._zoomInButton = this._createButton(
+              options.zoomInText,
+              options.zoomInTitle,
+              zoomName + "-in",
+              container,
+              this._zoomIn
+            );
+            this._zoomOutButton = this._createButton(
+              options.zoomOutText,
+              options.zoomOutTitle,
+              zoomName + "-out",
+              container,
+              this._zoomOut
+            );
+            this._updateDisabled();
+            map.on("zoomend zoomlevelschange", this._updateDisabled, this);
+            return container;
+          },
+          onRemove: function(map) {
+            map.off("zoomend zoomlevelschange", this._updateDisabled, this);
+          },
+          disable: function() {
+            this._disabled = true;
+            this._updateDisabled();
+            return this;
+          },
+          enable: function() {
+            this._disabled = false;
+            this._updateDisabled();
+            return this;
+          },
+          _zoomIn: function(e) {
+            if (!this._disabled && this._map._zoom < this._map.getMaxZoom()) {
+              this._map.zoomIn(this._map.options.zoomDelta * (e.shiftKey ? 3 : 1));
+            }
+          },
+          _zoomOut: function(e) {
+            if (!this._disabled && this._map._zoom > this._map.getMinZoom()) {
+              this._map.zoomOut(this._map.options.zoomDelta * (e.shiftKey ? 3 : 1));
+            }
+          },
+          _createButton: function(html, title, className, container, fn) {
+            var link = create$1("a", className, container);
+            link.innerHTML = html;
+            link.href = "#";
+            link.title = title;
+            link.setAttribute("role", "button");
+            link.setAttribute("aria-label", title);
+            disableClickPropagation(link);
+            on(link, "click", stop);
+            on(link, "click", fn, this);
+            on(link, "click", this._refocusOnMap, this);
+            return link;
+          },
+          _updateDisabled: function() {
+            var map = this._map, className = "leaflet-disabled";
+            removeClass(this._zoomInButton, className);
+            removeClass(this._zoomOutButton, className);
+            this._zoomInButton.setAttribute("aria-disabled", "false");
+            this._zoomOutButton.setAttribute("aria-disabled", "false");
+            if (this._disabled || map._zoom === map.getMinZoom()) {
+              addClass(this._zoomOutButton, className);
+              this._zoomOutButton.setAttribute("aria-disabled", "true");
+            }
+            if (this._disabled || map._zoom === map.getMaxZoom()) {
+              addClass(this._zoomInButton, className);
+              this._zoomInButton.setAttribute("aria-disabled", "true");
+            }
+          }
+        });
+        Map.mergeOptions({
+          zoomControl: true
+        });
+        Map.addInitHook(function() {
+          if (this.options.zoomControl) {
+            this.zoomControl = new Zoom();
+            this.addControl(this.zoomControl);
+          }
+        });
+        var zoom = function(options) {
+          return new Zoom(options);
+        };
+        var Scale = Control.extend({
+          // @section
+          // @aka Control.Scale options
+          options: {
+            position: "bottomleft",
+            // @option maxWidth: Number = 100
+            // Maximum width of the control in pixels. The width is set dynamically to show round values (e.g. 100, 200, 500).
+            maxWidth: 100,
+            // @option metric: Boolean = True
+            // Whether to show the metric scale line (m/km).
+            metric: true,
+            // @option imperial: Boolean = True
+            // Whether to show the imperial scale line (mi/ft).
+            imperial: true
+            // @option updateWhenIdle: Boolean = false
+            // If `true`, the control is updated on [`moveend`](#map-moveend), otherwise it's always up-to-date (updated on [`move`](#map-move)).
+          },
+          onAdd: function(map) {
+            var className = "leaflet-control-scale", container = create$1("div", className), options = this.options;
+            this._addScales(options, className + "-line", container);
+            map.on(options.updateWhenIdle ? "moveend" : "move", this._update, this);
+            map.whenReady(this._update, this);
+            return container;
+          },
+          onRemove: function(map) {
+            map.off(this.options.updateWhenIdle ? "moveend" : "move", this._update, this);
+          },
+          _addScales: function(options, className, container) {
+            if (options.metric) {
+              this._mScale = create$1("div", className, container);
+            }
+            if (options.imperial) {
+              this._iScale = create$1("div", className, container);
+            }
+          },
+          _update: function() {
+            var map = this._map, y = map.getSize().y / 2;
+            var maxMeters = map.distance(
+              map.containerPointToLatLng([0, y]),
+              map.containerPointToLatLng([this.options.maxWidth, y])
+            );
+            this._updateScales(maxMeters);
+          },
+          _updateScales: function(maxMeters) {
+            if (this.options.metric && maxMeters) {
+              this._updateMetric(maxMeters);
+            }
+            if (this.options.imperial && maxMeters) {
+              this._updateImperial(maxMeters);
+            }
+          },
+          _updateMetric: function(maxMeters) {
+            var meters = this._getRoundNum(maxMeters), label = meters < 1e3 ? meters + " m" : meters / 1e3 + " km";
+            this._updateScale(this._mScale, label, meters / maxMeters);
+          },
+          _updateImperial: function(maxMeters) {
+            var maxFeet = maxMeters * 3.2808399, maxMiles, miles, feet;
+            if (maxFeet > 5280) {
+              maxMiles = maxFeet / 5280;
+              miles = this._getRoundNum(maxMiles);
+              this._updateScale(this._iScale, miles + " mi", miles / maxMiles);
+            } else {
+              feet = this._getRoundNum(maxFeet);
+              this._updateScale(this._iScale, feet + " ft", feet / maxFeet);
+            }
+          },
+          _updateScale: function(scale2, text, ratio) {
+            scale2.style.width = Math.round(this.options.maxWidth * ratio) + "px";
+            scale2.innerHTML = text;
+          },
+          _getRoundNum: function(num) {
+            var pow10 = Math.pow(10, (Math.floor(num) + "").length - 1), d = num / pow10;
+            d = d >= 10 ? 10 : d >= 5 ? 5 : d >= 3 ? 3 : d >= 2 ? 2 : 1;
+            return pow10 * d;
+          }
+        });
+        var scale = function(options) {
+          return new Scale(options);
+        };
+        var ukrainianFlag = '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"/><path fill="#FFD500" d="M0 4h12v3H0z"/><path fill="#E0BC00" d="M0 7h12v1H0z"/></svg>';
+        var Attribution = Control.extend({
+          // @section
+          // @aka Control.Attribution options
+          options: {
+            position: "bottomright",
+            // @option prefix: String|false = 'Leaflet'
+            // The HTML text shown before the attributions. Pass `false` to disable.
+            prefix: '<a href="https://leafletjs.com" title="A JavaScript library for interactive maps">' + (Browser.inlineSvg ? ukrainianFlag + " " : "") + "Leaflet</a>"
+          },
+          initialize: function(options) {
+            setOptions(this, options);
+            this._attributions = {};
+          },
+          onAdd: function(map) {
+            map.attributionControl = this;
+            this._container = create$1("div", "leaflet-control-attribution");
+            disableClickPropagation(this._container);
+            for (var i in map._layers) {
+              if (map._layers[i].getAttribution) {
+                this.addAttribution(map._layers[i].getAttribution());
+              }
+            }
+            this._update();
+            map.on("layeradd", this._addAttribution, this);
+            return this._container;
+          },
+          onRemove: function(map) {
+            map.off("layeradd", this._addAttribution, this);
+          },
+          _addAttribution: function(ev) {
+            if (ev.layer.getAttribution) {
+              this.addAttribution(ev.layer.getAttribution());
+              ev.layer.once("remove", function() {
+                this.removeAttribution(ev.layer.getAttribution());
+              }, this);
+            }
+          },
+          // @method setPrefix(prefix: String|false): this
+          // The HTML text shown before the attributions. Pass `false` to disable.
+          setPrefix: function(prefix) {
+            this.options.prefix = prefix;
+            this._update();
+            return this;
+          },
+          // @method addAttribution(text: String): this
+          // Adds an attribution text (e.g. `'&copy; OpenStreetMap contributors'`).
+          addAttribution: function(text) {
+            if (!text) {
+              return this;
+            }
+            if (!this._attributions[text]) {
+              this._attributions[text] = 0;
+            }
+            this._attributions[text]++;
+            this._update();
+            return this;
+          },
+          // @method removeAttribution(text: String): this
+          // Removes an attribution text.
+          removeAttribution: function(text) {
+            if (!text) {
+              return this;
+            }
+            if (this._attributions[text]) {
+              this._attributions[text]--;
+              this._update();
+            }
+            return this;
+          },
+          _update: function() {
+            if (!this._map) {
+              return;
+            }
+            var attribs = [];
+            for (var i in this._attributions) {
+              if (this._attributions[i]) {
+                attribs.push(i);
+              }
+            }
+            var prefixAndAttribs = [];
+            if (this.options.prefix) {
+              prefixAndAttribs.push(this.options.prefix);
+            }
+            if (attribs.length) {
+              prefixAndAttribs.push(attribs.join(", "));
+            }
+            this._container.innerHTML = prefixAndAttribs.join(' <span aria-hidden="true">|</span> ');
+          }
+        });
+        Map.mergeOptions({
+          attributionControl: true
+        });
+        Map.addInitHook(function() {
+          if (this.options.attributionControl) {
+            new Attribution().addTo(this);
+          }
+        });
+        var attribution = function(options) {
+          return new Attribution(options);
+        };
+        Control.Layers = Layers;
+        Control.Zoom = Zoom;
+        Control.Scale = Scale;
+        Control.Attribution = Attribution;
+        control.layers = layers;
+        control.zoom = zoom;
+        control.scale = scale;
+        control.attribution = attribution;
+        var Handler = Class.extend({
+          initialize: function(map) {
+            this._map = map;
+          },
+          // @method enable(): this
+          // Enables the handler
+          enable: function() {
+            if (this._enabled) {
+              return this;
+            }
+            this._enabled = true;
+            this.addHooks();
+            return this;
+          },
+          // @method disable(): this
+          // Disables the handler
+          disable: function() {
+            if (!this._enabled) {
+              return this;
+            }
+            this._enabled = false;
+            this.removeHooks();
+            return this;
+          },
+          // @method enabled(): Boolean
+          // Returns `true` if the handler is enabled
+          enabled: function() {
+            return !!this._enabled;
+          }
+          // @section Extension methods
+          // Classes inheriting from `Handler` must implement the two following methods:
+          // @method addHooks()
+          // Called when the handler is enabled, should add event hooks.
+          // @method removeHooks()
+          // Called when the handler is disabled, should remove the event hooks added previously.
+        });
+        Handler.addTo = function(map, name) {
+          map.addHandler(name, this);
+          return this;
+        };
+        var Mixin = { Events };
+        var START = Browser.touch ? "touchstart mousedown" : "mousedown";
+        var Draggable = Evented.extend({
+          options: {
+            // @section
+            // @aka Draggable options
+            // @option clickTolerance: Number = 3
+            // The max number of pixels a user can shift the mouse pointer during a click
+            // for it to be considered a valid click (as opposed to a mouse drag).
+            clickTolerance: 3
+          },
+          // @constructor L.Draggable(el: HTMLElement, dragHandle?: HTMLElement, preventOutline?: Boolean, options?: Draggable options)
+          // Creates a `Draggable` object for moving `el` when you start dragging the `dragHandle` element (equals `el` itself by default).
+          initialize: function(element, dragStartTarget, preventOutline2, options) {
+            setOptions(this, options);
+            this._element = element;
+            this._dragStartTarget = dragStartTarget || element;
+            this._preventOutline = preventOutline2;
+          },
+          // @method enable()
+          // Enables the dragging ability
+          enable: function() {
+            if (this._enabled) {
+              return;
+            }
+            on(this._dragStartTarget, START, this._onDown, this);
+            this._enabled = true;
+          },
+          // @method disable()
+          // Disables the dragging ability
+          disable: function() {
+            if (!this._enabled) {
+              return;
+            }
+            if (Draggable._dragging === this) {
+              this.finishDrag(true);
+            }
+            off(this._dragStartTarget, START, this._onDown, this);
+            this._enabled = false;
+            this._moved = false;
+          },
+          _onDown: function(e) {
+            if (!this._enabled) {
+              return;
+            }
+            this._moved = false;
+            if (hasClass(this._element, "leaflet-zoom-anim")) {
+              return;
+            }
+            if (e.touches && e.touches.length !== 1) {
+              if (Draggable._dragging === this) {
+                this.finishDrag();
+              }
+              return;
+            }
+            if (Draggable._dragging || e.shiftKey || e.which !== 1 && e.button !== 1 && !e.touches) {
+              return;
+            }
+            Draggable._dragging = this;
+            if (this._preventOutline) {
+              preventOutline(this._element);
+            }
+            disableImageDrag();
+            disableTextSelection();
+            if (this._moving) {
+              return;
+            }
+            this.fire("down");
+            var first = e.touches ? e.touches[0] : e, sizedParent = getSizedParentNode(this._element);
+            this._startPoint = new Point(first.clientX, first.clientY);
+            this._startPos = getPosition(this._element);
+            this._parentScale = getScale(sizedParent);
+            var mouseevent = e.type === "mousedown";
+            on(document, mouseevent ? "mousemove" : "touchmove", this._onMove, this);
+            on(document, mouseevent ? "mouseup" : "touchend touchcancel", this._onUp, this);
+          },
+          _onMove: function(e) {
+            if (!this._enabled) {
+              return;
+            }
+            if (e.touches && e.touches.length > 1) {
+              this._moved = true;
+              return;
+            }
+            var first = e.touches && e.touches.length === 1 ? e.touches[0] : e, offset = new Point(first.clientX, first.clientY)._subtract(this._startPoint);
+            if (!offset.x && !offset.y) {
+              return;
+            }
+            if (Math.abs(offset.x) + Math.abs(offset.y) < this.options.clickTolerance) {
+              return;
+            }
+            offset.x /= this._parentScale.x;
+            offset.y /= this._parentScale.y;
+            preventDefault(e);
+            if (!this._moved) {
+              this.fire("dragstart");
+              this._moved = true;
+              addClass(document.body, "leaflet-dragging");
+              this._lastTarget = e.target || e.srcElement;
+              if (window.SVGElementInstance && this._lastTarget instanceof window.SVGElementInstance) {
+                this._lastTarget = this._lastTarget.correspondingUseElement;
+              }
+              addClass(this._lastTarget, "leaflet-drag-target");
+            }
+            this._newPos = this._startPos.add(offset);
+            this._moving = true;
+            this._lastEvent = e;
+            this._updatePosition();
+          },
+          _updatePosition: function() {
+            var e = { originalEvent: this._lastEvent };
+            this.fire("predrag", e);
+            setPosition(this._element, this._newPos);
+            this.fire("drag", e);
+          },
+          _onUp: function() {
+            if (!this._enabled) {
+              return;
+            }
+            this.finishDrag();
+          },
+          finishDrag: function(noInertia) {
+            removeClass(document.body, "leaflet-dragging");
+            if (this._lastTarget) {
+              removeClass(this._lastTarget, "leaflet-drag-target");
+              this._lastTarget = null;
+            }
+            off(document, "mousemove touchmove", this._onMove, this);
+            off(document, "mouseup touchend touchcancel", this._onUp, this);
+            enableImageDrag();
+            enableTextSelection();
+            var fireDragend = this._moved && this._moving;
+            this._moving = false;
+            Draggable._dragging = false;
+            if (fireDragend) {
+              this.fire("dragend", {
+                noInertia,
+                distance: this._newPos.distanceTo(this._startPos)
+              });
+            }
+          }
+        });
+        function clipPolygon(points, bounds, round) {
+          var clippedPoints, edges = [1, 4, 2, 8], i, j, k, a, b, len, edge2, p;
+          for (i = 0, len = points.length; i < len; i++) {
+            points[i]._code = _getBitCode(points[i], bounds);
+          }
+          for (k = 0; k < 4; k++) {
+            edge2 = edges[k];
+            clippedPoints = [];
+            for (i = 0, len = points.length, j = len - 1; i < len; j = i++) {
+              a = points[i];
+              b = points[j];
+              if (!(a._code & edge2)) {
+                if (b._code & edge2) {
+                  p = _getEdgeIntersection(b, a, edge2, bounds, round);
+                  p._code = _getBitCode(p, bounds);
+                  clippedPoints.push(p);
+                }
+                clippedPoints.push(a);
+              } else if (!(b._code & edge2)) {
+                p = _getEdgeIntersection(b, a, edge2, bounds, round);
+                p._code = _getBitCode(p, bounds);
+                clippedPoints.push(p);
+              }
+            }
+            points = clippedPoints;
+          }
+          return points;
+        }
+        function polygonCenter(latlngs, crs) {
+          var i, j, p1, p2, f, area, x, y, center;
+          if (!latlngs || latlngs.length === 0) {
+            throw new Error("latlngs not passed");
+          }
+          if (!isFlat(latlngs)) {
+            console.warn("latlngs are not flat! Only the first ring will be used");
+            latlngs = latlngs[0];
+          }
+          var centroidLatLng = toLatLng([0, 0]);
+          var bounds = toLatLngBounds(latlngs);
+          var areaBounds = bounds.getNorthWest().distanceTo(bounds.getSouthWest()) * bounds.getNorthEast().distanceTo(bounds.getNorthWest());
+          if (areaBounds < 1700) {
+            centroidLatLng = centroid(latlngs);
+          }
+          var len = latlngs.length;
+          var points = [];
+          for (i = 0; i < len; i++) {
+            var latlng = toLatLng(latlngs[i]);
+            points.push(crs.project(toLatLng([latlng.lat - centroidLatLng.lat, latlng.lng - centroidLatLng.lng])));
+          }
+          area = x = y = 0;
+          for (i = 0, j = len - 1; i < len; j = i++) {
+            p1 = points[i];
+            p2 = points[j];
+            f = p1.y * p2.x - p2.y * p1.x;
+            x += (p1.x + p2.x) * f;
+            y += (p1.y + p2.y) * f;
+            area += f * 3;
+          }
+          if (area === 0) {
+            center = points[0];
+          } else {
+            center = [x / area, y / area];
+          }
+          var latlngCenter = crs.unproject(toPoint(center));
+          return toLatLng([latlngCenter.lat + centroidLatLng.lat, latlngCenter.lng + centroidLatLng.lng]);
+        }
+        function centroid(coords) {
+          var latSum = 0;
+          var lngSum = 0;
+          var len = 0;
+          for (var i = 0; i < coords.length; i++) {
+            var latlng = toLatLng(coords[i]);
+            latSum += latlng.lat;
+            lngSum += latlng.lng;
+            len++;
+          }
+          return toLatLng([latSum / len, lngSum / len]);
+        }
+        var PolyUtil = {
+          __proto__: null,
+          clipPolygon,
+          polygonCenter,
+          centroid
+        };
+        function simplify(points, tolerance) {
+          if (!tolerance || !points.length) {
+            return points.slice();
+          }
+          var sqTolerance = tolerance * tolerance;
+          points = _reducePoints(points, sqTolerance);
+          points = _simplifyDP(points, sqTolerance);
+          return points;
+        }
+        function pointToSegmentDistance(p, p1, p2) {
+          return Math.sqrt(_sqClosestPointOnSegment(p, p1, p2, true));
+        }
+        function closestPointOnSegment(p, p1, p2) {
+          return _sqClosestPointOnSegment(p, p1, p2);
+        }
+        function _simplifyDP(points, sqTolerance) {
+          var len = points.length, ArrayConstructor = typeof Uint8Array !== "undefined" ? Uint8Array : Array, markers = new ArrayConstructor(len);
+          markers[0] = markers[len - 1] = 1;
+          _simplifyDPStep(points, markers, sqTolerance, 0, len - 1);
+          var i, newPoints = [];
+          for (i = 0; i < len; i++) {
+            if (markers[i]) {
+              newPoints.push(points[i]);
+            }
+          }
+          return newPoints;
+        }
+        function _simplifyDPStep(points, markers, sqTolerance, first, last) {
+          var maxSqDist = 0, index2, i, sqDist;
+          for (i = first + 1; i <= last - 1; i++) {
+            sqDist = _sqClosestPointOnSegment(points[i], points[first], points[last], true);
+            if (sqDist > maxSqDist) {
+              index2 = i;
+              maxSqDist = sqDist;
+            }
+          }
+          if (maxSqDist > sqTolerance) {
+            markers[index2] = 1;
+            _simplifyDPStep(points, markers, sqTolerance, first, index2);
+            _simplifyDPStep(points, markers, sqTolerance, index2, last);
+          }
+        }
+        function _reducePoints(points, sqTolerance) {
+          var reducedPoints = [points[0]];
+          for (var i = 1, prev = 0, len = points.length; i < len; i++) {
+            if (_sqDist(points[i], points[prev]) > sqTolerance) {
+              reducedPoints.push(points[i]);
+              prev = i;
+            }
+          }
+          if (prev < len - 1) {
+            reducedPoints.push(points[len - 1]);
+          }
+          return reducedPoints;
+        }
+        var _lastCode;
+        function clipSegment(a, b, bounds, useLastCode, round) {
+          var codeA = useLastCode ? _lastCode : _getBitCode(a, bounds), codeB = _getBitCode(b, bounds), codeOut, p, newCode;
+          _lastCode = codeB;
+          while (true) {
+            if (!(codeA | codeB)) {
+              return [a, b];
+            }
+            if (codeA & codeB) {
+              return false;
+            }
+            codeOut = codeA || codeB;
+            p = _getEdgeIntersection(a, b, codeOut, bounds, round);
+            newCode = _getBitCode(p, bounds);
+            if (codeOut === codeA) {
+              a = p;
+              codeA = newCode;
+            } else {
+              b = p;
+              codeB = newCode;
+            }
+          }
+        }
+        function _getEdgeIntersection(a, b, code, bounds, round) {
+          var dx = b.x - a.x, dy = b.y - a.y, min = bounds.min, max = bounds.max, x, y;
+          if (code & 8) {
+            x = a.x + dx * (max.y - a.y) / dy;
+            y = max.y;
+          } else if (code & 4) {
+            x = a.x + dx * (min.y - a.y) / dy;
+            y = min.y;
+          } else if (code & 2) {
+            x = max.x;
+            y = a.y + dy * (max.x - a.x) / dx;
+          } else if (code & 1) {
+            x = min.x;
+            y = a.y + dy * (min.x - a.x) / dx;
+          }
+          return new Point(x, y, round);
+        }
+        function _getBitCode(p, bounds) {
+          var code = 0;
+          if (p.x < bounds.min.x) {
+            code |= 1;
+          } else if (p.x > bounds.max.x) {
+            code |= 2;
+          }
+          if (p.y < bounds.min.y) {
+            code |= 4;
+          } else if (p.y > bounds.max.y) {
+            code |= 8;
+          }
+          return code;
+        }
+        function _sqDist(p1, p2) {
+          var dx = p2.x - p1.x, dy = p2.y - p1.y;
+          return dx * dx + dy * dy;
+        }
+        function _sqClosestPointOnSegment(p, p1, p2, sqDist) {
+          var x = p1.x, y = p1.y, dx = p2.x - x, dy = p2.y - y, dot = dx * dx + dy * dy, t;
+          if (dot > 0) {
+            t = ((p.x - x) * dx + (p.y - y) * dy) / dot;
+            if (t > 1) {
+              x = p2.x;
+              y = p2.y;
+            } else if (t > 0) {
+              x += dx * t;
+              y += dy * t;
+            }
+          }
+          dx = p.x - x;
+          dy = p.y - y;
+          return sqDist ? dx * dx + dy * dy : new Point(x, y);
+        }
+        function isFlat(latlngs) {
+          return !isArray(latlngs[0]) || typeof latlngs[0][0] !== "object" && typeof latlngs[0][0] !== "undefined";
+        }
+        function _flat(latlngs) {
+          console.warn("Deprecated use of _flat, please use L.LineUtil.isFlat instead.");
+          return isFlat(latlngs);
+        }
+        function polylineCenter(latlngs, crs) {
+          var i, halfDist, segDist, dist, p1, p2, ratio, center;
+          if (!latlngs || latlngs.length === 0) {
+            throw new Error("latlngs not passed");
+          }
+          if (!isFlat(latlngs)) {
+            console.warn("latlngs are not flat! Only the first ring will be used");
+            latlngs = latlngs[0];
+          }
+          var centroidLatLng = toLatLng([0, 0]);
+          var bounds = toLatLngBounds(latlngs);
+          var areaBounds = bounds.getNorthWest().distanceTo(bounds.getSouthWest()) * bounds.getNorthEast().distanceTo(bounds.getNorthWest());
+          if (areaBounds < 1700) {
+            centroidLatLng = centroid(latlngs);
+          }
+          var len = latlngs.length;
+          var points = [];
+          for (i = 0; i < len; i++) {
+            var latlng = toLatLng(latlngs[i]);
+            points.push(crs.project(toLatLng([latlng.lat - centroidLatLng.lat, latlng.lng - centroidLatLng.lng])));
+          }
+          for (i = 0, halfDist = 0; i < len - 1; i++) {
+            halfDist += points[i].distanceTo(points[i + 1]) / 2;
+          }
+          if (halfDist === 0) {
+            center = points[0];
+          } else {
+            for (i = 0, dist = 0; i < len - 1; i++) {
+              p1 = points[i];
+              p2 = points[i + 1];
+              segDist = p1.distanceTo(p2);
+              dist += segDist;
+              if (dist > halfDist) {
+                ratio = (dist - halfDist) / segDist;
+                center = [
+                  p2.x - ratio * (p2.x - p1.x),
+                  p2.y - ratio * (p2.y - p1.y)
+                ];
+                break;
+              }
+            }
+          }
+          var latlngCenter = crs.unproject(toPoint(center));
+          return toLatLng([latlngCenter.lat + centroidLatLng.lat, latlngCenter.lng + centroidLatLng.lng]);
+        }
+        var LineUtil = {
+          __proto__: null,
+          simplify,
+          pointToSegmentDistance,
+          closestPointOnSegment,
+          clipSegment,
+          _getEdgeIntersection,
+          _getBitCode,
+          _sqClosestPointOnSegment,
+          isFlat,
+          _flat,
+          polylineCenter
+        };
+        var LonLat = {
+          project: function(latlng) {
+            return new Point(latlng.lng, latlng.lat);
+          },
+          unproject: function(point) {
+            return new LatLng(point.y, point.x);
+          },
+          bounds: new Bounds([-180, -90], [180, 90])
+        };
+        var Mercator = {
+          R: 6378137,
+          R_MINOR: 6356752314245179e-9,
+          bounds: new Bounds([-2003750834279e-5, -1549657073972e-5], [2003750834279e-5, 1876465623138e-5]),
+          project: function(latlng) {
+            var d = Math.PI / 180, r = this.R, y = latlng.lat * d, tmp = this.R_MINOR / r, e = Math.sqrt(1 - tmp * tmp), con = e * Math.sin(y);
+            var ts = Math.tan(Math.PI / 4 - y / 2) / Math.pow((1 - con) / (1 + con), e / 2);
+            y = -r * Math.log(Math.max(ts, 1e-10));
+            return new Point(latlng.lng * d * r, y);
+          },
+          unproject: function(point) {
+            var d = 180 / Math.PI, r = this.R, tmp = this.R_MINOR / r, e = Math.sqrt(1 - tmp * tmp), ts = Math.exp(-point.y / r), phi = Math.PI / 2 - 2 * Math.atan(ts);
+            for (var i = 0, dphi = 0.1, con; i < 15 && Math.abs(dphi) > 1e-7; i++) {
+              con = e * Math.sin(phi);
+              con = Math.pow((1 - con) / (1 + con), e / 2);
+              dphi = Math.PI / 2 - 2 * Math.atan(ts * con) - phi;
+              phi += dphi;
+            }
+            return new LatLng(phi * d, point.x * d / r);
+          }
+        };
+        var index = {
+          __proto__: null,
+          LonLat,
+          Mercator,
+          SphericalMercator
+        };
+        var EPSG3395 = extend({}, Earth, {
+          code: "EPSG:3395",
+          projection: Mercator,
+          transformation: (function() {
+            var scale2 = 0.5 / (Math.PI * Mercator.R);
+            return toTransformation(scale2, 0.5, -scale2, 0.5);
+          })()
+        });
+        var EPSG4326 = extend({}, Earth, {
+          code: "EPSG:4326",
+          projection: LonLat,
+          transformation: toTransformation(1 / 180, 1, -1 / 180, 0.5)
+        });
+        var Simple = extend({}, CRS, {
+          projection: LonLat,
+          transformation: toTransformation(1, 0, -1, 0),
+          scale: function(zoom2) {
+            return Math.pow(2, zoom2);
+          },
+          zoom: function(scale2) {
+            return Math.log(scale2) / Math.LN2;
+          },
+          distance: function(latlng1, latlng2) {
+            var dx = latlng2.lng - latlng1.lng, dy = latlng2.lat - latlng1.lat;
+            return Math.sqrt(dx * dx + dy * dy);
+          },
+          infinite: true
+        });
+        CRS.Earth = Earth;
+        CRS.EPSG3395 = EPSG3395;
+        CRS.EPSG3857 = EPSG3857;
+        CRS.EPSG900913 = EPSG900913;
+        CRS.EPSG4326 = EPSG4326;
+        CRS.Simple = Simple;
+        var Layer = Evented.extend({
+          // Classes extending `L.Layer` will inherit the following options:
+          options: {
+            // @option pane: String = 'overlayPane'
+            // By default the layer will be added to the map's [overlay pane](#map-overlaypane). Overriding this option will cause the layer to be placed on another pane by default.
+            pane: "overlayPane",
+            // @option attribution: String = null
+            // String to be shown in the attribution control, e.g. "© OpenStreetMap contributors". It describes the layer data and is often a legal obligation towards copyright holders and tile providers.
+            attribution: null,
+            bubblingMouseEvents: true
+          },
+          /* @section
+           * Classes extending `L.Layer` will inherit the following methods:
+           *
+           * @method addTo(map: Map|LayerGroup): this
+           * Adds the layer to the given map or layer group.
+           */
+          addTo: function(map) {
+            map.addLayer(this);
+            return this;
+          },
+          // @method remove: this
+          // Removes the layer from the map it is currently active on.
+          remove: function() {
+            return this.removeFrom(this._map || this._mapToAdd);
+          },
+          // @method removeFrom(map: Map): this
+          // Removes the layer from the given map
+          //
+          // @alternative
+          // @method removeFrom(group: LayerGroup): this
+          // Removes the layer from the given `LayerGroup`
+          removeFrom: function(obj) {
+            if (obj) {
+              obj.removeLayer(this);
+            }
+            return this;
+          },
+          // @method getPane(name? : String): HTMLElement
+          // Returns the `HTMLElement` representing the named pane on the map. If `name` is omitted, returns the pane for this layer.
+          getPane: function(name) {
+            return this._map.getPane(name ? this.options[name] || name : this.options.pane);
+          },
+          addInteractiveTarget: function(targetEl) {
+            this._map._targets[stamp(targetEl)] = this;
+            return this;
+          },
+          removeInteractiveTarget: function(targetEl) {
+            delete this._map._targets[stamp(targetEl)];
+            return this;
+          },
+          // @method getAttribution: String
+          // Used by the `attribution control`, returns the [attribution option](#gridlayer-attribution).
+          getAttribution: function() {
+            return this.options.attribution;
+          },
+          _layerAdd: function(e) {
+            var map = e.target;
+            if (!map.hasLayer(this)) {
+              return;
+            }
+            this._map = map;
+            this._zoomAnimated = map._zoomAnimated;
+            if (this.getEvents) {
+              var events = this.getEvents();
+              map.on(events, this);
+              this.once("remove", function() {
+                map.off(events, this);
+              }, this);
+            }
+            this.onAdd(map);
+            this.fire("add");
+            map.fire("layeradd", { layer: this });
+          }
+        });
+        Map.include({
+          // @method addLayer(layer: Layer): this
+          // Adds the given layer to the map
+          addLayer: function(layer) {
+            if (!layer._layerAdd) {
+              throw new Error("The provided object is not a Layer.");
+            }
+            var id = stamp(layer);
+            if (this._layers[id]) {
+              return this;
+            }
+            this._layers[id] = layer;
+            layer._mapToAdd = this;
+            if (layer.beforeAdd) {
+              layer.beforeAdd(this);
+            }
+            this.whenReady(layer._layerAdd, layer);
+            return this;
+          },
+          // @method removeLayer(layer: Layer): this
+          // Removes the given layer from the map.
+          removeLayer: function(layer) {
+            var id = stamp(layer);
+            if (!this._layers[id]) {
+              return this;
+            }
+            if (this._loaded) {
+              layer.onRemove(this);
+            }
+            delete this._layers[id];
+            if (this._loaded) {
+              this.fire("layerremove", { layer });
+              layer.fire("remove");
+            }
+            layer._map = layer._mapToAdd = null;
+            return this;
+          },
+          // @method hasLayer(layer: Layer): Boolean
+          // Returns `true` if the given layer is currently added to the map
+          hasLayer: function(layer) {
+            return stamp(layer) in this._layers;
+          },
+          /* @method eachLayer(fn: Function, context?: Object): this
+           * Iterates over the layers of the map, optionally specifying context of the iterator function.
+           * ```
+           * map.eachLayer(function(layer){
+           *     layer.bindPopup('Hello');
+           * });
+           * ```
+           */
+          eachLayer: function(method, context) {
+            for (var i in this._layers) {
+              method.call(context, this._layers[i]);
+            }
+            return this;
+          },
+          _addLayers: function(layers2) {
+            layers2 = layers2 ? isArray(layers2) ? layers2 : [layers2] : [];
+            for (var i = 0, len = layers2.length; i < len; i++) {
+              this.addLayer(layers2[i]);
+            }
+          },
+          _addZoomLimit: function(layer) {
+            if (!isNaN(layer.options.maxZoom) || !isNaN(layer.options.minZoom)) {
+              this._zoomBoundLayers[stamp(layer)] = layer;
+              this._updateZoomLevels();
+            }
+          },
+          _removeZoomLimit: function(layer) {
+            var id = stamp(layer);
+            if (this._zoomBoundLayers[id]) {
+              delete this._zoomBoundLayers[id];
+              this._updateZoomLevels();
+            }
+          },
+          _updateZoomLevels: function() {
+            var minZoom = Infinity, maxZoom = -Infinity, oldZoomSpan = this._getZoomSpan();
+            for (var i in this._zoomBoundLayers) {
+              var options = this._zoomBoundLayers[i].options;
+              minZoom = options.minZoom === void 0 ? minZoom : Math.min(minZoom, options.minZoom);
+              maxZoom = options.maxZoom === void 0 ? maxZoom : Math.max(maxZoom, options.maxZoom);
+            }
+            this._layersMaxZoom = maxZoom === -Infinity ? void 0 : maxZoom;
+            this._layersMinZoom = minZoom === Infinity ? void 0 : minZoom;
+            if (oldZoomSpan !== this._getZoomSpan()) {
+              this.fire("zoomlevelschange");
+            }
+            if (this.options.maxZoom === void 0 && this._layersMaxZoom && this.getZoom() > this._layersMaxZoom) {
+              this.setZoom(this._layersMaxZoom);
+            }
+            if (this.options.minZoom === void 0 && this._layersMinZoom && this.getZoom() < this._layersMinZoom) {
+              this.setZoom(this._layersMinZoom);
+            }
+          }
+        });
+        var LayerGroup = Layer.extend({
+          initialize: function(layers2, options) {
+            setOptions(this, options);
+            this._layers = {};
+            var i, len;
+            if (layers2) {
+              for (i = 0, len = layers2.length; i < len; i++) {
+                this.addLayer(layers2[i]);
+              }
+            }
+          },
+          // @method addLayer(layer: Layer): this
+          // Adds the given layer to the group.
+          addLayer: function(layer) {
+            var id = this.getLayerId(layer);
+            this._layers[id] = layer;
+            if (this._map) {
+              this._map.addLayer(layer);
+            }
+            return this;
+          },
+          // @method removeLayer(layer: Layer): this
+          // Removes the given layer from the group.
+          // @alternative
+          // @method removeLayer(id: Number): this
+          // Removes the layer with the given internal ID from the group.
+          removeLayer: function(layer) {
+            var id = layer in this._layers ? layer : this.getLayerId(layer);
+            if (this._map && this._layers[id]) {
+              this._map.removeLayer(this._layers[id]);
+            }
+            delete this._layers[id];
+            return this;
+          },
+          // @method hasLayer(layer: Layer): Boolean
+          // Returns `true` if the given layer is currently added to the group.
+          // @alternative
+          // @method hasLayer(id: Number): Boolean
+          // Returns `true` if the given internal ID is currently added to the group.
+          hasLayer: function(layer) {
+            var layerId = typeof layer === "number" ? layer : this.getLayerId(layer);
+            return layerId in this._layers;
+          },
+          // @method clearLayers(): this
+          // Removes all the layers from the group.
+          clearLayers: function() {
+            return this.eachLayer(this.removeLayer, this);
+          },
+          // @method invoke(methodName: String, …): this
+          // Calls `methodName` on every layer contained in this group, passing any
+          // additional parameters. Has no effect if the layers contained do not
+          // implement `methodName`.
+          invoke: function(methodName) {
+            var args = Array.prototype.slice.call(arguments, 1), i, layer;
+            for (i in this._layers) {
+              layer = this._layers[i];
+              if (layer[methodName]) {
+                layer[methodName].apply(layer, args);
+              }
+            }
+            return this;
+          },
+          onAdd: function(map) {
+            this.eachLayer(map.addLayer, map);
+          },
+          onRemove: function(map) {
+            this.eachLayer(map.removeLayer, map);
+          },
+          // @method eachLayer(fn: Function, context?: Object): this
+          // Iterates over the layers of the group, optionally specifying context of the iterator function.
+          // ```js
+          // group.eachLayer(function (layer) {
+          // 	layer.bindPopup('Hello');
+          // });
+          // ```
+          eachLayer: function(method, context) {
+            for (var i in this._layers) {
+              method.call(context, this._layers[i]);
+            }
+            return this;
+          },
+          // @method getLayer(id: Number): Layer
+          // Returns the layer with the given internal ID.
+          getLayer: function(id) {
+            return this._layers[id];
+          },
+          // @method getLayers(): Layer[]
+          // Returns an array of all the layers added to the group.
+          getLayers: function() {
+            var layers2 = [];
+            this.eachLayer(layers2.push, layers2);
+            return layers2;
+          },
+          // @method setZIndex(zIndex: Number): this
+          // Calls `setZIndex` on every layer contained in this group, passing the z-index.
+          setZIndex: function(zIndex) {
+            return this.invoke("setZIndex", zIndex);
+          },
+          // @method getLayerId(layer: Layer): Number
+          // Returns the internal ID for a layer
+          getLayerId: function(layer) {
+            return stamp(layer);
+          }
+        });
+        var layerGroup = function(layers2, options) {
+          return new LayerGroup(layers2, options);
+        };
+        var FeatureGroup = LayerGroup.extend({
+          addLayer: function(layer) {
+            if (this.hasLayer(layer)) {
+              return this;
+            }
+            layer.addEventParent(this);
+            LayerGroup.prototype.addLayer.call(this, layer);
+            return this.fire("layeradd", { layer });
+          },
+          removeLayer: function(layer) {
+            if (!this.hasLayer(layer)) {
+              return this;
+            }
+            if (layer in this._layers) {
+              layer = this._layers[layer];
+            }
+            layer.removeEventParent(this);
+            LayerGroup.prototype.removeLayer.call(this, layer);
+            return this.fire("layerremove", { layer });
+          },
+          // @method setStyle(style: Path options): this
+          // Sets the given path options to each layer of the group that has a `setStyle` method.
+          setStyle: function(style2) {
+            return this.invoke("setStyle", style2);
+          },
+          // @method bringToFront(): this
+          // Brings the layer group to the top of all other layers
+          bringToFront: function() {
+            return this.invoke("bringToFront");
+          },
+          // @method bringToBack(): this
+          // Brings the layer group to the back of all other layers
+          bringToBack: function() {
+            return this.invoke("bringToBack");
+          },
+          // @method getBounds(): LatLngBounds
+          // Returns the LatLngBounds of the Feature Group (created from bounds and coordinates of its children).
+          getBounds: function() {
+            var bounds = new LatLngBounds();
+            for (var id in this._layers) {
+              var layer = this._layers[id];
+              bounds.extend(layer.getBounds ? layer.getBounds() : layer.getLatLng());
+            }
+            return bounds;
+          }
+        });
+        var featureGroup = function(layers2, options) {
+          return new FeatureGroup(layers2, options);
+        };
+        var Icon = Class.extend({
+          /* @section
+           * @aka Icon options
+           *
+           * @option iconUrl: String = null
+           * **(required)** The URL to the icon image (absolute or relative to your script path).
+           *
+           * @option iconRetinaUrl: String = null
+           * The URL to a retina sized version of the icon image (absolute or relative to your
+           * script path). Used for Retina screen devices.
+           *
+           * @option iconSize: Point = null
+           * Size of the icon image in pixels.
+           *
+           * @option iconAnchor: Point = null
+           * The coordinates of the "tip" of the icon (relative to its top left corner). The icon
+           * will be aligned so that this point is at the marker's geographical location. Centered
+           * by default if size is specified, also can be set in CSS with negative margins.
+           *
+           * @option popupAnchor: Point = [0, 0]
+           * The coordinates of the point from which popups will "open", relative to the icon anchor.
+           *
+           * @option tooltipAnchor: Point = [0, 0]
+           * The coordinates of the point from which tooltips will "open", relative to the icon anchor.
+           *
+           * @option shadowUrl: String = null
+           * The URL to the icon shadow image. If not specified, no shadow image will be created.
+           *
+           * @option shadowRetinaUrl: String = null
+           *
+           * @option shadowSize: Point = null
+           * Size of the shadow image in pixels.
+           *
+           * @option shadowAnchor: Point = null
+           * The coordinates of the "tip" of the shadow (relative to its top left corner) (the same
+           * as iconAnchor if not specified).
+           *
+           * @option className: String = ''
+           * A custom class name to assign to both icon and shadow images. Empty by default.
+           */
+          options: {
+            popupAnchor: [0, 0],
+            tooltipAnchor: [0, 0],
+            // @option crossOrigin: Boolean|String = false
+            // Whether the crossOrigin attribute will be added to the tiles.
+            // If a String is provided, all tiles will have their crossOrigin attribute set to the String provided. This is needed if you want to access tile pixel data.
+            // Refer to [CORS Settings](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) for valid String values.
+            crossOrigin: false
+          },
+          initialize: function(options) {
+            setOptions(this, options);
+          },
+          // @method createIcon(oldIcon?: HTMLElement): HTMLElement
+          // Called internally when the icon has to be shown, returns a `<img>` HTML element
+          // styled according to the options.
+          createIcon: function(oldIcon) {
+            return this._createIcon("icon", oldIcon);
+          },
+          // @method createShadow(oldIcon?: HTMLElement): HTMLElement
+          // As `createIcon`, but for the shadow beneath it.
+          createShadow: function(oldIcon) {
+            return this._createIcon("shadow", oldIcon);
+          },
+          _createIcon: function(name, oldIcon) {
+            var src = this._getIconUrl(name);
+            if (!src) {
+              if (name === "icon") {
+                throw new Error("iconUrl not set in Icon options (see the docs).");
+              }
+              return null;
+            }
+            var img = this._createImg(src, oldIcon && oldIcon.tagName === "IMG" ? oldIcon : null);
+            this._setIconStyles(img, name);
+            if (this.options.crossOrigin || this.options.crossOrigin === "") {
+              img.crossOrigin = this.options.crossOrigin === true ? "" : this.options.crossOrigin;
+            }
+            return img;
+          },
+          _setIconStyles: function(img, name) {
+            var options = this.options;
+            var sizeOption = options[name + "Size"];
+            if (typeof sizeOption === "number") {
+              sizeOption = [sizeOption, sizeOption];
+            }
+            var size = toPoint(sizeOption), anchor = toPoint(name === "shadow" && options.shadowAnchor || options.iconAnchor || size && size.divideBy(2, true));
+            img.className = "leaflet-marker-" + name + " " + (options.className || "");
+            if (anchor) {
+              img.style.marginLeft = -anchor.x + "px";
+              img.style.marginTop = -anchor.y + "px";
+            }
+            if (size) {
+              img.style.width = size.x + "px";
+              img.style.height = size.y + "px";
+            }
+          },
+          _createImg: function(src, el) {
+            el = el || document.createElement("img");
+            el.src = src;
+            return el;
+          },
+          _getIconUrl: function(name) {
+            return Browser.retina && this.options[name + "RetinaUrl"] || this.options[name + "Url"];
+          }
+        });
+        function icon(options) {
+          return new Icon(options);
+        }
+        var IconDefault = Icon.extend({
+          options: {
+            iconUrl: "marker-icon.png",
+            iconRetinaUrl: "marker-icon-2x.png",
+            shadowUrl: "marker-shadow.png",
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            tooltipAnchor: [16, -28],
+            shadowSize: [41, 41]
+          },
+          _getIconUrl: function(name) {
+            if (typeof IconDefault.imagePath !== "string") {
+              IconDefault.imagePath = this._detectIconPath();
+            }
+            return (this.options.imagePath || IconDefault.imagePath) + Icon.prototype._getIconUrl.call(this, name);
+          },
+          _stripUrl: function(path) {
+            var strip = function(str, re, idx) {
+              var match = re.exec(str);
+              return match && match[idx];
+            };
+            path = strip(path, /^url\((['"])?(.+)\1\)$/, 2);
+            return path && strip(path, /^(.*)marker-icon\.png$/, 1);
+          },
+          _detectIconPath: function() {
+            var el = create$1("div", "leaflet-default-icon-path", document.body);
+            var path = getStyle(el, "background-image") || getStyle(el, "backgroundImage");
+            document.body.removeChild(el);
+            path = this._stripUrl(path);
+            if (path) {
+              return path;
+            }
+            var link = document.querySelector('link[href$="leaflet.css"]');
+            if (!link) {
+              return "";
+            }
+            return link.href.substring(0, link.href.length - "leaflet.css".length - 1);
+          }
+        });
+        var MarkerDrag = Handler.extend({
+          initialize: function(marker2) {
+            this._marker = marker2;
+          },
+          addHooks: function() {
+            var icon2 = this._marker._icon;
+            if (!this._draggable) {
+              this._draggable = new Draggable(icon2, icon2, true);
+            }
+            this._draggable.on({
+              dragstart: this._onDragStart,
+              predrag: this._onPreDrag,
+              drag: this._onDrag,
+              dragend: this._onDragEnd
+            }, this).enable();
+            addClass(icon2, "leaflet-marker-draggable");
+          },
+          removeHooks: function() {
+            this._draggable.off({
+              dragstart: this._onDragStart,
+              predrag: this._onPreDrag,
+              drag: this._onDrag,
+              dragend: this._onDragEnd
+            }, this).disable();
+            if (this._marker._icon) {
+              removeClass(this._marker._icon, "leaflet-marker-draggable");
+            }
+          },
+          moved: function() {
+            return this._draggable && this._draggable._moved;
+          },
+          _adjustPan: function(e) {
+            var marker2 = this._marker, map = marker2._map, speed = this._marker.options.autoPanSpeed, padding = this._marker.options.autoPanPadding, iconPos = getPosition(marker2._icon), bounds = map.getPixelBounds(), origin = map.getPixelOrigin();
+            var panBounds = toBounds(
+              bounds.min._subtract(origin).add(padding),
+              bounds.max._subtract(origin).subtract(padding)
+            );
+            if (!panBounds.contains(iconPos)) {
+              var movement = toPoint(
+                (Math.max(panBounds.max.x, iconPos.x) - panBounds.max.x) / (bounds.max.x - panBounds.max.x) - (Math.min(panBounds.min.x, iconPos.x) - panBounds.min.x) / (bounds.min.x - panBounds.min.x),
+                (Math.max(panBounds.max.y, iconPos.y) - panBounds.max.y) / (bounds.max.y - panBounds.max.y) - (Math.min(panBounds.min.y, iconPos.y) - panBounds.min.y) / (bounds.min.y - panBounds.min.y)
+              ).multiplyBy(speed);
+              map.panBy(movement, { animate: false });
+              this._draggable._newPos._add(movement);
+              this._draggable._startPos._add(movement);
+              setPosition(marker2._icon, this._draggable._newPos);
+              this._onDrag(e);
+              this._panRequest = requestAnimFrame(this._adjustPan.bind(this, e));
+            }
+          },
+          _onDragStart: function() {
+            this._oldLatLng = this._marker.getLatLng();
+            this._marker.closePopup && this._marker.closePopup();
+            this._marker.fire("movestart").fire("dragstart");
+          },
+          _onPreDrag: function(e) {
+            if (this._marker.options.autoPan) {
+              cancelAnimFrame(this._panRequest);
+              this._panRequest = requestAnimFrame(this._adjustPan.bind(this, e));
+            }
+          },
+          _onDrag: function(e) {
+            var marker2 = this._marker, shadow = marker2._shadow, iconPos = getPosition(marker2._icon), latlng = marker2._map.layerPointToLatLng(iconPos);
+            if (shadow) {
+              setPosition(shadow, iconPos);
+            }
+            marker2._latlng = latlng;
+            e.latlng = latlng;
+            e.oldLatLng = this._oldLatLng;
+            marker2.fire("move", e).fire("drag", e);
+          },
+          _onDragEnd: function(e) {
+            cancelAnimFrame(this._panRequest);
+            delete this._oldLatLng;
+            this._marker.fire("moveend").fire("dragend", e);
+          }
+        });
+        var Marker = Layer.extend({
+          // @section
+          // @aka Marker options
+          options: {
+            // @option icon: Icon = *
+            // Icon instance to use for rendering the marker.
+            // See [Icon documentation](#L.Icon) for details on how to customize the marker icon.
+            // If not specified, a common instance of `L.Icon.Default` is used.
+            icon: new IconDefault(),
+            // Option inherited from "Interactive layer" abstract class
+            interactive: true,
+            // @option keyboard: Boolean = true
+            // Whether the marker can be tabbed to with a keyboard and clicked by pressing enter.
+            keyboard: true,
+            // @option title: String = ''
+            // Text for the browser tooltip that appear on marker hover (no tooltip by default).
+            // [Useful for accessibility](https://leafletjs.com/examples/accessibility/#markers-must-be-labelled).
+            title: "",
+            // @option alt: String = 'Marker'
+            // Text for the `alt` attribute of the icon image.
+            // [Useful for accessibility](https://leafletjs.com/examples/accessibility/#markers-must-be-labelled).
+            alt: "Marker",
+            // @option zIndexOffset: Number = 0
+            // By default, marker images zIndex is set automatically based on its latitude. Use this option if you want to put the marker on top of all others (or below), specifying a high value like `1000` (or high negative value, respectively).
+            zIndexOffset: 0,
+            // @option opacity: Number = 1.0
+            // The opacity of the marker.
+            opacity: 1,
+            // @option riseOnHover: Boolean = false
+            // If `true`, the marker will get on top of others when you hover the mouse over it.
+            riseOnHover: false,
+            // @option riseOffset: Number = 250
+            // The z-index offset used for the `riseOnHover` feature.
+            riseOffset: 250,
+            // @option pane: String = 'markerPane'
+            // `Map pane` where the markers icon will be added.
+            pane: "markerPane",
+            // @option shadowPane: String = 'shadowPane'
+            // `Map pane` where the markers shadow will be added.
+            shadowPane: "shadowPane",
+            // @option bubblingMouseEvents: Boolean = false
+            // When `true`, a mouse event on this marker will trigger the same event on the map
+            // (unless [`L.DomEvent.stopPropagation`](#domevent-stoppropagation) is used).
+            bubblingMouseEvents: false,
+            // @option autoPanOnFocus: Boolean = true
+            // When `true`, the map will pan whenever the marker is focused (via
+            // e.g. pressing `tab` on the keyboard) to ensure the marker is
+            // visible within the map's bounds
+            autoPanOnFocus: true,
+            // @section Draggable marker options
+            // @option draggable: Boolean = false
+            // Whether the marker is draggable with mouse/touch or not.
+            draggable: false,
+            // @option autoPan: Boolean = false
+            // Whether to pan the map when dragging this marker near its edge or not.
+            autoPan: false,
+            // @option autoPanPadding: Point = Point(50, 50)
+            // Distance (in pixels to the left/right and to the top/bottom) of the
+            // map edge to start panning the map.
+            autoPanPadding: [50, 50],
+            // @option autoPanSpeed: Number = 10
+            // Number of pixels the map should pan by.
+            autoPanSpeed: 10
+          },
+          /* @section
+           *
+           * In addition to [shared layer methods](#Layer) like `addTo()` and `remove()` and [popup methods](#Popup) like bindPopup() you can also use the following methods:
+           */
+          initialize: function(latlng, options) {
+            setOptions(this, options);
+            this._latlng = toLatLng(latlng);
+          },
+          onAdd: function(map) {
+            this._zoomAnimated = this._zoomAnimated && map.options.markerZoomAnimation;
+            if (this._zoomAnimated) {
+              map.on("zoomanim", this._animateZoom, this);
+            }
+            this._initIcon();
+            this.update();
+          },
+          onRemove: function(map) {
+            if (this.dragging && this.dragging.enabled()) {
+              this.options.draggable = true;
+              this.dragging.removeHooks();
+            }
+            delete this.dragging;
+            if (this._zoomAnimated) {
+              map.off("zoomanim", this._animateZoom, this);
+            }
+            this._removeIcon();
+            this._removeShadow();
+          },
+          getEvents: function() {
+            return {
+              zoom: this.update,
+              viewreset: this.update
+            };
+          },
+          // @method getLatLng: LatLng
+          // Returns the current geographical position of the marker.
+          getLatLng: function() {
+            return this._latlng;
+          },
+          // @method setLatLng(latlng: LatLng): this
+          // Changes the marker position to the given point.
+          setLatLng: function(latlng) {
+            var oldLatLng = this._latlng;
+            this._latlng = toLatLng(latlng);
+            this.update();
+            return this.fire("move", { oldLatLng, latlng: this._latlng });
+          },
+          // @method setZIndexOffset(offset: Number): this
+          // Changes the [zIndex offset](#marker-zindexoffset) of the marker.
+          setZIndexOffset: function(offset) {
+            this.options.zIndexOffset = offset;
+            return this.update();
+          },
+          // @method getIcon: Icon
+          // Returns the current icon used by the marker
+          getIcon: function() {
+            return this.options.icon;
+          },
+          // @method setIcon(icon: Icon): this
+          // Changes the marker icon.
+          setIcon: function(icon2) {
+            this.options.icon = icon2;
+            if (this._map) {
+              this._initIcon();
+              this.update();
+            }
+            if (this._popup) {
+              this.bindPopup(this._popup, this._popup.options);
+            }
+            return this;
+          },
+          getElement: function() {
+            return this._icon;
+          },
+          update: function() {
+            if (this._icon && this._map) {
+              var pos = this._map.latLngToLayerPoint(this._latlng).round();
+              this._setPos(pos);
+            }
+            return this;
+          },
+          _initIcon: function() {
+            var options = this.options, classToAdd = "leaflet-zoom-" + (this._zoomAnimated ? "animated" : "hide");
+            var icon2 = options.icon.createIcon(this._icon), addIcon = false;
+            if (icon2 !== this._icon) {
+              if (this._icon) {
+                this._removeIcon();
+              }
+              addIcon = true;
+              if (options.title) {
+                icon2.title = options.title;
+              }
+              if (icon2.tagName === "IMG") {
+                icon2.alt = options.alt || "";
+              }
+            }
+            addClass(icon2, classToAdd);
+            if (options.keyboard) {
+              icon2.tabIndex = "0";
+              icon2.setAttribute("role", "button");
+            }
+            this._icon = icon2;
+            if (options.riseOnHover) {
+              this.on({
+                mouseover: this._bringToFront,
+                mouseout: this._resetZIndex
+              });
+            }
+            if (this.options.autoPanOnFocus) {
+              on(icon2, "focus", this._panOnFocus, this);
+            }
+            var newShadow = options.icon.createShadow(this._shadow), addShadow = false;
+            if (newShadow !== this._shadow) {
+              this._removeShadow();
+              addShadow = true;
+            }
+            if (newShadow) {
+              addClass(newShadow, classToAdd);
+              newShadow.alt = "";
+            }
+            this._shadow = newShadow;
+            if (options.opacity < 1) {
+              this._updateOpacity();
+            }
+            if (addIcon) {
+              this.getPane().appendChild(this._icon);
+            }
+            this._initInteraction();
+            if (newShadow && addShadow) {
+              this.getPane(options.shadowPane).appendChild(this._shadow);
+            }
+          },
+          _removeIcon: function() {
+            if (this.options.riseOnHover) {
+              this.off({
+                mouseover: this._bringToFront,
+                mouseout: this._resetZIndex
+              });
+            }
+            if (this.options.autoPanOnFocus) {
+              off(this._icon, "focus", this._panOnFocus, this);
+            }
+            remove(this._icon);
+            this.removeInteractiveTarget(this._icon);
+            this._icon = null;
+          },
+          _removeShadow: function() {
+            if (this._shadow) {
+              remove(this._shadow);
+            }
+            this._shadow = null;
+          },
+          _setPos: function(pos) {
+            if (this._icon) {
+              setPosition(this._icon, pos);
+            }
+            if (this._shadow) {
+              setPosition(this._shadow, pos);
+            }
+            this._zIndex = pos.y + this.options.zIndexOffset;
+            this._resetZIndex();
+          },
+          _updateZIndex: function(offset) {
+            if (this._icon) {
+              this._icon.style.zIndex = this._zIndex + offset;
+            }
+          },
+          _animateZoom: function(opt) {
+            var pos = this._map._latLngToNewLayerPoint(this._latlng, opt.zoom, opt.center).round();
+            this._setPos(pos);
+          },
+          _initInteraction: function() {
+            if (!this.options.interactive) {
+              return;
+            }
+            addClass(this._icon, "leaflet-interactive");
+            this.addInteractiveTarget(this._icon);
+            if (MarkerDrag) {
+              var draggable = this.options.draggable;
+              if (this.dragging) {
+                draggable = this.dragging.enabled();
+                this.dragging.disable();
+              }
+              this.dragging = new MarkerDrag(this);
+              if (draggable) {
+                this.dragging.enable();
+              }
+            }
+          },
+          // @method setOpacity(opacity: Number): this
+          // Changes the opacity of the marker.
+          setOpacity: function(opacity) {
+            this.options.opacity = opacity;
+            if (this._map) {
+              this._updateOpacity();
+            }
+            return this;
+          },
+          _updateOpacity: function() {
+            var opacity = this.options.opacity;
+            if (this._icon) {
+              setOpacity(this._icon, opacity);
+            }
+            if (this._shadow) {
+              setOpacity(this._shadow, opacity);
+            }
+          },
+          _bringToFront: function() {
+            this._updateZIndex(this.options.riseOffset);
+          },
+          _resetZIndex: function() {
+            this._updateZIndex(0);
+          },
+          _panOnFocus: function() {
+            var map = this._map;
+            if (!map) {
+              return;
+            }
+            var iconOpts = this.options.icon.options;
+            var size = iconOpts.iconSize ? toPoint(iconOpts.iconSize) : toPoint(0, 0);
+            var anchor = iconOpts.iconAnchor ? toPoint(iconOpts.iconAnchor) : toPoint(0, 0);
+            map.panInside(this._latlng, {
+              paddingTopLeft: anchor,
+              paddingBottomRight: size.subtract(anchor)
+            });
+          },
+          _getPopupAnchor: function() {
+            return this.options.icon.options.popupAnchor;
+          },
+          _getTooltipAnchor: function() {
+            return this.options.icon.options.tooltipAnchor;
+          }
+        });
+        function marker(latlng, options) {
+          return new Marker(latlng, options);
+        }
+        var Path = Layer.extend({
+          // @section
+          // @aka Path options
+          options: {
+            // @option stroke: Boolean = true
+            // Whether to draw stroke along the path. Set it to `false` to disable borders on polygons or circles.
+            stroke: true,
+            // @option color: String = '#3388ff'
+            // Stroke color
+            color: "#3388ff",
+            // @option weight: Number = 3
+            // Stroke width in pixels
+            weight: 3,
+            // @option opacity: Number = 1.0
+            // Stroke opacity
+            opacity: 1,
+            // @option lineCap: String= 'round'
+            // A string that defines [shape to be used at the end](https://developer.mozilla.org/docs/Web/SVG/Attribute/stroke-linecap) of the stroke.
+            lineCap: "round",
+            // @option lineJoin: String = 'round'
+            // A string that defines [shape to be used at the corners](https://developer.mozilla.org/docs/Web/SVG/Attribute/stroke-linejoin) of the stroke.
+            lineJoin: "round",
+            // @option dashArray: String = null
+            // A string that defines the stroke [dash pattern](https://developer.mozilla.org/docs/Web/SVG/Attribute/stroke-dasharray). Doesn't work on `Canvas`-powered layers in [some old browsers](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/setLineDash#Browser_compatibility).
+            dashArray: null,
+            // @option dashOffset: String = null
+            // A string that defines the [distance into the dash pattern to start the dash](https://developer.mozilla.org/docs/Web/SVG/Attribute/stroke-dashoffset). Doesn't work on `Canvas`-powered layers in [some old browsers](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/setLineDash#Browser_compatibility).
+            dashOffset: null,
+            // @option fill: Boolean = depends
+            // Whether to fill the path with color. Set it to `false` to disable filling on polygons or circles.
+            fill: false,
+            // @option fillColor: String = *
+            // Fill color. Defaults to the value of the [`color`](#path-color) option
+            fillColor: null,
+            // @option fillOpacity: Number = 0.2
+            // Fill opacity.
+            fillOpacity: 0.2,
+            // @option fillRule: String = 'evenodd'
+            // A string that defines [how the inside of a shape](https://developer.mozilla.org/docs/Web/SVG/Attribute/fill-rule) is determined.
+            fillRule: "evenodd",
+            // className: '',
+            // Option inherited from "Interactive layer" abstract class
+            interactive: true,
+            // @option bubblingMouseEvents: Boolean = true
+            // When `true`, a mouse event on this path will trigger the same event on the map
+            // (unless [`L.DomEvent.stopPropagation`](#domevent-stoppropagation) is used).
+            bubblingMouseEvents: true
+          },
+          beforeAdd: function(map) {
+            this._renderer = map.getRenderer(this);
+          },
+          onAdd: function() {
+            this._renderer._initPath(this);
+            this._reset();
+            this._renderer._addPath(this);
+          },
+          onRemove: function() {
+            this._renderer._removePath(this);
+          },
+          // @method redraw(): this
+          // Redraws the layer. Sometimes useful after you changed the coordinates that the path uses.
+          redraw: function() {
+            if (this._map) {
+              this._renderer._updatePath(this);
+            }
+            return this;
+          },
+          // @method setStyle(style: Path options): this
+          // Changes the appearance of a Path based on the options in the `Path options` object.
+          setStyle: function(style2) {
+            setOptions(this, style2);
+            if (this._renderer) {
+              this._renderer._updateStyle(this);
+              if (this.options.stroke && style2 && Object.prototype.hasOwnProperty.call(style2, "weight")) {
+                this._updateBounds();
+              }
+            }
+            return this;
+          },
+          // @method bringToFront(): this
+          // Brings the layer to the top of all path layers.
+          bringToFront: function() {
+            if (this._renderer) {
+              this._renderer._bringToFront(this);
+            }
+            return this;
+          },
+          // @method bringToBack(): this
+          // Brings the layer to the bottom of all path layers.
+          bringToBack: function() {
+            if (this._renderer) {
+              this._renderer._bringToBack(this);
+            }
+            return this;
+          },
+          getElement: function() {
+            return this._path;
+          },
+          _reset: function() {
+            this._project();
+            this._update();
+          },
+          _clickTolerance: function() {
+            return (this.options.stroke ? this.options.weight / 2 : 0) + (this._renderer.options.tolerance || 0);
+          }
+        });
+        var CircleMarker = Path.extend({
+          // @section
+          // @aka CircleMarker options
+          options: {
+            fill: true,
+            // @option radius: Number = 10
+            // Radius of the circle marker, in pixels
+            radius: 10
+          },
+          initialize: function(latlng, options) {
+            setOptions(this, options);
+            this._latlng = toLatLng(latlng);
+            this._radius = this.options.radius;
+          },
+          // @method setLatLng(latLng: LatLng): this
+          // Sets the position of a circle marker to a new location.
+          setLatLng: function(latlng) {
+            var oldLatLng = this._latlng;
+            this._latlng = toLatLng(latlng);
+            this.redraw();
+            return this.fire("move", { oldLatLng, latlng: this._latlng });
+          },
+          // @method getLatLng(): LatLng
+          // Returns the current geographical position of the circle marker
+          getLatLng: function() {
+            return this._latlng;
+          },
+          // @method setRadius(radius: Number): this
+          // Sets the radius of a circle marker. Units are in pixels.
+          setRadius: function(radius) {
+            this.options.radius = this._radius = radius;
+            return this.redraw();
+          },
+          // @method getRadius(): Number
+          // Returns the current radius of the circle
+          getRadius: function() {
+            return this._radius;
+          },
+          setStyle: function(options) {
+            var radius = options && options.radius || this._radius;
+            Path.prototype.setStyle.call(this, options);
+            this.setRadius(radius);
+            return this;
+          },
+          _project: function() {
+            this._point = this._map.latLngToLayerPoint(this._latlng);
+            this._updateBounds();
+          },
+          _updateBounds: function() {
+            var r = this._radius, r2 = this._radiusY || r, w = this._clickTolerance(), p = [r + w, r2 + w];
+            this._pxBounds = new Bounds(this._point.subtract(p), this._point.add(p));
+          },
+          _update: function() {
+            if (this._map) {
+              this._updatePath();
+            }
+          },
+          _updatePath: function() {
+            this._renderer._updateCircle(this);
+          },
+          _empty: function() {
+            return this._radius && !this._renderer._bounds.intersects(this._pxBounds);
+          },
+          // Needed by the `Canvas` renderer for interactivity
+          _containsPoint: function(p) {
+            return p.distanceTo(this._point) <= this._radius + this._clickTolerance();
+          }
+        });
+        function circleMarker(latlng, options) {
+          return new CircleMarker(latlng, options);
+        }
+        var Circle = CircleMarker.extend({
+          initialize: function(latlng, options, legacyOptions) {
+            if (typeof options === "number") {
+              options = extend({}, legacyOptions, { radius: options });
+            }
+            setOptions(this, options);
+            this._latlng = toLatLng(latlng);
+            if (isNaN(this.options.radius)) {
+              throw new Error("Circle radius cannot be NaN");
+            }
+            this._mRadius = this.options.radius;
+          },
+          // @method setRadius(radius: Number): this
+          // Sets the radius of a circle. Units are in meters.
+          setRadius: function(radius) {
+            this._mRadius = radius;
+            return this.redraw();
+          },
+          // @method getRadius(): Number
+          // Returns the current radius of a circle. Units are in meters.
+          getRadius: function() {
+            return this._mRadius;
+          },
+          // @method getBounds(): LatLngBounds
+          // Returns the `LatLngBounds` of the path.
+          getBounds: function() {
+            var half = [this._radius, this._radiusY || this._radius];
+            return new LatLngBounds(
+              this._map.layerPointToLatLng(this._point.subtract(half)),
+              this._map.layerPointToLatLng(this._point.add(half))
+            );
+          },
+          setStyle: Path.prototype.setStyle,
+          _project: function() {
+            var lng = this._latlng.lng, lat = this._latlng.lat, map = this._map, crs = map.options.crs;
+            if (crs.distance === Earth.distance) {
+              var d = Math.PI / 180, latR = this._mRadius / Earth.R / d, top = map.project([lat + latR, lng]), bottom = map.project([lat - latR, lng]), p = top.add(bottom).divideBy(2), lat2 = map.unproject(p).lat, lngR = Math.acos((Math.cos(latR * d) - Math.sin(lat * d) * Math.sin(lat2 * d)) / (Math.cos(lat * d) * Math.cos(lat2 * d))) / d;
+              if (isNaN(lngR) || lngR === 0) {
+                lngR = latR / Math.cos(Math.PI / 180 * lat);
+              }
+              this._point = p.subtract(map.getPixelOrigin());
+              this._radius = isNaN(lngR) ? 0 : p.x - map.project([lat2, lng - lngR]).x;
+              this._radiusY = p.y - top.y;
+            } else {
+              var latlng2 = crs.unproject(crs.project(this._latlng).subtract([this._mRadius, 0]));
+              this._point = map.latLngToLayerPoint(this._latlng);
+              this._radius = this._point.x - map.latLngToLayerPoint(latlng2).x;
+            }
+            this._updateBounds();
+          }
+        });
+        function circle(latlng, options, legacyOptions) {
+          return new Circle(latlng, options, legacyOptions);
+        }
+        var Polyline = Path.extend({
+          // @section
+          // @aka Polyline options
+          options: {
+            // @option smoothFactor: Number = 1.0
+            // How much to simplify the polyline on each zoom level. More means
+            // better performance and smoother look, and less means more accurate representation.
+            smoothFactor: 1,
+            // @option noClip: Boolean = false
+            // Disable polyline clipping.
+            noClip: false
+          },
+          initialize: function(latlngs, options) {
+            setOptions(this, options);
+            this._setLatLngs(latlngs);
+          },
+          // @method getLatLngs(): LatLng[]
+          // Returns an array of the points in the path, or nested arrays of points in case of multi-polyline.
+          getLatLngs: function() {
+            return this._latlngs;
+          },
+          // @method setLatLngs(latlngs: LatLng[]): this
+          // Replaces all the points in the polyline with the given array of geographical points.
+          setLatLngs: function(latlngs) {
+            this._setLatLngs(latlngs);
+            return this.redraw();
+          },
+          // @method isEmpty(): Boolean
+          // Returns `true` if the Polyline has no LatLngs.
+          isEmpty: function() {
+            return !this._latlngs.length;
+          },
+          // @method closestLayerPoint(p: Point): Point
+          // Returns the point closest to `p` on the Polyline.
+          closestLayerPoint: function(p) {
+            var minDistance = Infinity, minPoint = null, closest = _sqClosestPointOnSegment, p1, p2;
+            for (var j = 0, jLen = this._parts.length; j < jLen; j++) {
+              var points = this._parts[j];
+              for (var i = 1, len = points.length; i < len; i++) {
+                p1 = points[i - 1];
+                p2 = points[i];
+                var sqDist = closest(p, p1, p2, true);
+                if (sqDist < minDistance) {
+                  minDistance = sqDist;
+                  minPoint = closest(p, p1, p2);
+                }
+              }
+            }
+            if (minPoint) {
+              minPoint.distance = Math.sqrt(minDistance);
+            }
+            return minPoint;
+          },
+          // @method getCenter(): LatLng
+          // Returns the center ([centroid](https://en.wikipedia.org/wiki/Centroid)) of the polyline.
+          getCenter: function() {
+            if (!this._map) {
+              throw new Error("Must add layer to map before using getCenter()");
+            }
+            return polylineCenter(this._defaultShape(), this._map.options.crs);
+          },
+          // @method getBounds(): LatLngBounds
+          // Returns the `LatLngBounds` of the path.
+          getBounds: function() {
+            return this._bounds;
+          },
+          // @method addLatLng(latlng: LatLng, latlngs?: LatLng[]): this
+          // Adds a given point to the polyline. By default, adds to the first ring of
+          // the polyline in case of a multi-polyline, but can be overridden by passing
+          // a specific ring as a LatLng array (that you can earlier access with [`getLatLngs`](#polyline-getlatlngs)).
+          addLatLng: function(latlng, latlngs) {
+            latlngs = latlngs || this._defaultShape();
+            latlng = toLatLng(latlng);
+            latlngs.push(latlng);
+            this._bounds.extend(latlng);
+            return this.redraw();
+          },
+          _setLatLngs: function(latlngs) {
+            this._bounds = new LatLngBounds();
+            this._latlngs = this._convertLatLngs(latlngs);
+          },
+          _defaultShape: function() {
+            return isFlat(this._latlngs) ? this._latlngs : this._latlngs[0];
+          },
+          // recursively convert latlngs input into actual LatLng instances; calculate bounds along the way
+          _convertLatLngs: function(latlngs) {
+            var result = [], flat = isFlat(latlngs);
+            for (var i = 0, len = latlngs.length; i < len; i++) {
+              if (flat) {
+                result[i] = toLatLng(latlngs[i]);
+                this._bounds.extend(result[i]);
+              } else {
+                result[i] = this._convertLatLngs(latlngs[i]);
+              }
+            }
+            return result;
+          },
+          _project: function() {
+            var pxBounds = new Bounds();
+            this._rings = [];
+            this._projectLatlngs(this._latlngs, this._rings, pxBounds);
+            if (this._bounds.isValid() && pxBounds.isValid()) {
+              this._rawPxBounds = pxBounds;
+              this._updateBounds();
+            }
+          },
+          _updateBounds: function() {
+            var w = this._clickTolerance(), p = new Point(w, w);
+            if (!this._rawPxBounds) {
+              return;
+            }
+            this._pxBounds = new Bounds([
+              this._rawPxBounds.min.subtract(p),
+              this._rawPxBounds.max.add(p)
+            ]);
+          },
+          // recursively turns latlngs into a set of rings with projected coordinates
+          _projectLatlngs: function(latlngs, result, projectedBounds) {
+            var flat = latlngs[0] instanceof LatLng, len = latlngs.length, i, ring;
+            if (flat) {
+              ring = [];
+              for (i = 0; i < len; i++) {
+                ring[i] = this._map.latLngToLayerPoint(latlngs[i]);
+                projectedBounds.extend(ring[i]);
+              }
+              result.push(ring);
+            } else {
+              for (i = 0; i < len; i++) {
+                this._projectLatlngs(latlngs[i], result, projectedBounds);
+              }
+            }
+          },
+          // clip polyline by renderer bounds so that we have less to render for performance
+          _clipPoints: function() {
+            var bounds = this._renderer._bounds;
+            this._parts = [];
+            if (!this._pxBounds || !this._pxBounds.intersects(bounds)) {
+              return;
+            }
+            if (this.options.noClip) {
+              this._parts = this._rings;
+              return;
+            }
+            var parts = this._parts, i, j, k, len, len2, segment, points;
+            for (i = 0, k = 0, len = this._rings.length; i < len; i++) {
+              points = this._rings[i];
+              for (j = 0, len2 = points.length; j < len2 - 1; j++) {
+                segment = clipSegment(points[j], points[j + 1], bounds, j, true);
+                if (!segment) {
+                  continue;
+                }
+                parts[k] = parts[k] || [];
+                parts[k].push(segment[0]);
+                if (segment[1] !== points[j + 1] || j === len2 - 2) {
+                  parts[k].push(segment[1]);
+                  k++;
+                }
+              }
+            }
+          },
+          // simplify each clipped part of the polyline for performance
+          _simplifyPoints: function() {
+            var parts = this._parts, tolerance = this.options.smoothFactor;
+            for (var i = 0, len = parts.length; i < len; i++) {
+              parts[i] = simplify(parts[i], tolerance);
+            }
+          },
+          _update: function() {
+            if (!this._map) {
+              return;
+            }
+            this._clipPoints();
+            this._simplifyPoints();
+            this._updatePath();
+          },
+          _updatePath: function() {
+            this._renderer._updatePoly(this);
+          },
+          // Needed by the `Canvas` renderer for interactivity
+          _containsPoint: function(p, closed) {
+            var i, j, k, len, len2, part, w = this._clickTolerance();
+            if (!this._pxBounds || !this._pxBounds.contains(p)) {
+              return false;
+            }
+            for (i = 0, len = this._parts.length; i < len; i++) {
+              part = this._parts[i];
+              for (j = 0, len2 = part.length, k = len2 - 1; j < len2; k = j++) {
+                if (!closed && j === 0) {
+                  continue;
+                }
+                if (pointToSegmentDistance(p, part[k], part[j]) <= w) {
+                  return true;
+                }
+              }
+            }
+            return false;
+          }
+        });
+        function polyline(latlngs, options) {
+          return new Polyline(latlngs, options);
+        }
+        Polyline._flat = _flat;
+        var Polygon = Polyline.extend({
+          options: {
+            fill: true
+          },
+          isEmpty: function() {
+            return !this._latlngs.length || !this._latlngs[0].length;
+          },
+          // @method getCenter(): LatLng
+          // Returns the center ([centroid](http://en.wikipedia.org/wiki/Centroid)) of the Polygon.
+          getCenter: function() {
+            if (!this._map) {
+              throw new Error("Must add layer to map before using getCenter()");
+            }
+            return polygonCenter(this._defaultShape(), this._map.options.crs);
+          },
+          _convertLatLngs: function(latlngs) {
+            var result = Polyline.prototype._convertLatLngs.call(this, latlngs), len = result.length;
+            if (len >= 2 && result[0] instanceof LatLng && result[0].equals(result[len - 1])) {
+              result.pop();
+            }
+            return result;
+          },
+          _setLatLngs: function(latlngs) {
+            Polyline.prototype._setLatLngs.call(this, latlngs);
+            if (isFlat(this._latlngs)) {
+              this._latlngs = [this._latlngs];
+            }
+          },
+          _defaultShape: function() {
+            return isFlat(this._latlngs[0]) ? this._latlngs[0] : this._latlngs[0][0];
+          },
+          _clipPoints: function() {
+            var bounds = this._renderer._bounds, w = this.options.weight, p = new Point(w, w);
+            bounds = new Bounds(bounds.min.subtract(p), bounds.max.add(p));
+            this._parts = [];
+            if (!this._pxBounds || !this._pxBounds.intersects(bounds)) {
+              return;
+            }
+            if (this.options.noClip) {
+              this._parts = this._rings;
+              return;
+            }
+            for (var i = 0, len = this._rings.length, clipped; i < len; i++) {
+              clipped = clipPolygon(this._rings[i], bounds, true);
+              if (clipped.length) {
+                this._parts.push(clipped);
+              }
+            }
+          },
+          _updatePath: function() {
+            this._renderer._updatePoly(this, true);
+          },
+          // Needed by the `Canvas` renderer for interactivity
+          _containsPoint: function(p) {
+            var inside = false, part, p1, p2, i, j, k, len, len2;
+            if (!this._pxBounds || !this._pxBounds.contains(p)) {
+              return false;
+            }
+            for (i = 0, len = this._parts.length; i < len; i++) {
+              part = this._parts[i];
+              for (j = 0, len2 = part.length, k = len2 - 1; j < len2; k = j++) {
+                p1 = part[j];
+                p2 = part[k];
+                if (p1.y > p.y !== p2.y > p.y && p.x < (p2.x - p1.x) * (p.y - p1.y) / (p2.y - p1.y) + p1.x) {
+                  inside = !inside;
+                }
+              }
+            }
+            return inside || Polyline.prototype._containsPoint.call(this, p, true);
+          }
+        });
+        function polygon(latlngs, options) {
+          return new Polygon(latlngs, options);
+        }
+        var GeoJSON = FeatureGroup.extend({
+          /* @section
+           * @aka GeoJSON options
+           *
+           * @option pointToLayer: Function = *
+           * A `Function` defining how GeoJSON points spawn Leaflet layers. It is internally
+           * called when data is added, passing the GeoJSON point feature and its `LatLng`.
+           * The default is to spawn a default `Marker`:
+           * ```js
+           * function(geoJsonPoint, latlng) {
+           * 	return L.marker(latlng);
+           * }
+           * ```
+           *
+           * @option style: Function = *
+           * A `Function` defining the `Path options` for styling GeoJSON lines and polygons,
+           * called internally when data is added.
+           * The default value is to not override any defaults:
+           * ```js
+           * function (geoJsonFeature) {
+           * 	return {}
+           * }
+           * ```
+           *
+           * @option onEachFeature: Function = *
+           * A `Function` that will be called once for each created `Feature`, after it has
+           * been created and styled. Useful for attaching events and popups to features.
+           * The default is to do nothing with the newly created layers:
+           * ```js
+           * function (feature, layer) {}
+           * ```
+           *
+           * @option filter: Function = *
+           * A `Function` that will be used to decide whether to include a feature or not.
+           * The default is to include all features:
+           * ```js
+           * function (geoJsonFeature) {
+           * 	return true;
+           * }
+           * ```
+           * Note: dynamically changing the `filter` option will have effect only on newly
+           * added data. It will _not_ re-evaluate already included features.
+           *
+           * @option coordsToLatLng: Function = *
+           * A `Function` that will be used for converting GeoJSON coordinates to `LatLng`s.
+           * The default is the `coordsToLatLng` static method.
+           *
+           * @option markersInheritOptions: Boolean = false
+           * Whether default Markers for "Point" type Features inherit from group options.
+           */
+          initialize: function(geojson, options) {
+            setOptions(this, options);
+            this._layers = {};
+            if (geojson) {
+              this.addData(geojson);
+            }
+          },
+          // @method addData( <GeoJSON> data ): this
+          // Adds a GeoJSON object to the layer.
+          addData: function(geojson) {
+            var features = isArray(geojson) ? geojson : geojson.features, i, len, feature;
+            if (features) {
+              for (i = 0, len = features.length; i < len; i++) {
+                feature = features[i];
+                if (feature.geometries || feature.geometry || feature.features || feature.coordinates) {
+                  this.addData(feature);
+                }
+              }
+              return this;
+            }
+            var options = this.options;
+            if (options.filter && !options.filter(geojson)) {
+              return this;
+            }
+            var layer = geometryToLayer(geojson, options);
+            if (!layer) {
+              return this;
+            }
+            layer.feature = asFeature(geojson);
+            layer.defaultOptions = layer.options;
+            this.resetStyle(layer);
+            if (options.onEachFeature) {
+              options.onEachFeature(geojson, layer);
+            }
+            return this.addLayer(layer);
+          },
+          // @method resetStyle( <Path> layer? ): this
+          // Resets the given vector layer's style to the original GeoJSON style, useful for resetting style after hover events.
+          // If `layer` is omitted, the style of all features in the current layer is reset.
+          resetStyle: function(layer) {
+            if (layer === void 0) {
+              return this.eachLayer(this.resetStyle, this);
+            }
+            layer.options = extend({}, layer.defaultOptions);
+            this._setLayerStyle(layer, this.options.style);
+            return this;
+          },
+          // @method setStyle( <Function> style ): this
+          // Changes styles of GeoJSON vector layers with the given style function.
+          setStyle: function(style2) {
+            return this.eachLayer(function(layer) {
+              this._setLayerStyle(layer, style2);
+            }, this);
+          },
+          _setLayerStyle: function(layer, style2) {
+            if (layer.setStyle) {
+              if (typeof style2 === "function") {
+                style2 = style2(layer.feature);
+              }
+              layer.setStyle(style2);
+            }
+          }
+        });
+        function geometryToLayer(geojson, options) {
+          var geometry = geojson.type === "Feature" ? geojson.geometry : geojson, coords = geometry ? geometry.coordinates : null, layers2 = [], pointToLayer = options && options.pointToLayer, _coordsToLatLng = options && options.coordsToLatLng || coordsToLatLng, latlng, latlngs, i, len;
+          if (!coords && !geometry) {
+            return null;
+          }
+          switch (geometry.type) {
+            case "Point":
+              latlng = _coordsToLatLng(coords);
+              return _pointToLayer(pointToLayer, geojson, latlng, options);
+            case "MultiPoint":
+              for (i = 0, len = coords.length; i < len; i++) {
+                latlng = _coordsToLatLng(coords[i]);
+                layers2.push(_pointToLayer(pointToLayer, geojson, latlng, options));
+              }
+              return new FeatureGroup(layers2);
+            case "LineString":
+            case "MultiLineString":
+              latlngs = coordsToLatLngs(coords, geometry.type === "LineString" ? 0 : 1, _coordsToLatLng);
+              return new Polyline(latlngs, options);
+            case "Polygon":
+            case "MultiPolygon":
+              latlngs = coordsToLatLngs(coords, geometry.type === "Polygon" ? 1 : 2, _coordsToLatLng);
+              return new Polygon(latlngs, options);
+            case "GeometryCollection":
+              for (i = 0, len = geometry.geometries.length; i < len; i++) {
+                var geoLayer = geometryToLayer({
+                  geometry: geometry.geometries[i],
+                  type: "Feature",
+                  properties: geojson.properties
+                }, options);
+                if (geoLayer) {
+                  layers2.push(geoLayer);
+                }
+              }
+              return new FeatureGroup(layers2);
+            case "FeatureCollection":
+              for (i = 0, len = geometry.features.length; i < len; i++) {
+                var featureLayer = geometryToLayer(geometry.features[i], options);
+                if (featureLayer) {
+                  layers2.push(featureLayer);
+                }
+              }
+              return new FeatureGroup(layers2);
+            default:
+              throw new Error("Invalid GeoJSON object.");
+          }
+        }
+        function _pointToLayer(pointToLayerFn, geojson, latlng, options) {
+          return pointToLayerFn ? pointToLayerFn(geojson, latlng) : new Marker(latlng, options && options.markersInheritOptions && options);
+        }
+        function coordsToLatLng(coords) {
+          return new LatLng(coords[1], coords[0], coords[2]);
+        }
+        function coordsToLatLngs(coords, levelsDeep, _coordsToLatLng) {
+          var latlngs = [];
+          for (var i = 0, len = coords.length, latlng; i < len; i++) {
+            latlng = levelsDeep ? coordsToLatLngs(coords[i], levelsDeep - 1, _coordsToLatLng) : (_coordsToLatLng || coordsToLatLng)(coords[i]);
+            latlngs.push(latlng);
+          }
+          return latlngs;
+        }
+        function latLngToCoords(latlng, precision) {
+          latlng = toLatLng(latlng);
+          return latlng.alt !== void 0 ? [formatNum(latlng.lng, precision), formatNum(latlng.lat, precision), formatNum(latlng.alt, precision)] : [formatNum(latlng.lng, precision), formatNum(latlng.lat, precision)];
+        }
+        function latLngsToCoords(latlngs, levelsDeep, closed, precision) {
+          var coords = [];
+          for (var i = 0, len = latlngs.length; i < len; i++) {
+            coords.push(levelsDeep ? latLngsToCoords(latlngs[i], isFlat(latlngs[i]) ? 0 : levelsDeep - 1, closed, precision) : latLngToCoords(latlngs[i], precision));
+          }
+          if (!levelsDeep && closed && coords.length > 0) {
+            coords.push(coords[0].slice());
+          }
+          return coords;
+        }
+        function getFeature(layer, newGeometry) {
+          return layer.feature ? extend({}, layer.feature, { geometry: newGeometry }) : asFeature(newGeometry);
+        }
+        function asFeature(geojson) {
+          if (geojson.type === "Feature" || geojson.type === "FeatureCollection") {
+            return geojson;
+          }
+          return {
+            type: "Feature",
+            properties: {},
+            geometry: geojson
+          };
+        }
+        var PointToGeoJSON = {
+          toGeoJSON: function(precision) {
+            return getFeature(this, {
+              type: "Point",
+              coordinates: latLngToCoords(this.getLatLng(), precision)
+            });
+          }
+        };
+        Marker.include(PointToGeoJSON);
+        Circle.include(PointToGeoJSON);
+        CircleMarker.include(PointToGeoJSON);
+        Polyline.include({
+          toGeoJSON: function(precision) {
+            var multi = !isFlat(this._latlngs);
+            var coords = latLngsToCoords(this._latlngs, multi ? 1 : 0, false, precision);
+            return getFeature(this, {
+              type: (multi ? "Multi" : "") + "LineString",
+              coordinates: coords
+            });
+          }
+        });
+        Polygon.include({
+          toGeoJSON: function(precision) {
+            var holes = !isFlat(this._latlngs), multi = holes && !isFlat(this._latlngs[0]);
+            var coords = latLngsToCoords(this._latlngs, multi ? 2 : holes ? 1 : 0, true, precision);
+            if (!holes) {
+              coords = [coords];
+            }
+            return getFeature(this, {
+              type: (multi ? "Multi" : "") + "Polygon",
+              coordinates: coords
+            });
+          }
+        });
+        LayerGroup.include({
+          toMultiPoint: function(precision) {
+            var coords = [];
+            this.eachLayer(function(layer) {
+              coords.push(layer.toGeoJSON(precision).geometry.coordinates);
+            });
+            return getFeature(this, {
+              type: "MultiPoint",
+              coordinates: coords
+            });
+          },
+          // @method toGeoJSON(precision?: Number|false): Object
+          // Coordinates values are rounded with [`formatNum`](#util-formatnum) function with given `precision`.
+          // Returns a [`GeoJSON`](https://en.wikipedia.org/wiki/GeoJSON) representation of the layer group (as a GeoJSON `FeatureCollection`, `GeometryCollection`, or `MultiPoint`).
+          toGeoJSON: function(precision) {
+            var type = this.feature && this.feature.geometry && this.feature.geometry.type;
+            if (type === "MultiPoint") {
+              return this.toMultiPoint(precision);
+            }
+            var isGeometryCollection = type === "GeometryCollection", jsons = [];
+            this.eachLayer(function(layer) {
+              if (layer.toGeoJSON) {
+                var json = layer.toGeoJSON(precision);
+                if (isGeometryCollection) {
+                  jsons.push(json.geometry);
+                } else {
+                  var feature = asFeature(json);
+                  if (feature.type === "FeatureCollection") {
+                    jsons.push.apply(jsons, feature.features);
+                  } else {
+                    jsons.push(feature);
+                  }
+                }
+              }
+            });
+            if (isGeometryCollection) {
+              return getFeature(this, {
+                geometries: jsons,
+                type: "GeometryCollection"
+              });
+            }
+            return {
+              type: "FeatureCollection",
+              features: jsons
+            };
+          }
+        });
+        function geoJSON(geojson, options) {
+          return new GeoJSON(geojson, options);
+        }
+        var geoJson = geoJSON;
+        var ImageOverlay = Layer.extend({
+          // @section
+          // @aka ImageOverlay options
+          options: {
+            // @option opacity: Number = 1.0
+            // The opacity of the image overlay.
+            opacity: 1,
+            // @option alt: String = ''
+            // Text for the `alt` attribute of the image (useful for accessibility).
+            alt: "",
+            // @option interactive: Boolean = false
+            // If `true`, the image overlay will emit [mouse events](#interactive-layer) when clicked or hovered.
+            interactive: false,
+            // @option crossOrigin: Boolean|String = false
+            // Whether the crossOrigin attribute will be added to the image.
+            // If a String is provided, the image will have its crossOrigin attribute set to the String provided. This is needed if you want to access image pixel data.
+            // Refer to [CORS Settings](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) for valid String values.
+            crossOrigin: false,
+            // @option errorOverlayUrl: String = ''
+            // URL to the overlay image to show in place of the overlay that failed to load.
+            errorOverlayUrl: "",
+            // @option zIndex: Number = 1
+            // The explicit [zIndex](https://developer.mozilla.org/docs/Web/CSS/CSS_Positioning/Understanding_z_index) of the overlay layer.
+            zIndex: 1,
+            // @option className: String = ''
+            // A custom class name to assign to the image. Empty by default.
+            className: ""
+          },
+          initialize: function(url, bounds, options) {
+            this._url = url;
+            this._bounds = toLatLngBounds(bounds);
+            setOptions(this, options);
+          },
+          onAdd: function() {
+            if (!this._image) {
+              this._initImage();
+              if (this.options.opacity < 1) {
+                this._updateOpacity();
+              }
+            }
+            if (this.options.interactive) {
+              addClass(this._image, "leaflet-interactive");
+              this.addInteractiveTarget(this._image);
+            }
+            this.getPane().appendChild(this._image);
+            this._reset();
+          },
+          onRemove: function() {
+            remove(this._image);
+            if (this.options.interactive) {
+              this.removeInteractiveTarget(this._image);
+            }
+          },
+          // @method setOpacity(opacity: Number): this
+          // Sets the opacity of the overlay.
+          setOpacity: function(opacity) {
+            this.options.opacity = opacity;
+            if (this._image) {
+              this._updateOpacity();
+            }
+            return this;
+          },
+          setStyle: function(styleOpts) {
+            if (styleOpts.opacity) {
+              this.setOpacity(styleOpts.opacity);
+            }
+            return this;
+          },
+          // @method bringToFront(): this
+          // Brings the layer to the top of all overlays.
+          bringToFront: function() {
+            if (this._map) {
+              toFront(this._image);
+            }
+            return this;
+          },
+          // @method bringToBack(): this
+          // Brings the layer to the bottom of all overlays.
+          bringToBack: function() {
+            if (this._map) {
+              toBack(this._image);
+            }
+            return this;
+          },
+          // @method setUrl(url: String): this
+          // Changes the URL of the image.
+          setUrl: function(url) {
+            this._url = url;
+            if (this._image) {
+              this._image.src = url;
+            }
+            return this;
+          },
+          // @method setBounds(bounds: LatLngBounds): this
+          // Update the bounds that this ImageOverlay covers
+          setBounds: function(bounds) {
+            this._bounds = toLatLngBounds(bounds);
+            if (this._map) {
+              this._reset();
+            }
+            return this;
+          },
+          getEvents: function() {
+            var events = {
+              zoom: this._reset,
+              viewreset: this._reset
+            };
+            if (this._zoomAnimated) {
+              events.zoomanim = this._animateZoom;
+            }
+            return events;
+          },
+          // @method setZIndex(value: Number): this
+          // Changes the [zIndex](#imageoverlay-zindex) of the image overlay.
+          setZIndex: function(value) {
+            this.options.zIndex = value;
+            this._updateZIndex();
+            return this;
+          },
+          // @method getBounds(): LatLngBounds
+          // Get the bounds that this ImageOverlay covers
+          getBounds: function() {
+            return this._bounds;
+          },
+          // @method getElement(): HTMLElement
+          // Returns the instance of [`HTMLImageElement`](https://developer.mozilla.org/docs/Web/API/HTMLImageElement)
+          // used by this overlay.
+          getElement: function() {
+            return this._image;
+          },
+          _initImage: function() {
+            var wasElementSupplied = this._url.tagName === "IMG";
+            var img = this._image = wasElementSupplied ? this._url : create$1("img");
+            addClass(img, "leaflet-image-layer");
+            if (this._zoomAnimated) {
+              addClass(img, "leaflet-zoom-animated");
+            }
+            if (this.options.className) {
+              addClass(img, this.options.className);
+            }
+            img.onselectstart = falseFn;
+            img.onmousemove = falseFn;
+            img.onload = bind(this.fire, this, "load");
+            img.onerror = bind(this._overlayOnError, this, "error");
+            if (this.options.crossOrigin || this.options.crossOrigin === "") {
+              img.crossOrigin = this.options.crossOrigin === true ? "" : this.options.crossOrigin;
+            }
+            if (this.options.zIndex) {
+              this._updateZIndex();
+            }
+            if (wasElementSupplied) {
+              this._url = img.src;
+              return;
+            }
+            img.src = this._url;
+            img.alt = this.options.alt;
+          },
+          _animateZoom: function(e) {
+            var scale2 = this._map.getZoomScale(e.zoom), offset = this._map._latLngBoundsToNewLayerBounds(this._bounds, e.zoom, e.center).min;
+            setTransform(this._image, offset, scale2);
+          },
+          _reset: function() {
+            var image = this._image, bounds = new Bounds(
+              this._map.latLngToLayerPoint(this._bounds.getNorthWest()),
+              this._map.latLngToLayerPoint(this._bounds.getSouthEast())
+            ), size = bounds.getSize();
+            setPosition(image, bounds.min);
+            image.style.width = size.x + "px";
+            image.style.height = size.y + "px";
+          },
+          _updateOpacity: function() {
+            setOpacity(this._image, this.options.opacity);
+          },
+          _updateZIndex: function() {
+            if (this._image && this.options.zIndex !== void 0 && this.options.zIndex !== null) {
+              this._image.style.zIndex = this.options.zIndex;
+            }
+          },
+          _overlayOnError: function() {
+            this.fire("error");
+            var errorUrl = this.options.errorOverlayUrl;
+            if (errorUrl && this._url !== errorUrl) {
+              this._url = errorUrl;
+              this._image.src = errorUrl;
+            }
+          },
+          // @method getCenter(): LatLng
+          // Returns the center of the ImageOverlay.
+          getCenter: function() {
+            return this._bounds.getCenter();
+          }
+        });
+        var imageOverlay = function(url, bounds, options) {
+          return new ImageOverlay(url, bounds, options);
+        };
+        var VideoOverlay = ImageOverlay.extend({
+          // @section
+          // @aka VideoOverlay options
+          options: {
+            // @option autoplay: Boolean = true
+            // Whether the video starts playing automatically when loaded.
+            // On some browsers autoplay will only work with `muted: true`
+            autoplay: true,
+            // @option loop: Boolean = true
+            // Whether the video will loop back to the beginning when played.
+            loop: true,
+            // @option keepAspectRatio: Boolean = true
+            // Whether the video will save aspect ratio after the projection.
+            // Relevant for supported browsers. See [browser compatibility](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit)
+            keepAspectRatio: true,
+            // @option muted: Boolean = false
+            // Whether the video starts on mute when loaded.
+            muted: false,
+            // @option playsInline: Boolean = true
+            // Mobile browsers will play the video right where it is instead of open it up in fullscreen mode.
+            playsInline: true
+          },
+          _initImage: function() {
+            var wasElementSupplied = this._url.tagName === "VIDEO";
+            var vid = this._image = wasElementSupplied ? this._url : create$1("video");
+            addClass(vid, "leaflet-image-layer");
+            if (this._zoomAnimated) {
+              addClass(vid, "leaflet-zoom-animated");
+            }
+            if (this.options.className) {
+              addClass(vid, this.options.className);
+            }
+            vid.onselectstart = falseFn;
+            vid.onmousemove = falseFn;
+            vid.onloadeddata = bind(this.fire, this, "load");
+            if (wasElementSupplied) {
+              var sourceElements = vid.getElementsByTagName("source");
+              var sources = [];
+              for (var j = 0; j < sourceElements.length; j++) {
+                sources.push(sourceElements[j].src);
+              }
+              this._url = sourceElements.length > 0 ? sources : [vid.src];
+              return;
+            }
+            if (!isArray(this._url)) {
+              this._url = [this._url];
+            }
+            if (!this.options.keepAspectRatio && Object.prototype.hasOwnProperty.call(vid.style, "objectFit")) {
+              vid.style["objectFit"] = "fill";
+            }
+            vid.autoplay = !!this.options.autoplay;
+            vid.loop = !!this.options.loop;
+            vid.muted = !!this.options.muted;
+            vid.playsInline = !!this.options.playsInline;
+            for (var i = 0; i < this._url.length; i++) {
+              var source = create$1("source");
+              source.src = this._url[i];
+              vid.appendChild(source);
+            }
+          }
+          // @method getElement(): HTMLVideoElement
+          // Returns the instance of [`HTMLVideoElement`](https://developer.mozilla.org/docs/Web/API/HTMLVideoElement)
+          // used by this overlay.
+        });
+        function videoOverlay(video, bounds, options) {
+          return new VideoOverlay(video, bounds, options);
+        }
+        var SVGOverlay = ImageOverlay.extend({
+          _initImage: function() {
+            var el = this._image = this._url;
+            addClass(el, "leaflet-image-layer");
+            if (this._zoomAnimated) {
+              addClass(el, "leaflet-zoom-animated");
+            }
+            if (this.options.className) {
+              addClass(el, this.options.className);
+            }
+            el.onselectstart = falseFn;
+            el.onmousemove = falseFn;
+          }
+          // @method getElement(): SVGElement
+          // Returns the instance of [`SVGElement`](https://developer.mozilla.org/docs/Web/API/SVGElement)
+          // used by this overlay.
+        });
+        function svgOverlay(el, bounds, options) {
+          return new SVGOverlay(el, bounds, options);
+        }
+        var DivOverlay = Layer.extend({
+          // @section
+          // @aka DivOverlay options
+          options: {
+            // @option interactive: Boolean = false
+            // If true, the popup/tooltip will listen to the mouse events.
+            interactive: false,
+            // @option offset: Point = Point(0, 0)
+            // The offset of the overlay position.
+            offset: [0, 0],
+            // @option className: String = ''
+            // A custom CSS class name to assign to the overlay.
+            className: "",
+            // @option pane: String = undefined
+            // `Map pane` where the overlay will be added.
+            pane: void 0,
+            // @option content: String|HTMLElement|Function = ''
+            // Sets the HTML content of the overlay while initializing. If a function is passed the source layer will be
+            // passed to the function. The function should return a `String` or `HTMLElement` to be used in the overlay.
+            content: ""
+          },
+          initialize: function(options, source) {
+            if (options && (options instanceof LatLng || isArray(options))) {
+              this._latlng = toLatLng(options);
+              setOptions(this, source);
+            } else {
+              setOptions(this, options);
+              this._source = source;
+            }
+            if (this.options.content) {
+              this._content = this.options.content;
+            }
+          },
+          // @method openOn(map: Map): this
+          // Adds the overlay to the map.
+          // Alternative to `map.openPopup(popup)`/`.openTooltip(tooltip)`.
+          openOn: function(map) {
+            map = arguments.length ? map : this._source._map;
+            if (!map.hasLayer(this)) {
+              map.addLayer(this);
+            }
+            return this;
+          },
+          // @method close(): this
+          // Closes the overlay.
+          // Alternative to `map.closePopup(popup)`/`.closeTooltip(tooltip)`
+          // and `layer.closePopup()`/`.closeTooltip()`.
+          close: function() {
+            if (this._map) {
+              this._map.removeLayer(this);
+            }
+            return this;
+          },
+          // @method toggle(layer?: Layer): this
+          // Opens or closes the overlay bound to layer depending on its current state.
+          // Argument may be omitted only for overlay bound to layer.
+          // Alternative to `layer.togglePopup()`/`.toggleTooltip()`.
+          toggle: function(layer) {
+            if (this._map) {
+              this.close();
+            } else {
+              if (arguments.length) {
+                this._source = layer;
+              } else {
+                layer = this._source;
+              }
+              this._prepareOpen();
+              this.openOn(layer._map);
+            }
+            return this;
+          },
+          onAdd: function(map) {
+            this._zoomAnimated = map._zoomAnimated;
+            if (!this._container) {
+              this._initLayout();
+            }
+            if (map._fadeAnimated) {
+              setOpacity(this._container, 0);
+            }
+            clearTimeout(this._removeTimeout);
+            this.getPane().appendChild(this._container);
+            this.update();
+            if (map._fadeAnimated) {
+              setOpacity(this._container, 1);
+            }
+            this.bringToFront();
+            if (this.options.interactive) {
+              addClass(this._container, "leaflet-interactive");
+              this.addInteractiveTarget(this._container);
+            }
+          },
+          onRemove: function(map) {
+            if (map._fadeAnimated) {
+              setOpacity(this._container, 0);
+              this._removeTimeout = setTimeout(bind(remove, void 0, this._container), 200);
+            } else {
+              remove(this._container);
+            }
+            if (this.options.interactive) {
+              removeClass(this._container, "leaflet-interactive");
+              this.removeInteractiveTarget(this._container);
+            }
+          },
+          // @namespace DivOverlay
+          // @method getLatLng: LatLng
+          // Returns the geographical point of the overlay.
+          getLatLng: function() {
+            return this._latlng;
+          },
+          // @method setLatLng(latlng: LatLng): this
+          // Sets the geographical point where the overlay will open.
+          setLatLng: function(latlng) {
+            this._latlng = toLatLng(latlng);
+            if (this._map) {
+              this._updatePosition();
+              this._adjustPan();
+            }
+            return this;
+          },
+          // @method getContent: String|HTMLElement
+          // Returns the content of the overlay.
+          getContent: function() {
+            return this._content;
+          },
+          // @method setContent(htmlContent: String|HTMLElement|Function): this
+          // Sets the HTML content of the overlay. If a function is passed the source layer will be passed to the function.
+          // The function should return a `String` or `HTMLElement` to be used in the overlay.
+          setContent: function(content) {
+            this._content = content;
+            this.update();
+            return this;
+          },
+          // @method getElement: String|HTMLElement
+          // Returns the HTML container of the overlay.
+          getElement: function() {
+            return this._container;
+          },
+          // @method update: null
+          // Updates the overlay content, layout and position. Useful for updating the overlay after something inside changed, e.g. image loaded.
+          update: function() {
+            if (!this._map) {
+              return;
+            }
+            this._container.style.visibility = "hidden";
+            this._updateContent();
+            this._updateLayout();
+            this._updatePosition();
+            this._container.style.visibility = "";
+            this._adjustPan();
+          },
+          getEvents: function() {
+            var events = {
+              zoom: this._updatePosition,
+              viewreset: this._updatePosition
+            };
+            if (this._zoomAnimated) {
+              events.zoomanim = this._animateZoom;
+            }
+            return events;
+          },
+          // @method isOpen: Boolean
+          // Returns `true` when the overlay is visible on the map.
+          isOpen: function() {
+            return !!this._map && this._map.hasLayer(this);
+          },
+          // @method bringToFront: this
+          // Brings this overlay in front of other overlays (in the same map pane).
+          bringToFront: function() {
+            if (this._map) {
+              toFront(this._container);
+            }
+            return this;
+          },
+          // @method bringToBack: this
+          // Brings this overlay to the back of other overlays (in the same map pane).
+          bringToBack: function() {
+            if (this._map) {
+              toBack(this._container);
+            }
+            return this;
+          },
+          // prepare bound overlay to open: update latlng pos / content source (for FeatureGroup)
+          _prepareOpen: function(latlng) {
+            var source = this._source;
+            if (!source._map) {
+              return false;
+            }
+            if (source instanceof FeatureGroup) {
+              source = null;
+              var layers2 = this._source._layers;
+              for (var id in layers2) {
+                if (layers2[id]._map) {
+                  source = layers2[id];
+                  break;
+                }
+              }
+              if (!source) {
+                return false;
+              }
+              this._source = source;
+            }
+            if (!latlng) {
+              if (source.getCenter) {
+                latlng = source.getCenter();
+              } else if (source.getLatLng) {
+                latlng = source.getLatLng();
+              } else if (source.getBounds) {
+                latlng = source.getBounds().getCenter();
+              } else {
+                throw new Error("Unable to get source layer LatLng.");
+              }
+            }
+            this.setLatLng(latlng);
+            if (this._map) {
+              this.update();
+            }
+            return true;
+          },
+          _updateContent: function() {
+            if (!this._content) {
+              return;
+            }
+            var node = this._contentNode;
+            var content = typeof this._content === "function" ? this._content(this._source || this) : this._content;
+            if (typeof content === "string") {
+              node.innerHTML = content;
+            } else {
+              while (node.hasChildNodes()) {
+                node.removeChild(node.firstChild);
+              }
+              node.appendChild(content);
+            }
+            this.fire("contentupdate");
+          },
+          _updatePosition: function() {
+            if (!this._map) {
+              return;
+            }
+            var pos = this._map.latLngToLayerPoint(this._latlng), offset = toPoint(this.options.offset), anchor = this._getAnchor();
+            if (this._zoomAnimated) {
+              setPosition(this._container, pos.add(anchor));
+            } else {
+              offset = offset.add(pos).add(anchor);
+            }
+            var bottom = this._containerBottom = -offset.y, left = this._containerLeft = -Math.round(this._containerWidth / 2) + offset.x;
+            this._container.style.bottom = bottom + "px";
+            this._container.style.left = left + "px";
+          },
+          _getAnchor: function() {
+            return [0, 0];
+          }
+        });
+        Map.include({
+          _initOverlay: function(OverlayClass, content, latlng, options) {
+            var overlay = content;
+            if (!(overlay instanceof OverlayClass)) {
+              overlay = new OverlayClass(options).setContent(content);
+            }
+            if (latlng) {
+              overlay.setLatLng(latlng);
+            }
+            return overlay;
+          }
+        });
+        Layer.include({
+          _initOverlay: function(OverlayClass, old, content, options) {
+            var overlay = content;
+            if (overlay instanceof OverlayClass) {
+              setOptions(overlay, options);
+              overlay._source = this;
+            } else {
+              overlay = old && !options ? old : new OverlayClass(options, this);
+              overlay.setContent(content);
+            }
+            return overlay;
+          }
+        });
+        var Popup = DivOverlay.extend({
+          // @section
+          // @aka Popup options
+          options: {
+            // @option pane: String = 'popupPane'
+            // `Map pane` where the popup will be added.
+            pane: "popupPane",
+            // @option offset: Point = Point(0, 7)
+            // The offset of the popup position.
+            offset: [0, 7],
+            // @option maxWidth: Number = 300
+            // Max width of the popup, in pixels.
+            maxWidth: 300,
+            // @option minWidth: Number = 50
+            // Min width of the popup, in pixels.
+            minWidth: 50,
+            // @option maxHeight: Number = null
+            // If set, creates a scrollable container of the given height
+            // inside a popup if its content exceeds it.
+            // The scrollable container can be styled using the
+            // `leaflet-popup-scrolled` CSS class selector.
+            maxHeight: null,
+            // @option autoPan: Boolean = true
+            // Set it to `false` if you don't want the map to do panning animation
+            // to fit the opened popup.
+            autoPan: true,
+            // @option autoPanPaddingTopLeft: Point = null
+            // The margin between the popup and the top left corner of the map
+            // view after autopanning was performed.
+            autoPanPaddingTopLeft: null,
+            // @option autoPanPaddingBottomRight: Point = null
+            // The margin between the popup and the bottom right corner of the map
+            // view after autopanning was performed.
+            autoPanPaddingBottomRight: null,
+            // @option autoPanPadding: Point = Point(5, 5)
+            // Equivalent of setting both top left and bottom right autopan padding to the same value.
+            autoPanPadding: [5, 5],
+            // @option keepInView: Boolean = false
+            // Set it to `true` if you want to prevent users from panning the popup
+            // off of the screen while it is open.
+            keepInView: false,
+            // @option closeButton: Boolean = true
+            // Controls the presence of a close button in the popup.
+            closeButton: true,
+            // @option autoClose: Boolean = true
+            // Set it to `false` if you want to override the default behavior of
+            // the popup closing when another popup is opened.
+            autoClose: true,
+            // @option closeOnEscapeKey: Boolean = true
+            // Set it to `false` if you want to override the default behavior of
+            // the ESC key for closing of the popup.
+            closeOnEscapeKey: true,
+            // @option closeOnClick: Boolean = *
+            // Set it if you want to override the default behavior of the popup closing when user clicks
+            // on the map. Defaults to the map's [`closePopupOnClick`](#map-closepopuponclick) option.
+            // @option className: String = ''
+            // A custom CSS class name to assign to the popup.
+            className: ""
+          },
+          // @namespace Popup
+          // @method openOn(map: Map): this
+          // Alternative to `map.openPopup(popup)`.
+          // Adds the popup to the map and closes the previous one.
+          openOn: function(map) {
+            map = arguments.length ? map : this._source._map;
+            if (!map.hasLayer(this) && map._popup && map._popup.options.autoClose) {
+              map.removeLayer(map._popup);
+            }
+            map._popup = this;
+            return DivOverlay.prototype.openOn.call(this, map);
+          },
+          onAdd: function(map) {
+            DivOverlay.prototype.onAdd.call(this, map);
+            map.fire("popupopen", { popup: this });
+            if (this._source) {
+              this._source.fire("popupopen", { popup: this }, true);
+              if (!(this._source instanceof Path)) {
+                this._source.on("preclick", stopPropagation);
+              }
+            }
+          },
+          onRemove: function(map) {
+            DivOverlay.prototype.onRemove.call(this, map);
+            map.fire("popupclose", { popup: this });
+            if (this._source) {
+              this._source.fire("popupclose", { popup: this }, true);
+              if (!(this._source instanceof Path)) {
+                this._source.off("preclick", stopPropagation);
+              }
+            }
+          },
+          getEvents: function() {
+            var events = DivOverlay.prototype.getEvents.call(this);
+            if (this.options.closeOnClick !== void 0 ? this.options.closeOnClick : this._map.options.closePopupOnClick) {
+              events.preclick = this.close;
+            }
+            if (this.options.keepInView) {
+              events.moveend = this._adjustPan;
+            }
+            return events;
+          },
+          _initLayout: function() {
+            var prefix = "leaflet-popup", container = this._container = create$1(
+              "div",
+              prefix + " " + (this.options.className || "") + " leaflet-zoom-animated"
+            );
+            var wrapper = this._wrapper = create$1("div", prefix + "-content-wrapper", container);
+            this._contentNode = create$1("div", prefix + "-content", wrapper);
+            disableClickPropagation(container);
+            disableScrollPropagation(this._contentNode);
+            on(container, "contextmenu", stopPropagation);
+            this._tipContainer = create$1("div", prefix + "-tip-container", container);
+            this._tip = create$1("div", prefix + "-tip", this._tipContainer);
+            if (this.options.closeButton) {
+              var closeButton = this._closeButton = create$1("a", prefix + "-close-button", container);
+              closeButton.setAttribute("role", "button");
+              closeButton.setAttribute("aria-label", "Close popup");
+              closeButton.href = "#close";
+              closeButton.innerHTML = '<span aria-hidden="true">&#215;</span>';
+              on(closeButton, "click", function(ev) {
+                preventDefault(ev);
+                this.close();
+              }, this);
+            }
+          },
+          _updateLayout: function() {
+            var container = this._contentNode, style2 = container.style;
+            style2.width = "";
+            style2.whiteSpace = "nowrap";
+            var width = container.offsetWidth;
+            width = Math.min(width, this.options.maxWidth);
+            width = Math.max(width, this.options.minWidth);
+            style2.width = width + 1 + "px";
+            style2.whiteSpace = "";
+            style2.height = "";
+            var height = container.offsetHeight, maxHeight = this.options.maxHeight, scrolledClass = "leaflet-popup-scrolled";
+            if (maxHeight && height > maxHeight) {
+              style2.height = maxHeight + "px";
+              addClass(container, scrolledClass);
+            } else {
+              removeClass(container, scrolledClass);
+            }
+            this._containerWidth = this._container.offsetWidth;
+          },
+          _animateZoom: function(e) {
+            var pos = this._map._latLngToNewLayerPoint(this._latlng, e.zoom, e.center), anchor = this._getAnchor();
+            setPosition(this._container, pos.add(anchor));
+          },
+          _adjustPan: function() {
+            if (!this.options.autoPan) {
+              return;
+            }
+            if (this._map._panAnim) {
+              this._map._panAnim.stop();
+            }
+            if (this._autopanning) {
+              this._autopanning = false;
+              return;
+            }
+            var map = this._map, marginBottom = parseInt(getStyle(this._container, "marginBottom"), 10) || 0, containerHeight = this._container.offsetHeight + marginBottom, containerWidth = this._containerWidth, layerPos = new Point(this._containerLeft, -containerHeight - this._containerBottom);
+            layerPos._add(getPosition(this._container));
+            var containerPos = map.layerPointToContainerPoint(layerPos), padding = toPoint(this.options.autoPanPadding), paddingTL = toPoint(this.options.autoPanPaddingTopLeft || padding), paddingBR = toPoint(this.options.autoPanPaddingBottomRight || padding), size = map.getSize(), dx = 0, dy = 0;
+            if (containerPos.x + containerWidth + paddingBR.x > size.x) {
+              dx = containerPos.x + containerWidth - size.x + paddingBR.x;
+            }
+            if (containerPos.x - dx - paddingTL.x < 0) {
+              dx = containerPos.x - paddingTL.x;
+            }
+            if (containerPos.y + containerHeight + paddingBR.y > size.y) {
+              dy = containerPos.y + containerHeight - size.y + paddingBR.y;
+            }
+            if (containerPos.y - dy - paddingTL.y < 0) {
+              dy = containerPos.y - paddingTL.y;
+            }
+            if (dx || dy) {
+              if (this.options.keepInView) {
+                this._autopanning = true;
+              }
+              map.fire("autopanstart").panBy([dx, dy]);
+            }
+          },
+          _getAnchor: function() {
+            return toPoint(this._source && this._source._getPopupAnchor ? this._source._getPopupAnchor() : [0, 0]);
+          }
+        });
+        var popup = function(options, source) {
+          return new Popup(options, source);
+        };
+        Map.mergeOptions({
+          closePopupOnClick: true
+        });
+        Map.include({
+          // @method openPopup(popup: Popup): this
+          // Opens the specified popup while closing the previously opened (to make sure only one is opened at one time for usability).
+          // @alternative
+          // @method openPopup(content: String|HTMLElement, latlng: LatLng, options?: Popup options): this
+          // Creates a popup with the specified content and options and opens it in the given point on a map.
+          openPopup: function(popup2, latlng, options) {
+            this._initOverlay(Popup, popup2, latlng, options).openOn(this);
+            return this;
+          },
+          // @method closePopup(popup?: Popup): this
+          // Closes the popup previously opened with [openPopup](#map-openpopup) (or the given one).
+          closePopup: function(popup2) {
+            popup2 = arguments.length ? popup2 : this._popup;
+            if (popup2) {
+              popup2.close();
+            }
+            return this;
+          }
+        });
+        Layer.include({
+          // @method bindPopup(content: String|HTMLElement|Function|Popup, options?: Popup options): this
+          // Binds a popup to the layer with the passed `content` and sets up the
+          // necessary event listeners. If a `Function` is passed it will receive
+          // the layer as the first argument and should return a `String` or `HTMLElement`.
+          bindPopup: function(content, options) {
+            this._popup = this._initOverlay(Popup, this._popup, content, options);
+            if (!this._popupHandlersAdded) {
+              this.on({
+                click: this._openPopup,
+                keypress: this._onKeyPress,
+                remove: this.closePopup,
+                move: this._movePopup
+              });
+              this._popupHandlersAdded = true;
+            }
+            return this;
+          },
+          // @method unbindPopup(): this
+          // Removes the popup previously bound with `bindPopup`.
+          unbindPopup: function() {
+            if (this._popup) {
+              this.off({
+                click: this._openPopup,
+                keypress: this._onKeyPress,
+                remove: this.closePopup,
+                move: this._movePopup
+              });
+              this._popupHandlersAdded = false;
+              this._popup = null;
+            }
+            return this;
+          },
+          // @method openPopup(latlng?: LatLng): this
+          // Opens the bound popup at the specified `latlng` or at the default popup anchor if no `latlng` is passed.
+          openPopup: function(latlng) {
+            if (this._popup) {
+              if (!(this instanceof FeatureGroup)) {
+                this._popup._source = this;
+              }
+              if (this._popup._prepareOpen(latlng || this._latlng)) {
+                this._popup.openOn(this._map);
+              }
+            }
+            return this;
+          },
+          // @method closePopup(): this
+          // Closes the popup bound to this layer if it is open.
+          closePopup: function() {
+            if (this._popup) {
+              this._popup.close();
+            }
+            return this;
+          },
+          // @method togglePopup(): this
+          // Opens or closes the popup bound to this layer depending on its current state.
+          togglePopup: function() {
+            if (this._popup) {
+              this._popup.toggle(this);
+            }
+            return this;
+          },
+          // @method isPopupOpen(): boolean
+          // Returns `true` if the popup bound to this layer is currently open.
+          isPopupOpen: function() {
+            return this._popup ? this._popup.isOpen() : false;
+          },
+          // @method setPopupContent(content: String|HTMLElement|Popup): this
+          // Sets the content of the popup bound to this layer.
+          setPopupContent: function(content) {
+            if (this._popup) {
+              this._popup.setContent(content);
+            }
+            return this;
+          },
+          // @method getPopup(): Popup
+          // Returns the popup bound to this layer.
+          getPopup: function() {
+            return this._popup;
+          },
+          _openPopup: function(e) {
+            if (!this._popup || !this._map) {
+              return;
+            }
+            stop(e);
+            var target = e.layer || e.target;
+            if (this._popup._source === target && !(target instanceof Path)) {
+              if (this._map.hasLayer(this._popup)) {
+                this.closePopup();
+              } else {
+                this.openPopup(e.latlng);
+              }
+              return;
+            }
+            this._popup._source = target;
+            this.openPopup(e.latlng);
+          },
+          _movePopup: function(e) {
+            this._popup.setLatLng(e.latlng);
+          },
+          _onKeyPress: function(e) {
+            if (e.originalEvent.keyCode === 13) {
+              this._openPopup(e);
+            }
+          }
+        });
+        var Tooltip = DivOverlay.extend({
+          // @section
+          // @aka Tooltip options
+          options: {
+            // @option pane: String = 'tooltipPane'
+            // `Map pane` where the tooltip will be added.
+            pane: "tooltipPane",
+            // @option offset: Point = Point(0, 0)
+            // Optional offset of the tooltip position.
+            offset: [0, 0],
+            // @option direction: String = 'auto'
+            // Direction where to open the tooltip. Possible values are: `right`, `left`,
+            // `top`, `bottom`, `center`, `auto`.
+            // `auto` will dynamically switch between `right` and `left` according to the tooltip
+            // position on the map.
+            direction: "auto",
+            // @option permanent: Boolean = false
+            // Whether to open the tooltip permanently or only on mouseover.
+            permanent: false,
+            // @option sticky: Boolean = false
+            // If true, the tooltip will follow the mouse instead of being fixed at the feature center.
+            sticky: false,
+            // @option opacity: Number = 0.9
+            // Tooltip container opacity.
+            opacity: 0.9
+          },
+          onAdd: function(map) {
+            DivOverlay.prototype.onAdd.call(this, map);
+            this.setOpacity(this.options.opacity);
+            map.fire("tooltipopen", { tooltip: this });
+            if (this._source) {
+              this.addEventParent(this._source);
+              this._source.fire("tooltipopen", { tooltip: this }, true);
+            }
+          },
+          onRemove: function(map) {
+            DivOverlay.prototype.onRemove.call(this, map);
+            map.fire("tooltipclose", { tooltip: this });
+            if (this._source) {
+              this.removeEventParent(this._source);
+              this._source.fire("tooltipclose", { tooltip: this }, true);
+            }
+          },
+          getEvents: function() {
+            var events = DivOverlay.prototype.getEvents.call(this);
+            if (!this.options.permanent) {
+              events.preclick = this.close;
+            }
+            return events;
+          },
+          _initLayout: function() {
+            var prefix = "leaflet-tooltip", className = prefix + " " + (this.options.className || "") + " leaflet-zoom-" + (this._zoomAnimated ? "animated" : "hide");
+            this._contentNode = this._container = create$1("div", className);
+            this._container.setAttribute("role", "tooltip");
+            this._container.setAttribute("id", "leaflet-tooltip-" + stamp(this));
+          },
+          _updateLayout: function() {
+          },
+          _adjustPan: function() {
+          },
+          _setPosition: function(pos) {
+            var subX, subY, map = this._map, container = this._container, centerPoint = map.latLngToContainerPoint(map.getCenter()), tooltipPoint = map.layerPointToContainerPoint(pos), direction = this.options.direction, tooltipWidth = container.offsetWidth, tooltipHeight = container.offsetHeight, offset = toPoint(this.options.offset), anchor = this._getAnchor();
+            if (direction === "top") {
+              subX = tooltipWidth / 2;
+              subY = tooltipHeight;
+            } else if (direction === "bottom") {
+              subX = tooltipWidth / 2;
+              subY = 0;
+            } else if (direction === "center") {
+              subX = tooltipWidth / 2;
+              subY = tooltipHeight / 2;
+            } else if (direction === "right") {
+              subX = 0;
+              subY = tooltipHeight / 2;
+            } else if (direction === "left") {
+              subX = tooltipWidth;
+              subY = tooltipHeight / 2;
+            } else if (tooltipPoint.x < centerPoint.x) {
+              direction = "right";
+              subX = 0;
+              subY = tooltipHeight / 2;
+            } else {
+              direction = "left";
+              subX = tooltipWidth + (offset.x + anchor.x) * 2;
+              subY = tooltipHeight / 2;
+            }
+            pos = pos.subtract(toPoint(subX, subY, true)).add(offset).add(anchor);
+            removeClass(container, "leaflet-tooltip-right");
+            removeClass(container, "leaflet-tooltip-left");
+            removeClass(container, "leaflet-tooltip-top");
+            removeClass(container, "leaflet-tooltip-bottom");
+            addClass(container, "leaflet-tooltip-" + direction);
+            setPosition(container, pos);
+          },
+          _updatePosition: function() {
+            var pos = this._map.latLngToLayerPoint(this._latlng);
+            this._setPosition(pos);
+          },
+          setOpacity: function(opacity) {
+            this.options.opacity = opacity;
+            if (this._container) {
+              setOpacity(this._container, opacity);
+            }
+          },
+          _animateZoom: function(e) {
+            var pos = this._map._latLngToNewLayerPoint(this._latlng, e.zoom, e.center);
+            this._setPosition(pos);
+          },
+          _getAnchor: function() {
+            return toPoint(this._source && this._source._getTooltipAnchor && !this.options.sticky ? this._source._getTooltipAnchor() : [0, 0]);
+          }
+        });
+        var tooltip = function(options, source) {
+          return new Tooltip(options, source);
+        };
+        Map.include({
+          // @method openTooltip(tooltip: Tooltip): this
+          // Opens the specified tooltip.
+          // @alternative
+          // @method openTooltip(content: String|HTMLElement, latlng: LatLng, options?: Tooltip options): this
+          // Creates a tooltip with the specified content and options and open it.
+          openTooltip: function(tooltip2, latlng, options) {
+            this._initOverlay(Tooltip, tooltip2, latlng, options).openOn(this);
+            return this;
+          },
+          // @method closeTooltip(tooltip: Tooltip): this
+          // Closes the tooltip given as parameter.
+          closeTooltip: function(tooltip2) {
+            tooltip2.close();
+            return this;
+          }
+        });
+        Layer.include({
+          // @method bindTooltip(content: String|HTMLElement|Function|Tooltip, options?: Tooltip options): this
+          // Binds a tooltip to the layer with the passed `content` and sets up the
+          // necessary event listeners. If a `Function` is passed it will receive
+          // the layer as the first argument and should return a `String` or `HTMLElement`.
+          bindTooltip: function(content, options) {
+            if (this._tooltip && this.isTooltipOpen()) {
+              this.unbindTooltip();
+            }
+            this._tooltip = this._initOverlay(Tooltip, this._tooltip, content, options);
+            this._initTooltipInteractions();
+            if (this._tooltip.options.permanent && this._map && this._map.hasLayer(this)) {
+              this.openTooltip();
+            }
+            return this;
+          },
+          // @method unbindTooltip(): this
+          // Removes the tooltip previously bound with `bindTooltip`.
+          unbindTooltip: function() {
+            if (this._tooltip) {
+              this._initTooltipInteractions(true);
+              this.closeTooltip();
+              this._tooltip = null;
+            }
+            return this;
+          },
+          _initTooltipInteractions: function(remove2) {
+            if (!remove2 && this._tooltipHandlersAdded) {
+              return;
+            }
+            var onOff = remove2 ? "off" : "on", events = {
+              remove: this.closeTooltip,
+              move: this._moveTooltip
+            };
+            if (!this._tooltip.options.permanent) {
+              events.mouseover = this._openTooltip;
+              events.mouseout = this.closeTooltip;
+              events.click = this._openTooltip;
+              if (this._map) {
+                this._addFocusListeners();
+              } else {
+                events.add = this._addFocusListeners;
+              }
+            } else {
+              events.add = this._openTooltip;
+            }
+            if (this._tooltip.options.sticky) {
+              events.mousemove = this._moveTooltip;
+            }
+            this[onOff](events);
+            this._tooltipHandlersAdded = !remove2;
+          },
+          // @method openTooltip(latlng?: LatLng): this
+          // Opens the bound tooltip at the specified `latlng` or at the default tooltip anchor if no `latlng` is passed.
+          openTooltip: function(latlng) {
+            if (this._tooltip) {
+              if (!(this instanceof FeatureGroup)) {
+                this._tooltip._source = this;
+              }
+              if (this._tooltip._prepareOpen(latlng)) {
+                this._tooltip.openOn(this._map);
+                if (this.getElement) {
+                  this._setAriaDescribedByOnLayer(this);
+                } else if (this.eachLayer) {
+                  this.eachLayer(this._setAriaDescribedByOnLayer, this);
+                }
+              }
+            }
+            return this;
+          },
+          // @method closeTooltip(): this
+          // Closes the tooltip bound to this layer if it is open.
+          closeTooltip: function() {
+            if (this._tooltip) {
+              return this._tooltip.close();
+            }
+          },
+          // @method toggleTooltip(): this
+          // Opens or closes the tooltip bound to this layer depending on its current state.
+          toggleTooltip: function() {
+            if (this._tooltip) {
+              this._tooltip.toggle(this);
+            }
+            return this;
+          },
+          // @method isTooltipOpen(): boolean
+          // Returns `true` if the tooltip bound to this layer is currently open.
+          isTooltipOpen: function() {
+            return this._tooltip.isOpen();
+          },
+          // @method setTooltipContent(content: String|HTMLElement|Tooltip): this
+          // Sets the content of the tooltip bound to this layer.
+          setTooltipContent: function(content) {
+            if (this._tooltip) {
+              this._tooltip.setContent(content);
+            }
+            return this;
+          },
+          // @method getTooltip(): Tooltip
+          // Returns the tooltip bound to this layer.
+          getTooltip: function() {
+            return this._tooltip;
+          },
+          _addFocusListeners: function() {
+            if (this.getElement) {
+              this._addFocusListenersOnLayer(this);
+            } else if (this.eachLayer) {
+              this.eachLayer(this._addFocusListenersOnLayer, this);
+            }
+          },
+          _addFocusListenersOnLayer: function(layer) {
+            var el = typeof layer.getElement === "function" && layer.getElement();
+            if (el) {
+              on(el, "focus", function() {
+                this._tooltip._source = layer;
+                this.openTooltip();
+              }, this);
+              on(el, "blur", this.closeTooltip, this);
+            }
+          },
+          _setAriaDescribedByOnLayer: function(layer) {
+            var el = typeof layer.getElement === "function" && layer.getElement();
+            if (el) {
+              el.setAttribute("aria-describedby", this._tooltip._container.id);
+            }
+          },
+          _openTooltip: function(e) {
+            if (!this._tooltip || !this._map) {
+              return;
+            }
+            if (this._map.dragging && this._map.dragging.moving() && !this._openOnceFlag) {
+              this._openOnceFlag = true;
+              var that = this;
+              this._map.once("moveend", function() {
+                that._openOnceFlag = false;
+                that._openTooltip(e);
+              });
+              return;
+            }
+            this._tooltip._source = e.layer || e.target;
+            this.openTooltip(this._tooltip.options.sticky ? e.latlng : void 0);
+          },
+          _moveTooltip: function(e) {
+            var latlng = e.latlng, containerPoint, layerPoint;
+            if (this._tooltip.options.sticky && e.originalEvent) {
+              containerPoint = this._map.mouseEventToContainerPoint(e.originalEvent);
+              layerPoint = this._map.containerPointToLayerPoint(containerPoint);
+              latlng = this._map.layerPointToLatLng(layerPoint);
+            }
+            this._tooltip.setLatLng(latlng);
+          }
+        });
+        var DivIcon = Icon.extend({
+          options: {
+            // @section
+            // @aka DivIcon options
+            iconSize: [12, 12],
+            // also can be set through CSS
+            // iconAnchor: (Point),
+            // popupAnchor: (Point),
+            // @option html: String|HTMLElement = ''
+            // Custom HTML code to put inside the div element, empty by default. Alternatively,
+            // an instance of `HTMLElement`.
+            html: false,
+            // @option bgPos: Point = [0, 0]
+            // Optional relative position of the background, in pixels
+            bgPos: null,
+            className: "leaflet-div-icon"
+          },
+          createIcon: function(oldIcon) {
+            var div = oldIcon && oldIcon.tagName === "DIV" ? oldIcon : document.createElement("div"), options = this.options;
+            if (options.html instanceof Element) {
+              empty(div);
+              div.appendChild(options.html);
+            } else {
+              div.innerHTML = options.html !== false ? options.html : "";
+            }
+            if (options.bgPos) {
+              var bgPos = toPoint(options.bgPos);
+              div.style.backgroundPosition = -bgPos.x + "px " + -bgPos.y + "px";
+            }
+            this._setIconStyles(div, "icon");
+            return div;
+          },
+          createShadow: function() {
+            return null;
+          }
+        });
+        function divIcon(options) {
+          return new DivIcon(options);
+        }
+        Icon.Default = IconDefault;
+        var GridLayer = Layer.extend({
+          // @section
+          // @aka GridLayer options
+          options: {
+            // @option tileSize: Number|Point = 256
+            // Width and height of tiles in the grid. Use a number if width and height are equal, or `L.point(width, height)` otherwise.
+            tileSize: 256,
+            // @option opacity: Number = 1.0
+            // Opacity of the tiles. Can be used in the `createTile()` function.
+            opacity: 1,
+            // @option updateWhenIdle: Boolean = (depends)
+            // Load new tiles only when panning ends.
+            // `true` by default on mobile browsers, in order to avoid too many requests and keep smooth navigation.
+            // `false` otherwise in order to display new tiles _during_ panning, since it is easy to pan outside the
+            // [`keepBuffer`](#gridlayer-keepbuffer) option in desktop browsers.
+            updateWhenIdle: Browser.mobile,
+            // @option updateWhenZooming: Boolean = true
+            // By default, a smooth zoom animation (during a [touch zoom](#map-touchzoom) or a [`flyTo()`](#map-flyto)) will update grid layers every integer zoom level. Setting this option to `false` will update the grid layer only when the smooth animation ends.
+            updateWhenZooming: true,
+            // @option updateInterval: Number = 200
+            // Tiles will not update more than once every `updateInterval` milliseconds when panning.
+            updateInterval: 200,
+            // @option zIndex: Number = 1
+            // The explicit zIndex of the tile layer.
+            zIndex: 1,
+            // @option bounds: LatLngBounds = undefined
+            // If set, tiles will only be loaded inside the set `LatLngBounds`.
+            bounds: null,
+            // @option minZoom: Number = 0
+            // The minimum zoom level down to which this layer will be displayed (inclusive).
+            minZoom: 0,
+            // @option maxZoom: Number = undefined
+            // The maximum zoom level up to which this layer will be displayed (inclusive).
+            maxZoom: void 0,
+            // @option maxNativeZoom: Number = undefined
+            // Maximum zoom number the tile source has available. If it is specified,
+            // the tiles on all zoom levels higher than `maxNativeZoom` will be loaded
+            // from `maxNativeZoom` level and auto-scaled.
+            maxNativeZoom: void 0,
+            // @option minNativeZoom: Number = undefined
+            // Minimum zoom number the tile source has available. If it is specified,
+            // the tiles on all zoom levels lower than `minNativeZoom` will be loaded
+            // from `minNativeZoom` level and auto-scaled.
+            minNativeZoom: void 0,
+            // @option noWrap: Boolean = false
+            // Whether the layer is wrapped around the antimeridian. If `true`, the
+            // GridLayer will only be displayed once at low zoom levels. Has no
+            // effect when the [map CRS](#map-crs) doesn't wrap around. Can be used
+            // in combination with [`bounds`](#gridlayer-bounds) to prevent requesting
+            // tiles outside the CRS limits.
+            noWrap: false,
+            // @option pane: String = 'tilePane'
+            // `Map pane` where the grid layer will be added.
+            pane: "tilePane",
+            // @option className: String = ''
+            // A custom class name to assign to the tile layer. Empty by default.
+            className: "",
+            // @option keepBuffer: Number = 2
+            // When panning the map, keep this many rows and columns of tiles before unloading them.
+            keepBuffer: 2
+          },
+          initialize: function(options) {
+            setOptions(this, options);
+          },
+          onAdd: function() {
+            this._initContainer();
+            this._levels = {};
+            this._tiles = {};
+            this._resetView();
+          },
+          beforeAdd: function(map) {
+            map._addZoomLimit(this);
+          },
+          onRemove: function(map) {
+            this._removeAllTiles();
+            remove(this._container);
+            map._removeZoomLimit(this);
+            this._container = null;
+            this._tileZoom = void 0;
+          },
+          // @method bringToFront: this
+          // Brings the tile layer to the top of all tile layers.
+          bringToFront: function() {
+            if (this._map) {
+              toFront(this._container);
+              this._setAutoZIndex(Math.max);
+            }
+            return this;
+          },
+          // @method bringToBack: this
+          // Brings the tile layer to the bottom of all tile layers.
+          bringToBack: function() {
+            if (this._map) {
+              toBack(this._container);
+              this._setAutoZIndex(Math.min);
+            }
+            return this;
+          },
+          // @method getContainer: HTMLElement
+          // Returns the HTML element that contains the tiles for this layer.
+          getContainer: function() {
+            return this._container;
+          },
+          // @method setOpacity(opacity: Number): this
+          // Changes the [opacity](#gridlayer-opacity) of the grid layer.
+          setOpacity: function(opacity) {
+            this.options.opacity = opacity;
+            this._updateOpacity();
+            return this;
+          },
+          // @method setZIndex(zIndex: Number): this
+          // Changes the [zIndex](#gridlayer-zindex) of the grid layer.
+          setZIndex: function(zIndex) {
+            this.options.zIndex = zIndex;
+            this._updateZIndex();
+            return this;
+          },
+          // @method isLoading: Boolean
+          // Returns `true` if any tile in the grid layer has not finished loading.
+          isLoading: function() {
+            return this._loading;
+          },
+          // @method redraw: this
+          // Causes the layer to clear all the tiles and request them again.
+          redraw: function() {
+            if (this._map) {
+              this._removeAllTiles();
+              var tileZoom = this._clampZoom(this._map.getZoom());
+              if (tileZoom !== this._tileZoom) {
+                this._tileZoom = tileZoom;
+                this._updateLevels();
+              }
+              this._update();
+            }
+            return this;
+          },
+          getEvents: function() {
+            var events = {
+              viewprereset: this._invalidateAll,
+              viewreset: this._resetView,
+              zoom: this._resetView,
+              moveend: this._onMoveEnd
+            };
+            if (!this.options.updateWhenIdle) {
+              if (!this._onMove) {
+                this._onMove = throttle(this._onMoveEnd, this.options.updateInterval, this);
+              }
+              events.move = this._onMove;
+            }
+            if (this._zoomAnimated) {
+              events.zoomanim = this._animateZoom;
+            }
+            return events;
+          },
+          // @section Extension methods
+          // Layers extending `GridLayer` shall reimplement the following method.
+          // @method createTile(coords: Object, done?: Function): HTMLElement
+          // Called only internally, must be overridden by classes extending `GridLayer`.
+          // Returns the `HTMLElement` corresponding to the given `coords`. If the `done` callback
+          // is specified, it must be called when the tile has finished loading and drawing.
+          createTile: function() {
+            return document.createElement("div");
+          },
+          // @section
+          // @method getTileSize: Point
+          // Normalizes the [tileSize option](#gridlayer-tilesize) into a point. Used by the `createTile()` method.
+          getTileSize: function() {
+            var s = this.options.tileSize;
+            return s instanceof Point ? s : new Point(s, s);
+          },
+          _updateZIndex: function() {
+            if (this._container && this.options.zIndex !== void 0 && this.options.zIndex !== null) {
+              this._container.style.zIndex = this.options.zIndex;
+            }
+          },
+          _setAutoZIndex: function(compare) {
+            var layers2 = this.getPane().children, edgeZIndex = -compare(-Infinity, Infinity);
+            for (var i = 0, len = layers2.length, zIndex; i < len; i++) {
+              zIndex = layers2[i].style.zIndex;
+              if (layers2[i] !== this._container && zIndex) {
+                edgeZIndex = compare(edgeZIndex, +zIndex);
+              }
+            }
+            if (isFinite(edgeZIndex)) {
+              this.options.zIndex = edgeZIndex + compare(-1, 1);
+              this._updateZIndex();
+            }
+          },
+          _updateOpacity: function() {
+            if (!this._map) {
+              return;
+            }
+            if (Browser.ielt9) {
+              return;
+            }
+            setOpacity(this._container, this.options.opacity);
+            var now = +/* @__PURE__ */ new Date(), nextFrame = false, willPrune = false;
+            for (var key in this._tiles) {
+              var tile = this._tiles[key];
+              if (!tile.current || !tile.loaded) {
+                continue;
+              }
+              var fade = Math.min(1, (now - tile.loaded) / 200);
+              setOpacity(tile.el, fade);
+              if (fade < 1) {
+                nextFrame = true;
+              } else {
+                if (tile.active) {
+                  willPrune = true;
+                } else {
+                  this._onOpaqueTile(tile);
+                }
+                tile.active = true;
+              }
+            }
+            if (willPrune && !this._noPrune) {
+              this._pruneTiles();
+            }
+            if (nextFrame) {
+              cancelAnimFrame(this._fadeFrame);
+              this._fadeFrame = requestAnimFrame(this._updateOpacity, this);
+            }
+          },
+          _onOpaqueTile: falseFn,
+          _initContainer: function() {
+            if (this._container) {
+              return;
+            }
+            this._container = create$1("div", "leaflet-layer " + (this.options.className || ""));
+            this._updateZIndex();
+            if (this.options.opacity < 1) {
+              this._updateOpacity();
+            }
+            this.getPane().appendChild(this._container);
+          },
+          _updateLevels: function() {
+            var zoom2 = this._tileZoom, maxZoom = this.options.maxZoom;
+            if (zoom2 === void 0) {
+              return void 0;
+            }
+            for (var z in this._levels) {
+              z = Number(z);
+              if (this._levels[z].el.children.length || z === zoom2) {
+                this._levels[z].el.style.zIndex = maxZoom - Math.abs(zoom2 - z);
+                this._onUpdateLevel(z);
+              } else {
+                remove(this._levels[z].el);
+                this._removeTilesAtZoom(z);
+                this._onRemoveLevel(z);
+                delete this._levels[z];
+              }
+            }
+            var level = this._levels[zoom2], map = this._map;
+            if (!level) {
+              level = this._levels[zoom2] = {};
+              level.el = create$1("div", "leaflet-tile-container leaflet-zoom-animated", this._container);
+              level.el.style.zIndex = maxZoom;
+              level.origin = map.project(map.unproject(map.getPixelOrigin()), zoom2).round();
+              level.zoom = zoom2;
+              this._setZoomTransform(level, map.getCenter(), map.getZoom());
+              falseFn(level.el.offsetWidth);
+              this._onCreateLevel(level);
+            }
+            this._level = level;
+            return level;
+          },
+          _onUpdateLevel: falseFn,
+          _onRemoveLevel: falseFn,
+          _onCreateLevel: falseFn,
+          _pruneTiles: function() {
+            if (!this._map) {
+              return;
+            }
+            var key, tile;
+            var zoom2 = this._map.getZoom();
+            if (zoom2 > this.options.maxZoom || zoom2 < this.options.minZoom) {
+              this._removeAllTiles();
+              return;
+            }
+            for (key in this._tiles) {
+              tile = this._tiles[key];
+              tile.retain = tile.current;
+            }
+            for (key in this._tiles) {
+              tile = this._tiles[key];
+              if (tile.current && !tile.active) {
+                var coords = tile.coords;
+                if (!this._retainParent(coords.x, coords.y, coords.z, coords.z - 5)) {
+                  this._retainChildren(coords.x, coords.y, coords.z, coords.z + 2);
+                }
+              }
+            }
+            for (key in this._tiles) {
+              if (!this._tiles[key].retain) {
+                this._removeTile(key);
+              }
+            }
+          },
+          _removeTilesAtZoom: function(zoom2) {
+            for (var key in this._tiles) {
+              if (this._tiles[key].coords.z !== zoom2) {
+                continue;
+              }
+              this._removeTile(key);
+            }
+          },
+          _removeAllTiles: function() {
+            for (var key in this._tiles) {
+              this._removeTile(key);
+            }
+          },
+          _invalidateAll: function() {
+            for (var z in this._levels) {
+              remove(this._levels[z].el);
+              this._onRemoveLevel(Number(z));
+              delete this._levels[z];
+            }
+            this._removeAllTiles();
+            this._tileZoom = void 0;
+          },
+          _retainParent: function(x, y, z, minZoom) {
+            var x2 = Math.floor(x / 2), y2 = Math.floor(y / 2), z2 = z - 1, coords2 = new Point(+x2, +y2);
+            coords2.z = +z2;
+            var key = this._tileCoordsToKey(coords2), tile = this._tiles[key];
+            if (tile && tile.active) {
+              tile.retain = true;
+              return true;
+            } else if (tile && tile.loaded) {
+              tile.retain = true;
+            }
+            if (z2 > minZoom) {
+              return this._retainParent(x2, y2, z2, minZoom);
+            }
+            return false;
+          },
+          _retainChildren: function(x, y, z, maxZoom) {
+            for (var i = 2 * x; i < 2 * x + 2; i++) {
+              for (var j = 2 * y; j < 2 * y + 2; j++) {
+                var coords = new Point(i, j);
+                coords.z = z + 1;
+                var key = this._tileCoordsToKey(coords), tile = this._tiles[key];
+                if (tile && tile.active) {
+                  tile.retain = true;
+                  continue;
+                } else if (tile && tile.loaded) {
+                  tile.retain = true;
+                }
+                if (z + 1 < maxZoom) {
+                  this._retainChildren(i, j, z + 1, maxZoom);
+                }
+              }
+            }
+          },
+          _resetView: function(e) {
+            var animating = e && (e.pinch || e.flyTo);
+            this._setView(this._map.getCenter(), this._map.getZoom(), animating, animating);
+          },
+          _animateZoom: function(e) {
+            this._setView(e.center, e.zoom, true, e.noUpdate);
+          },
+          _clampZoom: function(zoom2) {
+            var options = this.options;
+            if (void 0 !== options.minNativeZoom && zoom2 < options.minNativeZoom) {
+              return options.minNativeZoom;
+            }
+            if (void 0 !== options.maxNativeZoom && options.maxNativeZoom < zoom2) {
+              return options.maxNativeZoom;
+            }
+            return zoom2;
+          },
+          _setView: function(center, zoom2, noPrune, noUpdate) {
+            var tileZoom = Math.round(zoom2);
+            if (this.options.maxZoom !== void 0 && tileZoom > this.options.maxZoom || this.options.minZoom !== void 0 && tileZoom < this.options.minZoom) {
+              tileZoom = void 0;
+            } else {
+              tileZoom = this._clampZoom(tileZoom);
+            }
+            var tileZoomChanged = this.options.updateWhenZooming && tileZoom !== this._tileZoom;
+            if (!noUpdate || tileZoomChanged) {
+              this._tileZoom = tileZoom;
+              if (this._abortLoading) {
+                this._abortLoading();
+              }
+              this._updateLevels();
+              this._resetGrid();
+              if (tileZoom !== void 0) {
+                this._update(center);
+              }
+              if (!noPrune) {
+                this._pruneTiles();
+              }
+              this._noPrune = !!noPrune;
+            }
+            this._setZoomTransforms(center, zoom2);
+          },
+          _setZoomTransforms: function(center, zoom2) {
+            for (var i in this._levels) {
+              this._setZoomTransform(this._levels[i], center, zoom2);
+            }
+          },
+          _setZoomTransform: function(level, center, zoom2) {
+            var scale2 = this._map.getZoomScale(zoom2, level.zoom), translate = level.origin.multiplyBy(scale2).subtract(this._map._getNewPixelOrigin(center, zoom2)).round();
+            if (Browser.any3d) {
+              setTransform(level.el, translate, scale2);
+            } else {
+              setPosition(level.el, translate);
+            }
+          },
+          _resetGrid: function() {
+            var map = this._map, crs = map.options.crs, tileSize = this._tileSize = this.getTileSize(), tileZoom = this._tileZoom;
+            var bounds = this._map.getPixelWorldBounds(this._tileZoom);
+            if (bounds) {
+              this._globalTileRange = this._pxBoundsToTileRange(bounds);
+            }
+            this._wrapX = crs.wrapLng && !this.options.noWrap && [
+              Math.floor(map.project([0, crs.wrapLng[0]], tileZoom).x / tileSize.x),
+              Math.ceil(map.project([0, crs.wrapLng[1]], tileZoom).x / tileSize.y)
+            ];
+            this._wrapY = crs.wrapLat && !this.options.noWrap && [
+              Math.floor(map.project([crs.wrapLat[0], 0], tileZoom).y / tileSize.x),
+              Math.ceil(map.project([crs.wrapLat[1], 0], tileZoom).y / tileSize.y)
+            ];
+          },
+          _onMoveEnd: function() {
+            if (!this._map || this._map._animatingZoom) {
+              return;
+            }
+            this._update();
+          },
+          _getTiledPixelBounds: function(center) {
+            var map = this._map, mapZoom = map._animatingZoom ? Math.max(map._animateToZoom, map.getZoom()) : map.getZoom(), scale2 = map.getZoomScale(mapZoom, this._tileZoom), pixelCenter = map.project(center, this._tileZoom).floor(), halfSize = map.getSize().divideBy(scale2 * 2);
+            return new Bounds(pixelCenter.subtract(halfSize), pixelCenter.add(halfSize));
+          },
+          // Private method to load tiles in the grid's active zoom level according to map bounds
+          _update: function(center) {
+            var map = this._map;
+            if (!map) {
+              return;
+            }
+            var zoom2 = this._clampZoom(map.getZoom());
+            if (center === void 0) {
+              center = map.getCenter();
+            }
+            if (this._tileZoom === void 0) {
+              return;
+            }
+            var pixelBounds = this._getTiledPixelBounds(center), tileRange = this._pxBoundsToTileRange(pixelBounds), tileCenter = tileRange.getCenter(), queue = [], margin = this.options.keepBuffer, noPruneRange = new Bounds(
+              tileRange.getBottomLeft().subtract([margin, -margin]),
+              tileRange.getTopRight().add([margin, -margin])
+            );
+            if (!(isFinite(tileRange.min.x) && isFinite(tileRange.min.y) && isFinite(tileRange.max.x) && isFinite(tileRange.max.y))) {
+              throw new Error("Attempted to load an infinite number of tiles");
+            }
+            for (var key in this._tiles) {
+              var c = this._tiles[key].coords;
+              if (c.z !== this._tileZoom || !noPruneRange.contains(new Point(c.x, c.y))) {
+                this._tiles[key].current = false;
+              }
+            }
+            if (Math.abs(zoom2 - this._tileZoom) > 1) {
+              this._setView(center, zoom2);
+              return;
+            }
+            for (var j = tileRange.min.y; j <= tileRange.max.y; j++) {
+              for (var i = tileRange.min.x; i <= tileRange.max.x; i++) {
+                var coords = new Point(i, j);
+                coords.z = this._tileZoom;
+                if (!this._isValidTile(coords)) {
+                  continue;
+                }
+                var tile = this._tiles[this._tileCoordsToKey(coords)];
+                if (tile) {
+                  tile.current = true;
+                } else {
+                  queue.push(coords);
+                }
+              }
+            }
+            queue.sort(function(a, b) {
+              return a.distanceTo(tileCenter) - b.distanceTo(tileCenter);
+            });
+            if (queue.length !== 0) {
+              if (!this._loading) {
+                this._loading = true;
+                this.fire("loading");
+              }
+              var fragment = document.createDocumentFragment();
+              for (i = 0; i < queue.length; i++) {
+                this._addTile(queue[i], fragment);
+              }
+              this._level.el.appendChild(fragment);
+            }
+          },
+          _isValidTile: function(coords) {
+            var crs = this._map.options.crs;
+            if (!crs.infinite) {
+              var bounds = this._globalTileRange;
+              if (!crs.wrapLng && (coords.x < bounds.min.x || coords.x > bounds.max.x) || !crs.wrapLat && (coords.y < bounds.min.y || coords.y > bounds.max.y)) {
+                return false;
+              }
+            }
+            if (!this.options.bounds) {
+              return true;
+            }
+            var tileBounds = this._tileCoordsToBounds(coords);
+            return toLatLngBounds(this.options.bounds).overlaps(tileBounds);
+          },
+          _keyToBounds: function(key) {
+            return this._tileCoordsToBounds(this._keyToTileCoords(key));
+          },
+          _tileCoordsToNwSe: function(coords) {
+            var map = this._map, tileSize = this.getTileSize(), nwPoint = coords.scaleBy(tileSize), sePoint = nwPoint.add(tileSize), nw = map.unproject(nwPoint, coords.z), se = map.unproject(sePoint, coords.z);
+            return [nw, se];
+          },
+          // converts tile coordinates to its geographical bounds
+          _tileCoordsToBounds: function(coords) {
+            var bp = this._tileCoordsToNwSe(coords), bounds = new LatLngBounds(bp[0], bp[1]);
+            if (!this.options.noWrap) {
+              bounds = this._map.wrapLatLngBounds(bounds);
+            }
+            return bounds;
+          },
+          // converts tile coordinates to key for the tile cache
+          _tileCoordsToKey: function(coords) {
+            return coords.x + ":" + coords.y + ":" + coords.z;
+          },
+          // converts tile cache key to coordinates
+          _keyToTileCoords: function(key) {
+            var k = key.split(":"), coords = new Point(+k[0], +k[1]);
+            coords.z = +k[2];
+            return coords;
+          },
+          _removeTile: function(key) {
+            var tile = this._tiles[key];
+            if (!tile) {
+              return;
+            }
+            remove(tile.el);
+            delete this._tiles[key];
+            this.fire("tileunload", {
+              tile: tile.el,
+              coords: this._keyToTileCoords(key)
+            });
+          },
+          _initTile: function(tile) {
+            addClass(tile, "leaflet-tile");
+            var tileSize = this.getTileSize();
+            tile.style.width = tileSize.x + "px";
+            tile.style.height = tileSize.y + "px";
+            tile.onselectstart = falseFn;
+            tile.onmousemove = falseFn;
+            if (Browser.ielt9 && this.options.opacity < 1) {
+              setOpacity(tile, this.options.opacity);
+            }
+          },
+          _addTile: function(coords, container) {
+            var tilePos = this._getTilePos(coords), key = this._tileCoordsToKey(coords);
+            var tile = this.createTile(this._wrapCoords(coords), bind(this._tileReady, this, coords));
+            this._initTile(tile);
+            if (this.createTile.length < 2) {
+              requestAnimFrame(bind(this._tileReady, this, coords, null, tile));
+            }
+            setPosition(tile, tilePos);
+            this._tiles[key] = {
+              el: tile,
+              coords,
+              current: true
+            };
+            container.appendChild(tile);
+            this.fire("tileloadstart", {
+              tile,
+              coords
+            });
+          },
+          _tileReady: function(coords, err, tile) {
+            if (err) {
+              this.fire("tileerror", {
+                error: err,
+                tile,
+                coords
+              });
+            }
+            var key = this._tileCoordsToKey(coords);
+            tile = this._tiles[key];
+            if (!tile) {
+              return;
+            }
+            tile.loaded = +/* @__PURE__ */ new Date();
+            if (this._map._fadeAnimated) {
+              setOpacity(tile.el, 0);
+              cancelAnimFrame(this._fadeFrame);
+              this._fadeFrame = requestAnimFrame(this._updateOpacity, this);
+            } else {
+              tile.active = true;
+              this._pruneTiles();
+            }
+            if (!err) {
+              addClass(tile.el, "leaflet-tile-loaded");
+              this.fire("tileload", {
+                tile: tile.el,
+                coords
+              });
+            }
+            if (this._noTilesToLoad()) {
+              this._loading = false;
+              this.fire("load");
+              if (Browser.ielt9 || !this._map._fadeAnimated) {
+                requestAnimFrame(this._pruneTiles, this);
+              } else {
+                setTimeout(bind(this._pruneTiles, this), 250);
+              }
+            }
+          },
+          _getTilePos: function(coords) {
+            return coords.scaleBy(this.getTileSize()).subtract(this._level.origin);
+          },
+          _wrapCoords: function(coords) {
+            var newCoords = new Point(
+              this._wrapX ? wrapNum(coords.x, this._wrapX) : coords.x,
+              this._wrapY ? wrapNum(coords.y, this._wrapY) : coords.y
+            );
+            newCoords.z = coords.z;
+            return newCoords;
+          },
+          _pxBoundsToTileRange: function(bounds) {
+            var tileSize = this.getTileSize();
+            return new Bounds(
+              bounds.min.unscaleBy(tileSize).floor(),
+              bounds.max.unscaleBy(tileSize).ceil().subtract([1, 1])
+            );
+          },
+          _noTilesToLoad: function() {
+            for (var key in this._tiles) {
+              if (!this._tiles[key].loaded) {
+                return false;
+              }
+            }
+            return true;
+          }
+        });
+        function gridLayer(options) {
+          return new GridLayer(options);
+        }
+        var TileLayer = GridLayer.extend({
+          // @section
+          // @aka TileLayer options
+          options: {
+            // @option minZoom: Number = 0
+            // The minimum zoom level down to which this layer will be displayed (inclusive).
+            minZoom: 0,
+            // @option maxZoom: Number = 18
+            // The maximum zoom level up to which this layer will be displayed (inclusive).
+            maxZoom: 18,
+            // @option subdomains: String|String[] = 'abc'
+            // Subdomains of the tile service. Can be passed in the form of one string (where each letter is a subdomain name) or an array of strings.
+            subdomains: "abc",
+            // @option errorTileUrl: String = ''
+            // URL to the tile image to show in place of the tile that failed to load.
+            errorTileUrl: "",
+            // @option zoomOffset: Number = 0
+            // The zoom number used in tile URLs will be offset with this value.
+            zoomOffset: 0,
+            // @option tms: Boolean = false
+            // If `true`, inverses Y axis numbering for tiles (turn this on for [TMS](https://en.wikipedia.org/wiki/Tile_Map_Service) services).
+            tms: false,
+            // @option zoomReverse: Boolean = false
+            // If set to true, the zoom number used in tile URLs will be reversed (`maxZoom - zoom` instead of `zoom`)
+            zoomReverse: false,
+            // @option detectRetina: Boolean = false
+            // If `true` and user is on a retina display, it will request four tiles of half the specified size and a bigger zoom level in place of one to utilize the high resolution.
+            detectRetina: false,
+            // @option crossOrigin: Boolean|String = false
+            // Whether the crossOrigin attribute will be added to the tiles.
+            // If a String is provided, all tiles will have their crossOrigin attribute set to the String provided. This is needed if you want to access tile pixel data.
+            // Refer to [CORS Settings](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_settings_attributes) for valid String values.
+            crossOrigin: false,
+            // @option referrerPolicy: Boolean|String = false
+            // Whether the referrerPolicy attribute will be added to the tiles.
+            // If a String is provided, all tiles will have their referrerPolicy attribute set to the String provided.
+            // This may be needed if your map's rendering context has a strict default but your tile provider expects a valid referrer
+            // (e.g. to validate an API token).
+            // Refer to [HTMLImageElement.referrerPolicy](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/referrerPolicy) for valid String values.
+            referrerPolicy: false
+          },
+          initialize: function(url, options) {
+            this._url = url;
+            options = setOptions(this, options);
+            if (options.detectRetina && Browser.retina && options.maxZoom > 0) {
+              options.tileSize = Math.floor(options.tileSize / 2);
+              if (!options.zoomReverse) {
+                options.zoomOffset++;
+                options.maxZoom = Math.max(options.minZoom, options.maxZoom - 1);
+              } else {
+                options.zoomOffset--;
+                options.minZoom = Math.min(options.maxZoom, options.minZoom + 1);
+              }
+              options.minZoom = Math.max(0, options.minZoom);
+            } else if (!options.zoomReverse) {
+              options.maxZoom = Math.max(options.minZoom, options.maxZoom);
+            } else {
+              options.minZoom = Math.min(options.maxZoom, options.minZoom);
+            }
+            if (typeof options.subdomains === "string") {
+              options.subdomains = options.subdomains.split("");
+            }
+            this.on("tileunload", this._onTileRemove);
+          },
+          // @method setUrl(url: String, noRedraw?: Boolean): this
+          // Updates the layer's URL template and redraws it (unless `noRedraw` is set to `true`).
+          // If the URL does not change, the layer will not be redrawn unless
+          // the noRedraw parameter is set to false.
+          setUrl: function(url, noRedraw) {
+            if (this._url === url && noRedraw === void 0) {
+              noRedraw = true;
+            }
+            this._url = url;
+            if (!noRedraw) {
+              this.redraw();
+            }
+            return this;
+          },
+          // @method createTile(coords: Object, done?: Function): HTMLElement
+          // Called only internally, overrides GridLayer's [`createTile()`](#gridlayer-createtile)
+          // to return an `<img>` HTML element with the appropriate image URL given `coords`. The `done`
+          // callback is called when the tile has been loaded.
+          createTile: function(coords, done) {
+            var tile = document.createElement("img");
+            on(tile, "load", bind(this._tileOnLoad, this, done, tile));
+            on(tile, "error", bind(this._tileOnError, this, done, tile));
+            if (this.options.crossOrigin || this.options.crossOrigin === "") {
+              tile.crossOrigin = this.options.crossOrigin === true ? "" : this.options.crossOrigin;
+            }
+            if (typeof this.options.referrerPolicy === "string") {
+              tile.referrerPolicy = this.options.referrerPolicy;
+            }
+            tile.alt = "";
+            tile.src = this.getTileUrl(coords);
+            return tile;
+          },
+          // @section Extension methods
+          // @uninheritable
+          // Layers extending `TileLayer` might reimplement the following method.
+          // @method getTileUrl(coords: Object): String
+          // Called only internally, returns the URL for a tile given its coordinates.
+          // Classes extending `TileLayer` can override this function to provide custom tile URL naming schemes.
+          getTileUrl: function(coords) {
+            var data = {
+              r: Browser.retina ? "@2x" : "",
+              s: this._getSubdomain(coords),
+              x: coords.x,
+              y: coords.y,
+              z: this._getZoomForUrl()
+            };
+            if (this._map && !this._map.options.crs.infinite) {
+              var invertedY = this._globalTileRange.max.y - coords.y;
+              if (this.options.tms) {
+                data["y"] = invertedY;
+              }
+              data["-y"] = invertedY;
+            }
+            return template2(this._url, extend(data, this.options));
+          },
+          _tileOnLoad: function(done, tile) {
+            if (Browser.ielt9) {
+              setTimeout(bind(done, this, null, tile), 0);
+            } else {
+              done(null, tile);
+            }
+          },
+          _tileOnError: function(done, tile, e) {
+            var errorUrl = this.options.errorTileUrl;
+            if (errorUrl && tile.getAttribute("src") !== errorUrl) {
+              tile.src = errorUrl;
+            }
+            done(e, tile);
+          },
+          _onTileRemove: function(e) {
+            e.tile.onload = null;
+          },
+          _getZoomForUrl: function() {
+            var zoom2 = this._tileZoom, maxZoom = this.options.maxZoom, zoomReverse = this.options.zoomReverse, zoomOffset = this.options.zoomOffset;
+            if (zoomReverse) {
+              zoom2 = maxZoom - zoom2;
+            }
+            return zoom2 + zoomOffset;
+          },
+          _getSubdomain: function(tilePoint) {
+            var index2 = Math.abs(tilePoint.x + tilePoint.y) % this.options.subdomains.length;
+            return this.options.subdomains[index2];
+          },
+          // stops loading all tiles in the background layer
+          _abortLoading: function() {
+            var i, tile;
+            for (i in this._tiles) {
+              if (this._tiles[i].coords.z !== this._tileZoom) {
+                tile = this._tiles[i].el;
+                tile.onload = falseFn;
+                tile.onerror = falseFn;
+                if (!tile.complete) {
+                  tile.src = emptyImageUrl;
+                  var coords = this._tiles[i].coords;
+                  remove(tile);
+                  delete this._tiles[i];
+                  this.fire("tileabort", {
+                    tile,
+                    coords
+                  });
+                }
+              }
+            }
+          },
+          _removeTile: function(key) {
+            var tile = this._tiles[key];
+            if (!tile) {
+              return;
+            }
+            tile.el.setAttribute("src", emptyImageUrl);
+            return GridLayer.prototype._removeTile.call(this, key);
+          },
+          _tileReady: function(coords, err, tile) {
+            if (!this._map || tile && tile.getAttribute("src") === emptyImageUrl) {
+              return;
+            }
+            return GridLayer.prototype._tileReady.call(this, coords, err, tile);
+          }
+        });
+        function tileLayer(url, options) {
+          return new TileLayer(url, options);
+        }
+        var TileLayerWMS = TileLayer.extend({
+          // @section
+          // @aka TileLayer.WMS options
+          // If any custom options not documented here are used, they will be sent to the
+          // WMS server as extra parameters in each request URL. This can be useful for
+          // [non-standard vendor WMS parameters](https://docs.geoserver.org/stable/en/user/services/wms/vendor.html).
+          defaultWmsParams: {
+            service: "WMS",
+            request: "GetMap",
+            // @option layers: String = ''
+            // **(required)** Comma-separated list of WMS layers to show.
+            layers: "",
+            // @option styles: String = ''
+            // Comma-separated list of WMS styles.
+            styles: "",
+            // @option format: String = 'image/jpeg'
+            // WMS image format (use `'image/png'` for layers with transparency).
+            format: "image/jpeg",
+            // @option transparent: Boolean = false
+            // If `true`, the WMS service will return images with transparency.
+            transparent: false,
+            // @option version: String = '1.1.1'
+            // Version of the WMS service to use
+            version: "1.1.1"
+          },
+          options: {
+            // @option crs: CRS = null
+            // Coordinate Reference System to use for the WMS requests, defaults to
+            // map CRS. Don't change this if you're not sure what it means.
+            crs: null,
+            // @option uppercase: Boolean = false
+            // If `true`, WMS request parameter keys will be uppercase.
+            uppercase: false
+          },
+          initialize: function(url, options) {
+            this._url = url;
+            var wmsParams = extend({}, this.defaultWmsParams);
+            for (var i in options) {
+              if (!(i in this.options)) {
+                wmsParams[i] = options[i];
+              }
+            }
+            options = setOptions(this, options);
+            var realRetina = options.detectRetina && Browser.retina ? 2 : 1;
+            var tileSize = this.getTileSize();
+            wmsParams.width = tileSize.x * realRetina;
+            wmsParams.height = tileSize.y * realRetina;
+            this.wmsParams = wmsParams;
+          },
+          onAdd: function(map) {
+            this._crs = this.options.crs || map.options.crs;
+            this._wmsVersion = parseFloat(this.wmsParams.version);
+            var projectionKey = this._wmsVersion >= 1.3 ? "crs" : "srs";
+            this.wmsParams[projectionKey] = this._crs.code;
+            TileLayer.prototype.onAdd.call(this, map);
+          },
+          getTileUrl: function(coords) {
+            var tileBounds = this._tileCoordsToNwSe(coords), crs = this._crs, bounds = toBounds(crs.project(tileBounds[0]), crs.project(tileBounds[1])), min = bounds.min, max = bounds.max, bbox = (this._wmsVersion >= 1.3 && this._crs === EPSG4326 ? [min.y, min.x, max.y, max.x] : [min.x, min.y, max.x, max.y]).join(","), url = TileLayer.prototype.getTileUrl.call(this, coords);
+            return url + getParamString2(this.wmsParams, url, this.options.uppercase) + (this.options.uppercase ? "&BBOX=" : "&bbox=") + bbox;
+          },
+          // @method setParams(params: Object, noRedraw?: Boolean): this
+          // Merges an object with the new parameters and re-requests tiles on the current screen (unless `noRedraw` was set to true).
+          setParams: function(params, noRedraw) {
+            extend(this.wmsParams, params);
+            if (!noRedraw) {
+              this.redraw();
+            }
+            return this;
+          }
+        });
+        function tileLayerWMS(url, options) {
+          return new TileLayerWMS(url, options);
+        }
+        TileLayer.WMS = TileLayerWMS;
+        tileLayer.wms = tileLayerWMS;
+        var Renderer = Layer.extend({
+          // @section
+          // @aka Renderer options
+          options: {
+            // @option padding: Number = 0.1
+            // How much to extend the clip area around the map view (relative to its size)
+            // e.g. 0.1 would be 10% of map view in each direction
+            padding: 0.1
+          },
+          initialize: function(options) {
+            setOptions(this, options);
+            stamp(this);
+            this._layers = this._layers || {};
+          },
+          onAdd: function() {
+            if (!this._container) {
+              this._initContainer();
+              addClass(this._container, "leaflet-zoom-animated");
+            }
+            this.getPane().appendChild(this._container);
+            this._update();
+            this.on("update", this._updatePaths, this);
+          },
+          onRemove: function() {
+            this.off("update", this._updatePaths, this);
+            this._destroyContainer();
+          },
+          getEvents: function() {
+            var events = {
+              viewreset: this._reset,
+              zoom: this._onZoom,
+              moveend: this._update,
+              zoomend: this._onZoomEnd
+            };
+            if (this._zoomAnimated) {
+              events.zoomanim = this._onAnimZoom;
+            }
+            return events;
+          },
+          _onAnimZoom: function(ev) {
+            this._updateTransform(ev.center, ev.zoom);
+          },
+          _onZoom: function() {
+            this._updateTransform(this._map.getCenter(), this._map.getZoom());
+          },
+          _updateTransform: function(center, zoom2) {
+            var scale2 = this._map.getZoomScale(zoom2, this._zoom), viewHalf = this._map.getSize().multiplyBy(0.5 + this.options.padding), currentCenterPoint = this._map.project(this._center, zoom2), topLeftOffset = viewHalf.multiplyBy(-scale2).add(currentCenterPoint).subtract(this._map._getNewPixelOrigin(center, zoom2));
+            if (Browser.any3d) {
+              setTransform(this._container, topLeftOffset, scale2);
+            } else {
+              setPosition(this._container, topLeftOffset);
+            }
+          },
+          _reset: function() {
+            this._update();
+            this._updateTransform(this._center, this._zoom);
+            for (var id in this._layers) {
+              this._layers[id]._reset();
+            }
+          },
+          _onZoomEnd: function() {
+            for (var id in this._layers) {
+              this._layers[id]._project();
+            }
+          },
+          _updatePaths: function() {
+            for (var id in this._layers) {
+              this._layers[id]._update();
+            }
+          },
+          _update: function() {
+            var p = this.options.padding, size = this._map.getSize(), min = this._map.containerPointToLayerPoint(size.multiplyBy(-p)).round();
+            this._bounds = new Bounds(min, min.add(size.multiplyBy(1 + p * 2)).round());
+            this._center = this._map.getCenter();
+            this._zoom = this._map.getZoom();
+          }
+        });
+        var Canvas = Renderer.extend({
+          // @section
+          // @aka Canvas options
+          options: {
+            // @option tolerance: Number = 0
+            // How much to extend the click tolerance around a path/object on the map.
+            tolerance: 0
+          },
+          getEvents: function() {
+            var events = Renderer.prototype.getEvents.call(this);
+            events.viewprereset = this._onViewPreReset;
+            return events;
+          },
+          _onViewPreReset: function() {
+            this._postponeUpdatePaths = true;
+          },
+          onAdd: function() {
+            Renderer.prototype.onAdd.call(this);
+            this._draw();
+          },
+          _initContainer: function() {
+            var container = this._container = document.createElement("canvas");
+            on(container, "mousemove", this._onMouseMove, this);
+            on(container, "click dblclick mousedown mouseup contextmenu", this._onClick, this);
+            on(container, "mouseout", this._handleMouseOut, this);
+            container["_leaflet_disable_events"] = true;
+            this._ctx = container.getContext("2d");
+          },
+          _destroyContainer: function() {
+            cancelAnimFrame(this._redrawRequest);
+            delete this._ctx;
+            remove(this._container);
+            off(this._container);
+            delete this._container;
+          },
+          _updatePaths: function() {
+            if (this._postponeUpdatePaths) {
+              return;
+            }
+            var layer;
+            this._redrawBounds = null;
+            for (var id in this._layers) {
+              layer = this._layers[id];
+              layer._update();
+            }
+            this._redraw();
+          },
+          _update: function() {
+            if (this._map._animatingZoom && this._bounds) {
+              return;
+            }
+            Renderer.prototype._update.call(this);
+            var b = this._bounds, container = this._container, size = b.getSize(), m = Browser.retina ? 2 : 1;
+            setPosition(container, b.min);
+            container.width = m * size.x;
+            container.height = m * size.y;
+            container.style.width = size.x + "px";
+            container.style.height = size.y + "px";
+            if (Browser.retina) {
+              this._ctx.scale(2, 2);
+            }
+            this._ctx.translate(-b.min.x, -b.min.y);
+            this.fire("update");
+          },
+          _reset: function() {
+            Renderer.prototype._reset.call(this);
+            if (this._postponeUpdatePaths) {
+              this._postponeUpdatePaths = false;
+              this._updatePaths();
+            }
+          },
+          _initPath: function(layer) {
+            this._updateDashArray(layer);
+            this._layers[stamp(layer)] = layer;
+            var order = layer._order = {
+              layer,
+              prev: this._drawLast,
+              next: null
+            };
+            if (this._drawLast) {
+              this._drawLast.next = order;
+            }
+            this._drawLast = order;
+            this._drawFirst = this._drawFirst || this._drawLast;
+          },
+          _addPath: function(layer) {
+            this._requestRedraw(layer);
+          },
+          _removePath: function(layer) {
+            var order = layer._order;
+            var next = order.next;
+            var prev = order.prev;
+            if (next) {
+              next.prev = prev;
+            } else {
+              this._drawLast = prev;
+            }
+            if (prev) {
+              prev.next = next;
+            } else {
+              this._drawFirst = next;
+            }
+            delete layer._order;
+            delete this._layers[stamp(layer)];
+            this._requestRedraw(layer);
+          },
+          _updatePath: function(layer) {
+            this._extendRedrawBounds(layer);
+            layer._project();
+            layer._update();
+            this._requestRedraw(layer);
+          },
+          _updateStyle: function(layer) {
+            this._updateDashArray(layer);
+            this._requestRedraw(layer);
+          },
+          _updateDashArray: function(layer) {
+            if (typeof layer.options.dashArray === "string") {
+              var parts = layer.options.dashArray.split(/[, ]+/), dashArray = [], dashValue, i;
+              for (i = 0; i < parts.length; i++) {
+                dashValue = Number(parts[i]);
+                if (isNaN(dashValue)) {
+                  return;
+                }
+                dashArray.push(dashValue);
+              }
+              layer.options._dashArray = dashArray;
+            } else {
+              layer.options._dashArray = layer.options.dashArray;
+            }
+          },
+          _requestRedraw: function(layer) {
+            if (!this._map) {
+              return;
+            }
+            this._extendRedrawBounds(layer);
+            this._redrawRequest = this._redrawRequest || requestAnimFrame(this._redraw, this);
+          },
+          _extendRedrawBounds: function(layer) {
+            if (layer._pxBounds) {
+              var padding = (layer.options.weight || 0) + 1;
+              this._redrawBounds = this._redrawBounds || new Bounds();
+              this._redrawBounds.extend(layer._pxBounds.min.subtract([padding, padding]));
+              this._redrawBounds.extend(layer._pxBounds.max.add([padding, padding]));
+            }
+          },
+          _redraw: function() {
+            this._redrawRequest = null;
+            if (this._redrawBounds) {
+              this._redrawBounds.min._floor();
+              this._redrawBounds.max._ceil();
+            }
+            this._clear();
+            this._draw();
+            this._redrawBounds = null;
+          },
+          _clear: function() {
+            var bounds = this._redrawBounds;
+            if (bounds) {
+              var size = bounds.getSize();
+              this._ctx.clearRect(bounds.min.x, bounds.min.y, size.x, size.y);
+            } else {
+              this._ctx.save();
+              this._ctx.setTransform(1, 0, 0, 1, 0, 0);
+              this._ctx.clearRect(0, 0, this._container.width, this._container.height);
+              this._ctx.restore();
+            }
+          },
+          _draw: function() {
+            var layer, bounds = this._redrawBounds;
+            this._ctx.save();
+            if (bounds) {
+              var size = bounds.getSize();
+              this._ctx.beginPath();
+              this._ctx.rect(bounds.min.x, bounds.min.y, size.x, size.y);
+              this._ctx.clip();
+            }
+            this._drawing = true;
+            for (var order = this._drawFirst; order; order = order.next) {
+              layer = order.layer;
+              if (!bounds || layer._pxBounds && layer._pxBounds.intersects(bounds)) {
+                layer._updatePath();
+              }
+            }
+            this._drawing = false;
+            this._ctx.restore();
+          },
+          _updatePoly: function(layer, closed) {
+            if (!this._drawing) {
+              return;
+            }
+            var i, j, len2, p, parts = layer._parts, len = parts.length, ctx = this._ctx;
+            if (!len) {
+              return;
+            }
+            ctx.beginPath();
+            for (i = 0; i < len; i++) {
+              for (j = 0, len2 = parts[i].length; j < len2; j++) {
+                p = parts[i][j];
+                ctx[j ? "lineTo" : "moveTo"](p.x, p.y);
+              }
+              if (closed) {
+                ctx.closePath();
+              }
+            }
+            this._fillStroke(ctx, layer);
+          },
+          _updateCircle: function(layer) {
+            if (!this._drawing || layer._empty()) {
+              return;
+            }
+            var p = layer._point, ctx = this._ctx, r = Math.max(Math.round(layer._radius), 1), s = (Math.max(Math.round(layer._radiusY), 1) || r) / r;
+            if (s !== 1) {
+              ctx.save();
+              ctx.scale(1, s);
+            }
+            ctx.beginPath();
+            ctx.arc(p.x, p.y / s, r, 0, Math.PI * 2, false);
+            if (s !== 1) {
+              ctx.restore();
+            }
+            this._fillStroke(ctx, layer);
+          },
+          _fillStroke: function(ctx, layer) {
+            var options = layer.options;
+            if (options.fill) {
+              ctx.globalAlpha = options.fillOpacity;
+              ctx.fillStyle = options.fillColor || options.color;
+              ctx.fill(options.fillRule || "evenodd");
+            }
+            if (options.stroke && options.weight !== 0) {
+              if (ctx.setLineDash) {
+                ctx.setLineDash(layer.options && layer.options._dashArray || []);
+              }
+              ctx.globalAlpha = options.opacity;
+              ctx.lineWidth = options.weight;
+              ctx.strokeStyle = options.color;
+              ctx.lineCap = options.lineCap;
+              ctx.lineJoin = options.lineJoin;
+              ctx.stroke();
+            }
+          },
+          // Canvas obviously doesn't have mouse events for individual drawn objects,
+          // so we emulate that by calculating what's under the mouse on mousemove/click manually
+          _onClick: function(e) {
+            var point = this._map.mouseEventToLayerPoint(e), layer, clickedLayer;
+            for (var order = this._drawFirst; order; order = order.next) {
+              layer = order.layer;
+              if (layer.options.interactive && layer._containsPoint(point)) {
+                if (!(e.type === "click" || e.type === "preclick") || !this._map._draggableMoved(layer)) {
+                  clickedLayer = layer;
+                }
+              }
+            }
+            this._fireEvent(clickedLayer ? [clickedLayer] : false, e);
+          },
+          _onMouseMove: function(e) {
+            if (!this._map || this._map.dragging.moving() || this._map._animatingZoom) {
+              return;
+            }
+            var point = this._map.mouseEventToLayerPoint(e);
+            this._handleMouseHover(e, point);
+          },
+          _handleMouseOut: function(e) {
+            var layer = this._hoveredLayer;
+            if (layer) {
+              removeClass(this._container, "leaflet-interactive");
+              this._fireEvent([layer], e, "mouseout");
+              this._hoveredLayer = null;
+              this._mouseHoverThrottled = false;
+            }
+          },
+          _handleMouseHover: function(e, point) {
+            if (this._mouseHoverThrottled) {
+              return;
+            }
+            var layer, candidateHoveredLayer;
+            for (var order = this._drawFirst; order; order = order.next) {
+              layer = order.layer;
+              if (layer.options.interactive && layer._containsPoint(point)) {
+                candidateHoveredLayer = layer;
+              }
+            }
+            if (candidateHoveredLayer !== this._hoveredLayer) {
+              this._handleMouseOut(e);
+              if (candidateHoveredLayer) {
+                addClass(this._container, "leaflet-interactive");
+                this._fireEvent([candidateHoveredLayer], e, "mouseover");
+                this._hoveredLayer = candidateHoveredLayer;
+              }
+            }
+            this._fireEvent(this._hoveredLayer ? [this._hoveredLayer] : false, e);
+            this._mouseHoverThrottled = true;
+            setTimeout(bind(function() {
+              this._mouseHoverThrottled = false;
+            }, this), 32);
+          },
+          _fireEvent: function(layers2, e, type) {
+            this._map._fireDOMEvent(e, type || e.type, layers2);
+          },
+          _bringToFront: function(layer) {
+            var order = layer._order;
+            if (!order) {
+              return;
+            }
+            var next = order.next;
+            var prev = order.prev;
+            if (next) {
+              next.prev = prev;
+            } else {
+              return;
+            }
+            if (prev) {
+              prev.next = next;
+            } else if (next) {
+              this._drawFirst = next;
+            }
+            order.prev = this._drawLast;
+            this._drawLast.next = order;
+            order.next = null;
+            this._drawLast = order;
+            this._requestRedraw(layer);
+          },
+          _bringToBack: function(layer) {
+            var order = layer._order;
+            if (!order) {
+              return;
+            }
+            var next = order.next;
+            var prev = order.prev;
+            if (prev) {
+              prev.next = next;
+            } else {
+              return;
+            }
+            if (next) {
+              next.prev = prev;
+            } else if (prev) {
+              this._drawLast = prev;
+            }
+            order.prev = null;
+            order.next = this._drawFirst;
+            this._drawFirst.prev = order;
+            this._drawFirst = order;
+            this._requestRedraw(layer);
+          }
+        });
+        function canvas(options) {
+          return Browser.canvas ? new Canvas(options) : null;
+        }
+        var vmlCreate = (function() {
+          try {
+            document.namespaces.add("lvml", "urn:schemas-microsoft-com:vml");
+            return function(name) {
+              return document.createElement("<lvml:" + name + ' class="lvml">');
+            };
+          } catch (e) {
+          }
+          return function(name) {
+            return document.createElement("<" + name + ' xmlns="urn:schemas-microsoft.com:vml" class="lvml">');
+          };
+        })();
+        var vmlMixin = {
+          _initContainer: function() {
+            this._container = create$1("div", "leaflet-vml-container");
+          },
+          _update: function() {
+            if (this._map._animatingZoom) {
+              return;
+            }
+            Renderer.prototype._update.call(this);
+            this.fire("update");
+          },
+          _initPath: function(layer) {
+            var container = layer._container = vmlCreate("shape");
+            addClass(container, "leaflet-vml-shape " + (this.options.className || ""));
+            container.coordsize = "1 1";
+            layer._path = vmlCreate("path");
+            container.appendChild(layer._path);
+            this._updateStyle(layer);
+            this._layers[stamp(layer)] = layer;
+          },
+          _addPath: function(layer) {
+            var container = layer._container;
+            this._container.appendChild(container);
+            if (layer.options.interactive) {
+              layer.addInteractiveTarget(container);
+            }
+          },
+          _removePath: function(layer) {
+            var container = layer._container;
+            remove(container);
+            layer.removeInteractiveTarget(container);
+            delete this._layers[stamp(layer)];
+          },
+          _updateStyle: function(layer) {
+            var stroke = layer._stroke, fill = layer._fill, options = layer.options, container = layer._container;
+            container.stroked = !!options.stroke;
+            container.filled = !!options.fill;
+            if (options.stroke) {
+              if (!stroke) {
+                stroke = layer._stroke = vmlCreate("stroke");
+              }
+              container.appendChild(stroke);
+              stroke.weight = options.weight + "px";
+              stroke.color = options.color;
+              stroke.opacity = options.opacity;
+              if (options.dashArray) {
+                stroke.dashStyle = isArray(options.dashArray) ? options.dashArray.join(" ") : options.dashArray.replace(/( *, *)/g, " ");
+              } else {
+                stroke.dashStyle = "";
+              }
+              stroke.endcap = options.lineCap.replace("butt", "flat");
+              stroke.joinstyle = options.lineJoin;
+            } else if (stroke) {
+              container.removeChild(stroke);
+              layer._stroke = null;
+            }
+            if (options.fill) {
+              if (!fill) {
+                fill = layer._fill = vmlCreate("fill");
+              }
+              container.appendChild(fill);
+              fill.color = options.fillColor || options.color;
+              fill.opacity = options.fillOpacity;
+            } else if (fill) {
+              container.removeChild(fill);
+              layer._fill = null;
+            }
+          },
+          _updateCircle: function(layer) {
+            var p = layer._point.round(), r = Math.round(layer._radius), r2 = Math.round(layer._radiusY || r);
+            this._setPath(layer, layer._empty() ? "M0 0" : "AL " + p.x + "," + p.y + " " + r + "," + r2 + " 0," + 65535 * 360);
+          },
+          _setPath: function(layer, path) {
+            layer._path.v = path;
+          },
+          _bringToFront: function(layer) {
+            toFront(layer._container);
+          },
+          _bringToBack: function(layer) {
+            toBack(layer._container);
+          }
+        };
+        var create = Browser.vml ? vmlCreate : svgCreate;
+        var SVG = Renderer.extend({
+          _initContainer: function() {
+            this._container = create("svg");
+            this._container.setAttribute("pointer-events", "none");
+            this._rootGroup = create("g");
+            this._container.appendChild(this._rootGroup);
+          },
+          _destroyContainer: function() {
+            remove(this._container);
+            off(this._container);
+            delete this._container;
+            delete this._rootGroup;
+            delete this._svgSize;
+          },
+          _update: function() {
+            if (this._map._animatingZoom && this._bounds) {
+              return;
+            }
+            Renderer.prototype._update.call(this);
+            var b = this._bounds, size = b.getSize(), container = this._container;
+            if (!this._svgSize || !this._svgSize.equals(size)) {
+              this._svgSize = size;
+              container.setAttribute("width", size.x);
+              container.setAttribute("height", size.y);
+            }
+            setPosition(container, b.min);
+            container.setAttribute("viewBox", [b.min.x, b.min.y, size.x, size.y].join(" "));
+            this.fire("update");
+          },
+          // methods below are called by vector layers implementations
+          _initPath: function(layer) {
+            var path = layer._path = create("path");
+            if (layer.options.className) {
+              addClass(path, layer.options.className);
+            }
+            if (layer.options.interactive) {
+              addClass(path, "leaflet-interactive");
+            }
+            this._updateStyle(layer);
+            this._layers[stamp(layer)] = layer;
+          },
+          _addPath: function(layer) {
+            if (!this._rootGroup) {
+              this._initContainer();
+            }
+            this._rootGroup.appendChild(layer._path);
+            layer.addInteractiveTarget(layer._path);
+          },
+          _removePath: function(layer) {
+            remove(layer._path);
+            layer.removeInteractiveTarget(layer._path);
+            delete this._layers[stamp(layer)];
+          },
+          _updatePath: function(layer) {
+            layer._project();
+            layer._update();
+          },
+          _updateStyle: function(layer) {
+            var path = layer._path, options = layer.options;
+            if (!path) {
+              return;
+            }
+            if (options.stroke) {
+              path.setAttribute("stroke", options.color);
+              path.setAttribute("stroke-opacity", options.opacity);
+              path.setAttribute("stroke-width", options.weight);
+              path.setAttribute("stroke-linecap", options.lineCap);
+              path.setAttribute("stroke-linejoin", options.lineJoin);
+              if (options.dashArray) {
+                path.setAttribute("stroke-dasharray", options.dashArray);
+              } else {
+                path.removeAttribute("stroke-dasharray");
+              }
+              if (options.dashOffset) {
+                path.setAttribute("stroke-dashoffset", options.dashOffset);
+              } else {
+                path.removeAttribute("stroke-dashoffset");
+              }
+            } else {
+              path.setAttribute("stroke", "none");
+            }
+            if (options.fill) {
+              path.setAttribute("fill", options.fillColor || options.color);
+              path.setAttribute("fill-opacity", options.fillOpacity);
+              path.setAttribute("fill-rule", options.fillRule || "evenodd");
+            } else {
+              path.setAttribute("fill", "none");
+            }
+          },
+          _updatePoly: function(layer, closed) {
+            this._setPath(layer, pointsToPath(layer._parts, closed));
+          },
+          _updateCircle: function(layer) {
+            var p = layer._point, r = Math.max(Math.round(layer._radius), 1), r2 = Math.max(Math.round(layer._radiusY), 1) || r, arc = "a" + r + "," + r2 + " 0 1,0 ";
+            var d = layer._empty() ? "M0 0" : "M" + (p.x - r) + "," + p.y + arc + r * 2 + ",0 " + arc + -r * 2 + ",0 ";
+            this._setPath(layer, d);
+          },
+          _setPath: function(layer, path) {
+            layer._path.setAttribute("d", path);
+          },
+          // SVG does not have the concept of zIndex so we resort to changing the DOM order of elements
+          _bringToFront: function(layer) {
+            toFront(layer._path);
+          },
+          _bringToBack: function(layer) {
+            toBack(layer._path);
+          }
+        });
+        if (Browser.vml) {
+          SVG.include(vmlMixin);
+        }
+        function svg(options) {
+          return Browser.svg || Browser.vml ? new SVG(options) : null;
+        }
+        Map.include({
+          // @namespace Map; @method getRenderer(layer: Path): Renderer
+          // Returns the instance of `Renderer` that should be used to render the given
+          // `Path`. It will ensure that the `renderer` options of the map and paths
+          // are respected, and that the renderers do exist on the map.
+          getRenderer: function(layer) {
+            var renderer = layer.options.renderer || this._getPaneRenderer(layer.options.pane) || this.options.renderer || this._renderer;
+            if (!renderer) {
+              renderer = this._renderer = this._createRenderer();
+            }
+            if (!this.hasLayer(renderer)) {
+              this.addLayer(renderer);
+            }
+            return renderer;
+          },
+          _getPaneRenderer: function(name) {
+            if (name === "overlayPane" || name === void 0) {
+              return false;
+            }
+            var renderer = this._paneRenderers[name];
+            if (renderer === void 0) {
+              renderer = this._createRenderer({ pane: name });
+              this._paneRenderers[name] = renderer;
+            }
+            return renderer;
+          },
+          _createRenderer: function(options) {
+            return this.options.preferCanvas && canvas(options) || svg(options);
+          }
+        });
+        var Rectangle = Polygon.extend({
+          initialize: function(latLngBounds, options) {
+            Polygon.prototype.initialize.call(this, this._boundsToLatLngs(latLngBounds), options);
+          },
+          // @method setBounds(latLngBounds: LatLngBounds): this
+          // Redraws the rectangle with the passed bounds.
+          setBounds: function(latLngBounds) {
+            return this.setLatLngs(this._boundsToLatLngs(latLngBounds));
+          },
+          _boundsToLatLngs: function(latLngBounds) {
+            latLngBounds = toLatLngBounds(latLngBounds);
+            return [
+              latLngBounds.getSouthWest(),
+              latLngBounds.getNorthWest(),
+              latLngBounds.getNorthEast(),
+              latLngBounds.getSouthEast()
+            ];
+          }
+        });
+        function rectangle(latLngBounds, options) {
+          return new Rectangle(latLngBounds, options);
+        }
+        SVG.create = create;
+        SVG.pointsToPath = pointsToPath;
+        GeoJSON.geometryToLayer = geometryToLayer;
+        GeoJSON.coordsToLatLng = coordsToLatLng;
+        GeoJSON.coordsToLatLngs = coordsToLatLngs;
+        GeoJSON.latLngToCoords = latLngToCoords;
+        GeoJSON.latLngsToCoords = latLngsToCoords;
+        GeoJSON.getFeature = getFeature;
+        GeoJSON.asFeature = asFeature;
+        Map.mergeOptions({
+          // @option boxZoom: Boolean = true
+          // Whether the map can be zoomed to a rectangular area specified by
+          // dragging the mouse while pressing the shift key.
+          boxZoom: true
+        });
+        var BoxZoom = Handler.extend({
+          initialize: function(map) {
+            this._map = map;
+            this._container = map._container;
+            this._pane = map._panes.overlayPane;
+            this._resetStateTimeout = 0;
+            map.on("unload", this._destroy, this);
+          },
+          addHooks: function() {
+            on(this._container, "mousedown", this._onMouseDown, this);
+          },
+          removeHooks: function() {
+            off(this._container, "mousedown", this._onMouseDown, this);
+          },
+          moved: function() {
+            return this._moved;
+          },
+          _destroy: function() {
+            remove(this._pane);
+            delete this._pane;
+          },
+          _resetState: function() {
+            this._resetStateTimeout = 0;
+            this._moved = false;
+          },
+          _clearDeferredResetState: function() {
+            if (this._resetStateTimeout !== 0) {
+              clearTimeout(this._resetStateTimeout);
+              this._resetStateTimeout = 0;
+            }
+          },
+          _onMouseDown: function(e) {
+            if (!e.shiftKey || e.which !== 1 && e.button !== 1) {
+              return false;
+            }
+            this._clearDeferredResetState();
+            this._resetState();
+            disableTextSelection();
+            disableImageDrag();
+            this._startPoint = this._map.mouseEventToContainerPoint(e);
+            on(document, {
+              contextmenu: stop,
+              mousemove: this._onMouseMove,
+              mouseup: this._onMouseUp,
+              keydown: this._onKeyDown
+            }, this);
+          },
+          _onMouseMove: function(e) {
+            if (!this._moved) {
+              this._moved = true;
+              this._box = create$1("div", "leaflet-zoom-box", this._container);
+              addClass(this._container, "leaflet-crosshair");
+              this._map.fire("boxzoomstart");
+            }
+            this._point = this._map.mouseEventToContainerPoint(e);
+            var bounds = new Bounds(this._point, this._startPoint), size = bounds.getSize();
+            setPosition(this._box, bounds.min);
+            this._box.style.width = size.x + "px";
+            this._box.style.height = size.y + "px";
+          },
+          _finish: function() {
+            if (this._moved) {
+              remove(this._box);
+              removeClass(this._container, "leaflet-crosshair");
+            }
+            enableTextSelection();
+            enableImageDrag();
+            off(document, {
+              contextmenu: stop,
+              mousemove: this._onMouseMove,
+              mouseup: this._onMouseUp,
+              keydown: this._onKeyDown
+            }, this);
+          },
+          _onMouseUp: function(e) {
+            if (e.which !== 1 && e.button !== 1) {
+              return;
+            }
+            this._finish();
+            if (!this._moved) {
+              return;
+            }
+            this._clearDeferredResetState();
+            this._resetStateTimeout = setTimeout(bind(this._resetState, this), 0);
+            var bounds = new LatLngBounds(
+              this._map.containerPointToLatLng(this._startPoint),
+              this._map.containerPointToLatLng(this._point)
+            );
+            this._map.fitBounds(bounds).fire("boxzoomend", { boxZoomBounds: bounds });
+          },
+          _onKeyDown: function(e) {
+            if (e.keyCode === 27) {
+              this._finish();
+              this._clearDeferredResetState();
+              this._resetState();
+            }
+          }
+        });
+        Map.addInitHook("addHandler", "boxZoom", BoxZoom);
+        Map.mergeOptions({
+          // @option doubleClickZoom: Boolean|String = true
+          // Whether the map can be zoomed in by double clicking on it and
+          // zoomed out by double clicking while holding shift. If passed
+          // `'center'`, double-click zoom will zoom to the center of the
+          //  view regardless of where the mouse was.
+          doubleClickZoom: true
+        });
+        var DoubleClickZoom = Handler.extend({
+          addHooks: function() {
+            this._map.on("dblclick", this._onDoubleClick, this);
+          },
+          removeHooks: function() {
+            this._map.off("dblclick", this._onDoubleClick, this);
+          },
+          _onDoubleClick: function(e) {
+            var map = this._map, oldZoom = map.getZoom(), delta = map.options.zoomDelta, zoom2 = e.originalEvent.shiftKey ? oldZoom - delta : oldZoom + delta;
+            if (map.options.doubleClickZoom === "center") {
+              map.setZoom(zoom2);
+            } else {
+              map.setZoomAround(e.containerPoint, zoom2);
+            }
+          }
+        });
+        Map.addInitHook("addHandler", "doubleClickZoom", DoubleClickZoom);
+        Map.mergeOptions({
+          // @option dragging: Boolean = true
+          // Whether the map is draggable with mouse/touch or not.
+          dragging: true,
+          // @section Panning Inertia Options
+          // @option inertia: Boolean = *
+          // If enabled, panning of the map will have an inertia effect where
+          // the map builds momentum while dragging and continues moving in
+          // the same direction for some time. Feels especially nice on touch
+          // devices. Enabled by default.
+          inertia: true,
+          // @option inertiaDeceleration: Number = 3000
+          // The rate with which the inertial movement slows down, in pixels/second².
+          inertiaDeceleration: 3400,
+          // px/s^2
+          // @option inertiaMaxSpeed: Number = Infinity
+          // Max speed of the inertial movement, in pixels/second.
+          inertiaMaxSpeed: Infinity,
+          // px/s
+          // @option easeLinearity: Number = 0.2
+          easeLinearity: 0.2,
+          // TODO refactor, move to CRS
+          // @option worldCopyJump: Boolean = false
+          // With this option enabled, the map tracks when you pan to another "copy"
+          // of the world and seamlessly jumps to the original one so that all overlays
+          // like markers and vector layers are still visible.
+          worldCopyJump: false,
+          // @option maxBoundsViscosity: Number = 0.0
+          // If `maxBounds` is set, this option will control how solid the bounds
+          // are when dragging the map around. The default value of `0.0` allows the
+          // user to drag outside the bounds at normal speed, higher values will
+          // slow down map dragging outside bounds, and `1.0` makes the bounds fully
+          // solid, preventing the user from dragging outside the bounds.
+          maxBoundsViscosity: 0
+        });
+        var Drag = Handler.extend({
+          addHooks: function() {
+            if (!this._draggable) {
+              var map = this._map;
+              this._draggable = new Draggable(map._mapPane, map._container);
+              this._draggable.on({
+                dragstart: this._onDragStart,
+                drag: this._onDrag,
+                dragend: this._onDragEnd
+              }, this);
+              this._draggable.on("predrag", this._onPreDragLimit, this);
+              if (map.options.worldCopyJump) {
+                this._draggable.on("predrag", this._onPreDragWrap, this);
+                map.on("zoomend", this._onZoomEnd, this);
+                map.whenReady(this._onZoomEnd, this);
+              }
+            }
+            addClass(this._map._container, "leaflet-grab leaflet-touch-drag");
+            this._draggable.enable();
+            this._positions = [];
+            this._times = [];
+          },
+          removeHooks: function() {
+            removeClass(this._map._container, "leaflet-grab");
+            removeClass(this._map._container, "leaflet-touch-drag");
+            this._draggable.disable();
+          },
+          moved: function() {
+            return this._draggable && this._draggable._moved;
+          },
+          moving: function() {
+            return this._draggable && this._draggable._moving;
+          },
+          _onDragStart: function() {
+            var map = this._map;
+            map._stop();
+            if (this._map.options.maxBounds && this._map.options.maxBoundsViscosity) {
+              var bounds = toLatLngBounds(this._map.options.maxBounds);
+              this._offsetLimit = toBounds(
+                this._map.latLngToContainerPoint(bounds.getNorthWest()).multiplyBy(-1),
+                this._map.latLngToContainerPoint(bounds.getSouthEast()).multiplyBy(-1).add(this._map.getSize())
+              );
+              this._viscosity = Math.min(1, Math.max(0, this._map.options.maxBoundsViscosity));
+            } else {
+              this._offsetLimit = null;
+            }
+            map.fire("movestart").fire("dragstart");
+            if (map.options.inertia) {
+              this._positions = [];
+              this._times = [];
+            }
+          },
+          _onDrag: function(e) {
+            if (this._map.options.inertia) {
+              var time = this._lastTime = +/* @__PURE__ */ new Date(), pos = this._lastPos = this._draggable._absPos || this._draggable._newPos;
+              this._positions.push(pos);
+              this._times.push(time);
+              this._prunePositions(time);
+            }
+            this._map.fire("move", e).fire("drag", e);
+          },
+          _prunePositions: function(time) {
+            while (this._positions.length > 1 && time - this._times[0] > 50) {
+              this._positions.shift();
+              this._times.shift();
+            }
+          },
+          _onZoomEnd: function() {
+            var pxCenter = this._map.getSize().divideBy(2), pxWorldCenter = this._map.latLngToLayerPoint([0, 0]);
+            this._initialWorldOffset = pxWorldCenter.subtract(pxCenter).x;
+            this._worldWidth = this._map.getPixelWorldBounds().getSize().x;
+          },
+          _viscousLimit: function(value, threshold) {
+            return value - (value - threshold) * this._viscosity;
+          },
+          _onPreDragLimit: function() {
+            if (!this._viscosity || !this._offsetLimit) {
+              return;
+            }
+            var offset = this._draggable._newPos.subtract(this._draggable._startPos);
+            var limit = this._offsetLimit;
+            if (offset.x < limit.min.x) {
+              offset.x = this._viscousLimit(offset.x, limit.min.x);
+            }
+            if (offset.y < limit.min.y) {
+              offset.y = this._viscousLimit(offset.y, limit.min.y);
+            }
+            if (offset.x > limit.max.x) {
+              offset.x = this._viscousLimit(offset.x, limit.max.x);
+            }
+            if (offset.y > limit.max.y) {
+              offset.y = this._viscousLimit(offset.y, limit.max.y);
+            }
+            this._draggable._newPos = this._draggable._startPos.add(offset);
+          },
+          _onPreDragWrap: function() {
+            var worldWidth = this._worldWidth, halfWidth = Math.round(worldWidth / 2), dx = this._initialWorldOffset, x = this._draggable._newPos.x, newX1 = (x - halfWidth + dx) % worldWidth + halfWidth - dx, newX2 = (x + halfWidth + dx) % worldWidth - halfWidth - dx, newX = Math.abs(newX1 + dx) < Math.abs(newX2 + dx) ? newX1 : newX2;
+            this._draggable._absPos = this._draggable._newPos.clone();
+            this._draggable._newPos.x = newX;
+          },
+          _onDragEnd: function(e) {
+            var map = this._map, options = map.options, noInertia = !options.inertia || e.noInertia || this._times.length < 2;
+            map.fire("dragend", e);
+            if (noInertia) {
+              map.fire("moveend");
+            } else {
+              this._prunePositions(+/* @__PURE__ */ new Date());
+              var direction = this._lastPos.subtract(this._positions[0]), duration = (this._lastTime - this._times[0]) / 1e3, ease = options.easeLinearity, speedVector = direction.multiplyBy(ease / duration), speed = speedVector.distanceTo([0, 0]), limitedSpeed = Math.min(options.inertiaMaxSpeed, speed), limitedSpeedVector = speedVector.multiplyBy(limitedSpeed / speed), decelerationDuration = limitedSpeed / (options.inertiaDeceleration * ease), offset = limitedSpeedVector.multiplyBy(-decelerationDuration / 2).round();
+              if (!offset.x && !offset.y) {
+                map.fire("moveend");
+              } else {
+                offset = map._limitOffset(offset, map.options.maxBounds);
+                requestAnimFrame(function() {
+                  map.panBy(offset, {
+                    duration: decelerationDuration,
+                    easeLinearity: ease,
+                    noMoveStart: true,
+                    animate: true
+                  });
+                });
+              }
+            }
+          }
+        });
+        Map.addInitHook("addHandler", "dragging", Drag);
+        Map.mergeOptions({
+          // @option keyboard: Boolean = true
+          // Makes the map focusable and allows users to navigate the map with keyboard
+          // arrows and `+`/`-` keys.
+          keyboard: true,
+          // @option keyboardPanDelta: Number = 80
+          // Amount of pixels to pan when pressing an arrow key.
+          keyboardPanDelta: 80
+        });
+        var Keyboard = Handler.extend({
+          keyCodes: {
+            left: [37],
+            right: [39],
+            down: [40],
+            up: [38],
+            zoomIn: [187, 107, 61, 171],
+            zoomOut: [189, 109, 54, 173]
+          },
+          initialize: function(map) {
+            this._map = map;
+            this._setPanDelta(map.options.keyboardPanDelta);
+            this._setZoomDelta(map.options.zoomDelta);
+          },
+          addHooks: function() {
+            var container = this._map._container;
+            if (container.tabIndex <= 0) {
+              container.tabIndex = "0";
+            }
+            on(container, {
+              focus: this._onFocus,
+              blur: this._onBlur,
+              mousedown: this._onMouseDown
+            }, this);
+            this._map.on({
+              focus: this._addHooks,
+              blur: this._removeHooks
+            }, this);
+          },
+          removeHooks: function() {
+            this._removeHooks();
+            off(this._map._container, {
+              focus: this._onFocus,
+              blur: this._onBlur,
+              mousedown: this._onMouseDown
+            }, this);
+            this._map.off({
+              focus: this._addHooks,
+              blur: this._removeHooks
+            }, this);
+          },
+          _onMouseDown: function() {
+            if (this._focused) {
+              return;
+            }
+            var body = document.body, docEl = document.documentElement, top = body.scrollTop || docEl.scrollTop, left = body.scrollLeft || docEl.scrollLeft;
+            this._map._container.focus();
+            window.scrollTo(left, top);
+          },
+          _onFocus: function() {
+            this._focused = true;
+            this._map.fire("focus");
+          },
+          _onBlur: function() {
+            this._focused = false;
+            this._map.fire("blur");
+          },
+          _setPanDelta: function(panDelta) {
+            var keys = this._panKeys = {}, codes = this.keyCodes, i, len;
+            for (i = 0, len = codes.left.length; i < len; i++) {
+              keys[codes.left[i]] = [-1 * panDelta, 0];
+            }
+            for (i = 0, len = codes.right.length; i < len; i++) {
+              keys[codes.right[i]] = [panDelta, 0];
+            }
+            for (i = 0, len = codes.down.length; i < len; i++) {
+              keys[codes.down[i]] = [0, panDelta];
+            }
+            for (i = 0, len = codes.up.length; i < len; i++) {
+              keys[codes.up[i]] = [0, -1 * panDelta];
+            }
+          },
+          _setZoomDelta: function(zoomDelta) {
+            var keys = this._zoomKeys = {}, codes = this.keyCodes, i, len;
+            for (i = 0, len = codes.zoomIn.length; i < len; i++) {
+              keys[codes.zoomIn[i]] = zoomDelta;
+            }
+            for (i = 0, len = codes.zoomOut.length; i < len; i++) {
+              keys[codes.zoomOut[i]] = -zoomDelta;
+            }
+          },
+          _addHooks: function() {
+            on(document, "keydown", this._onKeyDown, this);
+          },
+          _removeHooks: function() {
+            off(document, "keydown", this._onKeyDown, this);
+          },
+          _onKeyDown: function(e) {
+            if (e.altKey || e.ctrlKey || e.metaKey) {
+              return;
+            }
+            var key = e.keyCode, map = this._map, offset;
+            if (key in this._panKeys) {
+              if (!map._panAnim || !map._panAnim._inProgress) {
+                offset = this._panKeys[key];
+                if (e.shiftKey) {
+                  offset = toPoint(offset).multiplyBy(3);
+                }
+                if (map.options.maxBounds) {
+                  offset = map._limitOffset(toPoint(offset), map.options.maxBounds);
+                }
+                if (map.options.worldCopyJump) {
+                  var newLatLng = map.wrapLatLng(map.unproject(map.project(map.getCenter()).add(offset)));
+                  map.panTo(newLatLng);
+                } else {
+                  map.panBy(offset);
+                }
+              }
+            } else if (key in this._zoomKeys) {
+              map.setZoom(map.getZoom() + (e.shiftKey ? 3 : 1) * this._zoomKeys[key]);
+            } else if (key === 27 && map._popup && map._popup.options.closeOnEscapeKey) {
+              map.closePopup();
+            } else {
+              return;
+            }
+            stop(e);
+          }
+        });
+        Map.addInitHook("addHandler", "keyboard", Keyboard);
+        Map.mergeOptions({
+          // @section Mouse wheel options
+          // @option scrollWheelZoom: Boolean|String = true
+          // Whether the map can be zoomed by using the mouse wheel. If passed `'center'`,
+          // it will zoom to the center of the view regardless of where the mouse was.
+          scrollWheelZoom: true,
+          // @option wheelDebounceTime: Number = 40
+          // Limits the rate at which a wheel can fire (in milliseconds). By default
+          // user can't zoom via wheel more often than once per 40 ms.
+          wheelDebounceTime: 40,
+          // @option wheelPxPerZoomLevel: Number = 60
+          // How many scroll pixels (as reported by [L.DomEvent.getWheelDelta](#domevent-getwheeldelta))
+          // mean a change of one full zoom level. Smaller values will make wheel-zooming
+          // faster (and vice versa).
+          wheelPxPerZoomLevel: 60
+        });
+        var ScrollWheelZoom = Handler.extend({
+          addHooks: function() {
+            on(this._map._container, "wheel", this._onWheelScroll, this);
+            this._delta = 0;
+          },
+          removeHooks: function() {
+            off(this._map._container, "wheel", this._onWheelScroll, this);
+          },
+          _onWheelScroll: function(e) {
+            var delta = getWheelDelta(e);
+            var debounce = this._map.options.wheelDebounceTime;
+            this._delta += delta;
+            this._lastMousePos = this._map.mouseEventToContainerPoint(e);
+            if (!this._startTime) {
+              this._startTime = +/* @__PURE__ */ new Date();
+            }
+            var left = Math.max(debounce - (+/* @__PURE__ */ new Date() - this._startTime), 0);
+            clearTimeout(this._timer);
+            this._timer = setTimeout(bind(this._performZoom, this), left);
+            stop(e);
+          },
+          _performZoom: function() {
+            var map = this._map, zoom2 = map.getZoom(), snap = this._map.options.zoomSnap || 0;
+            map._stop();
+            var d2 = this._delta / (this._map.options.wheelPxPerZoomLevel * 4), d3 = 4 * Math.log(2 / (1 + Math.exp(-Math.abs(d2)))) / Math.LN2, d4 = snap ? Math.ceil(d3 / snap) * snap : d3, delta = map._limitZoom(zoom2 + (this._delta > 0 ? d4 : -d4)) - zoom2;
+            this._delta = 0;
+            this._startTime = null;
+            if (!delta) {
+              return;
+            }
+            if (map.options.scrollWheelZoom === "center") {
+              map.setZoom(zoom2 + delta);
+            } else {
+              map.setZoomAround(this._lastMousePos, zoom2 + delta);
+            }
+          }
+        });
+        Map.addInitHook("addHandler", "scrollWheelZoom", ScrollWheelZoom);
+        var tapHoldDelay = 600;
+        Map.mergeOptions({
+          // @section Touch interaction options
+          // @option tapHold: Boolean
+          // Enables simulation of `contextmenu` event, default is `true` for mobile Safari.
+          tapHold: Browser.touchNative && Browser.safari && Browser.mobile,
+          // @option tapTolerance: Number = 15
+          // The max number of pixels a user can shift his finger during touch
+          // for it to be considered a valid tap.
+          tapTolerance: 15
+        });
+        var TapHold = Handler.extend({
+          addHooks: function() {
+            on(this._map._container, "touchstart", this._onDown, this);
+          },
+          removeHooks: function() {
+            off(this._map._container, "touchstart", this._onDown, this);
+          },
+          _onDown: function(e) {
+            clearTimeout(this._holdTimeout);
+            if (e.touches.length !== 1) {
+              return;
+            }
+            var first = e.touches[0];
+            this._startPos = this._newPos = new Point(first.clientX, first.clientY);
+            this._holdTimeout = setTimeout(bind(function() {
+              this._cancel();
+              if (!this._isTapValid()) {
+                return;
+              }
+              on(document, "touchend", preventDefault);
+              on(document, "touchend touchcancel", this._cancelClickPrevent);
+              this._simulateEvent("contextmenu", first);
+            }, this), tapHoldDelay);
+            on(document, "touchend touchcancel contextmenu", this._cancel, this);
+            on(document, "touchmove", this._onMove, this);
+          },
+          _cancelClickPrevent: function cancelClickPrevent() {
+            off(document, "touchend", preventDefault);
+            off(document, "touchend touchcancel", cancelClickPrevent);
+          },
+          _cancel: function() {
+            clearTimeout(this._holdTimeout);
+            off(document, "touchend touchcancel contextmenu", this._cancel, this);
+            off(document, "touchmove", this._onMove, this);
+          },
+          _onMove: function(e) {
+            var first = e.touches[0];
+            this._newPos = new Point(first.clientX, first.clientY);
+          },
+          _isTapValid: function() {
+            return this._newPos.distanceTo(this._startPos) <= this._map.options.tapTolerance;
+          },
+          _simulateEvent: function(type, e) {
+            var simulatedEvent = new MouseEvent(type, {
+              bubbles: true,
+              cancelable: true,
+              view: window,
+              // detail: 1,
+              screenX: e.screenX,
+              screenY: e.screenY,
+              clientX: e.clientX,
+              clientY: e.clientY
+              // button: 2,
+              // buttons: 2
+            });
+            simulatedEvent._simulated = true;
+            e.target.dispatchEvent(simulatedEvent);
+          }
+        });
+        Map.addInitHook("addHandler", "tapHold", TapHold);
+        Map.mergeOptions({
+          // @section Touch interaction options
+          // @option touchZoom: Boolean|String = *
+          // Whether the map can be zoomed by touch-dragging with two fingers. If
+          // passed `'center'`, it will zoom to the center of the view regardless of
+          // where the touch events (fingers) were. Enabled for touch-capable web
+          // browsers.
+          touchZoom: Browser.touch,
+          // @option bounceAtZoomLimits: Boolean = true
+          // Set it to false if you don't want the map to zoom beyond min/max zoom
+          // and then bounce back when pinch-zooming.
+          bounceAtZoomLimits: true
+        });
+        var TouchZoom = Handler.extend({
+          addHooks: function() {
+            addClass(this._map._container, "leaflet-touch-zoom");
+            on(this._map._container, "touchstart", this._onTouchStart, this);
+          },
+          removeHooks: function() {
+            removeClass(this._map._container, "leaflet-touch-zoom");
+            off(this._map._container, "touchstart", this._onTouchStart, this);
+          },
+          _onTouchStart: function(e) {
+            var map = this._map;
+            if (!e.touches || e.touches.length !== 2 || map._animatingZoom || this._zooming) {
+              return;
+            }
+            var p1 = map.mouseEventToContainerPoint(e.touches[0]), p2 = map.mouseEventToContainerPoint(e.touches[1]);
+            this._centerPoint = map.getSize()._divideBy(2);
+            this._startLatLng = map.containerPointToLatLng(this._centerPoint);
+            if (map.options.touchZoom !== "center") {
+              this._pinchStartLatLng = map.containerPointToLatLng(p1.add(p2)._divideBy(2));
+            }
+            this._startDist = p1.distanceTo(p2);
+            this._startZoom = map.getZoom();
+            this._moved = false;
+            this._zooming = true;
+            map._stop();
+            on(document, "touchmove", this._onTouchMove, this);
+            on(document, "touchend touchcancel", this._onTouchEnd, this);
+            preventDefault(e);
+          },
+          _onTouchMove: function(e) {
+            if (!e.touches || e.touches.length !== 2 || !this._zooming) {
+              return;
+            }
+            var map = this._map, p1 = map.mouseEventToContainerPoint(e.touches[0]), p2 = map.mouseEventToContainerPoint(e.touches[1]), scale2 = p1.distanceTo(p2) / this._startDist;
+            this._zoom = map.getScaleZoom(scale2, this._startZoom);
+            if (!map.options.bounceAtZoomLimits && (this._zoom < map.getMinZoom() && scale2 < 1 || this._zoom > map.getMaxZoom() && scale2 > 1)) {
+              this._zoom = map._limitZoom(this._zoom);
+            }
+            if (map.options.touchZoom === "center") {
+              this._center = this._startLatLng;
+              if (scale2 === 1) {
+                return;
+              }
+            } else {
+              var delta = p1._add(p2)._divideBy(2)._subtract(this._centerPoint);
+              if (scale2 === 1 && delta.x === 0 && delta.y === 0) {
+                return;
+              }
+              this._center = map.unproject(map.project(this._pinchStartLatLng, this._zoom).subtract(delta), this._zoom);
+            }
+            if (!this._moved) {
+              map._moveStart(true, false);
+              this._moved = true;
+            }
+            cancelAnimFrame(this._animRequest);
+            var moveFn = bind(map._move, map, this._center, this._zoom, { pinch: true, round: false }, void 0);
+            this._animRequest = requestAnimFrame(moveFn, this, true);
+            preventDefault(e);
+          },
+          _onTouchEnd: function() {
+            if (!this._moved || !this._zooming) {
+              this._zooming = false;
+              return;
+            }
+            this._zooming = false;
+            cancelAnimFrame(this._animRequest);
+            off(document, "touchmove", this._onTouchMove, this);
+            off(document, "touchend touchcancel", this._onTouchEnd, this);
+            if (this._map.options.zoomAnimation) {
+              this._map._animateZoom(this._center, this._map._limitZoom(this._zoom), true, this._map.options.zoomSnap);
+            } else {
+              this._map._resetView(this._center, this._map._limitZoom(this._zoom));
+            }
+          }
+        });
+        Map.addInitHook("addHandler", "touchZoom", TouchZoom);
+        Map.BoxZoom = BoxZoom;
+        Map.DoubleClickZoom = DoubleClickZoom;
+        Map.Drag = Drag;
+        Map.Keyboard = Keyboard;
+        Map.ScrollWheelZoom = ScrollWheelZoom;
+        Map.TapHold = TapHold;
+        Map.TouchZoom = TouchZoom;
+        exports$12.Bounds = Bounds;
+        exports$12.Browser = Browser;
+        exports$12.CRS = CRS;
+        exports$12.Canvas = Canvas;
+        exports$12.Circle = Circle;
+        exports$12.CircleMarker = CircleMarker;
+        exports$12.Class = Class;
+        exports$12.Control = Control;
+        exports$12.DivIcon = DivIcon;
+        exports$12.DivOverlay = DivOverlay;
+        exports$12.DomEvent = DomEvent;
+        exports$12.DomUtil = DomUtil;
+        exports$12.Draggable = Draggable;
+        exports$12.Evented = Evented;
+        exports$12.FeatureGroup = FeatureGroup;
+        exports$12.GeoJSON = GeoJSON;
+        exports$12.GridLayer = GridLayer;
+        exports$12.Handler = Handler;
+        exports$12.Icon = Icon;
+        exports$12.ImageOverlay = ImageOverlay;
+        exports$12.LatLng = LatLng;
+        exports$12.LatLngBounds = LatLngBounds;
+        exports$12.Layer = Layer;
+        exports$12.LayerGroup = LayerGroup;
+        exports$12.LineUtil = LineUtil;
+        exports$12.Map = Map;
+        exports$12.Marker = Marker;
+        exports$12.Mixin = Mixin;
+        exports$12.Path = Path;
+        exports$12.Point = Point;
+        exports$12.PolyUtil = PolyUtil;
+        exports$12.Polygon = Polygon;
+        exports$12.Polyline = Polyline;
+        exports$12.Popup = Popup;
+        exports$12.PosAnimation = PosAnimation;
+        exports$12.Projection = index;
+        exports$12.Rectangle = Rectangle;
+        exports$12.Renderer = Renderer;
+        exports$12.SVG = SVG;
+        exports$12.SVGOverlay = SVGOverlay;
+        exports$12.TileLayer = TileLayer;
+        exports$12.Tooltip = Tooltip;
+        exports$12.Transformation = Transformation;
+        exports$12.Util = Util;
+        exports$12.VideoOverlay = VideoOverlay;
+        exports$12.bind = bind;
+        exports$12.bounds = toBounds;
+        exports$12.canvas = canvas;
+        exports$12.circle = circle;
+        exports$12.circleMarker = circleMarker;
+        exports$12.control = control;
+        exports$12.divIcon = divIcon;
+        exports$12.extend = extend;
+        exports$12.featureGroup = featureGroup;
+        exports$12.geoJSON = geoJSON;
+        exports$12.geoJson = geoJson;
+        exports$12.gridLayer = gridLayer;
+        exports$12.icon = icon;
+        exports$12.imageOverlay = imageOverlay;
+        exports$12.latLng = toLatLng;
+        exports$12.latLngBounds = toLatLngBounds;
+        exports$12.layerGroup = layerGroup;
+        exports$12.map = createMap;
+        exports$12.marker = marker;
+        exports$12.point = toPoint;
+        exports$12.polygon = polygon;
+        exports$12.polyline = polyline;
+        exports$12.popup = popup;
+        exports$12.rectangle = rectangle;
+        exports$12.setOptions = setOptions;
+        exports$12.stamp = stamp;
+        exports$12.svg = svg;
+        exports$12.svgOverlay = svgOverlay;
+        exports$12.tileLayer = tileLayer;
+        exports$12.tooltip = tooltip;
+        exports$12.transformation = toTransformation;
+        exports$12.version = version;
+        exports$12.videoOverlay = videoOverlay;
+        var oldL = window.L;
+        exports$12.noConflict = function() {
+          window.L = oldL;
+          return this;
+        };
+        window.L = exports$12;
+      }));
+    })(leafletSrc$1, leafletSrc$1.exports);
+    return leafletSrc$1.exports;
+  }
+  var leafletSrcExports = requireLeafletSrc();
+  var leaflet_markercluster$1 = { exports: {} };
+  var leaflet_markercluster = leaflet_markercluster$1.exports;
+  var hasRequiredLeaflet_markercluster;
+  function requireLeaflet_markercluster() {
+    if (hasRequiredLeaflet_markercluster) return leaflet_markercluster$1.exports;
+    hasRequiredLeaflet_markercluster = 1;
+    (function(module, exports$1) {
+      !(function(e, t) {
+        t(exports$1);
+      })(leaflet_markercluster, function(e) {
+        var t = L.MarkerClusterGroup = L.FeatureGroup.extend({ options: { maxClusterRadius: 80, iconCreateFunction: null, clusterPane: L.Marker.prototype.options.pane, spiderfyOnEveryZoom: false, spiderfyOnMaxZoom: true, showCoverageOnHover: true, zoomToBoundsOnClick: true, singleMarkerMode: false, disableClusteringAtZoom: null, removeOutsideVisibleBounds: true, animate: true, animateAddingMarkers: false, spiderfyShapePositions: null, spiderfyDistanceMultiplier: 1, spiderLegPolylineOptions: { weight: 1.5, color: "#222", opacity: 0.5 }, chunkedLoading: false, chunkInterval: 200, chunkDelay: 50, chunkProgress: null, polygonOptions: {} }, initialize: function(e2) {
+          L.Util.setOptions(this, e2), this.options.iconCreateFunction || (this.options.iconCreateFunction = this._defaultIconCreateFunction), this._featureGroup = L.featureGroup(), this._featureGroup.addEventParent(this), this._nonPointGroup = L.featureGroup(), this._nonPointGroup.addEventParent(this), this._inZoomAnimation = 0, this._needsClustering = [], this._needsRemoving = [], this._currentShownBounds = null, this._queue = [], this._childMarkerEventHandlers = { dragstart: this._childMarkerDragStart, move: this._childMarkerMoved, dragend: this._childMarkerDragEnd };
+          var t2 = L.DomUtil.TRANSITION && this.options.animate;
+          L.extend(this, t2 ? this._withAnimation : this._noAnimation), this._markerCluster = t2 ? L.MarkerCluster : L.MarkerClusterNonAnimated;
+        }, addLayer: function(e2) {
+          if (e2 instanceof L.LayerGroup) return this.addLayers([e2]);
+          if (!e2.getLatLng) return this._nonPointGroup.addLayer(e2), this.fire("layeradd", { layer: e2 }), this;
+          if (!this._map) return this._needsClustering.push(e2), this.fire("layeradd", { layer: e2 }), this;
+          if (this.hasLayer(e2)) return this;
+          this._unspiderfy && this._unspiderfy(), this._addLayer(e2, this._maxZoom), this.fire("layeradd", { layer: e2 }), this._topClusterLevel._recalculateBounds(), this._refreshClustersIcons();
+          var t2 = e2, i2 = this._zoom;
+          if (e2.__parent) for (; t2.__parent._zoom >= i2; ) t2 = t2.__parent;
+          return this._currentShownBounds.contains(t2.getLatLng()) && (this.options.animateAddingMarkers ? this._animationAddLayer(e2, t2) : this._animationAddLayerNonAnimated(e2, t2)), this;
+        }, removeLayer: function(e2) {
+          return e2 instanceof L.LayerGroup ? this.removeLayers([e2]) : (e2.getLatLng ? this._map ? e2.__parent && (this._unspiderfy && (this._unspiderfy(), this._unspiderfyLayer(e2)), this._removeLayer(e2, true), this.fire("layerremove", { layer: e2 }), this._topClusterLevel._recalculateBounds(), this._refreshClustersIcons(), e2.off(this._childMarkerEventHandlers, this), this._featureGroup.hasLayer(e2) && (this._featureGroup.removeLayer(e2), e2.clusterShow && e2.clusterShow())) : (!this._arraySplice(this._needsClustering, e2) && this.hasLayer(e2) && this._needsRemoving.push({ layer: e2, latlng: e2._latlng }), this.fire("layerremove", { layer: e2 })) : (this._nonPointGroup.removeLayer(e2), this.fire("layerremove", { layer: e2 })), this);
+        }, addLayers: function(n, s) {
+          if (!L.Util.isArray(n)) return this.addLayer(n);
+          var o, a = this._featureGroup, h = this._nonPointGroup, l = this.options.chunkedLoading, u = this.options.chunkInterval, _ = this.options.chunkProgress, d = n.length, p = 0, c = true;
+          if (this._map) {
+            var f = (/* @__PURE__ */ new Date()).getTime(), m = L.bind(function() {
+              var e3 = (/* @__PURE__ */ new Date()).getTime();
+              for (this._map && this._unspiderfy && this._unspiderfy(); p < d; p++) {
+                if (l && p % 200 == 0) {
+                  var t2 = (/* @__PURE__ */ new Date()).getTime() - e3;
+                  if (u < t2) break;
+                }
+                if ((o = n[p]) instanceof L.LayerGroup) c && (n = n.slice(), c = false), this._extractNonGroupLayers(o, n), d = n.length;
+                else if (o.getLatLng) {
+                  if (!this.hasLayer(o) && (this._addLayer(o, this._maxZoom), s || this.fire("layeradd", { layer: o }), o.__parent && 2 === o.__parent.getChildCount())) {
+                    var i2 = o.__parent.getAllChildMarkers(), r = i2[0] === o ? i2[1] : i2[0];
+                    a.removeLayer(r);
+                  }
+                } else h.addLayer(o), s || this.fire("layeradd", { layer: o });
+              }
+              _ && _(p, d, (/* @__PURE__ */ new Date()).getTime() - f), p === d ? (this._topClusterLevel._recalculateBounds(), this._refreshClustersIcons(), this._topClusterLevel._recursivelyAddChildrenToMap(null, this._zoom, this._currentShownBounds)) : setTimeout(m, this.options.chunkDelay);
+            }, this);
+            m();
+          } else for (var e2 = this._needsClustering; p < d; p++) (o = n[p]) instanceof L.LayerGroup ? (c && (n = n.slice(), c = false), this._extractNonGroupLayers(o, n), d = n.length) : o.getLatLng ? this.hasLayer(o) || e2.push(o) : h.addLayer(o);
+          return this;
+        }, removeLayers: function(e2) {
+          var t2, i2, r = e2.length, n = this._featureGroup, s = this._nonPointGroup, o = true;
+          if (!this._map) {
+            for (t2 = 0; t2 < r; t2++) (i2 = e2[t2]) instanceof L.LayerGroup ? (o && (e2 = e2.slice(), o = false), this._extractNonGroupLayers(i2, e2), r = e2.length) : (this._arraySplice(this._needsClustering, i2), s.removeLayer(i2), this.hasLayer(i2) && this._needsRemoving.push({ layer: i2, latlng: i2._latlng }), this.fire("layerremove", { layer: i2 }));
+            return this;
+          }
+          if (this._unspiderfy) {
+            this._unspiderfy();
+            var a = e2.slice(), h = r;
+            for (t2 = 0; t2 < h; t2++) (i2 = a[t2]) instanceof L.LayerGroup ? (this._extractNonGroupLayers(i2, a), h = a.length) : this._unspiderfyLayer(i2);
+          }
+          for (t2 = 0; t2 < r; t2++) (i2 = e2[t2]) instanceof L.LayerGroup ? (o && (e2 = e2.slice(), o = false), this._extractNonGroupLayers(i2, e2), r = e2.length) : i2.__parent ? (this._removeLayer(i2, true, true), this.fire("layerremove", { layer: i2 }), n.hasLayer(i2) && (n.removeLayer(i2), i2.clusterShow && i2.clusterShow())) : (s.removeLayer(i2), this.fire("layerremove", { layer: i2 }));
+          return this._topClusterLevel._recalculateBounds(), this._refreshClustersIcons(), this._topClusterLevel._recursivelyAddChildrenToMap(null, this._zoom, this._currentShownBounds), this;
+        }, clearLayers: function() {
+          return this._map || (this._needsClustering = [], this._needsRemoving = [], delete this._gridClusters, delete this._gridUnclustered), this._noanimationUnspiderfy && this._noanimationUnspiderfy(), this._featureGroup.clearLayers(), this._nonPointGroup.clearLayers(), this.eachLayer(function(e2) {
+            e2.off(this._childMarkerEventHandlers, this), delete e2.__parent;
+          }, this), this._map && this._generateInitialClusters(), this;
+        }, getBounds: function() {
+          var e2 = new L.LatLngBounds();
+          this._topClusterLevel && e2.extend(this._topClusterLevel._bounds);
+          for (var t2 = this._needsClustering.length - 1; 0 <= t2; t2--) e2.extend(this._needsClustering[t2].getLatLng());
+          return e2.extend(this._nonPointGroup.getBounds()), e2;
+        }, eachLayer: function(e2, t2) {
+          var i2, r, n, s = this._needsClustering.slice(), o = this._needsRemoving;
+          for (this._topClusterLevel && this._topClusterLevel.getAllChildMarkers(s), r = s.length - 1; 0 <= r; r--) {
+            for (i2 = true, n = o.length - 1; 0 <= n; n--) if (o[n].layer === s[r]) {
+              i2 = false;
+              break;
+            }
+            i2 && e2.call(t2, s[r]);
+          }
+          this._nonPointGroup.eachLayer(e2, t2);
+        }, getLayers: function() {
+          var t2 = [];
+          return this.eachLayer(function(e2) {
+            t2.push(e2);
+          }), t2;
+        }, getLayer: function(t2) {
+          var i2 = null;
+          return t2 = parseInt(t2, 10), this.eachLayer(function(e2) {
+            L.stamp(e2) === t2 && (i2 = e2);
+          }), i2;
+        }, hasLayer: function(e2) {
+          if (!e2) return false;
+          var t2, i2 = this._needsClustering;
+          for (t2 = i2.length - 1; 0 <= t2; t2--) if (i2[t2] === e2) return true;
+          for (t2 = (i2 = this._needsRemoving).length - 1; 0 <= t2; t2--) if (i2[t2].layer === e2) return false;
+          return !(!e2.__parent || e2.__parent._group !== this) || this._nonPointGroup.hasLayer(e2);
+        }, zoomToShowLayer: function(e2, t2) {
+          var i2 = this._map;
+          "function" != typeof t2 && (t2 = function() {
+          });
+          var r = function() {
+            !i2.hasLayer(e2) && !i2.hasLayer(e2.__parent) || this._inZoomAnimation || (this._map.off("moveend", r, this), this.off("animationend", r, this), i2.hasLayer(e2) ? t2() : e2.__parent._icon && (this.once("spiderfied", t2, this), e2.__parent.spiderfy()));
+          };
+          e2._icon && this._map.getBounds().contains(e2.getLatLng()) ? t2() : e2.__parent._zoom < Math.round(this._map._zoom) ? (this._map.on("moveend", r, this), this._map.panTo(e2.getLatLng())) : (this._map.on("moveend", r, this), this.on("animationend", r, this), e2.__parent.zoomToBounds());
+        }, onAdd: function(e2) {
+          var t2, i2, r;
+          if (this._map = e2, !isFinite(this._map.getMaxZoom())) throw "Map has no maxZoom specified";
+          for (this._featureGroup.addTo(e2), this._nonPointGroup.addTo(e2), this._gridClusters || this._generateInitialClusters(), this._maxLat = e2.options.crs.projection.MAX_LATITUDE, t2 = 0, i2 = this._needsRemoving.length; t2 < i2; t2++) (r = this._needsRemoving[t2]).newlatlng = r.layer._latlng, r.layer._latlng = r.latlng;
+          for (t2 = 0, i2 = this._needsRemoving.length; t2 < i2; t2++) r = this._needsRemoving[t2], this._removeLayer(r.layer, true), r.layer._latlng = r.newlatlng;
+          this._needsRemoving = [], this._zoom = Math.round(this._map._zoom), this._currentShownBounds = this._getExpandedVisibleBounds(), this._map.on("zoomend", this._zoomEnd, this), this._map.on("moveend", this._moveEnd, this), this._spiderfierOnAdd && this._spiderfierOnAdd(), this._bindEvents(), i2 = this._needsClustering, this._needsClustering = [], this.addLayers(i2, true);
+        }, onRemove: function(e2) {
+          e2.off("zoomend", this._zoomEnd, this), e2.off("moveend", this._moveEnd, this), this._unbindEvents(), this._map._mapPane.className = this._map._mapPane.className.replace(" leaflet-cluster-anim", ""), this._spiderfierOnRemove && this._spiderfierOnRemove(), delete this._maxLat, this._hideCoverage(), this._featureGroup.remove(), this._nonPointGroup.remove(), this._featureGroup.clearLayers(), this._map = null;
+        }, getVisibleParent: function(e2) {
+          for (var t2 = e2; t2 && !t2._icon; ) t2 = t2.__parent;
+          return t2 || null;
+        }, _arraySplice: function(e2, t2) {
+          for (var i2 = e2.length - 1; 0 <= i2; i2--) if (e2[i2] === t2) return e2.splice(i2, 1), true;
+        }, _removeFromGridUnclustered: function(e2, t2) {
+          for (var i2 = this._map, r = this._gridUnclustered, n = Math.floor(this._map.getMinZoom()); n <= t2 && r[t2].removeObject(e2, i2.project(e2.getLatLng(), t2)); t2--) ;
+        }, _childMarkerDragStart: function(e2) {
+          e2.target.__dragStart = e2.target._latlng;
+        }, _childMarkerMoved: function(e2) {
+          if (!this._ignoreMove && !e2.target.__dragStart) {
+            var t2 = e2.target._popup && e2.target._popup.isOpen();
+            this._moveChild(e2.target, e2.oldLatLng, e2.latlng), t2 && e2.target.openPopup();
+          }
+        }, _moveChild: function(e2, t2, i2) {
+          e2._latlng = t2, this.removeLayer(e2), e2._latlng = i2, this.addLayer(e2);
+        }, _childMarkerDragEnd: function(e2) {
+          var t2 = e2.target.__dragStart;
+          delete e2.target.__dragStart, t2 && this._moveChild(e2.target, t2, e2.target._latlng);
+        }, _removeLayer: function(e2, t2, i2) {
+          var r = this._gridClusters, n = this._gridUnclustered, s = this._featureGroup, o = this._map, a = Math.floor(this._map.getMinZoom());
+          t2 && this._removeFromGridUnclustered(e2, this._maxZoom);
+          var h, l = e2.__parent, u = l._markers;
+          for (this._arraySplice(u, e2); l && (l._childCount--, l._boundsNeedUpdate = true, !(l._zoom < a)); ) t2 && l._childCount <= 1 ? (h = l._markers[0] === e2 ? l._markers[1] : l._markers[0], r[l._zoom].removeObject(l, o.project(l._cLatLng, l._zoom)), n[l._zoom].addObject(h, o.project(h.getLatLng(), l._zoom)), this._arraySplice(l.__parent._childClusters, l), l.__parent._markers.push(h), h.__parent = l.__parent, l._icon && (s.removeLayer(l), i2 || s.addLayer(h))) : l._iconNeedsUpdate = true, l = l.__parent;
+          delete e2.__parent;
+        }, _isOrIsParent: function(e2, t2) {
+          for (; t2; ) {
+            if (e2 === t2) return true;
+            t2 = t2.parentNode;
+          }
+          return false;
+        }, fire: function(e2, t2, i2) {
+          if (t2 && t2.layer instanceof L.MarkerCluster) {
+            if (t2.originalEvent && this._isOrIsParent(t2.layer._icon, t2.originalEvent.relatedTarget)) return;
+            e2 = "cluster" + e2;
+          }
+          L.FeatureGroup.prototype.fire.call(this, e2, t2, i2);
+        }, listens: function(e2, t2) {
+          return L.FeatureGroup.prototype.listens.call(this, e2, t2) || L.FeatureGroup.prototype.listens.call(this, "cluster" + e2, t2);
+        }, _defaultIconCreateFunction: function(e2) {
+          var t2 = e2.getChildCount(), i2 = " marker-cluster-";
+          return i2 += t2 < 10 ? "small" : t2 < 100 ? "medium" : "large", new L.DivIcon({ html: "<div><span>" + t2 + "</span></div>", className: "marker-cluster" + i2, iconSize: new L.Point(40, 40) });
+        }, _bindEvents: function() {
+          var e2 = this._map, t2 = this.options.spiderfyOnMaxZoom, i2 = this.options.showCoverageOnHover, r = this.options.zoomToBoundsOnClick, n = this.options.spiderfyOnEveryZoom;
+          (t2 || r || n) && this.on("clusterclick clusterkeypress", this._zoomOrSpiderfy, this), i2 && (this.on("clustermouseover", this._showCoverage, this), this.on("clustermouseout", this._hideCoverage, this), e2.on("zoomend", this._hideCoverage, this));
+        }, _zoomOrSpiderfy: function(e2) {
+          var t2 = e2.layer, i2 = t2;
+          if ("clusterkeypress" !== e2.type || !e2.originalEvent || 13 === e2.originalEvent.keyCode) {
+            for (; 1 === i2._childClusters.length; ) i2 = i2._childClusters[0];
+            i2._zoom === this._maxZoom && i2._childCount === t2._childCount && this.options.spiderfyOnMaxZoom ? t2.spiderfy() : this.options.zoomToBoundsOnClick && t2.zoomToBounds(), this.options.spiderfyOnEveryZoom && t2.spiderfy(), e2.originalEvent && 13 === e2.originalEvent.keyCode && this._map._container.focus();
+          }
+        }, _showCoverage: function(e2) {
+          var t2 = this._map;
+          this._inZoomAnimation || (this._shownPolygon && t2.removeLayer(this._shownPolygon), 2 < e2.layer.getChildCount() && e2.layer !== this._spiderfied && (this._shownPolygon = new L.Polygon(e2.layer.getConvexHull(), this.options.polygonOptions), t2.addLayer(this._shownPolygon)));
+        }, _hideCoverage: function() {
+          this._shownPolygon && (this._map.removeLayer(this._shownPolygon), this._shownPolygon = null);
+        }, _unbindEvents: function() {
+          var e2 = this.options.spiderfyOnMaxZoom, t2 = this.options.showCoverageOnHover, i2 = this.options.zoomToBoundsOnClick, r = this.options.spiderfyOnEveryZoom, n = this._map;
+          (e2 || i2 || r) && this.off("clusterclick clusterkeypress", this._zoomOrSpiderfy, this), t2 && (this.off("clustermouseover", this._showCoverage, this), this.off("clustermouseout", this._hideCoverage, this), n.off("zoomend", this._hideCoverage, this));
+        }, _zoomEnd: function() {
+          this._map && (this._mergeSplitClusters(), this._zoom = Math.round(this._map._zoom), this._currentShownBounds = this._getExpandedVisibleBounds());
+        }, _moveEnd: function() {
+          if (!this._inZoomAnimation) {
+            var e2 = this._getExpandedVisibleBounds();
+            this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), this._zoom, e2), this._topClusterLevel._recursivelyAddChildrenToMap(null, Math.round(this._map._zoom), e2), this._currentShownBounds = e2;
+          }
+        }, _generateInitialClusters: function() {
+          var e2 = Math.ceil(this._map.getMaxZoom()), t2 = Math.floor(this._map.getMinZoom()), i2 = this.options.maxClusterRadius, r = i2;
+          "function" != typeof i2 && (r = function() {
+            return i2;
+          }), null !== this.options.disableClusteringAtZoom && (e2 = this.options.disableClusteringAtZoom - 1), this._maxZoom = e2, this._gridClusters = {}, this._gridUnclustered = {};
+          for (var n = e2; t2 <= n; n--) this._gridClusters[n] = new L.DistanceGrid(r(n)), this._gridUnclustered[n] = new L.DistanceGrid(r(n));
+          this._topClusterLevel = new this._markerCluster(this, t2 - 1);
+        }, _addLayer: function(e2, t2) {
+          var i2, r, n = this._gridClusters, s = this._gridUnclustered, o = Math.floor(this._map.getMinZoom());
+          for (this.options.singleMarkerMode && this._overrideMarkerIcon(e2), e2.on(this._childMarkerEventHandlers, this); o <= t2; t2--) {
+            i2 = this._map.project(e2.getLatLng(), t2);
+            var a = n[t2].getNearObject(i2);
+            if (a) return a._addChild(e2), void (e2.__parent = a);
+            if (a = s[t2].getNearObject(i2)) {
+              var h = a.__parent;
+              h && this._removeLayer(a, false);
+              var l = new this._markerCluster(this, t2, a, e2);
+              n[t2].addObject(l, this._map.project(l._cLatLng, t2)), a.__parent = l;
+              var u = e2.__parent = l;
+              for (r = t2 - 1; r > h._zoom; r--) u = new this._markerCluster(this, r, u), n[r].addObject(u, this._map.project(a.getLatLng(), r));
+              return h._addChild(u), void this._removeFromGridUnclustered(a, t2);
+            }
+            s[t2].addObject(e2, i2);
+          }
+          this._topClusterLevel._addChild(e2), e2.__parent = this._topClusterLevel;
+        }, _refreshClustersIcons: function() {
+          this._featureGroup.eachLayer(function(e2) {
+            e2 instanceof L.MarkerCluster && e2._iconNeedsUpdate && e2._updateIcon();
+          });
+        }, _enqueue: function(e2) {
+          this._queue.push(e2), this._queueTimeout || (this._queueTimeout = setTimeout(L.bind(this._processQueue, this), 300));
+        }, _processQueue: function() {
+          for (var e2 = 0; e2 < this._queue.length; e2++) this._queue[e2].call(this);
+          this._queue.length = 0, clearTimeout(this._queueTimeout), this._queueTimeout = null;
+        }, _mergeSplitClusters: function() {
+          var e2 = Math.round(this._map._zoom);
+          this._processQueue(), this._zoom < e2 && this._currentShownBounds.intersects(this._getExpandedVisibleBounds()) ? (this._animationStart(), this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), this._zoom, this._getExpandedVisibleBounds()), this._animationZoomIn(this._zoom, e2)) : this._zoom > e2 ? (this._animationStart(), this._animationZoomOut(this._zoom, e2)) : this._moveEnd();
+        }, _getExpandedVisibleBounds: function() {
+          return this.options.removeOutsideVisibleBounds ? L.Browser.mobile ? this._checkBoundsMaxLat(this._map.getBounds()) : this._checkBoundsMaxLat(this._map.getBounds().pad(1)) : this._mapBoundsInfinite;
+        }, _checkBoundsMaxLat: function(e2) {
+          var t2 = this._maxLat;
+          return void 0 !== t2 && (e2.getNorth() >= t2 && (e2._northEast.lat = 1 / 0), e2.getSouth() <= -t2 && (e2._southWest.lat = -1 / 0)), e2;
+        }, _animationAddLayerNonAnimated: function(e2, t2) {
+          if (t2 === e2) this._featureGroup.addLayer(e2);
+          else if (2 === t2._childCount) {
+            t2._addToMap();
+            var i2 = t2.getAllChildMarkers();
+            this._featureGroup.removeLayer(i2[0]), this._featureGroup.removeLayer(i2[1]);
+          } else t2._updateIcon();
+        }, _extractNonGroupLayers: function(e2, t2) {
+          var i2, r = e2.getLayers(), n = 0;
+          for (t2 = t2 || []; n < r.length; n++) (i2 = r[n]) instanceof L.LayerGroup ? this._extractNonGroupLayers(i2, t2) : t2.push(i2);
+          return t2;
+        }, _overrideMarkerIcon: function(e2) {
+          return e2.options.icon = this.options.iconCreateFunction({ getChildCount: function() {
+            return 1;
+          }, getAllChildMarkers: function() {
+            return [e2];
+          } });
+        } });
+        L.MarkerClusterGroup.include({ _mapBoundsInfinite: new L.LatLngBounds(new L.LatLng(-1 / 0, -1 / 0), new L.LatLng(1 / 0, 1 / 0)) }), L.MarkerClusterGroup.include({ _noAnimation: { _animationStart: function() {
+        }, _animationZoomIn: function(e2, t2) {
+          this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), e2), this._topClusterLevel._recursivelyAddChildrenToMap(null, t2, this._getExpandedVisibleBounds()), this.fire("animationend");
+        }, _animationZoomOut: function(e2, t2) {
+          this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), e2), this._topClusterLevel._recursivelyAddChildrenToMap(null, t2, this._getExpandedVisibleBounds()), this.fire("animationend");
+        }, _animationAddLayer: function(e2, t2) {
+          this._animationAddLayerNonAnimated(e2, t2);
+        } }, _withAnimation: { _animationStart: function() {
+          this._map._mapPane.className += " leaflet-cluster-anim", this._inZoomAnimation++;
+        }, _animationZoomIn: function(n, s) {
+          var o, a = this._getExpandedVisibleBounds(), h = this._featureGroup, e2 = Math.floor(this._map.getMinZoom());
+          this._ignoreMove = true, this._topClusterLevel._recursively(a, n, e2, function(e3) {
+            var t2, i2 = e3._latlng, r = e3._markers;
+            for (a.contains(i2) || (i2 = null), e3._isSingleParent() && n + 1 === s ? (h.removeLayer(e3), e3._recursivelyAddChildrenToMap(null, s, a)) : (e3.clusterHide(), e3._recursivelyAddChildrenToMap(i2, s, a)), o = r.length - 1; 0 <= o; o--) t2 = r[o], a.contains(t2._latlng) || h.removeLayer(t2);
+          }), this._forceLayout(), this._topClusterLevel._recursivelyBecomeVisible(a, s), h.eachLayer(function(e3) {
+            e3 instanceof L.MarkerCluster || !e3._icon || e3.clusterShow();
+          }), this._topClusterLevel._recursively(a, n, s, function(e3) {
+            e3._recursivelyRestoreChildPositions(s);
+          }), this._ignoreMove = false, this._enqueue(function() {
+            this._topClusterLevel._recursively(a, n, e2, function(e3) {
+              h.removeLayer(e3), e3.clusterShow();
+            }), this._animationEnd();
+          });
+        }, _animationZoomOut: function(e2, t2) {
+          this._animationZoomOutSingle(this._topClusterLevel, e2 - 1, t2), this._topClusterLevel._recursivelyAddChildrenToMap(null, t2, this._getExpandedVisibleBounds()), this._topClusterLevel._recursivelyRemoveChildrenFromMap(this._currentShownBounds, Math.floor(this._map.getMinZoom()), e2, this._getExpandedVisibleBounds());
+        }, _animationAddLayer: function(e2, t2) {
+          var i2 = this, r = this._featureGroup;
+          r.addLayer(e2), t2 !== e2 && (2 < t2._childCount ? (t2._updateIcon(), this._forceLayout(), this._animationStart(), e2._setPos(this._map.latLngToLayerPoint(t2.getLatLng())), e2.clusterHide(), this._enqueue(function() {
+            r.removeLayer(e2), e2.clusterShow(), i2._animationEnd();
+          })) : (this._forceLayout(), i2._animationStart(), i2._animationZoomOutSingle(t2, this._map.getMaxZoom(), this._zoom)));
+        } }, _animationZoomOutSingle: function(t2, i2, r) {
+          var n = this._getExpandedVisibleBounds(), s = Math.floor(this._map.getMinZoom());
+          t2._recursivelyAnimateChildrenInAndAddSelfToMap(n, s, i2 + 1, r);
+          var o = this;
+          this._forceLayout(), t2._recursivelyBecomeVisible(n, r), this._enqueue(function() {
+            if (1 === t2._childCount) {
+              var e2 = t2._markers[0];
+              this._ignoreMove = true, e2.setLatLng(e2.getLatLng()), this._ignoreMove = false, e2.clusterShow && e2.clusterShow();
+            } else t2._recursively(n, r, s, function(e3) {
+              e3._recursivelyRemoveChildrenFromMap(n, s, i2 + 1);
+            });
+            o._animationEnd();
+          });
+        }, _animationEnd: function() {
+          this._map && (this._map._mapPane.className = this._map._mapPane.className.replace(" leaflet-cluster-anim", "")), this._inZoomAnimation--, this.fire("animationend");
+        }, _forceLayout: function() {
+          L.Util.falseFn(document.body.offsetWidth);
+        } }), L.markerClusterGroup = function(e2) {
+          return new L.MarkerClusterGroup(e2);
+        };
+        var i = L.MarkerCluster = L.Marker.extend({ options: L.Icon.prototype.options, initialize: function(e2, t2, i2, r) {
+          L.Marker.prototype.initialize.call(this, i2 ? i2._cLatLng || i2.getLatLng() : new L.LatLng(0, 0), { icon: this, pane: e2.options.clusterPane }), this._group = e2, this._zoom = t2, this._markers = [], this._childClusters = [], this._childCount = 0, this._iconNeedsUpdate = true, this._boundsNeedUpdate = true, this._bounds = new L.LatLngBounds(), i2 && this._addChild(i2), r && this._addChild(r);
+        }, getAllChildMarkers: function(e2, t2) {
+          e2 = e2 || [];
+          for (var i2 = this._childClusters.length - 1; 0 <= i2; i2--) this._childClusters[i2].getAllChildMarkers(e2, t2);
+          for (var r = this._markers.length - 1; 0 <= r; r--) t2 && this._markers[r].__dragStart || e2.push(this._markers[r]);
+          return e2;
+        }, getChildCount: function() {
+          return this._childCount;
+        }, zoomToBounds: function(e2) {
+          for (var t2, i2 = this._childClusters.slice(), r = this._group._map, n = r.getBoundsZoom(this._bounds), s = this._zoom + 1, o = r.getZoom(); 0 < i2.length && s < n; ) {
+            s++;
+            var a = [];
+            for (t2 = 0; t2 < i2.length; t2++) a = a.concat(i2[t2]._childClusters);
+            i2 = a;
+          }
+          s < n ? this._group._map.setView(this._latlng, s) : n <= o ? this._group._map.setView(this._latlng, o + 1) : this._group._map.fitBounds(this._bounds, e2);
+        }, getBounds: function() {
+          var e2 = new L.LatLngBounds();
+          return e2.extend(this._bounds), e2;
+        }, _updateIcon: function() {
+          this._iconNeedsUpdate = true, this._icon && this.setIcon(this);
+        }, createIcon: function() {
+          return this._iconNeedsUpdate && (this._iconObj = this._group.options.iconCreateFunction(this), this._iconNeedsUpdate = false), this._iconObj.createIcon();
+        }, createShadow: function() {
+          return this._iconObj.createShadow();
+        }, _addChild: function(e2, t2) {
+          this._iconNeedsUpdate = true, this._boundsNeedUpdate = true, this._setClusterCenter(e2), e2 instanceof L.MarkerCluster ? (t2 || (this._childClusters.push(e2), e2.__parent = this), this._childCount += e2._childCount) : (t2 || this._markers.push(e2), this._childCount++), this.__parent && this.__parent._addChild(e2, true);
+        }, _setClusterCenter: function(e2) {
+          this._cLatLng || (this._cLatLng = e2._cLatLng || e2._latlng);
+        }, _resetBounds: function() {
+          var e2 = this._bounds;
+          e2._southWest && (e2._southWest.lat = 1 / 0, e2._southWest.lng = 1 / 0), e2._northEast && (e2._northEast.lat = -1 / 0, e2._northEast.lng = -1 / 0);
+        }, _recalculateBounds: function() {
+          var e2, t2, i2, r, n = this._markers, s = this._childClusters, o = 0, a = 0, h = this._childCount;
+          if (0 !== h) {
+            for (this._resetBounds(), e2 = 0; e2 < n.length; e2++) i2 = n[e2]._latlng, this._bounds.extend(i2), o += i2.lat, a += i2.lng;
+            for (e2 = 0; e2 < s.length; e2++) (t2 = s[e2])._boundsNeedUpdate && t2._recalculateBounds(), this._bounds.extend(t2._bounds), i2 = t2._wLatLng, r = t2._childCount, o += i2.lat * r, a += i2.lng * r;
+            this._latlng = this._wLatLng = new L.LatLng(o / h, a / h), this._boundsNeedUpdate = false;
+          }
+        }, _addToMap: function(e2) {
+          e2 && (this._backupLatlng = this._latlng, this.setLatLng(e2)), this._group._featureGroup.addLayer(this);
+        }, _recursivelyAnimateChildrenIn: function(e2, n, t2) {
+          this._recursively(e2, this._group._map.getMinZoom(), t2 - 1, function(e3) {
+            var t3, i2, r = e3._markers;
+            for (t3 = r.length - 1; 0 <= t3; t3--) (i2 = r[t3])._icon && (i2._setPos(n), i2.clusterHide());
+          }, function(e3) {
+            var t3, i2, r = e3._childClusters;
+            for (t3 = r.length - 1; 0 <= t3; t3--) (i2 = r[t3])._icon && (i2._setPos(n), i2.clusterHide());
+          });
+        }, _recursivelyAnimateChildrenInAndAddSelfToMap: function(t2, i2, r, n) {
+          this._recursively(t2, n, i2, function(e2) {
+            e2._recursivelyAnimateChildrenIn(t2, e2._group._map.latLngToLayerPoint(e2.getLatLng()).round(), r), e2._isSingleParent() && r - 1 === n ? (e2.clusterShow(), e2._recursivelyRemoveChildrenFromMap(t2, i2, r)) : e2.clusterHide(), e2._addToMap();
+          });
+        }, _recursivelyBecomeVisible: function(e2, t2) {
+          this._recursively(e2, this._group._map.getMinZoom(), t2, null, function(e3) {
+            e3.clusterShow();
+          });
+        }, _recursivelyAddChildrenToMap: function(r, n, s) {
+          this._recursively(s, this._group._map.getMinZoom() - 1, n, function(e2) {
+            if (n !== e2._zoom) for (var t2 = e2._markers.length - 1; 0 <= t2; t2--) {
+              var i2 = e2._markers[t2];
+              s.contains(i2._latlng) && (r && (i2._backupLatlng = i2.getLatLng(), i2.setLatLng(r), i2.clusterHide && i2.clusterHide()), e2._group._featureGroup.addLayer(i2));
+            }
+          }, function(e2) {
+            e2._addToMap(r);
+          });
+        }, _recursivelyRestoreChildPositions: function(e2) {
+          for (var t2 = this._markers.length - 1; 0 <= t2; t2--) {
+            var i2 = this._markers[t2];
+            i2._backupLatlng && (i2.setLatLng(i2._backupLatlng), delete i2._backupLatlng);
+          }
+          if (e2 - 1 === this._zoom) for (var r = this._childClusters.length - 1; 0 <= r; r--) this._childClusters[r]._restorePosition();
+          else for (var n = this._childClusters.length - 1; 0 <= n; n--) this._childClusters[n]._recursivelyRestoreChildPositions(e2);
+        }, _restorePosition: function() {
+          this._backupLatlng && (this.setLatLng(this._backupLatlng), delete this._backupLatlng);
+        }, _recursivelyRemoveChildrenFromMap: function(e2, t2, i2, r) {
+          var n, s;
+          this._recursively(e2, t2 - 1, i2 - 1, function(e3) {
+            for (s = e3._markers.length - 1; 0 <= s; s--) n = e3._markers[s], r && r.contains(n._latlng) || (e3._group._featureGroup.removeLayer(n), n.clusterShow && n.clusterShow());
+          }, function(e3) {
+            for (s = e3._childClusters.length - 1; 0 <= s; s--) n = e3._childClusters[s], r && r.contains(n._latlng) || (e3._group._featureGroup.removeLayer(n), n.clusterShow && n.clusterShow());
+          });
+        }, _recursively: function(e2, t2, i2, r, n) {
+          var s, o, a = this._childClusters, h = this._zoom;
+          if (t2 <= h && (r && r(this), n && h === i2 && n(this)), h < t2 || h < i2) for (s = a.length - 1; 0 <= s; s--) (o = a[s])._boundsNeedUpdate && o._recalculateBounds(), e2.intersects(o._bounds) && o._recursively(e2, t2, i2, r, n);
+        }, _isSingleParent: function() {
+          return 0 < this._childClusters.length && this._childClusters[0]._childCount === this._childCount;
+        } });
+        L.Marker.include({ clusterHide: function() {
+          var e2 = this.options.opacity;
+          return this.setOpacity(0), this.options.opacity = e2, this;
+        }, clusterShow: function() {
+          return this.setOpacity(this.options.opacity);
+        } }), L.DistanceGrid = function(e2) {
+          this._cellSize = e2, this._sqCellSize = e2 * e2, this._grid = {}, this._objectPoint = {};
+        }, L.DistanceGrid.prototype = { addObject: function(e2, t2) {
+          var i2 = this._getCoord(t2.x), r = this._getCoord(t2.y), n = this._grid, s = n[r] = n[r] || {}, o = s[i2] = s[i2] || [], a = L.Util.stamp(e2);
+          this._objectPoint[a] = t2, o.push(e2);
+        }, updateObject: function(e2, t2) {
+          this.removeObject(e2), this.addObject(e2, t2);
+        }, removeObject: function(e2, t2) {
+          var i2, r, n = this._getCoord(t2.x), s = this._getCoord(t2.y), o = this._grid, a = o[s] = o[s] || {}, h = a[n] = a[n] || [];
+          for (delete this._objectPoint[L.Util.stamp(e2)], i2 = 0, r = h.length; i2 < r; i2++) if (h[i2] === e2) return h.splice(i2, 1), 1 === r && delete a[n], true;
+        }, eachObject: function(e2, t2) {
+          var i2, r, n, s, o, a, h = this._grid;
+          for (i2 in h) for (r in o = h[i2]) for (n = 0, s = (a = o[r]).length; n < s; n++) e2.call(t2, a[n]) && (n--, s--);
+        }, getNearObject: function(e2) {
+          var t2, i2, r, n, s, o, a, h, l = this._getCoord(e2.x), u = this._getCoord(e2.y), _ = this._objectPoint, d = this._sqCellSize, p = null;
+          for (t2 = u - 1; t2 <= u + 1; t2++) if (n = this._grid[t2]) {
+            for (i2 = l - 1; i2 <= l + 1; i2++) if (s = n[i2]) for (r = 0, o = s.length; r < o; r++) a = s[r], ((h = this._sqDist(_[L.Util.stamp(a)], e2)) < d || h <= d && null === p) && (d = h, p = a);
+          }
+          return p;
+        }, _getCoord: function(e2) {
+          var t2 = Math.floor(e2 / this._cellSize);
+          return isFinite(t2) ? t2 : e2;
+        }, _sqDist: function(e2, t2) {
+          var i2 = t2.x - e2.x, r = t2.y - e2.y;
+          return i2 * i2 + r * r;
+        } }, L.QuickHull = { getDistant: function(e2, t2) {
+          var i2 = t2[1].lat - t2[0].lat;
+          return (t2[0].lng - t2[1].lng) * (e2.lat - t2[0].lat) + i2 * (e2.lng - t2[0].lng);
+        }, findMostDistantPointFromBaseLine: function(e2, t2) {
+          var i2, r, n, s = 0, o = null, a = [];
+          for (i2 = t2.length - 1; 0 <= i2; i2--) r = t2[i2], 0 < (n = this.getDistant(r, e2)) && (a.push(r), s < n && (s = n, o = r));
+          return { maxPoint: o, newPoints: a };
+        }, buildConvexHull: function(e2, t2) {
+          var i2 = [], r = this.findMostDistantPointFromBaseLine(e2, t2);
+          return r.maxPoint ? i2 = (i2 = i2.concat(this.buildConvexHull([e2[0], r.maxPoint], r.newPoints))).concat(this.buildConvexHull([r.maxPoint, e2[1]], r.newPoints)) : [e2[0]];
+        }, getConvexHull: function(e2) {
+          var t2, i2 = false, r = false, n = false, s = false, o = null, a = null, h = null, l = null, u = null, _ = null;
+          for (t2 = e2.length - 1; 0 <= t2; t2--) {
+            var d = e2[t2];
+            (false === i2 || d.lat > i2) && (i2 = (o = d).lat), (false === r || d.lat < r) && (r = (a = d).lat), (false === n || d.lng > n) && (n = (h = d).lng), (false === s || d.lng < s) && (s = (l = d).lng);
+          }
+          return u = r !== i2 ? (_ = a, o) : (_ = l, h), [].concat(this.buildConvexHull([_, u], e2), this.buildConvexHull([u, _], e2));
+        } }, L.MarkerCluster.include({ getConvexHull: function() {
+          var e2, t2, i2 = this.getAllChildMarkers(), r = [];
+          for (t2 = i2.length - 1; 0 <= t2; t2--) e2 = i2[t2].getLatLng(), r.push(e2);
+          return L.QuickHull.getConvexHull(r);
+        } }), L.MarkerCluster.include({ _2PI: 2 * Math.PI, _circleFootSeparation: 25, _circleStartAngle: 0, _spiralFootSeparation: 28, _spiralLengthStart: 11, _spiralLengthFactor: 5, _circleSpiralSwitchover: 9, spiderfy: function() {
+          if (this._group._spiderfied !== this && !this._group._inZoomAnimation) {
+            var e2, t2 = this.getAllChildMarkers(null, true), i2 = this._group._map.latLngToLayerPoint(this._latlng);
+            this._group._unspiderfy(), e2 = (this._group._spiderfied = this)._group.options.spiderfyShapePositions ? this._group.options.spiderfyShapePositions(t2.length, i2) : t2.length >= this._circleSpiralSwitchover ? this._generatePointsSpiral(t2.length, i2) : (i2.y += 10, this._generatePointsCircle(t2.length, i2)), this._animationSpiderfy(t2, e2);
+          }
+        }, unspiderfy: function(e2) {
+          this._group._inZoomAnimation || (this._animationUnspiderfy(e2), this._group._spiderfied = null);
+        }, _generatePointsCircle: function(e2, t2) {
+          var i2, r, n = this._group.options.spiderfyDistanceMultiplier * this._circleFootSeparation * (2 + e2) / this._2PI, s = this._2PI / e2, o = [];
+          for (n = Math.max(n, 35), o.length = e2, i2 = 0; i2 < e2; i2++) r = this._circleStartAngle + i2 * s, o[i2] = new L.Point(t2.x + n * Math.cos(r), t2.y + n * Math.sin(r))._round();
+          return o;
+        }, _generatePointsSpiral: function(e2, t2) {
+          var i2, r = this._group.options.spiderfyDistanceMultiplier, n = r * this._spiralLengthStart, s = r * this._spiralFootSeparation, o = r * this._spiralLengthFactor * this._2PI, a = 0, h = [];
+          for (i2 = h.length = e2; 0 <= i2; i2--) i2 < e2 && (h[i2] = new L.Point(t2.x + n * Math.cos(a), t2.y + n * Math.sin(a))._round()), n += o / (a += s / n + 5e-4 * i2);
+          return h;
+        }, _noanimationUnspiderfy: function() {
+          var e2, t2, i2 = this._group, r = i2._map, n = i2._featureGroup, s = this.getAllChildMarkers(null, true);
+          for (i2._ignoreMove = true, this.setOpacity(1), t2 = s.length - 1; 0 <= t2; t2--) e2 = s[t2], n.removeLayer(e2), e2._preSpiderfyLatlng && (e2.setLatLng(e2._preSpiderfyLatlng), delete e2._preSpiderfyLatlng), e2.setZIndexOffset && e2.setZIndexOffset(0), e2._spiderLeg && (r.removeLayer(e2._spiderLeg), delete e2._spiderLeg);
+          i2.fire("unspiderfied", { cluster: this, markers: s }), i2._ignoreMove = false, i2._spiderfied = null;
+        } }), L.MarkerClusterNonAnimated = L.MarkerCluster.extend({ _animationSpiderfy: function(e2, t2) {
+          var i2, r, n, s, o = this._group, a = o._map, h = o._featureGroup, l = this._group.options.spiderLegPolylineOptions;
+          for (o._ignoreMove = true, i2 = 0; i2 < e2.length; i2++) s = a.layerPointToLatLng(t2[i2]), r = e2[i2], n = new L.Polyline([this._latlng, s], l), a.addLayer(n), r._spiderLeg = n, r._preSpiderfyLatlng = r._latlng, r.setLatLng(s), r.setZIndexOffset && r.setZIndexOffset(1e6), h.addLayer(r);
+          this.setOpacity(0.3), o._ignoreMove = false, o.fire("spiderfied", { cluster: this, markers: e2 });
+        }, _animationUnspiderfy: function() {
+          this._noanimationUnspiderfy();
+        } }), L.MarkerCluster.include({ _animationSpiderfy: function(e2, t2) {
+          var i2, r, n, s, o, a, h = this, l = this._group, u = l._map, _ = l._featureGroup, d = this._latlng, p = u.latLngToLayerPoint(d), c = L.Path.SVG, f = L.extend({}, this._group.options.spiderLegPolylineOptions), m = f.opacity;
+          for (void 0 === m && (m = L.MarkerClusterGroup.prototype.options.spiderLegPolylineOptions.opacity), c ? (f.opacity = 0, f.className = (f.className || "") + " leaflet-cluster-spider-leg") : f.opacity = m, l._ignoreMove = true, i2 = 0; i2 < e2.length; i2++) r = e2[i2], a = u.layerPointToLatLng(t2[i2]), n = new L.Polyline([d, a], f), u.addLayer(n), r._spiderLeg = n, c && (o = (s = n._path).getTotalLength() + 0.1, s.style.strokeDasharray = o, s.style.strokeDashoffset = o), r.setZIndexOffset && r.setZIndexOffset(1e6), r.clusterHide && r.clusterHide(), _.addLayer(r), r._setPos && r._setPos(p);
+          for (l._forceLayout(), l._animationStart(), i2 = e2.length - 1; 0 <= i2; i2--) a = u.layerPointToLatLng(t2[i2]), (r = e2[i2])._preSpiderfyLatlng = r._latlng, r.setLatLng(a), r.clusterShow && r.clusterShow(), c && ((s = (n = r._spiderLeg)._path).style.strokeDashoffset = 0, n.setStyle({ opacity: m }));
+          this.setOpacity(0.3), l._ignoreMove = false, setTimeout(function() {
+            l._animationEnd(), l.fire("spiderfied", { cluster: h, markers: e2 });
+          }, 200);
+        }, _animationUnspiderfy: function(e2) {
+          var t2, i2, r, n, s, o, a = this, h = this._group, l = h._map, u = h._featureGroup, _ = e2 ? l._latLngToNewLayerPoint(this._latlng, e2.zoom, e2.center) : l.latLngToLayerPoint(this._latlng), d = this.getAllChildMarkers(null, true), p = L.Path.SVG;
+          for (h._ignoreMove = true, h._animationStart(), this.setOpacity(1), i2 = d.length - 1; 0 <= i2; i2--) (t2 = d[i2])._preSpiderfyLatlng && (t2.closePopup(), t2.setLatLng(t2._preSpiderfyLatlng), delete t2._preSpiderfyLatlng, o = true, t2._setPos && (t2._setPos(_), o = false), t2.clusterHide && (t2.clusterHide(), o = false), o && u.removeLayer(t2), p && (s = (n = (r = t2._spiderLeg)._path).getTotalLength() + 0.1, n.style.strokeDashoffset = s, r.setStyle({ opacity: 0 })));
+          h._ignoreMove = false, setTimeout(function() {
+            var e3 = 0;
+            for (i2 = d.length - 1; 0 <= i2; i2--) (t2 = d[i2])._spiderLeg && e3++;
+            for (i2 = d.length - 1; 0 <= i2; i2--) (t2 = d[i2])._spiderLeg && (t2.clusterShow && t2.clusterShow(), t2.setZIndexOffset && t2.setZIndexOffset(0), 1 < e3 && u.removeLayer(t2), l.removeLayer(t2._spiderLeg), delete t2._spiderLeg);
+            h._animationEnd(), h.fire("unspiderfied", { cluster: a, markers: d });
+          }, 200);
+        } }), L.MarkerClusterGroup.include({ _spiderfied: null, unspiderfy: function() {
+          this._unspiderfy.apply(this, arguments);
+        }, _spiderfierOnAdd: function() {
+          this._map.on("click", this._unspiderfyWrapper, this), this._map.options.zoomAnimation && this._map.on("zoomstart", this._unspiderfyZoomStart, this), this._map.on("zoomend", this._noanimationUnspiderfy, this), L.Browser.touch || this._map.getRenderer(this);
+        }, _spiderfierOnRemove: function() {
+          this._map.off("click", this._unspiderfyWrapper, this), this._map.off("zoomstart", this._unspiderfyZoomStart, this), this._map.off("zoomanim", this._unspiderfyZoomAnim, this), this._map.off("zoomend", this._noanimationUnspiderfy, this), this._noanimationUnspiderfy();
+        }, _unspiderfyZoomStart: function() {
+          this._map && this._map.on("zoomanim", this._unspiderfyZoomAnim, this);
+        }, _unspiderfyZoomAnim: function(e2) {
+          L.DomUtil.hasClass(this._map._mapPane, "leaflet-touching") || (this._map.off("zoomanim", this._unspiderfyZoomAnim, this), this._unspiderfy(e2));
+        }, _unspiderfyWrapper: function() {
+          this._unspiderfy();
+        }, _unspiderfy: function(e2) {
+          this._spiderfied && this._spiderfied.unspiderfy(e2);
+        }, _noanimationUnspiderfy: function() {
+          this._spiderfied && this._spiderfied._noanimationUnspiderfy();
+        }, _unspiderfyLayer: function(e2) {
+          e2._spiderLeg && (this._featureGroup.removeLayer(e2), e2.clusterShow && e2.clusterShow(), e2.setZIndexOffset && e2.setZIndexOffset(0), this._map.removeLayer(e2._spiderLeg), delete e2._spiderLeg);
+        } }), L.MarkerClusterGroup.include({ refreshClusters: function(e2) {
+          return e2 ? e2 instanceof L.MarkerClusterGroup ? e2 = e2._topClusterLevel.getAllChildMarkers() : e2 instanceof L.LayerGroup ? e2 = e2._layers : e2 instanceof L.MarkerCluster ? e2 = e2.getAllChildMarkers() : e2 instanceof L.Marker && (e2 = [e2]) : e2 = this._topClusterLevel.getAllChildMarkers(), this._flagParentsIconsNeedUpdate(e2), this._refreshClustersIcons(), this.options.singleMarkerMode && this._refreshSingleMarkerModeMarkers(e2), this;
+        }, _flagParentsIconsNeedUpdate: function(e2) {
+          var t2, i2;
+          for (t2 in e2) for (i2 = e2[t2].__parent; i2; ) i2._iconNeedsUpdate = true, i2 = i2.__parent;
+        }, _refreshSingleMarkerModeMarkers: function(e2) {
+          var t2, i2;
+          for (t2 in e2) i2 = e2[t2], this.hasLayer(i2) && i2.setIcon(this._overrideMarkerIcon(i2));
+        } }), L.Marker.include({ refreshIconOptions: function(e2, t2) {
+          var i2 = this.options.icon;
+          return L.setOptions(i2, e2), this.setIcon(i2), t2 && this.__parent && this.__parent._group.refreshClusters(this), this;
+        } }), e.MarkerClusterGroup = t, e.MarkerCluster = i, Object.defineProperty(e, "__esModule", { value: true });
+      });
+    })(leaflet_markercluster$1, leaflet_markercluster$1.exports);
+    return leaflet_markercluster$1.exports;
+  }
+  requireLeaflet_markercluster();
+  const leafletCss = `/* required styles */\r
+\r
+.leaflet-pane,\r
+.leaflet-tile,\r
+.leaflet-marker-icon,\r
+.leaflet-marker-shadow,\r
+.leaflet-tile-container,\r
+.leaflet-pane > svg,\r
+.leaflet-pane > canvas,\r
+.leaflet-zoom-box,\r
+.leaflet-image-layer,\r
+.leaflet-layer {\r
+	position: absolute;\r
+	left: 0;\r
+	top: 0;\r
+	}\r
+.leaflet-container {\r
+	overflow: hidden;\r
+	}\r
+.leaflet-tile,\r
+.leaflet-marker-icon,\r
+.leaflet-marker-shadow {\r
+	-webkit-user-select: none;\r
+	   -moz-user-select: none;\r
+	        user-select: none;\r
+	  -webkit-user-drag: none;\r
+	}\r
+/* Prevents IE11 from highlighting tiles in blue */\r
+.leaflet-tile::-moz-selection {\r
+	background: transparent;\r
+}\r
+.leaflet-tile::selection {\r
+	background: transparent;\r
+}\r
+/* Safari renders non-retina tile on retina better with this, but Chrome is worse */\r
+.leaflet-safari .leaflet-tile {\r
+	image-rendering: -webkit-optimize-contrast;\r
+	}\r
+/* hack that prevents hw layers "stretching" when loading new tiles */\r
+.leaflet-safari .leaflet-tile-container {\r
+	width: 1600px;\r
+	height: 1600px;\r
+	-webkit-transform-origin: 0 0;\r
+	}\r
+.leaflet-marker-icon,\r
+.leaflet-marker-shadow {\r
+	display: block;\r
+	}\r
+/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */\r
+/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */\r
+.leaflet-container .leaflet-overlay-pane svg {\r
+	max-width: none !important;\r
+	max-height: none !important;\r
+	}\r
+.leaflet-container .leaflet-marker-pane img,\r
+.leaflet-container .leaflet-shadow-pane img,\r
+.leaflet-container .leaflet-tile-pane img,\r
+.leaflet-container img.leaflet-image-layer,\r
+.leaflet-container .leaflet-tile {\r
+	max-width: none !important;\r
+	max-height: none !important;\r
+	width: auto;\r
+	padding: 0;\r
+	}\r
+\r
+.leaflet-container img.leaflet-tile {\r
+	/* See: https://bugs.chromium.org/p/chromium/issues/detail?id=600120 */\r
+	mix-blend-mode: plus-lighter;\r
+}\r
+\r
+.leaflet-container.leaflet-touch-zoom {\r
+	touch-action: pan-x pan-y;\r
+	}\r
+.leaflet-container.leaflet-touch-drag {\r
+	/* Fallback for FF which doesn't support pinch-zoom */\r
+	touch-action: none;\r
+	touch-action: pinch-zoom;\r
+}\r
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {\r
+	touch-action: none;\r
+}\r
+.leaflet-container {\r
+	-webkit-tap-highlight-color: transparent;\r
+}\r
+.leaflet-container a {\r
+	-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);\r
+}\r
+.leaflet-tile {\r
+	filter: inherit;\r
+	visibility: hidden;\r
+	}\r
+.leaflet-tile-loaded {\r
+	visibility: inherit;\r
+	}\r
+.leaflet-zoom-box {\r
+	width: 0;\r
+	height: 0;\r
+	box-sizing: border-box;\r
+	z-index: 800;\r
+	}\r
+/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */\r
+.leaflet-overlay-pane svg {\r
+	-moz-user-select: none;\r
+	}\r
+\r
+.leaflet-pane         { z-index: 400; }\r
+\r
+.leaflet-tile-pane    { z-index: 200; }\r
+.leaflet-overlay-pane { z-index: 400; }\r
+.leaflet-shadow-pane  { z-index: 500; }\r
+.leaflet-marker-pane  { z-index: 600; }\r
+.leaflet-tooltip-pane   { z-index: 650; }\r
+.leaflet-popup-pane   { z-index: 700; }\r
+\r
+.leaflet-map-pane canvas { z-index: 100; }\r
+.leaflet-map-pane svg    { z-index: 200; }\r
+\r
+.leaflet-vml-shape {\r
+	width: 1px;\r
+	height: 1px;\r
+	}\r
+.lvml {\r
+	behavior: url(#default#VML);\r
+	display: inline-block;\r
+	position: absolute;\r
+	}\r
+\r
+\r
+/* control positioning */\r
+\r
+.leaflet-control {\r
+	position: relative;\r
+	z-index: 800;\r
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */\r
+	pointer-events: auto;\r
+	}\r
+.leaflet-top,\r
+.leaflet-bottom {\r
+	position: absolute;\r
+	z-index: 1000;\r
+	pointer-events: none;\r
+	}\r
+.leaflet-top {\r
+	top: 0;\r
+	}\r
+.leaflet-right {\r
+	right: 0;\r
+	}\r
+.leaflet-bottom {\r
+	bottom: 0;\r
+	}\r
+.leaflet-left {\r
+	left: 0;\r
+	}\r
+.leaflet-control {\r
+	float: left;\r
+	clear: both;\r
+	}\r
+.leaflet-right .leaflet-control {\r
+	float: right;\r
+	}\r
+.leaflet-top .leaflet-control {\r
+	margin-top: 10px;\r
+	}\r
+.leaflet-bottom .leaflet-control {\r
+	margin-bottom: 10px;\r
+	}\r
+.leaflet-left .leaflet-control {\r
+	margin-left: 10px;\r
+	}\r
+.leaflet-right .leaflet-control {\r
+	margin-right: 10px;\r
+	}\r
+\r
+\r
+/* zoom and fade animations */\r
+\r
+.leaflet-fade-anim .leaflet-popup {\r
+	opacity: 0;\r
+	transition: opacity 0.2s linear;\r
+	}\r
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {\r
+	opacity: 1;\r
+	}\r
+.leaflet-zoom-animated {\r
+	transform-origin: 0 0;\r
+	}\r
+svg.leaflet-zoom-animated {\r
+	will-change: transform;\r
+}\r
+\r
+.leaflet-zoom-anim .leaflet-zoom-animated {\r
+	transition:         transform 0.25s cubic-bezier(0,0,0.25,1);\r
+	}\r
+.leaflet-zoom-anim .leaflet-tile,\r
+.leaflet-pan-anim .leaflet-tile {\r
+	transition: none;\r
+	}\r
+\r
+.leaflet-zoom-anim .leaflet-zoom-hide {\r
+	visibility: hidden;\r
+	}\r
+\r
+\r
+/* cursors */\r
+\r
+.leaflet-interactive {\r
+	cursor: pointer;\r
+	}\r
+.leaflet-grab {\r
+	cursor:         grab;\r
+	}\r
+.leaflet-crosshair,\r
+.leaflet-crosshair .leaflet-interactive {\r
+	cursor: crosshair;\r
+	}\r
+.leaflet-popup-pane,\r
+.leaflet-control {\r
+	cursor: auto;\r
+	}\r
+.leaflet-dragging .leaflet-grab,\r
+.leaflet-dragging .leaflet-grab .leaflet-interactive,\r
+.leaflet-dragging .leaflet-marker-draggable {\r
+	cursor: move;\r
+	cursor:         grabbing;\r
+	}\r
+\r
+/* marker & overlays interactivity */\r
+.leaflet-marker-icon,\r
+.leaflet-marker-shadow,\r
+.leaflet-image-layer,\r
+.leaflet-pane > svg path,\r
+.leaflet-tile-container {\r
+	pointer-events: none;\r
+	}\r
+\r
+.leaflet-marker-icon.leaflet-interactive,\r
+.leaflet-image-layer.leaflet-interactive,\r
+.leaflet-pane > svg path.leaflet-interactive,\r
+svg.leaflet-image-layer.leaflet-interactive path {\r
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */\r
+	pointer-events: auto;\r
+	}\r
+\r
+/* visual tweaks */\r
+\r
+.leaflet-container {\r
+	background: #ddd;\r
+	outline-offset: 1px;\r
+	}\r
+.leaflet-container a {\r
+	color: #0078A8;\r
+	}\r
+.leaflet-zoom-box {\r
+	border: 2px dotted #38f;\r
+	background: rgba(255,255,255,0.5);\r
+	}\r
+\r
+\r
+/* general typography */\r
+.leaflet-container {\r
+	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;\r
+	font-size: 12px;\r
+	font-size: 0.75rem;\r
+	line-height: 1.5;\r
+	}\r
+\r
+\r
+/* general toolbar styles */\r
+\r
+.leaflet-bar {\r
+	box-shadow: 0 1px 5px rgba(0,0,0,0.65);\r
+	border-radius: 4px;\r
+	}\r
+.leaflet-bar a {\r
+	background-color: #fff;\r
+	border-bottom: 1px solid #ccc;\r
+	width: 26px;\r
+	height: 26px;\r
+	line-height: 26px;\r
+	display: block;\r
+	text-align: center;\r
+	text-decoration: none;\r
+	color: black;\r
+	}\r
+.leaflet-bar a,\r
+.leaflet-control-layers-toggle {\r
+	background-position: 50% 50%;\r
+	background-repeat: no-repeat;\r
+	display: block;\r
+	}\r
+.leaflet-bar a:hover,\r
+.leaflet-bar a:focus {\r
+	background-color: #f4f4f4;\r
+	}\r
+.leaflet-bar a:first-child {\r
+	border-top-left-radius: 4px;\r
+	border-top-right-radius: 4px;\r
+	}\r
+.leaflet-bar a:last-child {\r
+	border-bottom-left-radius: 4px;\r
+	border-bottom-right-radius: 4px;\r
+	border-bottom: none;\r
+	}\r
+.leaflet-bar a.leaflet-disabled {\r
+	cursor: default;\r
+	background-color: #f4f4f4;\r
+	color: #bbb;\r
+	}\r
+\r
+.leaflet-touch .leaflet-bar a {\r
+	width: 30px;\r
+	height: 30px;\r
+	line-height: 30px;\r
+	}\r
+.leaflet-touch .leaflet-bar a:first-child {\r
+	border-top-left-radius: 2px;\r
+	border-top-right-radius: 2px;\r
+	}\r
+.leaflet-touch .leaflet-bar a:last-child {\r
+	border-bottom-left-radius: 2px;\r
+	border-bottom-right-radius: 2px;\r
+	}\r
+\r
+/* zoom control */\r
+\r
+.leaflet-control-zoom-in,\r
+.leaflet-control-zoom-out {\r
+	font: bold 18px 'Lucida Console', Monaco, monospace;\r
+	text-indent: 1px;\r
+	}\r
+\r
+.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {\r
+	font-size: 22px;\r
+	}\r
+\r
+\r
+/* layers control */\r
+\r
+.leaflet-control-layers {\r
+	box-shadow: 0 1px 5px rgba(0,0,0,0.4);\r
+	background: #fff;\r
+	border-radius: 5px;\r
+	}\r
+.leaflet-control-layers-toggle {\r
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAQAAAADQ4RFAAACf0lEQVR4AY1UM3gkARTePdvdoTxXKc+qTl3aU5U6b2Kbkz3Gtq3Zw6ziLGNPzrYx7946Tr6/ee/XeCQ4D3ykPtL5tHno4n0d/h3+xfuWHGLX81cn7r0iTNzjr7LrlxCqPtkbTQEHeqOrTy4Yyt3VCi/IOB0v7rVC7q45Q3Gr5K6jt+3Gl5nCoDD4MtO+j96Wu8atmhGqcNGHObuf8OM/x3AMx38+4Z2sPqzCxRFK2aF2e5Jol56XTLyggAMTL56XOMoS1W4pOyjUcGGQdZxU6qRh7B9Zp+PfpOFlqt0zyDZckPi1ttmIp03jX8gyJ8a/PG2yutpS/Vol7peZIbZcKBAEEheEIAgFbDkz5H6Zrkm2hVWGiXKiF4Ycw0RWKdtC16Q7qe3X4iOMxruonzegJzWaXFrU9utOSsLUmrc0YjeWYjCW4PDMADElpJSSQ0vQvA1Tm6/JlKnqFs1EGyZiFCqnRZTEJJJiKRYzVYzJck2Rm6P4iH+cmSY0YzimYa8l0EtTODFWhcMIMVqdsI2uiTvKmTisIDHJ3od5GILVhBCarCfVRmo4uTjkhrhzkiBV7SsaqS+TzrzM1qpGGUFt28pIySQHR6h7F6KSwGWm97ay+Z+ZqMcEjEWebE7wxCSQwpkhJqoZA5ivCdZDjJepuJ9IQjGGUmuXJdBFUygxVqVsxFsLMbDe8ZbDYVCGKxs+W080max1hFCarCfV+C1KATwcnvE9gRRuMP2prdbWGowm1KB1y+zwMMENkM755cJ2yPDtqhTI6ED1M/82yIDtC/4j4BijjeObflpO9I9MwXTCsSX8jWAFeHr05WoLTJ5G8IQVS/7vwR6ohirYM7f6HzYpogfS3R2OAAAAAElFTkSuQmCC);\r
+	width: 36px;\r
+	height: 36px;\r
+	}\r
+.leaflet-retina .leaflet-control-layers-toggle {\r
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAQAAABvcdNgAAAEsklEQVR4AWL4TydIhpZK1kpWOlg0w3ZXP6D2soBtG42jeI6ZmQTHzAxiTbSJsYLjO9HhP+WOmcuhciVnmHVQcJnp7DFvScowZorad/+V/fVzMdMT2g9Cv9guXGv/7pYOrXh2U+RRR3dSd9JRx6bIFc/ekqHI29JC6pJ5ZEh1yWkhkbcFeSjxgx3L2m1cb1C7bceyxA+CNjT/Ifff+/kDk2u/w/33/IeCMOSaWZ4glosqT3DNnNZQ7Cs58/3Ce5HL78iZH/vKVIaYlqzfdLu8Vi7dnvUbEza5Idt36tquZFldl6N5Z/POLof0XLK61mZCmJSWjVF9tEjUluu74IUXvgttuVIHE7YxSkaYhJZam7yiM9Pv82JYfl9nptxZaxMJE4YSPty+vF0+Y2up9d3wwijfjZbabqm/3bZ9ecKHsiGmRflnn1MW4pjHf9oLufyn2z3y1D6n8g8TZhxyzipLNPnAUpsOiuWimg52psrTZYnOWYNDTMuWBWa0tJb4rgq1UvmutpaYEbZlwU3CLJm/ayYjHW5/h7xWLn9Hh1vepDkyf7dE7MtT5LR4e7yYpHrkhOUpEfssBLq2pPhAqoSWKUkk7EDqkmK6RrCEzqDjhNDWNE+XSMvkJRDWlZTmCW0l0PHQGRZY5t1L83kT0Y3l2SItk5JAWHl2dCOBm+fPu3fo5/3v61RMCO9Jx2EEYYhb0rmNQMX/vm7gqOEJLcXTGw3CAuRNeyaPWwjR8PRqKQ1PDA/dpv+on9Shox52WFnx0KY8onHayrJzm87i5h9xGw/tfkev0jGsQizqezUKjk12hBMKJ4kbCqGPVNXudyyrShovGw5CgxsRICxF6aRmSjlBnHRzg7Gx8fKqEubI2rahQYdR1YgDIRQO7JvQyD52hoIQx0mxa0ODtW2Iozn1le2iIRdzwWewedyZzewidueOGqlsn1MvcnQpuVwLGG3/IR1hIKxCjelIDZ8ldqWz25jWAsnldEnK0Zxro19TGVb2ffIZEsIO89EIEDvKMPrzmBOQcKQ+rroye6NgRRxqR4U8EAkz0CL6uSGOm6KQCdWjvjRiSP1BPalCRS5iQYiEIvxuBMJEWgzSoHADcVMuN7IuqqTeyUPq22qFimFtxDyBBJEwNyt6TM88blFHao/6tWWhuuOM4SAK4EI4QmFHA+SEyWlp4EQoJ13cYGzMu7yszEIBOm2rVmHUNqwAIQabISNMRstmdhNWcFLsSm+0tjJH1MdRxO5Nx0WDMhCtgD6OKgZeljJqJKc9po8juskR9XN0Y1lZ3mWjLR9JCO1jRDMd0fpYC2VnvjBSEFg7wBENc0R9HFlb0xvF1+TBEpF68d+DHR6IOWVv2BECtxo46hOFUBd/APU57WIoEwJhIi2CdpyZX0m93BZicktMj1AS9dClteUFAUNUIEygRZCtik5zSxI9MubTBH1GOiHsiLJ3OCoSZkILa9PxiN0EbvhsAo8tdAf9Seepd36lGWHmtNANTv5Jd0z4QYyeo/UEJqxKRpg5LZx6btLPsOaEmdMyxYdlc8LMaJnikDlhclqmPiQnTEpLUIZEwkRagjYkEibQErwhkTAKCLQEbUgkzJQWc/0PstHHcfEdQ+UAAAAASUVORK5CYII=);\r
+	background-size: 26px 26px;\r
+	}\r
+.leaflet-touch .leaflet-control-layers-toggle {\r
+	width: 44px;\r
+	height: 44px;\r
+	}\r
+.leaflet-control-layers .leaflet-control-layers-list,\r
+.leaflet-control-layers-expanded .leaflet-control-layers-toggle {\r
+	display: none;\r
+	}\r
+.leaflet-control-layers-expanded .leaflet-control-layers-list {\r
+	display: block;\r
+	position: relative;\r
+	}\r
+.leaflet-control-layers-expanded {\r
+	padding: 6px 10px 6px 6px;\r
+	color: #333;\r
+	background: #fff;\r
+	}\r
+.leaflet-control-layers-scrollbar {\r
+	overflow-y: scroll;\r
+	overflow-x: hidden;\r
+	padding-right: 5px;\r
+	}\r
+.leaflet-control-layers-selector {\r
+	margin-top: 2px;\r
+	position: relative;\r
+	top: 1px;\r
+	}\r
+.leaflet-control-layers label {\r
+	display: block;\r
+	font-size: 13px;\r
+	font-size: 1.08333em;\r
+	}\r
+.leaflet-control-layers-separator {\r
+	height: 0;\r
+	border-top: 1px solid #ddd;\r
+	margin: 5px -10px 5px -6px;\r
+	}\r
+\r
+/* Default icon URLs */\r
+.leaflet-default-icon-path { /* used only in path-guessing heuristic, see L.Icon.Default */\r
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAApCAYAAADAk4LOAAAFgUlEQVR4Aa1XA5BjWRTN2oW17d3YaZtr2962HUzbDNpjszW24mRt28p47v7zq/bXZtrp/lWnXr337j3nPCe85NcypgSFdugCpW5YoDAMRaIMqRi6aKq5E3YqDQO3qAwjVWrD8Ncq/RBpykd8oZUb/kaJutow8r1aP9II0WmLKLIsJyv1w/kqw9Ch2MYdB++12Onxee/QMwvf4/Dk/Lfp/i4nxTXtOoQ4pW5Aj7wpici1A9erdAN2OH64x8OSP9j3Ft3b7aWkTg/Fm91siTra0f9on5sQr9INejH6CUUUpavjFNq1B+Oadhxmnfa8RfEmN8VNAsQhPqF55xHkMzz3jSmChWU6f7/XZKNH+9+hBLOHYozuKQPxyMPUKkrX/K0uWnfFaJGS1QPRtZsOPtr3NsW0uyh6NNCOkU3Yz+bXbT3I8G3xE5EXLXtCXbbqwCO9zPQYPRTZ5vIDXD7U+w7rFDEoUUf7ibHIR4y6bLVPXrz8JVZEql13trxwue/uDivd3fkWRbS6/IA2bID4uk0UpF1N8qLlbBlXs4Ee7HLTfV1j54APvODnSfOWBqtKVvjgLKzF5YdEk5ewRkGlK0i33Eofffc7HT56jD7/6U+qH3Cx7SBLNntH5YIPvODnyfIXZYRVDPqgHtLs5ABHD3YzLuespb7t79FY34DjMwrVrcTuwlT55YMPvOBnRrJ4VXTdNnYug5ucHLBjEpt30701A3Ts+HEa73u6dT3FNWwflY86eMHPk+Yu+i6pzUpRrW7SNDg5JHR4KapmM5Wv2E8Tfcb1HoqqHMHU+uWDD7zg54mz5/2BSnizi9T1Dg4QQXLToGNCkb6tb1NU+QAlGr1++eADrzhn/u8Q2YZhQVlZ5+CAOtqfbhmaUCS1ezNFVm2imDbPmPng5wmz+gwh+oHDce0eUtQ6OGDIyR0uUhUsoO3vfDmmgOezH0mZN59x7MBi++WDL1g/eEiU3avlidO671bkLfwbw5XV2P8Pzo0ydy4t2/0eu33xYSOMOD8hTf4CrBtGMSoXfPLchX+J0ruSePw3LZeK0juPJbYzrhkH0io7B3k164hiGvawhOKMLkrQLyVpZg8rHFW7E2uHOL888IBPlNZ1FPzstSJM694fWr6RwpvcJK60+0HCILTBzZLFNdtAzJaohze60T8qBzyh5ZuOg5e7uwQppofEmf2++DYvmySqGBuKaicF1blQjhuHdvCIMvp8whTTfZzI7RldpwtSzL+F1+wkdZ2TBOW2gIF88PBTzD/gpeREAMEbxnJcaJHNHrpzji0gQCS6hdkEeYt9DF/2qPcEC8RM28Hwmr3sdNyht00byAut2k3gufWNtgtOEOFGUwcXWNDbdNbpgBGxEvKkOQsxivJx33iow0Vw5S6SVTrpVq11ysA2Rp7gTfPfktc6zhtXBBC+adRLshf6sG2RfHPZ5EAc4sVZ83yCN00Fk/4kggu40ZTvIEm5g24qtU4KjBrx/BTTH8ifVASAG7gKrnWxJDcU7x8X6Ecczhm3o6YicvsLXWfh3Ch1W0k8x0nXF+0fFxgt4phz8QvypiwCCFKMqXCnqXExjq10beH+UUA7+nG6mdG/Pu0f3LgFcGrl2s0kNNjpmoJ9o4B29CMO8dMT4Q5ox8uitF6fqsrJOr8qnwNbRzv6hSnG5wP+64C7h9lp30hKNtKdWjtdkbuPA19nJ7Tz3zR/ibgARbhb4AlhavcBebmTHcFl2fvYEnW0ox9xMxKBS8btJ+KiEbq9zA4RthQXDhPa0T9TEe69gWupwc6uBUphquXgf+/FrIjweHQS4/pduMe5ERUMHUd9xv8ZR98CxkS4F2n3EUrUZ10EYNw7BWm9x1GiPssi3GgiGRDKWRYZfXlON+dfNbM+GgIwYdwAAAAASUVORK5CYII=);\r
+	}\r
+\r
+\r
+/* attribution and scale controls */\r
+\r
+.leaflet-container .leaflet-control-attribution {\r
+	background: #fff;\r
+	background: rgba(255, 255, 255, 0.8);\r
+	margin: 0;\r
+	}\r
+.leaflet-control-attribution,\r
+.leaflet-control-scale-line {\r
+	padding: 0 5px;\r
+	color: #333;\r
+	line-height: 1.4;\r
+	}\r
+.leaflet-control-attribution a {\r
+	text-decoration: none;\r
+	}\r
+.leaflet-control-attribution a:hover,\r
+.leaflet-control-attribution a:focus {\r
+	text-decoration: underline;\r
+	}\r
+.leaflet-attribution-flag {\r
+	display: inline !important;\r
+	vertical-align: baseline !important;\r
+	width: 1em;\r
+	height: 0.6669em;\r
+	}\r
+.leaflet-left .leaflet-control-scale {\r
+	margin-left: 5px;\r
+	}\r
+.leaflet-bottom .leaflet-control-scale {\r
+	margin-bottom: 5px;\r
+	}\r
+.leaflet-control-scale-line {\r
+	border: 2px solid #777;\r
+	border-top: none;\r
+	line-height: 1.1;\r
+	padding: 2px 5px 1px;\r
+	white-space: nowrap;\r
+	box-sizing: border-box;\r
+	background: rgba(255, 255, 255, 0.8);\r
+	text-shadow: 1px 1px #fff;\r
+	}\r
+.leaflet-control-scale-line:not(:first-child) {\r
+	border-top: 2px solid #777;\r
+	border-bottom: none;\r
+	margin-top: -2px;\r
+	}\r
+.leaflet-control-scale-line:not(:first-child):not(:last-child) {\r
+	border-bottom: 2px solid #777;\r
+	}\r
+\r
+.leaflet-touch .leaflet-control-attribution,\r
+.leaflet-touch .leaflet-control-layers,\r
+.leaflet-touch .leaflet-bar {\r
+	box-shadow: none;\r
+	}\r
+.leaflet-touch .leaflet-control-layers,\r
+.leaflet-touch .leaflet-bar {\r
+	border: 2px solid rgba(0,0,0,0.2);\r
+	background-clip: padding-box;\r
+	}\r
+\r
+\r
+/* popup */\r
+\r
+.leaflet-popup {\r
+	position: absolute;\r
+	text-align: center;\r
+	margin-bottom: 20px;\r
+	}\r
+.leaflet-popup-content-wrapper {\r
+	padding: 1px;\r
+	text-align: left;\r
+	border-radius: 12px;\r
+	}\r
+.leaflet-popup-content {\r
+	margin: 13px 24px 13px 20px;\r
+	line-height: 1.3;\r
+	font-size: 13px;\r
+	font-size: 1.08333em;\r
+	min-height: 1px;\r
+	}\r
+.leaflet-popup-content p {\r
+	margin: 17px 0;\r
+	margin: 1.3em 0;\r
+	}\r
+.leaflet-popup-tip-container {\r
+	width: 40px;\r
+	height: 20px;\r
+	position: absolute;\r
+	left: 50%;\r
+	margin-top: -1px;\r
+	margin-left: -20px;\r
+	overflow: hidden;\r
+	pointer-events: none;\r
+	}\r
+.leaflet-popup-tip {\r
+	width: 17px;\r
+	height: 17px;\r
+	padding: 1px;\r
+\r
+	margin: -10px auto 0;\r
+	pointer-events: auto;\r
+	transform: rotate(45deg);\r
+	}\r
+.leaflet-popup-content-wrapper,\r
+.leaflet-popup-tip {\r
+	background: white;\r
+	color: #333;\r
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);\r
+	}\r
+.leaflet-container a.leaflet-popup-close-button {\r
+	position: absolute;\r
+	top: 0;\r
+	right: 0;\r
+	border: none;\r
+	text-align: center;\r
+	width: 24px;\r
+	height: 24px;\r
+	font: 16px/24px Tahoma, Verdana, sans-serif;\r
+	color: #757575;\r
+	text-decoration: none;\r
+	background: transparent;\r
+	}\r
+.leaflet-container a.leaflet-popup-close-button:hover,\r
+.leaflet-container a.leaflet-popup-close-button:focus {\r
+	color: #585858;\r
+	}\r
+.leaflet-popup-scrolled {\r
+	overflow: auto;\r
+	}\r
+\r
+.leaflet-oldie .leaflet-popup-content-wrapper {\r
+	-ms-zoom: 1;\r
+	}\r
+.leaflet-oldie .leaflet-popup-tip {\r
+	width: 24px;\r
+	margin: 0 auto;\r
+\r
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";\r
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);\r
+	}\r
+\r
+.leaflet-oldie .leaflet-control-zoom,\r
+.leaflet-oldie .leaflet-control-layers,\r
+.leaflet-oldie .leaflet-popup-content-wrapper,\r
+.leaflet-oldie .leaflet-popup-tip {\r
+	border: 1px solid #999;\r
+	}\r
+\r
+\r
+/* div icon */\r
+\r
+.leaflet-div-icon {\r
+	background: #fff;\r
+	border: 1px solid #666;\r
+	}\r
+\r
+\r
+/* Tooltip */\r
+/* Base styles for the element that has a tooltip */\r
+.leaflet-tooltip {\r
+	position: absolute;\r
+	padding: 6px;\r
+	background-color: #fff;\r
+	border: 1px solid #fff;\r
+	border-radius: 3px;\r
+	color: #222;\r
+	white-space: nowrap;\r
+	-webkit-user-select: none;\r
+	-moz-user-select: none;\r
+	user-select: none;\r
+	pointer-events: none;\r
+	box-shadow: 0 1px 3px rgba(0,0,0,0.4);\r
+	}\r
+.leaflet-tooltip.leaflet-interactive {\r
+	cursor: pointer;\r
+	pointer-events: auto;\r
+	}\r
+.leaflet-tooltip-top:before,\r
+.leaflet-tooltip-bottom:before,\r
+.leaflet-tooltip-left:before,\r
+.leaflet-tooltip-right:before {\r
+	position: absolute;\r
+	pointer-events: none;\r
+	border: 6px solid transparent;\r
+	background: transparent;\r
+	content: "";\r
+	}\r
+\r
+/* Directions */\r
+\r
+.leaflet-tooltip-bottom {\r
+	margin-top: 6px;\r
+}\r
+.leaflet-tooltip-top {\r
+	margin-top: -6px;\r
+}\r
+.leaflet-tooltip-bottom:before,\r
+.leaflet-tooltip-top:before {\r
+	left: 50%;\r
+	margin-left: -6px;\r
+	}\r
+.leaflet-tooltip-top:before {\r
+	bottom: 0;\r
+	margin-bottom: -12px;\r
+	border-top-color: #fff;\r
+	}\r
+.leaflet-tooltip-bottom:before {\r
+	top: 0;\r
+	margin-top: -12px;\r
+	margin-left: -6px;\r
+	border-bottom-color: #fff;\r
+	}\r
+.leaflet-tooltip-left {\r
+	margin-left: -6px;\r
+}\r
+.leaflet-tooltip-right {\r
+	margin-left: 6px;\r
+}\r
+.leaflet-tooltip-left:before,\r
+.leaflet-tooltip-right:before {\r
+	top: 50%;\r
+	margin-top: -6px;\r
+	}\r
+.leaflet-tooltip-left:before {\r
+	right: 0;\r
+	margin-right: -12px;\r
+	border-left-color: #fff;\r
+	}\r
+.leaflet-tooltip-right:before {\r
+	left: 0;\r
+	margin-left: -12px;\r
+	border-right-color: #fff;\r
+	}\r
+\r
+/* Printing */\r
+\r
+@media print {\r
+	/* Prevent printers from removing background-images of controls. */\r
+	.leaflet-control {\r
+		-webkit-print-color-adjust: exact;\r
+		print-color-adjust: exact;\r
+		}\r
+	}\r
+`;
+  const markerClusterCss = ".leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {\n	transition: transform 0.3s ease-out, opacity 0.3s ease-in;\n}\n\n.leaflet-cluster-spider-leg {\n	/* stroke-dashoffset (duration and function) should match with leaflet-marker-icon transform in order to track it exactly */\n	transition: stroke-dashoffset 0.3s ease-out, stroke-opacity 0.3s ease-in;\n}\n";
+  const markerClusterDefaultCss = '.marker-cluster-small {\n	background-color: rgba(181, 226, 140, 0.6);\n	}\n.marker-cluster-small div {\n	background-color: rgba(110, 204, 57, 0.6);\n	}\n\n.marker-cluster-medium {\n	background-color: rgba(241, 211, 87, 0.6);\n	}\n.marker-cluster-medium div {\n	background-color: rgba(240, 194, 12, 0.6);\n	}\n\n.marker-cluster-large {\n	background-color: rgba(253, 156, 115, 0.6);\n	}\n.marker-cluster-large div {\n	background-color: rgba(241, 128, 23, 0.6);\n	}\n\n	/* IE 6-8 fallback colors */\n.leaflet-oldie .marker-cluster-small {\n	background-color: rgb(181, 226, 140);\n	}\n.leaflet-oldie .marker-cluster-small div {\n	background-color: rgb(110, 204, 57);\n	}\n\n.leaflet-oldie .marker-cluster-medium {\n	background-color: rgb(241, 211, 87);\n	}\n.leaflet-oldie .marker-cluster-medium div {\n	background-color: rgb(240, 194, 12);\n	}\n\n.leaflet-oldie .marker-cluster-large {\n	background-color: rgb(253, 156, 115);\n	}\n.leaflet-oldie .marker-cluster-large div {\n	background-color: rgb(241, 128, 23);\n}\n\n.marker-cluster {\n	background-clip: padding-box;\n	border-radius: 20px;\n	}\n.marker-cluster div {\n	width: 30px;\n	height: 30px;\n	margin-left: 5px;\n	margin-top: 5px;\n\n	text-align: center;\n	border-radius: 15px;\n	font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;\n	}\n.marker-cluster span {\n	line-height: 30px;\n	}';
+  const badChars = /[&<>"'`]/g;
+  const possible = /[&<>"'`]/;
+  const escape = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#x27;",
+    "`": "&#x60;"
+  };
+  function escapeChar(chr) {
+    return escape[chr];
+  }
+  function geocodingParams(options, params) {
+    return leafletSrcExports.Util.extend(params, options.geocodingQueryParams);
+  }
+  function reverseParams(options, params) {
+    return leafletSrcExports.Util.extend(params, options.reverseQueryParams);
+  }
+  function htmlEscape(string) {
+    if (string == null) {
+      return "";
+    } else if (!string) {
+      return string + "";
+    }
+    string = "" + string;
+    if (!possible.test(string)) {
+      return string;
+    }
+    return string.replace(badChars, escapeChar);
+  }
+  function getJSON(url, params, callback, errorCallback) {
+    const xmlHttp = new XMLHttpRequest();
+    let handled = false;
+    const fail = function() {
+      if (handled) {
+        return;
+      }
+      handled = true;
+      if (typeof errorCallback === "function") {
+        errorCallback();
+      } else {
+        callback("");
+      }
+    };
+    xmlHttp.onreadystatechange = function() {
+      if (xmlHttp.readyState !== 4) {
+        return;
+      }
+      if (xmlHttp.status !== 200 && xmlHttp.status !== 304) {
+        fail();
+        return;
+      }
+      if (handled) {
+        return;
+      }
+      handled = true;
+      let message;
+      if (typeof xmlHttp.response === "string") {
+        try {
+          message = JSON.parse(xmlHttp.response);
+        } catch (e) {
+          message = xmlHttp.response;
+        }
+      } else {
+        message = xmlHttp.response;
+      }
+      callback(message);
+    };
+    xmlHttp.onerror = fail;
+    xmlHttp.ontimeout = fail;
+    xmlHttp.open("GET", url + getParamString(params), true);
+    xmlHttp.responseType = "json";
+    xmlHttp.setRequestHeader("Accept", "application/json");
+    xmlHttp.send(null);
+  }
+  function template(str, data) {
+    return str.replace(/\{ *([\w_]+) *\}/g, (str2, key) => {
+      let value = data[key];
+      if (value === void 0) {
+        value = "";
+      } else if (typeof value === "function") {
+        value = value(data);
+      }
+      return htmlEscape(value);
+    });
+  }
+  function getParamString(obj, existingUrl, uppercase) {
+    const params = [];
+    for (const i in obj) {
+      const key = encodeURIComponent(i);
+      const value = obj[i];
+      if (!Array.isArray(value)) {
+        params.push(key + "=" + encodeURIComponent(String(value)));
+      } else {
+        for (let j = 0; j < value.length; j++) {
+          params.push(key + "=" + encodeURIComponent(value[j]));
+        }
+      }
+    }
+    return "?" + params.join("&");
+  }
+  var autocomplete$2 = { exports: {} };
+  var autocomplete$1 = autocomplete$2.exports;
+  var hasRequiredAutocomplete;
+  function requireAutocomplete() {
+    if (hasRequiredAutocomplete) return autocomplete$2.exports;
+    hasRequiredAutocomplete = 1;
+    (function(module, exports$1) {
+      (function(global, factory) {
+        module.exports = factory();
+      })(autocomplete$1, (function() {
+        function autocomplete2(settings) {
+          var doc = document;
+          var container = settings.container || doc.createElement("div");
+          var containerStyle = container.style;
+          var userAgent = navigator.userAgent;
+          var mobileFirefox = ~userAgent.indexOf("Firefox") && ~userAgent.indexOf("Mobile");
+          var debounceWaitMs = settings.debounceWaitMs || 0;
+          var preventSubmit = settings.preventSubmit || false;
+          var disableAutoSelect = settings.disableAutoSelect || false;
+          var keyUpEventName = mobileFirefox ? "input" : "keyup";
+          var items = [];
+          var inputValue = "";
+          var minLen = 2;
+          var showOnFocus = settings.showOnFocus;
+          var selected;
+          var keypressCounter = 0;
+          var debounceTimer;
+          if (settings.minLength !== void 0) {
+            minLen = settings.minLength;
+          }
+          if (!settings.input) {
+            throw new Error("input undefined");
+          }
+          var input = settings.input;
+          container.className = "autocomplete " + (settings.className || "");
+          containerStyle.position = "absolute";
+          function detach() {
+            var parent = container.parentNode;
+            if (parent) {
+              parent.removeChild(container);
+            }
+          }
+          function clearDebounceTimer() {
+            if (debounceTimer) {
+              window.clearTimeout(debounceTimer);
+            }
+          }
+          function attach() {
+            if (!container.parentNode) {
+              doc.body.appendChild(container);
+            }
+          }
+          function containerDisplayed() {
+            return !!container.parentNode;
+          }
+          function clear() {
+            keypressCounter++;
+            items = [];
+            inputValue = "";
+            selected = void 0;
+            detach();
+          }
+          function updatePosition() {
+            if (!containerDisplayed()) {
+              return;
+            }
+            containerStyle.height = "auto";
+            containerStyle.width = input.offsetWidth + "px";
+            var maxHeight = 0;
+            var inputRect;
+            function calc() {
+              var docEl = doc.documentElement;
+              var clientTop = docEl.clientTop || doc.body.clientTop || 0;
+              var clientLeft = docEl.clientLeft || doc.body.clientLeft || 0;
+              var scrollTop = window.pageYOffset || docEl.scrollTop;
+              var scrollLeft = window.pageXOffset || docEl.scrollLeft;
+              inputRect = input.getBoundingClientRect();
+              var top = inputRect.top + input.offsetHeight + scrollTop - clientTop;
+              var left = inputRect.left + scrollLeft - clientLeft;
+              containerStyle.top = top + "px";
+              containerStyle.left = left + "px";
+              maxHeight = window.innerHeight - (inputRect.top + input.offsetHeight);
+              if (maxHeight < 0) {
+                maxHeight = 0;
+              }
+              containerStyle.top = top + "px";
+              containerStyle.bottom = "";
+              containerStyle.left = left + "px";
+              containerStyle.maxHeight = maxHeight + "px";
+            }
+            calc();
+            calc();
+            if (settings.customize && inputRect) {
+              settings.customize(input, inputRect, container, maxHeight);
+            }
+          }
+          function update() {
+            while (container.firstChild) {
+              container.removeChild(container.firstChild);
+            }
+            var render = function(item, currentValue) {
+              var itemElement = doc.createElement("div");
+              itemElement.textContent = item.label || "";
+              return itemElement;
+            };
+            if (settings.render) {
+              render = settings.render;
+            }
+            var renderGroup = function(groupName, currentValue) {
+              var groupDiv = doc.createElement("div");
+              groupDiv.textContent = groupName;
+              return groupDiv;
+            };
+            if (settings.renderGroup) {
+              renderGroup = settings.renderGroup;
+            }
+            var fragment = doc.createDocumentFragment();
+            var prevGroup = "#9?$";
+            items.forEach(function(item) {
+              if (item.group && item.group !== prevGroup) {
+                prevGroup = item.group;
+                var groupDiv = renderGroup(item.group, inputValue);
+                if (groupDiv) {
+                  groupDiv.className += " group";
+                  fragment.appendChild(groupDiv);
+                }
+              }
+              var div = render(item, inputValue);
+              if (div) {
+                div.addEventListener("click", function(ev) {
+                  settings.onSelect(item, input);
+                  clear();
+                  ev.preventDefault();
+                  ev.stopPropagation();
+                });
+                if (item === selected) {
+                  div.className += " selected";
+                }
+                fragment.appendChild(div);
+              }
+            });
+            container.appendChild(fragment);
+            if (items.length < 1) {
+              if (settings.emptyMsg) {
+                var empty = doc.createElement("div");
+                empty.className = "empty";
+                empty.textContent = settings.emptyMsg;
+                container.appendChild(empty);
+              } else {
+                clear();
+                return;
+              }
+            }
+            attach();
+            updatePosition();
+            updateScroll();
+          }
+          function updateIfDisplayed() {
+            if (containerDisplayed()) {
+              update();
+            }
+          }
+          function resizeEventHandler() {
+            updateIfDisplayed();
+          }
+          function scrollEventHandler(e) {
+            if (e.target !== container) {
+              updateIfDisplayed();
+            } else {
+              e.preventDefault();
+            }
+          }
+          function keyupEventHandler(ev) {
+            var keyCode = ev.which || ev.keyCode || 0;
+            var ignore = settings.keysToIgnore || [
+              38,
+              13,
+              27,
+              39,
+              37,
+              16,
+              17,
+              18,
+              20,
+              91,
+              9
+              /* Tab */
+            ];
+            for (var _i = 0, ignore_1 = ignore; _i < ignore_1.length; _i++) {
+              var key = ignore_1[_i];
+              if (keyCode === key) {
+                return;
+              }
+            }
+            if (keyCode >= 112 && keyCode <= 123 && !settings.keysToIgnore) {
+              return;
+            }
+            if (keyCode === 40 && containerDisplayed()) {
+              return;
+            }
+            startFetch(
+              0
+              /* Keyboard */
+            );
+          }
+          function updateScroll() {
+            var elements = container.getElementsByClassName("selected");
+            if (elements.length > 0) {
+              var element = elements[0];
+              var previous = element.previousElementSibling;
+              if (previous && previous.className.indexOf("group") !== -1 && !previous.previousElementSibling) {
+                element = previous;
+              }
+              if (element.offsetTop < container.scrollTop) {
+                container.scrollTop = element.offsetTop;
+              } else {
+                var selectBottom = element.offsetTop + element.offsetHeight;
+                var containerBottom = container.scrollTop + container.offsetHeight;
+                if (selectBottom > containerBottom) {
+                  container.scrollTop += selectBottom - containerBottom;
+                }
+              }
+            }
+          }
+          function selectPrev() {
+            if (items.length < 1) {
+              selected = void 0;
+            } else {
+              if (selected === items[0]) {
+                selected = items[items.length - 1];
+              } else {
+                for (var i = items.length - 1; i > 0; i--) {
+                  if (selected === items[i] || i === 1) {
+                    selected = items[i - 1];
+                    break;
+                  }
+                }
+              }
+            }
+          }
+          function selectNext() {
+            if (items.length < 1) {
+              selected = void 0;
+            }
+            if (!selected || selected === items[items.length - 1]) {
+              selected = items[0];
+              return;
+            }
+            for (var i = 0; i < items.length - 1; i++) {
+              if (selected === items[i]) {
+                selected = items[i + 1];
+                break;
+              }
+            }
+          }
+          function keydownEventHandler(ev) {
+            var keyCode = ev.which || ev.keyCode || 0;
+            if (keyCode === 38 || keyCode === 40 || keyCode === 27) {
+              var containerIsDisplayed = containerDisplayed();
+              if (keyCode === 27) {
+                clear();
+              } else {
+                if (!containerIsDisplayed || items.length < 1) {
+                  return;
+                }
+                keyCode === 38 ? selectPrev() : selectNext();
+                update();
+              }
+              ev.preventDefault();
+              if (containerIsDisplayed) {
+                ev.stopPropagation();
+              }
+              return;
+            }
+            if (keyCode === 13) {
+              if (selected) {
+                settings.onSelect(selected, input);
+                clear();
+              }
+              if (preventSubmit) {
+                ev.preventDefault();
+              }
+            }
+          }
+          function focusEventHandler() {
+            if (showOnFocus) {
+              startFetch(
+                1
+                /* Focus */
+              );
+            }
+          }
+          function startFetch(trigger) {
+            var savedKeypressCounter = ++keypressCounter;
+            var inputText = input.value;
+            var cursorPos = input.selectionStart || 0;
+            if (inputText.length >= minLen || trigger === 1) {
+              clearDebounceTimer();
+              debounceTimer = window.setTimeout(function() {
+                settings.fetch(inputText, function(elements) {
+                  if (keypressCounter === savedKeypressCounter && elements) {
+                    items = elements;
+                    inputValue = inputText;
+                    selected = items.length < 1 || disableAutoSelect ? void 0 : items[0];
+                    update();
+                  }
+                }, trigger, cursorPos);
+              }, trigger === 0 ? debounceWaitMs : 0);
+            } else {
+              clear();
+            }
+          }
+          function blurEventHandler() {
+            setTimeout(function() {
+              if (doc.activeElement !== input) {
+                clear();
+              }
+            }, 200);
+          }
+          container.addEventListener("mousedown", function(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+          });
+          container.addEventListener("focus", function() {
+            return input.focus();
+          });
+          function destroy() {
+            input.removeEventListener("focus", focusEventHandler);
+            input.removeEventListener("keydown", keydownEventHandler);
+            input.removeEventListener(keyUpEventName, keyupEventHandler);
+            input.removeEventListener("blur", blurEventHandler);
+            window.removeEventListener("resize", resizeEventHandler);
+            doc.removeEventListener("scroll", scrollEventHandler, true);
+            clearDebounceTimer();
+            clear();
+          }
+          input.addEventListener("keydown", keydownEventHandler);
+          input.addEventListener(keyUpEventName, keyupEventHandler);
+          input.addEventListener("blur", blurEventHandler);
+          input.addEventListener("focus", focusEventHandler);
+          window.addEventListener("resize", resizeEventHandler);
+          doc.addEventListener("scroll", scrollEventHandler, true);
+          return {
+            destroy
+          };
+        }
+        return autocomplete2;
+      }));
+    })(autocomplete$2);
+    return autocomplete$2.exports;
+  }
+  var autocompleteExports = requireAutocomplete();
+  const autocomplete = /* @__PURE__ */ getDefaultExportFromCjs(autocompleteExports);
+  class Geocoder {
+    constructor() {
+      this.serviceUrl = "https://nominatim.openstreetmap.org/";
+    }
+    getFormattedAddress(r) {
+      const address = r.address;
+      const parts = [];
+      if (address.road || address.building) {
+        parts.push("{building} {road} {house_number}");
+      }
+      if (address.city || address.town || address.village || address.hamlet) {
+        parts.push("{postcode} {city} {town} {village} {hamlet}");
+      }
+      if (address.state || address.country) {
+        parts.push("{state} {country}");
+      }
+      return template(parts.join(", "), address);
+    }
+    getHtmlAddress(r) {
+      const address = r.address;
+      const parts = [];
+      let className;
+      if (address.road || address.building) {
+        parts.push("{building} {road} {house_number}");
+      }
+      if (address.city || address.town || address.village || address.hamlet) {
+        className = parts.length > 0 ? "leaflet-control-geocoder-address-detail" : "";
+        parts.push(
+          '<span class="' + className + '">{postcode} {city} {town} {village} {hamlet}</span>'
+        );
+      }
+      if (address.state || address.country) {
+        className = parts.length > 0 ? "leaflet-control-geocoder-address-context" : "";
+        parts.push(
+          '<span class="' + className + '">{state} {country}</span>'
+        );
+      }
+      return template(parts.join(", "), address);
+    }
+    autocomplete(options) {
+      if (!(options == null ? void 0 : options.target)) {
+        return;
+      }
+      const _input = options.target;
+      const geo = this;
+      autocomplete({
+        input: _input,
+        minLength: 3,
+        // Nominatim's public server enforces max 1 request/second and discourages
+        // per-keystroke autocomplete. Debounce so we only query after the user
+        // pauses typing, keeping us within policy and avoiding 429/CORS failures.
+        debounceWaitMs: 600,
+        className: "rtcl-osm-autocomplete",
+        preventSubmit: true,
+        fetch: function(text, update, target) {
+          _input.classList.add("rtcl-osm-loading");
+          text = text.toLowerCase();
+          geo.geocode(text, (data) => {
+            geo.clearMessage(_input);
+            update(data);
+            _input.classList.remove("rtcl-osm-loading");
+          }, void 0, () => {
+            _input.classList.remove("rtcl-osm-loading");
+            update(false);
+            geo.showMessage(_input);
+          });
+        },
+        onSelect: function(item) {
+          _input.value = item.label;
+          if (options == null ? void 0 : options.map) {
+            options.map.fitBounds(item.bbox);
+            let render_marker = false;
+            options.map.eachLayer((layer) => {
+              if (!render_marker && layer instanceof L.Marker) {
+                layer.setLatLng(item.center).setPopupContent(geo.getHtmlAddress(item.properties)).openPopup();
+                render_marker = true;
+              }
+            });
+          }
+          if ((options == null ? void 0 : options.place_changed) && typeof options.place_changed === "function")
+            options.place_changed(item);
+        }
+      });
+    }
+    geocode(query, cb, context, errorCb) {
+      const params = geocodingParams({}, {
+        q: query,
+        limit: 5,
+        format: "json",
+        addressdetails: 1,
+        "accept-language": "en"
+      });
+      getJSON(this.serviceUrl + "search", params, (data) => {
+        const results = [];
+        if (Array.isArray(data)) {
+          for (let i = data.length - 1; i >= 0; i--) {
+            const bbox = data[i].boundingbox;
+            for (let j = 0; j < 4; j++) bbox[j] = +bbox[j];
+            results[i] = {
+              icon: data[i].icon,
+              value: data[i].display_name,
+              label: this.getFormattedAddress(data[i]),
+              bbox: L.latLngBounds([bbox[0], bbox[2]], [bbox[1], bbox[3]]),
+              center: L.latLng(data[i].lat, data[i].lon),
+              properties: data[i]
+            };
+          }
+        }
+        cb.call(context, results);
+      }, typeof errorCb === "function" ? () => errorCb.call(context) : void 0);
+    }
+    /**
+     * Resolve the notice element (created lazily) shown under a geo address field
+     * when the geocoding service is unreachable / rate-limited.
+     */
+    getMessageEl(input, create) {
+      const field = input.closest && input.closest(".rtcl-geo-address-field") || input.parentNode;
+      if (!field || !field.parentNode) {
+        return null;
+      }
+      let el = field.nextElementSibling;
+      if (!el || !el.classList || !el.classList.contains("rtcl-geo-address-message")) {
+        if (!create) {
+          return null;
+        }
+        el = document.createElement("div");
+        el.className = "rtcl-geo-address-message";
+        el.setAttribute("role", "alert");
+        field.parentNode.insertBefore(el, field.nextSibling);
+      }
+      return el;
+    }
+    showMessage(input) {
+      const el = this.getMessageEl(input, true);
+      if (!el) {
+        return;
+      }
+      const messages = typeof window !== "undefined" && window.rtcl_map && window.rtcl_map.i18n || {};
+      el.textContent = messages.geocode_error || "Location search is temporarily unavailable. Please wait a moment and try again.";
+      el.style.display = "";
+    }
+    clearMessage(input) {
+      const el = this.getMessageEl(input, false);
+      if (el && el.parentNode) {
+        el.parentNode.removeChild(el);
+      }
+    }
+    reverse(location, scale, cb, context) {
+      const params = reverseParams({}, {
+        lat: location.lat,
+        lon: location.lng,
+        zoom: Math.round(Math.log(scale / 256) / Math.log(2)),
+        addressdetails: 1,
+        format: "json",
+        "accept-language": "en"
+      });
+      getJSON(this.serviceUrl + "reverse", params, (data) => {
+        const result = [];
+        if (data && data.lat && data.lon) {
+          const center = L.latLng(data.lat, data.lon);
+          const bbox = L.latLngBounds(center, center);
+          result.push({
+            value: data.display_name,
+            label: this.getFormattedAddress(data),
+            center,
+            bbox,
+            properties: data
+          });
+        }
+        cb.call(context, result);
+      });
+    }
+  }
+  const isChrome = /Chrome|CriOS/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+  const getGeneratedAddress = () => {
+    let address = [];
+    const items = {};
+    const address_order = ["address", "sub_sub_location", "sub_location", "location", "zipcode"];
+    const mapFields = document.querySelectorAll(".rtcl-map-field");
+    if (mapFields.length) {
+      for (let i = 0; i < mapFields.length; ++i) {
+        const mapField = mapFields[i];
+        if (mapField.offsetParent !== null) {
+          const type = mapField.type;
+          const attr_name = mapField.name;
+          if ((type === "text" || type === "textarea") && mapField.value) {
+            items[attr_name] = mapField.value;
+          } else if (type === "select-one" && mapField.value && mapField.options[mapField.selectedIndex].innerText) {
+            items[attr_name] = mapField.options[mapField.selectedIndex].innerText;
+          }
+        }
+      }
+    }
+    address_order.map(function(value) {
+      if (items[value] !== void 0) {
+        address.push(items[value]);
+      }
+    });
+    address = address.filter(function(v) {
+      return v !== "";
+    });
+    address = address.join();
+    return address;
+  };
+  const getListingMapData = () => {
+    const data = [];
+    const rtclLls = document.querySelectorAll(".rtcl-listing-item");
+    if (rtclLls.length) {
+      for (let i = 0; i < rtclLls.length; ++i) {
+        const mapData = JSON.parse(rtclLls[i].getAttribute("data-options"));
+        if (mapData) {
+          data.push(mapData);
+        }
+      }
+    }
+    return data;
+  };
+  const getListingCardById = (id) => {
+    if (!id) {
+      return null;
+    }
+    const items = document.querySelectorAll(".rtcl-listing-item");
+    for (let i = 0; i < items.length; ++i) {
+      try {
+        const opts = JSON.parse(items[i].getAttribute("data-options") || "{}");
+        if (opts && String(opts.id) === String(id)) {
+          return items[i];
+        }
+      } catch (e) {
+      }
+    }
+    return null;
+  };
+  const focusListingCard = (id) => {
+    const card = getListingCardById(id);
+    if (!card) {
+      return;
+    }
+    const rect = card.getBoundingClientRect();
+    const viewH = window.innerHeight || document.documentElement.clientHeight;
+    const fullyInView = rect.top >= 0 && rect.bottom <= viewH;
+    if (!fullyInView) {
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    card.classList.add("rtcl-listing-focused");
+    clearTimeout(card._rtclFocusTimer);
+    card._rtclFocusTimer = setTimeout(() => {
+      card.classList.remove("rtcl-listing-focused");
+    }, 2500);
+  };
+  (function injectMapStyles() {
+    if (typeof document === "undefined" || document.getElementById("rtcl-leaflet-css")) {
+      return;
+    }
+    const style = document.createElement("style");
+    style.id = "rtcl-leaflet-css";
+    style.textContent = [leafletCss, markerClusterCss, markerClusterDefaultCss].join("\n");
+    (document.head || document.documentElement).appendChild(style);
+  })();
+  (function($) {
+    const geo = new Geocoder();
+    const iconData = {
+      iconSize: [25, 41],
+      iconAnchor: [10, 41],
+      popupAnchor: [2, -40],
+      iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+    };
+    const icon = leafletSrcExports.icon(iconData);
+    const osmLayer = leafletSrcExports.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }
+    );
+    const autoIconCache = {};
+    function createAutoIcon(url) {
+      return new Promise((resolve) => {
+        if (autoIconCache[url]) {
+          return resolve(autoIconCache[url]);
+        }
+        const img = new Image();
+        img.src = url;
+        img.onload = () => {
+          const icon2 = leafletSrcExports.icon({
+            iconUrl: url,
+            iconSize: [img.width, img.height],
+            iconAnchor: [img.width / 2, img.height]
+            // bottom center
+          });
+          autoIconCache[url] = icon2;
+          resolve(icon2);
+        };
+        img.onerror = () => {
+          resolve(leafletSrcExports.icon(iconData));
+        };
+      });
+    }
+    let globalMap = null;
+    $(function() {
+      rtcl_render_map_view();
+      $(".rtcl-map").each(function() {
+        rtcl_render_map(this);
+      });
+      rtcl_startGeoAutoSuggestion();
+      rtcl_getCurrentLocation();
+      $(document).on("rtcl_ajax_filter_after_render", function() {
+        if ($(".rtcl-map-view").length) {
+          rtcl_render_map_view();
+        }
+      });
+      $(document).on("mouseenter", ".rtcl-listing-item .listing-title, .rtcl-listing-item .rtcl-listing-title", function() {
+        rtcl_focus_map_marker(getListingIdFromEl($(this).closest(".rtcl-listing-item")[0]), true);
+      }).on("mouseleave", ".rtcl-listing-item .listing-title, .rtcl-listing-item .rtcl-listing-title", function() {
+        rtcl_focus_map_marker(getListingIdFromEl($(this).closest(".rtcl-listing-item")[0]), false);
+      });
+    });
+    function getListingIdFromEl(el) {
+      try {
+        const opts = JSON.parse(el.getAttribute("data-options") || "{}");
+        return opts && opts.id ? String(opts.id) : "";
+      } catch (e) {
+        return "";
+      }
+    }
+    function rtclScaledLeafletIcon(baseIcon, scale) {
+      const o = baseIcon.options || {};
+      const size = o.iconSize || [25, 41];
+      const anchor = o.iconAnchor || [size[0] / 2, size[1]];
+      return leafletSrcExports.icon(Object.assign({}, o, {
+        iconSize: [size[0] * scale, size[1] * scale],
+        iconAnchor: [anchor[0] * scale, anchor[1] * scale]
+      }));
+    }
+    function rtclClearMapFocus($el) {
+      const fm = $el.data("rtclFocusedMarker");
+      if (fm) {
+        fm.setZIndexOffset(0);
+        if (fm.rtclBaseIcon) {
+          fm.setIcon(fm.rtclBaseIcon);
+        }
+        $el.removeData("rtclFocusedMarker");
+      }
+      const fc = $el.data("rtclFocusedCluster");
+      if (fc && fc._icon) {
+        fc._icon.classList.remove("rtcl-cluster-focus");
+      }
+      if (fc) {
+        $el.removeData("rtclFocusedCluster");
+      }
+    }
+    window.rtcl_focus_map_marker = function(id, focus) {
+      if (!id) {
+        return;
+      }
+      $(".rtcl-map-view").each(function() {
+        const $el = $(this);
+        const map = $el.data("mapInstance");
+        const markersById = $el.data("rtclMarkersById");
+        if (!map || !markersById || !markersById[id]) {
+          return;
+        }
+        const marker = markersById[id];
+        if (!marker.rtclBaseIcon) {
+          marker.rtclBaseIcon = marker.options.icon;
+        }
+        rtclClearMapFocus($el);
+        if (!focus) {
+          return;
+        }
+        const clusterGroup = $el.data("rtclClusterGroup");
+        const visible = clusterGroup && clusterGroup.getVisibleParent ? clusterGroup.getVisibleParent(marker) : marker;
+        if (visible && visible !== marker && visible._icon) {
+          map.panTo(visible.getLatLng());
+          visible._icon.classList.add("rtcl-cluster-focus");
+          $el.data("rtclFocusedCluster", visible);
+        } else {
+          map.panTo(marker.getLatLng());
+          marker.setZIndexOffset(1e3);
+          marker.setIcon(rtclScaledLeafletIcon(marker.rtclBaseIcon, 1.28));
+          $el.data("rtclFocusedMarker", marker);
+        }
+      });
+    };
+    window.rtcl_render_map_view = function() {
+      const map_view = $(".rtcl-map-view");
+      if (map_view.length) {
+        map_view.each(function() {
+          const $el = $(this);
+          const oldMap = $el.data("mapInstance");
+          if (oldMap) {
+            oldMap.remove();
+          }
+          const map = render_map_view(this);
+          $el.data("mapInstance", map);
+        });
+      }
+    };
+    const applyFillMinZoom = function(map, el) {
+      const h = el.clientHeight || 0;
+      if (h <= 0) {
+        return;
+      }
+      const fillZoom = Math.ceil(Math.log2(h / 256));
+      if (isFinite(fillZoom) && fillZoom > map.getMinZoom()) {
+        map.setMinZoom(fillZoom);
+      }
+    };
+    const render_map_view = function(htmlElement) {
+      const mapOptions = {
+        center: leafletSrcExports.latLng(rtcl_map.cluster_options.center.lat, rtcl_map.cluster_options.center.lng),
+        //center: L.latLng('23.0127602', '91.4049232'),
+        scrollWheelZoom: rtcl_map.cluster_options.scroll_wheel,
+        maxZoom: rtcl_map.cluster_options.max_zoom,
+        zoom: rtcl_map.cluster_options.zoom,
+        layers: [osmLayer]
+      }, addedIDs = [], view = $(htmlElement), mapType = view.data("map-type") || "";
+      let itemData = view.data("map-data") || [];
+      const markers = leafletSrcExports.markerClusterGroup({
+        chunkedLoading: true
+      });
+      if (mapType === "search") {
+        itemData = getListingMapData();
+      }
+      const map = leafletSrcExports.map(view[0], mapOptions);
+      applyFillMinZoom(map, view[0]);
+      const latLngs = [];
+      const markersById = {};
+      if (itemData && itemData.length) {
+        itemData.map((_item, index) => {
+          const item = Object.assign(
+            { id: 0, latitude: 0, longitude: 0, icon: "", content: "" },
+            _item
+          );
+          if (!item.latitude || !item.longitude) return;
+          const latLong = leafletSrcExports.latLng(item.latitude, item.longitude);
+          latLngs.push(latLong);
+          if (addedIDs.indexOf(item.id) === -1) {
+            addedIDs.push(item.id);
+            if (item.icon) {
+              createAutoIcon(item.icon).then((icon2) => {
+                const marker = leafletSrcExports.marker(latLong, { icon: icon2 }).addTo(map).bindPopup(item.content);
+                marker.on("click", () => focusListingCard(item.id));
+                markers.addLayer(marker);
+                markersById[item.id] = marker;
+              }).then((r) => r);
+            } else {
+              const marker = leafletSrcExports.marker(latLong, { icon }).addTo(map).bindPopup(item.content);
+              marker.on("click", () => focusListingCard(item.id));
+              markers.addLayer(marker);
+              markersById[item.id] = marker;
+            }
+          }
+        });
+      }
+      map.addLayer(markers);
+      map.rtclMarkersById = markersById;
+      view.data("rtclMarkersById", markersById);
+      view.data("rtclClusterGroup", markers);
+      const centerPosition = rtcl_map.cluster_options.map_center_position;
+      if (latLngs.length === 0) {
+        const center = rtcl_map.center || {};
+        const lat = Number(center.lat) || 0;
+        const lng = Number(center.lng) || 0;
+        const zoom = rtcl_map.zoom && rtcl_map.zoom.default || 12;
+        if (lat || lng) {
+          const defLatLng = leafletSrcExports.latLng(lat, lng);
+          leafletSrcExports.marker(defLatLng, { icon }).addTo(map);
+          map.setView(defLatLng, zoom);
+        } else {
+          map.setView(leafletSrcExports.latLng(20, 0), 2);
+        }
+      } else if ("densest" === centerPosition) {
+        const dense = getDensestNeighborhood(latLngs, 800);
+        if (dense && dense.points.length > 1) {
+          map.fitBounds(leafletSrcExports.latLngBounds(dense.points), { padding: [40, 40], maxZoom: 14 });
+        } else if (latLngs.length === 1) {
+          map.setView(latLngs[0], rtcl_map.zoom.default || 13);
+        } else if (latLngs.length > 1) {
+          map.fitBounds(leafletSrcExports.latLngBounds(latLngs), { padding: [30, 30], maxZoom: 15 });
+        }
+      } else {
+        if (latLngs.length === 1) {
+          map.setView(latLngs[0], rtcl_map.zoom.default || 14);
+        } else if (latLngs.length > 1 && rtcl_map.cluster_options.fit_bound) {
+          map.fitBounds(leafletSrcExports.latLngBounds(latLngs), { padding: [30, 30], maxZoom: 15 });
+        }
+      }
+      map.whenReady(function() {
+        setTimeout(function() {
+          map.invalidateSize({ animate: false });
+          applyFillMinZoom(map, view[0]);
+        }, 0);
+      });
+      return map;
+    };
+    window.rtcl_render_map = function(htmlElement) {
+      const $element = $(htmlElement), $markers = $element.find(".marker"), map_center_point = leafletSrcExports.latLng(
+        rtcl_map.center.lat || 0,
+        rtcl_map.center.lng || 0
+      ), options = Object.assign(
+        {},
+        {
+          zoom: rtcl_map.zoom.default,
+          center: map_center_point
+        },
+        $element.data("options") || {}
+      ), map = leafletSrcExports.map(htmlElement, {
+        zoom: parseInt(options.zoom) || 10,
+        center: map_center_point,
+        scrollWheelZoom: false,
+        layers: [osmLayer]
+      });
+      map.type = $element.data("type");
+      if (map.type === "input") {
+        globalMap = map;
+      }
+      const _icon = options.icon ? leafletSrcExports.icon(Object.assign(iconData, { iconUrl: options.icon })) : icon;
+      $markers.each(function() {
+        const $marker = $(this), latitude = $marker.data("latitude") || map_center_point.lat, longitude = $marker.data("longitude") || map_center_point.lng, address = $marker.data("latitude") && $marker.data("longitude") ? "" : $marker.data("address"), position = leafletSrcExports.latLng(latitude, longitude);
+        const marker = leafletSrcExports.marker(position, {
+          icon: _icon,
+          draggable: map.type === "input"
+        }).addTo(map);
+        map.panTo(position);
+        if (address) {
+          geo.geocode(address, (results) => {
+            if (results.length) {
+              const place = results[0];
+              map.panTo(place.center);
+              updateLatLng(place.center);
+              marker.setLatLng(place.center).setPopupContent(
+                geo.getHtmlAddress(place.properties)
+              ).openPopup();
+              $(document).trigger("rtcl_map_retrieve_geocode", [{
+                lat: place.center.lat,
+                lng: place.center.lng,
+                address: place.properties
+              }]);
+            }
+          });
+        }
+        if (map.type === "input") {
+          marker.on("dragend", function(e) {
+            const latLng = marker.getLatLng();
+            map.panTo(latLng);
+            updateLatLng(latLng);
+            const geo_address_input = $("input.rtcl_geo_address_input");
+            if (geo_address_input.length) {
+              geo.reverse(
+                latLng,
+                map.options.crs.scale(map.getZoom()),
+                (results) => {
+                  if (results.length) {
+                    marker.setPopupContent(
+                      geo.getHtmlAddress(
+                        results[0].properties
+                      )
+                    ).openPopup();
+                    geo_address_input.val(results[0].label);
+                  }
+                }
+              );
+              const field_wrap = geo_address_input.parent();
+              field_wrap.find("input.latitude").val(latLng.lat);
+              field_wrap.find("input.longitude").val(latLng.lng);
+            }
+          });
+          if (rtcl_map.location === "local") {
+            re_render_map_by_address_change(map);
+            $(".rtcl-map-field").on("blur change keyup", function(e) {
+              re_render_map_by_address_change(map);
+            });
+          }
+        } else {
+          const markerHtml = $marker.html();
+          if (markerHtml) {
+            marker.bindPopup($marker.html()).openPopup();
+          }
+        }
+      });
+    };
+    window.rtcl_startGeoAutoSuggestion = function() {
+      $(document).find(".rtcl-geo-address-input").each(function() {
+        const _input = $(this);
+        this.autocomplete = isChrome ? "disabled" : "off";
+        let map;
+        if (globalMap && _input.hasClass("rtcl_geo_address_input")) {
+          map = globalMap;
+        }
+        geo.autocomplete({
+          target: this,
+          map,
+          place_changed: (place) => {
+            if (!place) {
+              return;
+            }
+            const field_wrap = _input.parent();
+            field_wrap.find("input.latitude").val(place.center.lat);
+            field_wrap.find("input.longitude").val(place.center.lng);
+            $(document).trigger("rtcl_map_retrieve_geocode", [{
+              lat: place.center.lat,
+              lng: place.center.lng,
+              address: place.value,
+              target: _input[0]
+            }]);
+            if (_input.hasClass("rtcl_geo_address_input")) {
+              if (map) {
+                map.panTo(place.center);
+                let render_marker = false;
+                map.eachLayer((layer) => {
+                  if (!render_marker && layer instanceof leafletSrcExports.Marker) {
+                    layer.setLatLng(place.center).setPopupContent(
+                      geo.getHtmlAddress(place.properties)
+                    ).openPopup();
+                    render_marker = true;
+                  }
+                });
+              }
+              updateLatLng(place.center);
+            }
+          }
+        });
+      });
+    };
+    window.rtcl_getCurrentLocation = function() {
+      $(".rtcl-get-location").on("click", function() {
+        const $_item = $(this);
+        if ($_item.hasClass("initiated")) {
+          return;
+        }
+        $_item.addClass("initiated");
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const lat = position.coords.latitude;
+              const lng = position.coords.longitude;
+              const field_wrap = $_item.parent();
+              const address_field = field_wrap.find(".rtcl-geo-address-input");
+              field_wrap.find("input.latitude").val(lat);
+              field_wrap.find("input.longitude").val(lng);
+              if (address_field.length) {
+                const latLng = leafletSrcExports.latLng(lat, lng);
+                geo.reverse(latLng, 1, (results) => {
+                  if (results.length && results[0]) {
+                    const place = results[0];
+                    address_field.val(place.value);
+                    if (rtcl_map.location === "geo" && $_item.attr("id") === "rtcl-geo-loc-form") {
+                      updateLatLng(place.center);
+                    }
+                    $(document).trigger("rtcl_map_retrieve_geocode", [{
+                      lat: place.center.lat,
+                      lng: place.center.lng,
+                      address: place.value,
+                      target: $_item[0]
+                    }]);
+                  } else {
+                    toastr.error("Address not found");
+                  }
+                });
+              }
+            },
+            function(error) {
+              switch (error.code) {
+                case error.PERMISSION_DENIED:
+                  toastr.error(
+                    "User denied the request for Geolocation."
+                  );
+                  break;
+                case error.POSITION_UNAVAILABLE:
+                  toastr.error(
+                    "Location information is unavailable."
+                  );
+                  break;
+                case error.TIMEOUT:
+                  toastr.error(
+                    "The request to get user location timed out."
+                  );
+                  break;
+                case error.UNKNOWN_ERROR:
+                  toastr.error("An unknown error occurred.");
+                  break;
+                default:
+                  toastr.error("An unknown error occurred.");
+                  break;
+              }
+            }
+          );
+        } else {
+          toastr.error("Geolocation is not supported by this browser.");
+        }
+      });
+    };
+    function re_render_map_by_address_change(map) {
+      const address = getGeneratedAddress();
+      if (address) {
+        geo.geocode(address, (results) => {
+          if (results.length) {
+            const place = results[0];
+            map.panTo(place.center);
+            map.setZoom(rtcl_map.zoom.search || 17);
+            updateLatLng(place.center);
+            let render_marker = false;
+            map.eachLayer((layer) => {
+              if (!render_marker && layer instanceof leafletSrcExports.Marker) {
+                layer.setLatLng(place.center).setPopupContent(
+                  geo.getHtmlAddress(place.properties)
+                ).openPopup();
+                render_marker = true;
+              }
+            });
+          }
+        });
+      }
+    }
+    function haversineKm(a, b) {
+      const R = 6371;
+      const toRad = (d) => d * Math.PI / 180;
+      const dLat = toRad(b.lat - a.lat);
+      const dLng = toRad(b.lng - a.lng);
+      const h = __pow(Math.sin(dLat / 2), 2) + __pow(Math.sin(dLng / 2), 2) * Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat));
+      return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
+    }
+    function getDensestNeighborhood(points, radiusKm) {
+      let best = null;
+      let bestCount = -1;
+      points.forEach((p) => {
+        const neighbors = points.filter((q) => haversineKm(p, q) <= radiusKm);
+        if (neighbors.length > bestCount) {
+          bestCount = neighbors.length;
+          best = { center: p, points: neighbors };
+        }
+      });
+      return best;
+    }
+    function updateLatLng(latLng) {
+      $("#rtcl-latitude").val(latLng.lat);
+      $("#rtcl-longitude").val(latLng.lng);
+    }
+  })(jQuery);
+})();

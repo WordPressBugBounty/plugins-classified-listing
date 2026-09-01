@@ -10,36 +10,6 @@ use stdClass;
 
 class AjaxGallery {
 
-	/**
-	 * Verify that the current user owns (or can edit) the given listing.
-	 * Returns true when the request should be allowed, false otherwise.
-	 *
-	 * For brand-new listings ($post_id === 0) the caller only needs to be
-	 * logged-in (or unregistered posting must be enabled).
-	 *
-	 * For existing listings the user must be the author or an administrator,
-	 * with a special exception for guest temp posts (post_status 'rtcl-temp',
-	 * author 0, unregistered posting enabled).
-	 */
-	private function current_user_can_edit_listing( $post_id ) {
-		$post_id = absint( $post_id );
-
-		$listing = rtcl()->factory->get_listing( $post_id );
-		if ( ! $listing ) {
-			return false;
-		}
-
-		$post        = $listing->get_listing();
-		$post_author = (int) $post->post_author;
-
-		// Guest temp posts created during unregistered posting.
-		if ( 'rtcl-temp' === $post->post_status && 0 === $post_author && Functions::is_enable_post_for_unregister() ) {
-			return true;
-		}
-
-		return Functions::current_user_can( 'edit_' . rtcl()->post_type, $post_id );
-	}
-
 	public function __construct() {
 		add_action( 'wp_ajax_rtcl_gallery_upload', [ $this, 'gallery_upload' ] );
 		add_action( 'wp_ajax_rtcl_gallery_update_order', [ $this, 'gallery_update_order' ] );
@@ -81,7 +51,7 @@ class AjaxGallery {
 		}
 
 		$post_id = absint( Functions::request( "post_id" ) );
-		if ( $post_id > 0 && ! $this->current_user_can_edit_listing( $post_id ) ) {
+		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
 			echo wp_json_encode( [
 				"result" => 0,
 				"error"  => __( "You do not have permission to delete images for this listing.", "classified-listing" ),
@@ -143,7 +113,7 @@ class AjaxGallery {
 
 		$post_id = intval( Functions::request( "post_id" ) );
 
-		if ( $post_id > 0 && ! $this->current_user_can_edit_listing( $post_id ) ) {
+		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
 			wp_send_json_error( [ "error" => __( "You do not have permission to reorder images for this listing.", "classified-listing" ) ] );
 		}
 
@@ -185,7 +155,7 @@ class AjaxGallery {
 		}
 
 		$parent_post_id = isset( $_POST["post_id"] ) ? absint( $_POST["post_id"] ) : 0;
-		if ( $parent_post_id > 0 && ! $this->current_user_can_edit_listing( $parent_post_id ) ) {
+		if ( $parent_post_id > 0 && ! Functions::current_user_can_edit_listing( $parent_post_id ) ) {
 			echo wp_json_encode( [
 				"result" => 0,
 				"error"  => __( "You do not have permission to upload images for this listing.", "classified-listing" ),
@@ -314,7 +284,7 @@ class AjaxGallery {
 		
 		$post_id         = absint( Functions::request( "post_id" ) );
 
-		if ( $post_id > 0 && ! $this->current_user_can_edit_listing( $post_id ) ) {
+		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
 			echo wp_json_encode( [
 				"result" => 0,
 				"error"  => __( "You do not have permission to edit images for this listing.", "classified-listing" ),
@@ -546,7 +516,7 @@ class AjaxGallery {
 		$attach_id = Functions::request( "attach_id" );
 		$post_id   = intval( Functions::request( "post_id" ) );
 
-		if ( $post_id > 0 && ! $this->current_user_can_edit_listing( $post_id ) ) {
+		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
 			echo wp_json_encode( [
 				"result" => 0,
 				"error"  => __( "You do not have permission to restore images for this listing.", "classified-listing" ),
@@ -625,7 +595,7 @@ class AjaxGallery {
 		}
 
 		$post_id = intval( $_POST["post_id"] );
-		if ( $post_id > 0 && ! $this->current_user_can_edit_listing( $post_id ) ) {
+		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
 			echo wp_json_encode( [
 				"result" => 0,
 				"error"  => __( "You do not have permission to update images for this listing.", "classified-listing" ),
@@ -713,7 +683,7 @@ class AjaxGallery {
 		$size            = Functions::request( "size" );
 		$post_id         = absint( Functions::request( "post_id" ) );
 
-		if ( $post_id > 0 && ! $this->current_user_can_edit_listing( $post_id ) ) {
+		if ( $post_id > 0 && ! Functions::current_user_can_edit_listing( $post_id ) ) {
 			echo wp_json_encode( [
 				"result" => 0,
 				"error"  => __( "You do not have permission to access images for this listing.", "classified-listing" ),

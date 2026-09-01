@@ -1,1 +1,126 @@
-!function(){"use strict";!function(t){if(window.rtclCheckPasswordStrength=function(t){let e=0,r=[];var a=parseInt(rtcl_validator.pw_min_length,10)||8,n=rtcl_validator.pwsL10n||{};return t.length>=a?e+=1:r.push(n.hint_min_length||a+"+ characters"),t.match(/[A-Z]/)?e+=1:r.push(n.hint_uppercase||"uppercase"),t.match(/[a-z]/)?e+=1:r.push(n.hint_lowercase||"lowercase"),t.match(/[0-9]/)?e+=1:r.push(n.hint_digit||"digit"),t.match(/[^a-zA-Z0-9]/)?e+=1:r.push(n.hint_special||"special character"),{strength:e,missing:r}},t.fn.validate){let e=function(t){return t.replace(/<.[^<>]*?>/g," ").replace(/&nbsp;|&#160;/gi," ").replace(/[.(),;:!?%#$'\"_+=\/\-“”’]*/g,"")};t.validator.setDefaults({rules:{seltype:"required"},errorElement:"div",errorClass:"with-errors",errorPlacement:function(t,e){if(t.addClass("help-block").removeClass("error"),"checkbox"===e.prop("type")||"radio"===e.prop("type")){var r=e.closest(".rtcl-check-list, .rtcl-form-radio-group");r.length?t.insertAfter(r):t.insertAfter(e.parent())}else t.insertAfter(e)},highlight:function(e,r,a){t(e).parents(".form-group, .rtcl-form-group").addClass("has-error has-danger").removeClass("has-success")},unhighlight:function(e,r,a){t(e).parents(".form-group, .rtcl-form-group").addClass("has-success").removeClass("has-error has-danger")},invalidHandler:function(e,r){r.numberOfInvalids()&&t("html, body").animate({scrollTop:t(r.errorList[0].element).offset().top-rtcl_validator.scroll_top||200},800)}}),t.validator.messages=rtcl_validator.messages,t.validator.addMethod("extension",function(t,e,r){return r="string"==typeof r?r.replace(/,/g,"|"):"json",this.optional(e)||t.match(new RegExp(".("+r+")$","i"))},rtcl_validator.messages.extension),t.validator.addClassRules("rtcl-import-file",{required:!0,extension:"json"}),t.validator.addMethod("rtcl-password",function(t,e){return!!this.optional(e)||rtclCheckPasswordStrength(t).strength>=5},rtcl_validator.messages.password),t.validator.addMethod("pattern",function(t,e,r){return!!this.optional(e)||("string"==typeof r&&(r=new RegExp("^(?:"+r+")$")),r.test(t))}),t.validator.addMethod("maxWords",function(t,r,a){return this.optional(r)||e(t).match(/\b\w+\b/g).length<=a}),t.validator.addMethod("minWords",function(t,r,a){return this.optional(r)||e(t).match(/\b\w+\b/g).length>=a}),t.validator.addMethod("rangeWords",function(t,r,a){var n=e(t),o=/\b\w+\b/g;return this.optional(r)||n.match(o).length>=a[0]&&n.match(o).length<=a[1]}),t.validator.addMethod("alphanumeric",function(t,e){return this.optional(e)||/^\w+$/i.test(t)}),t.validator.addMethod("lettersonly",function(t,e){return this.optional(e)||/^[a-zA-Z\s]+$/i.test(t)}),t.validator.addMethod("accept",function(e,r,a){var n,o,s="string"==typeof a?a.replace(/\s/g,""):"image/*",i=this.optional(r);if(i)return i;if("file"===t(r).attr("type")&&(s=s.replace(/[\-\[\]\/\{\}\(\)\+\?\.\\\^\$\|]/g,"\\$&").replace(/,/g,"|").replace(/\/\*/g,"/.*"),r.files&&r.files.length))for(o=new RegExp(".?("+s+")$","i"),n=0;n<r.files.length;n++)if(!r.files[n].type.match(o))return!1;return!0}),t.validator.addMethod("greaterThan",function(e,r,a){return parseInt(e)>parseInt(t(a).val())})}}(jQuery)}();
+(function() {
+  "use strict";
+  (function($) {
+    window.rtclCheckPasswordStrength = function(password) {
+      let strength = 0;
+      let missing = [];
+      var minLen = parseInt(rtcl_validator.pw_min_length, 10) || 8;
+      var hints = rtcl_validator.pwsL10n || {};
+      if (password.length >= minLen) strength += 1;
+      else missing.push(hints.hint_min_length || minLen + "+ characters");
+      if (password.match(/[A-Z]/)) strength += 1;
+      else missing.push(hints.hint_uppercase || "uppercase");
+      if (password.match(/[a-z]/)) strength += 1;
+      else missing.push(hints.hint_lowercase || "lowercase");
+      if (password.match(/[0-9]/)) strength += 1;
+      else missing.push(hints.hint_digit || "digit");
+      if (password.match(/[^a-zA-Z0-9]/)) strength += 1;
+      else missing.push(hints.hint_special || "special character");
+      return { strength, missing };
+    };
+    if ($.fn.validate) {
+      let stripHtml2 = function(value) {
+        return value.replace(/<.[^<>]*?>/g, " ").replace(/&nbsp;|&#160;/gi, " ").replace(/[.(),;:!?%#$'\"_+=\/\-“”’]*/g, "");
+      };
+      $.validator.setDefaults({
+        rules: { seltype: "required" },
+        errorElement: "div",
+        errorClass: "with-errors",
+        errorPlacement: function(error, element) {
+          error.addClass("help-block").removeClass("error");
+          if (element.prop("type") === "checkbox" || element.prop("type") === "radio") {
+            var $group = element.closest(".rtcl-check-list, .rtcl-form-radio-group");
+            if ($group.length) {
+              error.insertAfter($group);
+            } else {
+              error.insertAfter(element.parent());
+            }
+          } else {
+            error.insertAfter(element);
+          }
+        },
+        highlight: function(element, errorClass, validClass) {
+          $(element).parents(".form-group, .rtcl-form-group").addClass("has-error has-danger").removeClass("has-success");
+        },
+        unhighlight: function(element, errorClass, validClass) {
+          $(element).parents(".form-group, .rtcl-form-group").addClass("has-success").removeClass("has-error has-danger");
+        },
+        invalidHandler: function(form, validator) {
+          if (!validator.numberOfInvalids())
+            return;
+          $("html, body").animate({
+            scrollTop: $(validator.errorList[0].element).offset().top - rtcl_validator.scroll_top || 200
+          }, 800);
+        }
+      });
+      $.validator.messages = rtcl_validator.messages;
+      $.validator.addMethod(
+        "extension",
+        function(value, element, param) {
+          param = typeof param === "string" ? param.replace(/,/g, "|") : "json";
+          return this.optional(element) || value.match(new RegExp(".(" + param + ")$", "i"));
+        },
+        rtcl_validator.messages.extension
+      );
+      $.validator.addClassRules("rtcl-import-file", {
+        required: true,
+        extension: "json"
+      });
+      $.validator.addMethod("rtcl-password", function(value, element) {
+        if (this.optional(element)) return true;
+        var result = rtclCheckPasswordStrength(value);
+        return result.strength >= 5;
+      }, rtcl_validator.messages.password);
+      $.validator.addMethod("pattern", function(value, element, param) {
+        if (this.optional(element)) {
+          return true;
+        }
+        if (typeof param === "string") {
+          param = new RegExp("^(?:" + param + ")$");
+        }
+        return param.test(value);
+      });
+      $.validator.addMethod("maxWords", function(value, element, params) {
+        return this.optional(element) || stripHtml2(value).match(/\b\w+\b/g).length <= params;
+      });
+      $.validator.addMethod("minWords", function(value, element, params) {
+        return this.optional(element) || stripHtml2(value).match(/\b\w+\b/g).length >= params;
+      });
+      $.validator.addMethod("rangeWords", function(value, element, params) {
+        var valueStripped = stripHtml2(value), regex = /\b\w+\b/g;
+        return this.optional(element) || valueStripped.match(regex).length >= params[0] && valueStripped.match(regex).length <= params[1];
+      });
+      $.validator.addMethod("alphanumeric", function(value, element) {
+        return this.optional(element) || /^\w+$/i.test(value);
+      });
+      $.validator.addMethod("lettersonly", function(value, element) {
+        return this.optional(element) || /^[a-zA-Z\s]+$/i.test(value);
+      });
+      $.validator.addMethod("accept", function(value, element, param) {
+        var typeParam = typeof param === "string" ? param.replace(/\s/g, "") : "image/*", optionalValue = this.optional(element), i, file, regex;
+        if (optionalValue) {
+          return optionalValue;
+        }
+        if ($(element).attr("type") === "file") {
+          typeParam = typeParam.replace(/[\-\[\]\/\{\}\(\)\+\?\.\\\^\$\|]/g, "\\$&").replace(/,/g, "|").replace(/\/\*/g, "/.*");
+          if (element.files && element.files.length) {
+            regex = new RegExp(".?(" + typeParam + ")$", "i");
+            for (i = 0; i < element.files.length; i++) {
+              file = element.files[i];
+              if (!file.type.match(regex)) {
+                return false;
+              }
+            }
+          }
+        }
+        return true;
+      });
+      $.validator.addMethod(
+        "greaterThan",
+        function(value, max, min) {
+          return parseInt(value) > parseInt($(min).val());
+        }
+      );
+    }
+  })(jQuery);
+})();

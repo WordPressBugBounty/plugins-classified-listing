@@ -149,24 +149,97 @@ $current_tab = isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['t
 				</div>
 			</div>
 		</div>
-		<div class="rtcl-revenue-search-form-wrapper">
-			<form action="" method="POST">
-				<div class="form-input-wrap">
-					<?php
-					$date_options = [
-						'showDropdowns' => true,
-						'timePicker'    => false,
-						'locale'        => [
-							'format' => 'M/D/Y'
-						]
-					];
-					?>
-					<label class="rtcl-field-label"><?php esc_html_e( 'Date Range', 'classified-listing' ); ?></label>
-					<input type="text" id="rtcl-revenue-report-search" class="rtcl-date rtcl-form-control"
-						   data-options="<?php echo htmlspecialchars( wp_json_encode( $date_options ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"/>
+		<?php
+		$date_options = [
+			'showDropdowns' => true,
+			'timePicker'    => false,
+			'locale'        => [
+				'format' => 'M/D/Y'
+			]
+		];
+		?>
+		<!-- Row 1: Revenue + Listings Distribution -->
+		<div class="rtcl-dashboard-charts-row">
+			<div class="rtcl-dashboard-chart-col rtcl-chart-col-wide">
+				<div class="rtcl-dashboard-chart-card">
+					<div class="rtcl-dashboard-chart-header">
+						<h3><?php esc_html_e( 'Revenue', 'classified-listing' ); ?></h3>
+						<div class="rtcl-chart-controls">
+							<div class="rtcl-chart-custom-date" id="rtcl-revenue-custom-date" style="display:none;">
+								<input type="text" id="rtcl-revenue-report-search" class="rtcl-date rtcl-form-control"
+									   autocomplete="off"
+									   placeholder="<?php esc_attr_e( 'Select date range', 'classified-listing' ); ?>"
+									   data-options="<?php echo htmlspecialchars( wp_json_encode( $date_options ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"/>
+							</div>
+							<select id="rtcl-revenue-range" class="rtcl-chart-range-select">
+								<option value="weekly" selected><?php esc_html_e( 'Weekly', 'classified-listing' ); ?></option>
+								<option value="monthly"><?php esc_html_e( 'Monthly', 'classified-listing' ); ?></option>
+								<option value="yearly"><?php esc_html_e( 'Yearly', 'classified-listing' ); ?></option>
+								<option value="custom"><?php esc_html_e( 'Custom', 'classified-listing' ); ?></option>
+							</select>
+						</div>
+					</div>
+					<div class="rtcl-dashboard-chart-body">
+						<canvas id="rtcl-revenue-reports"></canvas>
+					</div>
 				</div>
-			</form>
+			</div>
+			<div class="rtcl-dashboard-chart-col rtcl-chart-col-narrow">
+				<div class="rtcl-dashboard-chart-card">
+					<div class="rtcl-dashboard-chart-header">
+						<h3><?php esc_html_e( 'Listings Distribution', 'classified-listing' ); ?></h3>
+					</div>
+					<div class="rtcl-dashboard-chart-body rtcl-distribution-chart-body">
+						<div class="rtcl-distribution-chart-wrap">
+							<canvas id="rtcl-distribution-chart"></canvas>
+						</div>
+						<div class="rtcl-distribution-legend" id="rtcl-distribution-legend"></div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<canvas id="rtcl-revenue-reports" style="width: 100%; max-height: 600px;"></canvas>
+
+		<!-- Row 2: Ad Views + Top Listings by Views -->
+		<div class="rtcl-dashboard-charts-row">
+			<div class="rtcl-dashboard-chart-col rtcl-chart-col-wide">
+				<div class="rtcl-dashboard-chart-card">
+					<div class="rtcl-dashboard-chart-header">
+						<h3><?php esc_html_e( 'Listing Views', 'classified-listing' ); ?></h3>
+						<div class="rtcl-chart-controls">
+							<div class="rtcl-chart-custom-date" id="rtcl-ad-views-custom-date" style="display:none;">
+								<input type="text" id="rtcl-ad-views-daterange" class="rtcl-date rtcl-form-control"
+									   autocomplete="off"
+									   placeholder="<?php esc_attr_e( 'Select date range', 'classified-listing' ); ?>"
+									   data-options="<?php echo htmlspecialchars( wp_json_encode( $date_options ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"/>
+							</div>
+							<select id="rtcl-ad-views-range" class="rtcl-chart-range-select">
+								<option value="weekly" selected><?php esc_html_e( 'Weekly', 'classified-listing' ); ?></option>
+								<option value="monthly"><?php esc_html_e( 'Monthly', 'classified-listing' ); ?></option>
+								<option value="yearly"><?php esc_html_e( 'Yearly', 'classified-listing' ); ?></option>
+								<option value="custom"><?php esc_html_e( 'Custom', 'classified-listing' ); ?></option>
+							</select>
+						</div>
+					</div>
+					<div class="rtcl-dashboard-chart-body">
+						<canvas id="rtcl-ad-views-chart"></canvas>
+					</div>
+				</div>
+			</div>
+			<div class="rtcl-dashboard-chart-col rtcl-chart-col-narrow">
+				<div class="rtcl-dashboard-chart-card">
+					<div class="rtcl-dashboard-chart-header">
+						<h3><?php esc_html_e( 'Top Listings by Views', 'classified-listing' ); ?></h3>
+						<select id="rtcl-top-listings-limit" class="rtcl-chart-range-select">
+							<option value="5" selected><?php esc_html_e( 'Show 5', 'classified-listing' ); ?></option>
+							<option value="10"><?php esc_html_e( 'Show 10', 'classified-listing' ); ?></option>
+							<option value="15"><?php esc_html_e( 'Show 15', 'classified-listing' ); ?></option>
+						</select>
+					</div>
+					<div class="rtcl-dashboard-chart-body">
+						<canvas id="rtcl-top-listings-chart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

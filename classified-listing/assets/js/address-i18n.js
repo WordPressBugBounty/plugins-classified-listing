@@ -1,1 +1,99 @@
-!function(){"use strict";jQuery(function(a){if("undefined"==typeof rtcl_address_i18n_params)return!1;var e=rtcl_address_i18n_params.locale.replace(/&quot;/g,'"'),i=JSON.parse(e);function r(a,e){e?(a.find("label .optional").remove(),a.addClass("validate-required"),0===a.find("label .required").length&&a.find("label").append('&nbsp;<abbr class="required" title="'+rtcl_address_i18n_params.i18n_required_text+'">*</abbr>')):(a.find("label .required").remove(),a.removeClass("validate-required woocommerce-invalid woocommerce-invalid-required-field"),0===a.find("label .optional").length&&a.find("label").append('&nbsp;<span class="optional">('+rtcl_address_i18n_params.i18n_optional_text+")</span>"))}a(document.body).on("country_to_state_changing",function(e,t,l){var d,n=l;d=void 0!==i[t]?i[t]:i.default;var o=n.find("#billing_postcode_field, #shipping_postcode_field"),s=n.find("#billing_city_field, #shipping_city_field"),c=n.find("#billing_state_field, #shipping_state_field");o.attr("data-o_class")||(o.attr("data-o_class",o.attr("class")),s.attr("data-o_class",s.attr("class")),c.attr("data-o_class",c.attr("class")));var p=JSON.parse(rtcl_address_i18n_params.locale_fields);a.each(p,function(e,t){var l=n.find(t),o=a.extend(!0,{},i.default[e],d[e]);void 0!==o.label&&l.find("label").html(o.label),void 0!==o.placeholder&&(l.find(":input").attr("placeholder",o.placeholder),l.find(":input").attr("data-placeholder",o.placeholder),l.find(".select2-selection__placeholder").text(o.placeholder)),void 0!==o.placeholder||void 0===o.label||l.find("label").length||(l.find(":input").attr("placeholder",o.label),l.find(":input").attr("data-placeholder",o.label),l.find(".select2-selection__placeholder").text(o.label)),void 0!==o.required?r(l,o.required):r(l,!1),void 0!==o.priority&&l.data("priority",o.priority),"state"!==e&&(void 0!==o.hidden&&!0===o.hidden?l.hide().find(":input").val(""):l.show()),Array.isArray(o.class)&&(l.removeClass("form-row-first form-row-last form-row-wide"),l.addClass(o.class.join(" ")))}),a(".rtcl-billing-fields__field-wrapper").each(function(e,i){var r=a(i).find(".form-row"),t=r.first().parent(),l=0;r.each(function(){a(this).data("priority")||a(this).data("priority",l+1),l=a(this).data("priority")}),r.sort(function(e,i){var r=parseInt(a(e).data("priority"),10),t=parseInt(a(i).data("priority"),10);return r>t?1:r<t?-1:0}),r.detach().appendTo(t)})}).trigger("rtcl_address_i18n_ready")})}();
+(function() {
+  "use strict";
+  jQuery(function($) {
+    if (typeof rtcl_address_i18n_params === "undefined") {
+      return false;
+    }
+    var locale_json = rtcl_address_i18n_params.locale.replace(/&quot;/g, '"'), locale = JSON.parse(locale_json);
+    function field_is_required(field, is_required) {
+      if (is_required) {
+        field.find("label .optional").remove();
+        field.addClass("validate-required");
+        if (field.find("label .required").length === 0) {
+          field.find("label").append(
+            '&nbsp;<abbr class="required" title="' + rtcl_address_i18n_params.i18n_required_text + '">*</abbr>'
+          );
+        }
+      } else {
+        field.find("label .required").remove();
+        field.removeClass("validate-required woocommerce-invalid woocommerce-invalid-required-field");
+        if (field.find("label .optional").length === 0) {
+          field.find("label").append('&nbsp;<span class="optional">(' + rtcl_address_i18n_params.i18n_optional_text + ")</span>");
+        }
+      }
+    }
+    $(document.body).on("country_to_state_changing", function(event, country, wrapper) {
+      var thisform = wrapper, thislocale;
+      if (typeof locale[country] !== "undefined") {
+        thislocale = locale[country];
+      } else {
+        thislocale = locale["default"];
+      }
+      var $postcodefield = thisform.find("#billing_postcode_field, #shipping_postcode_field"), $cityfield = thisform.find("#billing_city_field, #shipping_city_field"), $statefield = thisform.find("#billing_state_field, #shipping_state_field");
+      if (!$postcodefield.attr("data-o_class")) {
+        $postcodefield.attr("data-o_class", $postcodefield.attr("class"));
+        $cityfield.attr("data-o_class", $cityfield.attr("class"));
+        $statefield.attr("data-o_class", $statefield.attr("class"));
+      }
+      var locale_fields = JSON.parse(rtcl_address_i18n_params.locale_fields);
+      $.each(locale_fields, function(key, value) {
+        var field = thisform.find(value), fieldLocale = $.extend(true, {}, locale["default"][key], thislocale[key]);
+        if (typeof fieldLocale.label !== "undefined") {
+          field.find("label").html(fieldLocale.label);
+        }
+        if (typeof fieldLocale.placeholder !== "undefined") {
+          field.find(":input").attr("placeholder", fieldLocale.placeholder);
+          field.find(":input").attr("data-placeholder", fieldLocale.placeholder);
+          field.find(".select2-selection__placeholder").text(fieldLocale.placeholder);
+        }
+        if (typeof fieldLocale.placeholder === "undefined" && typeof fieldLocale.label !== "undefined" && !field.find("label").length) {
+          field.find(":input").attr("placeholder", fieldLocale.label);
+          field.find(":input").attr("data-placeholder", fieldLocale.label);
+          field.find(".select2-selection__placeholder").text(fieldLocale.label);
+        }
+        if (typeof fieldLocale.required !== "undefined") {
+          field_is_required(field, fieldLocale.required);
+        } else {
+          field_is_required(field, false);
+        }
+        if (typeof fieldLocale.priority !== "undefined") {
+          field.data("priority", fieldLocale.priority);
+        }
+        if ("state" !== key) {
+          if (typeof fieldLocale.hidden !== "undefined" && true === fieldLocale.hidden) {
+            field.hide().find(":input").val("");
+          } else {
+            field.show();
+          }
+        }
+        if (Array.isArray(fieldLocale.class)) {
+          field.removeClass("form-row-first form-row-last form-row-wide");
+          field.addClass(fieldLocale.class.join(" "));
+        }
+      });
+      var fieldsets = $(".rtcl-billing-fields__field-wrapper");
+      fieldsets.each(function(index, fieldset) {
+        var rows = $(fieldset).find(".form-row");
+        var wrapper2 = rows.first().parent();
+        var last_priority = 0;
+        rows.each(function() {
+          if (!$(this).data("priority")) {
+            $(this).data("priority", last_priority + 1);
+          }
+          last_priority = $(this).data("priority");
+        });
+        rows.sort(function(a, b) {
+          var asort = parseInt($(a).data("priority"), 10), bsort = parseInt($(b).data("priority"), 10);
+          if (asort > bsort) {
+            return 1;
+          }
+          if (asort < bsort) {
+            return -1;
+          }
+          return 0;
+        });
+        rows.detach().appendTo(wrapper2);
+      });
+    }).trigger("rtcl_address_i18n_ready");
+  });
+})();

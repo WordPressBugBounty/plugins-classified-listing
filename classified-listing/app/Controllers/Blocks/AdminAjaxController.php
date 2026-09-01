@@ -37,10 +37,13 @@ class AdminAjaxController {
 
 		// report
 		add_action( 'wp_ajax_rtcl_revenue_order_search', [ $this, 'revenue_order_search' ] );
+		add_action( 'wp_ajax_rtcl_ad_views_range', [ $this, 'ad_views_range' ] );
+		add_action( 'wp_ajax_rtcl_revenue_range', [ $this, 'revenue_range' ] );
+		add_action( 'wp_ajax_rtcl_top_listings_by_views', [ $this, 'top_listings_by_views' ] );
 	}
 
-	public static function revenue_order_search() {
-		if ( ! wp_verify_nonce( $_POST['rtcl_nonce'], 'rtcl-nonce' ) ) {
+	public static function ad_views_range() {
+		if ( ! isset( $_POST[ rtcl()->nonceId ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ rtcl()->nonceId ] ) ), rtcl()->nonceText ) ) {
 			wp_send_json_error( esc_html__( 'Session Expired!!', 'classified-listing' ) );
 		}
 
@@ -48,8 +51,64 @@ class AdminAjaxController {
 			wp_send_json_error( esc_html__( 'You do not have permission to access it.', 'classified-listing' ) );
 		}
 
-		$start_date = isset( $_POST['start_date'] ) ? sanitize_text_field( $_POST['start_date'] ) : '';
-		$end_date   = isset( $_POST['end_date'] ) ? sanitize_text_field( $_POST['end_date'] ) : '';
+		$range = isset( $_POST['range'] ) ? sanitize_text_field( wp_unslash( $_POST['range'] ) ) : 'weekly';
+
+		if ( 'custom' === $range ) {
+			$start_date = isset( $_POST['start_date'] ) ? sanitize_text_field( wp_unslash( $_POST['start_date'] ) ) : '';
+			$end_date   = isset( $_POST['end_date'] ) ? sanitize_text_field( wp_unslash( $_POST['end_date'] ) ) : '';
+			$response   = Functions::get_ad_views_by_custom_range( $start_date, $end_date );
+		} else {
+			$allowed  = [ 'weekly', 'monthly', 'yearly' ];
+			$range    = in_array( $range, $allowed, true ) ? $range : 'weekly';
+			$response = Functions::get_ad_views_by_range( $range );
+		}
+
+		wp_send_json_success( $response );
+	}
+
+	public static function revenue_range() {
+		if ( ! isset( $_POST[ rtcl()->nonceId ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ rtcl()->nonceId ] ) ), rtcl()->nonceText ) ) {
+			wp_send_json_error( esc_html__( 'Session Expired!!', 'classified-listing' ) );
+		}
+
+		if ( ! current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to access it.', 'classified-listing' ) );
+		}
+
+		$range   = isset( $_POST['range'] ) ? sanitize_text_field( wp_unslash( $_POST['range'] ) ) : 'weekly';
+		$allowed = [ 'weekly', 'monthly', 'yearly' ];
+		$range   = in_array( $range, $allowed, true ) ? $range : 'weekly';
+
+		wp_send_json_success( Functions::get_revenue_by_range( $range ) );
+	}
+
+	public static function top_listings_by_views() {
+		if ( ! isset( $_POST[ rtcl()->nonceId ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ rtcl()->nonceId ] ) ), rtcl()->nonceText ) ) {
+			wp_send_json_error( esc_html__( 'Session Expired!!', 'classified-listing' ) );
+		}
+
+		if ( ! current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to access it.', 'classified-listing' ) );
+		}
+
+		$limit = isset( $_POST['limit'] ) ? absint( wp_unslash( $_POST['limit'] ) ) : 5;
+		$limit = min( max( $limit, 1 ), 20 );
+
+		wp_send_json_success( Functions::get_top_listings_by_views( $limit ) );
+	}
+
+	public static function revenue_order_search() {
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		if ( ! isset( $_POST[ rtcl()->nonceId ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ rtcl()->nonceId ] ) ), rtcl()->nonceText ) ) {
+			wp_send_json_error( esc_html__( 'Session Expired!!', 'classified-listing' ) );
+		}
+
+		if ( ! current_user_can( 'manage_rtcl_options' ) ) {
+			wp_send_json_error( esc_html__( 'You do not have permission to access it.', 'classified-listing' ) );
+		}
+
+		$start_date = isset( $_POST['start_date'] ) ? sanitize_text_field( wp_unslash( $_POST['start_date'] ) ) : '';
+		$end_date   = isset( $_POST['end_date'] ) ? sanitize_text_field( wp_unslash( $_POST['end_date'] ) ) : '';
 
 		$response = Functions::get_order_total_by_date_range( $start_date, $end_date );
 

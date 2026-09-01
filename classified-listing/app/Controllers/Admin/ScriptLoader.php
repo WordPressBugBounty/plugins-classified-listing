@@ -991,7 +991,11 @@ class ScriptLoader {
 		wp_localize_script( 'rtcl-admin', 'rtcl', apply_filters( 'rtcl_localize_params_admin', $localize ) );
 
 		$chart_localize = [
-			'last_week_order_price' => Functions::get_last_week_order_price(),
+			'last_week_order_price'    => Functions::get_last_week_order_price(),
+			'revenue_data'             => Functions::get_revenue_by_range( 'weekly' ),
+			'ad_views_data'            => Functions::get_ad_views_by_range( 'weekly' ),
+			'listings_distribution'    => Functions::get_listings_distribution_by_category(),
+			'top_listings_by_views'    => Functions::get_top_listings_by_views( 5 ),
 		];
 		wp_localize_script( 'rtcl-chart-config', 'rtcl_chart_vars', apply_filters( 'rtcl_chart_localize_params_admin', $chart_localize ) );
 	}

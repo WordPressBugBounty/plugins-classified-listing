@@ -1,1 +1,80 @@
-!function(){"use strict";var t;(t=jQuery)(".rtcl-categories-upload-image").on("click",function(e){e.preventDefault();const r=t(this).parents(".rtcl-term-group-wrap");let c,i;void 0===c?(c=wp.media.frames.file_frame=wp.media({frame:"post",state:"insert",multiple:!1}),c.on("insert",function(){if(i=c.state().get("selection").first().toJSON(),!i.url)return;const t=i.sizes&&i.sizes.thumbnail?i.sizes.thumbnail.url:i.url;r.find(".rtcl-category-image-id").val(i.id),r.find(".rtcl-categories-image-wrapper").html('<img src="'+t+'" alt="" />')}),c.open()):c.open()}),t(".rtcl-categories-remove-image").on("click",function(e){if(e.preventDefault(),confirm("Are you sure to delete?")){const e=t(this).parents(".rtcl-term-group-wrap");e.find(".rtcl-category-image-id").val(""),e.find(".rtcl-categories-image-wrapper").html("")}}),t(document).ajaxComplete(function(e,r,c){if(t("#tag-rtcl-order").length){const e=c.data?c.data.split("&"):"";if(-1!==t.inArray("action=add-tag",e)){const e=r.responseXML;""!==t(e).find("term_id").text()&&(t("#tag-rtcl-order").val(0),t(".rtcl-category-image-id").val(""),t("#rtcl-category-types input:checkbox").attr("checked",!1),t("#rtcl-category-types input:checkbox[value=sell]").attr("checked",!0),t(".rtcl-categories-image-wrapper").html(""),t("#tag-rtcl-icon").prop("selectedIndex",0))}}}),t(function(){if(t.fn.select2){let e=function(e){console.log(e);const r=e.element;return e.text.includes("fa-")?'<i class="'+t(r).data("icon")+'"></i> '+e.text:'<i class="rtcl-icon rtcl-icon-'+t(r).data("icon")+'"></i> '+e.text};t(".rtcl-select2").select2({dropdownAutoWidth:!0,width:"100%"}),t(".rtcl-select2-icon").select2({dropdownAutoWidth:!0,width:"100%",templateSelection:e,templateResult:e,escapeMarkup:function(t){return t}})}})}();
+(function() {
+  "use strict";
+  (function($) {
+    $(".rtcl-categories-upload-image").on("click", function(e) {
+      e.preventDefault();
+      const _this = $(this), wrapper = _this.parents(".rtcl-term-group-wrap");
+      let file_frame, json;
+      if (void 0 !== file_frame) {
+        file_frame.open();
+        return;
+      }
+      file_frame = wp.media.frames.file_frame = wp.media({
+        frame: "post",
+        state: "insert",
+        multiple: false
+      });
+      file_frame.on("insert", function() {
+        json = file_frame.state().get("selection").first().toJSON();
+        if (!json.url) {
+          return;
+        }
+        const imgUrl = json.sizes && json.sizes.thumbnail ? json.sizes.thumbnail.url : json.url;
+        wrapper.find(".rtcl-category-image-id").val(json.id);
+        wrapper.find(".rtcl-categories-image-wrapper").html('<img src="' + imgUrl + '" alt="" />');
+      });
+      file_frame.open();
+    });
+    $(".rtcl-categories-remove-image").on("click", function(e) {
+      e.preventDefault();
+      if (confirm("Are you sure to delete?")) {
+        const _this = $(this), wrapper = _this.parents(".rtcl-term-group-wrap");
+        wrapper.find(".rtcl-category-image-id").val("");
+        wrapper.find(".rtcl-categories-image-wrapper").html("");
+      }
+    });
+    $(document).ajaxComplete(function(event, xhr, settings) {
+      if ($("#tag-rtcl-order").length) {
+        const queryStringArr = settings.data ? settings.data.split("&") : "";
+        if ($.inArray("action=add-tag", queryStringArr) !== -1) {
+          const xml = xhr.responseXML;
+          const response = $(xml).find("term_id").text();
+          if (response !== "") {
+            $("#tag-rtcl-order").val(0);
+            $(".rtcl-category-image-id").val("");
+            $("#rtcl-category-types input:checkbox").attr("checked", false);
+            $("#rtcl-category-types input:checkbox[value=sell]").attr("checked", true);
+            $(".rtcl-categories-image-wrapper").html("");
+            $("#tag-rtcl-icon").prop("selectedIndex", 0);
+          }
+        }
+      }
+    });
+    $(function() {
+      if ($.fn.select2) {
+        let iformat2 = function(icon) {
+          console.log(icon);
+          const originalOption = icon.element;
+          if (icon.text.includes("fa-")) {
+            return '<i class="' + $(originalOption).data("icon") + '"></i> ' + icon.text;
+          } else {
+            return '<i class="rtcl-icon rtcl-icon-' + $(originalOption).data("icon") + '"></i> ' + icon.text;
+          }
+        };
+        $(".rtcl-select2").select2({
+          dropdownAutoWidth: true,
+          width: "100%"
+        });
+        $(".rtcl-select2-icon").select2({
+          dropdownAutoWidth: true,
+          width: "100%",
+          templateSelection: iformat2,
+          templateResult: iformat2,
+          escapeMarkup: function(text) {
+            return text;
+          }
+        });
+      }
+    });
+  })(jQuery);
+})();
