@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory 6.1.1\n"
+"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory 6.1.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-01T12:25:13+00:00\n"
+"POT-Creation-Date: 2026-09-07T10:53:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: classified-listing\n"
@@ -1660,7 +1660,7 @@ msgstr ""
 #: views/settings/import-google.php:150
 #: src/blocks/listing-search/layout/style-1.js:115
 #: src/form-builder/components/IconPicker.jsx:40
-#: src/form-builder/frontend/components/elements/Phone.jsx:309
+#: src/form-builder/frontend/components/elements/Phone.jsx:322
 msgid "Search"
 msgstr ""
 
@@ -1957,17 +1957,17 @@ msgstr ""
 #: app/Controllers/Ajax/AjaxGallery.php:38
 #: app/Controllers/Ajax/AjaxGallery.php:103
 #: app/Controllers/Ajax/AjaxGallery.php:133
-#: app/Controllers/Ajax/AjaxGallery.php:253
-#: app/Controllers/Ajax/AjaxGallery.php:482
-#: app/Controllers/Ajax/AjaxGallery.php:573
-#: app/Controllers/Ajax/AjaxGallery.php:648
+#: app/Controllers/Ajax/AjaxGallery.php:268
+#: app/Controllers/Ajax/AjaxGallery.php:497
+#: app/Controllers/Ajax/AjaxGallery.php:588
+#: app/Controllers/Ajax/AjaxGallery.php:663
 msgid "Invalid Session. Please refresh the page and try again."
 msgstr ""
 
 #: app/Controllers/AIImageController.php:30
-#: app/Controllers/Ajax/AjaxGallery.php:280
-#: app/Controllers/Ajax/AjaxGallery.php:509
-#: app/Controllers/Ajax/AjaxGallery.php:675
+#: app/Controllers/Ajax/AjaxGallery.php:295
+#: app/Controllers/Ajax/AjaxGallery.php:524
+#: app/Controllers/Ajax/AjaxGallery.php:690
 msgid "You cannot edit images."
 msgstr ""
 
@@ -1978,15 +1978,15 @@ msgid "Given file is empty to upload."
 msgstr ""
 
 #: app/Controllers/AIImageController.php:41
-#: app/Controllers/Ajax/AjaxGallery.php:290
+#: app/Controllers/Ajax/AjaxGallery.php:305
 msgid "You do not have permission to edit images for this listing."
 msgstr ""
 
 #: app/Controllers/AIImageController.php:49
-#: app/Controllers/Ajax/AjaxGallery.php:309
-#: app/Controllers/Ajax/AjaxGallery.php:533
-#: app/Controllers/Ajax/AjaxGallery.php:616
-#: app/Controllers/Ajax/AjaxGallery.php:699
+#: app/Controllers/Ajax/AjaxGallery.php:324
+#: app/Controllers/Ajax/AjaxGallery.php:548
+#: app/Controllers/Ajax/AjaxGallery.php:631
+#: app/Controllers/Ajax/AjaxGallery.php:714
 msgid "Incorrect Post or Attachment ID."
 msgstr ""
 
@@ -2134,57 +2134,63 @@ msgstr ""
 msgid "You are not allowed to upload listing images."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:161
+#: app/Controllers/Ajax/AjaxGallery.php:163
+#: app/Controllers/Ajax/FormBuilderAjax.php:701
+#: app/Controllers/Ajax/FormBuilderAjax.php:976
+msgid "Invalid listing ID."
+msgstr ""
+
+#: app/Controllers/Ajax/AjaxGallery.php:175
 msgid "You do not have permission to upload images for this listing."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:227
+#: app/Controllers/Ajax/AjaxGallery.php:242
 #: app/Controllers/Ajax/FormBuilderAjax.php:750
 #: app/Controllers/Ajax/FormBuilderAjax.php:1098
 msgid "RTCL Auto Temp"
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:262
+#: app/Controllers/Ajax/AjaxGallery.php:277
 msgid "Registration required to save listing image."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:271
+#: app/Controllers/Ajax/AjaxGallery.php:286
 msgid "You are not allowed to save listing images."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:491
+#: app/Controllers/Ajax/AjaxGallery.php:506
 msgid "Registration required to restore listing image."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:500
+#: app/Controllers/Ajax/AjaxGallery.php:515
 msgid "You are not allowed to restore listing images."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:522
+#: app/Controllers/Ajax/AjaxGallery.php:537
 msgid "You do not have permission to restore images for this listing."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:582
+#: app/Controllers/Ajax/AjaxGallery.php:597
 msgid "Registration required to update listing image."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:591
+#: app/Controllers/Ajax/AjaxGallery.php:606
 msgid "You are not allowed to update listing images."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:601
+#: app/Controllers/Ajax/AjaxGallery.php:616
 msgid "You do not have permission to update images for this listing."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:657
+#: app/Controllers/Ajax/AjaxGallery.php:672
 msgid "Registration required to edit listing image."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:666
+#: app/Controllers/Ajax/AjaxGallery.php:681
 msgid "You are not allowed to edit listing images."
 msgstr ""
 
-#: app/Controllers/Ajax/AjaxGallery.php:689
+#: app/Controllers/Ajax/AjaxGallery.php:704
 msgid "You do not have permission to access images for this listing."
 msgstr ""
 
@@ -2630,11 +2636,6 @@ msgstr ""
 #: app/Controllers/Ajax/FormBuilderAjax.php:682
 #: app/Controllers/Ajax/InlineSearchAjax.php:54
 msgid "Unauthorized access!"
-msgstr ""
-
-#: app/Controllers/Ajax/FormBuilderAjax.php:701
-#: app/Controllers/Ajax/FormBuilderAjax.php:976
-msgid "Invalid listing ID."
 msgstr ""
 
 #: app/Controllers/Ajax/FormBuilderAjax.php:830

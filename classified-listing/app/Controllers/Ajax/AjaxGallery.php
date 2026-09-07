@@ -155,13 +155,28 @@ class AjaxGallery {
 		}
 
 		$parent_post_id = isset( $_POST["post_id"] ) ? absint( $_POST["post_id"] ) : 0;
-		if ( ! $parent_post_id || ! Functions::current_user_can_edit_listing( $parent_post_id ) ) {
-			echo wp_json_encode( [
-				"result" => 0,
-				"error"  => __( "You do not have permission to upload images for this listing.", "classified-listing" ),
-			] );
+		if ( $parent_post_id > 0 ) {
+			$parent_listing = rtcl()->factory->get_listing( $parent_post_id );
+			if ( ! $parent_listing ) {
+				echo wp_json_encode( [
+					"result" => 0,
+					"error"  => __( "Invalid listing ID.", "classified-listing" ),
+				] );
 
-			exit;
+				exit;
+			}
+			$parent_post   = $parent_listing->get_listing();
+			$post_author   = (int) $parent_post->post_author;
+			$is_temp_guest = ( 'rtcl-temp' === $parent_post->post_status && 0 === $post_author && Functions::is_enable_post_for_unregister() );
+
+			if ( ! $is_temp_guest && ! Functions::current_user_can( 'edit_' . rtcl()->post_type, $parent_post_id ) ) {
+				echo wp_json_encode( [
+					"result" => 0,
+					"error"  => __( "You do not have permission to upload images for this listing.", "classified-listing" ),
+				] );
+
+				exit;
+			}
 		}
 
 		$v           = new UploadHelper();

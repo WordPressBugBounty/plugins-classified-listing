@@ -1187,21 +1187,10 @@ class FBHelper {
 						}
 						$uuid = $field['uuid'];
 						$name = !empty( $field['name'] ) ? $field['name'] : null;
-						if ( ( empty( $field['logics'] ) || empty( $field['logics']['status'] )
-								|| in_array( $field['logics']['status'],
-									[
-										false,
-										'false'
-									],
-									true ) )
-							|| ( in_array( $field['logics']['status'],
-									[
-										true,
-										'true'
-									],
-									true )
-								&& self::isValidateCondition( $rawFormData, $logics, $fields ) )
-						) {
+						// Validate unless the field's conditional logic is enabled AND its condition fails
+						// (i.e. the field is hidden). When logic is off, always validate.
+						$logicsEnabled = in_array( $field['logics']['status'] ?? null, [ true, 'true' ], true );
+						if ( !$logicsEnabled || self::isValidateCondition( $rawFormData, $field['logics'], $fields ) ) {
 
 							if ( $field['element'] === 'repeater' ) {
 								$_errors = self::isValidateRepeaterField( $rawFormData[$name] ?? '', $field, $listing );

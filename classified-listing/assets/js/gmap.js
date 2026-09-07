@@ -436,8 +436,8 @@ var __pow = Math.pow;
       me.close();
     };
   };
-  const { getOwnPropertyNames, getOwnPropertySymbols } = Object;
-  const { hasOwnProperty } = Object.prototype;
+  var getOwnPropertyNames = Object.getOwnPropertyNames, getOwnPropertySymbols = Object.getOwnPropertySymbols;
+  var hasOwnProperty = Object.prototype.hasOwnProperty;
   function combineComparators(comparatorA, comparatorB) {
     return function isEqual(a, b, state) {
       return comparatorA(a, b, state) && comparatorB(a, b, state);
@@ -448,15 +448,15 @@ var __pow = Math.pow;
       if (!a || !b || typeof a !== "object" || typeof b !== "object") {
         return areItemsEqual(a, b, state);
       }
-      const { cache } = state;
-      const cachedA = cache.get(a);
-      const cachedB = cache.get(b);
+      var cache = state.cache;
+      var cachedA = cache.get(a);
+      var cachedB = cache.get(b);
       if (cachedA && cachedB) {
         return cachedA === b && cachedB === a;
       }
       cache.set(a, b);
       cache.set(b, a);
-      const result = areItemsEqual(a, b, state);
+      var result = areItemsEqual(a, b, state);
       cache.delete(a);
       cache.delete(b);
       return result;
@@ -468,22 +468,18 @@ var __pow = Math.pow;
   function getStrictProperties(object) {
     return getOwnPropertyNames(object).concat(getOwnPropertySymbols(object));
   }
-  const hasOwn = (
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    Object.hasOwn || ((object, property) => hasOwnProperty.call(object, property))
-  );
+  var hasOwn = Object.hasOwn || (function(object, property) {
+    return hasOwnProperty.call(object, property);
+  });
   function sameValueZeroEqual(a, b) {
     return a === b || !a && !b && a !== a && b !== b;
   }
-  const PREACT_VNODE = "__v";
-  const PREACT_OWNER = "__o";
-  const REACT_OWNER = "_owner";
-  const { getOwnPropertyDescriptor, keys } = Object;
-  function areArrayBuffersEqual(a, b) {
-    return a.byteLength === b.byteLength && areTypedArraysEqual(new Uint8Array(a), new Uint8Array(b));
-  }
+  var PREACT_VNODE = "__v";
+  var PREACT_OWNER = "__o";
+  var REACT_OWNER = "_owner";
+  var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor, keys = Object.keys;
   function areArraysEqual(a, b, state) {
-    let index = a.length;
+    var index = a.length;
     if (b.length !== index) {
       return false;
     }
@@ -493,9 +489,6 @@ var __pow = Math.pow;
       }
     }
     return true;
-  }
-  function areDataViewsEqual(a, b) {
-    return a.byteLength === b.byteLength && areTypedArraysEqual(new Uint8Array(a.buffer, a.byteOffset, a.byteLength), new Uint8Array(b.buffer, b.byteOffset, b.byteLength));
   }
   function areDatesEqual(a, b) {
     return sameValueZeroEqual(a.getTime(), b.getTime());
@@ -507,25 +500,25 @@ var __pow = Math.pow;
     return a === b;
   }
   function areMapsEqual(a, b, state) {
-    const size = a.size;
+    var size = a.size;
     if (size !== b.size) {
       return false;
     }
     if (!size) {
       return true;
     }
-    const matchedIndices = new Array(size);
-    const aIterable = a.entries();
-    let aResult;
-    let bResult;
-    let index = 0;
+    var matchedIndices = new Array(size);
+    var aIterable = a.entries();
+    var aResult;
+    var bResult;
+    var index = 0;
     while (aResult = aIterable.next()) {
       if (aResult.done) {
         break;
       }
-      const bIterable = b.entries();
-      let hasMatch = false;
-      let matchIndex = 0;
+      var bIterable = b.entries();
+      var hasMatch = false;
+      var matchIndex = 0;
       while (bResult = bIterable.next()) {
         if (bResult.done) {
           break;
@@ -534,8 +527,8 @@ var __pow = Math.pow;
           matchIndex++;
           continue;
         }
-        const aEntry = aResult.value;
-        const bEntry = bResult.value;
+        var aEntry = aResult.value;
+        var bEntry = bResult.value;
         if (state.equals(aEntry[0], bEntry[0], index, matchIndex, a, b, state) && state.equals(aEntry[1], bEntry[1], aEntry[0], bEntry[0], a, b, state)) {
           hasMatch = matchedIndices[matchIndex] = true;
           break;
@@ -549,10 +542,10 @@ var __pow = Math.pow;
     }
     return true;
   }
-  const areNumbersEqual = sameValueZeroEqual;
+  var areNumbersEqual = sameValueZeroEqual;
   function areObjectsEqual(a, b, state) {
-    const properties = keys(a);
-    let index = properties.length;
+    var properties = keys(a);
+    var index = properties.length;
     if (keys(b).length !== index) {
       return false;
     }
@@ -564,14 +557,14 @@ var __pow = Math.pow;
     return true;
   }
   function areObjectsEqualStrict(a, b, state) {
-    const properties = getStrictProperties(a);
-    let index = properties.length;
+    var properties = getStrictProperties(a);
+    var index = properties.length;
     if (getStrictProperties(b).length !== index) {
       return false;
     }
-    let property;
-    let descriptorA;
-    let descriptorB;
+    var property;
+    var descriptorA;
+    var descriptorB;
     while (index-- > 0) {
       property = properties[index];
       if (!isPropertyEqual(a, b, state, property)) {
@@ -592,24 +585,24 @@ var __pow = Math.pow;
     return a.source === b.source && a.flags === b.flags;
   }
   function areSetsEqual(a, b, state) {
-    const size = a.size;
+    var size = a.size;
     if (size !== b.size) {
       return false;
     }
     if (!size) {
       return true;
     }
-    const matchedIndices = new Array(size);
-    const aIterable = a.values();
-    let aResult;
-    let bResult;
+    var matchedIndices = new Array(size);
+    var aIterable = a.values();
+    var aResult;
+    var bResult;
     while (aResult = aIterable.next()) {
       if (aResult.done) {
         break;
       }
-      const bIterable = b.values();
-      let hasMatch = false;
-      let matchIndex = 0;
+      var bIterable = b.values();
+      var hasMatch = false;
+      var matchIndex = 0;
       while (bResult = bIterable.next()) {
         if (bResult.done) {
           break;
@@ -627,8 +620,8 @@ var __pow = Math.pow;
     return true;
   }
   function areTypedArraysEqual(a, b) {
-    let index = a.byteLength;
-    if (b.byteLength !== index || a.byteOffset !== b.byteOffset) {
+    var index = a.length;
+    if (b.length !== index) {
       return false;
     }
     while (index-- > 0) {
@@ -647,35 +640,23 @@ var __pow = Math.pow;
     }
     return hasOwn(b, property) && state.equals(a[property], b[property], property, property, a, b, state);
   }
-  const ARRAY_BUFFER_TAG = "[object ArrayBuffer]";
-  const ARGUMENTS_TAG = "[object Arguments]";
-  const BOOLEAN_TAG = "[object Boolean]";
-  const DATA_VIEW_TAG = "[object DataView]";
-  const DATE_TAG = "[object Date]";
-  const ERROR_TAG = "[object Error]";
-  const MAP_TAG = "[object Map]";
-  const NUMBER_TAG = "[object Number]";
-  const OBJECT_TAG = "[object Object]";
-  const REG_EXP_TAG = "[object RegExp]";
-  const SET_TAG = "[object Set]";
-  const STRING_TAG = "[object String]";
-  const TYPED_ARRAY_TAGS = {
-    "[object Int8Array]": true,
-    "[object Uint8Array]": true,
-    "[object Uint8ClampedArray]": true,
-    "[object Int16Array]": true,
-    "[object Uint16Array]": true,
-    "[object Int32Array]": true,
-    "[object Uint32Array]": true,
-    "[object Float16Array]": true,
-    "[object Float32Array]": true,
-    "[object Float64Array]": true,
-    "[object BigInt64Array]": true,
-    "[object BigUint64Array]": true
-  };
-  const URL_TAG = "[object URL]";
-  const toString = Object.prototype.toString;
-  function createEqualityComparator({ areArrayBuffersEqual: areArrayBuffersEqual2, areArraysEqual: areArraysEqual2, areDataViewsEqual: areDataViewsEqual2, areDatesEqual: areDatesEqual2, areErrorsEqual: areErrorsEqual2, areFunctionsEqual: areFunctionsEqual2, areMapsEqual: areMapsEqual2, areNumbersEqual: areNumbersEqual2, areObjectsEqual: areObjectsEqual2, arePrimitiveWrappersEqual: arePrimitiveWrappersEqual2, areRegExpsEqual: areRegExpsEqual2, areSetsEqual: areSetsEqual2, areTypedArraysEqual: areTypedArraysEqual2, areUrlsEqual: areUrlsEqual2, unknownTagComparators }) {
+  var ARGUMENTS_TAG = "[object Arguments]";
+  var BOOLEAN_TAG = "[object Boolean]";
+  var DATE_TAG = "[object Date]";
+  var ERROR_TAG = "[object Error]";
+  var MAP_TAG = "[object Map]";
+  var NUMBER_TAG = "[object Number]";
+  var OBJECT_TAG = "[object Object]";
+  var REG_EXP_TAG = "[object RegExp]";
+  var SET_TAG = "[object Set]";
+  var STRING_TAG = "[object String]";
+  var URL_TAG = "[object URL]";
+  var isArray = Array.isArray;
+  var isTypedArray = typeof ArrayBuffer === "function" && ArrayBuffer.isView ? ArrayBuffer.isView : null;
+  var assign = Object.assign;
+  var getTag = Object.prototype.toString.call.bind(Object.prototype.toString);
+  function createEqualityComparator(_a) {
+    var areArraysEqual2 = _a.areArraysEqual, areDatesEqual2 = _a.areDatesEqual, areErrorsEqual2 = _a.areErrorsEqual, areFunctionsEqual2 = _a.areFunctionsEqual, areMapsEqual2 = _a.areMapsEqual, areNumbersEqual2 = _a.areNumbersEqual, areObjectsEqual2 = _a.areObjectsEqual, arePrimitiveWrappersEqual2 = _a.arePrimitiveWrappersEqual, areRegExpsEqual2 = _a.areRegExpsEqual, areSetsEqual2 = _a.areSetsEqual, areTypedArraysEqual2 = _a.areTypedArraysEqual, areUrlsEqual2 = _a.areUrlsEqual, unknownTagComparators = _a.unknownTagComparators;
     return function comparator(a, b, state) {
       if (a === b) {
         return true;
@@ -683,7 +664,7 @@ var __pow = Math.pow;
       if (a == null || b == null) {
         return false;
       }
-      const type = typeof a;
+      var type = typeof a;
       if (type !== typeof b) {
         return false;
       }
@@ -696,15 +677,18 @@ var __pow = Math.pow;
         }
         return false;
       }
-      const constructor = a.constructor;
+      var constructor = a.constructor;
       if (constructor !== b.constructor) {
         return false;
       }
       if (constructor === Object) {
         return areObjectsEqual2(a, b, state);
       }
-      if (Array.isArray(a)) {
+      if (isArray(a)) {
         return areArraysEqual2(a, b, state);
+      }
+      if (isTypedArray != null && isTypedArray(a)) {
+        return areTypedArraysEqual2(a, b, state);
       }
       if (constructor === Date) {
         return areDatesEqual2(a, b, state);
@@ -718,7 +702,7 @@ var __pow = Math.pow;
       if (constructor === Set) {
         return areSetsEqual2(a, b, state);
       }
-      const tag = toString.call(a);
+      var tag = getTag(a);
       if (tag === DATE_TAG) {
         return areDatesEqual2(a, b, state);
       }
@@ -743,22 +727,13 @@ var __pow = Math.pow;
       if (tag === ARGUMENTS_TAG) {
         return areObjectsEqual2(a, b, state);
       }
-      if (TYPED_ARRAY_TAGS[tag]) {
-        return areTypedArraysEqual2(a, b, state);
-      }
-      if (tag === ARRAY_BUFFER_TAG) {
-        return areArrayBuffersEqual2(a, b, state);
-      }
-      if (tag === DATA_VIEW_TAG) {
-        return areDataViewsEqual2(a, b, state);
-      }
       if (tag === BOOLEAN_TAG || tag === NUMBER_TAG || tag === STRING_TAG) {
         return arePrimitiveWrappersEqual2(a, b, state);
       }
       if (unknownTagComparators) {
-        let unknownTagComparator = unknownTagComparators[tag];
+        var unknownTagComparator = unknownTagComparators[tag];
         if (!unknownTagComparator) {
-          const shortTag = getShortTag(a);
+          var shortTag = getShortTag(a);
           if (shortTag) {
             unknownTagComparator = unknownTagComparators[shortTag];
           }
@@ -770,11 +745,10 @@ var __pow = Math.pow;
       return false;
     };
   }
-  function createEqualityComparatorConfig({ circular, createCustomConfig, strict }) {
-    let config = {
-      areArrayBuffersEqual,
+  function createEqualityComparatorConfig(_a) {
+    var circular = _a.circular, createCustomConfig = _a.createCustomConfig, strict = _a.strict;
+    var config = {
       areArraysEqual: strict ? areObjectsEqualStrict : areArraysEqual,
-      areDataViewsEqual,
       areDatesEqual,
       areErrorsEqual,
       areFunctionsEqual,
@@ -784,23 +758,23 @@ var __pow = Math.pow;
       arePrimitiveWrappersEqual,
       areRegExpsEqual,
       areSetsEqual: strict ? combineComparators(areSetsEqual, areObjectsEqualStrict) : areSetsEqual,
-      areTypedArraysEqual: strict ? combineComparators(areTypedArraysEqual, areObjectsEqualStrict) : areTypedArraysEqual,
+      areTypedArraysEqual: strict ? areObjectsEqualStrict : areTypedArraysEqual,
       areUrlsEqual,
       unknownTagComparators: void 0
     };
     if (createCustomConfig) {
-      config = Object.assign({}, config, createCustomConfig(config));
+      config = assign({}, config, createCustomConfig(config));
     }
     if (circular) {
-      const areArraysEqual2 = createIsCircular(config.areArraysEqual);
-      const areMapsEqual2 = createIsCircular(config.areMapsEqual);
-      const areObjectsEqual2 = createIsCircular(config.areObjectsEqual);
-      const areSetsEqual2 = createIsCircular(config.areSetsEqual);
-      config = Object.assign({}, config, {
-        areArraysEqual: areArraysEqual2,
-        areMapsEqual: areMapsEqual2,
-        areObjectsEqual: areObjectsEqual2,
-        areSetsEqual: areSetsEqual2
+      var areArraysEqual$1 = createIsCircular(config.areArraysEqual);
+      var areMapsEqual$1 = createIsCircular(config.areMapsEqual);
+      var areObjectsEqual$1 = createIsCircular(config.areObjectsEqual);
+      var areSetsEqual$1 = createIsCircular(config.areSetsEqual);
+      config = assign({}, config, {
+        areArraysEqual: areArraysEqual$1,
+        areMapsEqual: areMapsEqual$1,
+        areObjectsEqual: areObjectsEqual$1,
+        areSetsEqual: areSetsEqual$1
       });
     }
     return config;
@@ -810,10 +784,11 @@ var __pow = Math.pow;
       return compare(a, b, state);
     };
   }
-  function createIsEqual({ circular, comparator, createState, equals, strict }) {
+  function createIsEqual(_a) {
+    var circular = _a.circular, comparator = _a.comparator, createState = _a.createState, equals = _a.equals, strict = _a.strict;
     if (createState) {
       return function isEqual(a, b) {
-        const { cache = circular ? /* @__PURE__ */ new WeakMap() : void 0, meta } = createState();
+        var _a2 = createState(), _b = _a2.cache, cache = _b === void 0 ? circular ? /* @__PURE__ */ new WeakMap() : void 0 : _b, meta = _a2.meta;
         return comparator(a, b, {
           cache,
           equals,
@@ -832,7 +807,7 @@ var __pow = Math.pow;
         });
       };
     }
-    const state = {
+    var state = {
       cache: void 0,
       equals,
       meta: void 0,
@@ -842,7 +817,7 @@ var __pow = Math.pow;
       return comparator(a, b, state);
     };
   }
-  const deepEqual = createCustomEqual();
+  var deepEqual = createCustomEqual();
   createCustomEqual({ strict: true });
   createCustomEqual({ circular: true });
   createCustomEqual({
@@ -850,26 +825,37 @@ var __pow = Math.pow;
     strict: true
   });
   createCustomEqual({
-    createInternalComparator: () => sameValueZeroEqual
+    createInternalComparator: function() {
+      return sameValueZeroEqual;
+    }
   });
   createCustomEqual({
     strict: true,
-    createInternalComparator: () => sameValueZeroEqual
+    createInternalComparator: function() {
+      return sameValueZeroEqual;
+    }
   });
   createCustomEqual({
     circular: true,
-    createInternalComparator: () => sameValueZeroEqual
+    createInternalComparator: function() {
+      return sameValueZeroEqual;
+    }
   });
   createCustomEqual({
     circular: true,
-    createInternalComparator: () => sameValueZeroEqual,
+    createInternalComparator: function() {
+      return sameValueZeroEqual;
+    },
     strict: true
   });
-  function createCustomEqual(options = {}) {
-    const { circular = false, createInternalComparator: createCustomInternalComparator, createState, strict = false } = options;
-    const config = createEqualityComparatorConfig(options);
-    const comparator = createEqualityComparator(config);
-    const equals = createCustomInternalComparator ? createCustomInternalComparator(comparator) : createInternalEqualityComparator(comparator);
+  function createCustomEqual(options) {
+    if (options === void 0) {
+      options = {};
+    }
+    var _a = options.circular, circular = _a === void 0 ? false : _a, createCustomInternalComparator = options.createInternalComparator, createState = options.createState, _b = options.strict, strict = _b === void 0 ? false : _b;
+    var config = createEqualityComparatorConfig(options);
+    var comparator = createEqualityComparator(config);
+    var equals = createCustomInternalComparator ? createCustomInternalComparator(comparator) : createInternalEqualityComparator(comparator);
     return createIsEqual({ circular, comparator, createState, equals, strict });
   }
   const ARRAY_TYPES = [

@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.1.1
+Stable tag: 6.1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -328,6 +328,11 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 6.1.2 ( Sep 07, 2026 ) =
+* Fixed: Listing update form incorrectly flagging conditionally-hidden custom fields as required.
+* Fixed: Form builder phone/WhatsApp fields not pre-filling the user's saved number.
+* Fixed: Gallery image upload failing for new-listing submissions.
 
 = 6.1.1 ( Sep 01, 2026 ) =
 * Fixed: AI image save capability check issue. Thanks to Usama Arshad for reporting the issue.
