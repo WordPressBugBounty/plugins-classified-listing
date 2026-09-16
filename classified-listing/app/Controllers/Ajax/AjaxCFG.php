@@ -44,21 +44,67 @@ class AjaxCFG {
 		] );
 	}
 
+	/**
+	 * Short, human readable description for each built-in field type.
+	 *
+	 * Keyed by field type. Types registered through the `rtcl_custom_field_list`
+	 * filter simply fall back to no description.
+	 *
+	 * @return array
+	 */
+	private function get_field_type_descriptions() {
+		return apply_filters( 'rtcl_custom_field_type_descriptions', [
+			'text'     => esc_html__( 'A single line of plain text.', 'classified-listing' ),
+			'textarea' => esc_html__( 'Multiple lines of plain text.', 'classified-listing' ),
+			'url'      => esc_html__( 'A web address with link options.', 'classified-listing' ),
+			'number'   => esc_html__( 'A number with optional min and max.', 'classified-listing' ),
+			'date'     => esc_html__( 'A date picker, single date or range.', 'classified-listing' ),
+			'select'   => esc_html__( 'A dropdown list to pick one option.', 'classified-listing' ),
+			'radio'    => esc_html__( 'Radio buttons to pick one option.', 'classified-listing' ),
+			'checkbox' => esc_html__( 'Checkboxes to pick one or more options.', 'classified-listing' ),
+		] );
+	}
+
 	function edit_field_choose() {
 		if ( !Functions::verify_nonce() ) {
-			esc_html_e( "Session expired", "classified-listing" );
+			echo '<p class="rtcl-cf-modal__message is-error">' . esc_html__( "Session expired", "classified-listing" ) . '</p>';
 			die();
 		}
 		if ( !current_user_can( 'manage_rtcl_options' ) ) {
-			esc_html_e( "You do not have permission to view custom fields.", "classified-listing" );
+			echo '<p class="rtcl-cf-modal__message is-error">' . esc_html__( "You do not have permission to view custom fields.", "classified-listing" ) . '</p>';
 			die();
 		}
-		$html = null;
 		$fields = Options::get_custom_field_list();
-		$html .= "<p>" . esc_html__( "You can choose from the available fields:", "classified-listing" ) . "</p>";
+		$descriptions = $this->get_field_type_descriptions();
+
+		$html = '<div class="rtcl-cf-field-grid">';
 		foreach ( $fields as $type => $field ) {
-			$html .= "<span class='button rtcl-field-item rtcl-field-button-insert' data-type='{$type}'><i class='rtcl-icon rtcl-icon-{$field['symbol']}'></i>{$field['name']}</span>";
+			$name = isset( $field['name'] ) ? $field['name'] : $type;
+			$symbol = isset( $field['symbol'] ) ? $field['symbol'] : 'pencil';
+			$description = isset( $descriptions[ $type ] ) ? $descriptions[ $type ] : '';
+			// Lower-cased haystack used by the client side search box.
+			$keywords = strtolower( $type . ' ' . $name . ' ' . $description );
+
+			$html .= sprintf(
+				'<button type="button" class="rtcl-cf-field-card rtcl-field-item rtcl-field-button-insert" data-type="%1$s" data-keywords="%2$s">'
+				. '<span class="rtcl-cf-field-card__icon"><i class="rtcl-icon rtcl-icon-%3$s" aria-hidden="true"></i></span>'
+				. '<span class="rtcl-cf-field-card__text">'
+				. '<span class="rtcl-cf-field-card__name">%4$s</span>'
+				. '%5$s'
+				. '</span>'
+				. '</button>',
+				esc_attr( $type ),
+				esc_attr( $keywords ),
+				esc_attr( $symbol ),
+				esc_html( $name ),
+				$description ? '<span class="rtcl-cf-field-card__desc">' . esc_html( $description ) . '</span>' : ''
+			);
 		}
+		$html .= '</div>';
+		$html .= '<p class="rtcl-cf-modal__message rtcl-cf-no-result is-hidden">'
+		         . esc_html__( 'No field type matches your search.', 'classified-listing' )
+		         . '</p>';
+
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $html;
 		die();

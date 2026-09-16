@@ -129,6 +129,9 @@ class SaveListingMetaData {
 			// Price type
 			if ( isset( $_POST['price_type'] ) ) {
 				$price_type = Functions::sanitize( $_POST['price_type'] );
+				if ( ! array_key_exists( $price_type, Options::get_price_types() ) ) {
+					$price_type = '';
+				}
 				update_post_meta( $post_id, 'price_type', $price_type );
 			}
 

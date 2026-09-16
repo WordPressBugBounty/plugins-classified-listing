@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.1.2
+Stable tag: 6.1.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -328,6 +328,11 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 6.1.3 ( Sep 16, 2026 ) =
+* Fixed: Price type field validation issue.
+* Fixed: Add new field popup broken by theme styles on the classic custom fields screen.
+* Added: Redesigned add new field popup with search and field type descriptions.
 
 = 6.1.2 ( Sep 07, 2026 ) =
 * Fixed: Listing update form incorrectly flagging conditionally-hidden custom fields as required.

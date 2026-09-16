@@ -1229,7 +1229,10 @@ class PublicUser {
 							}
 						}
 						if ( isset( $_POST['price_type'] ) ) {
-							$meta['price_type'] = Functions::sanitize( $_POST['price_type'] );
+							$price_type = Functions::sanitize( $_POST['price_type'] );
+							if ( array_key_exists( $price_type, Options::get_price_types() ) ) {
+								$meta['price_type'] = $price_type;
+							}
 						}
 						if ( isset( $_POST['price'] ) ) {
 							$meta['price'] = Functions::format_decimal( $_POST['price'] );

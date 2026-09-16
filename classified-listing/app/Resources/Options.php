@@ -1244,6 +1244,64 @@ class Options {
 				'type'    => 'color',
 				'default' => '',
 			],
+			// Card Style
+			// Promoted listings tint the whole card, not just the label. Each
+			// state gets a fill and a border; the defaults below are the colours
+			// the stylesheets used to hard-code.
+			'field_title_card_style'   => [
+				'title' => __( 'Card Style', 'classified-listing' ),
+				'type'  => 'section',
+			],
+			'feature_card_bg'          => [
+				'title'   => __( 'Featured Card Background Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#fffbf5',
+			],
+			'feature_card_border'      => [
+				'title'   => __( 'Featured Card Border Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#ffe8cc',
+			],
+			'top_card_bg'              => [
+				'title'   => __( 'Top Card Background Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#fffdea',
+			],
+			'top_card_border'          => [
+				'title'   => __( 'Top Card Border Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#ffd274',
+			],
+			'new_card_bg'              => [
+				'title'   => __( 'New Card Background Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#f3fbf6',
+			],
+			'new_card_border'          => [
+				'title'   => __( 'New Card Border Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#c9e9d6',
+			],
+			'popular_card_bg'          => [
+				'title'   => __( 'Popular Card Background Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#fff6f7',
+			],
+			'popular_card_border'      => [
+				'title'   => __( 'Popular Card Border Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#fbd5da',
+			],
+			'bump_up_card_bg'          => [
+				'title'   => __( 'BumpUp Card Background Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#f2f9fe',
+			],
+			'bump_up_card_border'      => [
+				'title'   => __( 'BumpUp Card Border Color', 'classified-listing' ),
+				'type'    => 'color',
+				'default' => '#c7e6fa',
+			],
 			// Others Style
 			'field_title_others_style' => [
 				'title' => __( 'Others Style', 'classified-listing' ),

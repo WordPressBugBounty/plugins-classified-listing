@@ -637,6 +637,13 @@ class ScriptLoader {
 			}
 		}
 
+		// Card Style — a promoted listing tints the whole card, not just its
+		// label. Unlike the settings above these variables are always emitted,
+		// falling back to the colours the stylesheets used to hard-code, so any
+		// stylesheet can rely on the variable resolving.
+		$rootVar .= self::card_style_root_var( $rtcl_style_opt );
+		$style   .= self::card_style_rules();
+
 		if ( $rootVar = apply_filters( 'rtcl_public_root_var', $rootVar, $rtcl_style_opt ) ) {
 			$rootVar = ':root{' . $rootVar . '}';
 			wp_add_inline_style( 'rtcl-public', $rootVar );
@@ -1026,6 +1033,14 @@ class ScriptLoader {
 			[
 				'ajaxurl'       => $this->ajaxurl,
 				rtcl()->nonceId => wp_create_nonce( rtcl()->nonceText ),
+				'i18n'          => [
+					'add_new_field'      => esc_html__( 'Add New Field', 'classified-listing' ),
+					'chooser_subtitle'   => esc_html__( 'Pick a field type to add to this field group.', 'classified-listing' ),
+					'search_placeholder' => esc_html__( 'Search field types…', 'classified-listing' ),
+					'loading'            => esc_html__( 'Please Wait, Loading…', 'classified-listing' ),
+					'close'              => esc_html__( 'Close', 'classified-listing' ),
+					'error'              => esc_html__( 'Something went wrong. Please try again.', 'classified-listing' ),
+				],
 			],
 		);
 	}
@@ -1543,5 +1558,101 @@ class ScriptLoader {
 		}
 
 		return apply_filters( 'rtcl_fb_localized_options', $options );
+	}
+
+	/**
+	 * Card Style settings, keyed by the CSS variable they feed and paired with
+	 * the colour the stylesheets hard-coded before the setting existed.
+	 *
+	 * The state key (`featured`, `top`, …) matches the class the listing loop
+	 * puts on the card: `.is-featured`, `.is-top` / `.as-top`, `.is-new`,
+	 * `.is-popular`, `.is-bump-up`. Order is significant — a listing can be in
+	 * more than one state at once, and the later entry wins, which keeps Top
+	 * above Featured the way the original stylesheet had it.
+	 *
+	 * @return array
+	 */
+	private static function card_style_map() {
+		return [
+			'new'      => [
+				'selectors' => [ '.is-new' ],
+				'bg'        => [ 'new_card_bg', '#f3fbf6' ],
+				'border'    => [ 'new_card_border', '#c9e9d6' ],
+			],
+			'popular'  => [
+				'selectors' => [ '.is-popular' ],
+				'bg'        => [ 'popular_card_bg', '#fff6f7' ],
+				'border'    => [ 'popular_card_border', '#fbd5da' ],
+			],
+			'bump-up'  => [
+				'selectors' => [ '.is-bump-up' ],
+				'bg'        => [ 'bump_up_card_bg', '#f2f9fe' ],
+				'border'    => [ 'bump_up_card_border', '#c7e6fa' ],
+			],
+			'featured' => [
+				'selectors' => [ '.is-featured' ],
+				'bg'        => [ 'feature_card_bg', '#fffbf5' ],
+				'border'    => [ 'feature_card_border', '#ffe8cc' ],
+			],
+			'top'      => [
+				'selectors' => [ '.is-top', '.as-top' ],
+				'bg'        => [ 'top_card_bg', '#fffdea' ],
+				'border'    => [ 'top_card_border', '#ffd274' ],
+			],
+		];
+	}
+
+	/**
+	 * `--rtcl-card-*` custom properties for the promoted-listing card states.
+	 *
+	 * @param  mixed  $rtcl_style_opt  Stored `rtcl_style_settings`.
+	 *
+	 * @return string
+	 */
+	private static function card_style_root_var( $rtcl_style_opt ) {
+		$settings = is_array( $rtcl_style_opt ) ? $rtcl_style_opt : [];
+		$rootVar  = '';
+
+		foreach ( self::card_style_map() as $state => $card ) {
+			foreach ( [ 'bg', 'border' ] as $part ) {
+				list( $key, $default ) = $card[ $part ];
+				$value                 = ! empty( $settings[ $key ] ) ? $settings[ $key ] : $default;
+				$rootVar               .= '--rtcl-card-' . $state . '-' . $part . ':' . $value . ';';
+			}
+		}
+
+		return $rootVar;
+	}
+
+	/**
+	 * Point the listing-card rules at the variables above. These used to be
+	 * hard-coded in the compiled stylesheet; emitting them here keeps the
+	 * colours editable without a rebuild. Selectors mirror the originals so
+	 * source order settles the tie.
+	 *
+	 * @return string
+	 */
+	private static function card_style_rules() {
+		$containers = [
+			'.rtcl .rtcl-listings .listing-item',
+			'.rtcl .rtcl-grid-view .listing-item',
+			'.rtcl.rtcl-widget-listings .rtcl-grid-view .rtcl-widget-listing-item',
+		];
+		$style      = '';
+
+		foreach ( self::card_style_map() as $state => $card ) {
+			$selectors = [];
+			foreach ( $card['selectors'] as $modifier ) {
+				foreach ( $containers as $container ) {
+					$selectors[] = $container . $modifier;
+				}
+			}
+			$style .= implode( ',', $selectors ) . '{'
+			          . 'background-color:var(--rtcl-card-' . $state . '-bg);'
+			          . 'border:1px solid var(--rtcl-card-' . $state . '-border);'
+			          . '}';
+		}
+
+		return apply_filters( 'rtcl_card_style_rules', $style );
 	}
 }

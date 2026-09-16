@@ -861,6 +861,8 @@ class Listing extends Data {
 				"class" => "rtcl-thumbnail",
 				"alt"   => esc_attr( get_the_title( $thumb_id ) ),
 			] );
+			// A missing sub size or broken attachment meta makes WP output a 1x1 dimension, use the real one.
+			$image = Functions::normalize_attachment_image_dimensions( $image, $thumb_id, $size );
 		} else {
 			$fallBackSizes = apply_filters( 'rtcl_default_placeholder_thumbnail_size',
 				Functions::get_option_item( 'rtcl_misc_media_settings', 'image_size_thumbnail' ) );
@@ -1476,7 +1478,7 @@ class Listing extends Data {
 			$price,
 			$this ) : null;
 		$price_html_format = apply_filters( 'rtcl_get_price_html_format', '<div class="rtcl-price price-type-%1$s">%2$s%3$s</div>' );
-		$price_html        = sprintf( $price_html_format, $this->get_price_type(), $price, $price_meta_html );
+		$price_html        = sprintf( $price_html_format, esc_attr( $this->get_price_type() ), $price, $price_meta_html );
 
 		return apply_filters( 'rtcl_get_price_html', $price_html, $this );
 	}

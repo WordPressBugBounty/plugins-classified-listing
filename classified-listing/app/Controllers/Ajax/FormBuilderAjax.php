@@ -319,11 +319,14 @@ class FormBuilderAjax {
 					}
 
 					if ( ! empty( $field['options'] ) && in_array( 'price_type', $field['options'] ) && isset( $pricing['price_type'] ) ) {
-						$metaData[] = [
-							'name'  => 'price_type',
-							'field' => $field,
-							'value' => Functions::sanitize( $pricing['price_type'] ),
-						];
+						$sanitized_price_type = Functions::sanitize( $pricing['price_type'] );
+						if ( array_key_exists( $sanitized_price_type, Options::get_price_types() ) ) {
+							$metaData[] = [
+								'name'  => 'price_type',
+								'field' => $field,
+								'value' => $sanitized_price_type,
+							];
+						}
 					}
 					if ( ! empty( $field['options'] ) && in_array( 'price_unit', $field['options'] ) && isset( $pricing['price_unit'] ) ) {
 						$metaData[] = [
