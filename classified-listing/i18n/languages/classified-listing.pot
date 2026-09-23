@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory 6.1.4.1\n"
+"Project-Id-Version: Classified Listing – AI-Powered Classified ads & Business Directory 6.1.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/classified-listing\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-23T04:46:10+00:00\n"
+"POT-Creation-Date: 2026-09-23T06:21:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: classified-listing\n"
@@ -920,7 +920,7 @@ msgid "No payments found in Trash"
 msgstr ""
 
 #: app/Controllers/Admin/RegisterPostType.php:326
-#: app/Helpers/Functions.php:3381
+#: app/Helpers/Functions.php:3383
 #: app/Resources/Options.php:1682
 #: views/settings/advanced-settings.php:116
 msgid "Payments"
@@ -1405,8 +1405,8 @@ msgid "special character"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:291
-#: app/Helpers/Functions.php:5307
 #: app/Helpers/Functions.php:5309
+#: app/Helpers/Functions.php:5311
 msgid "Select an option&hellip;"
 msgstr ""
 
@@ -1461,12 +1461,12 @@ msgid "Searching&hellip;"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:308
-#: app/Helpers/Functions.php:5210
+#: app/Helpers/Functions.php:5212
 msgid "required"
 msgstr ""
 
 #: app/Controllers/Admin/ScriptLoader.php:309
-#: app/Helpers/Functions.php:5212
+#: app/Helpers/Functions.php:5214
 #: views/settings/import-google.php:86
 #: views/settings/import-google.php:97
 #: views/settings/import-rss.php:56
@@ -1635,7 +1635,7 @@ msgstr ""
 #. translators: Date formate
 #. translators: 1: month, 2: day, 3: year, 4: hour, 5: minute
 #: app/Controllers/Admin/ScriptLoader.php:987
-#: app/Helpers/Functions.php:5138
+#: app/Helpers/Functions.php:5140
 #, php-format
 msgid "%1$s %2$s, %3$s @ %4$s:%5$s"
 msgstr ""
@@ -3006,7 +3006,7 @@ msgid "You have no permission!"
 msgstr ""
 
 #: app/Controllers/Ajax/InlineSearchAjax.php:61
-#: app/Controllers/Ajax/InlineSearchAjax.php:137
+#: app/Controllers/Ajax/InlineSearchAjax.php:139
 msgid "Please provide all field!!"
 msgstr ""
 
@@ -3016,7 +3016,7 @@ msgstr ""
 msgid "%1$s (#%2$s &ndash; %3$s)"
 msgstr ""
 
-#: app/Controllers/Ajax/InlineSearchAjax.php:200
+#: app/Controllers/Ajax/InlineSearchAjax.php:202
 msgid "Empty listing title"
 msgstr ""
 
@@ -3541,8 +3541,8 @@ msgstr ""
 #: app/Controllers/FormHandler.php:216
 #: app/Controllers/FormHandler.php:220
 #: app/Controllers/FormHandler.php:339
-#: app/Helpers/Functions.php:3928
-#: app/Helpers/Functions.php:4065
+#: app/Helpers/Functions.php:3930
+#: app/Helpers/Functions.php:4067
 msgid "Error:"
 msgstr ""
 
@@ -3673,12 +3673,12 @@ msgid "Select"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:357
-#: app/Helpers/Functions.php:1617
+#: app/Helpers/Functions.php:1619
 msgid "More"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:358
-#: app/Helpers/Functions.php:1618
+#: app/Helpers/Functions.php:1620
 msgid "Less"
 msgstr ""
 
@@ -3793,7 +3793,7 @@ msgid "Renew"
 msgstr ""
 
 #: app/Controllers/Hooks/TemplateHooks.php:966
-#: app/Helpers/Functions.php:5131
+#: app/Helpers/Functions.php:5133
 #: app/Services/FormBuilder/LocalizedString.php:34
 #: views/settings/listing-type.php:38
 #: src/form-builder/backend/components/pages/FormList.jsx:532
@@ -3948,7 +3948,7 @@ msgid "Payments Orders"
 msgstr ""
 
 #: app/Controllers/Query.php:1360
-#: app/Helpers/Functions.php:3379
+#: app/Helpers/Functions.php:3381
 #: app/Resources/Options.php:1667
 #: views/settings/advanced-settings.php:101
 msgid "My Listings"
@@ -4641,12 +4641,12 @@ msgctxt "Price range: from-to"
 msgid "<div class=\"rtcl-price-range\">%1$s <span class=\"sep\">&ndash;</span> %2$s</div>"
 msgstr ""
 
-#: app/Helpers/Functions.php:1488
+#: app/Helpers/Functions.php:1490
 #: app/Widgets/Filter.php:342
 msgid "Show More"
 msgstr ""
 
-#: app/Helpers/Functions.php:1880
+#: app/Helpers/Functions.php:1882
 #: app/Helpers/Text.php:111
 #: app/Services/FormBuilder/LocalizedString.php:49
 #: templates/listing-form/category.php:56
@@ -4656,115 +4656,115 @@ msgstr ""
 msgid "Select a category"
 msgstr ""
 
-#: app/Helpers/Functions.php:2016
+#: app/Helpers/Functions.php:2018
 msgid "Select a sub-category"
 msgstr ""
 
-#: app/Helpers/Functions.php:2362
+#: app/Helpers/Functions.php:2364
 msgid "Select an Option"
 msgstr ""
 
 #. translators:  Human read able time
 #. translators: Human read able time.
-#: app/Helpers/Functions.php:3102
+#: app/Helpers/Functions.php:3104
 #: app/Models/Listing.php:934
 #, php-format
 msgid "%s ago"
 msgstr ""
 
-#: app/Helpers/Functions.php:3378
+#: app/Helpers/Functions.php:3380
 msgid "Dashboard"
 msgstr ""
 
-#: app/Helpers/Functions.php:3380
+#: app/Helpers/Functions.php:3382
 #: app/Resources/Options.php:1672
 #: views/settings/advanced-settings.php:106
 msgid "Favourites"
 msgstr ""
 
-#: app/Helpers/Functions.php:3382
+#: app/Helpers/Functions.php:3384
 #: templates/myaccount/form-edit-account.php:38
 msgid "Account Details"
 msgstr ""
 
-#: app/Helpers/Functions.php:3383
+#: app/Helpers/Functions.php:3385
 #: app/Resources/Options.php:1687
 #: templates/myaccount/profile-settings.php:24
 msgid "Privacy Settings"
 msgstr ""
 
-#: app/Helpers/Functions.php:3384
+#: app/Helpers/Functions.php:3386
 #: app/Resources/Options.php:1697
 #: views/settings/advanced-settings.php:126
 msgid "Logout"
 msgstr ""
 
-#: app/Helpers/Functions.php:3385
+#: app/Helpers/Functions.php:3387
 msgid "Add Listing"
 msgstr ""
 
 #. translators: %s template
-#: app/Helpers/Functions.php:3552
+#: app/Helpers/Functions.php:3554
 #, php-format
 msgid "%s does not exist."
 msgstr ""
 
-#: app/Helpers/Functions.php:3742
-#: app/Helpers/Functions.php:3765
-#: app/Helpers/Functions.php:3777
-#: app/Helpers/Functions.php:3800
-#: app/Helpers/Functions.php:3815
-#: app/Helpers/Functions.php:3840
+#: app/Helpers/Functions.php:3744
+#: app/Helpers/Functions.php:3767
+#: app/Helpers/Functions.php:3779
+#: app/Helpers/Functions.php:3802
+#: app/Helpers/Functions.php:3817
+#: app/Helpers/Functions.php:3842
 msgid "This function should not be called before rtcl_init."
 msgstr ""
 
-#: app/Helpers/Functions.php:3978
+#: app/Helpers/Functions.php:3980
 msgid "Please provide a valid email address."
 msgstr ""
 
-#: app/Helpers/Functions.php:3983
+#: app/Helpers/Functions.php:3985
 msgid "An account is already registered with your email address. Please log in."
 msgstr ""
 
-#: app/Helpers/Functions.php:3994
+#: app/Helpers/Functions.php:3996
 msgid "Please enter a valid account username."
 msgstr ""
 
-#: app/Helpers/Functions.php:3999
+#: app/Helpers/Functions.php:4001
 msgid "An account is already registered with that username. Please choose another."
 msgstr ""
 
-#: app/Helpers/Functions.php:4004
+#: app/Helpers/Functions.php:4006
 msgid "Please enter your first name."
 msgstr ""
 
-#: app/Helpers/Functions.php:4007
+#: app/Helpers/Functions.php:4009
 msgid "Please enter your last name."
 msgstr ""
 
-#: app/Helpers/Functions.php:4012
+#: app/Helpers/Functions.php:4014
 msgid "Please enter your phone."
 msgstr ""
 
-#: app/Helpers/Functions.php:4016
+#: app/Helpers/Functions.php:4018
 msgid "An account is already registered with your phone number. Please log in."
 msgstr ""
 
-#: app/Helpers/Functions.php:4021
+#: app/Helpers/Functions.php:4023
 msgid "Please select user type option."
 msgstr ""
 
-#: app/Helpers/Functions.php:4032
+#: app/Helpers/Functions.php:4034
 msgid "Please enter an account password."
 msgstr ""
 
-#: app/Helpers/Functions.php:4066
+#: app/Helpers/Functions.php:4068
 msgid "Couldn&#8217;t register you&hellip; please contact us if you continue to have problems."
 msgstr ""
 
 #. translators: 1: rating 2: rating count
-#: app/Helpers/Functions.php:4654
-#: app/Helpers/Functions.php:4682
+#: app/Helpers/Functions.php:4656
+#: app/Helpers/Functions.php:4684
 #, php-format
 msgid "Rated %1$s out of 5 based on %2$s customer rating"
 msgid_plural "Rated %1$s out of 5 based on %2$s customer ratings"
@@ -4772,84 +4772,84 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: rating
-#: app/Helpers/Functions.php:4662
+#: app/Helpers/Functions.php:4664
 #, php-format
 msgid "Rated %s out of 5"
 msgstr ""
 
-#: app/Helpers/Functions.php:5089
+#: app/Helpers/Functions.php:5091
 msgid "M j, Y @ H:i"
 msgstr ""
 
-#: app/Helpers/Functions.php:5105
+#: app/Helpers/Functions.php:5107
 #: app/Resources/Options.php:5244
 msgid "Month"
 msgstr ""
 
 #. translators: 1: month number (01, 02, etc.), 2: month abbreviation
-#: app/Helpers/Functions.php:5112
+#: app/Helpers/Functions.php:5114
 #, php-format
 msgid "%1$s-%2$s"
 msgstr ""
 
-#: app/Helpers/Functions.php:5116
+#: app/Helpers/Functions.php:5118
 #: app/Resources/Options.php:5252
 msgid "Day"
 msgstr ""
 
-#: app/Helpers/Functions.php:5118
+#: app/Helpers/Functions.php:5120
 #: app/Resources/Options.php:5240
 msgid "Year"
 msgstr ""
 
-#: app/Helpers/Functions.php:5120
+#: app/Helpers/Functions.php:5122
 #: app/Resources/Options.php:5256
 msgid "Hour"
 msgstr ""
 
-#: app/Helpers/Functions.php:5122
+#: app/Helpers/Functions.php:5124
 msgid "Minute"
 msgstr ""
 
-#: app/Helpers/Functions.php:5126
+#: app/Helpers/Functions.php:5128
 #, php-format
 msgid "Expired on: <b>%1$s</b>"
 msgstr ""
 
-#: app/Helpers/Functions.php:5132
+#: app/Helpers/Functions.php:5134
 msgid "Edit date and time"
 msgstr ""
 
-#: app/Helpers/Functions.php:5135
+#: app/Helpers/Functions.php:5137
 msgid "Date and time"
 msgstr ""
 
-#: app/Helpers/Functions.php:5162
+#: app/Helpers/Functions.php:5164
 msgid "OK"
 msgstr ""
 
-#: app/Helpers/Functions.php:5165
+#: app/Helpers/Functions.php:5167
 #: app/Resources/Gallery.php:466
 #: app/Services/FormBuilder/LocalizedString.php:21
 #: src/form-builder/backend/components/editor/sidebar/Customizer/ChangeElementType.jsx:72
 msgid "Cancel"
 msgstr ""
 
-#: app/Helpers/Functions.php:5276
-#: app/Helpers/Functions.php:5277
+#: app/Helpers/Functions.php:5278
+#: app/Helpers/Functions.php:5279
 msgid "Select a country / region&hellip;"
 msgstr ""
 
-#: app/Helpers/Functions.php:5286
-#: app/Helpers/Functions.php:5287
+#: app/Helpers/Functions.php:5288
+#: app/Helpers/Functions.php:5289
 msgid "Update country / region"
 msgstr ""
 
-#: app/Helpers/Functions.php:5371
+#: app/Helpers/Functions.php:5373
 msgid "Choose an option"
 msgstr ""
 
-#: app/Helpers/Functions.php:6449
+#: app/Helpers/Functions.php:6451
 msgid "Location search is temporarily unavailable. Please wait a moment and try again."
 msgstr ""
 

@@ -1331,7 +1331,7 @@ class Functions {
 
 				$allTaxonomyLinkHtml = sprintf(
 					'<li class="all-taxonomy"><a href="%s">%s</a></li>',
-					$allTaxonomyLink,
+					esc_url( $allTaxonomyLink ),
 					apply_filters( 'rtcl_widget_filter_taxonomy_reset_text', $allTaxonomyLink_text, $args['taxonomy'] ),
 				);
 			}
@@ -1456,8 +1456,10 @@ class Functions {
 						}
 						break;
 				}
-				if ( ! empty( $_GET['filters'] ) ) {
-					$objects = array_merge( $objects, [ 'filters' => $_GET['filters'] ] );
+				if ( ! empty( $_GET['filters'] ) && is_array( $_GET['filters'] ) ) {
+					// Sanitize filter values to prevent XSS - recursively handles nested arrays
+					$sanitized_filters = self::clean( $_GET['filters'] );
+					$objects           = array_merge( $objects, [ 'filters' => $sanitized_filters ] );
 				}
 
 				if ( ! empty( $objects ) ) {
@@ -1474,9 +1476,9 @@ class Functions {
 					$has_arrow ? sprintf( ' data-id="%d"', $term->term_id ) : '',
 					sprintf(
 						'<a href="%s">%s%s <span>%s</span></a>',
-						$term_link,
+						esc_url( $term_link ),
 						$cat_img_icon,
-						$term->name,
+						esc_html( $term->name ),
 						! empty( $args['instance']['show_count'] ) ? ' (' . $count . ')' : '',
 					),
 					$has_arrow,

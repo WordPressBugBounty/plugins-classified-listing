@@ -122,8 +122,10 @@ class InlineSearchAjax {
 		$query_var_category = ! empty( $_REQUEST['query_var_category'] ) ? sanitize_text_field( $_REQUEST['query_var_category'] ) : '';
 		$query_var_tag      = ! empty( $_REQUEST['query_var_tag'] ) ? sanitize_text_field( $_REQUEST['query_var_tag'] ) : '';
 
-		if ( ! empty( $_REQUEST['filters'] ) ) {
-			$_GET = array_merge( $_GET, [ 'filters' => $_REQUEST['filters'] ] );
+		if ( ! empty( $_REQUEST['filters'] ) && is_array( $_REQUEST['filters'] ) ) {
+			// Sanitize filters to prevent XSS - recursively sanitize array values
+			$sanitized_filters = Functions::clean( $_REQUEST['filters'] );
+			$_GET              = array_merge( $_GET, [ 'filters' => $sanitized_filters ] );
 		}
 
 		wp_send_json_success( Functions::get_sub_terms_filter_html( $args, [], $query_var_location, $query_var_category, $query_var_tag ) );

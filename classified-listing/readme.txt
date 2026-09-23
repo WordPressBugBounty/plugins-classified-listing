@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.1.4.1
+Stable tag: 6.1.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -329,7 +329,10 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
-= 6.1.4 ( Sep 23, 2026 ) =
+= 6.1.5 ( Sep 23, 2026 ) =
+* Improved: Input sanitization and output escaping for taxonomy filters.
+
+= 6.1.4.1 ( Sep 23, 2026 ) =
 * Fixed: New form builder containers no longer get a default title shown on the front-end.
 * Fixed: Front-end form builder fields picked up theme borders, outlines and uneven heights.
 * Fixed: Add New Field popup broken by theme styles on the Custom Fields screen.
