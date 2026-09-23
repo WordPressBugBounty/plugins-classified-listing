@@ -204,7 +204,7 @@ class Options {
 				$options = array_merge(
 					array_slice( $options, 0, $pos + 1, true ),
 					$moderation_tab,
-					array_slice( $options, $pos + 1, null, true )
+					array_slice( $options, $pos + 1, null, true ),
 				);
 			} else {
 				$options = array_merge( $moderation_tab, $options );
@@ -1729,7 +1729,105 @@ class Options {
 
 		];
 
-		return apply_filters( 'rtcl_advanced_settings_options', $options );
+		return self::with_page_links( apply_filters( 'rtcl_advanced_settings_options', $options ) );
+	}
+
+	/**
+	 * Put a "Visit the Page" link under every page dropdown on the Page Setup screen.
+	 *
+	 * Runs after the filter, so the page settings add-ons append (Store Page, Compare Page, ...)
+	 * get the link too without each add-on having to ask for it. A dropdown counts as a page
+	 * dropdown when every option it offers is one of the site's pages.
+	 *
+	 * @param array $fields Settings fields.
+	 *
+	 * @return array
+	 */
+	private static function with_page_links( $fields ) {
+		if ( ! is_array( $fields ) ) {
+			return $fields;
+		}
+
+		$pages = self::get_page_permalinks();
+		if ( empty( $pages ) ) {
+			return $fields;
+		}
+
+		$page_ids = array_map( 'strval', array_keys( $pages ) );
+		$linked   = [];
+
+		foreach ( $fields as $key => $field ) {
+			$linked[ $key ] = $field;
+
+			if ( ! self::is_page_select( $field, $page_ids ) ) {
+				continue;
+			}
+
+			$selected = (string) Functions::get_option_item( 'rtcl_advanced_settings', $key );
+
+			$linked[ $key . '_page_link' ] = [
+				'title'       => '',
+				'type'        => 'html',
+				'description' => Functions::settings_cta_link(
+					isset( $pages[ $selected ] ) ? $pages[ $selected ] : home_url( '/' ),
+					__( 'Visit the Page', 'classified-listing' ),
+					[
+						'new_tab' => true,
+						'data'    => [ 'rtcl-page-field' => $key ],
+					]
+				),
+				'depends'     => [
+					'relation' => 'and',
+					'on'       => [
+						[
+							'field'     => 'rtcl_advanced_settings.' . $key,
+							'value'     => '',
+							'condition' => '!=',
+						],
+					],
+				],
+			];
+		}
+
+		return $linked;
+	}
+
+	/**
+	 * A select whose every option is one of the site's pages.
+	 *
+	 * @param array    $field    Settings field.
+	 * @param string[] $page_ids Page ids as strings.
+	 *
+	 * @return bool
+	 */
+	private static function is_page_select( $field, $page_ids ) {
+		if ( ! is_array( $field ) || empty( $field['options'] ) || ! is_array( $field['options'] ) ) {
+			return false;
+		}
+		if ( empty( $field['type'] ) || 'select' !== $field['type'] ) {
+			return false;
+		}
+
+		$options = array_filter( array_map( 'strval', array_keys( $field['options'] ) ), 'strlen' );
+
+		return ! empty( $options ) && ! array_diff( $options, $page_ids );
+	}
+
+	/**
+	 * The site's pages as id => permalink.
+	 *
+	 * @return array<string,string>
+	 */
+	public static function get_page_permalinks() {
+		$permalinks = [];
+		foreach ( Functions::get_pages() as $page_id => $title ) {
+			$permalink = get_permalink( (int) $page_id );
+			if ( $permalink ) {
+				$permalinks[ (string) $page_id ] = $permalink;
+			}
+		}
+
+		return $permalinks;
 	}
 
 	// Tools settings
@@ -2184,6 +2282,22 @@ class Options {
 						'required' => 1,
 					],
 					[
+						'label'       => esc_html__( 'Include categories', 'classified-listing' ),
+						'id'          => 'include_terms',
+						'type'        => 'terms_select',
+						'taxonomy'    => rtcl()->category,
+						'placeholder' => esc_html__( 'All categories', 'classified-listing' ),
+						'description' => esc_html__( 'Show only these categories (and their sub-categories). Include always wins over exclude.', 'classified-listing' ),
+					],
+					[
+						'label'       => esc_html__( 'Exclude categories', 'classified-listing' ),
+						'id'          => 'exclude_terms',
+						'type'        => 'terms_select',
+						'taxonomy'    => rtcl()->category,
+						'placeholder' => esc_html__( 'None', 'classified-listing' ),
+						'description' => esc_html__( 'Hide these categories (and their sub-categories).', 'classified-listing' ),
+					],
+					[
 						'label' => esc_html__( 'Hide empty', 'classified-listing' ),
 						'id'    => 'hide_empty',
 						'type'  => 'switch',
@@ -2198,6 +2312,11 @@ class Options {
 						'id'      => 'show_icon_image',
 						'default' => 1,
 						'type'    => 'switch',
+					],
+					[
+						'label' => esc_html__( 'Expand sub-categories', 'classified-listing' ),
+						'id'    => 'expand_sub',
+						'type'  => 'switch',
 					],
 					[
 						'label' => esc_html__( 'More Less', 'classified-listing' ),
@@ -2844,7 +2963,7 @@ class Options {
 	 * Uses character-by-character conversion to avoid collision issues
 	 * that occur with str_replace when replacement tokens overlap.
 	 *
-	 * @param string $phpFormat PHP date format string (e.g. 'd.m.Y H:i').
+	 * @param  string  $phpFormat  PHP date format string (e.g. 'd.m.Y H:i').
 	 *
 	 * @return string Moment.js/dayjs compatible format string.
 	 */
@@ -2874,12 +2993,12 @@ class Options {
 
 		$result = '';
 		$length = strlen( $phpFormat );
-		for ( $i = 0; $i < $length; $i++ ) {
+		for ( $i = 0; $i < $length; $i ++ ) {
 			$char = $phpFormat[ $i ];
 			if ( $char === '\\' && $i + 1 < $length ) {
 				// Escaped character in PHP format — wrap in brackets for moment.js
 				$result .= '[' . $phpFormat[ $i + 1 ] . ']';
-				$i++;
+				$i ++;
 			} elseif ( isset( $map[ $char ] ) ) {
 				$result .= $map[ $char ];
 			} else {
@@ -5512,88 +5631,134 @@ class Options {
 
 	public static function addons() {
 		$addons = [
-			'ext_rtcl_bundle'         => [
-				'type'     => 'bundle',
-				'title'    => 'Classified Listing Plugins and Themes Bundled',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/bundle-extension.png',
-				'demo_url' => 'https://radiustheme.com/demo/wordpress/classifiedpro/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classified-listing-pro-plugins-bundle/',
+			'ext_rtcl_bundle'      => [
+				'type'         => 'premium',
+				'title'        => 'Classified Listing Plugins and Themes Bundled',
+				'description'  => 'Get all premium plugins and themes in one discounted bundle package.',
+				'img_url'      => 'https://www.radiustheme.com/wp-content/uploads/edd/2026/07/Classified-Listing-Pro-Plugins-Themes-Bundle1.webp',
+				'demo_url'     => 'https://radiustheme.com/demo/wordpress/classifiedpro/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/classified-listing-pro-plugins-bundle/',
+				/*'badge'        => 'bundle',*/
+				'icon'         => 'grid',
+				'thumb_colors' => [ '#7c7ef5', '#6366f1' ],
 			],
-			'ext_rtcl_app'            => [
-				'type'     => 'app',
-				'title'    => 'Classified Listing - Android and iOS Mobile App',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/classified-listing-mobile-app-android-ios.jpg',
-				'demo_url' => 'https://www.radiustheme.com/downloads/classified-listing-android-and-ios-mobile-app/',
+			'ext_rtcl_pro'         => [
+				'type'         => 'premium',
+				'title'        => 'Classified Listing Pro',
+				'description'  => 'Unlock advanced features like custom fields, membership, and payment gateways.',
+				'img_url'      => 'https://radiustheme.com/demo/cl-extensions/Classified-Listing-classified-ads-business-directory-plugin.png',
+				'demo_url'     => 'https://radiustheme.com/demo/wordpress/classifiedpro/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/classified-listing-pro-wordpress/',
+				'icon'         => 'crown',
+				'thumb_colors' => [ '#22c3a6', '#0f9d8a' ],
 			],
-			'ext_rtcl_pro'            => [
-				'type'     => 'Extension',
-				'title'    => 'Classified Listing Pro for WordPress',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/Classified-Listing-classified-ads-business-directory-plugin.png',
-				'demo_url' => 'https://radiustheme.com/demo/wordpress/classifiedpro/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classified-listing-pro-wordpress/',
+			'ext_rtcl_store'       => [
+				'type'         => 'premium',
+				'title'        => 'Classified Listing Store & Membership',
+				'description'  => 'Add store pages and membership plans with subscription-based monetization.',
+				'img_url'      => 'https://www.radiustheme.com/wp-content/uploads/edd/2026/09/Classified-Listing-Store-Membership-addon-scaled.webp',
+				'demo_url'     => 'https://www.radiustheme.com/demo/wordpress/themes/classima/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/classified-listing-store-membership-addon-for-wordpress/',
+				'tags'         => [ 'popular' ],
+				'icon'         => 'store',
+				'thumb_colors' => [ '#8b5cf6', '#6d28d9' ],
 			],
-			'ext_rtcl_store'          => [
-				'type'     => 'Extension',
-				'title'    => 'Classified Listing Store & Membership addon for WordPress',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/Classified-Listing-store-membership-addon.png',
-				'demo_url' => 'https://www.radiustheme.com/demo/wordpress/themes/classima/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classified-listing-store-membership-addon-for-wordpress/',
+			'ext_el_builder'       => [
+				'type'         => 'premium',
+				'title'        => 'Elementor Builder – Archive & Single Page Builder',
+				'description'  => 'Build custom listing archive and single pages using Elementor drag & drop.',
+				'img_url'      => 'https://www.radiustheme.com/wp-content/uploads/edd/2026/09/Archive-Page-Builder-Elementor-Divi-Gutenberg-scaled.webp',
+				'demo_url'     => 'https://radiustheme.com/demo/wordpress/classifiedpro/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/classified-listing-elementor-builder/',
+				'tags'         => [ 'popular' ],
+				'icon'         => 'layers',
+				'thumb_colors' => [ '#f97316', '#ea580c' ],
 			],
-			'ext_rtcl_wpml'           => [
-				'type'     => 'Extension',
-				'title'    => 'Classified Listing MultiLingual Addon',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/Classified-Listing-multilingual-addon.png',
-				'demo_url' => 'https://www.radiustheme.com/wordpress-plugins/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classified-listing-multilingual-addon/',
+			'ext_lead_manager'     => [
+				'type'         => 'premium',
+				'title'        => 'Lead Manager',
+				'description'  => 'Lead Manager stores every contact form enquiry from your listings and stores in one organized dashboard. Track lead status, view analytics, forward leads by email, and export everything to CSV or Excel.',
+				'img_url'      => 'https://www.radiustheme.com/wp-content/uploads/edd/2026/07/lead-manage-addon-features-banner.webp',
+				'demo_url'     => 'https://radiustheme.com/demo/wordpress/classifiedpro/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/lead-manager/',
+				'tags'         => [ 'new' ],
+				'icon'         => 'layers',
+				'thumb_colors' => [ '#f97316', '#ea580c' ],
 			],
-			'ext_el_builder'          => [
-				'type'     => 'Extension',
-				'title'    => 'Elementor Builder – Archive & Single Page Builder',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/elementor-builder-addon-for-classified-listing.png',
-				'demo_url' => 'https://radiustheme.com/demo/wordpress/classifiedpro/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classified-listing-elementor-builder/',
+			'ext_ad_manager'       => [
+				'type'         => 'premium',
+				'title'        => 'Ads Manager',
+				'description'  => 'Place banner ads anywhere on your site. Run AdSense, custom banners, or HTML ads. Schedule campaigns, track clicks and impressions, and sell ad space to advertisers — all from one dashboard.',
+				'img_url'      => 'https://www.radiustheme.com/wp-content/uploads/edd/2026/07/ads-manager-hero-banner-scaled.webp',
+				'demo_url'     => 'https://radiustheme.com/demo/wordpress/classifiedpro/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/ads-manager/',
+				'tags'         => [ 'new' ],
+				'icon'         => 'layers',
+				'thumb_colors' => [ '#f97316', '#ea580c' ],
 			],
-			'ext_otp_verification'    => [
-				'type'     => 'Extension',
-				'title'    => 'Classified Listing – Mobile Number Verification',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/mobile-no-verification.png',
-				'demo_url' => 'https://radiustheme.net/publicdemo/classima',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classified-listing-mobile-no-verification/',
+			'ext_fields_manager'   => [
+				'type'         => 'premium',
+				'title'        => 'Account Fields Manager',
+				'description'  => 'Add-on for Classified Listing. Create unlimited custom account fields with an intuitive drag-and-drop builder.',
+				'img_url'      => 'https://www.radiustheme.com/wp-content/uploads/edd/2026/08/Account-Fields-Manager-banner.webp',
+				'demo_url'     => 'https://radiustheme.com/demo/wordpress/classifiedpro/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/account-fields-manager/',
+				'tags'         => [ 'new' ],
+				'icon'         => 'layers',
+				'thumb_colors' => [ '#f97316', '#ea580c' ],
 			],
-			'ext_seller_verification' => [
-				'type'     => 'Extension',
-				'title'    => 'Classified Listing – Seller Verification',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/seller-verification.png',
-				'demo_url' => 'https://radiustheme.net/publicdemo/classima',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classified-listing-seller-verification/',
+			'ext_rtcl_wpml'        => [
+				'type'         => 'premium',
+				'title'        => 'Classified Listing MultiLingual',
+				'description'  => 'Make your classified site multilingual with WPML compatibility support.',
+				'img_url'      => 'https://www.radiustheme.com/wp-content/uploads/edd/2026/09/Classified-Listing%E2%80%93WPML-Multi-Language-Addon-scaled.webp',
+				'demo_url'     => 'https://www.radiustheme.com/wordpress-plugins/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/classified-listing-multilingual-addon/',
+				'tags'         => [ 'popular' ],
+				'icon'         => 'globe',
+				'thumb_colors' => [ '#3b82f6', '#1d4ed8' ],
 			],
-			'ext_booking'             => [
-				'type'     => 'Extension',
-				'title'    => 'Classified Listing – Booking (Reservation & Appointment)',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/booking.png',
-				'demo_url' => 'https://radiustheme.net/publicdemo/classima',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classified-listing-booking/',
+			'ext_otp_verification' => [
+				'type'         => 'premium',
+				'title'        => 'Mobile Number Verification',
+				'description'  => 'Add OTP-based mobile number verification for user registration and listing.',
+				'img_url'      => 'https://www.radiustheme.com/wp-content/uploads/edd/2026/09/Classified-Listing-Mobile-no-Verification-scaled.webp',
+				'demo_url'     => 'https://radiustheme.net/publicdemo/classima',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/classified-listing-mobile-no-verification/',
+				'tags'         => [ 'popular' ],
+				'icon'         => 'phone',
+				'thumb_colors' => [ '#06b6d4', '#0891b2' ],
 			],
-			'ext_rtcl_buddypress'     => [
-				'type'     => 'Extension',
-				'title'    => 'BuddyPress Integration',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/buddypress-integration.png',
-				'demo_url' => 'https://radiustheme.net/publicdemo/classima',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classified-listing-buddypress-integration/',
+			'ext_multi_currency'   => [
+				'type'         => 'premium',
+				'title'        => 'Multi-Currency',
+				'description'  => 'Support multiple currencies with automatic exchange rate conversion.',
+				'img_url'      => 'https://www.radiustheme.com/wp-content/uploads/edd/2026/09/Classified-Listing-Multi-Currency-Addon-scaled.webp',
+				'demo_url'     => 'https://radiustheme.net/publicdemo/classima',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/classified-listing-multi-currency-addon/',
+				'icon'         => 'banknote',
+				'thumb_colors' => [ '#eab308', '#ca8a04' ],
 			],
-			'ext_rtcl_buddyboss'      => [
-				'type'     => 'Extension',
-				'title'    => 'BuddyBoss Integration',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/buddyboss-integration.png',
-				'demo_url' => 'https://radiustheme.net/publicdemo/classima',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classified-listing-buddyboss-integration/',
+			'ext_booking'          => [
+				'type'         => 'premium',
+				'title'        => 'Booking (Reservation & Appointment)',
+				'description'  => 'Enable appointment booking and reservation features for service listings.',
+				'img_url'      => 'https://www.radiustheme.com/wp-content/uploads/edd/2026/08/Classified-Listing-Booking-Reservation-addon-scaled.webp',
+				'demo_url'     => 'https://radiustheme.net/publicdemo/classima',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/classified-listing-booking/',
+				'tags'         => [ 'popular' ],
+				'icon'         => 'calendar',
+				'thumb_colors' => [ '#ec4899', '#db2777' ],
 			],
-			'ext_multi_currency'      => [
-				'type'     => 'Extension',
-				'title'    => 'Classified Listing – Multi-Currency',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/multi-currency.png',
-				'demo_url' => 'https://radiustheme.net/publicdemo/classima',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classified-listing-multi-currency-addon/',
+			'ext_rtcl_marketplace' => [
+				'type'         => 'premium',
+				'title'        => 'Marketplace',
+				'description'  => 'If you are looking to build a marketplace to sell your products and digital download items then you need this marketplace addon.',
+				'img_url'      => 'http://radiustheme.com/wp-content/uploads/edd/2026/08/Classified-Listing-Marketplace-addon-scaled.webp',
+				'demo_url'     => 'https://radiustheme.net/publicdemo/classima',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/marketplace/',
+				'icon'         => 'users',
+				'thumb_colors' => [ '#f43f5e', '#e11d48' ],
 			],
 		];
 
@@ -5602,89 +5767,142 @@ class Options {
 
 	public static function themes() {
 		$themes = [
-			'theme_cl_classified'    => [
-				'type'     => 'free',
-				'title'    => 'CL Classified – Classified Listing WordPress Theme',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/cl-classified-wordpress-theme.png',
-				'demo_url' => 'https://radiustheme.net/publicdemo/cl-classified/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classified-listing-pro-plugins-bundle/',
-			],
-			'theme_radius_directory' => [
-				'type'     => 'free',
-				'title'    => 'Radius Directory – Directory WordPress Theme',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/radius-directory.png',
-				'demo_url' => 'https://radiustheme.net/publicdemo/radius-directory/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/radius-directory-directory-wordpress-theme/',
-			],
 			'theme_classima'         => [
-				'type'     => 'Theme',
-				'title'    => 'Classima – Classified Ads WordPress Theme',
-				'img_url'  => 'https://radiustheme.com/our-plugins/Classima-classified-wordpress-theme.png',
-				'demo_url' => 'https://www.radiustheme.com/demo/wordpress/themes/classima/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classima-classified-ads-wordpress-theme/',
+				'type'         => 'premium',
+				'title'        => 'Classima – Classified Ads WordPress Theme',
+				'description'  => 'Feature-rich classified ads theme with modern design and advanced options.',
+				'img_url'      => 'https://radiustheme.com/our-plugins/Classima-classified-wordpress-theme.png',
+				'demo_url'     => 'https://www.radiustheme.com/demo/wordpress/themes/classima/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/classima-classified-ads-wordpress-theme/',
+				'tags'         => [ 'popular' ],
+				'icon'         => 'palette',
+				'thumb_colors' => [ '#3b82f6', '#2563eb' ],
+				'rating'       => '4.9',
+				'installs'     => '5k+',
 			],
-			'app_classima'           => [
-				'type'     => 'Mobile App',
-				'title'    => 'Classima - Classified Ads Android & iOS App',
-				'img_url'  => 'https://radiustheme.com/our-plugins/Classified-ads-android-ios-app.png',
-				'demo_url' => 'https://play.google.com/store/apps/details?id=com.classima.radiustheme',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classified-listing-android-app/',
+			'theme_homlisti'         => [
+				'type'         => 'premium',
+				'title'        => 'Homlisti — The AI-Powered Real Estate WordPress Theme',
+				'description'  => 'Homlisti is a powerful real estate WordPress theme for building property listing, buying, selling, and rental marketplaces.',
+				'img_url'      => 'https://radiustheme.com/demo/cl-extensions//homlisti.png',
+				'demo_url'     => 'https://www.radiustheme.com/demo/wordpress/themes/homlisti/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/homlisti-real-estate-wordpress-theme/',
+				'tags'         => [ 'popular' ],
+				'icon'         => 'list',
+				'thumb_colors' => [ '#f43f5e', '#e11d48' ],
+				'rating'       => '4.75',
+				'installs'     => '1.7k+',
 			],
-			'theme_cl_property'      => [
-				'type'     => 'Theme',
-				'title'    => 'CL Property – Real Estate WordPress Theme',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/clproperty-wordpress-theme.png',
-				'demo_url' => 'https://radiustheme.com/demo/wordpress/themes/clproperty/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/clproperty-real-estate-wordpress-theme/',
+			'theme_listygo'          => [
+				'type'         => 'premium',
+				'title'        => 'ListyGo – AI-Powered Business Directory WordPress Theme',
+				'description'  => 'Create a professional local business directory, city guide, or niche listing website for restaurants, healthcare, fitness centers, and local services.',
+				'img_url'      => 'https://radiustheme.com/demo/cl-extensions//listygo.png',
+				'demo_url'     => 'https://radiustheme.com/demo/wordpress/themes/listygo/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/listygo-directory-listing-wordpress-theme/',
+				'tags'         => [ 'popular' ],
+				'icon'         => 'list',
+				'thumb_colors' => [ '#f43f5e', '#e11d48' ],
+				'rating'       => '4.71',
+				'installs'     => '1k+',
 			],
-			'theme_cl_directory'     => [
-				'type'     => 'Theme',
-				'title'    => 'CL Directory – Directory WordPress Theme',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/cldirectory-wordpress-theme.png',
-				'demo_url' => 'https://radiustheme.com/demo/wordpress/themes/cldirectory/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/cldirectory-directory-wordpress-theme/',
+			'theme_lispress'         => [
+				'type'         => 'premium',
+				'title'        => 'ListPress – AI-Powered WordPress Directory Theme',
+				'description'  => 'Create a multi-directory or listing WordPress theme website — local business, classified ads, real estate, doctors, car rental, or any niche.',
+				'img_url'      => 'https://radiustheme.com/demo/cl-extensions/listpress.png',
+				'demo_url'     => 'https://www.radiustheme.com/demo/wordpress/themes/listpress/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/listpress-wordpress-directory-theme/',
+				'tags'         => [ 'new' ],
+				'icon'         => 'list',
+				'thumb_colors' => [ '#f43f5e', '#e11d48' ],
+				'rating'       => '5.00',
+				'installs'     => '80+',
+			],
+			'theme_petlist'          => [
+				'type'         => 'premium',
+				'title'        => 'Petslist - Pet Classified WordPress Theme',
+				'description'  => 'Specialized theme for pet adoption, pet sales, breeder, rescue, and pet service websites.',
+				'img_url'      => 'https://radiustheme.com/demo/cl-extensions/petslist.png',
+				'demo_url'     => 'https://www.radiustheme.com/demo/wordpress/themes/petslist/home-one/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/petslist-pet-listing-wordpress-theme/',
+				'icon'         => 'list',
+				'thumb_colors' => [ '#f43f5e', '#e11d48' ]
 			],
 			'theme_cl_car'           => [
-				'type'     => 'Theme',
-				'title'    => 'CL Car – Classified Listing WordPress Theme',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/car-listing-wordpress-theme.png',
-				'demo_url' => 'https://www.radiustheme.com/demo/wordpress/themes/clcar/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/clcar-car-listing-wordpress-theme/',
-			],
-			'theme_cl_restaurant'    => [
-				'type'     => 'Theme',
-				'title'    => 'CL Restaurant – Restaurant Listing WordPress Theme',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/restaurant-listing-wordpress-theme.png',
-				'demo_url' => 'https://radiustheme.com/demo/wordpress/themes/clrestaurant/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/clrestaurant-restaurant-directory-wordpress-theme/',
+				'type'         => 'premium',
+				'title'        => 'CL Car – Classified Listing WordPress Theme',
+				'description'  => 'Specialized theme for automobile and vehicle listing websites.',
+				'img_url'      => 'https://radiustheme.com/demo/cl-extensions/car-listing-wordpress-theme.png',
+				'demo_url'     => 'https://www.radiustheme.com/demo/wordpress/themes/clcar/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/clcar-car-listing-wordpress-theme/',
+				'tags'         => [ 'new' ],
+				'icon'         => 'car',
+				'thumb_colors' => [ '#ef4444', '#dc2626' ],
 			],
 			'theme_cl_doctor'        => [
-				'type'     => 'Theme',
-				'title'    => 'CL Doctor – Doctor Directory WordPress Theme',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/doctor-listing-wordpress-theme.png',
-				'demo_url' => 'https://www.radiustheme.com/demo/wordpress/themes/cldoctor/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/cldoctor-doctor-directory-wordpress-theme/',
+				'type'         => 'premium',
+				'title'        => 'CL Doctor – Doctor Directory WordPress Theme',
+				'description'  => 'Doctor and healthcare directory theme with appointment functionality.',
+				'img_url'      => 'https://radiustheme.com/demo/cl-extensions/doctor-listing-wordpress-theme.png',
+				'demo_url'     => 'https://www.radiustheme.com/demo/wordpress/themes/cldoctor/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/cldoctor-doctor-directory-wordpress-theme/',
+				'tags'         => [ 'popular' ],
+				'icon'         => 'heart-pulse',
+				'thumb_colors' => [ '#22c55e', '#16a34a' ],
 			],
-			'theme_obitore'          => [
-				'type'     => 'Theme',
-				'title'    => 'Obitore– Funeral Home WordPress Theme',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/obitore-funeral-wordpress-theme.png',
-				'demo_url' => 'https://radiustheme.net/publicdemo/obitore/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/obitore-funeral-home-wordpress-theme/',
+			'theme_cl_restaurant'    => [
+				'type'         => 'premium',
+				'title'        => 'CL Restaurant – Restaurant Listing WordPress Theme',
+				'description'  => 'Restaurant directory theme with menu, reviews, and booking features.',
+				'img_url'      => 'https://radiustheme.com/demo/cl-extensions/restaurant-listing-wordpress-theme.png',
+				'demo_url'     => 'https://radiustheme.com/demo/wordpress/themes/clrestaurant/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/clrestaurant-restaurant-directory-wordpress-theme/',
+				'icon'         => 'utensils',
+				'thumb_colors' => [ '#eab308', '#ca8a04' ],
 			],
 			'theme_service_listing'  => [
-				'type'     => 'Theme',
-				'title'    => 'Servlisting – Service Finder WordPress Theme',
-				'img_url'  => 'https://radiustheme.com/demo/cl-extensions/service-listing-wordpress-theme.png',
-				'demo_url' => 'https://www.radiustheme.com/demo/wordpress/themes/servlisting/',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/servlisting-service-listing-wordpress-theme/',
+				'type'         => 'premium',
+				'title'        => 'Servlisting – Service Finder WordPress Theme',
+				'description'  => 'Service marketplace theme for finding and listing professional services.',
+				'img_url'      => 'https://radiustheme.com/demo/cl-extensions/service-listing-wordpress-theme.png',
+				'demo_url'     => 'https://www.radiustheme.com/demo/wordpress/themes/servlisting/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/servlisting-service-listing-wordpress-theme/',
+				'icon'         => 'briefcase',
+				'thumb_colors' => [ '#ec4899', '#db2777' ],
 			],
 			'theme_classiList'       => [
-				'type'     => 'Theme',
-				'title'    => 'ClassiList – Classified Ads WordPress Theme',
-				'img_url'  => 'https://radiustheme.com/our-plugins/ClassiList-classified-ads-wordpress-theme.png',
-				'demo_url' => 'https://www.radiustheme.com/demo/wordpress/themes/classilist',
-				'buy_url'  => 'https://www.radiustheme.com/downloads/classilist-classified-ads-wordpress-theme/',
+				'type'         => 'premium',
+				'title'        => 'ClassiList – Classified Ads WordPress Theme',
+				'description'  => 'Modern classified ads theme with clean layout and easy customization.',
+				'img_url'      => 'https://radiustheme.com/our-plugins/ClassiList-classified-ads-wordpress-theme.png',
+				'demo_url'     => 'https://www.radiustheme.com/demo/wordpress/themes/classilist',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/classilist-classified-ads-wordpress-theme/',
+				'icon'         => 'list',
+				'thumb_colors' => [ '#f43f5e', '#e11d48' ],
+			],
+			'theme_cl_classified'    => [
+				'type'         => 'free',
+				'title'        => 'CL Classified – Classified Listing WordPress Theme',
+				'description'  => 'Free starter theme for building a classified listing website.',
+				'img_url'      => 'https://radiustheme.com/demo/cl-extensions/cl-classified-wordpress-theme.png',
+				'demo_url'     => 'https://www.radiustheme.com/demo/wordpress/themes/cl-classified/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/clclassified-classified-ads-wordpress-theme/',
+				'download_url' => 'https://downloads.wordpress.org/theme/cl-classified.zip',
+				'tags'         => [ 'popular' ],
+				'icon'         => 'layout',
+				'thumb_colors' => [ '#f87171', '#dc2626' ]
+			],
+			'theme_radius_directory' => [
+				'type'         => 'free',
+				'title'        => 'Radius Directory – Directory WordPress Theme',
+				'description'  => 'Free directory theme with clean design and listing support.',
+				'img_url'      => 'https://radiustheme.com/demo/cl-extensions/radius-directory.png',
+				'demo_url'     => 'https://www.radiustheme.com/demo/wordpress/themes/radius-directory/',
+				'buy_url'      => 'https://www.radiustheme.com/downloads/radius-directory-directory-wordpress-theme/',
+				'download_url' => 'https://www.radiustheme.com/checkout?edd_action=add_to_cart&download_id=213859&edd_options[price_id]=1',
+				'icon'         => 'map-pin',
+				'thumb_colors' => [ '#14b8a6', '#0d9488' ],
 			],
 		];
 

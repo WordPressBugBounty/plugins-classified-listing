@@ -1065,6 +1065,8 @@ class ScriptLoader {
 				'stateList'   => rtcl()->countries->get_states(),
 				'notices'     => $notices,
 				'rtcl_nonce'  => wp_create_nonce( rtcl()->nonceText ),
+				// title => permalink, for the "Visit the Page" links under the page dropdowns.
+				'pageLinks'   => self::page_links_by_title(),
 			];
 			// Add the color picker css file
 //			wp_enqueue_style( 'wp-color-picker' );
@@ -1072,7 +1074,90 @@ class ScriptLoader {
 			wp_enqueue_style( 'rtcl-admin-settings' );
 			wp_enqueue_script( 'rtcl-admin-settings' );
 			wp_localize_script( 'rtcl-admin-settings', 'rtclObj', $rtclObj );
+			wp_add_inline_style( 'rtcl-admin-settings', self::settings_page_link_css() );
+			wp_add_inline_script( 'rtcl-admin-settings', self::settings_page_link_js() );
 		}
+	}
+
+	/**
+	 * The site's pages as title => permalink.
+	 *
+	 * Keyed by title because that is what the settings dropdown shows; two pages sharing a
+	 * title resolve to the last one.
+	 *
+	 * @return array<string,string>
+	 */
+	private static function page_links_by_title() {
+		$links = [];
+		foreach ( Functions::get_pages() as $page_id => $title ) {
+			$permalink = get_permalink( (int) $page_id );
+			if ( $permalink ) {
+				$links[ (string) $title ] = $permalink;
+			}
+		}
+
+		return $links;
+	}
+
+	/**
+	 * Keep a "Visit the Page" link tight under the dropdown it belongs to.
+	 *
+	 * @return string
+	 */
+	private static function settings_page_link_css() {
+		return '[id$="_page_link"] > div{padding-top:0}'
+			. '[id$="_page_link"] > div > div > div{margin-top:0}'
+			. 'div:has(+ [id$="_page_link"]) > div{padding-bottom:0}';
+	}
+
+	/**
+	 * Point each "Visit the Page" link at the page currently chosen in its dropdown.
+	 *
+	 * The settings screen is a React app, so the link is static HTML that cannot see the
+	 * dropdown; this mirrors the selection onto it, before it is even saved.
+	 *
+	 * @return string
+	 */
+	private static function settings_page_link_js() {
+		return <<<'JS'
+( function () {
+	function syncPageLinks() {
+		var links = document.querySelectorAll( 'a[data-rtcl-page-field]' );
+		var pages = ( window.rtclObj && window.rtclObj.pageLinks ) || {};
+
+		Array.prototype.forEach.call( links, function ( link ) {
+			var field = link.getAttribute( 'data-rtcl-page-field' );
+			var wrap = document.getElementById( field + '_page_link' );
+			var selected = document.querySelector( '#' + field + ' .react-select__single-value' );
+			var url = selected ? pages[ selected.textContent.trim() ] : '';
+
+			if ( wrap ) {
+				// Nothing picked, or a page we have no permalink for: nothing to visit.
+				wrap.style.display = url ? '' : 'none';
+			}
+			if ( url ) {
+				link.setAttribute( 'href', url );
+			}
+		} );
+	}
+
+	function observe() {
+		var form = document.querySelector( '.rtcl-setting-form-wrap' );
+		if ( ! form ) {
+			window.setTimeout( observe, 500 );
+			return;
+		}
+		syncPageLinks();
+		new MutationObserver( syncPageLinks ).observe( form, { childList: true, subtree: true } );
+	}
+
+	if ( 'loading' === document.readyState ) {
+		document.addEventListener( 'DOMContentLoaded', observe );
+	} else {
+		observe();
+	}
+}() );
+JS;
 	}
 
 	public function load_setup_wizard_script() {
@@ -1317,6 +1402,7 @@ class ScriptLoader {
 			'options'          => $this->get_fb_settings_options( true ),
 			'validation'       => ValidationRuleSettings::get(),
 			'fields'           => AvailableFields::get(),
+			'fieldGroups'      => AvailableFields::fieldGroups(),
 			'i18n'             => LocalizedString::admin(),
 			'countryPhoneList' => $this->get_country_phone_list(),
 			'phoneDefaults'    => $this->get_phone_field_defaults(),
@@ -1356,13 +1442,49 @@ class ScriptLoader {
 
 		$forms = apply_filters( 'rtcl_fb_forms', $forms );
 
+		$filterItems = Options::filterFormItems();
+
+		// Term choices for "terms_select" fields (e.g. include/exclude categories), keyed by taxonomy.
+		$terms = [];
+		foreach ( $filterItems as $filterItem ) {
+			foreach ( ! empty( $filterItem['fields'] ) ? $filterItem['fields'] : [] as $_field ) {
+				if ( empty( $_field['type'] ) || 'terms_select' !== $_field['type'] || empty( $_field['taxonomy'] ) || isset( $terms[ $_field['taxonomy'] ] ) ) {
+					continue;
+				}
+				$_terms = get_terms( [
+					'taxonomy'   => $_field['taxonomy'],
+					'hide_empty' => false,
+					'orderby'    => 'name',
+				] );
+				$terms[ $_field['taxonomy'] ] = [];
+				if ( ! is_wp_error( $_terms ) && ! empty( $_terms ) ) {
+					$children = [];
+					foreach ( $_terms as $_term ) {
+						$children[ $_term->parent ][] = $_term;
+					}
+					$walk = function ( $parent, $depth ) use ( &$walk, &$children, &$terms, $_field ) {
+						foreach ( ! empty( $children[ $parent ] ) ? $children[ $parent ] : [] as $_term ) {
+							$terms[ $_field['taxonomy'] ][] = [
+								'id'   => $_term->term_id,
+								'text' => str_repeat( '— ', $depth ) . html_entity_decode( $_term->name ),
+							];
+							$walk( $_term->term_id, $depth + 1 );
+						}
+					};
+					$walk( 0, 0 );
+				}
+			}
+		}
+
 		$rtclObj = [
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			'filters' => Functions::get_option( 'rtcl_filter_settings' ),
-			'items'   => Options::filterFormItems(),
+			'items'   => $filterItems,
+			'terms'   => $terms,
 			'forms'   => $forms,
 			'nonce'   => wp_create_nonce( rtcl()->nonceText ),
 		];
+		wp_enqueue_script( 'select2' );
 		wp_enqueue_script( 'rtcl-ajax-filter-admin' );
 		wp_localize_script( 'rtcl-ajax-filter-admin', 'rtclFilterObj', apply_filters( 'rtcl_ajax_filter_admin_localize', $rtclObj ) );
 		wp_enqueue_style( 'rtcl-admin' );

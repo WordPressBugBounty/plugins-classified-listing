@@ -684,6 +684,8 @@ class ElementCustomization {
 				'label'       => __( 'Category filter', 'classified-listing' ),
 				'placeholder' => __( "Type to search category", 'classified-listing' ),
 				'help_text'   => __( 'Filter top level categories', 'classified-listing' ),
+				'child_only_label' => __( 'Show only child categories of the selected terms', 'classified-listing' ),
+				'child_only_help'  => __( 'The submission form skips the selected categories and lists their sub-categories directly. The parent category is still saved with the listing.', 'classified-listing' ),
 				'mode'        => [
 					'default' => 'include',
 					'options' => [

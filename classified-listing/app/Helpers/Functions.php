@@ -1515,6 +1515,7 @@ class Functions {
 			] );
 
 		$terms = empty( $terms ) ? self::get_sub_terms( $args['taxonomy'], $args['parent'] ) : $terms;
+		$terms = self::filter_ajax_filter_terms( $terms, $args );
 		$html  = '';
 
 		if ( ! empty( $terms ) ) {
@@ -1540,7 +1541,7 @@ class Functions {
 					continue;
 				}
 				$itemCount ++;
-				$children       = self::get_sub_terms( $args['taxonomy'], $term->term_id, [ 'has_sub' => $itemCount ] );
+				$children       = self::filter_ajax_filter_terms( self::get_sub_terms( $args['taxonomy'], $term->term_id, [ 'has_sub' => $itemCount ] ), $args );
 				$args['parent'] = $term->term_id;
 				$cls            = $has_arrow = $sub_term_html = $cls_open = null;
 				if ( ! empty( $children ) ) {
@@ -1550,6 +1551,8 @@ class Functions {
 					if ( ! empty( $ancestorsIds ) && in_array( $term->term_id, $ancestorsIds ) ) {
 						$cls_open = ' is-open is-loaded';
 						$ulCls    .= ' has-filter';
+					} elseif ( ! empty( $args['expand_sub'] ) ) {
+						$cls_open = ' is-open is-loaded';
 					}
 					$cls = $cls . $cls_open;
 				}
@@ -1611,8 +1614,8 @@ class Functions {
 			}
 			if ( ! empty( $args['more_less'] ) && $html && $hideAble ) {
 				$html .= '<div class="rtcl-more-less-btn">
-									<div class="text more-text" tabindex="0"><i class="rtcl-icon rtcl-icon-plus-1"></i>' . __( 'More', 'classified-listing' ) . '</div>
-									<div class="text less-text" tabindex="0"><i class="rtcl-icon rtcl-icon-minus-1"></i>' . __( 'Less', 'classified-listing' ) . '</div>
+									<div class="text more-text" tabindex="0"><i class="rtcl-icon rtcl-icon-angle-down"></i>' . __( 'More', 'classified-listing' ) . '</div>
+									<div class="text less-text" tabindex="0"><i class="rtcl-icon rtcl-icon-angle-up"></i>' . __( 'Less', 'classified-listing' ) . '</div>
 							</div>';
 			}
 
@@ -1620,6 +1623,54 @@ class Functions {
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Apply the ajax filter item's include/exclude term settings. Include always wins:
+	 * when include is set, only included terms, their ancestors and their non-excluded
+	 * descendants are kept; an excluded term hides its whole branch.
+	 *
+	 * @param  array  $terms
+	 * @param  array  $args
+	 *
+	 * @return array
+	 */
+	public static function filter_ajax_filter_terms( $terms, $args ) {
+		if ( empty( $terms ) || ! is_array( $terms ) ) {
+			return $terms;
+		}
+		$include = ! empty( $args['include_terms'] ) && is_array( $args['include_terms'] ) ? array_filter( array_map( 'absint', $args['include_terms'] ) ) : [];
+		$exclude = ! empty( $args['exclude_terms'] ) && is_array( $args['exclude_terms'] ) ? array_filter( array_map( 'absint', $args['exclude_terms'] ) ) : [];
+		if ( empty( $include ) && empty( $exclude ) ) {
+			return $terms;
+		}
+		$exclude = array_diff( $exclude, $include );
+
+		return array_values( array_filter( $terms, function ( $term ) use ( $include, $exclude, $args ) {
+			$term_id   = absint( $term->term_id );
+			$ancestors = array_map( 'absint', get_ancestors( $term_id, ! empty( $term->taxonomy ) ? $term->taxonomy : $args['taxonomy'], 'taxonomy' ) );
+			if ( ! empty( $include ) ) {
+				if ( in_array( $term_id, $include, true ) ) {
+					return true;
+				}
+				// Ancestor of an included term, so the included term stays reachable in the tree.
+				foreach ( $include as $include_id ) {
+					if ( in_array( $term_id, get_ancestors( $include_id, $term->taxonomy, 'taxonomy' ), false ) ) {
+						return true;
+					}
+				}
+				// Descendant of an included term, unless excluded below that included term.
+				foreach ( $ancestors as $ancestor_id ) {
+					if ( in_array( $ancestor_id, $include, true ) ) {
+						return ! in_array( $term_id, $exclude, true );
+					}
+				}
+
+				return false;
+			}
+
+			return ! in_array( $term_id, $exclude, true ) && ! array_intersect( $ancestors, $exclude );
+		} ) );
 	}
 
 	/**
@@ -2716,6 +2767,51 @@ class Functions {
 		return $img_url ? sprintf( "<img class='rtcl-thumbnail' src='%s' />", $img_url ) : null;
 	}
 
+	/**
+	 * Icon + text link for a settings screen, e.g. "Visit the Page" under a page dropdown.
+	 *
+	 * Styled inline so it looks the same wherever the settings UI renders it, and so add-ons
+	 * do not need their own copy of the markup.
+	 *
+	 * @param string $url   Destination.
+	 * @param string $text  Link label.
+	 * @param array  $args  {
+	 *     @type bool   $new_tab Open in a new tab. Default false.
+	 *     @type string $class   Extra class on the anchor.
+	 *     @type array  $data    [ attribute => value ]; rendered as data-<attribute>.
+	 * }
+	 *
+	 * @return string
+	 * @since 6.1.2.1
+	 */
+	public static function settings_cta_link( $url, $text, $args = [] ) {
+		$args = wp_parse_args(
+			$args,
+			[
+				'new_tab' => false,
+				'class'   => '',
+				'data'    => [],
+			]
+		);
+
+		$icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="flex-shrink:0;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>';
+
+		$attributes = '';
+		foreach ( (array) $args['data'] as $name => $value ) {
+			$attributes .= sprintf( ' data-%s="%s"', esc_attr( $name ), esc_attr( $value ) );
+		}
+
+		return sprintf(
+			'<a class="rtcl-settings-cta-link %1$s" href="%2$s"%3$s%4$s style="display:inline-flex;align-items:center;gap:8px;margin-top:6px;font-size:13px;font-weight:500;line-height:1.5;">%5$s<span>%6$s</span></a>',
+			esc_attr( $args['class'] ),
+			esc_url( $url ),
+			$args['new_tab'] ? ' target="_blank" rel="noopener noreferrer"' : '',
+			$attributes,
+			$icon,
+			esc_html( $text )
+		);
+	}
+
 	public static function get_pages() {
 		$page_list = [];
 		$pages     = get_pages(
@@ -3082,6 +3178,7 @@ class Functions {
 					$class = 'alignwide';
 					break;
 				case 'oceanwp':
+				case 'classima':
 					$class = 'container';
 					break;
 				default:

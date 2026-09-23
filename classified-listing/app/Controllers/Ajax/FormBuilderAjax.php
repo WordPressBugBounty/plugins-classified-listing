@@ -1305,6 +1305,7 @@ class FormBuilderAjax {
 		$parent_id  = ! empty( $_POST['parentId'] ) ? absint( $_POST['parentId'] ) : 0;
 		$excludeIds = ! empty( $_POST['exclude'] ) && is_array( $_POST['exclude'] ) ? array_map( 'absint', $_POST['exclude'] ) : [];
 		$includeIds = ! empty( $_POST['include'] ) && is_array( $_POST['include'] ) ? array_map( 'absint', $_POST['include'] ) : [];
+		$childOfIds = ! empty( $_POST['childOf'] ) && is_array( $_POST['childOf'] ) ? array_map( 'absint', $_POST['childOf'] ) : [];
 
 		$listingType = Functions::request( 'listingType' );
 		$data        = [];
@@ -1317,7 +1318,26 @@ class FormBuilderAjax {
 		if ( ! empty( $includeIds ) ) {
 			$data['include'] = $includeIds;
 		}
-		$categories = Functions::get_sub_terms( rtcl()->category, $parent_id, $data );
+		$parents = [];
+		if ( ! $parent_id && ! empty( $childOfIds ) ) {
+			// "Show only child categories of the selected terms": list the included terms' sub-categories,
+			// or the terms themselves when none of them has children.
+			$parentData = $data + [ 'include' => $childOfIds ];
+			$categories = [];
+			foreach ( $childOfIds as $childOfId ) {
+				$subTerms = Functions::get_sub_terms( rtcl()->category, $childOfId, $data );
+				if ( ! empty( $subTerms ) && is_array( $subTerms ) ) {
+					$categories = array_merge( $categories, $subTerms );
+				}
+			}
+			if ( ! empty( $categories ) ) {
+				$parents = Functions::get_sub_terms( rtcl()->category, 0, $parentData );
+			} else {
+				$categories = Functions::get_sub_terms( rtcl()->category, 0, $parentData );
+			}
+		} else {
+			$categories = Functions::get_sub_terms( rtcl()->category, $parent_id, $data );
+		}
 		$data       = [
 			'success' => true,
 			'message' => [],
@@ -1332,6 +1352,7 @@ class FormBuilderAjax {
 
 		wp_send_json_success( [
 			'data' => $categories,
+			'parents' => is_array( $parents ) ? $parents : [],
 		] );
 	}
 
@@ -1405,6 +1426,12 @@ class FormBuilderAjax {
 		$includeIds = ! empty( $_POST['includeIds'] ) && is_array( $_POST['includeIds'] ) ? array_map( 'absint', $_POST['includeIds'] ) : [];
 		if ( empty( $includeIds ) && ! empty( $_POST['ids'] ) ) {
 			$includeIds = is_array( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : [];
+		}
+		$childOfIds      = ! empty( $_POST['childOfIds'] ) && is_array( $_POST['childOfIds'] ) ? array_map( 'absint', $_POST['childOfIds'] ) : [];
+		if ( ! empty( $childOfIds ) ) {
+			// "Show only child categories of the selected terms": offer the included terms' sub-categories, or the terms when they have none.
+			$descendants = array_values( array_diff( Functions::get_all_term_descendants( $childOfIds, rtcl()->category ), $childOfIds ) );
+			$includeIds  = ! empty( $descendants ) ? $descendants : $childOfIds;
 		}
 		$parentId        = isset( $_POST['parentId'] ) ? ( $_POST['parentId'] == 0 ? 0 : absint( $_POST['parentId'] ) ) : '';
 		$excludeIds      = ! empty( $_POST['excludeIds'] ) && is_array( $_POST['excludeIds'] ) ? array_map( 'absint', $_POST['excludeIds'] ) : [];

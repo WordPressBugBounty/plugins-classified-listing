@@ -354,8 +354,8 @@ class TemplateHooks {
 		}
 		if ( $fieldType !== 'select' && $count >= 6 ) {
 			$field_html .= '<div class="rtcl-more-less-btn">
-										<div class="text more-text" tabindex="0"><i class="rtcl-icon rtcl-icon-plus-1"></i>' . __( 'More', 'classified-listing' ) . '</div>
-										<div class="text less-text" tabindex="0"><i class="rtcl-icon rtcl-icon-minus-1"></i>' . __( 'Less', 'classified-listing' ) . '</div>
+										<div class="text more-text" tabindex="0"><i class="rtcl-icon rtcl-icon-angle-down"></i>' . __( 'More', 'classified-listing' ) . '</div>
+										<div class="text less-text" tabindex="0"><i class="rtcl-icon rtcl-icon-angle-up"></i>' . __( 'Less', 'classified-listing' ) . '</div>
 								</div>';
 		}
 		$field_html .= '</div>';
@@ -1592,7 +1592,7 @@ class TemplateHooks {
 			do_action( 'rtcl_register_form_phone_start' ); ?>
 			<label for="rtcl-reg-phone" class="rtcl-field-label phone-label">
 				<?php
-				esc_html_e( 'Phone Number', 'classified-listing' ); ?>
+				echo esc_html( apply_filters( 'rtcl_phone_field_label', __( 'Phone Number', 'classified-listing' ) ) ); ?>
 				<?php
 				if ( $is_required ): ?>
 					<strong class="rtcl-required">*</strong>

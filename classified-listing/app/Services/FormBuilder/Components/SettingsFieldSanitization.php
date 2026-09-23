@@ -36,6 +36,18 @@ class SettingsFieldSanitization {
 	}
 
 
+	/**
+	 * SwitchField.jsx sends a JSON boolean; string forms are accepted too.
+	 * Unchecked returns null so the key is dropped (absent means off).
+	 *
+	 * @param mixed $value
+	 *
+	 * @return true|null
+	 */
+	public static function sanitizeSwitchValue( $value ) {
+		return in_array( $value, [ true, 'true', 1, '1', 'yes' ], true ) ? true : null;
+	}
+
 	private function sanitizeField( $fieldKey, $fieldValue ) {
 		if ( empty( $this->fields[$fieldKey] ) ) {
 			return null;
@@ -53,9 +65,7 @@ class SettingsFieldSanitization {
 				$value = $fieldValue;
 			}
 		} elseif ( 'switch' === $field['type'] ) {
-			if ( in_array( $fieldValue, [ 'true', 'false' ], true ) ) {
-				$value = $fieldValue === 'true';
-			}
+			$value = self::sanitizeSwitchValue( $fieldValue );
 		} elseif ( 'category_filter' === $field['type'] ) {
 			if ( is_array( $fieldValue ) ) {
 				$categories = !empty( $fieldValue['categories'] ) ? array_filter( array_map( 'absint', $fieldValue['categories'] ) ) : [];

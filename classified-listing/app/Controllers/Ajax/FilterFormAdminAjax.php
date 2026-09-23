@@ -133,6 +133,20 @@ class FilterFormAdminAjax {
 							}
 							$itemData[$_field['id']] = is_array( $_field['options'] ) ? array_values( array_intersect( $itemValues, array_keys( $_field['options'] ) ) ) : [];
 						}
+					} elseif ( 'terms_select' === $_field['type'] ) {
+						$ids = is_array( $data[$_field['id']] ) ? array_values( array_unique( array_filter( array_map( 'absint', $data[$_field['id']] ) ) ) ) : [];
+						if ( ! empty( $ids ) && ! empty( $_field['taxonomy'] ) ) {
+							$ids = get_terms( [
+								'taxonomy'   => $_field['taxonomy'],
+								'include'    => $ids,
+								'hide_empty' => false,
+								'fields'     => 'ids',
+							] );
+							$ids = is_wp_error( $ids ) ? [] : array_map( 'absint', $ids );
+						}
+						if ( ! empty( $ids ) ) {
+							$itemData[$_field['id']] = $ids;
+						}
 					} elseif ( $_field['type'] === 'cf_fields_order' ) {
 						$ids = [];
 						if ( is_array( $data[$_field['id']] ) ) {

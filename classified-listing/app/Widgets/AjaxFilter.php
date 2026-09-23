@@ -157,7 +157,10 @@ class AjaxFilter extends WP_Widget {
 			apply_filters( 'rtcl_ajax_filter_item_class', $options['name'], $itemData ),
 			! empty( $itemData['active'] ) ? ' is-active' : '',
 			apply_filters( 'rtcl_widget_ajax_filter_' . $options['name'] . '_title', $itemData['title'] ),
-			! empty( $options['allow_rest'] ) ? ' <span class="rtcl-reset rtcl-icon rtcl-icon-cw">' : '',
+			! empty( $options['allow_rest'] ) ? sprintf(
+				' <span class="rtcl-reset rtcl-icon rtcl-icon-ccw" title="%1$s" aria-label="%1$s"></span>',
+				esc_attr__( 'Reset this filter', 'classified-listing' )
+			) : '',
 			! empty( $options['ajax_load'] ) ? ' rtcl-ajax' : '',
 			htmlspecialchars( wp_json_encode( $options ) ),
 			$itemHtml

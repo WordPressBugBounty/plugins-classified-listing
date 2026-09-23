@@ -1105,6 +1105,17 @@ class AvailableFields {
 		return array_keys( self::get() );
 	}
 
+	/**
+	 * Extra panels for the editor's Available Fields sidebar. An add-on registers a group here and
+	 * puts its own fields in it with `'group' => '<key>'`; a field also marked `'unique' => 1` keeps
+	 * the name from its definition and can be added to a form once.
+	 *
+	 * @return array [ key => [ 'label' => string, 'order' => int ] ]
+	 */
+	public static function fieldGroups(): array {
+		return apply_filters( 'rtcl_fb_field_groups', [] );
+	}
+
 	public static function settings() {
 
 		$fields = [

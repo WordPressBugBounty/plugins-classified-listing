@@ -106,6 +106,10 @@ class FieldSanitization {
 							'ids'  => $ids,
 							'mode' => !empty( $value['mode'] ) && in_array( $value['mode'], [ 'include', 'exclude' ] ) ? $value['mode'] : 'include',
 						];
+						// Only meaningful with Include: list the sub-categories of the included terms on the submission form.
+						if ( 'include' === $field[$fieldKey]['mode'] && !empty( $value['child_only'] ) && in_array( $value['child_only'], [ true, 'true', 1, '1', 'yes' ], true ) ) {
+							$field[$fieldKey]['child_only'] = true;
+						}
 					}
 				}
 			} elseif ( $fieldKey === 'logics' ) {

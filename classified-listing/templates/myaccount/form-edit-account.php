@@ -119,9 +119,9 @@ do_action( 'rtcl_before_edit_account_form' ); ?>
 					   value="<?php echo esc_attr( $user->user_email ); ?>" required="required"/>
 			</div>
 		</div>
-		<div class="rtcl-form-group">
+		<div class="rtcl-form-group rtcl-whatsapp-field-wrap">
 			<label for="rtcl-whatsapp-phone" class="rtcl-field-label">
-				<?php esc_html_e( 'Whatsapp number', 'classified-listing' ); ?>
+				<?php echo esc_html( apply_filters( 'rtcl_whatsapp_field_label', __( 'Whatsapp number', 'classified-listing' ) ) ); ?>
 			</label>
 			<div class="rtcl-field-col">
 				<div class="rtcl-intl-phone-field">
@@ -138,7 +138,7 @@ do_action( 'rtcl_before_edit_account_form' ); ?>
 		</div>
 		<div class="rtcl-form-group">
 			<label for="rtcl-phone" class="rtcl-field-label">
-				<?php esc_html_e( 'Phone', 'classified-listing' ); ?>
+				<?php echo esc_html( apply_filters( 'rtcl_phone_field_label', __( 'Phone', 'classified-listing' ) ) ); ?>
 			</label>
 			<div class="rtcl-field-col">
 				<?php

@@ -11,6 +11,12 @@ class FBField {
 	const CUSTOM = 'custom';
 	const SECTIONS = 'sections';
 
+	/**
+	 * Group element registered by the Job Manager addon (apply form switch, external URL, button text).
+	 * Addons check this constant to know the React form builder can render it.
+	 */
+	const ELEMENT_JOB_APPLICATION = 'job_application';
+
 	protected $listing_id;
 
 	protected $_field;
