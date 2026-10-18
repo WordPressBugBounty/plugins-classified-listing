@@ -39,6 +39,8 @@ class ListingsAjaxController {
 		$settings['promotion_in']     = ! empty( $settings['promotion_in'] ) ? wp_list_pluck( $settings['promotion_in'], 'value' ) : [];
 		$settings['promotion_not_in'] = ! empty( $settings['promotion_not_in'] ) ? wp_list_pluck( $settings['promotion_not_in'], 'value' ) : [];
 		$listing_type                 = ! empty( $settings['listing_type'] ) ? sanitize_text_field( $settings['listing_type'] ) : 'all';
+		// Defaults to true so a block saved before this option existed still hides jobs.
+		$exclude_job                  = ! isset( $settings['exclude_job'] ) || filter_var( $settings['exclude_job'], FILTER_VALIDATE_BOOLEAN );
 		$orderby                      = ! empty( $settings['orderby'] ) ? sanitize_text_field( $settings['orderby'] ) : 'date';
 		$order                        = ! empty( $settings['sortby'] ) ? sanitize_text_field( $settings['sortby'] ) : 'desc';
 		$settings['perPage']          = isset( $settings['perPage'] ) ? intval( $settings['perPage'] ) : 8;
@@ -137,6 +139,16 @@ class ListingsAjaxController {
 			];
 		}
 
+		// Keep jobs out unless the block is explicitly asking for them. Skipped when
+		// Listing Type is set to the job type, which would otherwise match nothing.
+		$job_type = Functions::get_job_listing_type();
+		if ( $exclude_job && $job_type && $listing_type !== $job_type ) {
+			$exclude_job_query = Functions::get_exclude_job_meta_query();
+			if ( ! empty( $exclude_job_query ) ) {
+				$meta_queries[] = $exclude_job_query;
+			}
+		}
+
 		$count_meta_queries = count( $meta_queries );
 		if ( $count_meta_queries ) {
 			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
@@ -203,8 +215,15 @@ class ListingsAjaxController {
 				}
 			}
 
-			$pp_id        = absint( get_user_meta( $listing->get_owner_id(), '_rtcl_pp_id', true ) );
-			$author_image = $pp_id ? wp_get_attachment_image( $pp_id, [ 40, 40 ] ) : get_avatar( $_id, 40 );
+			$pp_id = absint( get_user_meta( $listing->get_owner_id(), '_rtcl_pp_id', true ) );
+			// `get_avatar()` reads an integer as a USER id, so passing the listing
+			// id here resolved to whichever user happens to share that number —
+			// or, far more often, to the mystery-person placeholder. The seller
+			// avatar in the grid style 5 footer is the first layout to actually
+			// show this value, which is why it went unnoticed.
+			$author_image = $pp_id
+				? wp_get_attachment_image( $pp_id, [ 40, 40 ] )
+				: get_avatar( $listing->get_owner_id(), 40 );
 
 			//image size
 			$image_size = $settings['image_size'] ?? 'rtcl-thumbnail';
@@ -237,6 +256,8 @@ class ListingsAjaxController {
 				"quick_view"     => $quick_view,
 				"phone"          => $phone,
 				"author_image"   => $author_image,
+				"owner_id"       => $listing->get_owner_id(),
+				"author_url"     => $listing->get_the_author_url(),
 				"sold"           => $sold_item,
 				"custom_field"   => $custom_fields
 			];
@@ -262,10 +283,21 @@ class ListingsAjaxController {
 
 		$listings = self::rtcl_gb_listings_query( $settings );
 
-		if ( ! empty( $listings["posts"] ) ) {
-			wp_send_json_success( $listings );
-		} else {
+		if ( empty( $listings['posts'] ) ) {
 			wp_send_json_error( "no post found" );
 		}
+
+		// The editor renders this HTML directly rather than rebuilding the
+		// layouts in React, so the canvas and the published page come from one
+		// set of templates and cannot drift apart. `posts` stays in the payload
+		// because it is a shared surface — add-ons and site customisations read
+		// it — so this is additive, not a replacement.
+		$listings['html'] = ListingAds::render( $settings );
+
+		// `query_obj` is a WP_Query; it would balloon the JSON and cannot be
+		// serialised meaningfully for the browser.
+		unset( $listings['query_obj'] );
+
+		wp_send_json_success( $listings );
 	}
 }

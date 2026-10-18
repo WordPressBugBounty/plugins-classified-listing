@@ -377,6 +377,7 @@ class ScriptLoader {
 					'formData'                     => FBHelper::getFormData( $listing_id, $form ),
 					'options'                      => $this->get_fb_settings_options(),
 					'ajaxurl'                      => $this->ajaxurl,
+					'siteUrl'                      => site_url(),
 					'apiurl'                       => rest_url(),
 					'restNonce'                    => wp_create_nonce( 'wp_rest' ),
 					'nonceId'                      => rtcl()->nonceId,
@@ -385,6 +386,14 @@ class ScriptLoader {
 					'enabled_ai_image_enhancement' => Functions::is_image_enhancement_enabled(),
 					'countryPhoneList'             => $this->get_country_phone_list(),
 					'phoneDefaults'                => $this->get_phone_field_defaults(),
+					'locationDetection'            => [
+						'enabled' => 'disabled' !== Functions::get_location_detection_mode(),
+						'mode'    => Functions::get_location_detection_mode(),
+						'method'  => Functions::get_location_detection_method(),
+						'tooltip' => 'ip_only' === Functions::get_location_detection_method()
+							? __( 'Click to detect your location using IP address', 'classified-listing' )
+							: __( 'Click to detect your location using GPS (with IP fallback)', 'classified-listing' ),
+					],
 				],
 			);
 			wp_enqueue_editor();
@@ -444,6 +453,14 @@ class ScriptLoader {
 			true,
 		);
 
+		wp_register_script(
+			'rtcl-location-detection',
+			rtcl()->get_assets_uri( "js/location-detection{$this->suffix}.js" ),
+			[ 'jquery' ],
+			$this->version,
+			true,
+		);
+
 		$recaptcha_version = ! empty( $misc_settings['recaptcha_version'] ) ? $misc_settings['recaptcha_version'] : 2;
 		if ( $recaptcha_version == 3 ) {
 			wp_register_script( 'rtcl-recaptcha',
@@ -488,6 +505,7 @@ class ScriptLoader {
 				wp_enqueue_script( 'rtcl-map' );
 				wp_enqueue_script( 'rtcl-public-add-post' );
 				$this->localize_intl_phone_script();
+				$this->enqueue_location_detection_script();
 			}
 			if ( ! is_user_logged_in()
 			     && ( Functions::get_option_item( 'rtcl_misc_settings', 'recaptcha_forms', 'registration', 'multi_checkbox' )
@@ -730,6 +748,7 @@ class ScriptLoader {
 			'ajaxurl'                                  => $this->ajaxurl,
 			'confirm_text'                             => esc_html__( 'Are you sure?', 'classified-listing' ),
 			're_send_confirm_text'                     => esc_html__( 'Are you sure you want to re-send verification link?', 'classified-listing' ),
+			'nonceId'                                  => rtcl()->nonceId,
 			rtcl()->nonceId                            => wp_create_nonce( rtcl()->nonceText ),
 			'rtcl_listing_base'                        => Link::get_listings_page_link(),
 			'rtcl_category'                            => get_query_var( 'rtcl_category' ),
@@ -816,11 +835,41 @@ class ScriptLoader {
 				Functions::formatBytes( $max_image_size ) );
 			$localize['error_image_extension'] = esc_html__( 'File extension not supported.', 'classified-listing' );
 		}
+
+		// Checkout billing location detection config
+		if ( Functions::is_checkout_page() ) {
+			$billing_enabled          = ! Functions::is_billing_address_disabled();
+			$detection_enabled        = Functions::is_location_detection_enabled();
+			$has_existing_billing     = Functions::user_has_billing_location_data();
+			$should_detect            = $billing_enabled && $detection_enabled && ! $has_existing_billing;
+
+			$localize['checkoutBillingDetection'] = [
+				'enabled'             => $should_detect,
+				'billingEnabled'      => $billing_enabled,
+				'detectionEnabled'    => $detection_enabled,
+				'hasExistingData'     => $has_existing_billing,
+				'mode'                => esc_attr( Functions::get_location_detection_mode() ),
+				'method'              => esc_attr( Functions::get_location_detection_method() ),
+				'tooltip'             => 'ip_only' === Functions::get_location_detection_method()
+					? esc_html__( 'Click to detect your billing location using IP address', 'classified-listing' )
+					: esc_html__( 'Click to detect your billing location using GPS (with IP fallback)', 'classified-listing' ),
+				'i18n'                => [
+					'detecting'        => esc_html__( 'Detecting your location...', 'classified-listing' ),
+					'fetching_address' => esc_html__( 'Fetching address details...', 'classified-listing' ),
+					'detected'         => esc_html__( 'Location detected successfully!', 'classified-listing' ),
+					'failed'           => esc_html__( 'Could not detect your location.', 'classified-listing' ),
+					'detect_location'  => esc_html__( 'Detect my location', 'classified-listing' ),
+				],
+			];
+		}
+
 		wp_localize_script( 'rtcl-public', 'rtcl', apply_filters( 'rtcl_localize_params_public', $localize ) );
 		$ajaxFilerLocalize = [
 			'clear_all_filter'     => __( 'Clear all filters', 'classified-listing' ),
 			'no_result_found'      => __( 'No result found.', 'classified-listing' ),
 			'show_all'             => __( 'Show All', 'classified-listing' ),
+			'previous'             => __( 'Previous', 'classified-listing' ),
+			'next'                 => __( 'Next', 'classified-listing' ),
 			'listings_archive_url' => Link::get_listings_page_link(),
 			'result_count'         => [
 				'all'  => __( 'Showing all % results', 'classified-listing' ),
@@ -874,7 +923,9 @@ class ScriptLoader {
 			true );
 		wp_register_script( 'rtcl-admin', rtcl()->get_assets_uri( "js/rtcl-admin.min.js" ), [ 'jquery', 'rtcl-common' ], $this->version, true );
 		wp_register_style( 'rtcl-admin-settings', rtcl()->get_assets_uri( 'css/rtcl-admin-settings.min.css' ), $this->version );
-		wp_register_script( 'rtcl-admin-settings', rtcl()->get_assets_uri( "js/rtcl-admin-settings.min.js" ), [ 'jquery' ], $this->version, true );
+		// wp-i18n so settings field components can use wp.i18n.__() — the bundle reads it at
+		// module scope, so it has to be guaranteed present before the bundle runs.
+		wp_register_script( 'rtcl-admin-settings', rtcl()->get_assets_uri( "js/rtcl-admin-settings.min.js" ), [ 'jquery', 'wp-i18n' ], $this->version, true );
 		wp_register_script( 'rtcl-admin-ie', rtcl()->get_assets_uri( "js/rtcl-admin-ie.min.js" ), [
 			'jquery',
 			'rtcl-validator',
@@ -1238,6 +1289,20 @@ JS;
 					'ajaxurl' => $this->ajaxurl,
 					'nonceId' => rtcl()->nonceId,
 					'nonce'   => wp_create_nonce( rtcl()->nonceText ),
+					'i18n'    => [
+						'edit'           => __( 'Edit', 'classified-listing' ),
+						'delete'         => __( 'Delete', 'classified-listing' ),
+						'update'         => __( 'Update', 'classified-listing' ),
+						'cancel'         => __( 'Cancel', 'classified-listing' ),
+						'id'             => __( 'ID', 'classified-listing' ),
+						'name'           => __( 'Name', 'classified-listing' ),
+						'drag'           => __( 'Drag to reorder', 'classified-listing' ),
+						'confirm_delete' => __( 'Are you sure to delete this type?', 'classified-listing' ),
+						'fill_type'      => __( 'Please fill type.', 'classified-listing' ),
+						'fill_id_type'   => __( 'Please fill id and type.', 'classified-listing' ),
+						'server_error'   => __( 'Server Error !!!', 'classified-listing' ),
+						'id_required'    => __( 'Type id is required.', 'classified-listing' ),
+					],
 				],
 			);
 		}
@@ -1600,6 +1665,60 @@ JS;
 		);
 	}
 
+	/**
+	 * Enqueue the location detection script and localize its config.
+	 * Used on edit-account and other pages where auto-fill location is needed.
+	 *
+	 * @return void
+	 */
+	private function enqueue_location_detection_script() {
+		$detection_mode = Functions::get_location_detection_mode();
+
+		// Don't enqueue if detection is disabled
+		if ( 'disabled' === $detection_mode ) {
+			return;
+		}
+
+		wp_enqueue_script( 'rtcl-location-detection' );
+
+		$map_settings = Functions::get_option( 'rtcl_misc_map_settings' );
+		$map_type     = Functions::get_map_type();
+
+		wp_localize_script(
+			'rtcl-location-detection',
+			'rtcl_location_detection',
+			[
+				'ajax_url'         => admin_url( 'admin-ajax.php' ),
+				'nonce'            => wp_create_nonce( rtcl()->nonceText ),
+				'nonce_id'         => rtcl()->nonceId,
+				'detection_mode'   => $detection_mode,
+				'detection_method' => Functions::get_location_detection_method(),
+				'location_type'    => Functions::location_type(),
+				'map_type'         => $map_type,
+				'i18n'           => [
+					'detecting'            => esc_html__( 'Detecting your location...', 'classified-listing' ),
+					'fetching_address'     => esc_html__( 'Fetching address...', 'classified-listing' ),
+					'matching_locations'   => esc_html__( 'Matching locations...', 'classified-listing' ),
+					'location_detected'    => esc_html__( 'Location detected successfully!', 'classified-listing' ),
+					'permission_denied'    => esc_html__( 'Location permission denied.', 'classified-listing' ),
+					'position_unavailable' => esc_html__( 'Location information is unavailable.', 'classified-listing' ),
+					'timeout'              => esc_html__( 'Location request timed out.', 'classified-listing' ),
+					'not_supported'        => esc_html__( 'Geolocation is not supported by your browser.', 'classified-listing' ),
+					'geocode_failed'       => esc_html__( 'Could not determine address from location.', 'classified-listing' ),
+					'match_failed'         => esc_html__( 'Could not match location. Please select manually.', 'classified-listing' ),
+					'ajax_error'           => esc_html__( 'An error occurred. Please try again.', 'classified-listing' ),
+					'unknown_error'        => esc_html__( 'An unknown error occurred.', 'classified-listing' ),
+					// MaxMind/IP fallback messages
+					'trying_ip_fallback'   => esc_html__( 'Trying IP-based detection...', 'classified-listing' ),
+					'ip_location_detected' => esc_html__( 'Location detected from IP:', 'classified-listing' ),
+					'ip_country_detected'  => esc_html__( 'Country detected:', 'classified-listing' ),
+					'ip_detection_failed'  => esc_html__( 'Could not detect location from IP.', 'classified-listing' ),
+					'select_manually'      => esc_html__( 'Please select your location manually.', 'classified-listing' ),
+				],
+			]
+		);
+	}
+
 	private function get_phone_field_defaults(): array {
 		$allowed = (array) Functions::get_option_item( 'rtcl_misc_phone_settings', 'phone_allowed_countries' );
 		$allowed = array_values( array_filter( array_map( 'strval', $allowed ) ) );
@@ -1620,21 +1739,7 @@ JS;
 	}
 
 	private function get_country_phone_list(): array {
-		$countries = rtcl()->countries->get_countries();
-		$list      = [];
-		foreach ( $countries as $code => $name ) {
-			$dial_code = rtcl()->countries->get_country_calling_code( $code );
-			if ( ! $dial_code ) {
-				continue;
-			}
-			$list[] = [
-				'value'     => $code,
-				'label'     => $name . ' (' . $dial_code . ')',
-				'dial_code' => $dial_code,
-			];
-		}
-
-		return $list;
+		return rtcl()->countries->get_phone_country_list();
 	}
 
 	private function get_fb_settings_options( bool $admin = false ): array {
@@ -1687,7 +1792,7 @@ JS;
 	 * the colour the stylesheets hard-coded before the setting existed.
 	 *
 	 * The state key (`featured`, `top`, …) matches the class the listing loop
-	 * puts on the card: `.is-featured`, `.is-top` / `.as-top`, `.is-new`,
+	 * puts on the card: `.is-featured`, `.as-top`, `.is-new`,
 	 * `.is-popular`, `.is-bump-up`. Order is significant — a listing can be in
 	 * more than one state at once, and the later entry wins, which keeps Top
 	 * above Featured the way the original stylesheet had it.
@@ -1698,8 +1803,8 @@ JS;
 		return [
 			'new'      => [
 				'selectors' => [ '.is-new' ],
-				'bg'        => [ 'new_card_bg', '#f3fbf6' ],
-				'border'    => [ 'new_card_border', '#c9e9d6' ],
+				'bg'        => [ 'new_card_bg', '#ffffff' ],
+				'border'    => [ 'new_card_border', '#ffffff' ],
 			],
 			'popular'  => [
 				'selectors' => [ '.is-popular' ],
@@ -1717,9 +1822,9 @@ JS;
 				'border'    => [ 'feature_card_border', '#ffe8cc' ],
 			],
 			'top'      => [
-				'selectors' => [ '.is-top', '.as-top' ],
-				'bg'        => [ 'top_card_bg', '#fffdea' ],
-				'border'    => [ 'top_card_border', '#ffd274' ],
+				'selectors' => [ '.as-top' ],
+				'bg'        => [ 'top_card_bg', '#dff0f3' ],
+				'border'    => [ 'top_card_border', '#b5dce3' ],
 			],
 		];
 	}
@@ -1740,6 +1845,11 @@ JS;
 				list( $key, $default ) = $card[ $part ];
 				$value                 = ! empty( $settings[ $key ] ) ? $settings[ $key ] : $default;
 				$rootVar               .= '--rtcl-card-' . $state . '-' . $part . ':' . $value . ';';
+				// Only a colour the site chose itself: lets newer card designs keep
+				// their own default while still honouring a customised setting.
+				if ( strtolower( $value ) !== strtolower( $default ) ) {
+					$rootVar .= '--rtcl-card-' . $state . '-' . $part . '-custom:' . $value . ';';
+				}
 			}
 		}
 

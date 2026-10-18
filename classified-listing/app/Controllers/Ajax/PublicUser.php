@@ -5,6 +5,7 @@ namespace Rtcl\Controllers\Ajax;
 use Exception;
 use Rtcl\Controllers\Hooks\Filters;
 use Rtcl\Helpers\Functions;
+use Rtcl\Helpers\Geolocation;
 use Rtcl\Helpers\Link;
 use Rtcl\Helpers\ListingStats;
 use Rtcl\Helpers\Pagination;
@@ -66,6 +67,14 @@ class PublicUser {
 		// get dropdown terms
 		add_action( 'wp_ajax_rtcl_child_dropdown_terms', [ $this, 'dropdown_terms' ] );
 		add_action( 'wp_ajax_nopriv_rtcl_child_dropdown_terms', [ $this, 'dropdown_terms' ] );
+
+		// Match location terms by name (for geolocation auto-fill)
+		add_action( 'wp_ajax_rtcl_match_location_terms', [ $this, 'match_location_terms' ] );
+		add_action( 'wp_ajax_nopriv_rtcl_match_location_terms', [ $this, 'match_location_terms' ] );
+
+		// IP-based geolocation fallback (MaxMind)
+		add_action( 'wp_ajax_rtcl_ip_geolocation', [ $this, 'ip_geolocation' ] );
+		add_action( 'wp_ajax_nopriv_rtcl_ip_geolocation', [ $this, 'ip_geolocation' ] );
 
 		add_action( 'wp_ajax_rtcl_update_user_account', [ $this, 'rtcl_update_user_account' ] );
 		add_action( 'wp_ajax_rtcl_update_profile_settings', [ $this, 'update_user_profile_settings' ] );
@@ -922,6 +931,389 @@ class PublicUser {
 			}
 		}
 		wp_send_json_success( $output );
+	}
+
+	/**
+	 * Match location names from geocoding to taxonomy term IDs.
+	 * Used for auto-filling location dropdowns from browser geolocation.
+	 *
+	 * @return void
+	 */
+	public function match_location_terms() {
+		// Sanitize nonce before verification
+		$nonce = isset( $_REQUEST[ rtcl()->nonceId ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ rtcl()->nonceId ] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, rtcl()->nonceText ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Session Expired!!', 'classified-listing' ) ] );
+		}
+
+		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$country = isset( $_POST['country'] ) ? sanitize_text_field( wp_unslash( $_POST['country'] ) ) : '';
+		$state   = isset( $_POST['state'] ) ? sanitize_text_field( wp_unslash( $_POST['state'] ) ) : '';
+		$city    = isset( $_POST['city'] ) ? sanitize_text_field( wp_unslash( $_POST['city'] ) ) : '';
+		$town    = isset( $_POST['town'] ) ? sanitize_text_field( wp_unslash( $_POST['town'] ) ) : '';
+		$zipcode = isset( $_POST['zipcode'] ) ? sanitize_text_field( wp_unslash( $_POST['zipcode'] ) ) : '';
+		$address = isset( $_POST['address'] ) ? sanitize_text_field( wp_unslash( $_POST['address'] ) ) : '';
+		// phpcs:enable
+
+		$result = [
+			'location_id'         => 0,
+			'sub_location_id'     => 0,
+			'sub_sub_location_id' => 0,
+			'zipcode'             => $zipcode,
+			'address'             => $address,
+		];
+
+		$taxonomy = rtcl()->location;
+
+		// Search for matching terms at each level
+		// Level 1: Try country first, then state
+		$search_terms_l1 = array_filter( [ $country, $state ] );
+		foreach ( $search_terms_l1 as $search_term ) {
+			$term = $this->find_location_term( $search_term, $taxonomy, 0 );
+			if ( $term ) {
+				$result['location_id'] = $term->term_id;
+				break;
+			}
+		}
+
+		// Level 2: Search for city/state under the found parent
+		if ( $result['location_id'] ) {
+			$search_terms_l2 = array_filter( [ $city, $state ] );
+			foreach ( $search_terms_l2 as $search_term ) {
+				$term = $this->find_location_term( $search_term, $taxonomy, $result['location_id'] );
+				if ( $term ) {
+					$result['sub_location_id'] = $term->term_id;
+					break;
+				}
+			}
+		}
+
+		// Level 3: Search for town (suburb/quarter) under the sub-location
+		if ( $result['sub_location_id'] ) {
+			// Try town first (suburb/quarter from OSM), then fall back to city
+			$search_terms_l3 = array_filter( [ $town, $city ] );
+			foreach ( $search_terms_l3 as $search_term ) {
+				$term = $this->find_location_term( $search_term, $taxonomy, $result['sub_location_id'] );
+				if ( $term ) {
+					$result['sub_sub_location_id'] = $term->term_id;
+					break;
+				}
+			}
+		}
+
+		// Get sub-locations HTML for cascading dropdowns
+		$result['sub_locations_html'] = '';
+		$result['sub_sub_locations_html'] = '';
+
+		if ( $result['location_id'] ) {
+			$sub_locations = Functions::get_one_level_locations( $result['location_id'] );
+			if ( ! empty( $sub_locations ) ) {
+				$result['sub_locations_html'] = $this->build_options_html( $sub_locations, $result['sub_location_id'] );
+			}
+		}
+
+		if ( $result['sub_location_id'] ) {
+			$sub_sub_locations = Functions::get_one_level_locations( $result['sub_location_id'] );
+			if ( ! empty( $sub_sub_locations ) ) {
+				$result['sub_sub_locations_html'] = $this->build_options_html( $sub_sub_locations, $result['sub_sub_location_id'] );
+			}
+		}
+
+		// Ensure proper types and escaping for output
+		$result['location_id']         = absint( $result['location_id'] );
+		$result['sub_location_id']     = absint( $result['sub_location_id'] );
+		$result['sub_sub_location_id'] = absint( $result['sub_sub_location_id'] );
+		$result['zipcode']             = esc_html( $result['zipcode'] );
+		$result['address']             = esc_html( $result['address'] );
+
+		wp_send_json_success( $result );
+	}
+
+	/**
+	 * Find a location term by name with fuzzy matching.
+	 *
+	 * @param string $search_term The name to search for.
+	 * @param string $taxonomy    The taxonomy name.
+	 * @param int    $parent_id   Parent term ID (0 for top-level).
+	 *
+	 * @return \WP_Term|null
+	 */
+	private function find_location_term( $search_term, $taxonomy, $parent_id = 0 ) {
+		if ( empty( $search_term ) ) {
+			return null;
+		}
+
+		$search_term = trim( $search_term );
+
+		// First try exact match
+		$terms = get_terms( [
+			'taxonomy'   => $taxonomy,
+			'parent'     => $parent_id,
+			'hide_empty' => false,
+			'name'       => $search_term,
+		] );
+
+		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+			return $terms[0];
+		}
+
+		// Try case-insensitive search
+		$all_terms = get_terms( [
+			'taxonomy'   => $taxonomy,
+			'parent'     => $parent_id,
+			'hide_empty' => false,
+		] );
+
+		if ( empty( $all_terms ) || is_wp_error( $all_terms ) ) {
+			return null;
+		}
+
+		$search_lower = strtolower( $search_term );
+
+		// Exact match (case-insensitive)
+		foreach ( $all_terms as $term ) {
+			if ( strtolower( $term->name ) === $search_lower ) {
+				return $term;
+			}
+		}
+
+		// Partial match (term name contains search term or vice versa)
+		foreach ( $all_terms as $term ) {
+			$term_lower = strtolower( $term->name );
+			if ( strpos( $term_lower, $search_lower ) !== false || strpos( $search_lower, $term_lower ) !== false ) {
+				return $term;
+			}
+		}
+
+		// Similar sounding (for typos and variations)
+		foreach ( $all_terms as $term ) {
+			if ( similar_text( strtolower( $term->name ), $search_lower ) > ( strlen( $search_lower ) * 0.7 ) ) {
+				return $term;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Build HTML options for a dropdown from term list.
+	 *
+	 * @param array $terms       Array of WP_Term objects.
+	 * @param int   $selected_id Selected term ID.
+	 *
+	 * @return string
+	 */
+	private function build_options_html( $terms, $selected_id = 0 ) {
+		$html = '<option value="">--' . esc_html__( 'Select location', 'classified-listing' ) . '--</option>';
+		foreach ( $terms as $term ) {
+			$selected = ( $term->term_id == $selected_id ) ? ' selected' : '';
+			$html .= '<option value="' . esc_attr( $term->term_id ) . '"' . $selected . '>' . esc_html( $term->name ) . '</option>';
+		}
+		return $html;
+	}
+
+	/**
+	 * Sanitize and validate a country code.
+	 * Must be 2-3 uppercase letters only.
+	 *
+	 * @param mixed $code The country code to sanitize.
+	 *
+	 * @return string Sanitized country code or empty string if invalid.
+	 */
+	private function sanitize_country_code( $code ) {
+		if ( ! is_string( $code ) ) {
+			return '';
+		}
+		$code = strtoupper( trim( $code ) );
+		// Only allow 2-3 letter country codes (ISO 3166-1 alpha-2 or alpha-3)
+		if ( preg_match( '/^[A-Z]{2,3}$/', $code ) ) {
+			return $code;
+		}
+		return '';
+	}
+
+	/**
+	 * Validate and sanitize a coordinate value.
+	 *
+	 * @param mixed  $value The coordinate value.
+	 * @param string $type  Either 'lat' for latitude or 'lng' for longitude.
+	 *
+	 * @return float|string Valid coordinate or empty string if invalid.
+	 */
+	private function validate_coordinate( $value, $type = 'lat' ) {
+		if ( ! is_numeric( $value ) ) {
+			return '';
+		}
+		$coord = (float) $value;
+		// Validate ranges
+		if ( 'lat' === $type ) {
+			if ( $coord < -90 || $coord > 90 ) {
+				return '';
+			}
+		} else {
+			if ( $coord < -180 || $coord > 180 ) {
+				return '';
+			}
+		}
+		return $coord;
+	}
+
+	/**
+	 * IP-based geolocation fallback using MaxMind or external APIs.
+	 * Used when browser geolocation is denied or unavailable.
+	 *
+	 * @return void
+	 */
+	public function ip_geolocation() {
+		// Sanitize nonce before verification
+		$nonce = isset( $_REQUEST[ rtcl()->nonceId ] ) ? sanitize_text_field( wp_unslash( $_REQUEST[ rtcl()->nonceId ] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, rtcl()->nonceText ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Session Expired!!', 'classified-listing' ) ] );
+		}
+
+		// Get IP addresses
+		$local_ip    = Geolocation::get_ip_address();
+		$external_ip = Geolocation::get_external_ip_address();
+
+		// Check MaxMind database
+		$maxmind_service = Functions::maxMindDatabaseService();
+		$db_path         = $maxmind_service ? $maxmind_service->get_database_path() : '';
+		$db_exists       = $db_path && file_exists( $db_path );
+
+		// Try MaxMind lookup if database exists
+		$maxmind_data = [];
+		if ( $maxmind_service && $db_exists && class_exists( '\MaxMind\Db\Reader' ) ) {
+			$maxmind_data = $maxmind_service->get_geolocation_data_for_ip( $external_ip ?: $local_ip );
+		}
+
+		// Use MaxMind data if available (sanitize even trusted data)
+		$country_code = isset( $maxmind_data['country_code'] ) ? $this->sanitize_country_code( $maxmind_data['country_code'] ) : '';
+		$latitude     = isset( $maxmind_data['latitude'] ) ? $this->validate_coordinate( $maxmind_data['latitude'], 'lat' ) : '';
+		$longitude    = isset( $maxmind_data['longitude'] ) ? $this->validate_coordinate( $maxmind_data['longitude'], 'lng' ) : '';
+		$city         = isset( $maxmind_data['city'] ) ? sanitize_text_field( $maxmind_data['city'] ) : '';
+		$state        = isset( $maxmind_data['state'] ) ? sanitize_text_field( $maxmind_data['state'] ) : '';
+
+		// If MaxMind doesn't have full data (no coordinates), use ip-api.com as fallback
+		if ( empty( $latitude ) || empty( $longitude ) ) {
+			$ip_to_check = $external_ip ?: $local_ip;
+			$api_url     = 'http://ip-api.com/json/' . rawurlencode( $ip_to_check ) . '?fields=status,countryCode,country,city,regionName,lat,lon';
+			$response    = wp_safe_remote_get( $api_url, [ 'timeout' => 5 ] );
+
+			if ( ! is_wp_error( $response ) ) {
+				$body = wp_remote_retrieve_body( $response );
+				$data = json_decode( $body, true );
+
+				if ( is_array( $data ) && isset( $data['status'] ) && 'success' === $data['status'] ) {
+					if ( ! empty( $data['countryCode'] ) ) {
+						$country_code = $this->sanitize_country_code( $data['countryCode'] );
+					}
+					if ( isset( $data['lat'] ) ) {
+						$latitude = $this->validate_coordinate( $data['lat'], 'lat' );
+					}
+					if ( isset( $data['lon'] ) ) {
+						$longitude = $this->validate_coordinate( $data['lon'], 'lng' );
+					}
+					if ( ! empty( $data['city'] ) ) {
+						$city = sanitize_text_field( $data['city'] );
+					}
+					if ( ! empty( $data['regionName'] ) ) {
+						$state = sanitize_text_field( $data['regionName'] );
+					}
+				}
+			}
+		}
+
+		if ( empty( $country_code ) ) {
+			// Return silent success with unavailable flag - don't show error to user
+			wp_send_json_success( [
+				'detection_unavailable' => true,
+				'message'               => '',
+			] );
+		}
+
+		// Get country name from country code
+		$countries    = new \Rtcl\Models\Countries();
+		$country_name = $countries->get_countries()[ $country_code ] ?? '';
+
+		// Try to match country to a location term (Level 1)
+		$taxonomy            = rtcl()->location;
+		$location_id         = 0;
+		$sub_location_id     = 0;
+		$sub_sub_location_id = 0;
+
+		// Search by country name first
+		if ( $country_name ) {
+			$term = $this->find_location_term( $country_name, $taxonomy, 0 );
+			if ( $term ) {
+				$location_id = $term->term_id;
+			}
+		}
+
+		// If not found by name, try country code
+		if ( ! $location_id ) {
+			$term = $this->find_location_term( $country_code, $taxonomy, 0 );
+			if ( $term ) {
+				$location_id = $term->term_id;
+			}
+		}
+
+		// Try to match city/state to sub-location (Level 2)
+		$sub_locations_html = '';
+		$sub_locations      = [];
+		if ( $location_id ) {
+			$sub_locations = Functions::get_one_level_locations( $location_id );
+
+			// Try to match city or state to a sub-location
+			if ( ! empty( $sub_locations ) && ( $city || $state ) ) {
+				$search_terms = array_filter( [ $city, $state ] );
+				foreach ( $search_terms as $search_term ) {
+					$term = $this->find_location_term( $search_term, $taxonomy, $location_id );
+					if ( $term ) {
+						$sub_location_id = $term->term_id;
+						break;
+					}
+				}
+			}
+
+			if ( ! empty( $sub_locations ) ) {
+				$sub_locations_html = $this->build_options_html( $sub_locations, $sub_location_id );
+			}
+		}
+
+		// Try to match town to sub-sub-location (Level 3)
+		$sub_sub_locations_html = '';
+		$sub_sub_locations      = [];
+		if ( $sub_location_id ) {
+			$sub_sub_locations = Functions::get_one_level_locations( $sub_location_id );
+
+			// For IP geolocation, we don't have town data, but city could match level 3
+			if ( ! empty( $sub_sub_locations ) && $city ) {
+				$term = $this->find_location_term( $city, $taxonomy, $sub_location_id );
+				if ( $term ) {
+					$sub_sub_location_id = $term->term_id;
+				}
+			}
+
+			if ( ! empty( $sub_sub_locations ) ) {
+				$sub_sub_locations_html = $this->build_options_html( $sub_sub_locations, $sub_sub_location_id );
+			}
+		}
+
+		$result = [
+			'country_code'           => esc_attr( $country_code ),
+			'country_name'           => esc_html( $country_name ),
+			'city'                   => esc_html( $city ),
+			'state'                  => esc_html( $state ),
+			'latitude'               => $latitude,
+			'longitude'              => $longitude,
+			'location_id'            => absint( $location_id ),
+			'sub_location_id'        => absint( $sub_location_id ),
+			'sub_sub_location_id'    => absint( $sub_sub_location_id ),
+			'sub_locations_html'     => $sub_locations_html,
+			'sub_sub_locations_html' => $sub_sub_locations_html,
+		];
+
+		wp_send_json_success( $result );
 	}
 
 	public function send_contact_email() {

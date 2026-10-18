@@ -1,1 +1,33 @@
-!function(){"use strict";var r;(r=jQuery)(document).on("click","#rtcl-resend-verify-link",function(t){if(t.preventDefault(),confirm(rtcl.re_send_confirm_text)){let t=r(this).data("login"),e=r(this).parent();r.ajax({url:rtcl.ajaxurl,data:{action:"rtcl_resend_verify",user_login:t,__rtcl_wpnonce:rtcl.__rtcl_wpnonce},type:"POST",dataType:"JSON",beforeSend:function(){e.rtclBlock()},success:function(r){e.rtclUnblock(),alert(r.data.message)},error:function(r){e.rtclUnblock(),alert("Server Error!!!")}})}return!1})}();
+(function() {
+  "use strict";
+  (function($) {
+    $(document).on("click", "#rtcl-resend-verify-link", function(e) {
+      e.preventDefault();
+      if (confirm(rtcl.re_send_confirm_text)) {
+        let login = $(this).data("login"), parent = $(this).parent();
+        $.ajax({
+          url: rtcl.ajaxurl,
+          data: {
+            action: "rtcl_resend_verify",
+            user_login: login,
+            __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+          },
+          type: "POST",
+          dataType: "JSON",
+          beforeSend: function() {
+            parent.rtclBlock();
+          },
+          success: function(response) {
+            parent.rtclUnblock();
+            alert(response.data.message);
+          },
+          error: function(e2) {
+            parent.rtclUnblock();
+            alert("Server Error!!!");
+          }
+        });
+      }
+      return false;
+    });
+  })(jQuery);
+})();

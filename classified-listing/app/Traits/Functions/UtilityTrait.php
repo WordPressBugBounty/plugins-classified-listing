@@ -660,6 +660,9 @@ trait UtilityTrait {
 		$classes[]    = 'rtcl-ajax-listings';
 		$classes[]    = apply_filters( 'rtcl_listings_view_class', 'grid' === $default_view ? 'rtcl-grid-view' : 'rtcl-list-view' );
 		$classes[]    = apply_filters( 'rtcl_listings_grid_columns_class', $col_class );
+		if ( Functions::is_modern_listing_card() ) {
+			$classes[] = 'rtcl-card-modern';
+		}
 		$classes      = apply_filters( 'rtcl_listing_loop_start_class', $classes );
 		$classes      = array_map( 'esc_attr', array_unique( array_filter( $classes ) ) );
 		if ( ! empty( $classes ) ) {

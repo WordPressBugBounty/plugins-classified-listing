@@ -41,6 +41,12 @@ class ListingAds {
 				"type"    => "string",
 				"default" => "all",
 			),
+			// Job Manager add-on: jobs are listings too, so they show up in this
+			// block alongside everything else unless they are filtered out.
+			"exclude_job"  => array(
+				"type"    => "boolean",
+				"default" => true,
+			),
 
 			"image_size"          => array(
 				"type"    => "string",
@@ -114,6 +120,13 @@ class ListingAds {
 					"style_list" => "1",
 					"style_grid" => "1",
 				),
+			),
+			// Lift the card on hover. Off by default so an existing block keeps
+			// the still card it renders today; `ListingShowcase::hover_lift_class()`
+			// turns it into the `rtcl-sc-hover-lift` wrapper class.
+			"hover_translate"    => array(
+				"type"    => "boolean",
+				"default" => false,
 			),
 			"colGutterSpace"     => array(
 				"type"    => "string",
@@ -834,6 +847,16 @@ class ListingAds {
 					]
 				]
 			),
+			// Which promotion badges this instance shows. Independent of the
+			// global archive "Show in Listing" setting on purpose — that option
+			// describes the archive, not a block the user placed and configured.
+			// Keys mirror `Rtcl\Helpers\ListingBadges::KEYS`; `popular`, `top` and
+			// `bump_up` only render when Pro is active.
+			"badge_visibility"          => array(
+				"type"    => "array",
+				"default" => array( 'featured', 'new', 'popular', 'top', 'bump_up' ),
+				"items"   => array( "type" => "string" ),
+			),
 			"content_visibility"        => array(
 				"type"    => "object",
 				"default" => array(
@@ -1098,6 +1121,25 @@ class ListingAds {
 
 	public function render_callback_listings( $attributes ) {
 		wp_enqueue_style( 'fontawesome' );
+
+		return self::render( $attributes );
+	}
+
+	/**
+	 * Render the listing block to HTML.
+	 *
+	 * Extracted from `render_callback_listings()` so the editor can go through
+	 * exactly the same code path as the front end:
+	 * `ListingsAjaxController::rtcl_gb_listings_ajax()` calls this and hands the
+	 * markup straight to the block's edit component. Before, the editor rebuilt
+	 * all ten layouts a second time in React, which is how the canvas and the
+	 * published page drifted apart in the first place.
+	 *
+	 * @param array $attributes Block attributes.
+	 *
+	 * @return string
+	 */
+	public static function render( $attributes ) {
 		$settings  = $attributes;
 		$the_loops = ListingsAjaxController::rtcl_gb_listings_query( $settings );
 		$view      = ! empty( $settings['col_style']['style'] ) && in_array( $settings['col_style']['style'], [ 'grid', 'list' ] )

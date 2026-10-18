@@ -37,6 +37,15 @@ class AllLocation {
 					"style_grid" => "1",
 				],
 			],
+			// Lift the card on hover. ON by default, unlike the same toggle on
+			// the Listing Ads block: the All Locations card design has always
+			// moved on hover in the Elementor widget, and this block is meant to
+			// match it. `hover_lift_class()` turns it into the
+			// `rtcl-loc-hover-lift` wrapper class.
+			"hover_translate"        => [
+				"type"    => "boolean",
+				"default" => true,
+			],
 			'colBGColor'             => [
 				'type'    => 'string',
 				'default' => '',
@@ -328,6 +337,37 @@ class AllLocation {
 				"type"    => "number",
 				"default" => 20,
 			],
+			// List view gets its OWN column settings, defaulting to a single
+			// full-width column. Reusing `col_*` would have been simpler, but those
+			// default to a 3-4 column grid — every existing list layout on every
+			// site would have silently reflowed into columns the moment this
+			// shipped. New keys, defaulted to 12 (1 Col), leave them untouched.
+			// Corner radius of the list style 2 card. Its default is the pill shape
+			// the design calls for; anything down to 0 gives a square card.
+			"list2_radius"           => [
+				"type"    => "number",
+				"default" => 50,
+			],
+			"list_col_xl"            => [
+				"type"    => "string",
+				"default" => "12",
+			],
+			"list_col_lg"            => [
+				"type"    => "string",
+				"default" => "12",
+			],
+			"list_col_md"            => [
+				"type"    => "string",
+				"default" => "12",
+			],
+			"list_col_sm"            => [
+				"type"    => "string",
+				"default" => "12",
+			],
+			"list_col_mobile"        => [
+				"type"    => "string",
+				"default" => "12",
+			],
 			"col_xl"                 => [
 				"type"    => "string",
 				"default" => "3",
@@ -381,15 +421,199 @@ class AllLocation {
 		);
 	}
 
+	/**
+	 * Coerce the block's boolean settings back into real booleans.
+	 *
+	 * The editor posts its attributes through `Qs.stringify`, which serialises
+	 * `false` as the STRING `"false"` — and `"false"` is truthy in PHP. So every
+	 * toggle read as ON in the editor preview no matter how it was set, while
+	 * the front end (which gets the attributes as native types) behaved
+	 * correctly. Show Image was the visible symptom; Show Counts, Show
+	 * Description, Enable Link, Add nofollow and Show Sub Location were all
+	 * stuck on too.
+	 *
+	 * Two of the eight were already patched individually downstream with
+	 * `== 'true'` — the two that affect the QUERY rather than the display, which
+	 * is presumably why only those got noticed. Normalising all of them here in
+	 * one place is what stops the next one being missed; those existing checks
+	 * keep working, since `true == 'true'` and `false == 'true'` both still
+	 * evaluate correctly against a real boolean.
+	 *
+	 * Driven by the block's own attribute schema rather than a hand-written list,
+	 * so a boolean added later is covered without touching this.
+	 *
+	 * @param array $settings Block settings, possibly from an AJAX round-trip.
+	 *
+	 * @return array
+	 */
+	public static function normalize_settings( $settings ) {
+		static $booleans = null;
+
+		if ( null === $booleans ) {
+			$booleans = [];
+
+			foreach ( ( new self() )->get_attributes() as $key => $definition ) {
+				if ( isset( $definition['type'] ) && 'boolean' === $definition['type'] ) {
+					$booleans[] = $key;
+				}
+			}
+		}
+
+		foreach ( $booleans as $key ) {
+			if ( isset( $settings[ $key ] ) && is_string( $settings[ $key ] ) ) {
+				$settings[ $key ] = ! in_array( strtolower( $settings[ $key ] ), [ '', '0', 'false' ], true );
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * The "lift the card on hover" class.
+	 *
+	 * The stylesheet keeps the card still and only translates it when this class
+	 * is on the `.gb-all-locations` wrapper (`--rtcl-loc-lift` in
+	 * `src/sass/partials/_gb-all-location-block.scss`). Same class and same
+	 * variable the Elementor widget uses, so the toggle means the same thing in
+	 * both editors.
+	 *
+	 * Missing means ON. `hover_translate` defaults to true, so the only way to
+	 * reach this branch is a block saved before the attribute existed — and
+	 * those should keep the movement, not lose it. That is the opposite of
+	 * `ListingShowcase::hover_lift_class()`, whose toggle is opt-in because its
+	 * card never moved before.
+	 *
+	 * @since 5.3.1
+	 *
+	 * @param array $settings Block settings.
+	 *
+	 * @return string Class name with a leading space, matching
+	 *                `image_box_attrs()` so the templates can concatenate it
+	 *                straight onto the wrapper; empty when the lift is off.
+	 */
+	public static function hover_lift_class( $settings ) {
+		if ( ! is_array( $settings ) || ! isset( $settings['hover_translate'] ) ) {
+			return ' rtcl-loc-hover-lift';
+		}
+
+		$value = $settings['hover_translate'];
+
+		// `normalize_settings()` already coerces this, but the template is also
+		// reachable through `rtcl_gb_all_location_box_data` filters, so read it
+		// defensively — the editor round-trips the boolean through AJAX, where
+		// it arrives as the string "false"/"0".
+		if ( is_string( $value ) ) {
+			$value = ! in_array( strtolower( $value ), [ '', '0', 'false' ], true );
+		}
+
+		return $value ? ' rtcl-loc-hover-lift' : '';
+	}
+
+	/**
+	 * Wrapper class and inline custom properties for a custom image size.
+	 *
+	 * Image Size → Custom is enforced in CSS rather than by the file WordPress
+	 * serves. Asking for an arbitrary crop only works if that exact size was
+	 * registered AND generated for the attachment — for a size typed into the
+	 * block it never was, so WordPress falls back to the full image and the
+	 * setting appeared to do nothing (and reported a 1x1 dimension while it was
+	 * at it). Sizing the box in CSS means the setting works for every image
+	 * regardless of which crops exist, with `object-fit: cover` doing the crop.
+	 *
+	 * Shared by all three layout templates so they cannot drift; each decides
+	 * for itself what the width and height mean, in
+	 * `src/sass/partials/_gb-all-location-block.scss`.
+	 *
+	 * @param array $settings Block settings.
+	 *
+	 * @return array [ string $class, string $style ] — both empty unless a
+	 *               custom size with at least one dimension is set. `$style` is
+	 *               a ready-to-print ` style="…"` attribute, already escaped.
+	 */
+	public static function image_box_attrs( $settings ) {
+		if ( empty( $settings['image_size'] ) || 'custom' !== $settings['image_size'] ) {
+			return [ '', '' ];
+		}
+
+		$width  = ! empty( $settings['custom_image_width'] ) ? absint( $settings['custom_image_width'] ) : 0;
+		$height = ! empty( $settings['custom_image_height'] ) ? absint( $settings['custom_image_height'] ) : 0;
+
+		if ( ! $width && ! $height ) {
+			return [ '', '' ];
+		}
+
+		return [ ' has-custom-image-size', ' style="' . esc_attr( implode( ';', self::image_box_vars( $settings ) ) ) . '"' ];
+	}
+
+	/**
+	 * The custom-size declarations on their own, without the `style` wrapper.
+	 *
+	 * List style 2 has a corner-radius property of its own to emit, so it needs
+	 * to compose one style attribute rather than concatenate two.
+	 *
+	 * Emitted independently, so setting only one dimension stays valid — the
+	 * stylesheet's `var()` fallbacks cover the other.
+	 *
+	 * @param array $settings Block settings.
+	 *
+	 * @return array CSS declarations, empty when no custom size is set.
+	 */
+	public static function image_box_vars( $settings ) {
+		if ( empty( $settings['image_size'] ) || 'custom' !== $settings['image_size'] ) {
+			return [];
+		}
+
+		$width  = ! empty( $settings['custom_image_width'] ) ? absint( $settings['custom_image_width'] ) : 0;
+		$height = ! empty( $settings['custom_image_height'] ) ? absint( $settings['custom_image_height'] ) : 0;
+		$vars   = [];
+
+		if ( $width ) {
+			$vars[] = '--rtcl-loc-img-w:' . $width . 'px';
+		}
+
+		if ( $height ) {
+			$vars[] = '--rtcl-loc-img-h:' . $height . 'px';
+		}
+
+		return $vars;
+	}
+
 	public function render_callback_listings( $attributes ) {
 		wp_enqueue_style( 'fontawesome' );
-		$settings = $attributes;
+
+		return self::render( $attributes );
+	}
+
+	/**
+	 * Render the All Locations block to HTML.
+	 *
+	 * Extracted from `render_callback_listings()` so the editor can go through
+	 * exactly the same code path as the front end:
+	 * `AdminAjaxController::rtcl_gb_all_locations()` calls this and hands the
+	 * markup straight to the block's edit component. Before, the editor rebuilt
+	 * the layouts a second time in React (`src/blocks/all-location/layout/`),
+	 * which is how the canvas and the published page drifted apart — the card
+	 * design landed on the front end while the editor kept the old markup.
+	 *
+	 * @param array $attributes Block attributes.
+	 *
+	 * @return string
+	 */
+	public static function render( $attributes ) {
+		// Both the front end and the editor come through here; only the editor's
+		// attributes need coercing, and doing it for both keeps one code path.
+		$settings = self::normalize_settings( $attributes );
 		$view     = ! empty( $settings['col_style']['style'] ) && in_array( $settings['col_style']['style'], [ 'grid', 'list' ] )
 			? $settings['col_style']['style'] : 'grid';
 		$style    = '1';
 		if ( 'grid' == $view ) {
 			$style = ! empty( $settings['col_style']['style_grid'] ) && in_array( $settings['col_style']['style_grid'], [ '1', '2' ] )
 				? $settings['col_style']['style_grid'] : '1';
+		} else {
+			// List had a single style, so this was hardcoded. Style 2 is the
+			// image-backed pill card.
+			$style = ! empty( $settings['col_style']['style_list'] ) && in_array( $settings['col_style']['style_list'], [ '1', '2' ] )
+				? $settings['col_style']['style_list'] : '1';
 		}
 
 		$data = [

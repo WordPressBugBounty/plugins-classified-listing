@@ -28,10 +28,17 @@ if ( empty( $value ) ) {
 }
 $icon = $field->getIconData();
 $fieldObj = $field->getField();
+$slField  = is_array( $field->getSlField() ) ? $field->getSlField() : [];
+$direction = $fieldObj['direction'] ?? '';
 $vertical_cols = !empty( $fieldObj['vertical_cols'] ) ? 'cols-'.$fieldObj['vertical_cols'] : '';
-$labelPlacement = !empty( $field->getSlField()['label_placement'] ) ? $field->getSlField()['label_placement'] : '';
+// Single-layout "Options Display" overrides the form field's Direction on the details page only.
+if ( !empty( $slField['options_layout'] ) && in_array( $slField['options_layout'], [ 'inline', 'vertical' ], true ) ) {
+	$direction     = 'inline' === $slField['options_layout'] ? 'horizontal' : 'vertical';
+	$vertical_cols = 'vertical' === $direction && !empty( $slField['options_cols'] ) ? 'cols-' . absint( $slField['options_cols'] ) : '';
+}
+$labelPlacement = !empty( $slField['label_placement'] ) ? $slField['label_placement'] : '';
 ?>
-<div class="rtcl-sl-element rtcl-checkbox-field <?php echo esc_attr( $fieldObj['direction'] ?? '' ); ?>  label-<?php echo esc_attr($labelPlacement)?> <?php echo esc_attr($vertical_cols)?>">
+<div class="rtcl-sl-element rtcl-checkbox-field <?php echo esc_attr( $direction ); ?>  label-<?php echo esc_attr($labelPlacement)?> <?php echo esc_attr($vertical_cols)?>">
 	<?php
 	if ( ( ! empty( $icon['type'] ) && 'class' === $icon['type'] && ! empty( $icon['class'] ) ) || ! empty( $field->getLabel() ) ) {
 		?>

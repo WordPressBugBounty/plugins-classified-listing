@@ -23,16 +23,10 @@ class OpenAIClient {
 	 * OpenAIClient constructor.
 	 *
 	 * Initializes the OpenAI client and sets API key and model from settings.
-	 *
-	 * @throws \Exception If required settings are missing.
 	 */
 	public function __construct() {
-		$apiKey      = Functions::get_option_item( 'rtcl_ai_settings', 'gpt_api_key' );
 		$this->model = Functions::get_option_item( 'rtcl_ai_settings', 'gpt_models' );
 		$this->token = Functions::get_option_item( 'rtcl_ai_settings', 'gpt_max_token' );
-		if ( empty( $apiKey ) || empty( $this->model ) ) {
-			throw new \Exception( 'AI settings are not properly configured.' );
-		}
 	}
 
 	/**

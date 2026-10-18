@@ -17,11 +17,28 @@ $wrap_class .= ' rtcl-block-frontend ';
 if (isset($settings['className'])) {
 	$wrap_class .= $settings['className'];
 }
+
+use Rtcl\Controllers\Blocks\AllLocation;
+
+list( $image_box_class, $image_box_style ) = AllLocation::image_box_attrs( $settings );
 ?>
 <div class="<?php echo esc_attr($wrap_class); ?>">
-	<div class="rtcl gb-all-locations list-style-1">
+	<div class="rtcl gb-all-locations list-style-1<?php echo esc_attr( $image_box_class . AllLocation::hover_lift_class( $settings ) ); ?>"<?php
+	echo $image_box_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the helper.
+	?>>
 		<?php
-		$classes = 'rtcl-col-12';
+		// List view has its own column settings, defaulting to a single
+		// full-width column so existing layouts are unchanged. The grid's
+		// `col_*` values are deliberately NOT reused — they default to a 3-4
+		// column grid, which would have reflowed every list already out there.
+		$classes  = 'rtcl-col-xl-' . ( ! empty( $settings['list_col_xl'] ) ? $settings['list_col_xl'] : '12' );
+		$classes .= ' rtcl-col-lg-' . ( ! empty( $settings['list_col_lg'] ) ? $settings['list_col_lg'] : '12' );
+		$classes .= ' rtcl-col-md-' . ( ! empty( $settings['list_col_md'] ) ? $settings['list_col_md'] : '12' );
+		$classes .= ' rtcl-col-sm-' . ( ! empty( $settings['list_col_sm'] ) ? $settings['list_col_sm'] : '12' );
+		$classes .= ' rtcl-col-' . ( ! empty( $settings['list_col_mobile'] ) ? $settings['list_col_mobile'] : '12' );
+		?>
+		<div class="rtcl-row">
+		<?php
 		if (!empty($terms)) {
 			foreach ($terms as $trm) {
 				$count_html = null;
@@ -40,7 +57,7 @@ if (isset($settings['className'])) {
 					$count_html = ob_get_clean();
 				}
 				?>
-				<div class="location-boxes-wrapper">
+				<div class="location-boxes-wrapper <?php echo esc_attr( $classes ); ?>">
 					<div class="location-boxes">
 						<?php
 						if ( $settings['show_image'] && ! empty( $trm['image'] ) ) { ?>
@@ -83,11 +100,23 @@ if (isset($settings['className'])) {
 								</div>
 							<?php } ?>
 						</div>
+						<?php
+						// Sibling of `.rtcl-location-content`, not a child — the row
+						// is a flex line and the chevron is its last item, pinned to
+						// the right regardless of how much text sits beside it.
+						?>
+						<?php if ( $settings['enable_link'] ) : ?>
+							<a class="rtcl-location-arrow" href="<?php echo esc_url( $trm['permalink'] ); ?>"
+							   aria-label="<?php echo esc_attr( $trm['name'] ); ?>">
+								<i class="rtcl-icon rtcl-icon-angle-right"></i>
+							</a>
+						<?php endif; ?>
 					</div>
 				</div>
 				<?php
 			}
 		}
 		?>
+		</div>
 	</div>
 </div>

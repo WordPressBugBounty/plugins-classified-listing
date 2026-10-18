@@ -23,21 +23,15 @@ class GeminiClient {
 	 * GeminiClient constructor.
 	 *
 	 * Initializes the Gemini client and sets API key and model from settings.
-	 *
-	 * @throws \Exception If required settings are missing.
 	 */
 	public function __construct() {
-		$apiKey      = Functions::get_option_item( 'rtcl_ai_settings', 'gemini_api_key' );
-		$model       = Functions::get_option_item( 'rtcl_ai_settings', 'gemini_models' );
+		$model = Functions::get_option_item( 'rtcl_ai_settings', 'gemini_models' );
 		// Self-heal: a saved value pointing at a retired model (e.g. the old gemini-2.5-flash, which
 		// Google no longer serves to new users) falls back to the current GA default instead of a dead
 		// model. Keep this whitelist in sync with the gemini_models options in Options.php.
 		$supportedModels = [ 'gemini-3.5-flash', 'gemini-3.1-pro-preview' ];
 		$this->model     = ! empty( $model ) && in_array( $model, $supportedModels, true ) ? $model : 'gemini-3.5-flash';
-		$this->token = Functions::get_option_item( 'rtcl_ai_settings', 'gpt_max_token' );
-		if ( empty( $apiKey ) ) {
-			throw new \Exception( 'Gemini API key is not properly configured.' );
-		}
+		$this->token     = Functions::get_option_item( 'rtcl_ai_settings', 'gpt_max_token' );
 	}
 
 	/**

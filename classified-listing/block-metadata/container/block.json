@@ -1,0 +1,22 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"version": "1.0.0",
+	"title": "Container",
+	"name": "rtcl/container",
+	"category": "classified-list-gb",
+	"description": "A flexbox or grid container for building page sections. Nest containers inside each other and set every control per device.",
+	"keywords": ["container", "section", "row", "column", "flex", "grid", "layout"],
+	"supports": {
+		"anchor": true,
+		"html": false,
+		"align": ["wide", "full"],
+		"className": true,
+		"customClassName": true,
+		"spacing": false,
+		"color": false,
+		"typography": false
+	},
+	"editorScript": "rtcl-gb-blocks-js",
+	"textdomain": "classified-listing"
+}

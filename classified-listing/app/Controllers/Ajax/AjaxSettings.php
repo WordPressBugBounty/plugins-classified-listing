@@ -180,14 +180,15 @@ class AjaxSettings {
 				$value = $value === 'yes' ? 'yes' : '';
 			} else if ( $field['type'] === 'radio' || $field['type'] === 'select' ) {
 				$_value = sanitize_text_field( wp_unslash( $value ) );
-				if ( !is_array( $field['options'] ) && !empty( $field['options'] ) ) {
-					if ( in_array( $_value, array_keys( $field['options'] ) ) ) {
+				if ( is_array( $field['options'] ) && ! empty( $field['options'] ) ) {
+					if ( array_key_exists( $_value, $field['options'] ) ) {
 						$value = $_value;
 					} else {
 						$value = '';
 					}
+				} else {
+					$value = $_value;
 				}
-				wp_kses_post( $value );
 			} else if ( $field['type'] === 'listingsPerRow' ) {
 				if ( is_array( $value ) && !empty( $value ) ) {
 					$value = [
@@ -208,6 +209,40 @@ class AjaxSettings {
 				} else {
 					$value = [ 'width' => 0, 'height' => 0, 'crop' => 'no', ];
 				}
+			} else if ( $field['type'] === 'phone_codes' ) {
+				// Rows of [ id, name, country, dial_code ]. The country is NOT restricted to the
+				// built-in list — the point of this setting is to add entries it doesn't cover —
+				// so we only require a 2-letter code to key the entry by and one digit of calling
+				// code. The code is stored normalized to "+<digits>" so no read point has to cope
+				// with "1", "+1 " or "+1-809".
+				$rows = [];
+				if ( !empty( $value ) && is_array( $value ) ) {
+					$countries = rtcl()->countries->get_countries();
+					foreach ( $value as $row ) {
+						if ( !is_array( $row ) ) {
+							continue;
+						}
+						$cc = isset( $row['country'] ) ? strtoupper( sanitize_text_field( wp_unslash( $row['country'] ) ) ) : '';
+						$dial = isset( $row['dial_code'] ) ? preg_replace( '/\D/', '', (string) $row['dial_code'] ) : '';
+						if ( !preg_match( '/^[A-Z]{2}$/', $cc ) || '' === $dial ) {
+							continue;
+						}
+						$name = isset( $row['name'] ) ? sanitize_text_field( wp_unslash( $row['name'] ) ) : '';
+						// A known country always displays under its own translated name; the typed
+						// name is only kept for entries the built-in list has never heard of.
+						if ( isset( $countries[$cc] ) ) {
+							$name = '';
+						}
+						$rows[$cc] = [
+							'id'        => isset( $row['id'] ) ? sanitize_text_field( wp_unslash( $row['id'] ) ) : 'pc_' . $cc,
+							'name'      => $name,
+							'country'   => $cc,
+							'dial_code' => '+' . $dial,
+						];
+					}
+				}
+				// Re-index: one override per country, last row wins.
+				$value = array_values( $rows );
 			} else if ( $field['type'] === 'email' ) {
 				$value = sanitize_email( wp_unslash( $value ) );
 			} else if ( $field['type'] === 'multiselect' ) {

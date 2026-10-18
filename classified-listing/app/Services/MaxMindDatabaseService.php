@@ -21,8 +21,9 @@ use WP_Error;
 class MaxMindDatabaseService {
 	/**
 	 * The name of the MaxMind database to utilize.
+	 * GeoLite2-City provides more detailed location data (city, state, coordinates).
 	 */
-	const DATABASE = 'GeoLite2-Country';
+	const DATABASE = 'GeoLite2-City';
 
 	/**
 	 * The extension for the MaxMind database.
@@ -132,7 +133,7 @@ class MaxMindDatabaseService {
 	public function get_iso_country_code_for_ip( $ip_address ) {
 		$country_code = '';
 
-		if ( ! class_exists( 'MaxMind\Db\Reader' ) ) {
+		if ( ! class_exists( '\MaxMind\Db\Reader' ) ) {
 			rtcl()->logger()->notice( __( 'Missing MaxMind Reader library!', 'classified-listing' ), array( 'source' => 'maxmind-geolocation' ) );
 
 			return $country_code;
@@ -144,7 +145,7 @@ class MaxMindDatabaseService {
 		}
 
 		try {
-			$reader = new MaxMind\Db\Reader( $database_path );
+			$reader = new \MaxMind\Db\Reader( $database_path );
 			$data   = $reader->get( $ip_address );
 
 			if ( isset( $data['country']['iso_code'] ) ) {
@@ -157,5 +158,78 @@ class MaxMindDatabaseService {
 		}
 
 		return $country_code;
+	}
+
+	/**
+	 * Fetches full geolocation data for an IP address.
+	 * Works best with GeoLite2-City database.
+	 *
+	 * @param string $ip_address The IP address to geolocate.
+	 *
+	 * @return array Geolocation data with country, city, state, coordinates.
+	 */
+	public function get_geolocation_data_for_ip( $ip_address ) {
+		$result = [
+			'country_code' => '',
+			'country_name' => '',
+			'city'         => '',
+			'state'        => '',
+			'postal_code'  => '',
+			'latitude'     => '',
+			'longitude'    => '',
+		];
+
+		if ( ! class_exists( '\MaxMind\Db\Reader' ) ) {
+			return $result;
+		}
+
+		$database_path = $this->get_database_path();
+		if ( ! file_exists( $database_path ) ) {
+			return $result;
+		}
+
+		try {
+			$reader = new \MaxMind\Db\Reader( $database_path );
+			$data   = $reader->get( $ip_address );
+
+			if ( $data ) {
+				// Country
+				if ( isset( $data['country']['iso_code'] ) ) {
+					$result['country_code'] = $data['country']['iso_code'];
+				}
+				if ( isset( $data['country']['names']['en'] ) ) {
+					$result['country_name'] = $data['country']['names']['en'];
+				}
+
+				// City
+				if ( isset( $data['city']['names']['en'] ) ) {
+					$result['city'] = $data['city']['names']['en'];
+				}
+
+				// State/Region (first subdivision)
+				if ( isset( $data['subdivisions'][0]['names']['en'] ) ) {
+					$result['state'] = $data['subdivisions'][0]['names']['en'];
+				}
+
+				// Postal code
+				if ( isset( $data['postal']['code'] ) ) {
+					$result['postal_code'] = $data['postal']['code'];
+				}
+
+				// Coordinates
+				if ( isset( $data['location']['latitude'] ) ) {
+					$result['latitude'] = (string) $data['location']['latitude'];
+				}
+				if ( isset( $data['location']['longitude'] ) ) {
+					$result['longitude'] = (string) $data['location']['longitude'];
+				}
+			}
+
+			$reader->close();
+		} catch ( Exception $e ) {
+			rtcl()->logger()->notice( $e->getMessage(), array( 'source' => 'maxmind-geolocation' ) );
+		}
+
+		return $result;
 	}
 }

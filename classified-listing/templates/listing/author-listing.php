@@ -39,7 +39,7 @@ $user_ads_query = new WP_Query( apply_filters( 'rtcl_user_listing_args', $args )
 if ( $user_ads_query->have_posts() ) : ?>
 	<div class="rtcl-user-listing-list rtcl-user-ad-listing-wrapper">
 		<h2><?php printf( /* translators: User name */ esc_html__( "All ads from %s", "classified-listing" ), esc_html( $author->display_name ) ) ?></h2>
-		<div class="rtcl-listings rtcl-list-view rtcl-listing-wrapper"
+		<div class="rtcl-listings rtcl-list-view rtcl-listing-wrapper<?php echo Functions::is_modern_listing_card() ? ' rtcl-card-modern' : ''; ?>"
 			 data-pagination='{"max_num_pages":<?php echo esc_attr( $user_ads_query->max_num_pages ) ?>, "current_page": 1, "found_posts":<?php echo esc_attr( $user_ads_query->found_posts ) ?>, "posts_per_page":<?php echo esc_attr( $user_ads_query->query_vars['posts_per_page'] ) ?>}'>
 			<!-- the loop -->
 			<?php

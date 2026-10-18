@@ -45,8 +45,8 @@ global $post;
 					</td>
 					<td class="title-cell">
 						<div class="rtcl-ad-details">
-							<a class="listing-title" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 							<?php $listing->the_badges(); ?>
+							<a class="listing-title" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 							<ul class="rtcl-meta">
 								<li>
 									<svg width="16" height="16" viewBox="0 0 16 16" fill="none"
@@ -58,14 +58,16 @@ global $post;
 									<?php $listing->the_time(); ?>
 								</li>
 								<?php if ( $listing->has_category() ): ?>
-									<li>
+									<li class="rtcl-meta-categories">
 										<svg width="16" height="16" viewBox="0 0 16 16" fill="none"
 											 xmlns="http://www.w3.org/2000/svg">
 											<path fill-rule="evenodd" clip-rule="evenodd"
 												  d="M0.399414 1.00002C0.399414 0.668653 0.668044 0.400024 0.999414 0.400024H8.30189C8.46104 0.400024 8.61368 0.46326 8.72621 0.575815L15.0003 6.85154C15.384 7.23769 15.5994 7.76 15.5994 8.30441C15.5994 8.84881 15.384 9.37113 15.0003 9.75727L14.999 9.75853L9.76339 14.9955C9.57204 15.1871 9.34479 15.3392 9.09464 15.4429C8.84448 15.5466 8.57634 15.6 8.30554 15.6C8.03474 15.6 7.76659 15.5466 7.51644 15.4429C7.26649 15.3392 7.03941 15.1874 6.84815 14.996C6.8483 14.9961 6.84799 14.9958 6.84815 14.996L0.575342 8.72886C0.462703 8.61633 0.399414 8.46363 0.399414 8.30441V1.00002ZM1.59941 1.60002V8.05572L7.69631 14.1471C7.77623 14.2271 7.87162 14.2911 7.97607 14.3344C8.08052 14.3777 8.19247 14.4 8.30554 14.4C8.4186 14.4 8.53056 14.3777 8.635 14.3344C8.73945 14.2911 8.83436 14.2276 8.91428 14.1476L14.1491 8.91138C14.1493 8.91119 14.1489 8.91157 14.1491 8.91138C14.309 8.75015 14.3994 8.53162 14.3994 8.30441C14.3994 8.0772 14.3096 7.85924 14.1497 7.69801C14.1499 7.6982 14.1495 7.69782 14.1497 7.69801L8.05331 1.60002H1.59941ZM4.05065 4.65222C4.05065 4.32084 4.31928 4.05222 4.65065 4.05222H4.65795C4.98932 4.05222 5.25795 4.32084 5.25795 4.65222C5.25795 4.98359 4.98932 5.25222 4.65795 5.25222H4.65065C4.31928 5.25222 4.05065 4.98359 4.05065 4.65222Z"
 												  fill="currentColor"/>
 										</svg>
-										<?php $listing->the_categories( true, true ); ?>
+										<span class="rtcl-meta-categories-list" title="<?php echo esc_attr( implode( ', ', wp_list_pluck( $listing->get_categories(), 'name' ) ) ); ?>">
+											<?php $listing->the_categories( true, true ); ?>
+										</span>
 									</li>
 								<?php endif; ?>
 								<?php if ( $listing->has_location() && apply_filters( 'rtcl_my_listing_location_display', false ) ): ?>
@@ -87,14 +89,14 @@ global $post;
 									<span>
 										<button type="button" class="rtcl-listing-analytics-btn"
 												data-listing-id="<?php echo esc_attr( $listing->get_id() ); ?>"
-												title="<?php esc_attr_e( 'View analytics', 'classified-listing' ); ?>"
-												aria-label="<?php esc_attr_e( 'View analytics', 'classified-listing' ); ?>">
+												title="<?php esc_attr_e( 'View analytics', 'classified-listing' ); ?>">
 											<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="margin-right: 0px">
 												<path fill-rule="evenodd" clip-rule="evenodd" d="M1.4 1c0-.3-.3-.6-.6-.6S.2.7.2 1v12.4c0 .8.7 1.5 1.5 1.5H15c.3 0 .6-.3.6-.6s-.3-.6-.6-.6H1.7c-.2 0-.3-.1-.3-.3V1Zm13.3 3.2c.2-.2.2-.6 0-.8a.6.6 0 0 0-.9 0l-3.4 3.5-2.2-2.2a.6.6 0 0 0-.9 0L3.5 7.8a.6.6 0 1 0 .9.9L7.7 5.4l2.2 2.2c.3.2.7.2.9 0l3.9-3.4Z" fill="currentColor"/>
 												<rect x="3" y="9.4" width="1.6" height="3" rx="0.4" fill="currentColor"/>
 												<rect x="7.2" y="7.6" width="1.6" height="4.8" rx="0.4" fill="currentColor"/>
 												<rect x="11.4" y="6.2" width="1.6" height="6.2" rx="0.4" fill="currentColor"/>
 											</svg>
+											<span class="rtcl-listing-analytics-btn-text"><?php esc_html_e( 'View analytics', 'classified-listing' ); ?></span>
 										</button>
 									</span>
 								<?php } ?>

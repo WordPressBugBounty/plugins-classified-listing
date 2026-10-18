@@ -6,6 +6,7 @@
  * @version    1.0.0
  */
 
+use Rtcl\Controllers\Hooks\TemplateHooks;
 use Rtcl\Helpers\Functions;
 use Rtcl\Services\FormBuilder\FBHelper;
 
@@ -38,6 +39,14 @@ if ( Functions::is_block_theme() ) {
 do_action( 'rtcl_before_main_content' );
 global $listing;
 $enableBuilder = FBHelper::isEnableSingleBuilder( $listing );
+// Modern default view carries its own price/seller aside (and the single sidebar
+// widgets), so the page-level listing sidebar is not rendered beside it.
+// A theme that overrides the classic content template keeps its own design.
+$modernLayout = ! $enableBuilder && Functions::is_modern_single_listing()
+                && ! Functions::is_template_overridden_by_theme( 'content-single-rtcl_listing.php' );
+if ( $modernLayout ) {
+	remove_action( 'rtcl_sidebar', [ TemplateHooks::class, 'get_sidebar' ], 10 );
+}
 ?>
 
 <?php while ( have_posts() ) : ?>
@@ -46,6 +55,8 @@ $enableBuilder = FBHelper::isEnableSingleBuilder( $listing );
 	<?php if ( $enableBuilder ) {
 		$form = $listing->getForm();
 		Functions::get_template( 'single-layout/builder', [ 'form' => $form ] );
+	} elseif ( $modernLayout ) {
+		Functions::get_template( 'content-single-rtcl_listing-modern' );
 	} else {
 		Functions::get_template_part( 'content', 'single-rtcl_listing' );
 	} ?>

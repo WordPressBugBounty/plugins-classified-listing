@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.1.5
+Stable tag: 6.2.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -329,10 +329,40 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 
 == Changelog ==
 
+= 6.2.0 ( Oct 18, 2026 ) =
+* Added: Modern listing card and details page designs, on by default, with modern line icons.
+* Added: Listing Header element: Classic, Gallery First and Split layouts, gallery, visibility and Share options.
+* Added: Form builder container Columns (2–4 per device) and Field Divider options.
+* Added: Single Listing Layout style settings for fields and sections: colors, fonts, borders, padding.
+* Added: File upload field images open in the gallery lightbox on the details page.
+* Added: Custom Country Codes setting under Settings > Misc > Phone.
+* Added: Form builder Url field "Open in new tab" and "nofollow" link options.
+* Added: Website and Url field gear button to set new window and nofollow per listing.
+* Fixed: Wrong calling codes for 26 countries and unsaveable Dominican Republic phone numbers.
+* Fixed: Admin listing Save needed two clicks; multiple category field cleared itself on save.
+* Fixed: Ajax filter dropdown styling, More button, and "&amp;" in chip names.
+* Fixed: Listings widget design, image cropping and layout on narrow sidebars.
+* Fixed: Details page field layout, URL field links, and Visit Website and Chat icons.
+* Fixed: Form builder details page columns, icons and borders, including on mobile.
+* Fixed: Divi theme listing pages were narrower than the header.
+* Fixed: Checkout and membership plan cards squeezed narrow or missing padding.
+* Fixed: Author page listing cards now follow the Modern card style.
+* Fixed: Listing form date picker texts can now be translated.
+* Fixed: Settings text boxes with long text lost their resize handle.
+* Fixed: "Undefined array key width" warning when saving a form in the Form Builder.
+* Improved: Redesigned Listing Types admin page; Job type is locked while Job Manager is active.
+* Improved: Modern archive: cleaner filters, mobile drawer, pagination, empty state; skipped if the theme overrides templates.
+* Improved: Modern details page: sticky price and seller card; skipped if the theme overrides templates.
+* Improved: Quick View redesigned with a modern gallery, meta chips, action buttons and loader.
+* Improved: Details page Overview, Contact box and gallery have a cleaner design.
+* Improved: Report Abuse popup and seller Member/Store badges have a modern design.
+* Improved: My Listings badges sit above the title; analytics button has a label.
+* Improved: Payment API credentials are masked in settings; only the first and last characters show.
+
 = 6.1.5 ( Sep 23, 2026 ) =
 * Improved: Input sanitization and output escaping for taxonomy filters.
 
-= 6.1.4.1 ( Sep 23, 2026 ) =
+= 6.1.4 ( Sep 23, 2026 ) =
 * Fixed: New form builder containers no longer get a default title shown on the front-end.
 * Fixed: Front-end form builder fields picked up theme borders, outlines and uneven heights.
 * Fixed: Add New Field popup broken by theme styles on the Custom Fields screen.

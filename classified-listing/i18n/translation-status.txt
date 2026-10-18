@@ -1,10 +1,10 @@
 CLASSIFIED-LISTING TRANSLATION STATUS
 ======================================
-Last updated: 2026-07-05
+Last updated: 2026-10-08
 Total languages: 15
 Completed: 15
 Remaining: 0
-Source template: classified-listing.pot (~3,008 entries)
+Source template: classified-listing.pot (3,274 entries)
 
 ALL LANGUAGES COMPLETED
 ------------------------
@@ -36,9 +36,17 @@ VERIFICATION (2026-07-05)
 - Untranslated entries (2-8 per language) are duplicate PO keys or
   strings with special Unicode characters that could not be matched
 
+UPDATE (2026-10-08)
+-------------------
+- Synced all 15 .po files with the regenerated POT (3,274 entries)
+- Filled ~125-155 new/missing strings per language (incl. date picker strings)
+- Re-translated plural entries that had the wrong form count (ar, he_IL, ja, ru_RU, zh_CN)
+- All 15 files: 100% translated, pass `msgfmt -c`, .mo + .l10n.php rebuilt
+
 PLURAL FORMS
 ------------
-2 forms: fr_FR, it_IT, de_DE, bn_BD, es_ES, nl_NL, pt_BR, he_IL, hi_IN, fa_IR, ur
+2 forms: fr_FR, it_IT, de_DE, bn_BD, es_ES, nl_NL, pt_BR, hi_IN, fa_IR, ur
+4 forms: he_IL
 3 forms: ru_RU
 6 forms: ar
 1 form:  zh_CN, ja

@@ -17,16 +17,25 @@ $wrap_class .= ' rtcl-block-frontend ';
 if ( isset( $settings['className'] ) ) {
 	$wrap_class .= $settings['className'];
 }
+
+use Rtcl\Controllers\Blocks\AllLocation;
+
+list( $image_box_class, $image_box_style ) = AllLocation::image_box_attrs( $settings );
 ?>
 <div class="<?php echo esc_attr( $wrap_class ); ?>">
-	<div class="rtcl gb-all-locations grid-style-2">
+	<div class="rtcl gb-all-locations grid-style-2<?php echo esc_attr( $image_box_class . AllLocation::hover_lift_class( $settings ) ); ?>"<?php
+	echo $image_box_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in the helper.
+	?>>
 		<div class="rtcl-row">
 			<?php
-			$classes = 'rtcl-col-xl-' . $settings['col_xl'];
-			$classes .= ' rtcl-col-lg-' . $settings['col_lg'];
-			$classes .= ' rtcl-col-md-' . $settings['col_md'];
-			$classes .= ' rtcl-col-sm-' . $settings['col_sm'];
-			$classes .= ' rtcl-col-' . $settings['col_mobile'];
+			// Each breakpoint falls back to its own registered attribute default,
+			// so a block saved before these attributes existed still emits a
+			// valid class instead of `rtcl-col-xl-`. Matches the list templates.
+			$classes = 'rtcl-col-xl-' . ( ! empty( $settings['col_xl'] ) ? $settings['col_xl'] : '3' );
+			$classes .= ' rtcl-col-lg-' . ( ! empty( $settings['col_lg'] ) ? $settings['col_lg'] : '3' );
+			$classes .= ' rtcl-col-md-' . ( ! empty( $settings['col_md'] ) ? $settings['col_md'] : '4' );
+			$classes .= ' rtcl-col-sm-' . ( ! empty( $settings['col_sm'] ) ? $settings['col_sm'] : '6' );
+			$classes .= ' rtcl-col-' . ( ! empty( $settings['col_mobile'] ) ? $settings['col_mobile'] : '12' );
 			?>
 			<?php
 			if ( !empty( $terms ) ) {
@@ -61,6 +70,14 @@ if ( isset( $settings['className'] ) ) {
 									</div>
 									<?php
 								} ?>
+								<?php
+								// Title, count and the chevron form a row BELOW the photo
+								// but still inside the header — that is what puts them on
+								// the header's tinted panel, above the divider, with the
+								// sub-location list on white underneath.
+								?>
+								<div class="location-boxes-footer">
+									<div class="location-boxes-content">
 								<div class="title-wrap">
 									<h3 class="rtcl-title">
 										<?php if ( $settings['enable_link'] ) { ?>
@@ -83,7 +100,14 @@ if ( isset( $settings['className'] ) ) {
 								];
 								echo wp_kses( $count_html, $arr );
 								?>
-
+									</div>
+									<?php if ( $settings['enable_link'] ) : ?>
+										<a class="rtcl-location-arrow" href="<?php echo esc_url( $trm['permalink'] ); ?>"
+										   aria-label="<?php echo esc_attr( $trm['name'] ); ?>">
+											<i class="rtcl-icon rtcl-icon-angle-right"></i>
+										</a>
+									<?php endif; ?>
+								</div>
 							</div>
 							<div class="location-boxes-body">
 

@@ -247,7 +247,14 @@ class Factory
 	{
 		$ai_tools = Functions::get_option_item('rtcl_ai_settings', 'ai_tools', '');
 		if (empty($ai_tools)) {
-			wp_send_json_error(esc_html__('AI tools are not configured.', 'classified-listing'));
+			wp_send_json_error(esc_html__('Please select an AI tool from Classified Listing > Settings > AI Settings.', 'classified-listing'));
+			return;
+		}
+
+		// Validate required settings before instantiating client
+		$validation_error = $this->validateAISettings($ai_tools);
+		if ($validation_error) {
+			wp_send_json_error(esc_html($validation_error));
 			return;
 		}
 
@@ -261,10 +268,56 @@ class Factory
 		try {
 			$client = new $clientClass();
 			return rtcl()->factory->createAIService($ai_tools, $client);
-			// You might want to return or use $aiService here
 		} catch (Exception $e) {
 			wp_send_json_error(esc_html( $e->getMessage() ));
 		}
+	}
+
+	/**
+	 * Validates AI settings before initializing the client.
+	 *
+	 * @param string $ai_tools The selected AI tool.
+	 *
+	 * @return string|null Error message if validation fails, null if valid.
+	 */
+	private function validateAISettings($ai_tools)
+	{
+		$settings_map = [
+			'OpenAI'   => [
+				'api_key' => 'gpt_api_key',
+				'model'   => 'gpt_models',
+				'name'    => 'ChatGPT',
+			],
+			'Gemini'   => [
+				'api_key' => 'gemini_api_key',
+				'model'   => null, // Gemini has default model fallback
+				'name'    => 'Google Gemini',
+			],
+			'DeepSeek' => [
+				'api_key' => 'deepseek_api_key',
+				'model'   => 'deepseek_models',
+				'name'    => 'DeepSeek',
+			],
+			'Claude'   => [
+				'api_key' => 'claude_api_key',
+				'model'   => 'claude_models',
+				'name'    => 'Anthropic Claude',
+			],
+		];
+
+		if (!isset($settings_map[$ai_tools])) {
+			return __('Unknown AI tool selected.', 'classified-listing');
+		}
+
+		$config = $settings_map[$ai_tools];
+		$api_key = Functions::get_option_item('rtcl_ai_settings', $config['api_key']);
+		$model = $config['model'] ? Functions::get_option_item('rtcl_ai_settings', $config['model']) : true;
+
+		if (empty($api_key) || ($config['model'] && empty($model))) {
+			return __('AI settings are not properly configured.', 'classified-listing');
+		}
+
+		return null;
 	}
 
 }

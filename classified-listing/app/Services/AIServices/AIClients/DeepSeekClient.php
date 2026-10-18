@@ -21,16 +21,10 @@ class DeepSeekClient {
 	 * DeepSeekClient constructor.
 	 *
 	 * Initializes the DeepSeek client and sets API key and model from settings.
-	 *
-	 * @throws \Exception If required settings are missing.
 	 */
 	public function __construct() {
-		$apiKey 		= Functions::get_option_item('rtcl_ai_settings' ,'deepseek_api_key');
-		$this->model 	= Functions::get_option_item('rtcl_ai_settings' ,'deepseek_models');
-		$this->token 	= Functions::get_option_item('rtcl_ai_settings' ,'deepseek_max_token');
-		if (empty($apiKey) || empty($this->model)) {
-			throw new \Exception('AI settings are not properly configured.');
-		}
+		$this->model = Functions::get_option_item( 'rtcl_ai_settings', 'deepseek_models' );
+		$this->token = Functions::get_option_item( 'rtcl_ai_settings', 'deepseek_max_token' );
 	}
 
 	/**

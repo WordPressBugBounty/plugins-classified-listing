@@ -160,6 +160,7 @@ class FormBuilderAjax {
 		}
 
 		$metaData           = [];
+		$urlLinkOptions     = [];
 		$taxonomy           = [
 			'category' => [],
 			'location' => [],
@@ -294,6 +295,17 @@ class FormBuilderAjax {
 						'field' => $field,
 						'value' => FBHelper::sanitizeFieldValue( $rawValue, $field ),
 					];
+					// Only sent once the user touches the "Link options" section; untouched listings keep the defaults.
+					if ( isset( $formData['website_link_options'] ) && is_array( $formData['website_link_options'] ) ) {
+						$linkOptions = $formData['website_link_options'];
+						$metaData[]  = [
+							'name'  => '_rtcl_website_link_options',
+							'value' => [
+								'new_window' => isset( $linkOptions['new_window'] ) && rest_sanitize_boolean( $linkOptions['new_window'] ),
+								'nofollow'   => isset( $linkOptions['nofollow'] ) && rest_sanitize_boolean( $linkOptions['nofollow'] ),
+							],
+						];
+					}
 				} elseif ( 'social_profiles' === $element ) {
 					$metaData[] = [
 						'name'  => '_rtcl_social_profiles',
@@ -399,6 +411,15 @@ class FormBuilderAjax {
 						'value' => $sanitizedValue,
 					];
 				}
+				// Url gear "link options" — only sent for fields the user touched.
+				$fieldUuid = ! empty( $field['uuid'] ) ? $field['uuid'] : $fieldId;
+				if ( 'url' === $element && isset( $formData['url_link_options'][ $fieldUuid ] ) && is_array( $formData['url_link_options'][ $fieldUuid ] ) ) {
+					$linkOptions                  = $formData['url_link_options'][ $fieldUuid ];
+					$urlLinkOptions[ $fieldUuid ] = [
+						'new_window' => isset( $linkOptions['new_window'] ) && rest_sanitize_boolean( $linkOptions['new_window'] ),
+						'nofollow'   => isset( $linkOptions['nofollow'] ) && rest_sanitize_boolean( $linkOptions['nofollow'] ),
+					];
+				}
 			}
 		}
 
@@ -444,6 +465,14 @@ class FormBuilderAjax {
 			if ( $generated_slug ) {
 				wp_update_post( [ 'ID' => $listing_id, 'post_name' => $generated_slug ] );
 			}
+		}
+
+		if ( ! empty( $urlLinkOptions ) ) {
+			$savedUrlLinkOptions = $listing ? get_post_meta( $listing->get_id(), '_rtcl_url_link_options', true ) : [];
+			$metaData[]          = [
+				'name'  => '_rtcl_url_link_options',
+				'value' => array_merge( is_array( $savedUrlLinkOptions ) ? $savedUrlLinkOptions : [], $urlLinkOptions ),
+			];
 		}
 
 		$metaData = apply_filters( 'rtcl_fb_metadata_fields_before_save', $metaData, $postingType );

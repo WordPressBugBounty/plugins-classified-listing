@@ -22,9 +22,54 @@ $slRows             = $form->getSingleLayoutRows();
 $singleLayoutFields = $form->getSingleLayoutFields();
 $fields             = $form->getFields();
 
+// Global style settings (Single Listing Layout → Settings). Only the ones that are set are printed,
+// so an empty setting keeps the theme / design-style default. Values are validated on save
+// (hex colours, clamped px) and re-checked here.
+$slStyle    = !empty( $singleLayout['settings'] ) && is_array( $singleLayout['settings'] ) ? $singleLayout['settings'] : [];
+$slStyleCss = '';
+$slScope    = '#rtcl-listing-' . absint( get_the_ID() ) . ' .rtcl-sl-sections';
+$slColor    = static function ( $key ) use ( $slStyle ) {
+	$c = isset( $slStyle[ $key ] ) && is_string( $slStyle[ $key ] ) ? strtolower( $slStyle[ $key ] ) : '';
+	return preg_match( '/^#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/', $c ) ? $c : '';
+};
+$slPx       = static function ( $key ) use ( $slStyle ) {
+	return isset( $slStyle[ $key ] ) && $slStyle[ $key ] !== '' && is_numeric( $slStyle[ $key ] ) ? absint( $slStyle[ $key ] ) : null;
+};
+$slRules    = [
+	// [ selectors (relative to the scope), property, value ]
+	[ [ '.rtcl-slf-label' ], 'color', $slColor( 'label_color' ) ],
+	[ [ '.rtcl-slf-value' ], 'color', $slColor( 'value_color' ) ],
+	[ [ '.rtcl-field-icon', '.rtcl-field-icon i' ], 'color', $slColor( 'icon_color' ) ],
+	[ [ '.rtcl-slf-label' ], 'font-size', null !== $slPx( 'label_font_size' ) ? $slPx( 'label_font_size' ) . 'px' : '' ],
+	[ [ '.rtcl-slf-value' ], 'font-size', null !== $slPx( 'value_font_size' ) ? $slPx( 'value_font_size' ) . 'px' : '' ],
+	[ [ '.rtcl-sl-container-body--bordered > .rtcl-sl-element-wrap' ], 'border-bottom-color', $slColor( 'divider_color' ) ],
+	[ [ '.rtcl-sl-section-header:before' ], 'background-color', $slColor( 'divider_color' ) ],
+	[ [ '.rtcl-sl-section-title', '.rtcl-sl-section-header', '.rtcl-sl-section-icon i' ], 'color', $slColor( 'section_title_color' ) ],
+	[ [ '.rtcl-sl-section' ], 'background-color', $slColor( 'section_bg' ) ],
+	[ [ '.rtcl-sl-section' ], 'border-color', $slColor( 'section_border_color' ) ],
+	[ [ '.rtcl-sl-section' ], 'border-radius', null !== $slPx( 'section_radius' ) ? $slPx( 'section_radius' ) . 'px' : '' ],
+	[ [ '.rtcl-sl-section' ], 'padding', null !== $slPx( 'section_padding' ) ? $slPx( 'section_padding' ) . 'px' : '' ],
+];
+foreach ( $slRules as $slRule ) {
+	if ( $slRule[2] === '' || $slRule[2] === null ) {
+		continue;
+	}
+	$slSelectors = array_map( static function ( $sel ) use ( $slScope ) {
+		return $slScope . ' ' . $sel;
+	}, $slRule[0] );
+	$slStyleCss .= implode( ',', $slSelectors ) . '{' . $slRule[1] . ':' . $slRule[2] . ' !important;}';
+}
+// Mobile section padding (the desktop value above would otherwise also apply on phones).
+// Not set for mobile but set for desktop → cap phones at 20px (the design's mobile padding).
+if ( null !== $slPx( 'section_padding_sm' ) ) {
+	$slStyleCss .= sprintf( '@media (max-width:767px){%s .rtcl-sl-section{padding:%dpx !important;}}', $slScope, $slPx( 'section_padding_sm' ) );
+} elseif ( null !== $slPx( 'section_padding' ) ) {
+	$slStyleCss .= sprintf( '@media (max-width:767px){%s .rtcl-sl-section{padding:%dpx !important;}}', $slScope, min( 20, $slPx( 'section_padding' ) ) );
+}
+
 do_action( 'rtcl_before_single_listing' );
 ?>
-	<div id="rtcl-listing-<?php the_ID(); ?>" <?php Functions::listing_class( '', $listing ); ?>>
+	<div id="rtcl-listing-<?php the_ID(); ?>" <?php Functions::listing_class( Functions::is_modern_single_listing() ? 'rtcl-single-modern rtcl-single-modern--builder' : '', $listing ); ?>>
 		<div class="rtcl-sl-sections">
 			<?php
 			$allowedDirections = [ 'row', 'column', 'row-reverse', 'column-reverse' ];
@@ -43,6 +88,11 @@ do_action( 'rtcl_before_single_listing' );
 					$rowGap,
 					$columnGap
 				) . ( $wrap ? 'flex-wrap:' . esc_attr( $wrap ) . ';' : '' );
+			};
+
+			// Container content columns (1–6); 0 = not set.
+			$ctnCols = static function ( $value ) {
+				return ( $value !== null && $value !== '' ) ? max( 1, min( 6, absint( $value ) ) ) : 0;
 			};
 
 			// Responsive Row/Column controls (Column: Width/Wrap; Row: Direction/Align/Wrap)
@@ -180,6 +230,28 @@ do_action( 'rtcl_before_single_listing' );
 													// Width targets the container box; flex props target the container + its body.
 													$responsiveCss .= $nodeResponsiveCss( $sContainer, '.' . $ctnClass, [ 'width' ] );
 													$responsiveCss .= $nodeResponsiveCss( $sContainer, '.' . $ctnClass . ',.' . $ctnClass . '>.rtcl-sl-container-body', $flexProps );
+
+													// Content columns: lays the container's fields out in a grid. Unset tablet
+													// falls back to min(desktop, 2) and unset mobile to 1 column.
+													$colsLg    = $ctnCols( $sContainer['columns'] ?? '' );
+													$colsMd    = $ctnCols( $sContainer['columns_md'] ?? '' );
+													$colsSm    = $ctnCols( $sContainer['columns_sm'] ?? '' );
+													$isGridCtn = max( $colsLg, $colsMd, $colsSm ) > 1;
+													$bodyStyle = $flexStyle( $sContainer, 'column' );
+													if ( $isGridCtn ) {
+														$colsLg    = $colsLg ?: 1;
+														$colsMd    = $colsMd ?: min( $colsLg, 2 );
+														$colsSm    = $colsSm ?: 1;
+														$bodyStyle .= sprintf( 'display:grid;grid-template-columns:repeat(%d,minmax(0,1fr));', $colsLg );
+														foreach ( [ 1340 => $colsMd, 767 => $colsSm ] as $bpMax => $bpCols ) {
+															$responsiveCss .= sprintf(
+																'@media (max-width:%dpx){.%s>.rtcl-sl-container-body{grid-template-columns:repeat(%d,minmax(0,1fr)) !important;}}',
+																$bpMax,
+																$ctnClass,
+																$bpCols
+															);
+														}
+													}
 													?>
 													<div
 														class="rtcl-sl-container <?php echo esc_attr( $ctnClass ) ?> <?php echo esc_attr( $presets ) ?><?php echo !empty( $sContainer['css_class'] ) ? ' ' . esc_attr( $sContainer['css_class'] ) : '' ?>"
@@ -191,7 +263,7 @@ do_action( 'rtcl_before_single_listing' );
 																<h4 class="rtcl-sl-container-title"><?php echo esc_html( $sContainer['title'] ) ?></h4>
 															</div>
 														<?php } // End container title ?>
-														<div class="rtcl-sl-container-body rtcl-sl-section-column" style="<?php echo esc_attr( $flexStyle( $sContainer, 'column' ) ) ?>">
+														<div class="rtcl-sl-container-body rtcl-sl-section-column<?php echo $isGridCtn ? ' rtcl-sl-container-body--grid' : '' ?><?php echo !empty( $sContainer['field_border'] ) ? ' rtcl-sl-container-body--bordered' : '' ?>" style="<?php echo esc_attr( $bodyStyle ) ?>">
 															<?php echo $fieldsHtml; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 														</div>
 													</div>
@@ -246,6 +318,10 @@ do_action( 'rtcl_before_single_listing' );
 			if ( $responsiveCss !== '' ) {
 				// Values are absint()/whitelisted in $colResponsiveCss.
 				echo '<style>' . $responsiveCss . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			}
+			if ( $slStyleCss !== '' ) {
+				// Hex colours / absint px only (validated above).
+				echo '<style>' . $slStyleCss . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 			?>
 

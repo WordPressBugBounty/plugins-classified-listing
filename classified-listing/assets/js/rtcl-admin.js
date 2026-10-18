@@ -1,1 +1,689 @@
-!function(){"use strict";!function(t){t.fn.getType=function(){return"INPUT"==this[0].tagName?this[0].type.toLowerCase():this[0].tagName.toLowerCase()};let e='<div class="rtcl-spinner block"><span class="rtcl-icon-spinner animate-spin"></span></div>';t(document.body).on("rtcl_add_error_tip",function(e,i,r){let n=i.position();0===i.parent().find(".rtcl_error_tip").length&&(i.after('<div class="rtcl_error_tip '+r+'">'+rtcl[r]+"</div>"),i.parent().find(".rtcl_error_tip").css("left",n.left+i.width()-i.width()/2-t(".rtcl_error_tip").width()/2).css("top",n.top+i.height()).fadeIn("100"))}).on("rtcl_remove_error_tip",function(e,i,r){i.parent().find(".rtcl_error_tip."+r).fadeOut("100",function(){t(this).remove()})}).on("click",function(){t(".rtcl_error_tip").fadeOut("100",function(){t(this).remove()})}).on("blur","#rtcl-price[type=text],#rtcl-pricing-price[type=text], input.rtcl-price",function(){t(".rtcl_error_tip").fadeOut("100",function(){t(this).remove()})}).on("keyup","#rtcl-price[type=text], #rtcl-pricing-price[type=text], input.rtcl-price",function(){let e=t(this).attr("id"),i=rtcl.decimal_point,r="i18n_mon_decimal_error";"rtcl-pricing-price"===e&&(i=rtcl.pricing_decimal_point,r="i18n_mon_pricing_decimal_error");let n=new RegExp("[^-0-9%\\"+i+"]+","gi"),c=t(this).val(),a=c.replace(n,"");c!==a?t(document.body).triggerHandler("rtcl_add_error_tip",[t(this),r]):t(document.body).triggerHandler("rtcl_remove_error_tip",[t(this),r])}).on("change","#rtcl-price[type=text],#rtcl-pricing-price[type=text], input.rtcl-price",function(){let e="rtcl-pricing-price"===t(this).attr("id")?rtcl.pricing_decimal_point:rtcl.decimal_point,i=new RegExp("[^-0-9%\\"+e+"]+","gi"),r=t(this).val(),n=r.replace(i,"");r!==n&&t(this).val(n)}).on("rtcl_price_type_changed",function(e,i){"on_call"===i.value||"free"===i.value||"no_price"===i.value?t("#rtcl-price").attr("required","false").val(""):t("#rtcl-price").attr("required","true"),t("#rtcl-price-items").removeClass(function(t,e){return(e.match(/(^|\s)rtcl-price-type\S+/g)||[]).join(" ")}).addClass("rtcl-price-type-"+i.value)}).on("rtcl_listing_pricing_type_changed",function(e,i){t("#rtcl-pricing-items").removeClass().addClass("rtcl-pricing-"+i.value)}).on("change","#rtcl-price-type",function(){t(document.body).trigger("rtcl_price_type_changed",[this])}).on("change","input[name=_rtcl_listing_pricing]",function(){t(document.body).trigger("rtcl_listing_pricing_type_changed",[this])});const i=function(e){this._target=e,this.timestampdiv=t(".rtcl-timestamp-div",this._target),this.timestamp=t(".rtcl-timestamp",this._target),this.stamp=this.timestamp.html(),this.timestampwrap=this.timestampdiv.find(".timestamp-wrap"),this.edittimestamp=this.timestampdiv.siblings("a.edit-timestamp"),this.init=function(){const e=this;this.edittimestamp.on("click",function(i){e.timestampdiv.is(":hidden")&&(e.timestampdiv.slideDown("fast",function(){t("input, select",e.timestampwrap).first().focus()}),t(this).hide()),i.preventDefault()}),this.timestampdiv.find(".cancel-timestamp").on("click",function(t){e.edittimestamp.show().focus(),e.timestampdiv.slideUp("fast"),e.timestampdiv.find(".rtcl-mm").val(e.timestampdiv.find(".rtcl-hidden_mm").val()),e.timestampdiv.find(".rtcl-jj").val(e.timestampdiv.find(".rtcl-hidden_jj").val()),e.timestampdiv.find(".rtcl-aa").val(e.timestampdiv.find(".rtcl-hidden_aa").val()),e.timestampdiv.find(".rtcl-hh").val(e.timestampdiv.find(".rtcl-hidden_hh").val()),e.timestampdiv.find(".rtcl-mn").val(e.timestampdiv.find(".rtcl-hidden_mn").val()),e.timestamp.html(e.stamp),t.preventDefault()}),this.timestampdiv.find(".save-timestamp").on("click",function(i){let r=e.timestampdiv.find(".rtcl-aa").val(),n=e.timestampdiv.find(".rtcl-mm").val(),c=e.timestampdiv.find(".rtcl-jj").val(),a=e.timestampdiv.find(".rtcl-hh").val(),l=e.timestampdiv.find(".rtcl-mn").val(),o=new Date(r,n-1,c,a,l);i.preventDefault(),o.getFullYear()==r&&1+o.getMonth()==n&&o.getDate()==c&&o.getMinutes()==l?(e.timestampwrap.removeClass("form-invalid"),e.timestamp.html(rtcl.expiredOn+" <b>"+rtcl.dateFormat.replace("%1$s",t('option[value="'+n+'"]',"#mm").attr("data-text")).replace("%2$s",parseInt(c,10)).replace("%3$s",r).replace("%4$s",("00"+a).slice(-2)).replace("%5$s",("00"+l).slice(-2))+"</b> "),e.edittimestamp.show().focus(),e.timestampdiv.slideUp("fast")):e.timestampwrap.addClass("form-invalid")})},this.init()};t.fn.rtcl_time_stamp=function(){t(this).each(function(){return new i(t(this))})},t(".rtcl-timestamp-wrapper").rtcl_time_stamp(),t(".misc-pub-rtcl-never-expires").on("click","input",function(){t(this).is(":checked")?t(".misc-pub-rtcl-expiration-time").hide():t(".misc-pub-rtcl-expiration-time").show()}),t("#rtcl-ad-type").on("change",function(){let i=t(this),r=i.val(),n=t("#rtcl-category-wrap"),c=t("#rtcl-price-items"),a=t('<select class="form-control" id="rtcl-category-of-type" name="rtcl-category-of-type" required />');if(c.find(".price-label .rtcl-per-unit").remove(),"to_let"===r){let t=c.find("label").attr("data-per-unit");c.find(".price-label").append('<span class="rtcl-per-unit"> / '+t+"</span>")}if(""===r?t("#rtcl-pricing-wrap").slideUp(250):t("#rtcl-pricing-wrap").slideDown(250),r){let c={action:"rtcl_get_one_level_category_select_list_by_type",type:r,__rtcl_wpnonce:rtcl.__rtcl_wpnonce};t.ajax({url:rtcl.ajaxurl,data:c,type:"POST",beforeSend:function(){t(e).insertAfter(i),t("#rtcl-custom-fields-list").html(""),n.html(a)},success:function(t){i.next(".rtcl-spinner").remove(),t.success&&n.html(a.append(t.cats))},error:function(t){i.next(".rtcl-spinner").remove(),console.log(t.responseText)}})}else t("#rtcl-custom-fields-list").html(""),n.html(a)}),t(document).on("change","#rtcl-category-wrap select",function(){let i=t(this),r=i.parents("#rtcl-category-wrap"),n=t("#rtcl-category-input"),c=t("#rtcl-custom-fields-list"),a=t(this).val(),l=t("<div class='alert rtcl-response'></div>"),o={action:"rtcl_custom_fields_listings",post_id:t("#rtcl-custom-fields-list").data("post_id"),term_id:a,is_admin:rtcl.is_admin,__rtcl_wpnonce:rtcl.__rtcl_wpnonce};a?(n.val(a),t.ajax({url:rtcl.ajaxurl,data:o,type:"POST",dataType:"json",beforeSend:function(){t(e).insertAfter(i),r.find(".alert.rtcl-response").remove(),i.nextAll("select").remove()},success:function(e){r.find(".rtcl-spinner").remove(),e.child_cats&&r.append(t('<select class="rtcl-form-control" id="rtcl-category-of-'+a+'" name="rtcl-category-of-'+a+'" required />').append(e.child_cats)),c.html(e.custom_fields),rtclInitDateField(),rtclRenderCFfConditions()},error:function(t){r.find(".rtcl-spinner").remove(),l.removeClass("alert-success").addClass("alert-danger").html(t.responseText).appendTo(r)}})):i.nextAll("select").remove(),function(e){var i=t("#rtcl-price-items"),r=t("#rtcl-price-unit-wrap",i),n=r.length,c={__rtcl_wpnonce:rtcl.__rtcl_wpnonce,action:"rtcl_get_price_units_ajax",term_id:e||0};t.ajax({url:ajaxurl,data:c,type:"POST",dataType:"json",beforeSend:function(){},success:function(t){t.html?(n&&r.remove(),i.append(t.html)):r.remove()},error:function(){}})}(a)}),t("#rtcl-export-cat-loc-json").on("click",function(e){e.preventDefault();let i=t(this),r=i.closest(".rtcl-export-group"),n=document.createElement("a"),c={action:"rtcl_taxonomy_settings_export",__rtcl_wpnonce:rtcl.__rtcl_wpnonce};t.ajax({type:"POST",url:rtcl.ajaxurl,data:c,beforeSend:function(){t(".rtcl-flash-messages").remove(),i.addClass("disabled").attr("disabled","disabled"),t('<span class="rtcl-icon-spinner animate-spin"></span>').insertAfter(i)},success:function(e){r.find(".rtcl-icon-spinner").remove(),n.href=e.data.path,n.download=e.data.path.split("/").pop(),document.body.appendChild(n),n.click(),document.body.removeChild(n),function(e){let i={action:"rtcl_remove_temporary_file",__rtcl_wpnonce:rtcl.__rtcl_wpnonce,file_path:e};t.ajax({type:"POST",url:rtcl.ajaxurl,data:i,success:function(t){console.log(t)},error:function(t,e){console.log(e)}})}(e.data.path)},error:function(t,e){console.log(e)}})}),t.fn.validate&&(t(".post-type-rtcl_listing #post").validate(),t(".post-type-rtcl_pricing #post").validate()),t("#send-email-to-user").on("click",function(e){e.preventDefault();let i=t('<div style="display:none;" id="user-message"><div class="rtcl-form-group"><textarea class="rtcl-form-control" rows="6"></textarea></div><a class="message-send button button-primary button-large">'+rtcl.i18n_send+"</a></div>").appendTo("body");return i.dialog({close:function(t,e){i.remove()},dialogClass:"rtcl-user-message-dialog",closeText:!1,modal:!0,width:400,maxWidth:850,zIndex:9999,maxHeight:.9*t(window).height(),title:rtcl.i18n_message,position:{my:"center top+50",at:"center top",of:window}}),i.on("click","a.message-send",function(e){e.preventDefault();let r=t(this),n=t("#post_ID").val(),c=i.find("textarea").val();if(n&&c){let e={action:"rtcl_send_email_to_user_by_moderator",post_id:n,message:c,__rtcl_wpnonce:rtcl.__rtcl_wpnonce};t.ajax({type:"POST",url:rtcl.ajaxurl,data:e,beforeSend:function(){t(".rtcl-flash-messages").remove(),r.addClass("disabled").attr("disabled","disabled"),t('<span class="rtcl-icon-spinner animate-spin"></span>').insertAfter(r)},success:function(e){r.removeClass("disabled"),t(".rtcl-icon-spinner",i).remove();let n=t("<div class='rtcl-flash-messages'>"+e.message+"</div>");n.insertAfter(r),n.addClass(e.class),e.error?r.removeAttr("disabled"):setTimeout(function(){i.dialog("close")},1e3)},error:function(e,n){t(".rtcl-icon-spinner",i).remove(),i.dialog("close"),r.removeAttr("disabled"),0===e.status?alert("Not connect.\n Verify Network."):404==e.status?alert("Requested page not found. [404]"):500==e.status?alert("Internal Server Error [500]."):"parsererror"===n?alert("Requested JSON parse failed."):"timeout"===n?alert("Time out error."):"abort"===n?alert("Ajax request aborted."):alert("Uncaught Error.\n"+e.responseText)}})}else alert("Please add some message!!");return!1}),!1}),window.rtclInitDateField=function(){t.fn.daterangepicker&&t(".rtcl-date").each(function(){var e=t(this),i=e.data("options")||{};e.daterangepicker(i),!1===i.autoUpdateInput&&e.on("apply.daterangepicker",function(e,i){t(this).val(i.startDate.format(i.locale.format))})})},t(function(){t("#rtcl-overwrite").on("change",function(){t(".rtcl-overwrite-item").find("input"),this.checked?t(".rtcl-overwrite-item").each(function(){t(this).data("id");var e=t(this).find("input"),i=t(".rtcl-overwrite-sub-item_"+t(this).data("id"));e.prop("disabled",!1),e.is(":checked")?i.find("input").prop("disabled",!1):i.find("input").prop("disabled",!0)}):t(".rtcl-overwrite-item").each(function(){t(this).data("id");var e=t(this).find("input"),i=t(".rtcl-overwrite-sub-item_"+t(this).data("id"));e.prop("disabled",!0),i.find("input").prop("disabled",!0)})}),t(".rtcl-overwrite-item input").on("change",function(){const e=t(this).attr("name"),i=t(".rtcl-overwrite-sub-item_"+e);t(this).is(":checked")?i.find("input").prop("disabled",!1):i.find("input").prop("disabled",!0)}),rtclInitDateField(),t.fn.select2&&(t(".rtcl-select2").select2({dropdownAutoWidth:!0,width:"100%"}),t.fn.select2&&(t(".rtcl-select2").select2({dropdownAutoWidth:!0,width:"100%"}),t(".rtcl-ajax-select").each(function(){let e={allowClear:!!t(this).data("allow_clear"),placeholder:t(this).data("placeholder")||"",minimumInputLength:t(this).data("minimum_input_length")?t(this).data("minimum_input_length"):"1",escapeMarkup:function(t){return t},ajax:{url:rtcl.ajaxurl,type:"POST",dataType:"json",delay:1e3,data:function(e){return{term:e.term,type:t(this).data("type")||"",action:t(this).data("action")||"rtcl_json_search_taxonomy",__rtcl_wpnonce:rtcl.__rtcl_wpnonce}},processResults:function(e){let i=[];return e&&t.each(e,function(t,e){i.push({id:e.id,text:e.text||e.label})}),{results:i}},cache:!0}};if(t(this).select2(e).addClass("enhanced"),t(this).data("sortable")){var i=t(this),r=t(this).next(".select2-container").find("ul.select2-selection__rendered");r.sortable({placeholder:"ui-state-highlight select2-selection__choice",forcePlaceholderSize:!0,items:"li:not(.select2-search__field)",tolerance:"pointer",stop:function(){t(r.find(".select2-selection__choice").get().reverse()).each(function(){var e=t(this).data("data").id,r=i.find('option[value="'+e+'"]')[0];i.prepend(r)})}})}}))),t("#expiry-date").length&&t("#expiry-date").datetimepicker(),t("#rtcl-location").on("change",function(){let i=t(this),r={action:"rtcl_get_sub_location_options",term_id:t(this).val(),blank:!0,__rtcl_wpnonce:rtcl.__rtcl_wpnonce};t.ajax({url:ajaxurl,data:r,type:"POST",beforeSend:function(){t(e).insertAfter(i)},success:function(e){i.next(".rtcl-spinner").remove(),t("#rtcl-sub-location").html(e.locations),t("#rtcl-sub-sub-location").html("").addClass("rtcl-hide"),e.locations?t("#sub-location-row").removeClass("rtcl-hide"):t("#sub-location-row").addClass("rtcl-hide")},error:function(){i.next(".rtcl-spinner").remove()}})}),t("#rtcl-sub-location").on("change",function(){let i=t(this),r={action:"rtcl_get_sub_location_options",term_id:t(this).val(),blank:!0,__rtcl_wpnonce:rtcl.__rtcl_wpnonce};t.ajax({url:ajaxurl,data:r,type:"POST",beforeSend:function(){t(e).insertAfter(i)},success:function(e){i.next(".rtcl-spinner").remove(),t("#rtcl-sub-sub-location").html(e.locations),e.locations?t("#sub-sub-location-row").removeClass("rtcl-hide"):t("#sub-sub-location-row").addClass("rtcl-hide")},error:function(){i.next(".rtcl-spinner").remove()}})}),t("body").hasClass("post-type-rtcl_listing")&&function(){if(void 0===window.wp.autosave)return;var e={post_title:t("#title").val()||"",content:t("#content").val()||"",excerpt:t("#excerpt").val()||""},i=window.wp.autosave.getCompareString(e);window.wp.autosave.server.postChanged=function(){var r=!1;return window.tinymce?(window.tinymce.each(["content","excerpt"],function(i){var n=window.tinymce.get(i);if(!n||n.isHidden()){if((t("#"+i).val()||"")!==e[i])return r=!0,!1}else if(n.isDirty())return r=!0,!1}),(t("#title").val()||"")!==e.post_title&&(r=!0),r):window.wp.autosave.getCompareString()!==i}}()})}(jQuery),function(t){let e;function i(){t(".ui-dialog").each(function(){t(this).css({maxWidth:"100%",zIndex:9999,top:t(window).scrollTop()+50+"px",left:(t("body").innerWidth()-t(this).outerWidth())/2+"px"})})}t(document).on("dialogopen",".ui-dialog",function(e,i){t("button.button-primary, button.wpcf-ui-dialog-cancel").blur().addClass("button").removeClass("ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only")}),t(window).on("resize scroll",function(){clearTimeout(e),e=setTimeout(i,200)});({init:function(){t("#rtcl-order-notes").on("click","button.add-note",this.add_order_note).on("click","a.delete_note",this.delete_order_note)},add_order_note:function(){const e=t("textarea#rtcl-add-payment-note");if(!e.val())return;t("#rtcl-order-notes").rtclBlock();const i={action:"rtcl_add_order_note",post_id:parseInt(t("#post_ID").val(),10)||0,note:e.val(),note_type:t("select#rtcl-order-note-type").val(),__rtcl_wpnonce:rtcl.__rtcl_wpnonce};return t.post(rtcl.ajaxurl,i,function(e){t("ul.rtcl_payment_notes").prepend(e.html),t("#rtcl-order-notes").rtclUnblock(),t("#rtcl-add-payment-note").val("")}),!1},delete_order_note:function(){if(window.confirm(rtcl.i18n_delete_note)){const e=t(this).closest("li.note");t(e).rtclBlock();const i={action:"rtcl_delete_order_note",note_id:t(e).attr("rel"),__rtcl_wpnonce:rtcl.__rtcl_wpnonce};t.ajax({url:rtcl.ajaxurl,data:i,type:"POST",dataType:"json",beforeSend:function(){},success:function(i){i.success&&t(e).remove()}})}return!1}}).init()}(jQuery)}();
+(function() {
+  "use strict";
+  (function($) {
+    "use restrict";
+    $.fn.getType = function() {
+      return this[0].tagName == "INPUT" ? this[0].type.toLowerCase() : this[0].tagName.toLowerCase();
+    };
+    let spinner = '<div class="rtcl-spinner block"><span class="rtcl-icon-spinner animate-spin"></span></div>';
+    $(document.body).on("rtcl_add_error_tip", function(e, element, error_type) {
+      let offset = element.position();
+      if (element.parent().find(".rtcl_error_tip").length === 0) {
+        element.after(
+          '<div class="rtcl_error_tip ' + error_type + '">' + rtcl[error_type] + "</div>"
+        );
+        element.parent().find(".rtcl_error_tip").css(
+          "left",
+          offset.left + element.width() - element.width() / 2 - $(".rtcl_error_tip").width() / 2
+        ).css("top", offset.top + element.height()).fadeIn("100");
+      }
+    }).on("rtcl_remove_error_tip", function(e, element, error_type) {
+      element.parent().find(".rtcl_error_tip." + error_type).fadeOut("100", function() {
+        $(this).remove();
+      });
+    }).on("click", function() {
+      $(".rtcl_error_tip").fadeOut("100", function() {
+        $(this).remove();
+      });
+    }).on(
+      "blur",
+      "#rtcl-price[type=text],#rtcl-pricing-price[type=text], input.rtcl-price",
+      function() {
+        $(".rtcl_error_tip").fadeOut("100", function() {
+          $(this).remove();
+        });
+      }
+    ).on(
+      "keyup",
+      "#rtcl-price[type=text], #rtcl-pricing-price[type=text], input.rtcl-price",
+      function() {
+        let id = $(this).attr("id"), decimal_point = rtcl.decimal_point, error = "i18n_mon_decimal_error";
+        if (id === "rtcl-pricing-price") {
+          decimal_point = rtcl.pricing_decimal_point;
+          error = "i18n_mon_pricing_decimal_error";
+        }
+        let regex = new RegExp("[^-0-9%\\" + decimal_point + "]+", "gi");
+        let value = $(this).val();
+        let newvalue = value.replace(regex, "");
+        if (value !== newvalue) {
+          $(document.body).triggerHandler("rtcl_add_error_tip", [
+            $(this),
+            error
+          ]);
+        } else {
+          $(document.body).triggerHandler("rtcl_remove_error_tip", [
+            $(this),
+            error
+          ]);
+        }
+      }
+    ).on(
+      "change",
+      "#rtcl-price[type=text],#rtcl-pricing-price[type=text], input.rtcl-price",
+      function() {
+        let id = $(this).attr("id"), decimal_point = id === "rtcl-pricing-price" ? rtcl.pricing_decimal_point : rtcl.decimal_point;
+        let regex = new RegExp("[^-0-9%\\" + decimal_point + "]+", "gi"), value = $(this).val(), newvalue = value.replace(regex, "");
+        if (value !== newvalue) {
+          $(this).val(newvalue);
+        }
+      }
+    ).on("rtcl_price_type_changed", function(e, element) {
+      if (element.value === "on_call" || element.value === "free" || element.value === "no_price") {
+        $("#rtcl-price").attr("required", "false").val("");
+      } else {
+        $("#rtcl-price").attr("required", "true");
+      }
+      $("#rtcl-price-items").removeClass(function(index, className) {
+        return (className.match(/(^|\s)rtcl-price-type\S+/g) || []).join(" ");
+      }).addClass("rtcl-price-type-" + element.value);
+    }).on("rtcl_listing_pricing_type_changed", function(e, element) {
+      $("#rtcl-pricing-items").removeClass().addClass("rtcl-pricing-" + element.value);
+    }).on("change", "#rtcl-price-type", function() {
+      $(document.body).trigger("rtcl_price_type_changed", [this]);
+    }).on("change", "input[name=_rtcl_listing_pricing]", function() {
+      $(document.body).trigger("rtcl_listing_pricing_type_changed", [this]);
+    });
+    function load_price_units(cat_id) {
+      var $target = $("#rtcl-price-items"), units_wrap = $("#rtcl-price-unit-wrap", $target), has_units = units_wrap.length, data = {
+        __rtcl_wpnonce: rtcl.__rtcl_wpnonce,
+        action: "rtcl_get_price_units_ajax",
+        term_id: cat_id || 0
+      };
+      $.ajax({
+        url: ajaxurl,
+        data,
+        type: "POST",
+        dataType: "json",
+        beforeSend: function beforeSend() {
+        },
+        success: function success(data2) {
+          if (data2.html) {
+            if (has_units) {
+              units_wrap.remove();
+            }
+            $target.append(data2.html);
+          } else {
+            units_wrap.remove();
+          }
+        },
+        error: function error() {
+        }
+      });
+    }
+    const RtclTimeStamp = function($target) {
+      this._target = $target;
+      this.timestampdiv = $(".rtcl-timestamp-div", this._target);
+      this.timestamp = $(".rtcl-timestamp", this._target);
+      this.stamp = this.timestamp.html();
+      this.timestampwrap = this.timestampdiv.find(".timestamp-wrap");
+      this.edittimestamp = this.timestampdiv.siblings("a.edit-timestamp");
+      this.init = function() {
+        const that = this;
+        this.edittimestamp.on("click", function(event) {
+          if (that.timestampdiv.is(":hidden")) {
+            that.timestampdiv.slideDown("fast", function() {
+              $("input, select", that.timestampwrap).first().focus();
+            });
+            $(this).hide();
+          }
+          event.preventDefault();
+        });
+        this.timestampdiv.find(".cancel-timestamp").on("click", function(event) {
+          that.edittimestamp.show().focus();
+          that.timestampdiv.slideUp("fast");
+          that.timestampdiv.find(".rtcl-mm").val(that.timestampdiv.find(".rtcl-hidden_mm").val());
+          that.timestampdiv.find(".rtcl-jj").val(that.timestampdiv.find(".rtcl-hidden_jj").val());
+          that.timestampdiv.find(".rtcl-aa").val(that.timestampdiv.find(".rtcl-hidden_aa").val());
+          that.timestampdiv.find(".rtcl-hh").val(that.timestampdiv.find(".rtcl-hidden_hh").val());
+          that.timestampdiv.find(".rtcl-mn").val(that.timestampdiv.find(".rtcl-hidden_mn").val());
+          that.timestamp.html(that.stamp);
+          event.preventDefault();
+        });
+        this.timestampdiv.find(".save-timestamp").on("click", function(event) {
+          let aa = that.timestampdiv.find(".rtcl-aa").val(), mm = that.timestampdiv.find(".rtcl-mm").val(), jj = that.timestampdiv.find(".rtcl-jj").val(), hh = that.timestampdiv.find(".rtcl-hh").val(), mn = that.timestampdiv.find(".rtcl-mn").val(), newD = new Date(aa, mm - 1, jj, hh, mn);
+          event.preventDefault();
+          if (newD.getFullYear() != aa || 1 + newD.getMonth() != mm || newD.getDate() != jj || newD.getMinutes() != mn) {
+            that.timestampwrap.addClass("form-invalid");
+            return;
+          } else {
+            that.timestampwrap.removeClass("form-invalid");
+          }
+          that.timestamp.html(
+            rtcl.expiredOn + " <b>" + rtcl.dateFormat.replace(
+              "%1$s",
+              $('option[value="' + mm + '"]', "#mm").attr("data-text")
+            ).replace("%2$s", parseInt(jj, 10)).replace("%3$s", aa).replace("%4$s", ("00" + hh).slice(-2)).replace("%5$s", ("00" + mn).slice(-2)) + "</b> "
+          );
+          that.edittimestamp.show().focus();
+          that.timestampdiv.slideUp("fast");
+        });
+      };
+      this.init();
+    };
+    $.fn.rtcl_time_stamp = function() {
+      $(this).each(function() {
+        return new RtclTimeStamp($(this));
+      });
+    };
+    $(".rtcl-timestamp-wrapper").rtcl_time_stamp();
+    $(".misc-pub-rtcl-never-expires").on("click", "input", function() {
+      if ($(this).is(":checked")) {
+        $(".misc-pub-rtcl-expiration-time").hide();
+      } else {
+        $(".misc-pub-rtcl-expiration-time").show();
+      }
+    });
+    $("#rtcl-ad-type").on("change", function() {
+      let self = $(this), type = self.val(), category_wrap = $("#rtcl-category-wrap"), target = $("#rtcl-price-items"), blank_select = $(
+        '<select class="form-control" id="rtcl-category-of-type" name="rtcl-category-of-type" required />'
+      );
+      target.find(".price-label .rtcl-per-unit").remove();
+      if (type === "to_let") {
+        let unit = target.find("label").attr("data-per-unit");
+        target.find(".price-label").append('<span class="rtcl-per-unit"> / ' + unit + "</span>");
+      }
+      if (type === "") {
+        $("#rtcl-pricing-wrap").slideUp(250);
+      } else {
+        $("#rtcl-pricing-wrap").slideDown(250);
+      }
+      if (type) {
+        let data = {
+          action: "rtcl_get_one_level_category_select_list_by_type",
+          type,
+          __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+        };
+        $.ajax({
+          url: rtcl.ajaxurl,
+          data,
+          type: "POST",
+          beforeSend: function() {
+            $(spinner).insertAfter(self);
+            $("#rtcl-custom-fields-list").html("");
+            category_wrap.html(blank_select);
+          },
+          success: function(response) {
+            self.next(".rtcl-spinner").remove();
+            if (response.success) {
+              category_wrap.html(blank_select.append(response.cats));
+            }
+          },
+          error: function(e) {
+            self.next(".rtcl-spinner").remove();
+            console.log(e.responseText);
+          }
+        });
+      } else {
+        $("#rtcl-custom-fields-list").html("");
+        category_wrap.html(blank_select);
+      }
+    });
+    $(document).on("change", "#rtcl-category-wrap select", function() {
+      let self = $(this), target = self.parents("#rtcl-category-wrap"), inputTarget = $("#rtcl-category-input"), custom_field_wrap = $("#rtcl-custom-fields-list"), category_id = $(this).val(), msgHolder = $("<div class='alert rtcl-response'></div>"), data = {
+        action: "rtcl_custom_fields_listings",
+        post_id: $("#rtcl-custom-fields-list").data("post_id"),
+        term_id: category_id,
+        is_admin: rtcl.is_admin,
+        __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+      };
+      if (category_id) {
+        inputTarget.val(category_id);
+        $.ajax({
+          url: rtcl.ajaxurl,
+          data,
+          type: "POST",
+          dataType: "json",
+          beforeSend: function beforeSend() {
+            $(spinner).insertAfter(self);
+            target.find(".alert.rtcl-response").remove();
+            self.nextAll("select").remove();
+          },
+          success: function success(response) {
+            target.find(".rtcl-spinner").remove();
+            if (response.child_cats) {
+              target.append(
+                $(
+                  '<select class="rtcl-form-control" id="rtcl-category-of-' + category_id + '" name="rtcl-category-of-' + category_id + '" required />'
+                ).append(response.child_cats)
+              );
+            }
+            custom_field_wrap.html(response.custom_fields);
+            rtclInitDateField();
+            rtclRenderCFfConditions();
+          },
+          error: function error(e) {
+            target.find(".rtcl-spinner").remove();
+            msgHolder.removeClass("alert-success").addClass("alert-danger").html(e.responseText).appendTo(target);
+          }
+        });
+      } else {
+        self.nextAll("select").remove();
+      }
+      load_price_units(category_id);
+    });
+    $("#rtcl-export-cat-loc-json").on("click", function(e) {
+      e.preventDefault();
+      let it = $(this), $wrapper = it.closest(".rtcl-export-group"), $button = document.createElement("a");
+      let data = {
+        action: "rtcl_taxonomy_settings_export",
+        __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+      };
+      $.ajax({
+        type: "POST",
+        url: rtcl.ajaxurl,
+        data,
+        beforeSend: function() {
+          $(".rtcl-flash-messages").remove();
+          it.addClass("disabled").attr("disabled", "disabled");
+          $(
+            '<span class="rtcl-icon-spinner animate-spin"></span>'
+          ).insertAfter(it);
+        },
+        success: function(res) {
+          $wrapper.find(".rtcl-icon-spinner").remove();
+          $button.href = res.data.path;
+          $button.download = res.data.path.split("/").pop();
+          document.body.appendChild($button);
+          $button.click();
+          document.body.removeChild($button);
+          remove_temporary_file(res.data.path);
+        },
+        error: function(jqXHR, exception) {
+          console.log(exception);
+        }
+      });
+    });
+    function remove_temporary_file($path) {
+      let data = {
+        action: "rtcl_remove_temporary_file",
+        __rtcl_wpnonce: rtcl.__rtcl_wpnonce,
+        file_path: $path
+      };
+      $.ajax({
+        type: "POST",
+        url: rtcl.ajaxurl,
+        data,
+        success: function(res) {
+          console.log(res);
+        },
+        error: function(jqXHR, exception) {
+          console.log(exception);
+        }
+      });
+    }
+    if ($.fn.validate) {
+      $(".post-type-rtcl_listing #post").validate();
+      $(".post-type-rtcl_pricing #post").validate();
+    }
+    $("#send-email-to-user").on("click", function(e) {
+      e.preventDefault();
+      let dialog = $('<div style="display:none;" id="user-message"><div class="rtcl-form-group"><textarea class="rtcl-form-control" rows="6"></textarea></div><a class="message-send button button-primary button-large">' + rtcl.i18n_send + "</a></div>").appendTo("body");
+      dialog.dialog({
+        close: function(event, ui) {
+          dialog.remove();
+        },
+        dialogClass: "rtcl-user-message-dialog",
+        closeText: false,
+        modal: true,
+        width: 400,
+        maxWidth: 850,
+        zIndex: 9999,
+        maxHeight: 0.9 * $(window).height(),
+        title: rtcl.i18n_message,
+        position: { my: "center top+50", at: "center top", of: window }
+      });
+      dialog.on("click", "a.message-send", function(e2) {
+        e2.preventDefault();
+        let it = $(this), post_id = $("#post_ID").val(), message = dialog.find("textarea").val();
+        if (post_id && message) {
+          let data = {
+            action: "rtcl_send_email_to_user_by_moderator",
+            post_id,
+            message,
+            __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+          };
+          $.ajax({
+            type: "POST",
+            url: rtcl.ajaxurl,
+            data,
+            beforeSend: function() {
+              $(".rtcl-flash-messages").remove();
+              it.addClass("disabled").attr("disabled", "disabled");
+              $(
+                '<span class="rtcl-icon-spinner animate-spin"></span>'
+              ).insertAfter(it);
+            },
+            success: function(data2) {
+              it.removeClass("disabled");
+              $(".rtcl-icon-spinner", dialog).remove();
+              let flash = $(
+                "<div class='rtcl-flash-messages'>" + data2.message + "</div>"
+              );
+              flash.insertAfter(it);
+              flash.addClass(data2.class);
+              if (!data2.error) {
+                setTimeout(function() {
+                  dialog.dialog("close");
+                }, 1e3);
+              } else {
+                it.removeAttr("disabled");
+              }
+            },
+            error: function(jqXHR, exception) {
+              $(".rtcl-icon-spinner", dialog).remove();
+              dialog.dialog("close");
+              it.removeAttr("disabled");
+              if (jqXHR.status === 0) {
+                alert("Not connect.\n Verify Network.");
+              } else if (jqXHR.status == 404) {
+                alert("Requested page not found. [404]");
+              } else if (jqXHR.status == 500) {
+                alert("Internal Server Error [500].");
+              } else if (exception === "parsererror") {
+                alert("Requested JSON parse failed.");
+              } else if (exception === "timeout") {
+                alert("Time out error.");
+              } else if (exception === "abort") {
+                alert("Ajax request aborted.");
+              } else {
+                alert("Uncaught Error.\n" + jqXHR.responseText);
+              }
+            }
+          });
+        } else {
+          alert("Please add some message!!");
+        }
+        return false;
+      });
+      return false;
+    });
+    window.rtclInitDateField = function() {
+      if ($.fn.daterangepicker) {
+        $(".rtcl-date").each(function() {
+          var field = $(this);
+          var options = field.data("options") || {};
+          field.daterangepicker(options);
+          if (options.autoUpdateInput === false) {
+            field.on("apply.daterangepicker", function(ev, picker) {
+              $(this).val(picker.startDate.format(picker.locale.format));
+            });
+          }
+        });
+      }
+    };
+    $(function() {
+      $("#rtcl-overwrite").on("change", function() {
+        $(".rtcl-overwrite-item").find("input");
+        if (this.checked) {
+          $(".rtcl-overwrite-item").each(function() {
+            $(this).data("id");
+            var $input = $(this).find("input");
+            var $_item = $(".rtcl-overwrite-sub-item_" + $(this).data("id"));
+            $input.prop("disabled", false);
+            if ($input.is(":checked")) {
+              $_item.find("input").prop("disabled", false);
+            } else {
+              $_item.find("input").prop("disabled", true);
+            }
+          });
+        } else {
+          $(".rtcl-overwrite-item").each(function() {
+            $(this).data("id");
+            var $input = $(this).find("input");
+            var $_item = $(".rtcl-overwrite-sub-item_" + $(this).data("id"));
+            $input.prop("disabled", true);
+            $_item.find("input").prop("disabled", true);
+          });
+        }
+      });
+      $(".rtcl-overwrite-item input").on("change", function() {
+        const id = $(this).attr("name");
+        const $_item = $(".rtcl-overwrite-sub-item_" + id);
+        if ($(this).is(":checked")) {
+          $_item.find("input").prop("disabled", false);
+        } else {
+          $_item.find("input").prop("disabled", true);
+        }
+      });
+      rtclInitDateField();
+      if ($.fn.select2) {
+        $(".rtcl-select2").select2({
+          dropdownAutoWidth: true,
+          width: "100%"
+        });
+        if ($.fn.select2) {
+          $(".rtcl-select2").select2({
+            dropdownAutoWidth: true,
+            width: "100%"
+          });
+          $(".rtcl-ajax-select").each(function() {
+            let select2_args = {
+              allowClear: !!$(this).data("allow_clear"),
+              placeholder: $(this).data("placeholder") || "",
+              minimumInputLength: $(this).data("minimum_input_length") ? $(this).data("minimum_input_length") : "1",
+              escapeMarkup: function(m) {
+                return m;
+              },
+              ajax: {
+                url: rtcl.ajaxurl,
+                type: "POST",
+                dataType: "json",
+                delay: 1e3,
+                data: function(params) {
+                  return {
+                    term: params.term,
+                    type: $(this).data("type") || "",
+                    action: $(this).data("action") || "rtcl_json_search_taxonomy",
+                    __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+                  };
+                },
+                processResults: function(data) {
+                  let terms = [];
+                  if (data) {
+                    $.each(data, function(i, item) {
+                      terms.push({
+                        id: item.id,
+                        text: item.text || item.label
+                      });
+                    });
+                  }
+                  return {
+                    results: terms
+                  };
+                },
+                cache: true
+              }
+            };
+            $(this).select2(select2_args).addClass("enhanced");
+            if ($(this).data("sortable")) {
+              var $select = $(this);
+              var $list = $(this).next(".select2-container").find("ul.select2-selection__rendered");
+              $list.sortable({
+                placeholder: "ui-state-highlight select2-selection__choice",
+                forcePlaceholderSize: true,
+                items: "li:not(.select2-search__field)",
+                tolerance: "pointer",
+                stop: function() {
+                  $(
+                    $list.find(".select2-selection__choice").get().reverse()
+                  ).each(function() {
+                    var id = $(this).data("data").id;
+                    var option = $select.find('option[value="' + id + '"]')[0];
+                    $select.prepend(option);
+                  });
+                }
+              });
+            }
+          });
+        }
+      }
+      if ($("#expiry-date").length) {
+        $("#expiry-date").datetimepicker();
+      }
+      $("#rtcl-location").on("change", function() {
+        let self = $(this), data = {
+          action: "rtcl_get_sub_location_options",
+          term_id: $(this).val(),
+          blank: true,
+          __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+        };
+        $.ajax({
+          url: ajaxurl,
+          data,
+          type: "POST",
+          beforeSend: function() {
+            $(spinner).insertAfter(self);
+          },
+          success: function(data2) {
+            self.next(".rtcl-spinner").remove();
+            $("#rtcl-sub-location").html(data2.locations);
+            $("#rtcl-sub-sub-location").html("").addClass("rtcl-hide");
+            if (data2.locations) {
+              $("#sub-location-row").removeClass("rtcl-hide");
+            } else {
+              $("#sub-location-row").addClass("rtcl-hide");
+            }
+          },
+          error: function() {
+            self.next(".rtcl-spinner").remove();
+          }
+        });
+      });
+      $("#rtcl-sub-location").on("change", function() {
+        let self = $(this), data = {
+          action: "rtcl_get_sub_location_options",
+          term_id: $(this).val(),
+          blank: true,
+          __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+        };
+        $.ajax({
+          url: ajaxurl,
+          data,
+          type: "POST",
+          beforeSend: function() {
+            $(spinner).insertAfter(self);
+          },
+          success: function(data2) {
+            self.next(".rtcl-spinner").remove();
+            $("#rtcl-sub-sub-location").html(data2.locations);
+            if (data2.locations) {
+              $("#sub-sub-location-row").removeClass("rtcl-hide");
+            } else {
+              $("#sub-sub-location-row").addClass("rtcl-hide");
+            }
+          },
+          error: function() {
+            self.next(".rtcl-spinner").remove();
+          }
+        });
+      });
+      if ($("body").hasClass("post-type-rtcl_listing")) {
+        fix_wp_561_window_unload_error_fix();
+      }
+    });
+    function fix_wp_561_window_unload_error_fix() {
+      if (typeof window.wp.autosave === "undefined") return;
+      var initialCompareData = {
+        post_title: $("#title").val() || "",
+        content: $("#content").val() || "",
+        excerpt: $("#excerpt").val() || ""
+      };
+      var initialCompareString = window.wp.autosave.getCompareString(initialCompareData);
+      window.wp.autosave.server.postChanged = function() {
+        var changed = false;
+        if (window.tinymce) {
+          window.tinymce.each(["content", "excerpt"], function(field) {
+            var editor = window.tinymce.get(field);
+            if (!editor || editor.isHidden()) {
+              if (($("#" + field).val() || "") !== initialCompareData[field]) {
+                changed = true;
+                return false;
+              }
+            } else if (editor.isDirty()) {
+              changed = true;
+              return false;
+            }
+          });
+          if (($("#title").val() || "") !== initialCompareData.post_title) {
+            changed = true;
+          }
+          return changed;
+        }
+        return window.wp.autosave.getCompareString() !== initialCompareString;
+      };
+    }
+  })(jQuery);
+  (function($) {
+    $(document).on("dialogopen", ".ui-dialog", function(e, ui) {
+      $("button.button-primary, button.wpcf-ui-dialog-cancel").blur().addClass("button").removeClass(
+        "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+      );
+    });
+    let resizeTimeout;
+    $(window).on("resize scroll", function() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(dialogResize, 200);
+    });
+    function dialogResize() {
+      $(".ui-dialog").each(function() {
+        $(this).css({
+          maxWidth: "100%",
+          zIndex: 9999,
+          top: $(window).scrollTop() + 50 + "px",
+          left: ($("body").innerWidth() - $(this).outerWidth()) / 2 + "px"
+        });
+      });
+    }
+    const rtcl_meta_boxes_payment_notes = {
+      init: function() {
+        $("#rtcl-order-notes").on("click", "button.add-note", this.add_order_note).on("click", "a.delete_note", this.delete_order_note);
+      },
+      add_order_note: function() {
+        const paymentNote = $("textarea#rtcl-add-payment-note");
+        if (!paymentNote.val()) {
+          return;
+        }
+        $("#rtcl-order-notes").rtclBlock();
+        const data = {
+          action: "rtcl_add_order_note",
+          post_id: parseInt($("#post_ID").val(), 10) || 0,
+          note: paymentNote.val(),
+          note_type: $("select#rtcl-order-note-type").val(),
+          __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+        };
+        $.post(rtcl.ajaxurl, data, function(response) {
+          $("ul.rtcl_payment_notes").prepend(response.html);
+          $("#rtcl-order-notes").rtclUnblock();
+          $("#rtcl-add-payment-note").val("");
+        });
+        return false;
+      },
+      delete_order_note: function() {
+        if (window.confirm(rtcl.i18n_delete_note)) {
+          const note = $(this).closest("li.note");
+          $(note).rtclBlock();
+          const data = {
+            action: "rtcl_delete_order_note",
+            note_id: $(note).attr("rel"),
+            __rtcl_wpnonce: rtcl.__rtcl_wpnonce
+          };
+          $.ajax({
+            url: rtcl.ajaxurl,
+            data,
+            type: "POST",
+            dataType: "json",
+            beforeSend: function beforeSend() {
+            },
+            success: function success(res) {
+              if (res.success) {
+                $(note).remove();
+              }
+            }
+          });
+        }
+        return false;
+      }
+    };
+    rtcl_meta_boxes_payment_notes.init();
+  })(jQuery);
+})();

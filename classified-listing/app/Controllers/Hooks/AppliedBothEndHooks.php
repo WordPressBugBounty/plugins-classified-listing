@@ -172,7 +172,24 @@ class AppliedBothEndHooks {
 		if ( is_a( $listing, Listing::class ) ) {
 			$is_single  = Functions::get_option_item( 'rtcl_single_listing_settings', 'display_options_detail', 'price_type', 'multi_checkbox' );
 			$is_listing = Functions::get_option_item( 'rtcl_archive_listing_settings', 'display_options', 'price_type', 'multi_checkbox' );
-			if ( ( $is_single && is_singular( rtcl()->post_type ) ) || ( $is_listing && ! is_singular( rtcl()->post_type ) ) ) {
+			$show       = ( $is_single && is_singular( rtcl()->post_type ) ) || ( $is_listing && ! is_singular( rtcl()->post_type ) );
+
+			/**
+			 * Whether the price type label — Fixed, Negotiable, On Call — is
+			 * appended to the price.
+			 *
+			 * The default is the global "Display Options" checkbox: the detail
+			 * one on a single listing, the archive one everywhere else. Any
+			 * surface that renders listings outside those two contexts and
+			 * carries its own per-instance visibility control (the Elementor
+			 * and Divi listing widgets, for instance) overrides this for the
+			 * length of its own render, so its control is authoritative there
+			 * instead of being silently vetoed by the global checkbox.
+			 *
+			 * @param bool    $show    Whether to append the price type label.
+			 * @param Listing $listing The listing being rendered.
+			 */
+			if ( apply_filters( 'rtcl_show_price_type_in_price', $show, $listing ) ) {
 				$price_type      = $listing->get_price_type();
 				$price_type_html = null;
 				if ( $price_type == "negotiable" ) {

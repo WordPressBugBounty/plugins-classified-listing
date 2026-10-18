@@ -99,6 +99,9 @@ class TemplateHooks {
 
 		add_action( 'rtcl_after_listing_loop', [ __CLASS__, 'pagination' ], 10 );
 
+		// Late enough for a theme's `rtcl_listing_card_style` filter, early enough for Ajax renders.
+		add_action( 'init', [ __CLASS__, 'modern_listing_card_hooks' ], 20 );
+
 		/**
 		 * Notice
 		 */
@@ -181,6 +184,8 @@ class TemplateHooks {
 		add_action( 'rtcl_register_form', [ __CLASS__, 'registration_terms_and_conditions' ], 30 );
 		add_action( 'rtcl_register_form_end', [ __CLASS__, 'registration_hidden_fields' ], 100 );
 		add_action( 'rtcl_after_login_form', [ __CLASS__, 'login_form_necessary_link' ], 10 );
+		// Before the footer scripts (priority 20), so public.js finds the popup's login form.
+		add_action( 'wp_footer', [ __CLASS__, 'login_popup' ], 5 );
 
 		add_action( 'rtcl_listing_badges', [ __CLASS__, 'listing_new_badge' ], 10 );
 		add_action( 'rtcl_listing_badges', [ __CLASS__, 'listing_featured_badge' ], 20 );
@@ -267,9 +272,9 @@ class TemplateHooks {
     												<span class="rtcl-ai-quick-search-text">%4$s</span>
 												</span>
 											</span>
-											<span class="rtcl-ajax-filter-search-icon"><svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="M8.65429 17.2954C3.88229 17.2954 0 13.4161 0 8.64769C0 3.87933 3.88229 0 8.65429 0C13.4263 0 17.3086 3.87933 17.3086 8.64769C17.3086 13.4161 13.4263 17.2954 8.65429 17.2954ZM8.65429 1.63937C4.78693 1.63937 1.64062 4.78328 1.64062 8.64769C1.64062 12.5121 4.78693 15.656 8.65429 15.656C12.5216 15.656 15.668 12.5121 15.668 8.64769C15.668 4.78328 12.5216 1.63937 8.65429 1.63937ZM20.7598 20.76C21.0801 20.4398 21.0801 19.9208 20.7598 19.6007L17.0889 15.9326C16.7685 15.6125 16.2491 15.6125 15.9287 15.9326C15.6084 16.2527 15.6084 16.7718 15.9287 17.0919L19.5996 20.76C19.7598 20.92 19.9697 21 20.1797 21C20.3897 21 20.5995 20.92 20.7598 20.76Z" fill="#646464"></path>
-						</svg></span>
+											<span class="rtcl-ajax-filter-search-icon">
+											<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" x="0" y="0" viewBox="0 0 6.35 6.35" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M2.894.511a2.384 2.384 0 0 0-2.38 2.38 2.386 2.386 0 0 0 2.38 2.384c.56 0 1.076-.197 1.484-.523l.991.991a.265.265 0 0 0 .375-.374l-.991-.992a2.37 2.37 0 0 0 .523-1.485C5.276 1.58 4.206.51 2.894.51m0 .53c1.026 0 1.852.825 1.852 1.85S3.92 4.746 2.894 4.746s-1.851-.827-1.851-1.853.825-1.852 1.851-1.852" paint-order="stroke fill markers" fill="#888888" opacity="1" data-original="#888888" class=""></path></g></svg>
+											</span>
 										</div>',
 			esc_attr( $filed_class ),
 			esc_attr( $q ),
@@ -675,12 +680,13 @@ class TemplateHooks {
 	 */
 	public static function seller_website( $listing ) {
 		if ( is_a( $listing, Listing::class ) && $website = get_post_meta( $listing->get_id(), 'website', true ) ) {
+			$link_options = Functions::get_listing_website_link_options( $listing, $website );
 			?>
 			<div class='rtcl-website rtcl-list-group-item'>
 				<a class="rtcl-website-link rtcl-btn rtcl-btn-primary" href="<?php
-				echo esc_url( $website ); ?>"
-				   target="_blank"<?php
-				echo Functions::is_external( $website ) ? ' rel="nofollow"' : ''; ?>><span
+				echo esc_url( $website ); ?>"<?php
+				echo $link_options['new_window'] ? ' target="_blank"' : '';
+				echo Functions::is_listing_website_nofollow( $listing, $website ) ? ' rel="nofollow"' : ''; ?>><span
 						class='rtcl-icon rtcl-icon-globe text-white'></span><?php
 					esc_html_e( "Visit Website", "classified-listing" ) ?>
 				</a>
@@ -1087,20 +1093,55 @@ class TemplateHooks {
 	}
 
 	public static function edit_account_form_location_field() {
-		$user_id        = get_current_user_id();
-		$location_id    = $sub_location_id = 0;
-		$user_locations = (array) get_user_meta( $user_id, '_rtcl_location', true );
-		$zipcode        = get_user_meta( $user_id, '_rtcl_zipcode', true );
-		$address        = get_user_meta( $user_id, '_rtcl_address', true );
-		$state_text     = Text::location_level_first();
-		$city_text      = Text::location_level_second();
-		$town_text      = Text::location_level_third(); ?>
-		<div class="rtcl-form-group">
+		$user_id                 = get_current_user_id();
+		$location_id             = $sub_location_id = 0;
+		$user_locations          = (array) get_user_meta( $user_id, '_rtcl_location', true );
+		$zipcode                 = get_user_meta( $user_id, '_rtcl_zipcode', true );
+		$address                 = get_user_meta( $user_id, '_rtcl_address', true );
+		$state_text              = Text::location_level_first();
+		$city_text               = Text::location_level_second();
+		$town_text               = Text::location_level_third();
+		$location_detection_mode   = Functions::get_location_detection_mode();
+		$location_detection_method = Functions::get_location_detection_method();
+
+		// Tooltip text based on detection method
+		$detection_tooltip = 'ip_only' === $location_detection_method
+			? __( 'Click to automatically detect your location using IP address and fill in the location fields.', 'classified-listing' )
+			: __( 'Click to automatically detect your location using GPS and fill in the location fields.', 'classified-listing' );
+
+		// Check if user already has location data saved
+		$has_saved_location = ! empty( array_filter( $user_locations ) );
+
+		// Build data attributes for location detection
+		$detection_attrs = '';
+		if ( 'disabled' !== $location_detection_mode ) {
+			$detection_attrs .= ' data-location-detection="' . esc_attr( $location_detection_mode ) . '"';
+			if ( $has_saved_location ) {
+				$detection_attrs .= ' data-has-location="1"';
+			}
+		} ?>
+		<div class="rtcl-form-group rtcl-location-fields-wrap"<?php echo $detection_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 			<div class="rtcl-field-col" id="rtcl-location-row">
 				<label for="rtcl-location" class="rtcl-field-label">
 					<?php
 					echo esc_html( $state_text ); ?>
 					<span class="require-star">*</span>
+					<?php if ( 'disabled' !== $location_detection_mode && 'manual' === $location_detection_mode ) : ?>
+						<span class="rtcl-detect-location-wrapper">
+							<button type="button" class="rtcl-detect-location-btn" id="rtcl-detect-location" title="<?php esc_attr_e( 'Auto-detect location', 'classified-listing' ); ?>">
+								<span class="rtcl-detect-location-icon">
+									<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line></svg>
+								</span>
+								<span class="rtcl-detect-location-loading" style="display:none;">
+									<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rtcl-spin"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+								</span>
+							</button>
+							<span class="rtcl-detect-location-help">
+								<span class="rtcl-help-icon">?</span>
+								<span class="rtcl-help-tooltip"><?php echo esc_html( $detection_tooltip ); ?></span>
+							</span>
+						</span>
+					<?php endif; ?>
 				</label>
 				<select id="rtcl-location" name="location"
 				        class="rtcl-select2 rtcl-select rtcl-form-control rtcl-map-field" required>
@@ -1122,6 +1163,9 @@ class TemplateHooks {
 						}
 					} ?>
 				</select>
+				<?php if ( 'disabled' !== $location_detection_mode ) : ?>
+					<p class="rtcl-detect-location-status description small" style="display:none;"></p>
+				<?php endif; ?>
 			</div>
 			<?php
 			$sub_locations = [];
@@ -1212,24 +1256,59 @@ class TemplateHooks {
 
 
 	public static function edit_account_form_geo_location() {
-		$user_id     = get_current_user_id();
-		$geo_address = get_user_meta( $user_id, '_rtcl_geo_address', true ); ?>
-		<div class="rtcl-form-group">
+		$user_id                   = get_current_user_id();
+		$geo_address               = get_user_meta( $user_id, '_rtcl_geo_address', true );
+		$location_detection_mode   = Functions::get_location_detection_mode();
+		$location_detection_method = Functions::get_location_detection_method();
+
+		// Tooltip text based on detection method
+		$detection_tooltip = 'ip_only' === $location_detection_method
+			? __( 'Click to automatically detect your location using IP address and fill in the address field.', 'classified-listing' )
+			: __( 'Click to automatically detect your location using GPS and fill in the address field.', 'classified-listing' );
+
+		// Check if user already has geo location data saved
+		$has_saved_location = ! empty( $geo_address );
+
+		// Build data attributes for location detection
+		$detection_attrs = '';
+		if ( 'disabled' !== $location_detection_mode ) {
+			$detection_attrs .= ' data-location-detection="' . esc_attr( $location_detection_mode ) . '" data-location-type="geo"';
+			if ( $has_saved_location ) {
+				$detection_attrs .= ' data-has-location="1"';
+			}
+		} ?>
+		<div class="rtcl-form-group rtcl-geo-location-wrap"<?php echo $detection_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 			<label class="rtcl-field-label" for="rtcl-geo-address">
-				<?php
-				esc_html_e( "Location", "classified-listing" ) ?>
+				<?php esc_html_e( "Location", "classified-listing" ); ?>
+				<?php if ( 'disabled' !== $location_detection_mode && 'manual' === $location_detection_mode ) : ?>
+					<span class="rtcl-detect-location-wrapper">
+						<button type="button" class="rtcl-detect-location-btn" id="rtcl-detect-geo-location" title="<?php esc_attr_e( 'Auto-detect location', 'classified-listing' ); ?>">
+							<span class="rtcl-detect-location-icon">
+								<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line></svg>
+							</span>
+							<span class="rtcl-detect-location-loading" style="display:none;">
+								<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rtcl-spin"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+							</span>
+						</button>
+						<span class="rtcl-detect-location-help">
+							<span class="rtcl-help-icon">?</span>
+							<span class="rtcl-help-tooltip"><?php echo esc_html( $detection_tooltip ); ?></span>
+						</span>
+					</span>
+				<?php endif; ?>
 			</label>
 			<div class="rtcl-field-col">
 				<div class="rtcl-geo-address-field">
 					<input type="text" name="rtcl_geo_address" autocomplete="off"
-					       value="<?php
-						   echo esc_attr( $geo_address ) ?>"
+					       value="<?php echo esc_attr( $geo_address ); ?>"
 					       id="rtcl-geo-address"
-					       placeholder="<?php
-						   esc_attr_e( "Select a location", "classified-listing" ) ?>"
+					       placeholder="<?php esc_attr_e( "Select a location", "classified-listing" ); ?>"
 					       class="rtcl-form-control rtcl-geo-address-input rtcl_geo_address_input"/>
 					<i class="rtcl-get-location rtcl-icon rtcl-icon-target" id="rtcl-geo-loc-form"></i>
 				</div>
+				<?php if ( 'disabled' !== $location_detection_mode ) : ?>
+					<p class="rtcl-detect-location-status description small" style="display:none;"></p>
+				<?php endif; ?>
 			</div>
 		</div>
 		<?php
@@ -1843,6 +1922,74 @@ class TemplateHooks {
 		     $listing->get_the_title() . '</a></h3>';
 	}
 
+	/**
+	 * Modern card layout: badges sit on the photo, the category moves above the
+	 * title and the excerpt comes before the meta. Classic keeps the old order.
+	 */
+	public static function modern_listing_card_hooks() {
+		if ( ! Functions::is_modern_listing_card() ) {
+			return;
+		}
+		if ( remove_action( 'rtcl_listing_loop_item', [ __CLASS__, 'loop_item_badges' ], 30 ) ) {
+			add_action( 'rtcl_after_listing_thumbnail', [ __CLASS__, 'loop_item_badges' ], 5 );
+		}
+		if ( remove_action( 'rtcl_listing_loop_item', [ __CLASS__, 'loop_item_excerpt' ], 70 ) ) {
+			add_action( 'rtcl_listing_loop_item', [ __CLASS__, 'loop_item_excerpt' ], 45 );
+		}
+		add_action( 'rtcl_listing_loop_item', [ __CLASS__, 'loop_item_category' ], 15 );
+		// The category now leads the card, so drop it from the meta row.
+		add_filter( 'rtcl_listing_can_show_category', [ __CLASS__, 'hide_loop_meta_category' ], 20 );
+		add_filter( 'rtcl_pagination_args', [ __CLASS__, 'modern_pagination_args' ], 5 );
+	}
+
+	/**
+	 * Modern archive pagination: "Previous" / "Next" buttons instead of arrows.
+	 * Only the listing loop's own pagination; widgets and blocks keep theirs.
+	 *
+	 * @param array $args paginate_links() arguments.
+	 *
+	 * @return array
+	 */
+	public static function modern_pagination_args( $args ) {
+		if ( ! doing_action( 'rtcl_after_listing_loop' ) ) {
+			return $args;
+		}
+		$args['prev_text'] = esc_html__( 'Previous', 'classified-listing' );
+		$args['next_text'] = esc_html__( 'Next', 'classified-listing' );
+
+		return $args;
+	}
+
+	/**
+	 * @param bool $can_show
+	 *
+	 * @return bool
+	 */
+	public static function hide_loop_meta_category( $can_show ) {
+		return doing_action( 'rtcl_listing_loop_item' ) ? false : $can_show;
+	}
+
+	public static function loop_item_category() {
+		/** @var Listing $listing */
+		global $listing;
+		if ( empty( $listing ) || ! $listing->has_category() ) {
+			return;
+		}
+		remove_filter( 'rtcl_listing_can_show_category', [ __CLASS__, 'hide_loop_meta_category' ], 20 );
+		$can_show = $listing->can_show_category();
+		add_filter( 'rtcl_listing_can_show_category', [ __CLASS__, 'hide_loop_meta_category' ], 20 );
+		$categories = $listing->get_categories();
+		if ( ! $can_show || empty( $categories ) ) {
+			return;
+		}
+		$links = [];
+		foreach ( $categories as $category ) {
+			$links[] = sprintf( '<a href="%s">%s</a>', esc_url( get_term_link( $category ) ), esc_html( $category->name ) );
+		}
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<div class="rtcl-listing-cat">' . implode( '<span class="rtcl-delimiter">&middot;</span>', $links ) . '</div>';
+	}
+
 	public static function loop_item_wrapper_start() {
 		/** @var Listing $listing */
 		global $listing;
@@ -1963,6 +2110,16 @@ public static function output_main_wrapper_start() {
 	 */
 	public static function body_class( $classes ) {
 		$classes = (array) $classes;
+
+		// Opt-out switch under All Listings Page settings. The stylesheet keys the
+		// modern meta icons off this class.
+		if ( Functions::use_modern_icons() ) {
+			$classes[] = 'rtcl-modern-icons';
+		}
+		// Listing Card Style = Modern: keys the modern sorting bar (sort + view switcher).
+		if ( Functions::is_modern_listing_card() ) {
+			$classes[] = 'rtcl-listing-modern';
+		}
 		if ( Functions::is_rtcl() || is_author() ) {
 			$classes[] = 'rtcl';
 			$classes[] = 'rtcl-page';
@@ -2159,6 +2316,51 @@ public static function output_main_wrapper_start() {
 			$redirect_to = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
 		echo sprintf( '<input type="hidden" name="redirect_to" value="%s" />', esc_url( $redirect_to ) );
+	}
+
+	/**
+	 * Print the login popup when a link on the page asked for it.
+	 *
+	 * @see Functions::request_login_popup()
+	 */
+	public static function login_popup() {
+		$args = Functions::get_requested_login_popup();
+
+		if ( null === $args || is_user_logged_in() ) {
+			return;
+		}
+
+		// A login form is already on the page (e.g. a theme's header login): a second
+		// copy would duplicate its IDs. Without the popup the link opens the login page.
+		if ( did_action( 'rtcl_before_login_form' ) ) {
+			return;
+		}
+
+		$args = wp_parse_args( $args, [
+			'title'   => __( 'Log in to continue', 'classified-listing' ),
+			'message' => '',
+		] );
+
+		// Popup shell around the regular login form (global/form-login.php), so theme
+		// overrides of that template are used here too. Opened by public.js.
+		?>
+		<div class="rtcl-popup-wrapper" id="rtcl-login-popup" role="dialog" aria-modal="true" aria-labelledby="rtcl-login-popup-label">
+			<div class="rtcl-popup">
+				<div class="rtcl-popup-content">
+					<div class="rtcl-popup-header">
+						<h5 class="rtcl-popup-title" id="rtcl-login-popup-label"><?php echo esc_html( $args['title'] ); ?></h5>
+						<a href="#" class="rtcl-popup-close" aria-label="<?php esc_attr_e( 'Close', 'classified-listing' ); ?>">×</a>
+					</div>
+					<div class="rtcl-popup-body">
+						<?php if ( ! empty( $args['message'] ) ) : ?>
+							<p class="rtcl-login-popup-message"><?php echo esc_html( $args['message'] ); ?></p>
+						<?php endif; ?>
+						<?php Functions::login_form(); ?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php
 	}
 
 	public static function login_form_necessary_link() {

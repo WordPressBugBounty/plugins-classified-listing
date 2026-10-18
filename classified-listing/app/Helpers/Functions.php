@@ -49,6 +49,13 @@ class Functions {
 	use UserTrait;
 
 	/**
+	 * Arguments of the requested login popup; null when none was requested.
+	 *
+	 * @var array|null
+	 */
+	private static $login_popup_args = null;
+
+	/**
 	 * Get all options data
 	 *
 	 * @return array
@@ -329,6 +336,36 @@ class Functions {
 	public static function is_billing_address_disabled() {
 		return (bool) apply_filters( 'rtcl_billing_address_disabled',
 			self::get_option_item( 'rtcl_payment_settings', 'billing_address_disabled', false, 'checkbox' ) );
+	}
+
+	/**
+	 * Check if user has existing billing location data.
+	 * Returns true if any of country, state, city, or address_1 has a value.
+	 *
+	 * @param int|null $user_id User ID. Defaults to current user.
+	 *
+	 * @return bool
+	 */
+	public static function user_has_billing_location_data( $user_id = null ) {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+
+		if ( ! $user_id ) {
+			return false;
+		}
+
+		// Check location-related billing fields
+		$location_fields = [ '_billing_country', '_billing_state', '_billing_city', '_billing_address_1' ];
+
+		foreach ( $location_fields as $field ) {
+			$value = get_user_meta( $user_id, $field, true );
+			if ( ! empty( $value ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public static function is_rtcl() {
@@ -1608,7 +1645,7 @@ class Functions {
 					in_array( $term->term_id, $values ) ? ' checked' : '',
 					$cat_img_icon,
 					esc_html( $term->name ),
-					! empty( $args['show_count'] ) ? ' (' . $count . ')' : '',
+					! empty( $args['show_count'] ) ? ' <span class="rtcl-filter-count">(' . absint( $count ) . ')</span>' : '',
 					$has_arrow,
 					! empty( $args['ajax_load'] ) ? ( $cls_open ? self::get_ajax_filter_sub_terms_html( $args, $children ) : '' )
 						: self::get_ajax_filter_sub_terms_html( $args, $children ),
@@ -2908,6 +2945,157 @@ class Functions {
 		return isset( $settings[ $item ] ) && ! empty( $settings[ $item ] ) ? $settings[ $item ] : $default;
 	}
 
+	/**
+	 * Whether listing meta renders with the modern line icons.
+	 *
+	 * The icons themselves stay icon-font elements in the templates; the
+	 * stylesheet masks them with the shared artwork when this is on, so add-ons
+	 * and theme template overrides need no change. Defaults to on: a site that
+	 * has never saved the setting gets the modern set.
+	 *
+	 * @return bool
+	 */
+	public static function use_modern_icons() {
+		return (bool) apply_filters(
+			'rtcl_use_modern_icons',
+			self::get_option_item( 'rtcl_archive_listing_settings', 'use_modern_icon', true, 'checkbox' )
+		);
+	}
+
+	/**
+	 * Whether a theme locks a design setting to Classic.
+	 *
+	 * For themes that override the whole template: the setting is hidden from
+	 * the settings screen and Classic is used whatever is saved. Opt in from a
+	 * theme with `add_filter( 'rtcl_force_classic_style', '__return_true' );`.
+	 *
+	 * @param string $setting 'listing_card' (Listing Card Style) or 'single_listing' (Listing Details Style).
+	 *
+	 * @return bool
+	 */
+	public static function is_classic_style_forced( $setting ) {
+		return (bool) apply_filters( 'rtcl_force_classic_style', false, $setting );
+	}
+
+	/**
+	 * Whether archive listing cards use the Modern card style.
+	 *
+	 * Set under All Listings settings; defaults to Modern, including sites that
+	 * have never saved it. Classic keeps the old card. A theme that overrides
+	 * `content-listing.php` (e.g. Classima) draws its own card, so it stays
+	 * Classic — no half-applied modern bits — unless it opts in through the
+	 * `rtcl_listing_card_style` filter.
+	 *
+	 * @return bool
+	 */
+	public static function is_modern_listing_card() {
+		static $theme_owns_card = null;
+
+		if ( self::is_classic_style_forced( 'listing_card' ) ) {
+			return false;
+		}
+
+		$style = self::get_option_item( 'rtcl_archive_listing_settings', 'listing_card_style', 'modern' );
+		if ( 'modern' === $style ) {
+			if ( null === $theme_owns_card ) {
+				$theme_owns_card = self::is_template_overridden_by_theme( 'content-listing.php' );
+			}
+			if ( $theme_owns_card ) {
+				$style = 'classic';
+			}
+		}
+
+		return 'modern' === apply_filters( 'rtcl_listing_card_style', $style );
+	}
+
+	/**
+	 * Whether the listing details page uses the Modern design.
+	 *
+	 * Set under Listing Details Page settings; defaults to Modern. Themes that
+	 * declare `add_theme_support( 'rtcl' )` (e.g. Classima) ship their own details
+	 * page, so they stay Classic unless they opt in through the
+	 * `rtcl_single_listing_style` filter.
+	 *
+	 * @return bool
+	 */
+	public static function is_modern_single_listing() {
+		if ( self::is_classic_style_forced( 'single_listing' ) ) {
+			return false;
+		}
+
+		$style = self::get_option_item( 'rtcl_single_listing_settings', 'single_listing_style', 'modern' );
+		if ( current_theme_supports( 'rtcl' ) ) {
+			$style = 'classic';
+		}
+
+		return 'modern' === apply_filters( 'rtcl_single_listing_style', $style );
+	}
+
+	/**
+	 * Whether the active (child) theme overrides a plugin template file.
+	 *
+	 * Checks the same places `get_template_part()` does: the theme root and the
+	 * theme's `classified-listing/` folder.
+	 *
+	 * @param string $template_name Template path relative to the templates folder, e.g. `content-single-rtcl_listing.php`.
+	 *
+	 * @return bool
+	 */
+	public static function is_template_overridden_by_theme( $template_name ) {
+		return '' !== locate_template( [ $template_name, trailingslashit( rtcl()->get_template_path() ) . $template_name ] );
+	}
+
+	/**
+	 * Listing type id used by the Job Manager add-on, or '' when it is not active.
+	 *
+	 * Jobs are ordinary listings carrying this value in their `ad_type` meta, so
+	 * this is what a query filters on to include or exclude them. The id comes from
+	 * the add-on itself (it is filterable there) rather than being hard-coded here.
+	 *
+	 * @return string
+	 */
+	public static function get_job_listing_type() {
+		if ( ! function_exists( 'rtcl_job_manager' ) ) {
+			return '';
+		}
+		$job_manager = rtcl_job_manager();
+		if ( ! is_object( $job_manager ) || ! method_exists( $job_manager, 'job_type_id' ) ) {
+			return '';
+		}
+
+		return (string) $job_manager->job_type_id();
+	}
+
+	/**
+	 * Meta query clause that keeps job listings out of a listing query.
+	 *
+	 * Returns an empty array when the Job Manager add-on is not active, so callers
+	 * can merge it unconditionally. The NOT EXISTS branch matters: listings created
+	 * before ad types existed have no `ad_type` row at all, and a bare `!=` would
+	 * drop them too.
+	 *
+	 * @return array
+	 */
+	public static function get_exclude_job_meta_query() {
+		$job_type = self::get_job_listing_type();
+		if ( ! $job_type ) {
+			return [];
+		}
+
+		return [
+			'relation' => 'OR',
+			[
+				'key'     => 'ad_type',
+				'value'   => $job_type,
+				'compare' => '!=',
+			],
+			[
+				'key'     => 'ad_type',
+				'compare' => 'NOT EXISTS',
+			],
+		];
+	}
+
 	public static function get_listing_types() {
 		$default_types = Options::get_default_listing_types();
 		$types         = self::get_option( rtcl()->get_listing_types_option_id() );
@@ -2921,6 +3109,25 @@ class Functions {
 			$types );
 
 		return $types;
+	}
+
+	/**
+	 * Whether a listing type is required by an active add-on, so its ID can't be changed and it can't be deleted.
+	 * Currently the Job Manager add-on relies on the "job" type.
+	 *
+	 * @param string $type_id Listing type ID.
+	 *
+	 * @return bool
+	 */
+	public static function is_protected_listing_type( $type_id ) {
+		$protected = false;
+
+		if ( function_exists( 'rtcl_job_manager' ) ) {
+			$job_type_id = method_exists( rtcl_job_manager(), 'job_type_id' ) ? rtcl_job_manager()->job_type_id() : 'job';
+			$protected   = (string) $type_id === (string) $job_type_id;
+		}
+
+		return (bool) apply_filters( 'rtcl_is_protected_listing_type', $protected, $type_id );
 	}
 
 	/**
@@ -3273,7 +3480,7 @@ class Functions {
 				if ( $title_limit = self::get_title_character_limit() ) {
 					$sanitize_value = mb_substr( $sanitize_value, 0, $title_limit, 'utf-8' );
 				}
-				if ( ! current_user_can( 'administrator' ) && current_user_can( 'editor' ) ) {
+				if ( ! current_user_can( 'administrator' ) && ! current_user_can( 'editor' ) ) {
 					$sanitize_value = strip_shortcodes( $sanitize_value );
 				}
 				break;
@@ -3288,7 +3495,7 @@ class Functions {
 				} else {
 					$sanitize_value = wp_kses_post( $value );
 				}
-				if ( ! current_user_can( 'administrator' ) && current_user_can( 'editor' ) ) {
+				if ( ! current_user_can( 'administrator' ) && ! current_user_can( 'editor' ) ) {
 					$sanitize_value = strip_shortcodes( $sanitize_value );
 				}
 				break;
@@ -3353,6 +3560,34 @@ class Functions {
 
 	public static function is_registration_page_separate() {
 		return self::get_option_item( 'rtcl_account_settings', 'separate_registration_form', false, 'checkbox' );
+	}
+
+	/**
+	 * Ask for the shared login popup to be printed in the footer.
+	 *
+	 * Call it while rendering a link with the `rtcl-open-login-popup` class;
+	 * the popup (the regular login form in a popup shell) is printed once in
+	 * the footer, and only for logged-out visitors.
+	 *
+	 * @param array $args Optional. `title` and `message` for the popup header.
+	 *
+	 * @return void
+	 */
+	public static function request_login_popup( $args = [] ) {
+		if ( is_user_logged_in() ) {
+			return;
+		}
+
+		self::$login_popup_args = wp_parse_args( $args, self::$login_popup_args ?: [] );
+	}
+
+	/**
+	 * Popup arguments when a login popup was requested, otherwise null.
+	 *
+	 * @return array|null
+	 */
+	public static function get_requested_login_popup() {
+		return self::$login_popup_args;
 	}
 
 	/**
@@ -3716,6 +3951,34 @@ class Functions {
 	 *
 	 * @return int
 	 */
+	/**
+	 * A category's own colour, if something supplies one.
+	 *
+	 * The plugin has no per-category colour setting; this is the seam for themes
+	 * and add-ons that do. Return a CSS colour — `#f0522f`, `rgb(…)`, anything
+	 * CSS accepts. An empty string means "no colour", and the templates fall back
+	 * to the primary colour.
+	 *
+	 * Where a colour is returned, the category templates put it on the item as
+	 * `--rtcl-cat-color`, so a stylesheet can pick it up with
+	 * `var(--rtcl-cat-color, var(--rtcl-primary-color))`.
+	 *
+	 * Example — a theme storing the value as term meta without the leading hash:
+	 *
+	 *     add_filter( 'rtcl_category_color', function ( $color, $term_id ) {
+	 *         $hex = get_term_meta( $term_id, 'my_category_color', true );
+	 *
+	 *         return $hex ? '#' . ltrim( $hex, '#' ) : $color;
+	 *     }, 10, 2 );
+	 *
+	 * @param int $term_id Category term id.
+	 *
+	 * @return string CSS colour, or '' when nothing supplies one.
+	 */
+	public static function get_category_color( $term_id ) {
+		return (string) apply_filters( 'rtcl_category_color', '', absint( $term_id ) );
+	}
+
 	public static function get_listings_count_by_taxonomy( $term_id, $taxonomy = null, $pad_counts = true ) {
 		$taxonomy = $taxonomy ? $taxonomy : rtcl()->category;
 
@@ -4917,6 +5180,56 @@ class Functions {
 	}
 
 	/**
+	 * Whether a listing's Website link should carry rel="nofollow".
+	 * External links stay nofollow unless the form's Website field enables "dofollow".
+	 *
+	 * @param Listing $listing
+	 * @param string  $website
+	 *
+	 * @return bool
+	 */
+	public static function is_listing_website_nofollow( $listing, $website ) {
+		$options = self::get_listing_website_link_options( $listing, $website );
+
+		return (bool) apply_filters( 'rtcl_listing_website_nofollow', $options['nofollow'], $listing, $website );
+	}
+
+	/**
+	 * Effective link options for a listing's Website link.
+	 * Without a saved choice it keeps the legacy output: new window, nofollow for external links
+	 * (unless the form's Website field enables "dofollow"). A per-listing choice saved from the
+	 * form's gear button overrides both.
+	 *
+	 * @param Listing $listing
+	 * @param string  $website
+	 *
+	 * @return array{new_window: bool, nofollow: bool}
+	 */
+	public static function get_listing_website_link_options( $listing, $website ) {
+		$options = [
+			'new_window' => true,
+			'nofollow'   => self::is_external( $website ),
+		];
+		if ( is_a( $listing, Listing::class ) ) {
+			$form  = $listing->getForm();
+			$field = $form ? $form->getFieldByElement( 'website' ) : null;
+			if ( ! empty( $field['dofollow'] ) ) {
+				$options['nofollow'] = false;
+			}
+			$saved = get_post_meta( $listing->get_id(), '_rtcl_website_link_options', true );
+			if ( is_array( $saved ) ) {
+				foreach ( $options as $key => $value ) {
+					if ( isset( $saved[ $key ] ) ) {
+						$options[ $key ] = (bool) $saved[ $key ];
+					}
+				}
+			}
+		}
+
+		return apply_filters( 'rtcl_listing_website_link_options', $options, $listing, $website );
+	}
+
+	/**
 	 * @param  integer  $listing_id
 	 *
 	 * @return bool
@@ -4944,6 +5257,46 @@ class Functions {
 		return Functions::get_option_item( 'rtcl_misc_map_settings', 'has_map', false, 'checkbox' );
 	}
 
+	/**
+	 * Get location detection mode for auto-filling location fields.
+	 *
+	 * @return string 'disabled', 'auto', or 'manual'
+	 */
+	public static function get_location_detection_mode() {
+		return Functions::get_option_item( 'rtcl_misc_map_settings', 'location_detection_mode', 'manual' );
+	}
+
+	/**
+	 * Check if location detection is enabled.
+	 *
+	 * @return bool
+	 */
+	public static function is_location_detection_enabled() {
+		return 'disabled' !== self::get_location_detection_mode();
+	}
+
+	/**
+	 * Get location detection method.
+	 *
+	 * Reads from settings, with filter override for custom behavior.
+	 * - 'ip_only': Use only IP-based geolocation (MaxMind/API), skip browser geolocation
+	 * - 'browser_with_ip_fallback': Try browser geolocation first, fallback to IP-based
+	 *
+	 * @return string 'ip_only' or 'browser_with_ip_fallback'
+	 */
+	public static function get_location_detection_method() {
+		$method = Functions::get_option_item( 'rtcl_misc_map_settings', 'location_detection_method', 'ip_only' );
+
+		/**
+		 * Filter the location detection method.
+		 *
+		 * @param string $method The detection method from settings.
+		 *                       - 'ip_only': Skip browser geolocation, use only IP-based (MaxMind)
+		 *                       - 'browser_with_ip_fallback': Try browser GPS first, fallback to IP
+		 */
+		return apply_filters( 'rtcl_location_detection_method', $method );
+	}
+
 	public static function get_display_options() {
 		$archive_settings = Functions::get_option( 'rtcl_archive_listing_settings' );
 		$single_settings  = Functions::get_option( 'rtcl_single_listing_settings' );
@@ -4952,7 +5305,29 @@ class Functions {
 		$settings  = $is_single ? $single_settings : $archive_settings;
 		$key       = $is_single ? 'display_options_detail' : 'display_options';
 
-		return ! empty( $settings[ $key ] ) && is_array( $settings[ $key ] ) ? $settings[ $key ] : [];
+		$options = ! empty( $settings[ $key ] ) && is_array( $settings[ $key ] ) ? $settings[ $key ] : [];
+
+		/**
+		 * Override which elements a single render pass may show.
+		 *
+		 * These options describe the ARCHIVE and the single listing page. A
+		 * Gutenberg block or an Elementor widget is neither — it is an instance
+		 * the user placed and configured on its own, so gating it on a global
+		 * archive checkbox meant a block could not show a Featured badge unless
+		 * the whole archive did. `ListingBadges::render()` hooks this for the
+		 * length of one `rtcl_listing_badges` pass to substitute the instance's
+		 * own choices.
+		 *
+		 * This is the only place that reaches every badge callback. Four of the
+		 * five expose a `rtcl_listing_can_show_*_badge_settings` filter of their
+		 * own, but Pro's popular badge does not — so per-badge filters could
+		 * never have covered the set. Filtering at the source does, and needs no
+		 * change in Pro.
+		 *
+		 * @param array $options   Display option keys.
+		 * @param bool  $is_single Whether these are the single-listing options.
+		 */
+		return apply_filters( 'rtcl_display_options', $options, $is_single );
 	}
 
 	public static function get_social_share_options() {
@@ -6782,7 +7157,35 @@ class Functions {
 	}
 
 	/**
+	 * Country + area code prefixes that `i18n/phone.php` used to expose as if they were
+	 * country calling codes (DO as "+1809", JE as "+441534", …) before they were corrected
+	 * to the real calling code.
+	 *
+	 * These are recognised on read only, so that a value the old widget left behind as a
+	 * bare prefix with no number typed after it — "+1809" — is still detected as empty by
+	 * `phone_number_has_local_part()` instead of suddenly rendering as the phone number
+	 * "+1809". They are deliberately NOT offered anywhere in the UI.
+	 *
+	 * @return string[]
+	 */
+	private static function get_legacy_dial_code_digits(): array {
+		return [
+			// NANP members, previously stored as +1 plus one of their area codes.
+			'1242', '1246', '1264', '1268', '1284', '1340', '1345', '1441', '1473',
+			'1649', '1664', '1670', '1671', '1684', '1758', '1767', '1784', '1787',
+			'1809', '1829', '1849', '1868', '1869', '1876', '1939',
+			// Crown dependencies, previously stored as +44 plus their area code.
+			'441481', '441534', '441624',
+			// Aland Islands, previously stored as +358 plus its area code.
+			'35818',
+		];
+	}
+
+	/**
 	 * Country calling codes as digit-only strings (e.g. "1", "880"), memoized per request.
+	 *
+	 * Includes the legacy country+area prefixes above so existing rows keep behaving the
+	 * way they did before the calling codes were corrected.
 	 *
 	 * @return string[]
 	 */
@@ -6790,12 +7193,14 @@ class Functions {
 		static $list = null;
 		if ( null === $list ) {
 			$seen = [];
-			foreach ( rtcl()->countries->get_countries() as $code => $name ) {
-				$dial = rtcl()->countries->get_country_calling_code( $code );
-				$dial = $dial ? preg_replace( '/\D/', '', $dial ) : '';
+			foreach ( rtcl()->countries->get_calling_codes() as $dial ) {
+				$dial = $dial ? preg_replace( '/\D/', '', is_array( $dial ) ? reset( $dial ) : $dial ) : '';
 				if ( '' !== $dial ) {
 					$seen[ $dial ] = true;
 				}
+			}
+			foreach ( self::get_legacy_dial_code_digits() as $dial ) {
+				$seen[ $dial ] = true;
 			}
 			$list = array_keys( $seen );
 		}

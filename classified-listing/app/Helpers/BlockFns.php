@@ -90,6 +90,13 @@ class BlockFns
 			'g'     => array('fill' => true),
 			'title' => array('title' => true),
 			'path'  => array('d' => true, 'fill' => true,),
+			// Icon-font markup. Blocks now store an icon CSS class from the
+			// plugin's own font (`rtcl-icon-check`) and render it as `<i>`, where
+			// they used to store an SVG name and inline the path. Both formats are
+			// still rendered — see `Blocks\PricingTable::icon_html()` — so both
+			// have to survive kses. Declared explicitly rather than relying on
+			// `wp_kses_allowed_html('post')` happening to permit `class` on `<i>`.
+			'i'     => array('class' => true, 'aria-hidden' => true),
 		);
 		$allowed_html = array_merge($defaults, $svg_args);
 		return $allowed_html;

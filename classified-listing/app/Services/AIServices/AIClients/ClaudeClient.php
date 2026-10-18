@@ -35,16 +35,10 @@ class ClaudeClient {
 	 * ClaudeClient constructor.
 	 *
 	 * Initializes the Claude client and sets API key and model from settings.
-	 *
-	 * @throws \Exception If required settings are missing.
 	 */
 	public function __construct() {
-		$apiKey      = Functions::get_option_item( 'rtcl_ai_settings', 'claude_api_key' );
 		$this->model = Functions::get_option_item( 'rtcl_ai_settings', 'claude_models' );
 		$this->token = Functions::get_option_item( 'rtcl_ai_settings', 'claude_max_token' );
-		if ( empty( $apiKey ) || empty( $this->model ) ) {
-			throw new \Exception( 'AI settings are not properly configured.' );
-		}
 	}
 
 	/**

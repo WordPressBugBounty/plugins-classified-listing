@@ -2,7 +2,7 @@
 /**
  * @author        RadiusTheme
  * @package       classified-listing/templates/listing
- * @version       1.0.0
+ * @version       6.2.0.1
  *
  * @var array $fields
  * @var int   $listing_id
@@ -30,7 +30,7 @@ if ( count( $fields ) ) :
 				<?php if ( $field->getType() === 'url' ):
 					$nofollow = ! empty( $field->getNofollow() ) ? ' rel="nofollow"' : ''; ?>
 					<a href="<?php echo esc_url( $value ); ?>"
-					   target="<?php echo esc_attr( $field->getTarget() ) ?>"<?php echo esc_html( $nofollow ) ?>><?php echo esc_html( $field->getLabel() ) ?></a>
+					   target="<?php echo esc_attr( $field->getTarget() ) ?>"<?php echo $nofollow ? ' rel="nofollow"' : '' ?>><?php echo esc_html( $field->getLabel() ) ?></a>
 				<?php else : ?>
 					<span class="cfp-label"><span><?php echo esc_html( $field->getLabel() ) ?></span>: </span>
 					<span class="text-muted cfp-value"> <?php Functions::print_html( $value ); ?> </span>

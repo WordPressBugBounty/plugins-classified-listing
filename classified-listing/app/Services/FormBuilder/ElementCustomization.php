@@ -86,7 +86,7 @@ class ElementCustomization {
 				'advance' => [ 'default_value', 'css_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'website'             => [
-				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation' ],
+				'general' => [ 'label', 'label_placement', 'icon', 'placeholder', 'validation', 'dofollow' ],
 				'advance' => [ 'default_value', 'css_class', 'help_message', 'logics', 'admin_use_only' ]
 			],
 			'social_info'         => [
@@ -358,6 +358,8 @@ class ElementCustomization {
 					'name',
 					'placeholder',
 					'validation',
+					'target',
+					'nofollow',
 					'single_view',
 					'order'
 				],
@@ -1463,6 +1465,22 @@ class ElementCustomization {
 					'value'      => 'custom',
 					'operator'   => '==',
 				],
+			],
+			'target'                       => [
+				'template' => 'inputYesNoCheckBox',
+				'value'     => '_blank',
+				'label'     => __( 'Open link in a new tab', 'classified-listing' ),
+				'help_text' => __( 'Default for new listings. Each listing can change it from the gear button in the form.', 'classified-listing' ),
+			],
+			'nofollow'                     => [
+				'template'  => 'inputYesNoCheckBox',
+				'label'     => __( 'Add rel="nofollow" to the link', 'classified-listing' ),
+				'help_text' => __( 'Tells search engines not to follow this link. Default for new listings; each listing can change it from the gear button in the form.', 'classified-listing' ),
+			],
+			'dofollow'                     => [
+				'template'  => 'inputYesNoCheckBox',
+				'label'     => __( 'Make website link dofollow', 'classified-listing' ),
+				'help_text' => __( 'By default the website link has rel="nofollow". Enable to remove it so search engines follow the link. Each listing can still change it from the gear button in the form.', 'classified-listing' ),
 			],
 			'allow_hide_map'               => [
 				'template'  => 'inputYesNoCheckBox',

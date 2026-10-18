@@ -15,12 +15,17 @@ namespace Rtcl\Controllers;
 use Exception;
 use Rtcl\Controllers\Blocks\AdminAjaxController;
 use Rtcl\Controllers\Blocks\AllLocation;
+use Rtcl\Controllers\Blocks\Container;
+use Rtcl\Controllers\Blocks\CoreButton;
+use Rtcl\Controllers\Blocks\CoreSpacing;
 use Rtcl\Controllers\Blocks\ListingAds;
 use Rtcl\Controllers\Blocks\ListingCatBox;
 use Rtcl\Controllers\Blocks\ListingsAjaxController;
+use Rtcl\Controllers\Blocks\PricingTable;
 use Rtcl\Controllers\Blocks\SingleLocation;
 use Rtcl\Controllers\Blocks\ListingSearch;
 use Rtcl\Helpers\Functions;
+use Rtcl\Resources\Options;
 use WP_Error;
 
 /**
@@ -35,6 +40,7 @@ class BlockController {
 	public function __construct() {
 		add_filter( 'init', [ $this, 'register_meta' ] );
 		add_action( 'wp_enqueue_scripts', [ &$this, 'frontend_assets' ] );
+		add_action( 'enqueue_block_assets', [ &$this, 'block_assets' ] );
 		//add_action( 'admin_enqueue_scripts', [ &$this, 'admin_assets' ] );
 		add_action( 'enqueue_block_editor_assets', [ &$this, 'editor_assets' ] );
 		add_filter( 'block_categories_all', [ &$this, 'rtcl_gb_block_category' ], 10, 2 );
@@ -53,11 +59,15 @@ class BlockController {
 
 		new AdminAjaxController();
 		new ListingsAjaxController();
+		new CoreSpacing();
+		new CoreButton();
+		new Container();
 		new ListingAds();
 		new ListingCatBox();
 		new AllLocation();
 		new SingleLocation();
 		new ListingSearch();
+		new PricingTable();
 	}
 
 	public function add_block_css_file() {
@@ -288,22 +298,50 @@ class BlockController {
 
 	public function frontend_assets() {
 		wp_enqueue_style( 'rtcl-public' );
+	}
+
+	/**
+	 * The one block stylesheet, for the front end and the editor.
+	 *
+	 * `enqueue_block_assets` is the only hook that reaches all three places this
+	 * CSS has to land: the front end, the editor's own document, and the editor
+	 * iframe (WordPress replays this action inside
+	 * `_wp_get_iframed_editor_assets()`). `enqueue_block_editor_assets` reaches
+	 * the outer document only, which is why the container used to need its own
+	 * stylesheet registered as the block's `style` handle.
+	 *
+	 * @return void
+	 */
+	public function block_assets() {
+		// Server rendered blocks reuse the public stylesheet — the Listing
+		// Category block shares its card design with the Elementor widget, which
+		// lives there. Without this the editor preview renders unstyled while
+		// the front end looks right. Passing the src is a no-op when the handle
+		// is already registered, which it is on the front end.
+		wp_enqueue_style( 'rtcl-public', rtcl()->get_assets_uri( 'css/rtcl-public.min.css' ), [], RTCL_VERSION );
 		wp_enqueue_style( 'gb-frontend-block', rtcl()->get_assets_uri( 'css/gb-frontend-block.css' ), [], RTCL_VERSION );
 	}
 
 	public function editor_assets() {
-		wp_enqueue_script( 'rtcl-gb-blocks-js', rtcl()->get_assets_uri( 'block/main.js' ), [ 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-element', 'wp-i18n' ], RTCL_VERSION, true );
+		wp_enqueue_script( 'rtcl-gb-blocks-js', rtcl()->get_assets_uri( 'block/main.js' ), [ 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-compose', 'wp-data', 'wp-dom-ready', 'wp-element', 'wp-hooks', 'wp-i18n' ], RTCL_VERSION, true );
 		wp_localize_script(
 			'rtcl-gb-blocks-js',
 			'rtcl_block_script',
 			[
-				'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-				'rtcl_nonce' => wp_create_nonce( 'rtcl-nonce' ),
-				'plugin'     => RTCL_URL,
+				'ajaxurl'         => admin_url( 'admin-ajax.php' ),
+				'rtcl_nonce'      => wp_create_nonce( 'rtcl-nonce' ),
+				'plugin'          => RTCL_URL,
+				// Controls that only make sense with the Job Manager add-on active.
+				'has_job_manager' => (bool) Functions::get_job_listing_type(),
 			],
 		);
 
 		$localize_obj = [
+			// The plugin's own icon font, the same list the Form Builder's icon
+			// picker uses (`rtclFB.options.icons`). Blocks pick from this rather
+			// than from `RTCLGB-icon-controls/RTCLGBIcon.json`, whose entries are
+			// SVG paths and which the old picker surfaced only a page of.
+			'icons'               => Options::get_icon_class_list(),
 			'single_location'     => [
 				'style_options' => [
 					[
@@ -321,6 +359,13 @@ class BlockController {
 					[
 						'value' => '1',
 						'label' => __( 'Style 1', 'classified-listing' ),
+					],
+					[
+						// Not '3': themes and add-ons extend this list through
+						// filters and several already ship their own `layout-3` /
+						// `style-3` / `3`. The prefix keeps ours from colliding.
+						'value' => 'new-layout-3',
+						'label' => __( 'Layout 3', 'classified-listing' ),
 					],
 				],
 			],
@@ -342,7 +387,8 @@ class BlockController {
 			'listing_store_block' => false,
 		];
 		wp_localize_script( 'rtcl-gb-blocks-js', 'rtcl_block_localize_obj', apply_filters( 'rtcl_gb_localize_script', $localize_obj ) );
-		wp_enqueue_style( 'gb-frontend-block-editor', rtcl()->get_assets_uri( 'css/gb-frontend-block.css' ), [], RTCL_VERSION );
+		// gb-frontend-block.css is not enqueued here — block_assets() puts it in
+		// the editor iframe as well, which this hook cannot reach.
 		wp_enqueue_style( 'rtcl-gb-admin-block', rtcl()->get_assets_uri( 'css/gb-admin-block.css' ), [], RTCL_VERSION );
 		wp_enqueue_style( 'rtcl-gb-component-style', rtcl()->get_assets_uri( 'block/style-main.css' ), [], RTCL_VERSION );
 

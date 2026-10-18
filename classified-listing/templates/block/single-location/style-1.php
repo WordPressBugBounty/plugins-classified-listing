@@ -17,8 +17,9 @@ $wrap_class .= ' rtcl-block-frontend ';
 if ( isset( $settings['className'] ) ) {
 	$wrap_class .= $settings['className'];
 }
-$image_type = ! empty( $settings['image_type']['type'] ) ? $settings['image_type']['type'] : 'custom_image';
-$image      = 'featured_image' === $image_type && ! empty( $term['image_src'] ) ? $term['image_src'] : '';
+// Empty while a custom background is configured — that one is applied through
+// the block's generated CSS and an inline style here would beat it.
+$image = \Rtcl\Controllers\Blocks\SingleLocation::resolve_box_image( (array) $settings, (array) $term );
 ?>
 <div class="<?php echo esc_attr( $wrap_class ); ?>">
 	<div class="rtcl">

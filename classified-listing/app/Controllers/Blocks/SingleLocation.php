@@ -376,6 +376,56 @@ class SingleLocation {
 		);
 	}
 
+	/**
+	 * Is a custom background configured on the block?
+	 *
+	 * `boxBGType` picks which of the two sets of attributes the generated CSS
+	 * reads, so only that set is worth checking.
+	 *
+	 * @param array $settings Block attributes.
+	 *
+	 * @return bool
+	 */
+	public static function has_custom_background( array $settings ): bool {
+		$type = ! empty( $settings['boxBGType'] ) ? $settings['boxBGType'] : '';
+
+		if ( 'gradient' === $type ) {
+			return ! empty( $settings['boxBGGradient'] );
+		}
+
+		return ! empty( $settings['boxBGImgURL'] ) || ! empty( $settings['boxBGColor'] );
+	}
+
+	/**
+	 * Resolve the background image printed inline on the box.
+	 *
+	 * The custom background runs through the block's generated CSS
+	 * (`boxBGImgURL` / `boxBGColor` / `boxBGGradient`), and an inline
+	 * `background-image` would beat it — so nothing is returned while one is
+	 * configured. With no custom background and no location image, the plugin
+	 * placeholder stands in rather than leaving a flat dark rectangle (no
+	 * location picked yet, or a location that has no image of its own).
+	 *
+	 * @param array $settings Block attributes.
+	 * @param array $term     Resolved location data.
+	 *
+	 * @return string Image url, empty when there is nothing to print.
+	 */
+	public static function resolve_box_image( array $settings, array $term ): string {
+		$image_type = ! empty( $settings['image_type']['type'] ) ? $settings['image_type']['type'] : 'custom_image';
+
+		if ( 'featured_image' === $image_type && ! empty( $term['image_src'] ) ) {
+			return $term['image_src'];
+		}
+
+		if ( self::has_custom_background( $settings ) ) {
+			return '';
+		}
+
+		// Cast: the url runs through the `rtcl_default_placeholder_url` filter.
+		return (string) Functions::get_default_placeholder_url();
+	}
+
 	public function render_callback_listings( $attributes ) {
 		wp_enqueue_style( 'fontawesome' );
 		$settings = $attributes;

@@ -668,6 +668,15 @@ class FormBuilderAdminAjax {
 											}
 										} else if ( $_optionKey === 'hide_video' ) {
 											$slField[$_optionKey] = (bool)$_optionValue;
+										} else if ( $_optionKey === 'options_layout' ) {
+											if ( in_array( $_optionValue, [ 'inline', 'vertical' ], true ) ) {
+												$slField[$_optionKey] = $_optionValue;
+											}
+										} else if ( $_optionKey === 'options_cols' ) {
+											$cols = absint( $_optionValue );
+											if ( $cols >= 1 && $cols <= 4 ) {
+												$slField[$_optionKey] = $cols;
+											}
 										}
 									}
 								}
@@ -691,6 +700,19 @@ class FormBuilderAdminAjax {
 								$slsField = $slSettingsFields[$fieldUuid];
 								if ( !empty( $slsField['type'] ) && $slsField['type'] === 'switch' ) {
 									$slSettings[$fieldUuid] = !empty( $fieldData ) ? 1 : 0;
+								} elseif ( !empty( $slsField['type'] ) && $slsField['type'] === 'color' ) {
+									// Hex only (#rgb, #rgba, #rrggbb, #rrggbbaa); anything else is dropped.
+									$color = is_string( $fieldData ) ? strtolower( trim( $fieldData ) ) : '';
+									if ( preg_match( '/^#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/', $color ) ) {
+										$slSettings[$fieldUuid] = $color;
+									}
+								} elseif ( !empty( $slsField['type'] ) && $slsField['type'] === 'number' ) {
+									if ( $fieldData !== '' && $fieldData !== null && is_numeric( $fieldData ) ) {
+										$num = absint( $fieldData );
+										$min = isset( $slsField['min'] ) ? (int) $slsField['min'] : 0;
+										$max = isset( $slsField['max'] ) ? (int) $slsField['max'] : 9999;
+										$slSettings[$fieldUuid] = max( $min, min( $max, $num ) );
+									}
 								}
 							}
 						}

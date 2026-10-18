@@ -41,6 +41,20 @@ class Countries {
 	private $continents;
 
 	/**
+	 * Merged built-in + admin-defined calling codes, memoized per request.
+	 *
+	 * @var array|null
+	 */
+	private $calling_codes = null;
+
+	/**
+	 * Phone country list for the widget, memoized per request.
+	 *
+	 * @var array|null
+	 */
+	private $phone_country_list = null;
+
+	/**
 	 * Auto-load in-accessible properties on demand.
 	 *
 	 * @param mixed $key Key.
@@ -120,6 +134,97 @@ class Countries {
 	}
 
 	/**
+	 * Admin-defined phone countries from Settings → Misc → Phone ("Custom Country Codes"),
+	 * as `[ 'DO' => [ 'dial_code' => '+1', 'name' => '' ], … ]`.
+	 *
+	 * A row whose country already has a built-in code overrides it; a row for a country the
+	 * built-in list doesn't cover adds a new entry, displayed under the admin's own `name`.
+	 * This is the escape hatch for a territory whose calling code we got wrong, that changes,
+	 * or that isn't in `i18n/countries.php` at all — without waiting for a release.
+	 *
+	 * Codes are normalized to "+<digits>" — anything else the admin typed (spaces, dashes,
+	 * a missing "+") is cleaned up here rather than at every read point.
+	 *
+	 * @return array<string, array{dial_code: string, name: string}>
+	 *
+	 * @since 5.1.0
+	 */
+	public function get_custom_phone_countries(): array {
+		$rows = Functions::get_option_item( 'rtcl_misc_phone_settings', 'phone_custom_codes', [] );
+		if ( ! is_array( $rows ) ) {
+			return [];
+		}
+
+		$entries = [];
+		foreach ( $rows as $row ) {
+			if ( ! is_array( $row ) ) {
+				continue;
+			}
+			$cc   = isset( $row['country'] ) ? strtoupper( trim( (string) $row['country'] ) ) : '';
+			$dial = isset( $row['dial_code'] ) ? preg_replace( '/\D/', '', (string) $row['dial_code'] ) : '';
+			if ( ! preg_match( '/^[A-Z]{2}$/', $cc ) || '' === $dial ) {
+				continue;
+			}
+			$entries[ $cc ] = [
+				'dial_code' => '+' . $dial,
+				'name'      => isset( $row['name'] ) ? trim( (string) $row['name'] ) : '',
+			];
+		}
+
+		return $entries;
+	}
+
+	/**
+	 * Admin-defined calling codes as a plain ISO => code map.
+	 *
+	 * @return array<string, string>
+	 *
+	 * @since 5.1.0
+	 */
+	public function get_custom_calling_codes(): array {
+		$codes = [];
+		foreach ( $this->get_custom_phone_countries() as $cc => $entry ) {
+			$codes[ $cc ] = $entry['dial_code'];
+		}
+
+		return $codes;
+	}
+
+	/**
+	 * All country calling codes, keyed by ISO 3166-1 alpha-2 code.
+	 *
+	 * Built-in codes from `i18n/phone.php` with the admin's custom codes merged over them.
+	 * These are calling codes only, never country code + area code — see the note at the
+	 * top of `i18n/phone.php` for why that distinction matters.
+	 *
+	 * @return array<string, string>
+	 *
+	 * @since 5.1.0
+	 */
+	public function get_calling_codes(): array {
+		if ( null === $this->calling_codes ) {
+			$codes = wp_cache_get( 'calling-codes', 'countries' );
+
+			if ( ! $codes ) {
+				$codes = include rtcl()->plugin_path() . '/i18n/phone.php';
+				wp_cache_set( 'calling-codes', $codes, 'countries' );
+			}
+
+			// Historic revisions stored several codes per country; the first is the calling code.
+			foreach ( $codes as $cc => $code ) {
+				$codes[ $cc ] = is_array( $code ) ? reset( $code ) : $code;
+			}
+
+			$this->calling_codes = apply_filters(
+				'rtcl_calling_codes',
+				array_merge( $codes, $this->get_custom_calling_codes() )
+			);
+		}
+
+		return $this->calling_codes;
+	}
+
+	/**
 	 * Get calling code for a country code.
 	 *
 	 * @param string $cc Country code.
@@ -129,12 +234,7 @@ class Countries {
 	 * @since 3.6.0
 	 */
 	public function get_country_calling_code( $cc ) {
-		$codes = wp_cache_get( 'calling-codes', 'countries' );
-
-		if ( ! $codes ) {
-			$codes = include rtcl()->plugin_path() . '/i18n/phone.php';
-			wp_cache_set( 'calling-codes', $codes, 'countries' );
-		}
+		$codes = $this->get_calling_codes();
 
 		$calling_code = isset( $codes[ $cc ] ) ? $codes[ $cc ] : '';
 
@@ -143,6 +243,59 @@ class Countries {
 		}
 
 		return $calling_code;
+	}
+
+	/**
+	 * Countries that have a calling code, shaped for the international phone widget:
+	 * `[ [ 'value' => 'DO', 'label' => 'Dominican Republic (+1)', 'dial_code' => '+1' ], … ]`.
+	 *
+	 * Single source of truth for every phone-country consumer — the form-builder phone
+	 * field, the account-details/registration widget, the Phone settings dropdowns and
+	 * `Functions::get_dial_code_digits()` — so an admin's custom code or a `rtcl_calling_codes`
+	 * filter applies everywhere at once instead of to one surface.
+	 *
+	 * @return array<int, array{value: string, label: string, dial_code: string, custom?: bool}>
+	 *
+	 * @since 5.1.0
+	 */
+	public function get_phone_country_list(): array {
+		if ( null === $this->phone_country_list ) {
+			$countries = $this->get_countries();
+
+			$list = [];
+			foreach ( $countries as $code => $name ) {
+				$dial_code = $this->get_country_calling_code( $code );
+				if ( ! $dial_code ) {
+					continue;
+				}
+				$list[] = [
+					'value'     => $code,
+					'label'     => $name . ' (' . $dial_code . ')',
+					'dial_code' => $dial_code,
+				];
+			}
+
+			// Custom entries for territories `i18n/countries.php` doesn't list at all. Known
+			// countries are already covered above (with their translated name), so only the
+			// genuinely unknown ones are appended, under the name the admin typed.
+			foreach ( $this->get_custom_phone_countries() as $code => $entry ) {
+				if ( isset( $countries[ $code ] ) ) {
+					continue;
+				}
+				$name   = '' !== $entry['name'] ? $entry['name'] : $code;
+				$list[] = [
+					'value'     => $code,
+					'label'     => $name . ' (' . $entry['dial_code'] . ')',
+					'dial_code' => $entry['dial_code'],
+					// Not a real ISO country, so it has no flag emoji; widgets show the code instead.
+					'custom'    => true,
+				];
+			}
+
+			$this->phone_country_list = apply_filters( 'rtcl_phone_country_list', $list );
+		}
+
+		return $this->phone_country_list;
 	}
 
 	/**

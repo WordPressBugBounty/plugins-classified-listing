@@ -1,1 +1,116 @@
-!function(){"use strict";jQuery(function(t){if("undefined"==typeof rtcl_country_select_params)return!1;if(t.fn.select2){var e=function(){t("select.country_select:visible, select.state_select:visible").each(function(){var e=t(this),n=t.extend({placeholder:e.attr("data-placeholder")||e.attr("placeholder")||"",label:e.attr("data-label")||null,width:"100%"},{language:{errorLoading:function(){return rtcl_country_select_params.i18n_searching},inputTooLong:function(t){var e=t.input.length-t.maximum;return 1===e?rtcl_country_select_params.i18n_input_too_long_1:rtcl_country_select_params.i18n_input_too_long_n.replace("%qty%",e)},inputTooShort:function(t){var e=t.minimum-t.input.length;return 1===e?rtcl_country_select_params.i18n_input_too_short_1:rtcl_country_select_params.i18n_input_too_short_n.replace("%qty%",e)},loadingMore:function(){return rtcl_country_select_params.i18n_load_more},maximumSelected:function(t){return 1===t.maximum?rtcl_country_select_params.i18n_selection_too_long_1:rtcl_country_select_params.i18n_selection_too_long_n.replace("%qty%",t.maximum)},noResults:function(){return rtcl_country_select_params.i18n_no_matches},searching:function(){return rtcl_country_select_params.i18n_searching}}});t(this).on("select2:select",function(){t(this).trigger("focus")}).select2(n)})};e(),t(document.body).on("country_to_state_changed rtcl_checkout_form_opened",function(){e()})}var n=rtcl_country_select_params.countries.replace(/&quot;/g,'"'),r=JSON.parse(n),c="#rtcl-billing-fields";t(document.body).on("change refresh","select.country_to_state, input.country_to_state",function(){var e=t(this).closest(c);e.length||(e=t(this).closest(".rtcl-form-row").parent());var n,o=t(this).val(),a=e.find("#billing_state"),i=a.closest(".rtcl-form-row"),l=a.attr("name"),s=a.attr("id"),_=a.attr("data-input-classes"),u=a.val(),p=a.attr("placeholder")||a.attr("data-placeholder")||"";if(r[o])if(t.isEmptyObject(r[o]))n=t('<input type="hidden" />').prop("id",s).prop("name",l).prop("placeholder",p).attr("data-input-classes",_).addClass("hidden "+_),i.hide().find(".select2-container").remove(),a.replaceWith(n),t(document.body).trigger("country_to_state_changed",[o,e]);else{var d=r[o],h=t('<option value=""></option>').text(rtcl_country_select_params.i18n_select_state_text);p||(p=rtcl_country_select_params.i18n_select_state_text),i.show(),a.is("input")&&(n=t("<select></select>").prop("id",s).prop("name",l).data("placeholder",p).attr("data-input-classes",_).addClass("state_select "+_),a.replaceWith(n),a=e.find("#billing_state")),a.empty().append(h),t.each(d,function(e){const n=t("<option></option>").prop("value",e).text(d[e]);a.append(n)}),a.val(u).trigger("change"),t(document.body).trigger("country_to_state_changed",[o,e])}else a.is('select, input[type="hidden"]')&&(n=t('<input type="text" />').prop("id",s).prop("name",l).prop("placeholder",p).attr("data-input-classes",_).addClass("input-text  "+_),i.show().find(".select2-container").remove(),a.replaceWith(n),t(document.body).trigger("country_to_state_changed",[o,e]));t(document.body).trigger("country_to_state_changing",[o,e])}),t(document.body).on("rtcl_address_i18n_ready",function(){t(c).each(function(){const e=t(this).find("#billing_country, #shipping_country, #calc_shipping_country");0!==e.length&&0!==e.val().length&&e.trigger("refresh")})})})}();
+(function() {
+  "use strict";
+  jQuery(function($) {
+    if (typeof rtcl_country_select_params === "undefined") {
+      return false;
+    }
+    if ($.fn.select2) {
+      var getEnhancedSelectFormatString = function() {
+        return {
+          "language": {
+            errorLoading: function() {
+              return rtcl_country_select_params.i18n_searching;
+            },
+            inputTooLong: function(args) {
+              var overChars = args.input.length - args.maximum;
+              if (1 === overChars) {
+                return rtcl_country_select_params.i18n_input_too_long_1;
+              }
+              return rtcl_country_select_params.i18n_input_too_long_n.replace("%qty%", overChars);
+            },
+            inputTooShort: function(args) {
+              var remainingChars = args.minimum - args.input.length;
+              if (1 === remainingChars) {
+                return rtcl_country_select_params.i18n_input_too_short_1;
+              }
+              return rtcl_country_select_params.i18n_input_too_short_n.replace("%qty%", remainingChars);
+            },
+            loadingMore: function() {
+              return rtcl_country_select_params.i18n_load_more;
+            },
+            maximumSelected: function(args) {
+              if (args.maximum === 1) {
+                return rtcl_country_select_params.i18n_selection_too_long_1;
+              }
+              return rtcl_country_select_params.i18n_selection_too_long_n.replace("%qty%", args.maximum);
+            },
+            noResults: function() {
+              return rtcl_country_select_params.i18n_no_matches;
+            },
+            searching: function() {
+              return rtcl_country_select_params.i18n_searching;
+            }
+          }
+        };
+      };
+      var rtcl_country_select_select2 = function() {
+        $("select.country_select:visible, select.state_select:visible").each(function() {
+          var $this = $(this);
+          var select2_args = $.extend({
+            placeholder: $this.attr("data-placeholder") || $this.attr("placeholder") || "",
+            label: $this.attr("data-label") || null,
+            width: "100%"
+          }, getEnhancedSelectFormatString());
+          $(this).on("select2:select", function() {
+            $(this).trigger("focus");
+          }).select2(select2_args);
+        });
+      };
+      rtcl_country_select_select2();
+      $(document.body).on("country_to_state_changed rtcl_checkout_form_opened", function() {
+        rtcl_country_select_select2();
+      });
+    }
+    var states_json = rtcl_country_select_params.countries.replace(/&quot;/g, '"'), states = JSON.parse(states_json), wrapper_selectors = "#rtcl-billing-fields";
+    $(document.body).on("change refresh", "select.country_to_state, input.country_to_state", function() {
+      var $wrapper = $(this).closest(wrapper_selectors);
+      if (!$wrapper.length) {
+        $wrapper = $(this).closest(".rtcl-form-row").parent();
+      }
+      var country = $(this).val(), $statebox = $wrapper.find("#billing_state"), $parent = $statebox.closest(".rtcl-form-row"), input_name = $statebox.attr("name"), input_id = $statebox.attr("id"), input_classes = $statebox.attr("data-input-classes"), value = $statebox.val(), placeholder = $statebox.attr("placeholder") || $statebox.attr("data-placeholder") || "", $newstate;
+      if (states[country]) {
+        if ($.isEmptyObject(states[country])) {
+          $newstate = $('<input type="hidden" />').prop("id", input_id).prop("name", input_name).prop("placeholder", placeholder).attr("data-input-classes", input_classes).addClass("hidden " + input_classes);
+          $parent.hide().find(".select2-container").remove();
+          $statebox.replaceWith($newstate);
+          $(document.body).trigger("country_to_state_changed", [country, $wrapper]);
+        } else {
+          var state = states[country], $defaultOption = $('<option value=""></option>').text(rtcl_country_select_params.i18n_select_state_text);
+          if (!placeholder) {
+            placeholder = rtcl_country_select_params.i18n_select_state_text;
+          }
+          $parent.show();
+          if ($statebox.is("input")) {
+            $newstate = $("<select></select>").prop("id", input_id).prop("name", input_name).data("placeholder", placeholder).attr("data-input-classes", input_classes).addClass("state_select " + input_classes);
+            $statebox.replaceWith($newstate);
+            $statebox = $wrapper.find("#billing_state");
+          }
+          $statebox.empty().append($defaultOption);
+          $.each(state, function(index) {
+            const $option = $("<option></option>").prop("value", index).text(state[index]);
+            $statebox.append($option);
+          });
+          $statebox.val(value).trigger("change");
+          $(document.body).trigger("country_to_state_changed", [country, $wrapper]);
+        }
+      } else {
+        if ($statebox.is('select, input[type="hidden"]')) {
+          $newstate = $('<input type="text" />').prop("id", input_id).prop("name", input_name).prop("placeholder", placeholder).attr("data-input-classes", input_classes).addClass("input-text  " + input_classes);
+          $parent.show().find(".select2-container").remove();
+          $statebox.replaceWith($newstate);
+          $(document.body).trigger("country_to_state_changed", [country, $wrapper]);
+        }
+      }
+      $(document.body).trigger("country_to_state_changing", [country, $wrapper]);
+    });
+    $(document.body).on("rtcl_address_i18n_ready", function() {
+      $(wrapper_selectors).each(function() {
+        const $country_input = $(this).find("#billing_country, #shipping_country, #calc_shipping_country");
+        if (0 === $country_input.length || 0 === $country_input.val().length) {
+          return;
+        }
+        $country_input.trigger("refresh");
+      });
+    });
+  });
+})();

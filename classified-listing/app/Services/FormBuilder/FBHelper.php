@@ -584,6 +584,14 @@ class FBHelper {
 			}
 
 			$formData[$name] = apply_filters( 'rtcl_fb_field_value_' . $element, $value, $field, $listing );
+			// Prefill the Website "Link options" only when the listing has a saved choice, so untouched listings keep the defaults.
+			if ( 'website' === $element && is_array( get_post_meta( $listing_id, '_rtcl_website_link_options', true ) ) ) {
+				$formData['website_link_options'] = Functions::get_listing_website_link_options( $listing, (string) $value );
+			}
+			$savedUrlLinkOptions = 'url' === $element ? get_post_meta( $listing_id, '_rtcl_url_link_options', true ) : null;
+			if ( is_array( $savedUrlLinkOptions ) && ! empty( $savedUrlLinkOptions[ $fieldUuid ] ) ) {
+				$formData['url_link_options'][ $fieldUuid ] = ( new FBField( $field ) )->getLinkOptions( $listing_id );
+			}
 		}
 
 		return apply_filters( 'rtcl_fb_form_data', $formData, $form, $listing );
@@ -1952,8 +1960,11 @@ class FBHelper {
 					if ( str_starts_with( $mime_type, 'image/' ) ) {
 						$thumbnailUrl = wp_get_attachment_image_url( $file['uid'] );
 						if ( $thumbnailUrl ) {
-							$html .= sprintf( '<div class="rtcl-file-item rtcl-file-item-image" data-type="%s"><a href="%s" target="_blank"><img class="" src="%s" alt="%s"/></a></div>',
-								esc_attr( $mime_type ), esc_url( $file['url'] ), esc_url( $thumbnailUrl ), esc_html( $file['name'] ) );
+							// Full size lets the single page open the image in the gallery lightbox.
+							$fullImage = wp_get_attachment_image_src( $file['uid'], 'full' );
+							$html      .= sprintf( '<div class="rtcl-file-item rtcl-file-item-image" data-type="%s"><a href="%s" target="_blank" data-width="%d" data-height="%d"><img class="" src="%s" alt="%s"/></a></div>',
+								esc_attr( $mime_type ), esc_url( $file['url'] ), ! empty( $fullImage[1] ) ? absint( $fullImage[1] ) : 0,
+								! empty( $fullImage[2] ) ? absint( $fullImage[2] ) : 0, esc_url( $thumbnailUrl ), esc_html( $file['name'] ) );
 						}
 					} elseif ( str_starts_with( $mime_type, 'audio/' ) ) {
 						$html .= sprintf( '<div class="rtcl-file-item  rtcl-file-item-audio" data-type="%s"><i class="rtcl-icon rtcl-icon-music"></i><a href="%s" target="_blank">%s</a></div>',

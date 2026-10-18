@@ -25,6 +25,7 @@ use Rtcl\Controllers\Hooks\AfterSetupTheme;
 use Rtcl\Controllers\Hooks\AppliedBothEndHooks;
 use Rtcl\Controllers\Hooks\Comments;
 use Rtcl\Controllers\Hooks\FilterHooks;
+use Rtcl\Controllers\Hooks\PageTemplateHooks;
 use Rtcl\Controllers\Hooks\TemplateHooks;
 use Rtcl\Controllers\Hooks\TemplateLoader;
 use Rtcl\Controllers\PublicAction;
@@ -210,6 +211,7 @@ if ( ! class_exists( Rtcl::class ) ) {
 			AppliedBothEndHooks::init();
 			FilterHooks::init();
 			ActionHooks::init();
+			PageTemplateHooks::init();
 			if ( $this->is_request( 'frontend' ) ) {
 				$this->frontend_hook();
 			}

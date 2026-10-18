@@ -91,6 +91,9 @@ class AjaxListingType {
 		if ( empty( $types ) ) {
 			wp_send_json_error( esc_html__( 'No types found.', 'classified-listing' ) );
 		}
+		if ( $old_id !== $id && Functions::is_protected_listing_type( $old_id ) ) {
+			wp_send_json_error( esc_html__( 'This type is required by Job Manager, so its ID can\'t be changed.', 'classified-listing' ) );
+		}
 		$data = [];
 		$old_exist = false;
 		if ( isset( $types[$old_id] ) ) {
@@ -153,6 +156,9 @@ class AjaxListingType {
 		if ( !$id || !isset( $types[$id] ) ) {
 			wp_send_json_error( esc_html__( 'No type found to delete', 'classified-listing' ) );
 
+		}
+		if ( Functions::is_protected_listing_type( $id ) ) {
+			wp_send_json_error( esc_html__( 'This type is required by Job Manager and can\'t be deleted.', 'classified-listing' ) );
 		}
 		unset( $types[$id] );
 		update_option( rtcl()->get_listing_types_option_id(), $types );

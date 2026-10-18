@@ -1251,7 +1251,90 @@ class AvailableFields {
 				'label' => __( 'Active Single Layout builder', 'classified-listing' ),
 				'type'  => 'switch',
 				'name'  => 'active',
-			]
+			],
+			// Global style (details page only). Empty = keep the theme / design-style default.
+			[
+				'label' => __( 'Custom Fields', 'classified-listing' ),
+				'type'  => 'heading',
+				'name'  => 'heading_fields',
+			],
+			[
+				'label' => __( 'Label Color', 'classified-listing' ),
+				'type'  => 'color',
+				'name'  => 'label_color',
+			],
+			[
+				'label' => __( 'Value Color', 'classified-listing' ),
+				'type'  => 'color',
+				'name'  => 'value_color',
+			],
+			[
+				'label' => __( 'Icon Color', 'classified-listing' ),
+				'type'  => 'color',
+				'name'  => 'icon_color',
+			],
+			[
+				'label' => __( 'Label Font Size (px)', 'classified-listing' ),
+				'type'  => 'number',
+				'name'  => 'label_font_size',
+				'min'   => 10,
+				'max'   => 40,
+			],
+			[
+				'label' => __( 'Value Font Size (px)', 'classified-listing' ),
+				'type'  => 'number',
+				'name'  => 'value_font_size',
+				'min'   => 10,
+				'max'   => 40,
+			],
+			[
+				'label' => __( 'Divider Color', 'classified-listing' ),
+				'type'  => 'color',
+				'name'  => 'divider_color',
+				'help'  => __( 'Field Divider lines and the line under section titles.', 'classified-listing' ),
+			],
+			[
+				'label' => __( 'Sections', 'classified-listing' ),
+				'type'  => 'heading',
+				'name'  => 'heading_sections',
+			],
+			[
+				'label' => __( 'Section Title Color', 'classified-listing' ),
+				'type'  => 'color',
+				'name'  => 'section_title_color',
+			],
+			[
+				'label' => __( 'Section Background', 'classified-listing' ),
+				'type'  => 'color',
+				'name'  => 'section_bg',
+			],
+			[
+				'label' => __( 'Section Border Color', 'classified-listing' ),
+				'type'  => 'color',
+				'name'  => 'section_border_color',
+			],
+			[
+				'label' => __( 'Section Border Radius (px)', 'classified-listing' ),
+				'type'  => 'number',
+				'name'  => 'section_radius',
+				'min'   => 0,
+				'max'   => 40,
+			],
+			[
+				'label' => __( 'Section Padding (px)', 'classified-listing' ),
+				'type'  => 'number',
+				'name'  => 'section_padding',
+				'min'   => 0,
+				'max'   => 100,
+			],
+			[
+				'label' => __( 'Section Padding Mobile (px)', 'classified-listing' ),
+				'type'  => 'number',
+				'name'  => 'section_padding_sm',
+				'min'   => 0,
+				'max'   => 100,
+				'help'  => __( 'Screens 767px and below. Empty: Section Padding, at most 20px.', 'classified-listing' ),
+			],
 		];
 
 		return apply_filters( 'rtcl/fb/single_layout/settings', $fields );
@@ -1382,8 +1465,12 @@ class AvailableFields {
 				]
 			],
 			'listing_header'    => [
-				'element' => 'listing_header',
-				'editor'  => [
+				'element'        => 'listing_header',
+				// Defaults for newly added headers only; saved headers without these keys keep auto height.
+				'layout'         => 'default',
+				'gallery_height' => 450,
+				'thumb_height'   => 90,
+				'editor'         => [
 					'title'      => __( 'Listing Header', 'classified-listing' ),
 					'icon_class' => 'dashicons dashicons-cover-image',
 					'template'   => 'listing_header',

@@ -2,7 +2,7 @@
 /**
  *
  * @package ClassifiedListing/Templates
- * @version 5.2.0
+ * @version 6.2.0.1
  * @var Form $form
  * @var string $fieldUuid
  * @var FBField $field
@@ -26,7 +26,7 @@ if ( empty( $value ) ) {
 	echo "<div class='has-no-value'></div>";
 	return;
 }
-$nofollow = !empty( $field->getNofollow() ) ? ' rel="nofollow"' : '';
+$nofollow = $field->getNofollow( $listing->get_id() );
 ?>
 <a href="<?php echo esc_url( $value ); ?>"
-   target="<?php echo esc_attr( $field->getTarget() ); ?>"<?php echo esc_html( $nofollow ); ?>><?php echo esc_html( $field->getLabel() ); ?></a>
+   target="<?php echo esc_attr( $field->getTarget( $listing->get_id() ) ); ?>"<?php echo $nofollow ? ' rel="nofollow"' : ''; ?>><?php echo esc_html( $field->getLabel() ); ?></a>

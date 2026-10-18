@@ -388,6 +388,7 @@ class GatewayPaypal extends PaymentGateway {
 			'api_username'          => [
 				'title'       => esc_html__( 'Live API Username', 'classified-listing' ),
 				'type'        => 'text',
+				'mask'        => true,
 				'description' => esc_html__( 'Get your API credentials from PayPal.', 'classified-listing' ),
 				'placeholder' => esc_html__( 'Optional', 'classified-listing' ),
 				'depends'     => [
@@ -403,6 +404,7 @@ class GatewayPaypal extends PaymentGateway {
 			'api_password'          => [
 				'title'       => esc_html__( 'Live API Password', 'classified-listing' ),
 				'type'        => 'password',
+				'mask'        => true,
 				'description' => esc_html__( 'Get your API credentials from PayPal.', 'classified-listing' ),
 				'placeholder' => esc_html__( 'Optional', 'classified-listing' ),
 				'depends'     => [
@@ -418,6 +420,7 @@ class GatewayPaypal extends PaymentGateway {
 			'api_signature'         => [
 				'title'       => esc_html__( 'Live API Signature', 'classified-listing' ),
 				'type'        => 'text',
+				'mask'        => true,
 				'description' => esc_html__( 'Get your API credentials from PayPal.', 'classified-listing' ),
 				'default'     => '',
 				'placeholder' => esc_html__( 'Optional', 'classified-listing' ),
@@ -434,6 +437,7 @@ class GatewayPaypal extends PaymentGateway {
 			'sandbox_api_username'  => [
 				'title'       => esc_html__( 'Sandbox API Username', 'classified-listing' ),
 				'type'        => 'text',
+				'mask'        => true,
 				'description' => esc_html__( 'Get your API credentials from PayPal.', 'classified-listing' ),
 				'default'     => '',
 				'placeholder' => esc_html__( 'Optional', 'classified-listing' ),
@@ -450,6 +454,7 @@ class GatewayPaypal extends PaymentGateway {
 			'sandbox_api_password'  => [
 				'title'       => esc_html__( 'Sandbox API Password', 'classified-listing' ),
 				'type'        => 'password',
+				'mask'        => true,
 				'description' => esc_html__( 'Get your API credentials from PayPal.', 'classified-listing' ),
 				'default'     => '',
 				'placeholder' => esc_html__( 'Optional', 'classified-listing' ),
@@ -466,6 +471,7 @@ class GatewayPaypal extends PaymentGateway {
 			'sandbox_api_signature' => [
 				'title'       => esc_html__( 'Sandbox API Signature', 'classified-listing' ),
 				'type'        => 'text',
+				'mask'        => true,
 				'description' => esc_html__( 'Get your API credentials from PayPal.', 'classified-listing' ),
 				'default'     => '',
 				'placeholder' => esc_html__( 'Optional', 'classified-listing' ),

@@ -2,7 +2,7 @@
 /**
  * @author        RadiusTheme
  * @package       classified-listing/templates/listing
- * @version       3.0.0
+ * @version       6.2.0.1
  *
  * @var Form  $form
  * @var array $fields
@@ -32,18 +32,17 @@ if ( count( $fields ) ) :
 		if ( empty( $value ) ) {
 			continue;
 		}
-		$icon = $field->getIconData();
+		$icon    = $field->getIconData();
+		$element = $field->getElement();
+		// Multi-value, file, repeater and long text need the full row; the stylesheet
+		// spans them across the grid and lists them after the short facts.
+		$is_wide = in_array( $element, [ 'checkbox', 'file', 'repeater' ], true )
+				   || ( in_array( $element, [ 'text', 'textarea' ], true ) && is_string( $value ) && mb_strlen( wp_strip_all_tags( $value ) ) > 60 );
+		$is_wide = (bool) apply_filters( 'rtcl_cfp_item_is_wide', $is_wide, $field, $value, $listing_id );
 		?>
-		<div class="rtcl-cfp-item rtcl-cfp-<?php echo esc_attr( $field->getElement() ); ?>" data-name="<?php echo esc_attr( $field->getName() ); ?>"
+		<div class="rtcl-cfp-item rtcl-cfp-<?php echo esc_attr( $element ); ?><?php echo $is_wide ? ' rtcl-cfp-wide' : ''; ?>" data-name="<?php echo esc_attr( $field->getName() ); ?>"
 			 data-uuid="<?php echo esc_attr( $field->getUuid() ); ?>">
 			<?php
-			if ( $field->getElement() === 'url' ) {
-				$nofollow = ! empty( $field->getNofollow() ) ? ' rel="nofollow"' : '';
-				?>
-				<a href="<?php echo esc_url( $value ); ?>"
-				   target="<?php echo esc_attr( $field->getTarget() ); ?>"<?php echo esc_html( $nofollow ); ?>><?php echo esc_html( $field->getLabel() ); ?></a>
-				<?php
-			} else {
 				if ( ( ! empty( $icon['type'] ) && 'class' === $icon['type'] && ! empty( $icon['class'] ) ) || ! empty( $field->getLabel() ) ) {
 					?>
 					<div class="rtcl-cfp-label-wrap">
@@ -123,12 +122,19 @@ if ( count( $fields ) ) :
 							</div>
 							<?php
 						}
+					} elseif ( 'url' === $element ) {
+						// The link is the value; show it without the scheme so it reads as an address.
+						$nofollow = $field->getNofollow( $listing_id );
+						?>
+						<a class="rtcl-cfp-link" href="<?php echo esc_url( $value ); ?>"
+						   target="<?php echo esc_attr( $field->getTarget( $listing_id ) ); ?>"<?php echo $nofollow ? ' rel="nofollow"' : ''; ?>><?php
+							echo esc_html( untrailingslashit( preg_replace( '#^https?://(www\.)?#i', '', (string) $value ) ) ); ?></a>
+						<?php
 					} else {
 						Functions::print_html( FBHelper::getFormattedFieldHtml( $value, $field ) );
 					}
 					?>
 				</div>
-			<?php } ?>
 		</div>
 		<?php
 	}

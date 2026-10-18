@@ -135,17 +135,56 @@ class FBField {
 	}
 
 	/**
+	 * @param int $listing_id Optional. Applies the listing's own Url "link options" when given.
+	 *
 	 * @return bool
 	 */
-	public function getNofollow() {
-		return ! empty( $field['nofollow'] );
+	public function getNofollow( $listing_id = 0 ) {
+		// The Website field has always been nofollow; its "dofollow" option opts out.
+		if ( 'website' === $this->_element ) {
+			return empty( $this->_field['dofollow'] );
+		}
+
+		return $this->getLinkOptions( $listing_id )['nofollow'];
 	}
 
 	/**
+	 * @param int $listing_id Optional. Applies the listing's own Url "link options" when given.
+	 *
 	 * @return mixed
 	 */
-	public function getTarget() {
-		return ! empty( $field['target'] ) ? $field['target'] : '';
+	public function getTarget( $listing_id = 0 ) {
+		if ( 'url' === $this->_element && $listing_id ) {
+			return $this->getLinkOptions( $listing_id )['new_window'] ? '_blank' : '';
+		}
+
+		return ! empty( $this->_field['target'] ) ? $this->_field['target'] : '';
+	}
+
+	/**
+	 * Url field link options: the listing's saved gear choice, else the field's own settings.
+	 *
+	 * @param int $listing_id
+	 *
+	 * @return array{new_window: bool, nofollow: bool}
+	 */
+	public function getLinkOptions( $listing_id = 0 ) {
+		$options = [
+			'new_window' => ! empty( $this->_field['target'] ) && '_blank' === $this->_field['target'],
+			'nofollow'   => ! empty( $this->_field['nofollow'] ),
+		];
+		if ( $listing_id && 'url' === $this->_element && $this->_uuid ) {
+			$saved = get_post_meta( $listing_id, '_rtcl_url_link_options', true );
+			if ( is_array( $saved ) && ! empty( $saved[ $this->_uuid ] ) && is_array( $saved[ $this->_uuid ] ) ) {
+				foreach ( $options as $key => $value ) {
+					if ( isset( $saved[ $this->_uuid ][ $key ] ) ) {
+						$options[ $key ] = (bool) $saved[ $this->_uuid ][ $key ];
+					}
+				}
+			}
+		}
+
+		return apply_filters( 'rtcl_fb_url_link_options', $options, $this, $listing_id );
 	}
 
 	/**

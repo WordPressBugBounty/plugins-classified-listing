@@ -13,11 +13,13 @@ class FilterHooks {
 
 	/**
 	 * The array of templates that this plugin tracks.
+	 * Built lazily by self::get_page_templates() — never populate it at
+	 * `init()` time, the labels are translated and this class boots before
+	 * the `init` action (see _load_textdomain_just_in_time in WP 6.7+).
 	 */
 	protected static $templates;
 
 	public static function init() {
-		self::$templates = [];
 		self::applyHook();
 		add_filter( 'embed_oembed_html', [ __CLASS__, 'wrap_embed_with_div' ], 10 );
 		add_filter( 'rtcl_process_registration_errors', [ __CLASS__, 'password_validation' ], 10, 4 );
@@ -42,10 +44,6 @@ class FilterHooks {
 		// rss feed
 		add_filter( 'pre_get_posts', [ __CLASS__, 'rss_posts_per_page' ], 99 );
 		add_action( 'rss2_item', [ __CLASS__, 'custom_data_to_rss' ] );
-		// Custom page template
-		self::$templates = [
-			'rtcl-canvas_template' => 'Classified Listing - Dashboard',
-		];
 
 		if ( absint( Functions::get_description_character_limit() ) ) {
 			add_filter( 'tiny_mce_before_init', [ __CLASS__, 'tiny_mce_add_past_restriction' ], 10, 2 );
@@ -184,6 +182,25 @@ class FilterHooks {
 	}
 
 	/**
+	 * The plugin's custom page templates, keyed by `_wp_page_template` slug.
+	 *
+	 * Resolved on first use rather than in init() so the translated labels are
+	 * only requested once the `init` action has fired.
+	 *
+	 * @return array
+	 */
+	public static function get_page_templates() {
+		if ( null === self::$templates ) {
+			self::$templates = [
+				'rtcl-canvas_template'                 => 'Classified Listing - Dashboard',
+				PageTemplateHooks::FULL_WIDTH_TEMPLATE => __( 'CL Full Width', 'classified-listing' ),
+			];
+		}
+
+		return self::$templates;
+	}
+
+	/**
 	 * Adds our template to the pages cache in order to trick WordPress
 	 * into thinking the template file exists where it doens't really exist.
 	 */
@@ -203,7 +220,7 @@ class FilterHooks {
 
 		// Now add our template to the list of templates by merging our templates
 		// with the existing templates array from the cache.
-		$templates = array_merge( $templates, self::$templates );
+		$templates = array_merge( $templates, self::get_page_templates() );
 
 		// Add the modified cache to allow WordPress to pick it up for listing
 		// available templates
@@ -221,7 +238,7 @@ class FilterHooks {
 	 * @return array  $templates  The modified list of page templates
 	 */
 	public static function add_page_templates( $templates ) {
-		$templates = array_merge( $templates, self::$templates );
+		$templates = array_merge( $templates, self::get_page_templates() );
 
 		return $templates;
 	}
@@ -244,7 +261,7 @@ class FilterHooks {
 		}
 
 		// Return default template if we don't have a custom one defined
-		if ( ! isset( self::$templates[ get_post_meta(
+		if ( ! isset( self::get_page_templates()[ get_post_meta(
 				$post->ID,
 				'_wp_page_template',
 				true,
@@ -254,17 +271,33 @@ class FilterHooks {
 		}
 
 		// Allows filtering of file path
-		$selected_template    = get_post_meta( $post->ID, '_wp_page_template', true );
-		$canvas_template_path = apply_filters( 'rtcl_page_template_path', RTCL_PATH ) . 'templates/canvas-template.php';
-		$file                 = ( 'rtcl-canvas_template' === $selected_template ) ? $canvas_template_path : '';
+		$selected_template = get_post_meta( $post->ID, '_wp_page_template', true );
+		$file              = self::get_page_template_path( $selected_template );
 
 		// Just to be safe, we check if the file exist first
-		if ( file_exists( $file ) ) {
+		if ( $file && file_exists( $file ) ) {
 			return $file;
 		}
 
 		// Return template
 		return $template;
+	}
+
+	/**
+	 * Resolve the absolute path of one of the plugin's own page templates.
+	 *
+	 * @param  string  $slug  The stored `_wp_page_template` value.
+	 *
+	 * @return string  Absolute file path, or an empty string when the slug isn't ours.
+	 */
+	public static function get_page_template_path( $slug ) {
+		$base = apply_filters( 'rtcl_page_template_path', RTCL_PATH );
+		$map  = [
+			'rtcl-canvas_template'                 => $base . 'templates/canvas-template.php',
+			PageTemplateHooks::FULL_WIDTH_TEMPLATE => $base . 'templates/full-width-template.php',
+		];
+
+		return isset( $map[ $slug ] ) ? $map[ $slug ] : '';
 	}
 
 	/**

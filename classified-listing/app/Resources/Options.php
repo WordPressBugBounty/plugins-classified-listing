@@ -506,6 +506,17 @@ class Options {
 				'title' => __( 'Listing Archive Settings', 'classified-listing' ),
 				'type'  => 'section',
 			],
+			'listing_card_style'  => [
+				'title'       => __( 'Listing Card Style', 'classified-listing' ),
+				'type'        => 'select',
+				'default'     => 'modern',
+				'options'     => [
+					'classic' => __( 'Classic', 'classified-listing' ),
+					'modern'  => __( 'Modern', 'classified-listing' ),
+				],
+				'description' => __( 'Design of the listing cards on listing archive pages. Classic keeps the previous card design. Themes with their own listing card design keep it.',
+					'classified-listing' ),
+			],
 			'listings_per_page'   => [
 				'title'       => __( 'Listings Per Page', 'classified-listing' ),
 				'type'        => 'number',
@@ -576,7 +587,21 @@ class Options {
 				'default'     => [ 'date', 'user', 'views', 'category', 'location', 'excerpt', 'price' ],
 				'options'     => Options::get_listing_display_options(),
 			],
+			'use_modern_icon'     => [
+				'title'       => __( 'Use Modern Icon for', 'classified-listing' ),
+				'type'        => 'switch',
+				// The settings screen turns a switch on by default only for the
+				// literal 'yes'; an integer leaves it drawn off while the front
+				// end already treats it as on.
+				'default'     => 'yes',
+				'description' => __( 'Draw the listing meta icons (ad type, date, author, category, location, views) in the modern line style used by the Listing Showcase.',
+					'classified-listing' ),
+			],
 		];
+
+		if ( Functions::is_classic_style_forced( 'listing_card' ) ) {
+			unset( $options['listing_card_style'] );
+		}
 
 		return apply_filters( 'rtcl_archive_listing_settings_options', $options );
 	}
@@ -588,10 +613,27 @@ class Options {
 				'title' => __( 'Listing Details Settings', 'classified-listing' ),
 				'type'  => 'section',
 			],
+			'single_listing_style'         => [
+				'title'       => __( 'Listing Details Style', 'classified-listing' ),
+				'type'        => 'select',
+				'default'     => 'modern',
+				'options'     => [
+					'classic' => __( 'Classic', 'classified-listing' ),
+					'modern'  => __( 'Modern', 'classified-listing' ),
+				],
+				'description' => __( 'Design of the listing details page, for both the default and the form builder layout. Classic keeps the previous design.',
+					'classified-listing' ),
+			],
 			'has_report_abuse'             => [
 				'title'   => __( 'Enable Report Abuse', 'classified-listing' ),
 				'type'    => 'switch',
 				'default' => 1,
+			],
+			'has_print_icon'               => [
+				'title'       => __( 'Enable Print Button', 'classified-listing' ),
+				'type'        => 'switch',
+				'default'     => 'yes',
+				'description' => __( 'Show the Print button on the listing details page.', 'classified-listing' ),
 			],
 			'has_contact_form'             => [
 				'title'   => __( 'Enable Contact Form', 'classified-listing' ),
@@ -637,6 +679,10 @@ class Options {
 				'options'     => Options::get_listing_detail_page_display_options(),
 			],
 		];
+
+		if ( Functions::is_classic_style_forced( 'single_listing' ) ) {
+			unset( $options['single_listing_style'] );
+		}
 
 		return apply_filters( 'rtcl_single_listing_settings_options', $options );
 	}
@@ -1265,22 +1311,22 @@ class Options {
 			'top_card_bg'              => [
 				'title'   => __( 'Top Card Background Color', 'classified-listing' ),
 				'type'    => 'color',
-				'default' => '#fffdea',
+				'default' => '#dff0f3',
 			],
 			'top_card_border'          => [
 				'title'   => __( 'Top Card Border Color', 'classified-listing' ),
 				'type'    => 'color',
-				'default' => '#ffd274',
+				'default' => '#b5dce3',
 			],
 			'new_card_bg'              => [
 				'title'   => __( 'New Card Background Color', 'classified-listing' ),
 				'type'    => 'color',
-				'default' => '#f3fbf6',
+				'default' => '#ffffff',
 			],
 			'new_card_border'          => [
 				'title'   => __( 'New Card Border Color', 'classified-listing' ),
 				'type'    => 'color',
-				'default' => '#c9e9d6',
+				'default' => '#ffffff',
 			],
 			'popular_card_bg'          => [
 				'title'   => __( 'Popular Card Background Color', 'classified-listing' ),
@@ -1335,14 +1381,9 @@ class Options {
 	 * @return array
 	 */
 	public static function get_phone_country_options() {
-		$countries = rtcl()->countries->get_countries();
-		$list      = [];
-		foreach ( $countries as $code => $name ) {
-			$dial_code = rtcl()->countries->get_country_calling_code( $code );
-			if ( ! $dial_code ) {
-				continue;
-			}
-			$list[ $code ] = $name . ' (' . $dial_code . ')';
+		$list = [];
+		foreach ( rtcl()->countries->get_phone_country_list() as $country ) {
+			$list[ $country['value'] ] = $country['label'];
 		}
 
 		return apply_filters( 'rtcl_phone_country_options', $list );
@@ -1372,6 +1413,17 @@ class Options {
 				'options'     => $country_options,
 				'default'     => [],
 				'description' => __( 'Restrict the country-code dropdown to these countries. Leave empty to allow all.', 'classified-listing' ),
+			],
+			'field_title_phone_codes' => [
+				'title'       => __( 'Custom Country Codes', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'Correct a built-in country calling code, or add a country that is not in the list. Type any country name — the suggestions are only a shortcut, and you are not limited to them.', 'classified-listing' ),
+			],
+			'phone_custom_codes'      => [
+				'title'       => __( 'Country Calling Codes', 'classified-listing' ),
+				'type'        => 'phone_codes',
+				'default'     => [],
+				'description' => __( 'Enter the country calling code only — never the area code. The Dominican Republic is "+1", not "+1809"; the 809/829/849 area code is part of the number the caller dials. Adding an area code here would stop every other number in that country from being entered. The Code column is the 2-letter country code (DO, US, GB); it fills in automatically when a country is recognised.', 'classified-listing' ),
 			],
 		];
 
@@ -1492,16 +1544,16 @@ class Options {
 		$maxMindDatabaseService = Functions::maxMindDatabaseService();
 
 		$options = [
-			'map_title'                => [
+			'map_title'                 => [
 				'title' => __( 'Map', 'classified-listing' ),
 				'type'  => 'section',
 			],
-			'has_map'                  => [
+			'has_map'                   => [
 				'title'   => __( 'Enable Map', 'classified-listing' ),
 				'type'    => 'switch',
 				'default' => 'yes',
 			],
-			'map_type'                 => [
+			'map_type'                  => [
 				'title'       => __( 'Map Type', 'classified-listing' ),
 				'type'        => 'radio',
 				'orientation' => 'vertical',
@@ -1511,7 +1563,7 @@ class Options {
 				],
 				'default'     => 'osm',
 			],
-			'map_api_key'              => [
+			'map_api_key'               => [
 				'title'       => __( 'Google Map API Key', 'classified-listing' ),
 				'type'        => 'text',
 				'default'     => '',
@@ -1527,7 +1579,7 @@ class Options {
 					],
 				],
 			],
-			'map_view_center_position' => [
+			'map_view_center_position'  => [
 				'title'       => __( 'Map View Center Position', 'classified-listing' ),
 				'type'        => 'select',
 				'default'     => 'crowded',
@@ -1537,7 +1589,7 @@ class Options {
 					'densest' => __( 'Densest area (zoom to busiest region)', 'classified-listing' ),
 				],
 			],
-			'map_zoom_level'           => [
+			'map_zoom_level'            => [
 				'title'       => __( 'Map Zoom Level', 'classified-listing' ),
 				'type'        => 'select',
 				'default'     => 10,
@@ -1548,25 +1600,63 @@ class Options {
 				'options'     => [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 ],
 				'description' => __( 'Select the default zoom level for the map.', 'classified-listing' ),
 			],
-			'map_center'               => [
+			'map_center'                => [
 				'title' => __( 'Map Default Location', 'classified-listing' ),
 				'type'  => 'mapCenter',
 			],
+			// Location Detection
+			'location_detection_title'  => [
+				'title'       => __( 'Location Detection', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'Configure how user location is detected for auto-filling location fields in forms.', 'classified-listing' ),
+			],
+			'location_detection_mode'   => [
+				'title'       => __( 'Detection Mode', 'classified-listing' ),
+				'type'        => 'radio',
+				'orientation' => 'vertical',
+				'default'     => 'manual',
+				'options'     => [
+					'disabled' => __( 'Disabled - Do not detect location', 'classified-listing' ),
+					'manual'   => __( 'Manual - Show "Detect Location" button', 'classified-listing' ),
+					'auto'     => __( 'Auto - Detect automatically on page load', 'classified-listing' ),
+				],
+				'description' => __( 'Manual mode shows a button next to location fields. Auto mode attempts detection when the page loads (may prompt for permission).', 'classified-listing' ),
+			],
+			'location_detection_method' => [
+				'title'       => __( 'Detection Method', 'classified-listing' ),
+				'type'        => 'radio',
+				'orientation' => 'vertical',
+				'default'     => 'ip_only',
+				'options'     => [
+					'ip_only'                  => __( 'IP Address Only', 'classified-listing' ),
+					'browser_with_ip_fallback' => __( 'Browser GPS with IP Fallback', 'classified-listing' ),
+				],
+				'description' => __( 'IP Address uses MaxMind database or ip-api.com (no permission required). Browser GPS is more accurate but requires HTTPS and user permission.', 'classified-listing' ),
+				'dependency'  => [
+					'rules' => [
+						[
+							'item'  => 'location_detection_mode',
+							'type'  => '!in',
+							'value' => [ 'disabled' ],
+						],
+					],
+				],
+			],
 			// MaxMind Geolocation
-			'geolocation_title'        => [
+			'geolocation_title'         => [
 				'title'       => __( 'MaxMind Geolocation', 'classified-listing' ),
 				'type'        => 'section',
 				'description' => __( 'An integration for utilizing MaxMind to do Geolocation lookups. Please note that this integration will only do country lookups.',
 					'classified-listing' ),
 			],
-			'maxmind_license_key'      => [
+			'maxmind_license_key'       => [
 				'title'       => __( 'MaxMind License Key', 'classified-listing' ),
 				'type'        => 'password',
 				'placeholder' => __( 'Enter license key', 'classified-listing' ),
 				'description' => __( 'The key that will be used when dealing with MaxMind Geolocation services. You can read how to generate one in <a target="_blank" href="https://docs.woocommerce.com/document/maxmind-geolocation-integration/">MaxMind Geolocation Integration documentation.</a>',
 					'classified-listing' ),
 			],
-			'maxmind_database_path'    => [
+			'maxmind_database_path'     => [
 				'title'       => __( 'Database File Path', 'classified-listing' ),
 				'type'        => 'html',
 				'description' => $maxMindDatabaseService ? sprintf( '<strong>%s</strong>', $maxMindDatabaseService->get_database_path() ) : '',
@@ -1739,7 +1829,7 @@ class Options {
 	 * get the link too without each add-on having to ask for it. A dropdown counts as a page
 	 * dropdown when every option it offers is one of the site's pages.
 	 *
-	 * @param array $fields Settings fields.
+	 * @param  array  $fields  Settings fields.
 	 *
 	 * @return array
 	 */
@@ -1774,7 +1864,7 @@ class Options {
 					[
 						'new_tab' => true,
 						'data'    => [ 'rtcl-page-field' => $key ],
-					]
+					],
 				),
 				'depends'     => [
 					'relation' => 'and',
@@ -1795,8 +1885,8 @@ class Options {
 	/**
 	 * A select whose every option is one of the site's pages.
 	 *
-	 * @param array    $field    Settings field.
-	 * @param string[] $page_ids Page ids as strings.
+	 * @param  array  $field  Settings field.
+	 * @param  string[]  $page_ids  Page ids as strings.
 	 *
 	 * @return bool
 	 */
@@ -1866,12 +1956,13 @@ class Options {
 				'title'   => __( 'AI Tools', 'classified-listing' ),
 				'type'    => 'select',
 				'options' => [
+					''         => __( '-- Select AI Tools --', 'classified-listing' ),
 					'OpenAI'   => __( 'ChatGPT', 'classified-listing' ),
 					'Gemini'   => __( 'Google Gemini', 'classified-listing' ),
 					'DeepSeek' => __( 'DeepSeek', 'classified-listing' ),
 					'Claude'   => __( 'Anthropic Claude', 'classified-listing' ),
 				],
-				'default' => 'OpenAI',
+				'default' => '',
 			],
 			'gpt_models'                  => [
 				'title'   => __( 'GPT Model', 'classified-listing' ),
@@ -5827,7 +5918,7 @@ class Options {
 				'demo_url'     => 'https://www.radiustheme.com/demo/wordpress/themes/petslist/home-one/',
 				'buy_url'      => 'https://www.radiustheme.com/downloads/petslist-pet-listing-wordpress-theme/',
 				'icon'         => 'list',
-				'thumb_colors' => [ '#f43f5e', '#e11d48' ]
+				'thumb_colors' => [ '#f43f5e', '#e11d48' ],
 			],
 			'theme_cl_car'           => [
 				'type'         => 'premium',
@@ -5891,7 +5982,7 @@ class Options {
 				'download_url' => 'https://downloads.wordpress.org/theme/cl-classified.zip',
 				'tags'         => [ 'popular' ],
 				'icon'         => 'layout',
-				'thumb_colors' => [ '#f87171', '#dc2626' ]
+				'thumb_colors' => [ '#f87171', '#dc2626' ],
 			],
 			'theme_radius_directory' => [
 				'type'         => 'free',

@@ -101,7 +101,8 @@ class SectionSanitization {
 				// Strip JS-only meta keys before saving
 				$section['containers'][ $columnIndex ] = array_diff_key( $column, array_flip( [ 'element', 'uuid', '_label' ] ) );
 				$column                                 = $section['containers'][ $columnIndex ];
-				if($column['width']){
+				// Containers migrated from 5.x, predefined and AI-built forms carry no `width`.
+				if ( ! empty( $column['width'] ) ) {
 					$section['containers'][ $columnIndex ]['width'] = absint( $column['width'] );
 				}
 				foreach ( [ 'width_md', 'width_sm' ] as $wKey ) {
@@ -141,6 +142,21 @@ class SectionSanitization {
 					$section['containers'][ $columnIndex ]['wrap'] = $column['wrap'];
 				} else {
 					unset( $section['containers'][ $columnIndex ]['wrap'] );
+				}
+				// Field divider (single layout): border between the container's fields.
+				if ( isset( $column['field_border'] ) ) {
+					$section['containers'][ $columnIndex ]['field_border'] = (bool) $column['field_border'];
+				}
+				// Content columns (single layout): 1–6 per breakpoint; anything else is dropped.
+				foreach ( [ 'columns', 'columns_md', 'columns_sm' ] as $cKey ) {
+					if ( isset( $column[ $cKey ] ) ) {
+						$cols = absint( $column[ $cKey ] );
+						if ( $cols >= 1 && $cols <= 6 ) {
+							$section['containers'][ $columnIndex ][ $cKey ] = $cols;
+						} else {
+							unset( $section['containers'][ $columnIndex ][ $cKey ] );
+						}
+					}
 				}
 				// Responsive overrides for the container: `_md` (tablet) / `_sm` (mobile).
 				foreach ( [ '_md', '_sm' ] as $sfx ) {

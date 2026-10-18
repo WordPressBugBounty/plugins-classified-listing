@@ -50,13 +50,23 @@ class ListingCatBox {
 			"count_after_text"    => array(
 				"type" => "string",
 			),
+			// Top level categories only. Defaults on to match the Elementor
+			// widget, which always queries `parent => 0`: with it off, child
+			// terms come back beside their parents and render as cards of their
+			// own, and style 2's sub-category list is empty because a leaf has
+			// no children. Turn it off to list every category flat.
 			"enable_parent"       => array(
 				"type"    => "boolean",
-				"default" => false,
+				"default" => true,
 			),
+			// Empty, not 'center'. BlockAlignmentToolbar clears the value by
+			// setting it to undefined, which drops the attribute and makes
+			// WordPress fall back to this default — so with 'center' here,
+			// picking "None" in the toolbar still rendered `aligncenter` and
+			// there was no way to express no alignment at all.
 			"align"               => array(
 				"type"    => "string",
-				"default" => "center",
+				"default" => "",
 			),
 			"content_limit"       => array(
 				"type"    => "number",
@@ -76,7 +86,7 @@ class ListingCatBox {
 			),
 			"image_size"          => array(
 				"type"    => "string",
-				"default" => "rtcl-thumbnail",
+				"default" => "full",
 			),
 			"custom_image_width"  => array(
 				"type"    => "number",
@@ -116,6 +126,14 @@ class ListingCatBox {
 				"default" => array(
 					"style" => "1",
 				),
+			),
+			// Lift the card on hover. ON by default: the category card has moved
+			// on hover ever since the card design landed, and this block shares
+			// that design with the Elementor widgets. `hover_lift_class()` turns
+			// it into the `rtcl-cat-hover-lift` wrapper class.
+			"hover_translate"      => array(
+				"type"    => "boolean",
+				"default" => true,
 			),
 			"colGutterSpace"       => array(
 				"type"    => "string",
@@ -623,6 +641,41 @@ class ListingCatBox {
 		}
 	}
 
+	/**
+	 * The "lift the card on hover" class.
+	 *
+	 * The stylesheet keeps the card still and only translates it when this class
+	 * is on the `.rtcl-categories` wrapper (`--rtcl-cat-lift` in
+	 * `src/sass/partials/elementor/_elementor-widget-category.scss`). Same class
+	 * and same variable the two Elementor category widgets use — they render the
+	 * same `.cat-details` card — so the toggle means the same thing everywhere.
+	 *
+	 * Missing means ON. `hover_translate` defaults to true, so the only way to
+	 * reach that branch is a block saved before the attribute existed, and those
+	 * should keep the movement rather than lose it.
+	 *
+	 * @since 5.3.1
+	 *
+	 * @param array $settings Block settings.
+	 *
+	 * @return string Class name, or an empty string when the lift is off.
+	 */
+	public static function hover_lift_class( $settings ) {
+		if ( ! is_array( $settings ) || ! isset( $settings['hover_translate'] ) ) {
+			return 'rtcl-cat-hover-lift';
+		}
+
+		$value = $settings['hover_translate'];
+
+		// The editor round-trips its boolean through AJAX, where `false` arrives
+		// as the STRING "false" — which is truthy in PHP if read as-is.
+		if ( is_string( $value ) ) {
+			$value = ! in_array( strtolower( $value ), [ '', '0', 'false' ], true );
+		}
+
+		return $value ? 'rtcl-cat-hover-lift' : '';
+	}
+
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_listing_cat_box' ) );
 	}
@@ -643,7 +696,17 @@ class ListingCatBox {
 	public function render_callback_listing_cat_box( $attributes ) {
 		wp_enqueue_style( 'fontawesome' );
 		$settings = $attributes;
-		$style    = ! empty( $settings['col_style']['style'] ) && in_array( $settings['col_style']['style'], [ '1', '2' ] ) ? $settings['col_style']['style']
+
+		// Filterable so an add-on that registers a style through
+		// `rtcl_gb_localize_script` can whitelist its template here too.
+		//
+		// `new-layout-3` is deliberately not `3`: themes and add-ons extend the
+		// style list through filters and several already ship their own
+		// `layout-3` / `style-3` / `3`, so the prefix keeps ours from colliding.
+		$styles = apply_filters( 'rtcl_gb_category_box_styles', [ '1', '2', 'new-layout-3' ] );
+
+		$style = ! empty( $settings['col_style']['style'] ) && in_array( $settings['col_style']['style'], $styles, true )
+			? $settings['col_style']['style']
 			: '1';
 
 		$data = array(
