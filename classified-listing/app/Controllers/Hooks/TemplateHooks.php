@@ -228,6 +228,7 @@ class TemplateHooks {
 		add_action( 'rtcl_payment_receipt', [ __CLASS__, 'payment_receipt_pricing_info' ], 20, 2 );
 		add_action( 'rtcl_payment_receipt', [ __CLASS__, 'payment_receipt_billing_info' ], 30, 2 );
 		add_action( 'rtcl_payment_receipt', [ __CLASS__, 'payment_receipt_actions' ], 50 );
+		add_action( 'rtcl_payment_receipt_popup', [ __CLASS__, 'payment_receipt_popup_summary' ], 10, 2 );
 		add_action( 'rtcl_payment_receipt_popup', [ __CLASS__, 'payment_receipt_popup_pricing_info' ], 20, 2 );
 		add_action( 'rtcl_payment_receipt_popup', [ __CLASS__, 'payment_receipt_popup_actions' ], 50 );
 		add_action( 'rtcl_payment_receipt_details_before_total_amount', [ __CLASS__, 'payment_receipt_tax_info' ], 20 );
@@ -627,6 +628,16 @@ class TemplateHooks {
 			</tr>
 			<?php
 		}
+	}
+
+	/**
+	 * Order number, status, date and method at the top of the payment details popup.
+	 *
+	 * @param  int  $paymentId
+	 * @param  Payment  $payment
+	 */
+	public static function payment_receipt_popup_summary( $paymentId, $payment ) {
+		Functions::get_template( "myaccount/popup-payment-summary", compact( 'payment' ) );
 	}
 
 	public static function payment_receipt_popup_pricing_info( $paymentId, $payment ) {

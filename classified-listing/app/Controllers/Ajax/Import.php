@@ -308,13 +308,27 @@ class Import {
 		$file = $_FILES['file'] ?? [];
 		$rows = [];
 		if ( ! empty( $file ) ) {
+			// Some servers detect CSV files with HTML content (e.g. listing descriptions) as text/html,
+			// which makes WordPress reject them. Trust the .csv extension for this upload only.
+			$csv_filetype = function ( $data, $file_path, $filename ) {
+				if ( 'csv' === strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) ) ) {
+					$data['ext']  = 'csv';
+					$data['type'] = 'text/csv';
+				}
+
+				return $data;
+			};
+
 			Filters::beforeUpload();
+			add_filter( 'wp_check_filetype_and_ext', $csv_filetype, 99, 3 );
 			$status = wp_handle_upload(
 				$file,
 				[
 					'test_form' => false,
+					'mimes'     => [ 'csv' => 'text/csv' ],
 				],
 			);
+			remove_filter( 'wp_check_filetype_and_ext', $csv_filetype, 99 );
 			Filters::afterUpload();
 			if ( $status && ! isset( $status['error'] ) ) {
 				$filename = $status['file'];
@@ -372,7 +386,10 @@ class Import {
 										</thead>
 										<tbody>
 										<?php
+										$fields      = $this->get_listing_import_fields();
+										$used_fields = [];
 										foreach ( $title_row as $index => $title ) {
+											$selected = $this->guess_import_field( $title, $fields, $used_fields );
 											?>
 											<tr>
 												<td><?php echo esc_html( $title ); ?></td>
@@ -381,11 +398,10 @@ class Import {
 															name="map_to[<?php echo esc_attr( $index ); ?>]">
 														<option value=""><?php esc_html_e( 'Do not import', 'classified-listing' ); ?></option>
 														<?php
-														$fields = $this->get_listing_import_fields();
 														foreach ( $fields as $key => $field ) {
 															?>
 															<option
-																value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $field ); ?></option>
+																value="<?php echo esc_attr( $key ); ?>" <?php selected( $selected, (string) $key ); ?>><?php echo esc_html( $field ); ?></option>
 															<?php
 														}
 														?>
@@ -414,13 +430,74 @@ class Import {
 					$results['message'] = esc_html__( 'File does not exist!!', 'classified-listing' );
 				}
 			} else {
-				$results['message'] = esc_html__( 'Error in file upload!!', 'classified-listing' );
+				$results['message'] = ! empty( $status['error'] ) ? esc_html( $status['error'] ) : esc_html__( 'Error in file upload!!', 'classified-listing' );
 			}
 		} else {
 			$results['message'] = esc_html__( 'File not found!!', 'classified-listing' );
 		}
 
 		wp_send_json( $results );
+	}
+
+	/**
+	 * Guess the listing field for a CSV column, matching by field key or label
+	 * (e.g. "title" → rtcl_title, "Post Date" → post_date). Each field is matched once.
+	 *
+	 * @param string $title       CSV column name.
+	 * @param array  $fields      Import fields [ key => label ].
+	 * @param array  $used_fields Already matched field keys.
+	 *
+	 * @return string Matched field key or empty string.
+	 */
+	private function guess_import_field( $title, $fields, &$used_fields ) {
+		$normalize = function ( $value ) {
+			return preg_replace( '/[^a-z0-9]/', '', strtolower( (string) $value ) );
+		};
+
+		$column = $normalize( $title );
+		if ( '' === $column ) {
+			return '';
+		}
+
+		$aliases = [
+			'galleryimages' => 'rtcl_gallery',
+			'videourl'      => '_rtcl_video_urls',
+		];
+
+		$candidates = [];
+		if ( isset( $aliases[ $column ] ) ) {
+			$candidates[] = $aliases[ $column ];
+		}
+
+		// Exact key, then label, then key without the rtcl_ prefixes.
+		$passes = [
+			function ( $key, $label ) {
+				return $key;
+			},
+			function ( $key, $label ) {
+				return $label;
+			},
+			function ( $key, $label ) {
+				return preg_replace( '/^_?rtcl_(tax_|listing_)?/', '', $key );
+			},
+		];
+		foreach ( $passes as $pass ) {
+			foreach ( $fields as $key => $label ) {
+				if ( $normalize( $pass( (string) $key, $label ) ) === $column ) {
+					$candidates[] = (string) $key;
+				}
+			}
+		}
+
+		foreach ( $candidates as $key ) {
+			if ( isset( $fields[ $key ] ) && ! in_array( $key, $used_fields, true ) ) {
+				$used_fields[] = $key;
+
+				return $key;
+			}
+		}
+
+		return '';
 	}
 
 	private function get_listing_import_fields() {

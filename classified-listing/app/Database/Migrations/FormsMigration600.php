@@ -186,15 +186,22 @@ class FormsMigration600 extends Migration {
 		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) !== $table ) {
 			return;
 		}
-		$colExists = $wpdb->get_var( $wpdb->prepare(
-			"SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = %s AND TABLE_NAME = %s AND COLUMN_NAME = 'slug_builder'",
-			DB_NAME, $table
-		) );
-		if ( ! $colExists ) {
+		if ( ! self::has_slug_builder_column() ) {
 			$wpdb->query( "ALTER TABLE `$table` ADD `slug_builder` JSON NULL AFTER `single_layout`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			// Hosts without a JSON type (MySQL < 5.7.8 / MariaDB < 10.2.7).
+			if ( ! self::has_slug_builder_column() ) {
+				$wpdb->query( "ALTER TABLE `$table` ADD `slug_builder` LONGTEXT NULL AFTER `single_layout`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			}
 		}
-		
+
 		update_option( 'rtcl_db_migration_' . RTCL_VERSION, '1', true );
+	}
+
+	public static function has_slug_builder_column(): bool {
+		global $wpdb;
+		$table = $wpdb->prefix . 'rtcl_forms';
+
+		return (bool) $wpdb->get_var( "SHOW COLUMNS FROM `$table` LIKE 'slug_builder'" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 
 	/**

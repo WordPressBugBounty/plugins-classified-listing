@@ -41,6 +41,8 @@ class Installer {
 	public static function maybe_add_slug_builder_column() {
 		$install_from = get_option( 'rtcl_installed_from' ) ?: '6.0.0';
 		if ( version_compare( $install_from, '6.0.0', '>=' ) || get_option( 'rtcl_db_migration_' . RTCL_VERSION ) ) {
+			self::maybe_repair_slug_builder_column();
+
 			return;
 		}
 		global $wpdb;
@@ -57,6 +59,35 @@ class Installer {
 		// Drop the cached rewrite flag so the slug-builder check re-runs now the column exists.
 		delete_transient( 'rtcl_slug_builder_active' );
 		update_option( 'rtcl_db_migration_' . RTCL_VERSION, 1, true );
+	}
+
+	/**
+	 * Add the slug_builder column when the migration flag is set but the column is missing
+	 * (failed ALTER on the original host, DB moved between servers, partial restore). Without it
+	 * every form-builder save fails with "Unknown column 'slug_builder'". Verified once, then
+	 * skipped via option; a failed ALTER is retried at most once a day.
+	 *
+	 * @return void
+	 */
+	private static function maybe_repair_slug_builder_column() {
+		if ( get_option( 'rtcl_forms_slug_builder_column' ) || get_transient( 'rtcl_slug_builder_column_retry' ) ) {
+			return;
+		}
+		global $wpdb;
+		$table = $wpdb->prefix . 'rtcl_forms';
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) !== $table ) {
+			return;
+		}
+		if ( ! FormsMigration600::has_slug_builder_column() ) {
+			FormsMigration600::add_slug_builder_column();
+			if ( ! FormsMigration600::has_slug_builder_column() ) {
+				set_transient( 'rtcl_slug_builder_column_retry', 1, DAY_IN_SECONDS );
+
+				return;
+			}
+			delete_transient( 'rtcl_slug_builder_active' );
+		}
+		update_option( 'rtcl_forms_slug_builder_column', 1, true );
 	}
 
 	/**

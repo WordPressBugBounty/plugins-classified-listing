@@ -556,21 +556,6 @@ class FormBuilderAdminAjax {
 		if ( !wp_verify_nonce( isset( $_REQUEST[rtcl()->nonceId] ) ? $_REQUEST[rtcl()->nonceId] : null, rtcl()->nonceText ) || !current_user_can( 'manage_rtcl_options' ) ) {
 			wp_send_json_error( esc_html__( 'Session error !!', 'classified-listing' ) );
 		}
-		// TEMP DEBUG — incoming section flex keys
-		if ( isset( $_POST['single_layout'] ) ) {
-			$__d = json_decode( wp_unslash( $_POST['single_layout'] ), true );
-			$__l = [];
-			foreach ( ( $__d['rows'] ?? [] ) as $__r ) {
-				foreach ( ( $__r['columns'] ?? [] ) as $__c ) {
-					foreach ( ( $__c['sections'] ?? [] ) as $__s ) {
-						$__l[] = ( $__s['title'] ?? '?' ) . ' -> dir=' . ( $__s['direction'] ?? '(none)' )
-							. ' align=' . ( $__s['align_items'] ?? '(none)' )
-							. ' keys[' . implode( ',', array_keys( $__s ) ) . ']';
-					}
-				}
-			}
-			file_put_contents( WP_CONTENT_DIR . '/rtcl-fb-debug.log', gmdate( 'c' ) . "\n" . implode( "\n", $__l ) . "\n\n", FILE_APPEND );
-		}
 		$formId = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
 
 		$form = Form::query()->find( $formId );
@@ -736,7 +721,14 @@ class FormBuilderAdminAjax {
 		$form->sections = $sections;
 		$form->fields = $fields;
 		$form->settings = $settings;
-		$form->update();
+		if ( false === $form->update() ) {
+			global $wpdb;
+			wp_send_json_error( sprintf(
+				'%s %s',
+				esc_html__( 'Failed to save the form.', 'classified-listing' ),
+				esc_html( $wpdb->last_error )
+			) );
+		}
 		do_action( 'rtcl_fb_after_form_update', $form->id );
 		wp_send_json_success( [
 			'message' => __( 'The form is successfully updated.', 'classified-listing' ),

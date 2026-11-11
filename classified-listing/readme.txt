@@ -5,7 +5,7 @@ Tags: business directory, classifieds, directory plugin, listings, directory
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 6.2.0
+Stable tag: 6.2.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -328,6 +328,16 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Español by [4aiur](https://wordpress.org/support/users/4aiur/)
 
 == Changelog ==
+
+= 6.2.1 ( Nov 11, 2026 ) =
+* Added: Form builder date field "Default Date" setting – Today or Empty.
+* Fixed: Form date field clear button not working; default date now saved automatically.
+* Fixed: Form builder removed conditional logic rows reappearing, and add-on fields lost on save.
+* Fixed: CSV import spinner stuck on server errors and file type upload rejection.
+* Fixed: Pagination active/hover colors and full-width site notices.
+* Fixed: Elementor Category Box extra space below the category image.
+* Tweaked: Redesigned My Account payments table, details popup and store manager notice.
+* Tweaked: CSV import auto-maps matching listing fields for faster column mapping.
 
 = 6.2.0 ( Oct 18, 2026 ) =
 * Added: Modern listing card and details page designs, on by default, with modern line icons.

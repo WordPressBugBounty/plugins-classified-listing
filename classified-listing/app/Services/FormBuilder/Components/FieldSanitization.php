@@ -40,7 +40,10 @@ class FieldSanitization {
 		$availableFields = AvailableFields::get();
 		$defaultValues = !empty( $availableFields[$rawField['element']] ) ? $availableFields[$rawField['element']] : null;
 		if ( empty( $defaultValues ) ) {
-			return [];
+			// Element not registered right now (e.g. its add-on is inactive) — keep the field so saving doesn't delete it.
+			return map_deep( $rawField, function ( $value ) {
+				return is_string( $value ) ? wp_kses_post( $value ) : $value;
+			} );
 		}
 		$field = wp_parse_args( $rawField, $defaultValues );
 		if ( isset( $defaultValues['validation'] ) ) {

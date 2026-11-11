@@ -1583,6 +1583,14 @@ var __async = (__this, __arguments, generator) => {
       if (e.key === "Escape") {
         $(".rtcl-sl-header__share.is-open").removeClass("is-open").find(".rtcl-sl-header__share-toggle").attr("aria-expanded", "false").trigger("focus");
       }
+    }).on("click", "#rtcl-payment-details-popup", function(e) {
+      if (e.target === this) {
+        $(this).find(".rtcl-popup-close").trigger("click");
+      }
+    }).on("keydown", function(e) {
+      if (e.key === "Escape") {
+        $("#rtcl-payment-details-popup.show .rtcl-popup-close").trigger("click");
+      }
     }).on("click", ".rtcl-popup-close", function(e) {
       e.preventDefault();
       let $wrapper = $(this).closest(".rtcl-popup-wrapper");

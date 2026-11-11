@@ -824,6 +824,7 @@ class AvailableFields {
 				'label_placement'      => '',
 				'date_format'          => 'd/m/Y H:i',
 				'date_type'            => 'single',
+				'date_default'         => 'today',
 				'filterable_date_type' => 'single',
 				'date_config'          => '',
 				'is_time_enabled'      => true,

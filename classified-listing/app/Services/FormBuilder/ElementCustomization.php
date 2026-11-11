@@ -381,6 +381,7 @@ class ElementCustomization {
 					'placeholder',
 					'date_format',
 					'date_type',
+					'date_default',
 					'validation',
 					'filterable',
 					'filterable_disable_logic',
@@ -582,6 +583,27 @@ class ElementCustomization {
 					[
 						'value' => 'range',
 						'label' => __( 'Range', 'classified-listing' ),
+					],
+				],
+			],
+			'date_default'                 => [
+				'template'   => 'radio',
+				'default'    => 'today',
+				'label'      => __( 'Default Date', 'classified-listing' ),
+				'help_text'  => __( 'Prefill new listings with today\'s date/time, or leave the field empty.', 'classified-listing' ),
+				'dependency' => [
+					'depends_on' => 'date_type',
+					'value'      => 'range',
+					'operator'   => '!=',
+				],
+				'options'    => [
+					[
+						'value' => 'today',
+						'label' => __( 'Today', 'classified-listing' ),
+					],
+					[
+						'value' => 'empty',
+						'label' => __( 'Empty', 'classified-listing' ),
 					],
 				],
 			],

@@ -623,13 +623,11 @@ class ScriptLoader {
 			$buttonHover = ! empty( $rtcl_style_opt['button_hover'] ) ? $rtcl_style_opt['button_hover'] : null;
 			if ( $buttonHover ) {
 				$rootVar .= '--rtcl-button-hover-bg-color:' . $buttonHover . ';';
-				$style   .= '.rtcl-pagination ul.page-numbers li span.page-numbers.current,.rtcl-pagination ul.page-numbers li a.page-numbers:hover{ background-color: var(--rtcl-button-hover-bg-color); }';
 				$style   .= '.rtcl .rtcl-btn:hover{ background-color: var(--rtcl-button-hover-bg-color); border-color: var(--rtcl-button-hover-bg-color); }';
 			}
 			$buttonHoverText = ! empty( $rtcl_style_opt['button_hover_text'] ) ? $rtcl_style_opt['button_hover_text'] : null;
 			if ( $buttonHoverText ) {
 				$rootVar .= '--rtcl-button-hover-color:' . $buttonHoverText . ';';
-				$style   .= '.rtcl-pagination ul.page-numbers li a.page-numbers:hover, .rtcl-pagination ul.page-numbers li span.page-numbers.current{ color: var(--rtcl-button-hover-color); }';
 				$style   .= '.rtcl .rtcl-btn:hover{ color: var(--rtcl-button-hover-color)}';
 				$style   .= '[class*=rtcl-slider] [class*=swiper-button-],.rtcl-carousel-slider [class*=swiper-button-]:hover { color: var(--rtcl-button-hover-color); }';
 			}

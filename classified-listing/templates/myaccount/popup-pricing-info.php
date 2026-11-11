@@ -4,7 +4,7 @@
  *
  * @author        RadiusTheme
  * @package       classified-listing/templates
- * @version       2.0.6
+ * @version       6.2.1
  *
  * @var Payment $payment
  */
@@ -17,11 +17,16 @@ use Rtcl\Resources\Options;
 <div class="pricing-info">
 	<table class="rtcl-table-striped-border">
 		<tr>
-			<th colspan="2"><?php
-				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				echo get_the_title($payment->get_listing_id()); ?> (<span
-					class="listing-id"><?php esc_html_e("ID#", 'classified-listing');
-					echo absint($payment->get_listing_id()) ?></span>)
+			<th colspan="2">
+				<?php
+				$listing_title = get_the_title( $payment->get_listing_id() );
+				if ( $listing_title ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					echo '<span class="listing-title">' . $listing_title . '</span> ';
+				}
+				?>
+				<span class="listing-id"><?php esc_html_e( "ID#", 'classified-listing' );
+					echo absint( $payment->get_listing_id() ) ?></span>
 			</th>
 		</tr>
 		<tr>

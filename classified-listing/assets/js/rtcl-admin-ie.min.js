@@ -179,6 +179,7 @@ var __async = (__this, __arguments, generator) => {
           dataType: "json",
           processData: false,
           contentType: false,
+          timeout: 12e4,
           beforeSend: function() {
             $btn.addClass("is-busy").prop("disabled", true).after('<span class="rtcl-ie-spinner"></span>');
           },
@@ -197,9 +198,11 @@ var __async = (__this, __arguments, generator) => {
               showFileAlert("#rtcl-import-listing-file", res.message);
             }
           },
-          error: function(e2) {
+          error: function(xhr, textStatus) {
             $btn.removeClass("is-busy").prop("disabled", false).next(".rtcl-ie-spinner").remove();
-            console.log(e2);
+            var reason = "timeout" === textStatus ? "The server did not respond in time." : "Server responded with " + (xhr.status || "no status") + " (" + textStatus + ").";
+            showFileAlert("#rtcl-import-listing-file", "Upload failed. " + reason + " Check the PHP error log or security firewall.");
+            console.log(xhr);
           }
         });
       });
