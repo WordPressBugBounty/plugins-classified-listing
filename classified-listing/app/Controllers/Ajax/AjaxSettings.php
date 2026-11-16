@@ -143,7 +143,16 @@ class AjaxSettings {
 		] );
 	}
 
-	private static function sanitizeOptionField( $field, $value ) {
+	/**
+	 * Sanitize a settings value against its field definition (Options::option_items()).
+	 * Public so other save paths (e.g. the MCP settings abilities) apply the same rules.
+	 *
+	 * @param array $field Field definition.
+	 * @param mixed $value Raw value.
+	 *
+	 * @return mixed
+	 */
+	public static function sanitizeOptionField( $field, $value ) {
 		if ( !isset( $value ) ) {
 			return $value;
 		}

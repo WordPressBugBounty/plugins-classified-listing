@@ -17,7 +17,7 @@ class NoticeController {
 	public function __construct() {
 		$current      = time();
 		$currentYear  = gmdate( 'Y' );
-		$black_friday = mktime( 0, 0, 0, 11, 10, $currentYear ) <= $current && $current <= mktime( 0, 0, 0, 1, 10, $currentYear + 1 );
+		$black_friday = mktime( 0, 0, 0, 11, 10, $currentYear ) <= $current && $current <= mktime( 0, 0, 0, 12, 10, $currentYear );
 
 		if ( $black_friday ) {
 			add_action( 'admin_init', [ $this, 'black_friday_notice' ] );

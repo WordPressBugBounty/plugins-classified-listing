@@ -1261,9 +1261,9 @@ class Functions {
 						}
 					} elseif ( $icon_id = get_term_meta( $term->term_id, '_rtcl_icon', true ) ) {
 						if ( str_contains( $icon_id, 'fa-' ) ) {
-							$icon = "<span class='icon'><i class='rtcl-cat-icon {$icon_id}'></i></span>";
+							$icon = "<span class='icon'><i class='rtcl-cat-icon " . esc_attr( $icon_id ) . "'></i></span>";
 						} else {
-							$icon = "<span class='icon'><i class='rtcl-cat-icon rtcl-icon rtcl-icon-{$icon_id}'></i></span>";
+							$icon = "<span class='icon'><i class='rtcl-cat-icon rtcl-icon rtcl-icon-" . esc_attr( $icon_id ) . "'></i></span>";
 						}
 						$termItem['icon'] = $icon;
 					}
@@ -1413,9 +1413,9 @@ class Functions {
 						$icon_id = get_term_meta( $term->term_id, '_rtcl_icon', true );
 						if ( is_string( $icon_id ) && ! empty( $icon_id ) ) {
 							if ( str_contains( $icon_id, 'fa-' ) ) {
-								$cat_icon = sprintf( '<span class="rtcl-cat-icon %s"></span>', $icon_id );
+								$cat_icon = sprintf( '<span class="rtcl-cat-icon %s"></span>', esc_attr( $icon_id ) );
 							} else {
-								$cat_icon = sprintf( '<span class="rtcl-cat-icon rtcl-icon rtcl-icon-%s"></span>', $icon_id );
+								$cat_icon = sprintf( '<span class="rtcl-cat-icon rtcl-icon rtcl-icon-%s"></span>', esc_attr( $icon_id ) );
 							}
 						}
 					}
@@ -1611,9 +1611,9 @@ class Functions {
 
 						if ( ! $cat_img_icon && $icon_id && ! is_array( $icon_id ) ) {
 							if ( str_contains( $icon_id, 'fa-' ) ) {
-								$cat_img_icon = sprintf( '<span class="rtcl-cat-icon %s"></span>', $icon_id );
+								$cat_img_icon = sprintf( '<span class="rtcl-cat-icon %s"></span>', esc_attr( $icon_id ) );
 							} else {
-								$cat_img_icon = sprintf( '<span class="rtcl-cat-icon rtcl-icon rtcl-icon-%s"></span>', $icon_id );
+								$cat_img_icon = sprintf( '<span class="rtcl-cat-icon rtcl-icon rtcl-icon-%s"></span>', esc_attr( $icon_id ) );
 							}
 						}
 					}

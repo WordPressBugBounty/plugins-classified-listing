@@ -46,6 +46,7 @@ use Rtcl\Models\Countries;
 use Rtcl\Models\Factory;
 use Rtcl\Models\PaymentGateways;
 use Rtcl\Services\Importers\ImportScheduler;
+use Rtcl\Services\Mcp\Mcp;
 use Rtcl\Models\RtclEmails;
 use Rtcl\ThemeSupports\ThemeSupports;
 use Rtcl\Traits\SingletonTrait;
@@ -223,6 +224,10 @@ if ( ! class_exists( Rtcl::class ) ) {
 			// Importer scheduler: registers the Action Scheduler callback so
 			// background workers can run recurring RSS imports.
 			ImportScheduler::register();
+
+			// MCP integration: boots on plugins_loaded only when enabled in Settings → AI Integration
+			// and the MCP Adapter plugin is active.
+			Mcp::init();
 
 			ThemeSupports::init();
 			$this->query = new Query();

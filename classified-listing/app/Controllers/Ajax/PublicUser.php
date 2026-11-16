@@ -837,6 +837,23 @@ class PublicUser {
 			}
 		}
 
+		// Validate location. Return false from `rtcl_my_account_validate_location` to skip.
+		$is_local_location = ! ( Functions::has_map() && 'geo' === Functions::location_type() );
+		if ( $is_local_location && isset( $_POST['location'] ) && apply_filters( 'rtcl_my_account_validate_location', true, $user_id, $_POST ) ) {
+			$state_id = absint( $_POST['location'] );
+			$city_id  = isset( $_POST['sub_location'] ) ? absint( $_POST['sub_location'] ) : 0;
+			/* translators: %s: location level label, e.g. State */
+			$location_required_msg = esc_html__( '%s is required.', 'classified-listing' );
+			if ( ! $state_id ) {
+				$errors->add( 'rtcl_location_required', sprintf( $location_required_msg, Text::location_level_first() ) );
+			} elseif ( isset( $_POST['sub_location'] ) && ! $city_id && ! empty( Functions::get_one_level_locations( $state_id ) ) ) {
+				$errors->add( 'rtcl_sub_location_required', sprintf( $location_required_msg, Text::location_level_second() ) );
+			} elseif ( $city_id && isset( $_POST['sub_sub_location'] ) && ! absint( $_POST['sub_sub_location'] )
+			           && ! empty( Functions::get_one_level_locations( $city_id ) ) ) {
+				$errors->add( 'rtcl_sub_sub_location_required', sprintf( $location_required_msg, Text::location_level_third() ) );
+			}
+		}
+
 		do_action( 'rtcl_my_account_validate_user_data', $errors, $user_data );
 
 		if ( is_wp_error( $errors ) && $errors->has_errors() ) {

@@ -56,6 +56,9 @@ $rtcl_capture = static function ( $hook, ...$args ) {
 $media_html    = $rtcl_capture( 'rtcl_single_listing_content' );
 $details_html  = $rtcl_capture( 'rtcl_single_listing_inner_sidebar' );
 $before_html   = $rtcl_capture( 'rtcl_single_listing_before_content' );
+// Add-on blocks that need their own card (e.g. Auction). Captured before `content_end`
+// so add-ons can check did_action() and skip their classic `content_end` output.
+$section_html  = $rtcl_capture( 'rtcl_single_listing_content_section', $listing );
 $map_html      = $rtcl_capture( 'rtcl_single_listing_content_end', $listing );
 $hours_html    = $rtcl_capture( 'rtcl_single_listing_business_hours' );
 $social_html   = $rtcl_capture( 'rtcl_single_listing_social_profiles' );
@@ -223,7 +226,7 @@ do_action( 'rtcl_before_single_listing' );
 			<?php endif; ?>
 
 			<?php
-			foreach ( [ $map_html, $hours_html, $social_html, $review_html ] as $rtcl_section_html ) {
+			foreach ( [ $section_html, $map_html, $hours_html, $social_html, $review_html ] as $rtcl_section_html ) {
 				if ( $rtcl_section_html ) {
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					echo '<div class="rtcl-sm-card rtcl-sm-section">' . $rtcl_section_html . '</div>';

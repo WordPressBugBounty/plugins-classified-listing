@@ -8,6 +8,7 @@ use Rtcl\Helpers\Link;
 use Rtcl\Helpers\Tax;
 use Rtcl\Helpers\Text;
 use Rtcl\Services\FormBuilder\FBHelper;
+use Rtcl\Services\Mcp\Mcp;
 use Rtcl\Traits\SingletonTrait;
 
 class Options {
@@ -188,6 +189,11 @@ class Options {
 					],
 				],
 			];
+		}
+
+		// Added after Data Training so the MCP section stays last in the AI Integration tab.
+		if ( isset( $options['rtcl_ai_settings']['fields'] ) && is_array( $options['rtcl_ai_settings']['fields'] ) ) {
+			$options['rtcl_ai_settings']['fields'] += self::mcp_fields();
 		}
 
 		if ( ! FBHelper::isEnabled() ) {
@@ -2255,6 +2261,47 @@ class Options {
 						[
 							'field'     => 'rtcl_ai_settings.ai_tools',
 							'value'     => 'Gemini',
+							'condition' => '=',
+						],
+					],
+				],
+			],
+		];
+	}
+
+	/**
+	 * MCP Integration fields, shown at the end of the AI Integration tab.
+	 * MCP exposes admin-only tools, so only administrators may see/switch it (e.g. not the Listing Manager role,
+	 * which also has manage_rtcl_options). Fields missing here are left untouched when the AI Integration tab is saved.
+	 *
+	 * @return array
+	 */
+	public static function mcp_fields() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return [];
+		}
+
+		return [
+			'field_title_mcp'  => [
+				'title'       => __( 'MCP Integration', 'classified-listing' ),
+				'type'        => 'section',
+				'description' => __( 'Let MCP-compatible AI clients (Claude, Cursor, VS Code, etc.) manage listings, taxonomies, forms, filters and pages through the Model Context Protocol. Requires WordPress 6.9+ and the MCP Adapter plugin.', 'classified-listing' ),
+			],
+			'enable_mcp'       => [
+				'title'       => __( 'Enable MCP Integration', 'classified-listing' ),
+				'type'        => 'switch',
+				'default'     => 'no',
+				'description' => __( 'Expose Classified Listing abilities as MCP tools via the MCP Adapter plugin.', 'classified-listing' ),
+			],
+			'mcp_status'       => [
+				'title'       => __( 'MCP Status', 'classified-listing' ),
+				'type'        => 'html',
+				'description' => Mcp::get_settings_status_html(),
+				'depends'     => [
+					'on' => [
+						[
+							'field'     => 'rtcl_ai_settings.enable_mcp',
+							'value'     => 'yes',
 							'condition' => '=',
 						],
 					],
